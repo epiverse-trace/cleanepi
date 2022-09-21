@@ -28,12 +28,12 @@ common _health information systems_.
 
 ## Installation
 
-You can install the development version of readepi from
+You can install the development version of _readepi_ from
 [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("epiverse-trace/readepi")
+# install.packages("remotes")
+remotes::install_github("epiverse-trace/readepi")
 ```
 
 ## Example
