@@ -18,12 +18,12 @@ coverage](https://codecov.io/gh/epiverse-trace/readepi/branch/main/graph/badge.s
 
 ## Installation
 
-You can install the development version of readepi from
+You can install the development version of *readepi* from
 [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("epiverse-trace/readepi")
+# install.packages("remotes")
+remotes::install_github("epiverse-trace/readepi")
 ```
 
 ## Example
