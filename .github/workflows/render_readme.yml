@@ -32,8 +32,9 @@ jobs:
         run: |
           Sys.setenv(R_REMOTES_NO_ERRORS_FROM_WARNINGS = "true")
           options(install.packages.check.source = "no")
-          pkgs <- c("rmarkdown", "devtools", "remotes")
+          pkgs <- c("rmarkdown", "remotes")
           install.packages(pkgs, repos = "https://cloud.r-project.org/")
+          remotes::install_github("epiverse-trace/readepi")
         shell: Rscript {0}
  
       - name: Compile the readme
