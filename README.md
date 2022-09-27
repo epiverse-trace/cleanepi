@@ -57,6 +57,7 @@ requests](https://github.com/epiverse-trace/readepi/pulls).
 Contributors to the project include:
 
   - Thibaut Jombart (author)
+  - Joshua W. Lambert (contributor)
 
 ### Code of Conduct
 
