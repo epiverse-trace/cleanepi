@@ -71,6 +71,7 @@ Contributions are welcome via [pull requests](https://github.com/epiverse-trace/
 Contributors to the project include:
 
 * Thibaut Jombart (author)
+* Joshua W. Lambert (contributor)
 
 ### Code of Conduct
 Please note that the linelist project is released with a 
