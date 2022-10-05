@@ -29,13 +29,9 @@ jobs:
         uses: r-lib/actions/setup-pandoc@v1
     
       - name: Install dependencies
-        run: |
-          Sys.setenv(R_REMOTES_NO_ERRORS_FROM_WARNINGS = "true")
-          options(install.packages.check.source = "no")
-          pkgs <- c("rmarkdown", "remotes")
-          install.packages(pkgs, repos = "https://cloud.r-project.org/")
-          remotes::install_github("epiverse-trace/readepi")
-        shell: Rscript {0}
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: any::rmarkdown, local::.
  
       - name: Compile the readme
         run: |
