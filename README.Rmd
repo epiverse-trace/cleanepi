@@ -38,20 +38,7 @@ remotes::install_github("epiverse-trace/readepi")
 
 ## Example
 
-These examples illustrate some of the current functionalities:
-
-```{r example}
-library(readepi)
-
-# example of read_stuff():
-# (a placeholder function returning its own argument)
-path_to_file <- "some_path_here"
-read_stuff(path_to_file)
-
-```
-
-
-
+These examples illustrate some of the current functionalities
 
 
 ## Development
