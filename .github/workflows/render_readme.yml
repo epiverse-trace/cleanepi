@@ -37,7 +37,16 @@ jobs:
  
       - name: Compile the readme
         run: |
-          rmarkdown::render("README.Rmd")
+          tf <- tempfile(fileext = ".Rmd")
+          writeLines(
+            knitr::knit_expand(
+              "README.Rmd", 
+              packagename = read.dcf("DESCRIPTION", "Package"), 
+              gh_repo = Sys.getenv("GITHUB_REPOSITORY")
+            ), 
+            tf
+          )
+          rmarkdown::render(tf, output_file = "README.md", output_dir = ".")
         shell: Rscript {0}
         
       - name: Commit files
