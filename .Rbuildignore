@@ -6,3 +6,5 @@
 ^docs$
 ^pkgdown$
 ^\.lintr$
+^.*\.Rproj$
+^\.Rproj\.user$
