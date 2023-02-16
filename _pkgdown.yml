@@ -1,4 +1,6 @@
 url: ~
+development:
+  mode: auto
 template:
   bootstrap: 5
   includes:
