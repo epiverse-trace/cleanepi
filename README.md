@@ -47,7 +47,7 @@ package is not ready for use outside of the development team.
 ### Contributions
 
 Contributions are welcome via [pull
-requests](https://github.com/%7B%7B%20gh_repo%20%7D%7D/pulls).
+requests](https://github.com/epiverse-trace/cleanepi/pulls).
 
 Contributors to the project include:
 
@@ -56,8 +56,8 @@ Contributors to the project include:
 
 ### Code of Conduct
 
-Please note that the {{ packagename }} project is released with a
-[Contributor Code of
+Please note that the cleanepi project is released with a [Contributor
+Code of
 Conduct](https://github.com/epiverse-trace/.github/blob/main/CODE_OF_CONDUCT.md).
 By contributing to this project, you agree to abide by its terms.
 ======= \# cleanepi
