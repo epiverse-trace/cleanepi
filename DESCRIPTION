@@ -1,0 +1,21 @@
+Package: cleanepi
+Type: Package
+Title: Data Cleaning Package 
+Version: 0.0.1
+Authors@R: 
+    c(person("Karim", "Mané", , "lshkm1@lshtm.ac.uk", role = c("aut", "cre"))
+    )
+Maintainer: Karim Mané <lshkm1@lshtm.ac.uk>
+Description: cleanepi contains functions that are used for epidemiological data cleaning.
+License: What license is it under?
+Encoding: UTF-8
+LazyData: true
+Imports:
+    stringr,
+    dplyr,
+    data.table,
+    lubridate,
+    janitor,
+    naniar,
+    readr
+Remotes:
