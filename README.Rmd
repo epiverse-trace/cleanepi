@@ -23,26 +23,26 @@ knitr::opts_chunk$set(
 ```
 
 <<<<<<< HEAD
-# {{ packagename }}
+# cleanepi
 
-{{ packagename }} provides functions to clean epidemiological data provided in the form of a data frame or other related data type.
+cleanepi provides functions to clean epidemiological data provided in the form of a data frame or other related data type.
 
 <!-- badges: start -->
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![R-CMD-check](https://github.com/{{ gh_repo }}/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/{{ gh_repo }}/actions/workflows/R-CMD-check.yaml)
-[![Codecov test coverage](https://codecov.io/gh/{{ gh_repo }}/branch/main/graph/badge.svg)](https://app.codecov.io/gh/{{ gh_repo }}?branch=main)
+[![R-CMD-check](https://github.com/epiverse-trace/cleanepi/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/epiverse-trace/cleanepi/actions/workflows/R-CMD-check.yaml)
+[![Codecov test coverage](https://codecov.io/gh/epiverse-trace/cleanepi/branch/main/graph/badge.svg)](https://app.codecov.io/gh/epiverse-trace/cleanepi?branch=main)
 [![lifecycle-concept](https://raw.githubusercontent.com/reconverse/reconverse.github.io/master/images/badge-concept.svg)](https://www.reconverse.org/lifecycle.html#concept) 
 <!-- badges: end -->
 
 
 ## Installation
 
-You can install the development version of {{ packagename }} from
+You can install the development version of cleanepi from
 [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("{{ gh_repo }}")
+remotes::install_github("epiverse-trace/cleanepi")
 ```
 
 ## Example
