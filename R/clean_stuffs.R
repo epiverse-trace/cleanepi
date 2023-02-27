@@ -166,7 +166,11 @@ calculate_age = function(data, date.column.name=NULL, end.date=Sys.Date(),
 
 
 #' function to clean epidemiological data
+<<<<<<< HEAD
 #' @export
+=======
+#'
+>>>>>>> 7cd62df02662e2cd55da7f796ed13301699ba3ff
 cleanepi = function(data, clean.col.names=FALSE,
                     standardise.date=FALSE, date.columns=NULL, format=NULL,
                     remove.duplicates=FALSE, duplicates.from=NULL,

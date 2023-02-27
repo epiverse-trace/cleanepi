@@ -7,7 +7,11 @@ Authors@R:
     )
 Maintainer: Karim Mané <lshkm1@lshtm.ac.uk>
 Description: cleanepi contains functions that are used for epidemiological data cleaning.
+<<<<<<< HEAD
 License: MIT + file LICENSE
+=======
+License: What license is it under?
+>>>>>>> 7cd62df02662e2cd55da7f796ed13301699ba3ff
 Encoding: UTF-8
 LazyData: true
 Imports:
@@ -19,6 +23,7 @@ Imports:
     naniar,
     readr
 Remotes:
+<<<<<<< HEAD
 RoxygenNote: 7.2.3
 Roxygen: list(markdown = TRUE)
 Suggests: 
@@ -28,3 +33,5 @@ Config/testthat/edition: 3
 
 
 
+=======
+>>>>>>> 7cd62df02662e2cd55da7f796ed13301699ba3ff

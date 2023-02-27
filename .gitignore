@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # History files
 .Rhistory
 .Rapp.history
@@ -49,4 +50,10 @@ po/*~
 rsconnect/
 
 # macOS hidden files
+=======
+.Rproj.user
+.Rhistory
+.Rdata
+.httr-oauth
+>>>>>>> 7cd62df02662e2cd55da7f796ed13301699ba3ff
 .DS_Store
