@@ -1,17 +1,30 @@
-Package: readepi
-Title: Import Epidemiological Data into R
+Package: cleanepi
+Type: Package
+Title: Data Cleaning Package 
 Version: 0.0.1
 Authors@R: 
-    c(person("Thibaut", "Jombart", , "thibaut@data.org", role = c("aut", "cre")),
-      person("Avinash", "Laddha", , "avinash@data.org", role = c("aut")))
-Description: This package implements functions to read epidemiological data from health information systems.
+    c(person("Karim", "Mané", , "lshkm1@lshtm.ac.uk", role = c("aut", "cre"))
+    )
+Maintainer: Karim Mané <lshkm1@lshtm.ac.uk>
+Description: cleanepi contains functions that are used for epidemiological data cleaning.
 License: MIT + file LICENSE
 Encoding: UTF-8
-Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.1
+LazyData: true
 Imports:
-    checkmate
+    stringr,
+    dplyr,
+    data.table,
+    lubridate,
+    janitor,
+    naniar,
+    readr
+Remotes:
+RoxygenNote: 7.2.3
+Roxygen: list(markdown = TRUE)
 Suggests: 
     covr,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
+
+
+

@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 
 # {{ packagename }}
 
-{{ packagename }} provides functions to ....
+{{ packagename }} provides functions to clean epidemiological data provided in the form of a data frame or other related data type.
 
 <!-- badges: start -->
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -61,7 +61,7 @@ Contributions are welcome via [pull requests](https://github.com/{{ gh_repo }}/p
 
 Contributors to the project include:
 
-* 
+* Karim Mané 
 * 
 
 ### Code of Conduct

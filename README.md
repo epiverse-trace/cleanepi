@@ -5,28 +5,29 @@
 <!-- `packagename` is extracted from the DESCRIPTION file -->
 <!-- `gh_repo` is extracted via a special environment variable in GitHub Actions -->
 
-# readepi
+# {{ packagename }}
 
-readepi provides functions to ….
+{{ packagename }} provides functions to clean epidemiological data
+provided in the form of a data frame or other related data type.
 
 <!-- badges: start -->
 
 [![License:
 MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![R-CMD-check](https://github.com/epiverse-trace/packagetemplate/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/epiverse-trace/packagetemplate/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check](https://github.com/%7B%7B%20gh_repo%20%7D%7D/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/%7B%7B%20gh_repo%20%7D%7D/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
-coverage](https://codecov.io/gh/epiverse-trace/packagetemplate/branch/main/graph/badge.svg)](https://app.codecov.io/gh/epiverse-trace/packagetemplate?branch=main)
+coverage](https://codecov.io/gh/%7B%7B%20gh_repo%20%7D%7D/branch/main/graph/badge.svg)](https://app.codecov.io/gh/%7B%7B%20gh_repo%20%7D%7D?branch=main)
 [![lifecycle-concept](https://raw.githubusercontent.com/reconverse/reconverse.github.io/master/images/badge-concept.svg)](https://www.reconverse.org/lifecycle.html#concept)
 <!-- badges: end -->
 
 ## Installation
 
-You can install the development version of readepi from
+You can install the development version of {{ packagename }} from
 [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("epiverse-trace/packagetemplate")
+remotes::install_github("{{ gh_repo }}")
 ```
 
 ## Example
@@ -45,16 +46,16 @@ package is not ready for use outside of the development team.
 ### Contributions
 
 Contributions are welcome via [pull
-requests](https://github.com/epiverse-trace/packagetemplate/pulls).
+requests](https://github.com/%7B%7B%20gh_repo%20%7D%7D/pulls).
 
 Contributors to the project include:
 
-- 
+- Karim Mané
 - 
 
 ### Code of Conduct
 
-Please note that the readepi project is released with a [Contributor
-Code of
+Please note that the {{ packagename }} project is released with a
+[Contributor Code of
 Conduct](https://github.com/epiverse-trace/.github/blob/main/CODE_OF_CONDUCT.md).
 By contributing to this project, you agree to abide by its terms.
