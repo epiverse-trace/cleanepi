@@ -6,7 +6,7 @@
 <!-- `gh_repo` is extracted via a special environment variable in GitHub Actions -->
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-\<\<\<\<\<\<\< HEAD \# cleanepi
+# cleanepi
 
 cleanepi provides functions to clean epidemiological data provided in
 the form of a data frame or other related data type.
@@ -56,20 +56,7 @@ Contributors to the project include:
 
 ### Code of Conduct
 
-Please note that the {{ packagename }} project is released with a
-[Contributor Code of
+Please note that the cleanepi project is released with a [Contributor
+Code of
 Conduct](https://github.com/epiverse-trace/.github/blob/main/CODE_OF_CONDUCT.md).
 By contributing to this project, you agree to abide by its terms.
-======= \# cleanepi
-
-<!-- badges: start -->
-<!-- badges: end -->
-
-The goal of **cleanepi** is to provide useful functions for data
-cleaning.
-
-## Installation
-
-You can install the development version of cleanepi like so:
-
-> > > > > > > 7cd62df02662e2cd55da7f796ed13301699ba3ff
