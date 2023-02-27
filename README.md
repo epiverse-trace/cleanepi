@@ -1,33 +1,38 @@
 
+\<\<\<\<\<\<\< HEAD
 <!-- README.md is generated from README.Rmd. Please edit that file. -->
 <!-- The code to render this README is stored in .github/workflows/render-readme.yaml -->
 <!-- Variables marked with double curly braces will be transformed beforehand: -->
 <!-- `packagename` is extracted from the DESCRIPTION file -->
 <!-- `gh_repo` is extracted via a special environment variable in GitHub Actions -->
 
-# {{ packagename }}
+=======
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+\>\>\>\>\>\>\> 7cd62df02662e2cd55da7f796ed13301699ba3ff
 
-{{ packagename }} provides functions to clean epidemiological data
-provided in the form of a data frame or other related data type.
+\<\<\<\<\<\<\< HEAD \# cleanepi
+
+cleanepi provides functions to clean epidemiological data provided in
+the form of a data frame or other related data type.
 
 <!-- badges: start -->
 
 [![License:
 MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![R-CMD-check](https://github.com/%7B%7B%20gh_repo%20%7D%7D/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/%7B%7B%20gh_repo%20%7D%7D/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check](https://github.com/epiverse-trace/cleanepi/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/epiverse-trace/cleanepi/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
-coverage](https://codecov.io/gh/%7B%7B%20gh_repo%20%7D%7D/branch/main/graph/badge.svg)](https://app.codecov.io/gh/%7B%7B%20gh_repo%20%7D%7D?branch=main)
+coverage](https://codecov.io/gh/epiverse-trace/cleanepi/branch/main/graph/badge.svg)](https://app.codecov.io/gh/epiverse-trace/cleanepi?branch=main)
 [![lifecycle-concept](https://raw.githubusercontent.com/reconverse/reconverse.github.io/master/images/badge-concept.svg)](https://www.reconverse.org/lifecycle.html#concept)
 <!-- badges: end -->
 
 ## Installation
 
-You can install the development version of {{ packagename }} from
+You can install the development version of cleanepi from
 [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("{{ gh_repo }}")
+remotes::install_github("epiverse-trace/cleanepi")
 ```
 
 ## Example
@@ -59,3 +64,16 @@ Please note that the {{ packagename }} project is released with a
 [Contributor Code of
 Conduct](https://github.com/epiverse-trace/.github/blob/main/CODE_OF_CONDUCT.md).
 By contributing to this project, you agree to abide by its terms.
+======= \# cleanepi
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+The goal of **cleanepi** is to provide useful functions for data
+cleaning.
+
+## Installation
+
+You can install the development version of cleanepi like so:
+
+> > > > > > > 7cd62df02662e2cd55da7f796ed13301699ba3ff
