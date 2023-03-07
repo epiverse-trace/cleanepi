@@ -2,14 +2,11 @@
 % Please edit documentation in R/clean_stuffs.R
 \name{cleanepi}
 \alias{cleanepi}
-\title{function to clean epidemiological data}
+\title{Clean data}
 \usage{
 cleanepi(
   data,
   clean.col.names = FALSE,
-  standardise.date = FALSE,
-  date.columns = NULL,
-  format = NULL,
   remove.duplicates = FALSE,
   duplicates.from = NULL,
   remove.empty = FALSE,
@@ -20,6 +17,32 @@ cleanepi(
   replace.na.in.type = NULL
 )
 }
+\arguments{
+\item{data}{the input data frame}
+
+\item{clean.col.names}{whether to cleanup the column name or not. default is FALSE}
+
+\item{remove.duplicates}{whether to detect duplicated records or not. default is FALSE}
+
+\item{duplicates.from}{a vector of columns names to use when looking for duplicates. Only used when \code{remove.duplicates=TRUE}}
+
+\item{remove.empty}{whether to remove the records and column or not. default is FALSE}
+
+\item{remove.constant}{whether to remove constant columns or not. default is FALSE}
+
+\item{replace.missing}{whether to replace the missing value characters with NA or not. default is FALSE}
+
+\item{na.comes.as}{the characters that represent the missing data in the data frame. only used when \code{replace.missing=TRUE}}
+
+\item{replace.na.at}{a vector of columns where the characters that represent the missing data should be replaced by NA. only used when \code{replace.missing=TRUE}}
+
+\item{replace.na.in.type}{a string that specify on which column type to replace the characters that represent the missing data. If missing characters should be replaced by NA in character columns, the value is \code{character}}
+}
+\value{
+a data frame with the records and columns that have passed the above checks.
+}
 \description{
-function to clean epidemiological data
+this function is the first function to be applied on a data frame with "dirty data".
+It will clean up the column names, detect and remove duplicates, remove empty records
+and columns, remove constant columns, replace missing value by NA.
 }

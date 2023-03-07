@@ -14,3 +14,5 @@
 ^\.Rproj\.user$
 ^README\.Rmd$
 >>>>>>> 7cd62df02662e2cd55da7f796ed13301699ba3ff
+^doc$
+^Meta$

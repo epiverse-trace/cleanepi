@@ -1,6 +1,6 @@
 
 
-#' function to clean the subject ID column in a data frame
+#' Check whether the subject IDs complies with user-specified format
 #' @param data the data frame of interest
 #' @param id.position the column position of the variable that unique identifies the subjects. This should only be specified when the column with the subject IDs is not the first column. default is 1.
 #' @param format the correct format for the subject IDs
@@ -8,10 +8,10 @@
 #' @param prefix the prefix used in the subject IDs
 #' @param suffix the prefix used in the subject IDs
 #' @param range a vector with the range of numbers in the sample IDs
-#' @returns the input data frame with the corrected subject IDs
+#' @returns the input data frame with the correct subject IDs
 #' @examples
 #' @export
-clean_subject_ids = function(data=NULL, id.position=1, format=NULL,
+check_subject_ids = function(data=NULL, id.position=1, format=NULL,
                              check=TRUE, prefix=NULL,suffix=NULL,range=NULL){
   if (is.null(data)) {
     stop("Must specify data frame from which subject IDs will be cleaned!")
@@ -165,11 +165,28 @@ calculate_age = function(data, date.column.name=NULL, end.date=Sys.Date(),
 }
 
 
-#' function to clean epidemiological data
+
+#' Clean data
+#' @description this function is the first function to be applied on a data frame with "dirty data".
+#' It will clean up the column names, detect and remove duplicates, remove empty records
+#' and columns, remove constant columns, replace missing value by NA.
+#'
+#' @param data the input data frame
+#' @param clean.col.names whether to cleanup the column name or not. default is FALSE
+#' @param remove.duplicates whether to detect duplicated records or not. default is FALSE
+#' @param duplicates.from a vector of columns names to use when looking for duplicates. Only used when `remove.duplicates=TRUE`
+#' @param remove.empty whether to remove the records and column or not. default is FALSE
+#' @param remove.constant whether to remove constant columns or not. default is FALSE
+#' @param replace.missing whether to replace the missing value characters with NA or not. default is FALSE
+#' @param na.comes.as the characters that represent the missing data in the data frame. only used when `replace.missing=TRUE`
+#' @param replace.na.at a vector of columns where the characters that represent the missing data should be replaced by NA. only used when `replace.missing=TRUE`
+#' @param replace.na.in.type a string that specify on which column type to replace the characters that represent the missing data. If missing characters should be replaced by NA in character columns, the value is `character`
+#'
+#' @return a data frame with the records and columns that have passed the above checks.
 #' @export
 #'
+#' @examples
 cleanepi = function(data, clean.col.names=FALSE,
-                    standardise.date=FALSE, date.columns=NULL, format=NULL,
                     remove.duplicates=FALSE, duplicates.from=NULL,
                     remove.empty=FALSE, remove.constant=FALSE,
                     replace.missing=FALSE, na.comes.as=NULL, replace.na.at=NULL,replace.na.in.type=NULL){
@@ -178,16 +195,6 @@ cleanepi = function(data, clean.col.names=FALSE,
     cat("\nCleaning the column names")
     data = data %>% janitor::clean_names()
   }
-
-  # standardize date columns
-  # if(standardise.date){
-  #   cat("\nStandardizing date columns")
-  #   if(length(date.columns)>0){
-  #     for(date.col in date.columns){
-  #       data = standardize_date(data, date.column.name = date.col, format = format)
-  #     }
-  #   }
-  # }
 
   # remove duplicated records
   if(remove.duplicates){

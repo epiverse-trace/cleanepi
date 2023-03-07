@@ -57,3 +57,6 @@ rsconnect/
 .httr-oauth
 >>>>>>> 7cd62df02662e2cd55da7f796ed13301699ba3ff
 .DS_Store
+inst/doc
+/doc/
+/Meta/

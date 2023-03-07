@@ -8,8 +8,8 @@
 
 # cleanepi
 
-cleanepi provides functions to clean epidemiological data provided in
-the form of a data frame or other related data type.
+**cleanepi** provides functions to clean epidemiological data provided
+in the form of a data frame or other related data type.
 
 <!-- badges: start -->
 
@@ -28,12 +28,24 @@ You can install the development version of cleanepi from
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("epiverse-trace/cleanepi")
+# remotes::install_github("epiverse-trace/cleanepi")
+library(cleanepi)
 ```
 
-## Example
+## Manual
 
-These examples illustrate some of the current functionalities
+``` r
+browseVignettes("cleanepi")
+```
+
+## Description
+
+| function name         | description                                                                                                                                 |
+|:----------------------|:--------------------------------------------------------------------------------------------------------------------------------------------|
+| **cleanepi**          | the first function to apply after importing data in R. It applies some filtration on both the records and the columns                       |
+| **check_subject_ids** | check whether the IDs comply with the expected format                                                                                       |
+| **standardize_date**  | convert date column into *%Y-%m-%d*                                                                                                         |
+| **calculate_age**     | calculate age from date column. Returned age can be in either *years*, or *months*, or *weeks*, or *days* or a combination of some of these |
 
 ## Development
 
@@ -47,7 +59,7 @@ package is not ready for use outside of the development team.
 ### Contributions
 
 Contributions are welcome via [pull
-requests](https://github.com/epiverse-trace/cleanepi/pulls).
+requests](https://github.com/%7B%7B%20gh_repo%20%7D%7D/pulls).
 
 Contributors to the project include:
 
