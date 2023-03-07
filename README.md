@@ -36,6 +36,7 @@ library(cleanepi)
 
 ``` r
 browseVignettes("cleanepi")
+#> No vignettes found by browseVignettes("cleanepi")
 ```
 
 ## Description
@@ -59,7 +60,7 @@ package is not ready for use outside of the development team.
 ### Contributions
 
 Contributions are welcome via [pull
-requests](https://github.com/%7B%7B%20gh_repo%20%7D%7D/pulls).
+requests](https://github.com/epiverse-trace/cleanepi/pulls).
 
 Contributors to the project include:
 
