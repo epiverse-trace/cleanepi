@@ -19,13 +19,7 @@ library(cleanepi)
 ```
 
 # Check whether the subject IDs comply with the expected format
-To prevent from mistakes in subject IDs field of a data frame, use the `check_subject_ids()` function to check whether the IDs comply with the expected format. The function will check for:    
 
-* mistakes in subject IDs prefix and suffix     
-* subject IDs with incorrect length      
-* number in subject IDs that are out of range or not permitted    
-
-The function expects the following arguments:    
 
 
 
