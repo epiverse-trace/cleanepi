@@ -19,7 +19,7 @@ check_subject_ids(
 
 \item{id.position}{the column position of the variable that unique identifies the subjects. This should only be specified when the column with the subject IDs is not the first column. default is 1.}
 
-\item{format}{the correct format for the subject IDs}
+\item{format}{a template of the correct format for the subject IDs}
 
 \item{check}{a boolean that specifies whether to clean the subject IDs or not}
 
@@ -30,7 +30,7 @@ check_subject_ids(
 \item{range}{a vector with the range of numbers in the sample IDs}
 }
 \value{
-the input data frame with the correct subject IDs
+The will display messages about incorrect subject IDs, nothing if all IDs are correct.
 }
 \description{
 Check whether the subject IDs complies with user-specified format

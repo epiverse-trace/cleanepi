@@ -50,9 +50,10 @@ browseVignettes("cleanepi")
 | function name | description |    
 | :-------------- | :---------- |   
 | **cleanepi** | the first function to apply after importing data in R. It applies some filtration on both the records and the columns  | 
-| **check_subject_ids** | check whether the IDs comply with the expected format | 
+| [check_subject_ids](./doc/check_subject_ids.md) | check whether the IDs comply with the expected format | 
 | **standardize_date** | convert date column into _%Y-%m-%d_ | 
-| **calculate_age** | calculate age from date column. Returned age can be in either _years_, or _months_, or _weeks_, or _days_ or a combination of some of these|     
+| **calculate_age** | calculate age from date column. Returned age can be in either _years_, or _months_, or _weeks_, or _days_ or a combination of some of these|    
+| **WIP** | work in progress |
 
 
 ## Development

@@ -36,16 +36,18 @@ library(cleanepi)
 
 ``` r
 browseVignettes("cleanepi")
+#> No vignettes found by browseVignettes("cleanepi")
 ```
 
 ## Description
 
-| function name         | description                                                                                                                                 |
-|:----------------------|:--------------------------------------------------------------------------------------------------------------------------------------------|
-| **cleanepi**          | the first function to apply after importing data in R. It applies some filtration on both the records and the columns                       |
-| **check_subject_ids** | check whether the IDs comply with the expected format                                                                                       |
-| **standardize_date**  | convert date column into *%Y-%m-%d*                                                                                                         |
-| **calculate_age**     | calculate age from date column. Returned age can be in either *years*, or *months*, or *weeks*, or *days* or a combination of some of these |
+| function name                                   | description                                                                                                                                 |
+|:------------------------------------------------|:--------------------------------------------------------------------------------------------------------------------------------------------|
+| **cleanepi**                                    | the first function to apply after importing data in R. It applies some filtration on both the records and the columns                       |
+| [check_subject_ids](./doc/check_subject_ids.md) | check whether the IDs comply with the expected format                                                                                       |
+| **standardize_date**                            | convert date column into *%Y-%m-%d*                                                                                                         |
+| **calculate_age**                               | calculate age from date column. Returned age can be in either *years*, or *months*, or *weeks*, or *days* or a combination of some of these |
+| **WIP**                                         | work in progress                                                                                                                            |
 
 ## Development
 

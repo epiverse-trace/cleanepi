@@ -3,12 +3,12 @@
 #' Check whether the subject IDs complies with user-specified format
 #' @param data the data frame of interest
 #' @param id.position the column position of the variable that unique identifies the subjects. This should only be specified when the column with the subject IDs is not the first column. default is 1.
-#' @param format the correct format for the subject IDs
+#' @param format a template of the correct format for the subject IDs
 #' @param check a boolean that specifies whether to clean the subject IDs or not
 #' @param prefix the prefix used in the subject IDs
 #' @param suffix the prefix used in the subject IDs
 #' @param range a vector with the range of numbers in the sample IDs
-#' @returns the input data frame with the correct subject IDs
+#' @returns The will display messages about incorrect subject IDs, nothing if all IDs are correct.
 #' @examples
 #' @export
 check_subject_ids = function(data=NULL, id.position=1, format=NULL,
@@ -65,9 +65,7 @@ check_subject_ids = function(data=NULL, id.position=1, format=NULL,
       message("Detected sample IDs with wrong numbers\n")
       R.utils::cat(paste(failed.range,collapse = ", "))
     }
-
   }
-  data
 }
 
 #' function to standardize date variable
