@@ -28,7 +28,7 @@ You can install the development version of cleanepi from
 
 ``` r
 # install.packages("remotes")
-# remotes::install_github("epiverse-trace/cleanepi")
+# remotes::install_github("epiverse-trace/cleanepi", build_vignettes=TRUE)
 library(cleanepi)
 ```
 
@@ -41,20 +41,13 @@ browseVignettes("cleanepi")
 
 ## Description
 
-| function name | description                                                               |
-|:--------------|:--------------------------------------------------------------------------|
-| **cleanepi**  | check whether the IDs comply with the expected format. It will check for: |
-
-- mistakes in subject IDs prefix and suffix  
-- subject IDs with incorrect length  
-- number in subject IDs that are out of range or not permitted \| \|
-  [check_subject_ids](./doc/check_subject_ids.md) \| check whether the
-  IDs comply with the expected format \| \| **standardize_date** \|
-  convert date column into *%Y-%m-%d* \| \| **calculate_age** \|
-  calculate age from date column. Returned age can be in either *years*,
-  or *months*, or *weeks*, or *days* or a combination of some of
-  these\|  
-  \| **WIP** \| work in progress \|
+| function name                                   | description                                                                                                                                                                                                          |
+|:------------------------------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **cleanepi**                                    | check whether the IDs comply with the expected format. It will check for: mistakes in subject IDs prefix and suffix, subject IDs with incorrect length, number in subject IDs that are out of range or not permitted |
+| [check_subject_ids](./doc/check_subject_ids.md) | check whether the IDs comply with the expected format                                                                                                                                                                |
+| **standardize_date**                            | convert date column into *%Y-%m-%d*                                                                                                                                                                                  |
+| **calculate_age**                               | calculate age from date column. Returned age can be in either *years*, or *months*, or *weeks*, or *days* or a combination of some of these                                                                          |
+| **WIP**                                         | work in progress                                                                                                                                                                                                     |
 
 ## Development
 
@@ -68,7 +61,7 @@ package is not ready for use outside of the development team.
 ### Contributions
 
 Contributions are welcome via [pull
-requests](https://github.com/epiverse-trace/cleanepi/pulls).
+requests](https://github.com/%7B%7B%20gh_repo%20%7D%7D/pulls).
 
 Contributors to the project include:
 
