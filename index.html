@@ -70,7 +70,7 @@
 <p>You can install the development version of cleanepi from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
-<span><span class="co"># remotes::install_github("epiverse-trace/cleanepi")</span></span>
+<span><span class="co"># remotes::install_github("epiverse-trace/cleanepi", build_vignettes=TRUE)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">cleanepi</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
@@ -85,26 +85,37 @@
 </h2>
 <table class="table">
 <colgroup>
-<col width="16%">
-<col width="83%">
+<col width="18%">
+<col width="81%">
 </colgroup>
 <thead><tr class="header">
 <th align="left">function name</th>
 <th align="left">description</th>
 </tr></thead>
-<tbody><tr class="odd">
+<tbody>
+<tr class="odd">
 <td align="left"><strong>cleanepi</strong></td>
-<td align="left">check whether the IDs comply with the expected format. It will check for:</td>
-</tr></tbody>
+<td align="left">check whether the IDs comply with the expected format. It will check for: mistakes in subject IDs prefix and suffix, subject IDs with incorrect length, number in subject IDs that are out of range or not permitted</td>
+</tr>
+<tr class="even">
+<td align="left"><a href="./doc/check_subject_ids.html">check_subject_ids</a></td>
+<td align="left">check whether the IDs comply with the expected format</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>standardize_date</strong></td>
+<td align="left">convert date column into <em>%Y-%m-%d</em>
+</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>calculate_age</strong></td>
+<td align="left">calculate age from date column. Returned age can be in either <em>years</em>, or <em>months</em>, or <em>weeks</em>, or <em>days</em> or a combination of some of these</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>WIP</strong></td>
+<td align="left">work in progress</td>
+</tr>
+</tbody>
 </table>
-<ul>
-<li>mistakes in subject IDs prefix and suffix<br>
-</li>
-<li>subject IDs with incorrect length<br>
-</li>
-<li>number in subject IDs that are out of range or not permitted | | <a href="./doc/check_subject_ids.html">check_subject_ids</a> | check whether the IDs comply with the expected format | | <strong>standardize_date</strong> | convert date column into <em>%Y-%m-%d</em> | | <strong>calculate_age</strong> | calculate age from date column. Returned age can be in either <em>years</em>, or <em>months</em>, or <em>weeks</em>, or <em>days</em> or a combination of some of these|<br>
-| <strong>WIP</strong> | work in progress |</li>
-</ul>
 </div>
 <div class="section level2">
 <h2 id="development">Development<a class="anchor" aria-label="anchor" href="#development"></a>
@@ -117,7 +128,7 @@
 <div class="section level3">
 <h3 id="contributions">Contributions<a class="anchor" aria-label="anchor" href="#contributions"></a>
 </h3>
-<p>Contributions are welcome via <a href="https://github.com/epiverse-trace/cleanepi/pulls" class="external-link">pull requests</a>.</p>
+<p>Contributions are welcome via <a href="https://github.com/%7B%7B%20gh_repo%20%7D%7D/pulls" class="external-link">pull requests</a>.</p>
 <p>Contributors to the project include:</p>
 <ul>
 <li>Karim Mané</li>
