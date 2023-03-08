@@ -18,6 +18,12 @@ knitr::opts_chunk$set(
 library(cleanepi)
 ```
 
+# Clean input data
+After importing a dataset into R, use the `cleanepi()` function to apply some checks on it. 
+```{r}
+## use the test data and implement the tests
+```
+
 # Check whether the subject IDs comply with the expected format
 
 

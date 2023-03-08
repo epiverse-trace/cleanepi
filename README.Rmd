@@ -37,7 +37,7 @@ You can install the development version of cleanepi from
 
 ```{r}
 # install.packages("remotes")
-# remotes::install_github("epiverse-trace/cleanepi")
+# remotes::install_github("epiverse-trace/cleanepi", build_vignettes=TRUE)
 library(cleanepi)
 ```
 
@@ -49,11 +49,7 @@ browseVignettes("cleanepi")
 ## Description
 | function name | description |    
 | :-------------- | :---------- |   
-| **cleanepi** | check whether the IDs comply with the expected format. It will check for:    
-
-* mistakes in subject IDs prefix and suffix     
-* subject IDs with incorrect length      
-* number in subject IDs that are out of range or not permitted     | 
+| **cleanepi** | check whether the IDs comply with the expected format. It will check for: mistakes in subject IDs prefix and suffix, subject IDs with incorrect length, number in subject IDs that are out of range or not permitted | 
 | [check_subject_ids](./doc/check_subject_ids.md) | check whether the IDs comply with the expected format | 
 | **standardize_date** | convert date column into _%Y-%m-%d_ | 
 | **calculate_age** | calculate age from date column. Returned age can be in either _years_, or _months_, or _weeks_, or _days_ or a combination of some of these|    
