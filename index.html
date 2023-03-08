@@ -85,37 +85,26 @@
 </h2>
 <table class="table">
 <colgroup>
-<col width="25%">
-<col width="74%">
+<col width="16%">
+<col width="83%">
 </colgroup>
 <thead><tr class="header">
 <th align="left">function name</th>
 <th align="left">description</th>
 </tr></thead>
-<tbody>
-<tr class="odd">
+<tbody><tr class="odd">
 <td align="left"><strong>cleanepi</strong></td>
-<td align="left">the first function to apply after importing data in R. It applies some filtration on both the records and the columns</td>
-</tr>
-<tr class="even">
-<td align="left"><a href="./doc/check_subject_ids.html">check_subject_ids</a></td>
-<td align="left">check whether the IDs comply with the expected format</td>
-</tr>
-<tr class="odd">
-<td align="left"><strong>standardize_date</strong></td>
-<td align="left">convert date column into <em>%Y-%m-%d</em>
-</td>
-</tr>
-<tr class="even">
-<td align="left"><strong>calculate_age</strong></td>
-<td align="left">calculate age from date column. Returned age can be in either <em>years</em>, or <em>months</em>, or <em>weeks</em>, or <em>days</em> or a combination of some of these</td>
-</tr>
-<tr class="odd">
-<td align="left"><strong>WIP</strong></td>
-<td align="left">work in progress</td>
-</tr>
-</tbody>
+<td align="left">check whether the IDs comply with the expected format. It will check for:</td>
+</tr></tbody>
 </table>
+<ul>
+<li>mistakes in subject IDs prefix and suffix<br>
+</li>
+<li>subject IDs with incorrect length<br>
+</li>
+<li>number in subject IDs that are out of range or not permitted | | <a href="./doc/check_subject_ids.html">check_subject_ids</a> | check whether the IDs comply with the expected format | | <strong>standardize_date</strong> | convert date column into <em>%Y-%m-%d</em> | | <strong>calculate_age</strong> | calculate age from date column. Returned age can be in either <em>years</em>, or <em>months</em>, or <em>weeks</em>, or <em>days</em> or a combination of some of these|<br>
+| <strong>WIP</strong> | work in progress |</li>
+</ul>
 </div>
 <div class="section level2">
 <h2 id="development">Development<a class="anchor" aria-label="anchor" href="#development"></a>
