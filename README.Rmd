@@ -53,6 +53,7 @@ browseVignettes("cleanepi")
 | [check_subject_ids](./doc/check_subject_ids.md) | check whether the IDs comply with the expected format |    
 | **standardize_date** | convert date column into _%Y-%m-%d_ |     
 | **calculate_age** | calculate age from date column. Returned age can be in either _years_, or _months_, or _weeks_, or _days_ or a combination of some of these|    
+| **check date sequence** | check the sequence of event dates |
 | **WIP** | work in progress |
 
 

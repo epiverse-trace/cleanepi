@@ -171,6 +171,26 @@ detect_date_format = function(x){
   f1
 }
 
+#' function to reformat the date
+as_Date <- function(x, format = c("ymd", "dmy", "mdy")){
+  fmt <- lubridate::guess_formats(x, format)
+  fmt <- unique(fmt)
+  y <- as.Date(x, format = fmt[1])
+  for(i in seq_along(fmt)[-1]){
+    na <- is.na(y)
+    if(!any(na)) break
+    y[na] <- as.Date(x[na], format = fmt[i])
+  }
+  y
+}
+
+
+#' function to check the sequence of the event
+is_order <- function(x){
+  x <- as_Date(x)
+  sum(order(x)==1:length(x))==length(x)
+}
+
 
 
 
