@@ -47,6 +47,7 @@ browseVignettes("cleanepi")
 | [check_subject_ids](./doc/check_subject_ids.md) | check whether the IDs comply with the expected format                                                                                                                                                                |
 | **standardize_date**                            | convert date column into *%Y-%m-%d*                                                                                                                                                                                  |
 | **calculate_age**                               | calculate age from date column. Returned age can be in either *years*, or *months*, or *weeks*, or *days* or a combination of some of these                                                                          |
+| **check date sequence**                         | check the sequence of event dates                                                                                                                                                                                    |
 | **WIP**                                         | work in progress                                                                                                                                                                                                     |
 
 ## Development
@@ -61,7 +62,7 @@ package is not ready for use outside of the development team.
 ### Contributions
 
 Contributions are welcome via [pull
-requests](https://github.com/epiverse-trace/cleanepi/pulls).
+requests](https://github.com/%7B%7B%20gh_repo%20%7D%7D/pulls).
 
 Contributors to the project include:
 
