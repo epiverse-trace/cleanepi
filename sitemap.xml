@@ -22,6 +22,9 @@
     <loc>/index.html</loc>
   </url>
   <url>
+    <loc>/reference/as_Date.html</loc>
+  </url>
+  <url>
     <loc>/reference/calculate_age.html</loc>
   </url>
   <url>
@@ -29,6 +32,9 @@
   </url>
   <url>
     <loc>/reference/checkSuffix.html</loc>
+  </url>
+  <url>
+    <loc>/reference/check_date_sequence.html</loc>
   </url>
   <url>
     <loc>/reference/check_input_data.html</loc>
@@ -62,6 +68,9 @@
   </url>
   <url>
     <loc>/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>/reference/is_order.html</loc>
   </url>
   <url>
     <loc>/reference/numbers_only.html</loc>
