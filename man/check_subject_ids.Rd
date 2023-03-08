@@ -35,3 +35,13 @@ The will display messages about incorrect subject IDs, nothing if all IDs are co
 \description{
 Check whether the subject IDs complies with user-specified format
 }
+\examples{
+check_subject_ids(data=data.table::fread(system.file("extdata","test.txt", package = "cleanepi")),
+                  id.position=1,
+                  format="PS000P2",
+                  check=TRUE,
+                  prefix="PS",
+                  suffix="P2",
+                  range=c(0,100)
+                  )
+}
