@@ -41,16 +41,19 @@ browseVignettes("cleanepi")
 
 ## Description
 
-| function name                                   | description                                                                                                                                                                                                          |
-|:------------------------------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **cleanepi**                                    | check whether the IDs comply with the expected format. It will check for: mistakes in subject IDs prefix and suffix, subject IDs with incorrect length, number in subject IDs that are out of range or not permitted |
-| [check_subject_ids](./doc/check_subject_ids.md) | check whether the IDs comply with the expected format                                                                                                                                                                |
-| **standardize_date**                            | convert date column into *%Y-%m-%d*                                                                                                                                                                                  |
-| **calculate_age**                               | calculate age from date column. Returned age can be in either *years*, or *months*, or *weeks*, or *days* or a combination of some of these                                                                          |
-| **check date sequence**                         | check the sequence of event dates                                                                                                                                                                                    |
-| **WIP**                                         | work in progress                                                                                                                                                                                                     |
+| function name           | description                                                                                                                                                                                           |
+|:------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **clean_data**          | cleaning of column names, detecting and removing empty rows and columns as well as constant columns and duplicated rows. It also replaces missing values by NA and automatically convert date columns |
+| **check_subject_ids**   | check whether the IDs comply with the expected format                                                                                                                                                 |
+| **standardize_date**    | convert date column into *%Y-%m-%d*                                                                                                                                                                   |
+| **calculate_age**       | calculate age from date column. Returned age can be in either *years*, or *months*, or *weeks*, or *days* or a combination of some of these                                                           |
+| **check_date_sequence** | check whether the sequence of event dates is correct                                                                                                                                                  |
+| **WIP**                 | work in progress                                                                                                                                                                                      |
 
-## Development
+## Next steps
+
+build function to display the cleaning report  
+build function to perform dictionary based cleaning
 
 ### Lifecycle
 
@@ -63,11 +66,6 @@ package is not ready for use outside of the development team.
 
 Contributions are welcome via [pull
 requests](https://github.com/%7B%7B%20gh_repo%20%7D%7D/pulls).
-
-Contributors to the project include:
-
-- Karim Mané
-- 
 
 ### Code of Conduct
 

@@ -49,15 +49,18 @@ browseVignettes("cleanepi")
 ## Description
 | function name | description |    
 | :-------------- | :---------- |   
-| **cleanepi** | check whether the IDs comply with the expected format. It will check for: mistakes in subject IDs prefix and suffix, subject IDs with incorrect length, number in subject IDs that are out of range or not permitted |      
-| [check_subject_ids](./doc/check_subject_ids.md) | check whether the IDs comply with the expected format |    
+| **clean_data** | cleaning of column names, detecting and removing empty rows and columns as well as constant columns and duplicated rows. It also replaces missing values by NA and automatically convert date columns |      
+| **check_subject_ids** | check whether the IDs comply with the expected format |    
 | **standardize_date** | convert date column into _%Y-%m-%d_ |     
 | **calculate_age** | calculate age from date column. Returned age can be in either _years_, or _months_, or _weeks_, or _days_ or a combination of some of these|    
-| **check date sequence** | check the sequence of event dates |
+| **check_date_sequence** | check whether the sequence of event dates is correct |
 | **WIP** | work in progress |
 
 
-## Development
+## Next steps
+| build function to display the cleaning report
+| build function to perform dictionary based cleaning
+
 
 ### Lifecycle
 
@@ -70,11 +73,6 @@ for use outside of the development team.
 ### Contributions
 
 Contributions are welcome via [pull requests](https://github.com/{{ gh_repo }}/pulls).
-
-Contributors to the project include:
-
-* Karim Mané 
-* 
 
 ### Code of Conduct
 

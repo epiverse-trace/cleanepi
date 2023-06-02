@@ -2,20 +2,53 @@
 % Please edit documentation in R/standardize_date.R
 \name{standardize_date}
 \alias{standardize_date}
-\title{function to standardize date variable}
+\title{Standardize date variables}
 \usage{
-standardize_date(data, date.column.name = NULL, format = NULL)
+standardize_date(
+  data,
+  date_column_name = NULL,
+  format = NULL,
+  timeframe,
+  check_timeframe,
+  report = list(),
+  error_tolerance = 0.5
+)
 }
 \arguments{
-\item{data}{a data frame with the date column to standardise}
+\item{data}{the input data frame}
 
-\item{date.column.name}{the name of the date column of interest. default: 'Date', or 'DATE', or 'date'}
+\item{date_column_name}{the name of the date column of interest.
+default: 'Date', or 'DATE', or 'date'}
 
 \item{format}{the format of the date values in the date column}
+
+\item{timeframe}{the expected first and last date. See the \code{clean_data()}
+helper for more details}
+
+\item{check_timeframe}{a logical to check whether dates fall within timeframe}
+
+\item{report}{the object that will contains details about the result from the
+date columns standardization}
+
+\item{error_tolerance}{a number between 0 and 1 indicating the proportion of
+entries which cannot be identified as dates to be tolerated. See the
+\code{clean_data()} helper for more details}
 }
 \value{
-a data frame where the specified date column is converted into the format 'yyyy-mm-dd'
+a list of 2 elements
 }
 \description{
-function to standardize date variable
+Standardize date variables
+}
+\examples{
+dat <- standardize_date(
+data = data.table::fread(system.file("extdata", "test.txt",
+package = "cleanepi")),
+date_column_name = "date_first_pcr_positive_test",
+format = NULL,
+timeframe = NULL,
+check_timeframe = FALSE,
+report = list(),
+error_tolerance = 0.5
+)
 }

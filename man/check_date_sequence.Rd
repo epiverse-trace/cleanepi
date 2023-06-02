@@ -4,21 +4,32 @@
 \alias{check_date_sequence}
 \title{Check the sequence of event dates}
 \usage{
-check_date_sequence(data, event.cols, remove.bad.seq = TRUE)
+check_date_sequence(data, event_cols, remove_bad_seq = FALSE)
 }
 \arguments{
 \item{data}{the input data frame}
 
-\item{event.cols}{a vector or a comma-separated list of the names of the event columns.
-Users should specify at least 2 column names. These column names should be provided
-with the expected order. For example: event.cols = c("DS","DH","DD") where
-DS=date of the symptoms onset, DH=date of hospitalization, DD=date of death}
+\item{event_cols}{a vector or a comma-separated list of the event columns
+names. Users should specify at least 2 column names in the expected order.
+For example: event_cols = c("DS", "DH", "DD") where DS=date of the symptoms
+onset, DH=date of hospitalization, DD=date of death}
 
-\item{remove.bad.seq}{a Boolean to specify if rows with incorrect order should be filtered out or not. default is TRUE}
+\item{remove_bad_seq}{a Boolean to specify if rows with incorrect order
+should be filtered out or not. default is FALSE}
 }
 \value{
-a data frame where rows with incorrect date sequence have been removed if \code{remove.bad.seq=TRUE}, the input data frame if not
+rows of the input data frame with incorrect date sequence
+if \code{remove_bad_seq = FALSE}, the input data frame without those rows if not
 }
 \description{
-This function should be used to check whether date sequence in the columns specified by the user is correct or not.
+This function is used to check whether date sequence in
+the specified columns is correct or not.
+}
+\examples{
+good_date_sequence <- check_date_sequence(
+data = data.table::fread(system.file("extdata", "test.txt",
+package = "cleanepi")),
+event_cols = c("date_first_pcr_positive_test", "date.of.admission"),
+remove_bad_seq = FALSE
+)
 }
