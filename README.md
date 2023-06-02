@@ -28,7 +28,8 @@ You can install the development version of cleanepi from
 
 ``` r
 # install.packages("remotes")
-# remotes::install_github("epiverse-trace/cleanepi", build_vignettes=TRUE)
+# remotes::install_github("epiverse-trace/cleanepi@develop", 
+#                         build_vignettes=TRUE)
 library(cleanepi)
 ```
 
@@ -36,7 +37,6 @@ library(cleanepi)
 
 ``` r
 browseVignettes("cleanepi")
-#> No vignettes found by browseVignettes("cleanepi")
 ```
 
 ## Description
@@ -52,8 +52,8 @@ browseVignettes("cleanepi")
 
 ## Next steps
 
-build function to display the cleaning report  
-build function to perform dictionary based cleaning
+- build function to display the cleaning report
+- build function to perform dictionary based cleaning
 
 ### Lifecycle
 
