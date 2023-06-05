@@ -80,6 +80,8 @@ check_date_sequence <- function(data, event_cols, remove_bad_seq = FALSE,
     report$incorrect_date_sequence$date_sequence <-
       glue::glue_collapse(event_cols, sep = " < ")
     report$incorrect_date_sequence$bad_sequence <- tmp_data
+  } else {
+    report = NULL
   }
 
   list(
