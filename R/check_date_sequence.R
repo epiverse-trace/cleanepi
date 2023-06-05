@@ -76,11 +76,10 @@ check_date_sequence <- function(data, event_cols, remove_bad_seq = FALSE,
   if (length(bad_order) > 0) {
     if (!("incorrect_date_sequence" %in% names(report))) {
       report$incorrect_date_sequence <- list()
-      report$incorrect_date_sequence$date_sequence <-
-        glue::glue_collapse(event_cols, sep = " < ")
-      report$incorrect_date_sequence$bad_sequence <- tmp_data
     }
-
+    report$incorrect_date_sequence$date_sequence <-
+      glue::glue_collapse(event_cols, sep = " < ")
+    report$incorrect_date_sequence$bad_sequence <- tmp_data
   }
 
   list(
