@@ -137,8 +137,8 @@ clean_data <- function(data,
     report,
     error_tolerance = params$error_tolerance
   )
-  report <- dat[[2]]
-  report <- report_cleaning(data, dat[[1]], state = "standardize_date",
+  report <- dat$report
+  report <- report_cleaning(data, dat$data, state = "standardize_date",
                            report = report)
   data <- dat[[1]]
 

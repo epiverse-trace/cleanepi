@@ -64,7 +64,6 @@ If \code{check_timeframe = TRUE} and \code{timeframe = NULL}, the timeframe will
 today's date and the same date 50 years before
 }
 \examples{
-\dontrun{
 cleaned_data <- clean_data(
 data = data.table::fread(system.file("extdata", "test.txt",
 package = "cleanepi")),
@@ -83,6 +82,5 @@ params = list(
   range = c(1, 100)
   )
 )
-}
 
 }

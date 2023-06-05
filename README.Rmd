@@ -57,8 +57,140 @@ browseVignettes("cleanepi")
 | **check_date_sequence** | check whether the sequence of event dates is correct |
 | **WIP** | work in progress |
 
+The main function in **cleanepi** is `clean_data()`. It makes call of almost all the other exported functions, which can also be called independently to perform a specific cleaning task. 
+
+Most functions **cleanepi** will return a list with 2 elements:   
+1. the processed input data (could be modified or not)
+2. a report object returned as list. 
+
+## GENERAL DATA CLEANING
+The example below performs the following data cleaning operations on the input dataset based on the following criteria:  
+
+1. removal of any duplicated line across all columns (`remove_duplicates = TRUE`; `duplicates_from = NULL`)
+2. replacement of the missing character `-99` by `NA` (`replace_missing = TRUE`; `na_comes_as = "-99"`)
+3. conversion of any `character` column into `Date` if the 50% or more of its values turn out to be dates. Dates not within the specified time frame will be considered as outliers and replaced by `NA` (`check_timeframe = TRUE`; `timeframe = as.Date(c("1973-05-29", "2023-05-29"))`; `error_tolerance = 0.5`)
+4. Checking if the subject IDs comply with the expected format (`subject_id_col_name = "study_id"`; `subject_id_format = "PS000P2"`; `prefix = "PS"`; `suffix = "P2"`; `range = c(1, 100)`). This will detect and remove the rows where the format of the subject IDs are incorrect.
+5. The other cleaning operations, mentioned above, will be automatically applied to the input dataset. 
+
+```{r eval=TRUE}
+# READING IN THE TEST DATASET
+test_data <- data.table::fread(
+  system.file("extdata", "test.txt", package = "cleanepi")
+  )
+
+# VISUALISE THE INPUT DATASET
+print(test_data)
+
+# DEFINING THE CLEANING PARAMETERS
+params <- list(
+  remove_duplicates = TRUE,
+  duplicates_from = NULL,
+  replace_missing = TRUE,
+  na_comes_as = "-99",
+  check_timeframe = TRUE,
+  timeframe = as.Date(c("1973-05-29", "2023-05-29")),
+  error_tolerance = 0.5,
+  subject_id_col_name = "study_id",
+  subject_id_format = "PS000P2",
+  prefix = "PS",
+  suffix = "P2",
+  range = c(1, 100)
+  )
+
+# PERFORMING THE DATA CLEANING
+res <- clean_data(
+  data = test_data,
+  params = params
+)
+
+cleaned_data <- res$data
+cleaning_report <- res$report
+
+# VISUALISE THE CLEANED DATASET
+print(cleaned_data)
+```
+Note that a function to visualize the report from the data cleaning will be built soon.  
+
+## SPECIFIC DATA CLEANING TASKS
+The examples in this section show how to use the individual data cleaning functions.
+
+### CHECKING IF THE SUBJECT IDs COMPLY WITH THE EXPECTED FORMAT
+
+Below, we will inspect for subject IDs with incorrect format, report them, but without removing them from the input data (`remove = FALSE`).    
+The `report` argument can take a report object from the `clean_data()` function for example or another function in **cleanepi** that returns a report along with the processed data.
+
+```{r eval=TRUE}
+# DETECTING INCORRECT SUBJECT IDs
+dat <- check_subject_ids(
+  data = test_data,
+  id_column_name = "study_id",
+  format = "PS000P2",
+  prefix = "PS",
+  suffix = "P2",
+  range = c(1,100),
+  remove = FALSE,
+  verbose = TRUE,
+  report = list()
+)
+
+# VISUALISE THE REPORT
+dat$report
+```
+
+### STANDARDIZING DATE COLUMN
+This example shows how to convert a character column into date when it contains date values. 
+If known, users can specify the date format in the target with the `format` argument. Otherwise, the function will automatically infer the date format and perform the conversion adequately.
+
+```{r eval=TRUE}
+dat <- standardize_date(
+  data = test_data,
+  date_column_name = "date_first_pcr_positive_test",
+  format = NULL,
+  timeframe = NULL,
+  check_timeframe = FALSE,
+  report = list(),
+  error_tolerance = 0.5
+)
+
+print(dat$data)
+```
+
+### CALCULATE AGE
+
+Given a date column column and a reference date, we can use the function in the example below to calculate individual ages in either years, months, weeks, or days.    
+Note the creation of new column(s) in the output data frame.
+
+```{r eval=TRUE}
+# CALCULATE INDIVIDUAL AGES IN MONTHS USING TODAY'S DATE AS REFERENCE
+dat <- calculate_age(
+  data = test_data,
+  date_column_name = "dateOfBirth",
+  end_date = Sys.Date(),
+  age_in = "months"
+)
+
+print(dat)
+```
+
+### CHECK DATE SEQUENCE
+
+In this section, we are checking whether the sequence of dates is respected in the specified columns.    
+Set `remove_bad_seq = TRUE` if you wish to remove the detected rows with incorrect date sequence.
+
+```{r eval=TRUE}
+good_date_sequence <- check_date_sequence(
+  data = test_data,
+  event_cols = c("date_first_pcr_positive_test", "date.of.admission"),
+  remove_bad_seq = FALSE,
+  report = list()
+)
+
+print(good_date_sequence$report)
+```
+
 
 ## Next steps
+
 * build function to display the cleaning report
 * build function to perform dictionary based cleaning
 

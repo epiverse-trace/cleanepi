@@ -5,14 +5,17 @@
 #'
 #' @param data the input data frame
 #' @param event_cols a vector or a comma-separated list of the event columns
-#' names. Users should specify at least 2 column names in the expected order.
-#' For example: event_cols = c("DS", "DH", "DD") where DS=date of the symptoms
-#' onset, DH=date of hospitalization, DD=date of death
+#'    names. Users should specify at least 2 column names in the expected order.
+#'    For example: event_cols = c("DS", "DH", "DD") where DS=date of the
+#'    symptoms onset, DH=date of hospitalization, DD=date of death
 #' @param remove_bad_seq a Boolean to specify if rows with incorrect order
-#' should be filtered out or not. default is FALSE
+#'    should be filtered out or not. default is FALSE
+#' @param report the object that will contains details about the result from the
+#'    date columns standardization
 #'
 #' @returns rows of the input data frame with incorrect date sequence
-#' if `remove_bad_seq = FALSE`, the input data frame without those rows if not
+#'    if `remove_bad_seq = FALSE`, the input data frame without those
+#'    rows if not
 #' @export
 #'
 #' @examples
@@ -20,9 +23,11 @@
 #' data = data.table::fread(system.file("extdata", "test.txt",
 #' package = "cleanepi")),
 #' event_cols = c("date_first_pcr_positive_test", "date.of.admission"),
-#' remove_bad_seq = FALSE
+#' remove_bad_seq = FALSE,
+#' report = list()
 #' )
-check_date_sequence <- function(data, event_cols, remove_bad_seq = FALSE) {
+check_date_sequence <- function(data, event_cols, remove_bad_seq = FALSE,
+                                report = list()) {
   checkmate::assert_vector(event_cols, any.missing = FALSE, min.len = 1,
                            null.ok = FALSE, unique = TRUE)
   checkmate::assert_data_frame(data, null.ok = FALSE)
@@ -62,12 +67,24 @@ check_date_sequence <- function(data, event_cols, remove_bad_seq = FALSE) {
     tmp_data <- data[bad_order, ]
     if (remove_bad_seq) {
       data <- data[-bad_order, ]
-      warning(length(bad_order), " incorrect date sequences detected at line ",
-              glue::glue_collapse(bad_order, sep = ", "), " were removed.")
-    } else {
-      message("Found the following incorrect date sequence order:\n")
-      print(tmp_data)
     }
+    warning(length(bad_order),
+    "incorrect date sequences were detected and removed")
   }
-  data
+
+  # making the report
+  if (length(bad_order) > 0) {
+    if (!("incorrect_date_sequence" %in% names(report))) {
+      report$incorrect_date_sequence <- list()
+      report$incorrect_date_sequence$date_sequence <-
+        glue::glue_collapse(event_cols, sep = " < ")
+      report$incorrect_date_sequence$bad_sequence <- tmp_data
+    }
+
+  }
+
+  list(
+    data = data,
+    report = report
+  )
 }

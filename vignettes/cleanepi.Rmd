@@ -1,6 +1,6 @@
 ---
 title: "cleanepi"
-output: rmarkdown::html_vignette
+output: rmarkdown::html_vignette(df_print = "kable")
 vignette: >
   %\VignetteIndexEntry{cleanepi}
   %\VignetteEngine{knitr::rmarkdown}
