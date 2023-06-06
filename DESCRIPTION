@@ -22,7 +22,6 @@ Remotes:
 RoxygenNote: 7.2.3
 Roxygen: list(markdown = TRUE)
 Suggests: 
-    covr,
     knitr,
     rmarkdown,
     testthat (>= 3.0.0)
