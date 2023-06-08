@@ -1,10 +1,10 @@
 ---
-title: "cleanepi"
-output: rmarkdown::html_vignette(df_print = "kable")
-vignette: >
-  %\VignetteIndexEntry{cleanepi}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+title: "cleanepi: Clean and standardize epidemiological data" 
+output: rmarkdown::html_vignette
+vignette: > 
+  %\\VignetteIndexEntry{cleanepi} 
+  %\\VignetteEngine{knitr::rmarkdown} 
+  %\\VignetteEncoding{UTF-8} 
 ---
 
 ```{r, include = FALSE}
@@ -14,26 +14,41 @@ knitr::opts_chunk$set(
 )
 ```
 
+
+## An overview
+
+
+
+No matter how many measures are taken, one must always expect  messy data from the real-world, with duplicates, errors, incomplete,  or  irrelevant formats. Data cleansing is an essential step in data analysis;  it allows to produce accurate, reliable and reproducible results. However, data cleaning is a significant barrier in data analysis because it takes a long time to complete. 
+
+**cleanepi** is an R package to clean, curate, and standardize epidemiological data. It performs several data cleaning tasks that an end-user would anticipate to be performed on a cluttered dataset. 
+
+**cleanepi** is specifically designed for epidemiological data, and works with dataframe-like data structure. This vignette provides a detailed description the  functions included in the package and how to use them. 
+
 ```{r setup}
 library(cleanepi)
 ```
 
-## Clean input data
-After importing a dataset into R, use the `clean_data()` function to apply some checks on it. These involve:        
 
-1. cleaning the column names     
-2. replacing characters that represent missing data with `NA`   
-3. removing empty rows and columns    
-4. removing constant columns i.e. columns with the same value across all rows   
-5. removing duplicated rows across all columns or some specific columns    
-6. converting character columns into date if the column actually contains date values at a specific extent (default is 90% of the values are date)
-7. detecting and removing rows where the subject IDs do not comply with the expected format       
 
-The functions returns a list of 2 objects:    
-1. the cleaned dataset.    
-2. a list with the outputs from all the data cleaning steps. Note that only steps where the input dataset was modified will have a reported element in that list.    
 
-A function to generate a report (ideally in a form of a HTML file or dashboard) will be defined later.      
+
+## General data cleansing tasks
+
+The main function in **cleanepi** is `clean_data()` that can perform the following tasks:
+
+1.  Clean up column names and convert them to more sensible formats. This includes many sub-tasks such as changing a space, dot, or hyphen between two words with underscore; converting capital cases to small cases; substituting foreign characters with their corresponding English characters; and splitting a long word into multiple short words by capital characters within, if any, and connecting them with underscores.
+2. Remove  empty rows and columns.
+3. Remove constant columns, i.e., columns with the same value across all rows.
+4. Replace missing entries with `NA`.
+5.  Remove duplicated (across all columns or some specific columns) rows.
+6.  Convert character columns into date if the column actually contains date values at a specific extent (default is 90% of the values are date).
+7.  Detect and remove rows with subject IDs that do not comply with the expected format.
+
+The function `clean_data()` returns a list of 2 objects:\
+1. a dataframe with the cleaned data\
+2. a list with  reports for all the actions  performed on the given dataset.
+
 
 ```{r eval=FALSE}
 # IMPORTING THE TEST DATASET
