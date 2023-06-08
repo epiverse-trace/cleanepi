@@ -13,7 +13,9 @@
 #'   \item `remove_duplicates`: whether to detect duplicated records or not.
 #'         default is TRUE
 #'   \item `duplicates_from`: a vector of columns names to use when looking for
-#'         duplicates. Only used when `remove_duplicates=TRUE`
+#'         duplicates. When the input data is a `linelist` object, this
+#'         parameter can be set to `tags` if you wish to look for duplicates on
+#'         tagged variables. Only used when `remove_duplicates=TRUE`
 #'   \item `replace_missing`: whether to replace the missing value characters
 #'         with NA or not. default is FALSE
 #'   \item `na_comes_as`: the characters that represent the missing values in
@@ -116,8 +118,7 @@ clean_data <- function(data,
   if (params$remove_duplicates) {
     R.utils::cat("\nremoving duplicated rows")
     if (!is.null(params$duplicates_from)) {
-      dat <- data %>% dplyr::distinct(dplyr::pick(params$duplicates_from),
-                                      .keep_all = TRUE)
+      dat <- remove_duplicates(data, params$duplicates_from)
     } else {
       dat <- data %>% dplyr::distinct()
     }

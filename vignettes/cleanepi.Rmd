@@ -1,13 +1,24 @@
 ---
+<<<<<<< HEAD
 title: "cleanepi: Clean and standardize epidemiological data" 
 output: rmarkdown::html_vignette
 vignette: > 
   %\\VignetteIndexEntry{cleanepi} 
   %\\VignetteEngine{knitr::rmarkdown} 
   %\\VignetteEncoding{UTF-8} 
+=======
+title: "cleanepi"
+output: 
+  rmarkdown::html_vignette:
+    df_print: "kable"
+vignette: >
+  %\VignetteIndexEntry{cleanepi}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+>>>>>>> 6163c8836a2865fcddd8811f4ed17a0ce56eb2ad
 ---
 
-```{r, include = FALSE}
+```{r, include = FALSE} 
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
