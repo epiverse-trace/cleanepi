@@ -1,5 +1,5 @@
 ---
-title: "cleanepi"
+title: "cleanepi: Clean and standardize epidemiological data"
 output: 
   rmarkdown::html_vignette:
     df_print: "kable"
@@ -16,7 +16,6 @@ knitr::opts_chunk[["set"]](collapse = TRUE, comment = "#>", eval = FALSE,
 row_id <- group_id <- NULL
 ```
 
-
 ## An overview
 
 No matter how many measures are taken, one must always expect  messy data from the real-world, with duplicates, errors, incomplete,  or  irrelevant formats. Data cleaning is an essential step in data analysis. It allows to produce accurate, reliable and reproducible results. However, data cleaning is a significant barrier in data analysis because it takes a long time to complete. 
@@ -26,8 +25,8 @@ No matter how many measures are taken, one must always expect  messy data from t
 **{cleanepi}** is specifically designed for epidemiological data, and works with data frame-like data structure. This vignette provides a detailed description of the functions included in the package and how to use them. 
 
 ```{r setup, eval=TRUE}
-library("cleanepi") # nolint
-library("magrittr") # nolint
+library("cleanepi")
+library("magrittr")
 ```
 
 ## General data cleaning tasks
@@ -39,13 +38,14 @@ The main function in **{cleanepi}** is `clean_data()` that can perform the follo
 3. Remove empty rows and columns.   
 4. Remove constant columns, i.e. columns with the same value across all rows.   
 5. Replace missing entries with `NA`. 
-6. Scanning the input dataset and determine the proportion of missing, numeric, character, and date values in each column.
-7. Checking for the uniqueness of the subject IDs.
-8. Remove duplicated rows (across all columns or some specific columns).   
-9. Convert `character` columns into `Date` if the column actually contains values of type `Date` to some extent (default is 50% of the values are `Date`).
-10. Detect and remove rows with subject IDs that do not comply with the expected format.
+6. Checking for the uniqueness of the subject IDs.
+7. Remove duplicated rows (across all columns or some specific columns).   
+8. Convert `character` columns into `Date` if the column actually contains values of type `Date` to some extent (default is 50% of the values are `Date`).
+9. Detect and remove rows with subject IDs that do not comply with the expected format.
+10. Perform dictionary-based cleaning: replace keys in specific columns with their corresponding values stored in a data dictionary file, replace misspelled values with their most closest values from the dictionary.
 
-```{r eval=TRUE, comment="read_input"}
+
+```{r eval=FALSE}
 # IMPORTING THE TEST DATASET
 test_data <- readRDS(system.file("extdata", "test_df.RDS",
                                  package = "cleanepi"))
