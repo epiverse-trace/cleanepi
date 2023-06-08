@@ -1,13 +1,15 @@
 ---
 title: "cleanepi"
-output: rmarkdown::html_vignette(df_print = "kable")
+output: 
+  rmarkdown::html_vignette:
+    df_print: "kable"
 vignette: >
   %\VignetteIndexEntry{cleanepi}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
+```{r, include = FALSE} 
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
