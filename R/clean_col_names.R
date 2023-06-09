@@ -12,7 +12,6 @@
 #'
 clean_col_names <- function(x, report = list(), keep = NULL) {
   original_names <- col_names <- colnames(x)
-
   # in case the user wants to keep some column names as they are,
   # they should be provided as value for the keep arguments.
   # here we will make sure to spare those column names from been modified

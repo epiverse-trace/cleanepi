@@ -19,12 +19,13 @@ report_cleaning <- function(original, modified,
   if (is.null(report)) {
     report <- list()
   }
-  report <- switch(state,
-                   "remove_empty" = report_remove_empty(report, state, original, modified), # nolint: keyword_quote_linter
-                   "remove_constant" = report_remove_constant(state, original, modified, # nolint: keyword_quote_linter
-                                                              report),
-                   "remove_dupliates" = report_remove_dups(report, state, original, modified), # nolint: keyword_quote_linter
-                   "standardize_date" = report_dates(report, state, original, modified) # nolint: keyword_quote_linter
+  report <- switch(
+    state,
+    remove_empty     = report_remove_empty(report, state, original, modified),
+    remove_constant  = report_remove_constant(state, original, modified,
+                                                report),
+    remove_dupliates = report_remove_dups(report, state, original, modified),
+    standardize_date = report_dates(report, state, original, modified)
   )
   report
 }
@@ -47,13 +48,13 @@ report_cleaning <- function(original, modified,
 report_remove_empty <- function(report, state, original, modified) {
   cols <- rows <- NULL
   idx <- which(!(names(original) %in% names(modified)))
-  if (length(idx) > 0L) {
+  if (length(idx) > 0) {
     cols <- names(original)[idx]
   }
 
-  if (nrow(summary(arsenal::comparedf(original, modified))[["obs.table"]]) > 0L) { # nolint: line_length_linter
+  if (nrow(summary(arsenal::comparedf(original, modified))$obs.table) > 0) {
     rows <-
-      summary(arsenal::comparedf(original, modified))[["obs.table"]][["observation"]] # nolint: line_length_linter
+      summary(arsenal::comparedf(original, modified))$obs.table$observation
   }
 
   if (!is.null(cols)) {

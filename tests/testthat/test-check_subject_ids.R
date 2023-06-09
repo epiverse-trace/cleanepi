@@ -1,14 +1,15 @@
 test_that("check_subject_ids works as expected", {
   dat <- check_subject_ids(
-    data = readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi")),
+    data           = readRDS(system.file("extdata", "test_df.RDS",
+                                         package = "cleanepi")),
     id_column_name = "study_id",
-    format = "PS000P2",
-    prefix = "PS",
-    suffix = "P2",
-    range = c(1L, 100L),
-    remove = FALSE,
-    verbose = TRUE,
-    report = list()
+    format         = "PS000P2",
+    prefix         = "PS",
+    suffix         = "P2",
+    range          = c(1L, 100L),
+    remove         = FALSE,
+    verbose        = TRUE,
+    report         = list()
   )
   expect_type(dat, "list")
 })
