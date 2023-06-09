@@ -55,7 +55,7 @@
 #' If `check_timeframe = TRUE` and `timeframe = NULL`, the timeframe will be
 #' today's date and the same date 50 years before.
 #'
-#' in `clean_data()`, duplicated rows will be identified across the
+#' In `clean_data()`, duplicated rows will be identified across the
 #' user-specified or all columns. Once detected, all occurrences of the
 #' duplicated rows will be removed except the first. If you only need to find
 #' and remove specific duplicates, use the `find_duplicates()` then
@@ -167,6 +167,36 @@ clean_data <- function(data,
 
   ## -----
   ## | The uniqueness of the IDs is checked here to ensure that there is no
+  ## | redundant subject ID.
+  ## -----
+  stopifnot("'subject_id_col_name' must be provided in the list of cleaning
+            parameters." = !is.null(params[["subject_id_col_name"]]))
+  R.utils::cat("\nchecking for subject IDs uniqueness")
+  dat <- check_ids_uniqueness(
+    data        = data,
+    id_col_name = params[["subject_id_col_name"]],
+    report      = report
+  )
+  report <- dat[["report"]]
+  data   <- dat[["data"]]
+
+  ## -----
+  ## | The existence of duplicated records can be genuine. But duplication is
+  ## | generally introduced by mistake. We looks for and remove duplicates to
+  ## | minimise potential issues during data analysis. When no column is
+  ## | provided, duplicates are identified across all column. Otherwise, the
+  ## | duplicates will only be considered from the specified columns.
+  ## -----
+  R.utils::cat("\nremoving duplicated rows")
+  if (params[["remove_duplicates"]]) {
+    dat    <- remove_duplicates(data, params[["target_columns"]],
+                                remove = NULL, report)
+    data   <- dat[["data"]]
+    report <- dat[["report"]]
+  }
+
+  ## -----
+  ## | The uniqueness of the IDs is checked here to ensure that there is no
   ## | redundant sample ID.
   ## -----
   stopifnot("'subject_id_col_name' must be provided in the list of cleaning
@@ -241,13 +271,8 @@ clean_data <- function(data,
   report  <- tmp_res[["report"]]
 
 
-
   # this is where to call the reporting function
-  timeframe <- params[["timeframe"]]
-  report[["params"]] <- as.data.frame(do.call(rbind, params)) %>%
-    dplyr::rename("value1" = "V1", "value2" = "V2") # nolint: keyword_quote_linter
-  report[["params"]][which(rownames(report[["params"]]) == "timeframe"), ] <-
-    as.character(timeframe)
+  report[["params"]] <- params
 
   # return the final object
   list(
