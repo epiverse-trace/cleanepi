@@ -6,7 +6,7 @@ test_that("check_subject_ids works as expected", {
     format = "PS000P2",
     prefix = "PS",
     suffix = "P2",
-    range = c(1,100),
+    range = c(1, 100),
     remove = FALSE,
     verbose = TRUE,
     report = list()

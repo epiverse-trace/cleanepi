@@ -10,12 +10,17 @@
 #' @param params a list of parameters that define what cleaning operations will
 #'    be applied on the input data. Possible parameters are:
 #' \enumerate{
-#'   \item `remove_duplicates`: whether to detect duplicated records or not.
-#'         default is TRUE
-#'   \item `duplicates_from`: a vector of columns names to use when looking for
-#'         duplicates. When the input data is a `linelist` object, this
-#'         parameter can be set to `tags` if you wish to look for duplicates on
-#'         tagged variables. Only used when `remove_duplicates=TRUE`
+#'   \item `remove_duplicates`: whether to remove duplicated records or not. If
+#'        `TRUE`, the `remove` argument of the `remove_duplicate()` function
+#'        will automatically be set to `-1` i.e. to keep only the first instance
+#'        of duplicated rows.
+#'        When the user only needs to detect duplicated rows in the dataset, use
+#'        the `find_duplicates()` function.
+#'   \item `duplicates_from`: a vector of columns names or indices to consider
+#'        when looking for duplicates. When the input data is a `linelist`
+#'        object, this parameter can be set to `tags` if you wish to look for
+#'        duplicates across the tagged variables only. Only used when
+#'        `remove_duplicates=TRUE`
 #'   \item `replace_missing`: whether to replace the missing value characters
 #'         with NA or not. default is FALSE
 #'   \item `na_comes_as`: the characters that represent the missing values in
@@ -48,7 +53,7 @@
 #'
 #' @details
 #' If `check_timeframe = TRUE` and `timeframe = NULL`, the timeframe will be
-#' today's date and the same date 50 years before
+#' today's date and the same date 50 years before.
 #'
 #' @examples
 #' cleaned_data <- clean_data(
@@ -61,7 +66,7 @@
 #'   na_comes_as = "-99",
 #'   check_timeframe = TRUE,
 #'   timeframe = as.Date(c("1973-05-29", "2023-05-29")),
-#'   error_tolerance = 0.1,
+#'   error_tolerance = 0.5,
 #'   subject_id_col_name = "study_id",
 #'   subject_id_format = "PS000P2",
 #'   prefix = "PS",
@@ -77,7 +82,7 @@ clean_data <- function(data,
                                      na_comes_as = NULL,
                                      check_timeframe = TRUE,
                                      timeframe = NULL,
-                                     error_tolerance = 0.1,
+                                     error_tolerance = 0.5,
                                      subject_id_col_name = NULL,
                                      subject_id_format = NULL,
                                      prefix = "PS",
@@ -91,10 +96,13 @@ clean_data <- function(data,
   report <- list()
   # clean the column names based on janitor package
   R.utils::cat("\ncleaning column names")
-  data <- clean_col_names(data)
+  res <- clean_col_names(data, report)
+  data <- res$data
+  report <- res$report
 
   # replace missing values with NA
   if (params$replace_missing) {
+    R.utils::cat("\nreplacing missing values with NA")
     for (cols in names(data)) {
       data <- replace_missing_char(data, cols, params$na_comes_as)
     }
@@ -114,21 +122,18 @@ clean_data <- function(data,
                            report = report)
 
   # remove duplicated records
+  R.utils::cat("\nremoving duplicated rows")
   data <- dat
   if (params$remove_duplicates) {
-    R.utils::cat("\nremoving duplicated rows")
-    if (!is.null(params$duplicates_from)) {
-      dat <- remove_duplicates(data, params$duplicates_from)
-    } else {
-      dat <- data %>% dplyr::distinct()
-    }
+    dat <- remove_duplicates(data, params$duplicates_from,
+                             remove = -1, report)
+    data <- dat$data
+    report <- dat$report
   }
-  report <- report_cleaning(data, dat, state = "remove_dupliates",
-                           report = report)
+
 
   # standardize date columns
   R.utils::cat("\nstandardising date columns")
-  data <- dat
   dat <- standardize_date(
     data = data,
     date_column_name = NULL,
@@ -144,8 +149,8 @@ clean_data <- function(data,
   data <- dat[[1]]
 
   # check the subject IDs
-  R.utils::cat("\nchecking subject IDs format")
   if (!is.null(params$subject_id_format)) {
+    R.utils::cat("\nchecking subject IDs format")
     tmp_res <- check_subject_ids(data = data,
                              id_column_name = params$subject_id_col_name,
                              format = params$subject_id_format,
@@ -157,10 +162,12 @@ clean_data <- function(data,
     report <- tmp_res[[2]]
   }
 
-
   # this is where to call the reporting function
+  timeframe <- params$timeframe
   report$params <- as.data.frame(do.call(rbind, params)) %>%
     dplyr::rename("value1" = "V1", "value2" = "V2")
+  report$params[which(rownames(report$params) == "timeframe"), ] <-
+    as.character(timeframe)
 
   # return the final object
   list(

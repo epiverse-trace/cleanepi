@@ -5,7 +5,7 @@ report_cleaning <- function(original, modified,
     report <- list()
   }
   report <- switch(state,
-    "empty_remove" = report_remove_empty(report, state, original, modified),
+    "remove_empty" = report_remove_empty(report, state, original, modified),
     "remove_constant" = report_remove_constant(state, original, modified,
                                                 report),
     "remove_dupliates" = report_remove_dups(report, state, original, modified),
@@ -15,22 +15,30 @@ report_cleaning <- function(original, modified,
 }
 
 report_remove_empty <- function(report, state, original, modified) {
-  report[[state]] <- list()
-  report[[state]]$columns <- report[[state]]$rows <- NULL
-
+  cols <- rows <- NULL
   idx <- which(!(names(original) %in% names(modified)))
   if (length(idx) > 0) {
-    report[[state]]$columns <- names(original)[idx]
+    cols <- names(original)[idx]
   }
 
   if (nrow(summary(arsenal::comparedf(original, modified))$obs.table) > 0) {
-    report[[state]]$rows <-
+    rows <-
       summary(arsenal::comparedf(original, modified))$obs.table$observation
   }
 
-  if (is.null(report[[state]]$columns) && is.null(report[[state]]$rows)) {
-    report[[state]] <- NULL
+  if (!is.null(cols)) {
+    report[[state]] <- list()
+    report[[state]][["columns"]] <- cols
   }
+  if (!is.null(rows)) {
+    if (state %in% names(report)) {
+      report[[state]][["rows"]] <- rows
+    } else {
+      report[[state]] <- list()
+      report[[state]][["rows"]] <- rows
+    }
+  }
+
   report
 }
 

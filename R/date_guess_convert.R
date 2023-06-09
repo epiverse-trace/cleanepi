@@ -17,6 +17,7 @@ date_guess_convert <- function(data, error_tolerance = error_tolerance,
   are_POSIX      <- which(grepl("^POSIX", col_types, fixed = TRUE))
   are_characters <- which(col_types == "character")
   are_factors    <- which(col_types == "factor")
+  are_dates      <- which(col_types == "Date")
 
   # convert POSIX to date
   for (i in are_POSIX) {
@@ -35,7 +36,7 @@ date_guess_convert <- function(data, error_tolerance = error_tolerance,
   if (!("standardize_date" %in% names(report))) {
     report[["standardize_date"]] <- list()
   }
-  for (i in c(are_characters, are_factors)) {
+  for (i in c(are_characters, are_factors, are_dates, are_POSIX)) {
     tmp_data <- guess_dates(data[[i]], error_tolerance = error_tolerance,
                             first_date, last_date,
                             orders = list(world_named_months = c("Ybd", "dby"),
