@@ -56,9 +56,10 @@ The main function in **cleanepi** is `clean_data()`. It makes call of
 almost all the other exported functions, which can also be called
 independently to perform a specific cleaning task.
 
-Most functions **cleanepi** will return a list with 2 elements:  
-1. the processed input data (could be modified or not) 2. a report
-object returned as list.
+Most functions **cleanepi** will return a list with 2 elements:
+
+1.  the processed input data (could be modified or not).  
+2.  a report object returned as list.
 
 ## GENERAL DATA CLEANING
 
