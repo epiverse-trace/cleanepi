@@ -48,6 +48,8 @@ browseVignettes("cleanepi")
 | **standardize_date**    | convert date column into *%Y-%m-%d*                                                                                                                                                                   |
 | **calculate_age**       | calculate age from date column. Returned age can be in either *years*, or *months*, or *weeks*, or *days* or a combination of some of these                                                           |
 | **check_date_sequence** | check whether the sequence of event dates is correct                                                                                                                                                  |
+| **find_duplicates**     | detect and return duplicated rows from the input dataset                                                                                                                                              |
+| **remove_duplicates**   | remove detected duplicated rows                                                                                                                                                                       |
 | **WIP**                 | work in progress                                                                                                                                                                                      |
 
 The main function in **cleanepi** is `clean_data()`. It makes call of
@@ -135,6 +137,7 @@ res <- clean_data(
 )
 #> 
 #> cleaning column names
+#> replacing missing values with NA
 #> removing empty rows and columns
 #> removing constant columns
 #> removing duplicated rows
@@ -146,14 +149,22 @@ cleaning_report <- res$report
 
 # VISUALISE THE CLEANED DATASET
 print(cleaned_data)
-#>    study_id date_of_admission date_of_birth date_first_pcr_positive_test sex
-#> 1:  PS001P2        2020-12-01          <NA>                   2020-12-01   1
-#> 2:  PS002P2        2021-01-28          <NA>                   2021-01-01   1
-#> 3:  PS003P2        2021-02-11          <NA>                   2021-02-01   1
-#> 4:  PS006P2        2021-02-17          <NA>                   2021-05-02   2
-#> 5:  PS008P2        2021-02-22    1976-05-10                   2021-09-20   2
-#> 6:  PS010P2        2021-03-02    1991-09-23                   2021-02-26   1
-#> 7:  PS011P2        2021-03-05    1991-08-02                   2021-03-03   2
+#>    study_id date.of.admission dateOfBirth date_first_pcr_positive_test sex
+#> 1:  PS001P2        2020-12-01        <NA>                   2020-12-01   1
+#> 2:  PS002P2        2021-01-28        <NA>                   2021-01-01   1
+#> 3:  PS003P2        2021-02-11        <NA>                   2021-02-01   1
+#> 4:  PS006P2        2021-02-17        <NA>                   2021-05-02   2
+#> 5:  PS008P2        2021-02-22  1976-05-10                   2021-09-20   2
+#> 6:  PS010P2        2021-03-02  1991-09-23                   2021-02-26   1
+#> 7:  PS011P2        2021-03-05  1991-08-02                   2021-03-03   2
+#>    row_id
+#> 1:      1
+#> 2:      2
+#> 3:      4
+#> 4:      6
+#> 5:      8
+#> 6:      9
+#> 7:     10
 ```
 
 Note that a function to visualize the report from the data cleaning will
@@ -285,16 +296,16 @@ print(dat)
 #>  9:   PS010P2      day 0            2       Gambia        02/03/2021
 #> 10:   PS011P2      day 0            2       Gambia        05/03/2021
 #>     dateOfBirth date_first_pcr_positive_test sex age_months remainder_days
-#>  1:  1972-06-01                 Dec 01, 2020   1        612              3
-#>  2:  1952-02-20                 Jan 01, 2021   1        855             13
-#>  3:  1961-06-15                 Feb 11, 2021 -99        743             19
-#>  4:  1947-11-11                 Feb 01, 2021   1        906             23
-#>  5:  2000-09-26                 Feb 16, 2021   2        272              8
+#>  1:  1972-06-01                 Dec 01, 2020   1        612              7
+#>  2:  1952-02-20                 Jan 01, 2021   1        855             17
+#>  3:  1961-06-15                 Feb 11, 2021 -99        743             23
+#>  4:  1947-11-11                 Feb 01, 2021   1        906             27
+#>  5:  2000-09-26                 Feb 16, 2021   2        272             12
 #>  6:        <NA>                 May 02, 2021   2         NA             NA
-#>  7:  1989-11-03                 Feb 19, 2021   1        403              0
-#>  8:  1976-10-05                 Sep 20, 2021   2        559             29
-#>  9:  1991-09-23                 Feb 26, 2021   1        380             11
-#> 10:  1991-02-08                 Mar 03, 2021   2        387             25
+#>  7:  1989-11-03                 Feb 19, 2021   1        403              4
+#>  8:  1976-10-05                 Sep 20, 2021   2        560              3
+#>  9:  1991-09-23                 Feb 26, 2021   1        380             15
+#> 10:  1991-02-08                 Mar 03, 2021   2        387             29
 ```
 
 ### CHECK DATE SEQUENCE
