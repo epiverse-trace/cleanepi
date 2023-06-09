@@ -61,7 +61,6 @@ library(cleanepi)
 ## Quick start
 The main function in **{cleanepi}** is `clean_data(),` which internally makes call of almost all standard data cleaning functions, such as removal of empty and duplicated rows and columns, replacement of missing values, etc. However, each function can also be called independently to perform a specific  task. This mechanism is explained in details in the **vignette**. Below is typical example of how to use the `clean_data()` function. 
 
-
 ```{r eval=TRUE}
 # READING IN THE TEST DATASET
 test_data       <- readRDS(system.file("extdata", "test_df.RDS",
