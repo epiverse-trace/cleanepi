@@ -196,6 +196,7 @@ print(good_date_sequence$report)
 
 * build function to display the cleaning report
 * build function to perform dictionary based cleaning
+* build function to quantify and handle missing data
 
 
 ### Lifecycle

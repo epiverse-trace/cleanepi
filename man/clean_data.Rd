@@ -8,7 +8,7 @@ clean_data(
   data,
   params = list(remove_duplicates = FALSE, duplicates_from = NULL, replace_missing =
     FALSE, na_comes_as = NULL, check_timeframe = TRUE, timeframe = NULL, error_tolerance
-    = 0.1, subject_id_col_name = NULL, subject_id_format = NULL, prefix = "PS", suffix =
+    = 0.5, subject_id_col_name = NULL, subject_id_format = NULL, prefix = "PS", suffix =
     "P2", range = c(1, 100))
 )
 }
@@ -18,10 +18,17 @@ clean_data(
 \item{params}{a list of parameters that define what cleaning operations will
 be applied on the input data. Possible parameters are:
 \enumerate{
-\item \code{remove_duplicates}: whether to detect duplicated records or not.
-default is TRUE
-\item \code{duplicates_from}: a vector of columns names to use when looking for
-duplicates. Only used when \code{remove_duplicates=TRUE}
+\item \code{remove_duplicates}: whether to remove duplicated records or not. If
+\code{TRUE}, the \code{remove} argument of the \code{remove_duplicate()} function
+will automatically be set to \code{-1} i.e. to keep only the first instance
+of duplicated rows.
+When the user only needs to detect duplicated rows in the dataset, use
+the \code{find_duplicates()} function.
+\item \code{duplicates_from}: a vector of columns names or indices to consider
+when looking for duplicates. When the input data is a \code{linelist}
+object, this parameter can be set to \code{tags} if you wish to look for
+duplicates across the tagged variables only. Only used when
+\code{remove_duplicates=TRUE}
 \item \code{replace_missing}: whether to replace the missing value characters
 with NA or not. default is FALSE
 \item \code{na_comes_as}: the characters that represent the missing values in
@@ -61,7 +68,7 @@ certain number of Date values, detecting subject IDs with wrong format
 }
 \details{
 If \code{check_timeframe = TRUE} and \code{timeframe = NULL}, the timeframe will be
-today's date and the same date 50 years before
+today's date and the same date 50 years before.
 }
 \examples{
 cleaned_data <- clean_data(
@@ -74,7 +81,7 @@ params = list(
   na_comes_as = "-99",
   check_timeframe = TRUE,
   timeframe = as.Date(c("1973-05-29", "2023-05-29")),
-  error_tolerance = 0.1,
+  error_tolerance = 0.5,
   subject_id_col_name = "study_id",
   subject_id_format = "PS000P2",
   prefix = "PS",

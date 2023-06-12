@@ -12,7 +12,11 @@ vignette: >
 ```{r, include = FALSE} 
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>", 
+  eval = FALSE, 
+  fig.width = 7, 
+  fig.height = 7, 
+  fig.align = "center"
 )
 ```
 
@@ -28,7 +32,7 @@ After importing a dataset into R, use the `clean_data()` function to apply some 
 3. removing empty rows and columns    
 4. removing constant columns i.e. columns with the same value across all rows   
 5. removing duplicated rows across all columns or some specific columns    
-6. converting character columns into date if the column actually contains date values at a specific extent (default is 90% of the values are date)
+6. converting character columns into date if the column actually contains date values at a specific extent (default is 50% of the values are date)
 7. detecting and removing rows where the subject IDs do not comply with the expected format       
 
 The functions returns a list of 2 objects:    
