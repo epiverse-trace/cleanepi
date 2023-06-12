@@ -70,7 +70,7 @@ certain number of Date values, detecting subject IDs with wrong format
 If \code{check_timeframe = TRUE} and \code{timeframe = NULL}, the timeframe will be
 today's date and the same date 50 years before.
 
-in \code{clean_data()}, duplicated rows will be identified across the
+In \code{clean_data()}, duplicated rows will be identified across the
 user-specified or all columns. Once detected, all occurrences of the
 duplicated rows will be removed except the first. If you only need to find
 and remove specific duplicates, use the \code{find_duplicates()} then
