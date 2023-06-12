@@ -10,10 +10,21 @@ vignette: >
 ---
 
 ```{r, include = FALSE} 
+<<<<<<< HEAD
 knitr::opts_chunk[["set"]](collapse = TRUE, comment = "#>", eval = FALSE,
                            fig.width = 7L, fig.height = 7L,
                            fig.align = "center")
 row_id <- group_id <- NULL
+=======
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>", 
+  eval = FALSE, 
+  fig.width = 7, 
+  fig.height = 7, 
+  fig.align = "center"
+)
+>>>>>>> 433caea (update NAMESPACE after devtools::document())
 ```
 
 
