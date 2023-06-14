@@ -300,13 +300,175 @@ print(cleaned_data)
 ## Vignette
 
 ``` r
+<<<<<<< HEAD
 browseVignettes("cleanepi")
+=======
+# DETECTING INCORRECT SUBJECT IDs
+dat <- check_subject_ids(
+  data = test_data,
+  id_column_name = "study_id",
+  format = "PS000P2",
+  prefix = "PS",
+  suffix = "P2",
+  range = c(1,100),
+  remove = FALSE,
+  verbose = TRUE,
+  report = list()
+)
+#> 
+#> Sample IDs with wrong prefix:
+#> [1] "P0005P2" "PB500P2"
+#> 
+#> Sample IDs with wrong suffix:
+#> [1] "PS004P2-1"
+#> 
+#> Sample IDs with wrong incorrect length:
+#> [1] "PS004P2-1"
+#> 
+#> Sample IDs with wrong numbers:
+#> [1] "PB500P2"
+
+# VISUALISE THE REPORT
+dat$report
+#> $incorrect_subject_id
+#>     study_id event_name country_code country_name date.of.admission dateOfBirth
+#> 1:   P0005P2      day 0            2       Gambia        17/02/2021  09/26/2000
+#> 2:   PB500P2      day 0            2       Gambia        28/02/2021  11/03/1989
+#> 3: PS004P2-1      day 0            2       Gambia        15/02/2021  06/15/1961
+#>    date_first_pcr_positive_test sex
+#> 1:                 Feb 16, 2021   2
+#> 2:                 Feb 19, 2021   1
+#> 3:                 Feb 11, 2021 -99
+```
+
+### STANDARDIZING DATE COLUMN
+
+This example shows how to convert a character column into date when it
+contains date values. If known, users can specify the date format in the
+target with the `format` argument. Otherwise, the function will
+automatically infer the date format and perform the conversion
+adequately.
+
+``` r
+dat <- standardize_date(
+  data = test_data,
+  date_column_name = "date_first_pcr_positive_test",
+  format = NULL,
+  timeframe = NULL,
+  check_timeframe = FALSE,
+  report = list(),
+  error_tolerance = 0.5
+)
+
+print(dat$data)
+#>      study_id event_name country_code country_name date.of.admission
+#>  1:   PS001P2      day 0            2       Gambia        01/12/2020
+#>  2:   PS002P2      day 0            2       Gambia        28/01/2021
+#>  3: PS004P2-1      day 0            2       Gambia        15/02/2021
+#>  4:   PS003P2      day 0            2       Gambia        11/02/2021
+#>  5:   P0005P2      day 0            2       Gambia        17/02/2021
+#>  6:   PS006P2      day 0            2       Gambia        17/02/2021
+#>  7:   PB500P2      day 0            2       Gambia        28/02/2021
+#>  8:   PS008P2      day 0            2       Gambia        22/02/2021
+#>  9:   PS010P2      day 0            2       Gambia        02/03/2021
+#> 10:   PS011P2      day 0            2       Gambia        05/03/2021
+#>     dateOfBirth date_first_pcr_positive_test sex
+#>  1:  06/01/1972                   2020-12-01   1
+#>  2:  02/20/1952                   2021-01-01   1
+#>  3:  06/15/1961                   2021-02-11 -99
+#>  4:  11/11/1947                   2021-02-01   1
+#>  5:  09/26/2000                   2021-02-16   2
+#>  6:         -99                   2021-05-02   2
+#>  7:  11/03/1989                   2021-02-19   1
+#>  8:  10/05/1976                   2021-09-20   2
+#>  9:  09/23/1991                   2021-02-26   1
+#> 10:  02/08/1991                   2021-03-03   2
+```
+
+### CALCULATE AGE
+
+Given a date column column and a reference date, we can use the function
+in the example below to calculate individual ages in either years,
+months, weeks, or days.  
+Note the creation of new column(s) in the output data frame.
+
+``` r
+# CALCULATE INDIVIDUAL AGES IN MONTHS USING TODAY'S DATE AS REFERENCE
+dat <- calculate_age(
+  data = test_data,
+  date_column_name = "dateOfBirth",
+  end_date = Sys.Date(),
+  age_in = "months"
+)
+
+print(dat)
+#>      study_id event_name country_code country_name date.of.admission
+#>  1:   PS001P2      day 0            2       Gambia        01/12/2020
+#>  2:   PS002P2      day 0            2       Gambia        28/01/2021
+#>  3: PS004P2-1      day 0            2       Gambia        15/02/2021
+#>  4:   PS003P2      day 0            2       Gambia        11/02/2021
+#>  5:   P0005P2      day 0            2       Gambia        17/02/2021
+#>  6:   PS006P2      day 0            2       Gambia        17/02/2021
+#>  7:   PB500P2      day 0            2       Gambia        28/02/2021
+#>  8:   PS008P2      day 0            2       Gambia        22/02/2021
+#>  9:   PS010P2      day 0            2       Gambia        02/03/2021
+#> 10:   PS011P2      day 0            2       Gambia        05/03/2021
+#>     dateOfBirth date_first_pcr_positive_test sex age_months remainder_days
+#>  1:  1972-06-01                 Dec 01, 2020   1        612             12
+#>  2:  1952-02-20                 Jan 01, 2021   1        855             22
+#>  3:  1961-06-15                 Feb 11, 2021 -99        743             28
+#>  4:  1947-11-11                 Feb 01, 2021   1        907              2
+#>  5:  2000-09-26                 Feb 16, 2021   2        272             17
+#>  6:        <NA>                 May 02, 2021   2         NA             NA
+#>  7:  1989-11-03                 Feb 19, 2021   1        403              9
+#>  8:  1976-10-05                 Sep 20, 2021   2        560              8
+#>  9:  1991-09-23                 Feb 26, 2021   1        380             20
+#> 10:  1991-02-08                 Mar 03, 2021   2        388              4
+```
+
+### CHECK DATE SEQUENCE
+
+In this section, we are checking whether the sequence of dates is
+respected in the specified columns.  
+Set `remove_bad_seq = TRUE` if you wish to remove the detected rows with
+incorrect date sequence.
+
+``` r
+good_date_sequence <- check_date_sequence(
+  data = test_data,
+  event_cols = c("date_first_pcr_positive_test", "date.of.admission"),
+  remove_bad_seq = FALSE,
+  report = list()
+)
+#> Warning in check_date_sequence(data = test_data, event_cols =
+#> c("date_first_pcr_positive_test", : 2incorrect date sequences were detected and
+#> removed
+
+print(good_date_sequence$report)
+#> $incorrect_date_sequence
+#> $incorrect_date_sequence$date_sequence
+#> date_first_pcr_positive_test < date.of.admission
+#> 
+#> $incorrect_date_sequence$bad_sequence
+#>    study_id event_name country_code country_name date.of.admission dateOfBirth
+#> 1:  PS006P2      day 0            2       Gambia        2021-02-17         -99
+#> 2:  PS008P2      day 0            2       Gambia        2021-02-22  10/05/1976
+#>    date_first_pcr_positive_test sex
+#> 1:                   2021-05-02   2
+#> 2:                   2021-09-20   2
+>>>>>>> db3399a (update README)
 ```
 
 ## Next steps
 
+<<<<<<< HEAD
 :white_check_mark: update and create test files  
 :white_check_mark: build function to display the cleaning report
+=======
+- build function to display the cleaning report
+- build function to perform dictionary based cleaning
+- build function to quantify and handle missing data
+>>>>>>> db3399a (update README)
 
 ### Lifecycle
 
