@@ -297,16 +297,16 @@ print(dat)
 #>  9:   PS010P2      day 0            2       Gambia        02/03/2021
 #> 10:   PS011P2      day 0            2       Gambia        05/03/2021
 #>     dateOfBirth date_first_pcr_positive_test sex age_months remainder_days
-#>  1:  1972-06-01                 Dec 01, 2020   1        612              7
-#>  2:  1952-02-20                 Jan 01, 2021   1        855             17
-#>  3:  1961-06-15                 Feb 11, 2021 -99        743             23
-#>  4:  1947-11-11                 Feb 01, 2021   1        906             27
-#>  5:  2000-09-26                 Feb 16, 2021   2        272             12
+#>  1:  1972-06-01                 Dec 01, 2020   1        612             12
+#>  2:  1952-02-20                 Jan 01, 2021   1        855             22
+#>  3:  1961-06-15                 Feb 11, 2021 -99        743             28
+#>  4:  1947-11-11                 Feb 01, 2021   1        907              2
+#>  5:  2000-09-26                 Feb 16, 2021   2        272             17
 #>  6:        <NA>                 May 02, 2021   2         NA             NA
-#>  7:  1989-11-03                 Feb 19, 2021   1        403              4
-#>  8:  1976-10-05                 Sep 20, 2021   2        560              3
-#>  9:  1991-09-23                 Feb 26, 2021   1        380             15
-#> 10:  1991-02-08                 Mar 03, 2021   2        387             29
+#>  7:  1989-11-03                 Feb 19, 2021   1        403              9
+#>  8:  1976-10-05                 Sep 20, 2021   2        560              8
+#>  9:  1991-09-23                 Feb 26, 2021   1        380             20
+#> 10:  1991-02-08                 Mar 03, 2021   2        388              4
 ```
 
 ### CHECK DATE SEQUENCE
@@ -345,6 +345,7 @@ print(good_date_sequence$report)
 
 - build function to display the cleaning report
 - build function to perform dictionary based cleaning
+- build function to quantify and handle missing data
 
 ### Lifecycle
 
