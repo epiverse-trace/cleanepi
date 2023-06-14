@@ -6,39 +6,39 @@
 \title{Remove duplicates based on selected columns from a data frame
 or linelist object.}
 \usage{
-remove_duplicates(data, duplicates_from, remove = -1, report = list())
+remove_duplicates(data, target_columns, remove = NULL, report = list())
 
-remove_duplicates(data, duplicates_from, remove = -1, report = list())
+remove_duplicates(data, target_columns, remove = NULL, report = list())
 }
 \arguments{
-\item{data}{the input data frame}
-
-\item{duplicates_from}{a vector of columns names to use when looking for
-duplicates. When the input data is a \code{linelist} object, this
-parameter can be set to \code{tags} if you wish to look for duplicates on
-tagged variables. Only used when \code{remove_duplicates=TRUE}}
-
-\item{remove}{a vector of the indices of the duplicated rows to be removed.
-Default is \code{-1} i.e. to keep only the first instance of duplicated rows.}
-
-\item{report}{a list with the information about the effects of the
-cleaning steps}
+\item{data}{The input data frame.}
 
 \item{target_columns}{A vector of column names to use when looking for
 duplicates. When the input data is a \code{linelist} object, this
 parameter can be set to \code{tags} if you wish to look for duplicates on
 tagged columns.}
+
+\item{remove}{A vector of duplicate indices to be removed.
+Duplicate indices are unique identifiers for all rows in the original
+data frame or linelist that are duplicates of each other based on the
+\code{target_columns}.
+If remove = NULL (default value), the first duplicate is kept and
+the rest of the duplicates in the group are removed.}
+
+\item{report}{A list with the information about the effects of the
+cleaning steps.}
 }
 \value{
 A \code{list} with elements data (the filtered dataset) and report.
 
-a list with 2 elements: the filtered dataset and the report object
+A \code{list} with elements data (the filtered dataset) and report.
 }
 \description{
 Remove duplicates based on selected columns from a data frame
 or linelist object.
 
-Remove duplicates from a data frame or linelist object
+Remove duplicates based on selected columns from a data frame
+or linelist object.
 }
 \examples{
 no_dups <- remove_duplicates(
@@ -51,9 +51,9 @@ no_dups <- remove_duplicates(
 
 no_dups <- remove_duplicates(
   data = readRDS(system.file("extdata", "test_linelist.RDS",
-  package = "cleanepi")),
-  duplicates_from = "tags",
-  remove = -1,
+    package = "cleanepi"
+  )),
+  target_columns = "tags",
   report = list()
 )
 
