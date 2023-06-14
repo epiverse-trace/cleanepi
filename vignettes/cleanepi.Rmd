@@ -1,5 +1,9 @@
 ---
+<<<<<<< HEAD
 title: "cleanepi: Clean and standardize epidemiological data"
+=======
+title: "cleanepi"
+>>>>>>> 78dbcbd (general updates)
 output: 
   rmarkdown::html_vignette:
     df_print: "kable"
