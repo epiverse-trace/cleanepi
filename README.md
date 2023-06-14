@@ -22,6 +22,7 @@ coverage](https://codecov.io/gh/epiverse-trace/cleanepi/branch/main/graph/badge.
 **{cleanepi}** is an R package to clean, curate, and standardize
 epidemiological data.
 
+<<<<<<< HEAD
 **{cleanepi}** performs several data cleaning tasks that an end-user
 would anticipate to be performed on a cluttered dataset. These include
 standard tasks such as: removing duplicated and empty rows and columns,
@@ -36,6 +37,19 @@ formats, calculates age (in years, months, weeks, or days) from a given
 (`data.frame`, `tibble`, etc) or a `linelist` object and returns a
 processed data of the same type. It also returns an object of type
 `list` that reports the outcomes from every cleaning task.
+=======
+**cleanepi** performs several data cleaning tasks that an end-user would
+anticipate to be performed on a cluttered dataset. These include
+standard tasks such as removing duplicated and empty rows and row,
+detecting columns of constant value, replacing missing values,
+performing a sanity check on uniquely identified columns, and converting
+dates in a string to date-format. **cleanepi** can also standardize
+column entries into specified formats, calculate age (in years, months,
+weeks, or days) for a given column and reference data, and perform
+further dictionary-based cleaning operations. **cleanepi** expects input
+data in form of dataframe-like structure (`data.frame`, `tibble`, etc)
+or `linelist` object.
+>>>>>>> c2704c2 (update readme)
 
 **{cleanepi}** is developed by the
 [Epiverse-TRACE](https://data.org/initiatives/epiverse/) team at the
