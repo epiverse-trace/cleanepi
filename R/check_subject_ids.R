@@ -17,7 +17,7 @@
 #'    the input data frame with incorrect subject IDs
 #' @examples
 #' dat <- check_subject_ids(
-#' data = readRDS(system.file("extdata", "test_df.rds", package = "cleanepi")),
+#' data = readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi")),
 #' id_column_name = "study_id",
 #' format = "PS000P2",
 #' prefix = "PS",

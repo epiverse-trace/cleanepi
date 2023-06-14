@@ -1,6 +1,6 @@
 test_that("check_subject_ids works as expected", {
   dat <- check_subject_ids(
-    data = readRDS(system.file("extdata", "test_df.rds", package = "cleanepi")),
+    data = readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi")),
     id_column_name = "study_id",
     format = "PS000P2",
     prefix = "PS",
@@ -32,7 +32,7 @@ test_that("check_subject_ids fails as expected", {
 
   expect_error(
     check_subject_ids(
-      data = readRDS(system.file("extdata", "test_df.rds",
+      data = readRDS(system.file("extdata", "test_df.RDS",
                                  package = "cleanepi")),
       id_column_name = NA,
       format = "PS000P2",
@@ -49,7 +49,7 @@ test_that("check_subject_ids fails as expected", {
 
   expect_error(
     check_subject_ids(
-      data = readRDS(system.file("extdata", "test_df.rds",
+      data = readRDS(system.file("extdata", "test_df.RDS",
                                  package = "cleanepi")),
       id_column_name = c("study_id", "event_name"),
       format = "PS000P2",
@@ -66,7 +66,7 @@ test_that("check_subject_ids fails as expected", {
 
   expect_error(
     check_subject_ids(
-      data = readRDS(system.file("extdata", "test_df.rds",
+      data = readRDS(system.file("extdata", "test_df.RDS",
                                  package = "cleanepi")),
       id_column_name = "study_id",
       format = NA,
@@ -83,7 +83,7 @@ test_that("check_subject_ids fails as expected", {
 
   expect_error(
     check_subject_ids(
-      data = readRDS(system.file("extdata", "test_df.rds",
+      data = readRDS(system.file("extdata", "test_df.RDS",
                                  package = "cleanepi")),
       id_column_name = "study_id",
       format = c("PS000P2", "PS000P1"),

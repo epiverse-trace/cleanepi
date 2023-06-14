@@ -1,12 +1,4 @@
 ---
-<<<<<<< HEAD
-title: "cleanepi: Clean and standardize epidemiological data" 
-output: rmarkdown::html_vignette
-vignette: > 
-  %\\VignetteIndexEntry{cleanepi} 
-  %\\VignetteEngine{knitr::rmarkdown} 
-  %\\VignetteEncoding{UTF-8} 
-=======
 title: "cleanepi"
 output: 
   rmarkdown::html_vignette:
@@ -15,7 +7,6 @@ vignette: >
   %\VignetteIndexEntry{cleanepi}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
->>>>>>> 6163c8836a2865fcddd8811f4ed17a0ce56eb2ad
 ---
 
 ```{r, include = FALSE} 
@@ -26,31 +17,15 @@ knitr::opts_chunk$set(collapse = TRUE, comment = "#>", eval = FALSE,
 
 ## An overview
 
-
-
 No matter how many measures are taken, one must always expect  messy data from the real-world, with duplicates, errors, incomplete,  or  irrelevant formats. Data cleansing is an essential step in data analysis;  it allows to produce accurate, reliable and reproducible results. However, data cleaning is a significant barrier in data analysis because it takes a long time to complete. 
 
-**cleanepi** is an R package to clean, curate, and standardize epidemiological data. It performs several data cleaning tasks that an end-user would anticipate to be performed on a cluttered dataset. 
+**cleanepi** is an R package to clean, curate, and standardize epidemiological data. It contains functions to perform several data cleaning tasks that an end-user would anticipate to be performed on a cluttered dataset. 
 
 **cleanepi** is specifically designed for epidemiological data, and works with dataframe-like data structure. This vignette provides a detailed description the  functions included in the package and how to use them. 
 
 ```{r setup}
 library(cleanepi)
 ```
-
-
-<<<<<<< HEAD
-1. cleaning the column names     
-2. replacing characters that represent missing data with `NA`   
-3. removing empty rows and columns    
-4. removing constant columns i.e. columns with the same value across all rows   
-5. removing duplicated rows across all columns or some specific columns    
-6. converting character columns into date if the column actually contains date values at a specific extent (default is 50% of the values are date)
-7. detecting and removing rows where the subject IDs do not comply with the expected format       
-=======
->>>>>>> origin/develop
-
-
 
 ## General data cleansing tasks
 
@@ -71,7 +46,7 @@ The function `clean_data()` returns a list of 2 objects:\
 
 ```{r eval=FALSE}
 # IMPORTING THE TEST DATASET
-test_data <- readRDS(system.file("extdata", "test_df.rds",
+test_data <- readRDS(system.file("extdata", "test_df.RDS",
                                  package = "cleanepi"))
 
 # DEFINING THE DATA CLEANING PARAMETERS
