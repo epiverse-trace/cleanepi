@@ -31,9 +31,8 @@ dates in a string to date-format. **cleanepi** can also standardize
 column entries into specified formats, calculate age (in years, months,
 weeks, or days) for a given column and reference data, and perform
 further dictionary-based cleaning operations. **cleanepi** expects input
-data in form of dataframe-like structure (dataframe, tibble, and table)
-or linelist object, and returns dataframe containing cleaned data and a
-report detailing the carried-out operations.
+data in form of dataframe-like structure (`data.frame`, `tibble`, etc)
+or `linelist` object.
 
 **cleanepi** is developed by the
 [Epiverse-TRACE](https://data.org/initiatives/epiverse/) team at the
@@ -52,14 +51,6 @@ The current development version of **cleanepi** can be installed from
 library(cleanepi)
 ```
 
-## Quick start
-
-The main function in **cleanepi** is `clean_data(),` which calls
-functions for almost all standard data cleaning tasks, such as removal
-of empty and duplicated rows and columns, replacement of missing values,
-etc. However, each function can also be called independently to perform
-a specific task.
-
 ## Description
 
 | function name           | description                                                                                                                                                                                           |
@@ -72,6 +63,14 @@ a specific task.
 | **find_duplicates**     | detect and return duplicated rows from the input dataset                                                                                                                                              |
 | **remove_duplicates**   | remove detected duplicated rows                                                                                                                                                                       |
 | **WIP**                 | work in progress                                                                                                                                                                                      |
+
+## Quick start
+
+The main function in **cleanepi** is `clean_data(),` which calls
+functions for almost all standard data cleaning tasks, such as removal
+of empty and duplicated rows and columns, replacement of missing values,
+etc. However, each function can also be called independently to perform
+a specific task.
 
 `clean_data()` returns a `list` containing `data.frame` for the
 processed input data and a `list` of reports for each operation. Below

@@ -42,7 +42,7 @@ coverage](https://codecov.io/gh/epiverse-trace/cleanepi/branch/main/graph/badge.
 **cleanepi** is an R package to clean, curate, and standardize epidemiological data. 
 
 **cleanepi**  performs several data cleaning tasks that an end-user would anticipate to be performed on a cluttered dataset. These include standard tasks such as removing duplicated and empty rows and row, detecting columns of constant value, replacing missing values, performing a sanity check on uniquely identified columns, and converting dates in a string to date-format. **cleanepi** can also standardize column entries into specified formats, calculate age (in years, months, weeks, or days) for a given column and reference data, and perform further dictionary-based cleaning operations.
-**cleanepi** expects input data  in  form of  dataframe-like structure (dataframe, tibble, and table) or linelist object, and returns dataframe containing cleaned data  and a report detailing the carried-out operations. 
+**cleanepi** expects input data  in  form of  dataframe-like structure (`data.frame`, `tibble`, etc) or `linelist` object. 
 
 **cleanepi** is developed by  the [Epiverse-TRACE](https://data.org/initiatives/epiverse/) team at the Medical Research Council The Gambia unit at the London School of Hygiene and Tropical Medicine (MRCG@LSHTM).
 
@@ -58,9 +58,6 @@ The current development version of **cleanepi** can be installed from  [here](ht
 library(cleanepi)
 ```
 
-## Quick start
-The main function in **cleanepi** is `clean_data(),` which calls 
-functions for almost all standard data cleaning tasks, such as removal of empty and duplicated rows and columns, replacement of missing values, etc. However, each function can also be called independently to perform a specific  task.
 
 ## Description
 | function name | description |    
@@ -73,6 +70,11 @@ functions for almost all standard data cleaning tasks, such as removal of empty 
 | **find_duplicates** | detect and return duplicated rows from the input dataset |
 | **remove_duplicates** | remove detected duplicated rows |
 | **WIP** | work in progress |
+
+
+## Quick start
+The main function in **cleanepi** is `clean_data(),` which calls 
+functions for almost all standard data cleaning tasks, such as removal of empty and duplicated rows and columns, replacement of missing values, etc. However, each function can also be called independently to perform a specific  task.
 
 `clean_data()` returns a `list` containing `data.frame` for the  processed input data and a `list` of reports for each operation. Below is typical example of how to use `clean_data()` function. 
 
