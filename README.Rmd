@@ -62,15 +62,50 @@ library(cleanepi)
 The main function in **cleanepi** is `clean_data(),` which calls 
 functions for almost all standard data cleaning tasks, such as removal of empty and duplicated rows and columns, replacement of missing values, etc. However, each function can also be called independently to perform a specific  task.
 
+<<<<<<< HEAD
+## Description
+| function name | description |    
+| :-------------- | :---------- |   
+| **clean_data** | cleaning of column names, detecting and removing empty rows and columns as well as constant columns and duplicated rows. It also replaces missing values by NA and automatically convert date columns |      
+| **check_subject_ids** | check whether the IDs comply with the expected format |    
+| **standardize_date** | convert date column into _%Y-%m-%d_ |     
+| **calculate_age** | calculate age from date column. Returned age can be in either _years_, or _months_, or _weeks_, or _days_ or a combination of some of these|    
+| **check_date_sequence** | check whether the sequence of event dates is correct |
+| **find_duplicates** | detect and return duplicated rows from the input dataset |
+| **remove_duplicates** | remove detected duplicated rows |
+| **WIP** | work in progress |
+=======
 `clean_data()` returns a list containing dataframe for the  processed input data and a list of reports for each operation. Below is typical example of how to use `clean_data()` function. 
+>>>>>>> origin/develop
 
 
+<<<<<<< HEAD
+Most functions **cleanepi** will return a list with 2 elements:   
+
+1. the processed input data (could be modified or not).   
+2. a report object returned as list. 
+
+## GENERAL DATA CLEANING
+The example below performs the following data cleaning operations on the input dataset based on the following criteria:  
+
+1. removal of any duplicated line across all columns (`remove_duplicates = TRUE`; `target_columns = NULL`)
+2. replacement of the missing character `-99` by `NA` (`replace_missing = TRUE`; `na_comes_as = "-99"`)
+3. conversion of any `character` column into `Date` if the 50% or more of its values turn out to be dates. Dates not within the specified time frame will be considered as outliers and replaced by `NA` (`check_timeframe = TRUE`; `timeframe = as.Date(c("1973-05-29", "2023-05-29"))`; `error_tolerance = 0.5`)
+4. Checking if the subject IDs comply with the expected format (`subject_id_col_name = "study_id"`; `subject_id_format = "PS000P2"`; `prefix = "PS"`; `suffix = "P2"`; `range = c(1, 100)`). This will detect and remove the rows where the format of the subject IDs are incorrect.
+5. The other cleaning operations, mentioned above, will be automatically applied to the input dataset. 
+
+```{r eval=TRUE}
+# READING IN THE TEST DATASET
+test_data <- readRDS(system.file("extdata", "test_df.rds", 
+                                 package = "cleanepi"))
+=======
 
 ```{r eval=TRUE}
 # READING TEST DATASET
 test_data <- data.table::fread(
   system.file("extdata", "test.txt", package = "cleanepi")
   )
+>>>>>>> origin/develop
 
 # VISUALISE THE INPUT DATASET
 print(test_data)
@@ -78,7 +113,7 @@ print(test_data)
 # DEFINING THE CLEANING PARAMETERS
 params <- list(
   remove_duplicates = TRUE,
-  duplicates_from = NULL,
+  target_columns = NULL,
   replace_missing = TRUE,
   na_comes_as = "-99",
   check_timeframe = TRUE,
@@ -119,6 +154,51 @@ dat <- standardize_date(
 
 print(dat$data)
 ```
+<<<<<<< HEAD
+
+### CALCULATE AGE
+
+Given a date column column and a reference date, we can use the function in the example below to calculate individual ages in either years, months, weeks, or days.    
+Note the creation of new column(s) in the output data frame.
+
+```{r eval=TRUE}
+# CALCULATE INDIVIDUAL AGES IN MONTHS USING TODAY'S DATE AS REFERENCE
+dat <- calculate_age(
+  data = test_data,
+  date_column_name = "dateOfBirth",
+  end_date = Sys.Date(),
+  age_in = "months"
+)
+
+print(dat)
+```
+
+### CHECK DATE SEQUENCE
+
+In this section, we are checking whether the sequence of dates is respected in the specified columns.    
+Set `remove_bad_seq = TRUE` if you wish to remove the detected rows with incorrect date sequence.
+
+```{r eval=TRUE}
+good_date_sequence <- check_date_sequence(
+  data = test_data,
+  event_cols = c("date_first_pcr_positive_test", "date.of.admission"),
+  remove_bad_seq = FALSE,
+  report = list()
+)
+
+print(good_date_sequence$report)
+```
+
+
+## Next steps
+
+* build function to display the cleaning report
+* build function to perform dictionary based cleaning
+* build function to quantify and handle missing data
+
+
+=======
+>>>>>>> origin/develop
 ### Lifecycle
 
 This package is currently a *concept*, as defined by the [RECON software

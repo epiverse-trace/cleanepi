@@ -17,8 +17,7 @@
 #'    the input data frame with incorrect subject IDs
 #' @examples
 #' dat <- check_subject_ids(
-#' data = data.table::fread(system.file("extdata", "test.txt",
-#' package = "cleanepi")),
+#' data = readRDS(system.file("extdata", "test_df.rds", package = "cleanepi")),
 #' id_column_name = "study_id",
 #' format = "PS000P2",
 #' prefix = "PS",
@@ -110,19 +109,18 @@ check_subject_ids <- function(data, id_column_name = NULL, format,
   }
 
   # remove the incorrect rows
-  bad_rows <- unique(bad_rows)
-  if (!("incorrect_subject_id" %in% names(report))) {
-    report[["incorrect_subject_id"]] <- NULL
+  if (!is.null(bad_rows)) {
+    bad_rows <- unique(bad_rows)
+    if (!("incorrect_subject_id" %in% names(report))) {
+      report[["incorrect_subject_id"]] <- NULL
+    }
+    report[["incorrect_subject_id"]] <- rbind(report[["incorrect_subject_id"]],
+                                              data[bad_rows, ]
+    )
+    if (remove) {
+      data <- data[-bad_rows, ]
+    }
   }
-  report[["incorrect_subject_id"]] <- rbind(report[["incorrect_subject_id"]],
-                                            data[bad_rows, ]
-  )
-  if (remove) {
-    data <- data[-bad_rows, ]
-  }
-
-  # report the rows with incorrect subject IDs
-
 
   list(
     data = data,

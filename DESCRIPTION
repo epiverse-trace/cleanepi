@@ -14,16 +14,17 @@ Imports:
     arsenal,
     checkmate,
     dplyr,
+    epitrix,
     glue,
     janitor,
+    linelist,
     lubridate,
     magrittr,
     naniar,
     R.utils,
     readr,
-    stringr,
-    epitrix,
-    snakecase
+    snakecase,
+    stringr
 Suggests: 
     covr,
     knitr,

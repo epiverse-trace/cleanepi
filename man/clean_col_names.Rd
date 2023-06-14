@@ -4,13 +4,17 @@
 \alias{clean_col_names}
 \title{clean column names of a data frame}
 \usage{
-clean_col_names(x)
+clean_col_names(x, report = list())
 }
 \arguments{
 \item{x}{the input data frame}
+
+\item{report}{a list with the information about the effects of the
+the cleaning steps}
 }
 \value{
-the input data frame with a knit column names
+the a list with 2 elements: input data frame with a knit column names
+and the report object
 }
 \description{
 clean column names of a data frame

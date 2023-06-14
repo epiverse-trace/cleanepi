@@ -42,8 +42,7 @@ Standardize date variables
 }
 \examples{
 dat <- standardize_date(
-data = data.table::fread(system.file("extdata", "test.txt",
-package = "cleanepi")),
+data = readRDS(system.file("extdata", "test_df.rds", package = "cleanepi")),
 date_column_name = "date_first_pcr_positive_test",
 format = NULL,
 timeframe = NULL,

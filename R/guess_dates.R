@@ -193,7 +193,7 @@ guess_dates <- function(x, error_tolerance = 0.5, first_date = NULL,
   # create a new environment for the out of bounds dates to live
   baddies <- new.env()
 
-  # creat output data frame for dates
+  # create output data frame for dates
   res        <- list(rep(as.Date(NA_character_), length(x)))
   res        <- rep(res, length(orders))
   names(res) <- names(orders)

@@ -19,10 +19,8 @@ vignette: >
 ---
 
 ```{r, include = FALSE} 
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", eval = FALSE,
+                      fig.width = 7, fig.height = 7, fig.align = "center")
 ```
 
 
@@ -41,6 +39,16 @@ library(cleanepi)
 ```
 
 
+<<<<<<< HEAD
+1. cleaning the column names     
+2. replacing characters that represent missing data with `NA`   
+3. removing empty rows and columns    
+4. removing constant columns i.e. columns with the same value across all rows   
+5. removing duplicated rows across all columns or some specific columns    
+6. converting character columns into date if the column actually contains date values at a specific extent (default is 50% of the values are date)
+7. detecting and removing rows where the subject IDs do not comply with the expected format       
+=======
+>>>>>>> origin/develop
 
 
 
@@ -63,14 +71,13 @@ The function `clean_data()` returns a list of 2 objects:\
 
 ```{r eval=FALSE}
 # IMPORTING THE TEST DATASET
-test_data <- data.table::fread(
-  system.file("extdata", "test.txt", package = "cleanepi")
-  )
+test_data <- readRDS(system.file("extdata", "test_df.rds",
+                                 package = "cleanepi"))
 
 # DEFINING THE DATA CLEANING PARAMETERS
 params <- list(
   remove_duplicates = TRUE,
-  duplicates_from = NULL,
+  target_columns = NULL,
   replace_missing = TRUE,
   na_comes_as = "-99",
   check_timeframe = TRUE,

@@ -1,11 +1,14 @@
 #' clean column names of a data frame
 #'
 #' @param x the input data frame
+#' @param report a list with the information about the effects of the
+#'          the cleaning steps
 #'
-#' @return the input data frame with a knit column names
+#' @return the a list with 2 elements: input data frame with a knit column names
+#'          and the report object
 #'
-clean_col_names <- function(x) {
-  col_names <- colnames(x)
+clean_col_names <- function(x, report = list()) {
+  original_names <- col_names <- colnames(x)
   # standardize the column names
   col_names <- snakecase::to_snake_case(col_names)
   cleaned_names <- epitrix::clean_labels(col_names)
@@ -14,18 +17,15 @@ clean_col_names <- function(x) {
   unique_names <- make.unique(cleaned_names, sep = "_")
 
   # detect modified column names from the previous command
-  xx <- data.frame(cbind(current_name = cleaned_names, new_name = unique_names))
-  idx <- which(xx$current_name != xx$new_name)
+  xx <- data.frame(cbind(original_name = original_names,
+                         new_name = unique_names))
+  idx <- which(xx$original_name != xx$new_name)
   if (length(idx) > 0) {
-    warning("The following variable names have changed due to duplication after
-            cleaning:\n")
-    print(xx[idx, ])
+    report[["modified_column_names"]] <- xx[idx, ]
   }
 
-
-  # save the original column names in comment
-  colnames(x) <- unique_names
-  names(col_names) <- unique_names
-  comment(x) <- c(comment(x), col_names)
-  x
+  list(
+    data = x,
+    report = report
+  )
 }
