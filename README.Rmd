@@ -1,12 +1,20 @@
 ---
 output: github_document
+editor_options: 
+  markdown: 
+    wrap: 72
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file. -->
+
 <!-- The code to render this README is stored in .github/workflows/render-readme.yaml -->
+
 <!-- Variables marked with double curly braces will be transformed beforehand: -->
+
 <!-- `packagename` is extracted from the DESCRIPTION file -->
+
 <!-- `gh_repo` is extracted via a special environment variable in GitHub Actions -->
+
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 ```{r, include = FALSE}
@@ -18,22 +26,30 @@ knitr::opts_chunk$set(
 )
 ```
 
-# cleanepi
-
-**cleanepi** provides functions to clean epidemiological data provided in the form of a data frame or other related data type.   
+# cleanepi: Clean and standardize epidemiological data
 
 <!-- badges: start -->
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+[![License:
+MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![R-CMD-check](https://github.com/epiverse-trace/cleanepi/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/epiverse-trace/cleanepi/actions/workflows/R-CMD-check.yaml)
-[![Codecov test coverage](https://codecov.io/gh/epiverse-trace/cleanepi/branch/main/graph/badge.svg)](https://app.codecov.io/gh/epiverse-trace/cleanepi?branch=main)
-[![lifecycle-concept](https://raw.githubusercontent.com/reconverse/reconverse.github.io/master/images/badge-concept.svg)](https://www.reconverse.org/lifecycle.html#concept) 
+[![Codecov test
+coverage](https://codecov.io/gh/epiverse-trace/cleanepi/branch/main/graph/badge.svg)](https://app.codecov.io/gh/epiverse-trace/cleanepi?branch=main)
+[![lifecycle-concept](https://raw.githubusercontent.com/reconverse/reconverse.github.io/master/images/badge-concept.svg)](https://www.reconverse.org/lifecycle.html#concept)
+
 <!-- badges: end -->
+
+**cleanepi** is an R package to clean, curate, and standardize epidemiological data. 
+
+**cleanepi**  performs several data cleaning tasks that an end-user would anticipate to be performed on a cluttered dataset. These include standard tasks such as removing duplicated and empty rows and row, detecting columns of constant value, replacing missing values, performing a sanity check on uniquely identified columns, and converting dates in a string to date-format. **cleanepi** can also standardize column entries into specified formats, calculate age (in years, months, weeks, or days) for a given column and reference data, and perform further dictionary-based cleaning operations.
+**cleanepi** expects input data  in  form of  dataframe-like structure (dataframe, tibble, and table) or linelist object, and returns dataframe containing cleaned data  and a report detailing the carried-out operations. 
+
+**cleanepi** is developed by  the [Epiverse-TRACE](https://data.org/initiatives/epiverse/) team at  the London School of Hygiene and Tropical Medicine.
 
 
 ## Installation
 
-You can install the development version of cleanepi from
-[GitHub](https://github.com/) with:
+The current development version of **cleanepi** can be installed from  [here](https://epiverse-trace.github.io/cleanepi/dev/).
 
 ```{r}
 # install.packages("remotes")
@@ -42,11 +58,11 @@ You can install the development version of cleanepi from
 library(cleanepi)
 ```
 
-## Manual  
-```{r eval=FALSE}
-browseVignettes("cleanepi")
-```
+## Quick start
+The main function in **cleanepi** is `clean_data(),` which calls 
+functions for almost all standard data cleaning tasks, such as removal of empty and duplicated rows and columns, replacement of missing values, etc. However, each function can also be called independently to perform a specific  task.
 
+<<<<<<< HEAD
 ## Description
 | function name | description |    
 | :-------------- | :---------- |   
@@ -58,9 +74,12 @@ browseVignettes("cleanepi")
 | **find_duplicates** | detect and return duplicated rows from the input dataset |
 | **remove_duplicates** | remove detected duplicated rows |
 | **WIP** | work in progress |
+=======
+`clean_data()` returns a list containing dataframe for the  processed input data and a list of reports for each operation. Below is typical example of how to use `clean_data()` function. 
+>>>>>>> origin/develop
 
-The main function in **cleanepi** is `clean_data()`. It makes call of almost all the other exported functions, which can also be called independently to perform a specific cleaning task. 
 
+<<<<<<< HEAD
 Most functions **cleanepi** will return a list with 2 elements:   
 
 1. the processed input data (could be modified or not).   
@@ -79,6 +98,14 @@ The example below performs the following data cleaning operations on the input d
 # READING IN THE TEST DATASET
 test_data <- readRDS(system.file("extdata", "test_df.rds", 
                                  package = "cleanepi"))
+=======
+
+```{r eval=TRUE}
+# READING TEST DATASET
+test_data <- data.table::fread(
+  system.file("extdata", "test.txt", package = "cleanepi")
+  )
+>>>>>>> origin/develop
 
 # VISUALISE THE INPUT DATASET
 print(test_data)
@@ -111,37 +138,8 @@ cleaning_report <- res$report
 # VISUALISE THE CLEANED DATASET
 print(cleaned_data)
 ```
-Note that a function to visualize the report from the data cleaning will be built soon.  
 
-## SPECIFIC DATA CLEANING TASKS
-The examples in this section show how to use the individual data cleaning functions.
 
-### CHECKING IF THE SUBJECT IDs COMPLY WITH THE EXPECTED FORMAT
-
-Below, we will inspect for subject IDs with incorrect format, report them, but without removing them from the input data (`remove = FALSE`).    
-The `report` argument can take a report object from the `clean_data()` function for example or another function in **cleanepi** that returns a report along with the processed data.
-
-```{r eval=TRUE}
-# DETECTING INCORRECT SUBJECT IDs
-dat <- check_subject_ids(
-  data = test_data,
-  id_column_name = "study_id",
-  format = "PS000P2",
-  prefix = "PS",
-  suffix = "P2",
-  range = c(1,100),
-  remove = FALSE,
-  verbose = TRUE,
-  report = list()
-)
-
-# VISUALISE THE REPORT
-dat$report
-```
-
-### STANDARDIZING DATE COLUMN
-This example shows how to convert a character column into date when it contains date values. 
-If known, users can specify the date format in the target with the `format` argument. Otherwise, the function will automatically infer the date format and perform the conversion adequately.
 
 ```{r eval=TRUE}
 dat <- standardize_date(
@@ -156,6 +154,7 @@ dat <- standardize_date(
 
 print(dat$data)
 ```
+<<<<<<< HEAD
 
 ### CALCULATE AGE
 
@@ -198,21 +197,23 @@ print(good_date_sequence$report)
 * build function to quantify and handle missing data
 
 
+=======
+>>>>>>> origin/develop
 ### Lifecycle
 
 This package is currently a *concept*, as defined by the [RECON software
-lifecycle](https://www.reconverse.org/lifecycle.html). This means that essential
-features and mechanisms are still being developed, and the package is not ready
-for use outside of the development team.
-
+lifecycle](https://www.reconverse.org/lifecycle.html). This means that
+essential features and mechanisms are still being developed, and the
+package is not ready for use outside of the development team.
 
 ### Contributions
 
-Contributions are welcome via [pull requests](https://github.com/{{ gh_repo }}/pulls).
+Contributions are welcome via [pull
+requests](https://github.com/%7B%7B%20gh_repo%20%7D%7D/pulls).
 
 ### Code of Conduct
 
-Please note that the cleanepi project is released with a 
-[Contributor Code of Conduct](https://github.com/epiverse-trace/.github/blob/main/CODE_OF_CONDUCT.md).
+Please note that the cleanepi project is released with a [Contributor
+Code of
+Conduct](https://github.com/epiverse-trace/.github/blob/main/CODE_OF_CONDUCT.md).
 By contributing to this project, you agree to abide by its terms.
-

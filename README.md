@@ -6,10 +6,7 @@
 <!-- `gh_repo` is extracted via a special environment variable in GitHub Actions -->
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# cleanepi
-
-**cleanepi** provides functions to clean epidemiological data provided
-in the form of a data frame or other related data type.
+# cleanepi: Clean and standardize epidemiological data
 
 <!-- badges: start -->
 
@@ -19,12 +16,33 @@ MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.or
 [![Codecov test
 coverage](https://codecov.io/gh/epiverse-trace/cleanepi/branch/main/graph/badge.svg)](https://app.codecov.io/gh/epiverse-trace/cleanepi?branch=main)
 [![lifecycle-concept](https://raw.githubusercontent.com/reconverse/reconverse.github.io/master/images/badge-concept.svg)](https://www.reconverse.org/lifecycle.html#concept)
+
 <!-- badges: end -->
+
+**cleanepi** is an R package to clean, curate, and standardize
+epidemiological data.
+
+**cleanepi** performs several data cleaning tasks that an end-user would
+anticipate to be performed on a cluttered dataset. These include
+standard tasks such as removing duplicated and empty rows and row,
+detecting columns of constant value, replacing missing values,
+performing a sanity check on uniquely identified columns, and converting
+dates in a string to date-format. **cleanepi** can also standardize
+column entries into specified formats, calculate age (in years, months,
+weeks, or days) for a given column and reference data, and perform
+further dictionary-based cleaning operations. **cleanepi** expects input
+data in form of dataframe-like structure (dataframe, tibble, and table)
+or linelist object, and returns dataframe containing cleaned data and a
+report detailing the carried-out operations.
+
+**cleanepi** is developed by the
+[Epiverse-TRACE](https://data.org/initiatives/epiverse/) team at the
+London School of Hygiene and Tropical Medicine.
 
 ## Installation
 
-You can install the development version of cleanepi from
-[GitHub](https://github.com/) with:
+The current development version of **cleanepi** can be installed from
+[here](https://epiverse-trace.github.io/cleanepi/dev/).
 
 ``` r
 # install.packages("remotes")
@@ -33,9 +51,20 @@ You can install the development version of cleanepi from
 library(cleanepi)
 ```
 
-## Manual
+## Quick start
+
+The main function in **cleanepi** is `clean_data(),` which calls
+functions for almost all standard data cleaning tasks, such as removal
+of empty and duplicated rows and columns, replacement of missing values,
+etc. However, each function can also be called independently to perform
+a specific task.
+
+`clean_data()` returns a list containing dataframe for the processed
+input data and a list of reports for each operation. Below is typical
+example of how to use `clean_data()` function.
 
 ``` r
+<<<<<<< HEAD
 browseVignettes("cleanepi")
 ```
 
@@ -88,6 +117,12 @@ input dataset based on the following criteria:
 # READING IN THE TEST DATASET
 test_data <- readRDS(system.file("extdata", "test_df.rds", 
                                  package = "cleanepi"))
+=======
+# READING TEST DATASET
+test_data <- data.table::fread(
+  system.file("extdata", "test.txt", package = "cleanepi")
+  )
+>>>>>>> origin/develop
 
 # VISUALISE THE INPUT DATASET
 print(test_data)
@@ -167,6 +202,7 @@ print(cleaned_data)
 #> 10     10
 ```
 
+<<<<<<< HEAD
 Note that a function to visualize the report from the data cleaning will
 be built soon.
 
@@ -231,6 +267,8 @@ target with the `format` argument. Otherwise, the function will
 automatically infer the date format and perform the conversion
 adequately.
 
+=======
+>>>>>>> origin/develop
 ``` r
 dat <- standardize_date(
   data = test_data,
@@ -267,6 +305,7 @@ print(dat$data)
 #> 10                   2021-03-03   2
 ```
 
+<<<<<<< HEAD
 ### CALCULATE AGE
 
 Given a date column column and a reference date, we can use the function
@@ -346,6 +385,8 @@ print(good_date_sequence$report)
 - build function to perform dictionary based cleaning
 - build function to quantify and handle missing data
 
+=======
+>>>>>>> origin/develop
 ### Lifecycle
 
 This package is currently a *concept*, as defined by the [RECON software
