@@ -61,5 +61,8 @@ standardize_date <- function(data, date_column_name = NULL, format = NULL,
     report <- tmp_res[[2]]
   }
 
-  list(data, report)
+  list(
+    data = data,
+    report = report
+    )
 }

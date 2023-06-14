@@ -4,22 +4,26 @@
 \alias{check_date_sequence}
 \title{Check the sequence of event dates}
 \usage{
-check_date_sequence(data, event_cols, remove_bad_seq = FALSE)
+check_date_sequence(data, event_cols, remove_bad_seq = FALSE, report = list())
 }
 \arguments{
 \item{data}{the input data frame}
 
 \item{event_cols}{a vector or a comma-separated list of the event columns
 names. Users should specify at least 2 column names in the expected order.
-For example: event_cols = c("DS", "DH", "DD") where DS=date of the symptoms
-onset, DH=date of hospitalization, DD=date of death}
+For example: event_cols = c("DS", "DH", "DD") where DS=date of the
+symptoms onset, DH=date of hospitalization, DD=date of death}
 
 \item{remove_bad_seq}{a Boolean to specify if rows with incorrect order
 should be filtered out or not. default is FALSE}
+
+\item{report}{the object that will contains details about the result from the
+date columns standardization}
 }
 \value{
 rows of the input data frame with incorrect date sequence
-if \code{remove_bad_seq = FALSE}, the input data frame without those rows if not
+if \code{remove_bad_seq = FALSE}, the input data frame without those
+rows if not
 }
 \description{
 This function is used to check whether date sequence in
@@ -30,6 +34,7 @@ good_date_sequence <- check_date_sequence(
 data = data.table::fread(system.file("extdata", "test.txt",
 package = "cleanepi")),
 event_cols = c("date_first_pcr_positive_test", "date.of.admission"),
-remove_bad_seq = FALSE
+remove_bad_seq = FALSE,
+report = list()
 )
 }
