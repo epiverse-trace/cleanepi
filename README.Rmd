@@ -44,7 +44,7 @@ coverage](https://codecov.io/gh/epiverse-trace/cleanepi/branch/main/graph/badge.
 **cleanepi**  performs several data cleaning tasks that an end-user would anticipate to be performed on a cluttered dataset. These include standard tasks such as removing duplicated and empty rows and row, detecting columns of constant value, replacing missing values, performing a sanity check on uniquely identified columns, and converting dates in a string to date-format. **cleanepi** can also standardize column entries into specified formats, calculate age (in years, months, weeks, or days) for a given column and reference data, and perform further dictionary-based cleaning operations.
 **cleanepi** expects input data  in  form of  dataframe-like structure (dataframe, tibble, and table) or linelist object, and returns dataframe containing cleaned data  and a report detailing the carried-out operations. 
 
-**cleanepi** is developed by  the [Epiverse-TRACE](https://data.org/initiatives/epiverse/) team at  the London School of Hygiene and Tropical Medicine.
+**cleanepi** is developed by  the [Epiverse-TRACE](https://data.org/initiatives/epiverse/) team at the Medical Research Council The Gambia unit at the London School of Hygiene and Tropical Medicine (MRCG@LSHTM).
 
 
 ## Installation
@@ -62,7 +62,6 @@ library(cleanepi)
 The main function in **cleanepi** is `clean_data(),` which calls 
 functions for almost all standard data cleaning tasks, such as removal of empty and duplicated rows and columns, replacement of missing values, etc. However, each function can also be called independently to perform a specific  task.
 
-<<<<<<< HEAD
 ## Description
 | function name | description |    
 | :-------------- | :---------- |   
@@ -74,19 +73,10 @@ functions for almost all standard data cleaning tasks, such as removal of empty 
 | **find_duplicates** | detect and return duplicated rows from the input dataset |
 | **remove_duplicates** | remove detected duplicated rows |
 | **WIP** | work in progress |
-=======
-`clean_data()` returns a list containing dataframe for the  processed input data and a list of reports for each operation. Below is typical example of how to use `clean_data()` function. 
->>>>>>> origin/develop
 
+`clean_data()` returns a `list` containing `data.frame` for the  processed input data and a `list` of reports for each operation. Below is typical example of how to use `clean_data()` function. 
 
-<<<<<<< HEAD
-Most functions **cleanepi** will return a list with 2 elements:   
-
-1. the processed input data (could be modified or not).   
-2. a report object returned as list. 
-
-## GENERAL DATA CLEANING
-The example below performs the following data cleaning operations on the input dataset based on the following criteria:  
+In this example, the following data cleaning operations are performed on the input dataset based on the following criteria:  
 
 1. removal of any duplicated line across all columns (`remove_duplicates = TRUE`; `target_columns = NULL`)
 2. replacement of the missing character `-99` by `NA` (`replace_missing = TRUE`; `na_comes_as = "-99"`)
@@ -94,18 +84,11 @@ The example below performs the following data cleaning operations on the input d
 4. Checking if the subject IDs comply with the expected format (`subject_id_col_name = "study_id"`; `subject_id_format = "PS000P2"`; `prefix = "PS"`; `suffix = "P2"`; `range = c(1, 100)`). This will detect and remove the rows where the format of the subject IDs are incorrect.
 5. The other cleaning operations, mentioned above, will be automatically applied to the input dataset. 
 
-```{r eval=TRUE}
-# READING IN THE TEST DATASET
-test_data <- readRDS(system.file("extdata", "test_df.rds", 
-                                 package = "cleanepi"))
-=======
 
 ```{r eval=TRUE}
-# READING TEST DATASET
-test_data <- data.table::fread(
-  system.file("extdata", "test.txt", package = "cleanepi")
-  )
->>>>>>> origin/develop
+# READING IN THE TEST DATASET
+test_data <- readRDS(system.file("extdata", "test_df.RDS", 
+                                 package = "cleanepi"))
 
 # VISUALISE THE INPUT DATASET
 print(test_data)
@@ -139,57 +122,6 @@ cleaning_report <- res$report
 print(cleaned_data)
 ```
 
-
-
-```{r eval=TRUE}
-dat <- standardize_date(
-  data = test_data,
-  date_column_name = "date_first_pcr_positive_test",
-  format = NULL,
-  timeframe = NULL,
-  check_timeframe = FALSE,
-  report = list(),
-  error_tolerance = 0.5
-)
-
-print(dat$data)
-```
-<<<<<<< HEAD
-
-### CALCULATE AGE
-
-Given a date column column and a reference date, we can use the function in the example below to calculate individual ages in either years, months, weeks, or days.    
-Note the creation of new column(s) in the output data frame.
-
-```{r eval=TRUE}
-# CALCULATE INDIVIDUAL AGES IN MONTHS USING TODAY'S DATE AS REFERENCE
-dat <- calculate_age(
-  data = test_data,
-  date_column_name = "dateOfBirth",
-  end_date = Sys.Date(),
-  age_in = "months"
-)
-
-print(dat)
-```
-
-### CHECK DATE SEQUENCE
-
-In this section, we are checking whether the sequence of dates is respected in the specified columns.    
-Set `remove_bad_seq = TRUE` if you wish to remove the detected rows with incorrect date sequence.
-
-```{r eval=TRUE}
-good_date_sequence <- check_date_sequence(
-  data = test_data,
-  event_cols = c("date_first_pcr_positive_test", "date.of.admission"),
-  remove_bad_seq = FALSE,
-  report = list()
-)
-
-print(good_date_sequence$report)
-```
-
-
 ## Next steps
 
 * build function to display the cleaning report
@@ -197,8 +129,6 @@ print(good_date_sequence$report)
 * build function to quantify and handle missing data
 
 
-=======
->>>>>>> origin/develop
 ### Lifecycle
 
 This package is currently a *concept*, as defined by the [RECON software

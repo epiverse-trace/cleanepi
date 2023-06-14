@@ -37,7 +37,8 @@ report detailing the carried-out operations.
 
 **cleanepi** is developed by the
 [Epiverse-TRACE](https://data.org/initiatives/epiverse/) team at the
-London School of Hygiene and Tropical Medicine.
+Medical Research Council The Gambia unit at the London School of Hygiene
+and Tropical Medicine (<MRCG@LSHTM>).
 
 ## Installation
 
@@ -59,15 +60,6 @@ of empty and duplicated rows and columns, replacement of missing values,
 etc. However, each function can also be called independently to perform
 a specific task.
 
-`clean_data()` returns a list containing dataframe for the processed
-input data and a list of reports for each operation. Below is typical
-example of how to use `clean_data()` function.
-
-``` r
-<<<<<<< HEAD
-browseVignettes("cleanepi")
-```
-
 ## Description
 
 | function name           | description                                                                                                                                                                                           |
@@ -81,19 +73,12 @@ browseVignettes("cleanepi")
 | **remove_duplicates**   | remove detected duplicated rows                                                                                                                                                                       |
 | **WIP**                 | work in progress                                                                                                                                                                                      |
 
-The main function in **cleanepi** is `clean_data()`. It makes call of
-almost all the other exported functions, which can also be called
-independently to perform a specific cleaning task.
+`clean_data()` returns a `list` containing `data.frame` for the
+processed input data and a `list` of reports for each operation. Below
+is typical example of how to use `clean_data()` function.
 
-Most functions **cleanepi** will return a list with 2 elements:
-
-1.  the processed input data (could be modified or not).  
-2.  a report object returned as list.
-
-## GENERAL DATA CLEANING
-
-The example below performs the following data cleaning operations on the
-input dataset based on the following criteria:
+In this example, the following data cleaning operations are performed on
+the input dataset based on the following criteria:
 
 1.  removal of any duplicated line across all columns
     (`remove_duplicates = TRUE`; `target_columns = NULL`)
@@ -115,14 +100,8 @@ input dataset based on the following criteria:
 
 ``` r
 # READING IN THE TEST DATASET
-test_data <- readRDS(system.file("extdata", "test_df.rds", 
+test_data <- readRDS(system.file("extdata", "test_df.RDS", 
                                  package = "cleanepi"))
-=======
-# READING TEST DATASET
-test_data <- data.table::fread(
-  system.file("extdata", "test.txt", package = "cleanepi")
-  )
->>>>>>> origin/develop
 
 # VISUALISE THE INPUT DATASET
 print(test_data)
@@ -202,191 +181,12 @@ print(cleaned_data)
 #> 10     10
 ```
 
-<<<<<<< HEAD
-Note that a function to visualize the report from the data cleaning will
-be built soon.
-
-## SPECIFIC DATA CLEANING TASKS
-
-The examples in this section show how to use the individual data
-cleaning functions.
-
-### CHECKING IF THE SUBJECT IDs COMPLY WITH THE EXPECTED FORMAT
-
-Below, we will inspect for subject IDs with incorrect format, report
-them, but without removing them from the input data
-(`remove = FALSE`).  
-The `report` argument can take a report object from the `clean_data()`
-function for example or another function in **cleanepi** that returns a
-report along with the processed data.
-
-``` r
-# DETECTING INCORRECT SUBJECT IDs
-dat <- check_subject_ids(
-  data = test_data,
-  id_column_name = "study_id",
-  format = "PS000P2",
-  prefix = "PS",
-  suffix = "P2",
-  range = c(1,100),
-  remove = FALSE,
-  verbose = TRUE,
-  report = list()
-)
-#> 
-#> Sample IDs with wrong prefix:
-#> [1] "P0005P2" "PB500P2"
-#> 
-#> Sample IDs with wrong suffix:
-#> [1] "PS004P2-1"
-#> 
-#> Sample IDs with wrong incorrect length:
-#> [1] "PS004P2-1"
-#> 
-#> Sample IDs with wrong numbers:
-#> [1] "PB500P2"
-
-# VISUALISE THE REPORT
-dat$report
-#> $incorrect_subject_id
-#>    study_id event_name country_code country_name date.of.admission dateOfBirth
-#> 5   P0005P2      day 0            2       Gambia        17/02/2021  09/26/2000
-#> 7   PB500P2      day 0            2       Gambia        28/02/2021  11/03/1989
-#> 3 PS004P2-1      day 0            2       Gambia        15/02/2021  06/15/1961
-#>   date_first_pcr_positive_test sex
-#> 5                 Feb 16, 2021   2
-#> 7                 Feb 19, 2021   1
-#> 3                 Feb 11, 2021 -99
-```
-
-### STANDARDIZING DATE COLUMN
-
-This example shows how to convert a character column into date when it
-contains date values. If known, users can specify the date format in the
-target with the `format` argument. Otherwise, the function will
-automatically infer the date format and perform the conversion
-adequately.
-
-=======
->>>>>>> origin/develop
-``` r
-dat <- standardize_date(
-  data = test_data,
-  date_column_name = "date_first_pcr_positive_test",
-  format = NULL,
-  timeframe = NULL,
-  check_timeframe = FALSE,
-  report = list(),
-  error_tolerance = 0.5
-)
-
-print(dat$data)
-#>     study_id event_name country_code country_name date.of.admission dateOfBirth
-#> 1    PS001P2      day 0            2       Gambia        01/12/2020  06/01/1972
-#> 2    PS002P2      day 0            2       Gambia        28/01/2021  02/20/1952
-#> 3  PS004P2-1      day 0            2       Gambia        15/02/2021  06/15/1961
-#> 4    PS003P2      day 0            2       Gambia        11/02/2021  11/11/1947
-#> 5    P0005P2      day 0            2       Gambia        17/02/2021  09/26/2000
-#> 6    PS006P2      day 0            2       Gambia        17/02/2021         -99
-#> 7    PB500P2      day 0            2       Gambia        28/02/2021  11/03/1989
-#> 8    PS008P2      day 0            2       Gambia        22/02/2021  10/05/1976
-#> 9    PS010P2      day 0            2       Gambia        02/03/2021  09/23/1991
-#> 10   PS011P2      day 0            2       Gambia        05/03/2021  02/08/1991
-#>    date_first_pcr_positive_test sex
-#> 1                    2020-12-01   1
-#> 2                    2021-01-01   1
-#> 3                    2021-02-11 -99
-#> 4                    2021-02-01   1
-#> 5                    2021-02-16   2
-#> 6                    2021-05-02   2
-#> 7                    2021-02-19   1
-#> 8                    2021-09-20   2
-#> 9                    2021-02-26   1
-#> 10                   2021-03-03   2
-```
-
-<<<<<<< HEAD
-### CALCULATE AGE
-
-Given a date column column and a reference date, we can use the function
-in the example below to calculate individual ages in either years,
-months, weeks, or days.  
-Note the creation of new column(s) in the output data frame.
-
-``` r
-# CALCULATE INDIVIDUAL AGES IN MONTHS USING TODAY'S DATE AS REFERENCE
-dat <- calculate_age(
-  data = test_data,
-  date_column_name = "dateOfBirth",
-  end_date = Sys.Date(),
-  age_in = "months"
-)
-
-print(dat)
-#>     study_id event_name country_code country_name date.of.admission dateOfBirth
-#> 1    PS001P2      day 0            2       Gambia        01/12/2020  1972-06-01
-#> 2    PS002P2      day 0            2       Gambia        28/01/2021  1952-02-20
-#> 3  PS004P2-1      day 0            2       Gambia        15/02/2021  1961-06-15
-#> 4    PS003P2      day 0            2       Gambia        11/02/2021  1947-11-11
-#> 5    P0005P2      day 0            2       Gambia        17/02/2021  2000-09-26
-#> 6    PS006P2      day 0            2       Gambia        17/02/2021        <NA>
-#> 7    PB500P2      day 0            2       Gambia        28/02/2021  1989-11-03
-#> 8    PS008P2      day 0            2       Gambia        22/02/2021  1976-10-05
-#> 9    PS010P2      day 0            2       Gambia        02/03/2021  1991-09-23
-#> 10   PS011P2      day 0            2       Gambia        05/03/2021  1991-02-08
-#>    date_first_pcr_positive_test sex age_months remainder_days
-#> 1                  Dec 01, 2020   1        612             12
-#> 2                  Jan 01, 2021   1        855             22
-#> 3                  Feb 11, 2021 -99        743             28
-#> 4                  Feb 01, 2021   1        907              2
-#> 5                  Feb 16, 2021   2        272             17
-#> 6                  May 02, 2021   2         NA             NA
-#> 7                  Feb 19, 2021   1        403              9
-#> 8                  Sep 20, 2021   2        560              8
-#> 9                  Feb 26, 2021   1        380             20
-#> 10                 Mar 03, 2021   2        388              4
-```
-
-### CHECK DATE SEQUENCE
-
-In this section, we are checking whether the sequence of dates is
-respected in the specified columns.  
-Set `remove_bad_seq = TRUE` if you wish to remove the detected rows with
-incorrect date sequence.
-
-``` r
-good_date_sequence <- check_date_sequence(
-  data = test_data,
-  event_cols = c("date_first_pcr_positive_test", "date.of.admission"),
-  remove_bad_seq = FALSE,
-  report = list()
-)
-#> Warning in check_date_sequence(data = test_data, event_cols =
-#> c("date_first_pcr_positive_test", : 2incorrect date sequences were detected and
-#> removed
-
-print(good_date_sequence$report)
-#> $incorrect_date_sequence
-#> $incorrect_date_sequence$date_sequence
-#> date_first_pcr_positive_test < date.of.admission
-#> 
-#> $incorrect_date_sequence$bad_sequence
-#>   study_id event_name country_code country_name date.of.admission dateOfBirth
-#> 6  PS006P2      day 0            2       Gambia        2021-02-17         -99
-#> 8  PS008P2      day 0            2       Gambia        2021-02-22  10/05/1976
-#>   date_first_pcr_positive_test sex
-#> 6                   2021-05-02   2
-#> 8                   2021-09-20   2
-```
-
 ## Next steps
 
 - build function to display the cleaning report
 - build function to perform dictionary based cleaning
 - build function to quantify and handle missing data
 
-=======
->>>>>>> origin/develop
 ### Lifecycle
 
 This package is currently a *concept*, as defined by the [RECON software
@@ -397,7 +197,7 @@ package is not ready for use outside of the development team.
 ### Contributions
 
 Contributions are welcome via [pull
-requests](https://github.com/epiverse-trace/cleanepi/pulls).
+requests](https://github.com/%7B%7B%20gh_repo%20%7D%7D/pulls).
 
 ### Code of Conduct
 
