@@ -25,7 +25,6 @@ Imports:
     epitrix,
     snakecase
 Suggests: 
-    covr,
     knitr,
     lintr,
     rmarkdown,
