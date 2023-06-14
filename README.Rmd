@@ -47,7 +47,6 @@ coverage](https://codecov.io/gh/epiverse-trace/cleanepi/branch/main/graph/badge.
 
 **{cleanepi}** is developed by  the [Epiverse-TRACE](https://data.org/initiatives/epiverse/) team at the Medical Research Council The Gambia unit at the London School of Hygiene and Tropical Medicine (MRCG@LSHTM).
 
-
 ## Installation
 
 The current development version of **{cleanepi}** can be installed from  [here](https://epiverse-trace.github.io/cleanepi).

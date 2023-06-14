@@ -295,7 +295,6 @@ browseVignettes("cleanepi")
 
 :white_check_mark: write test scripts  
 :white_check_mark: build function to display the cleaning report  
-:white_check_mark: build function to perform dictionary based cleaning  
 :white_check_mark: improve package coverage
 
 ### Lifecycle
@@ -308,7 +307,7 @@ change over time, testing and documentation may be lacking.
 ### Contributions
 
 Contributions are welcome via [pull
-requests](https://github.com/epiverse-trace/cleanepi/pulls).
+requests](https://github.com/%7B%7B%20gh_repo%20%7D%7D/pulls).
 
 ### Code of Conduct
 
