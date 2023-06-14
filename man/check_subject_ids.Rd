@@ -48,8 +48,7 @@ Check whether the subject IDs comply with the expected format
 }
 \examples{
 dat <- check_subject_ids(
-data = data.table::fread(system.file("extdata", "test.txt",
-package = "cleanepi")),
+data = readRDS(system.file("extdata", "test_df.rds", package = "cleanepi")),
 id_column_name = "study_id",
 format = "PS000P2",
 prefix = "PS",

@@ -17,8 +17,7 @@
 #' @export
 #' @examples
 #' age <- calculate_age(
-#' data = data.table::fread(system.file("extdata", "test.txt",
-#' package = "cleanepi")),
+#' data = readRDS(system.file("extdata", "test_df.rds", package = "cleanepi")),
 #' date_column_name = "dateOfBirth",
 #' end_date = Sys.Date(),
 #' age_in = "months"

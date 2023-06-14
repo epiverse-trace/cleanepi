@@ -6,7 +6,7 @@
 \usage{
 clean_data(
   data,
-  params = list(remove_duplicates = FALSE, duplicates_from = NULL, replace_missing =
+  params = list(remove_duplicates = FALSE, target_columns = NULL, replace_missing =
     FALSE, na_comes_as = NULL, check_timeframe = TRUE, timeframe = NULL, error_tolerance
     = 0.5, subject_id_col_name = NULL, subject_id_format = NULL, prefix = "PS", suffix =
     "P2", range = c(1, 100))
@@ -24,7 +24,7 @@ will automatically be set to \code{-1} i.e. to keep only the first instance
 of duplicated rows.
 When the user only needs to detect duplicated rows in the dataset, use
 the \code{find_duplicates()} function.
-\item \code{duplicates_from}: a vector of columns names or indices to consider
+\item \code{target_columns}: a vector of columns names or indices to consider
 when looking for duplicates. When the input data is a \code{linelist}
 object, this parameter can be set to \code{tags} if you wish to look for
 duplicates across the tagged variables only. Only used when
@@ -69,14 +69,19 @@ certain number of Date values, detecting subject IDs with wrong format
 \details{
 If \code{check_timeframe = TRUE} and \code{timeframe = NULL}, the timeframe will be
 today's date and the same date 50 years before.
+
+in \code{clean_data()}, duplicated rows will be identified across the
+user-specified or all columns. Once detected, all occurrences of the
+duplicated rows will be removed except the first. If you only need to find
+and remove specific duplicates, use the \code{find_duplicates()} then
+\code{remove_duplicates()} functions.
 }
 \examples{
 cleaned_data <- clean_data(
-data = data.table::fread(system.file("extdata", "test.txt",
-package = "cleanepi")),
+data = readRDS(system.file("extdata", "test_df.rds", package = "cleanepi")),
 params = list(
   remove_duplicates = TRUE,
-  duplicates_from = NULL,
+  target_columns = NULL,
   replace_missing = TRUE,
   na_comes_as = "-99",
   check_timeframe = TRUE,

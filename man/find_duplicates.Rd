@@ -2,20 +2,20 @@
 % Please edit documentation in R/remove_duplicates.R
 \name{find_duplicates}
 \alias{find_duplicates}
-\title{Identify duplicated rows in a data frame or linelist}
+\title{Identify and return duplicated rows in a data frame or linelist.}
 \usage{
-find_duplicates(data, duplicates_from)
+find_duplicates(data, target_columns)
 }
 \arguments{
-\item{data}{the input data frame or linelist}
+\item{data}{The input data frame or linelist.}
 
-\item{duplicates_from}{a vector of columns names or indices to consider when
+\item{target_columns}{A vector of columns names or indices to consider when
 looking for duplicates. When the input data is a \code{linelist} object,
 this parameter can be set to \code{tags} if you wish to look for
 duplicates across the tagged variables only.}
 }
 \value{
-a data frame or linelist of all duplicated rows with following 2
+Data frame or linelist of all duplicated rows with following 2
 additional columns:
 \enumerate{
 \item \code{row_id}: the indices of the duplicated rows from the input data.
@@ -26,13 +26,14 @@ duplicates.
 }
 }
 \description{
-Identify duplicated rows in a data frame or linelist
+Identify and return duplicated rows in a data frame or linelist.
 }
 \examples{
 dups <- find_duplicates(
-data = readRDS(system.file("extdata", "test_linelist.RDS",
-  package = "cleanepi")),
-duplicates_from = "tags"
+  data = readRDS(system.file("extdata", "test_linelist.RDS",
+    package = "cleanepi"
+  )),
+  target_columns = c("dt_onset", "dt_report", "sex", "outcome")
 )
 
 }

@@ -10,14 +10,8 @@ vignette: >
 ---
 
 ```{r, include = FALSE} 
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>", 
-  eval = FALSE, 
-  fig.width = 7, 
-  fig.height = 7, 
-  fig.align = "center"
-)
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", eval = FALSE,
+                      fig.width = 7, fig.height = 7, fig.align = "center")
 ```
 
 ```{r setup}
@@ -43,14 +37,13 @@ A function to generate a report (ideally in a form of a HTML file or dashboard) 
 
 ```{r eval=FALSE}
 # IMPORTING THE TEST DATASET
-test_data <- data.table::fread(
-  system.file("extdata", "test.txt", package = "cleanepi")
-  )
+test_data <- readRDS(system.file("extdata", "test_df.rds",
+                                 package = "cleanepi"))
 
 # DEFINING THE DATA CLEANING PARAMETERS
 params <- list(
   remove_duplicates = TRUE,
-  duplicates_from = NULL,
+  target_columns = NULL,
   replace_missing = TRUE,
   na_comes_as = "-99",
   check_timeframe = TRUE,

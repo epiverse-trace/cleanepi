@@ -67,7 +67,7 @@ The example below performs the following data cleaning operations on the
 input dataset based on the following criteria:
 
 1.  removal of any duplicated line across all columns
-    (`remove_duplicates = TRUE`; `duplicates_from = NULL`)
+    (`remove_duplicates = TRUE`; `target_columns = NULL`)
 2.  replacement of the missing character `-99` by `NA`
     (`replace_missing = TRUE`; `na_comes_as = "-99"`)
 3.  conversion of any `character` column into `Date` if the 50% or more
@@ -86,39 +86,38 @@ input dataset based on the following criteria:
 
 ``` r
 # READING IN THE TEST DATASET
-test_data <- data.table::fread(
-  system.file("extdata", "test.txt", package = "cleanepi")
-  )
+test_data <- readRDS(system.file("extdata", "test_df.rds", 
+                                 package = "cleanepi"))
 
 # VISUALISE THE INPUT DATASET
 print(test_data)
-#>      study_id event_name country_code country_name date.of.admission
-#>  1:   PS001P2      day 0            2       Gambia        01/12/2020
-#>  2:   PS002P2      day 0            2       Gambia        28/01/2021
-#>  3: PS004P2-1      day 0            2       Gambia        15/02/2021
-#>  4:   PS003P2      day 0            2       Gambia        11/02/2021
-#>  5:   P0005P2      day 0            2       Gambia        17/02/2021
-#>  6:   PS006P2      day 0            2       Gambia        17/02/2021
-#>  7:   PB500P2      day 0            2       Gambia        28/02/2021
-#>  8:   PS008P2      day 0            2       Gambia        22/02/2021
-#>  9:   PS010P2      day 0            2       Gambia        02/03/2021
-#> 10:   PS011P2      day 0            2       Gambia        05/03/2021
-#>     dateOfBirth date_first_pcr_positive_test sex
-#>  1:  06/01/1972                 Dec 01, 2020   1
-#>  2:  02/20/1952                 Jan 01, 2021   1
-#>  3:  06/15/1961                 Feb 11, 2021 -99
-#>  4:  11/11/1947                 Feb 01, 2021   1
-#>  5:  09/26/2000                 Feb 16, 2021   2
-#>  6:         -99                 May 02, 2021   2
-#>  7:  11/03/1989                 Feb 19, 2021   1
-#>  8:  10/05/1976                 Sep 20, 2021   2
-#>  9:  09/23/1991                 Feb 26, 2021   1
-#> 10:  02/08/1991                 Mar 03, 2021   2
+#>     study_id event_name country_code country_name date.of.admission dateOfBirth
+#> 1    PS001P2      day 0            2       Gambia        01/12/2020  06/01/1972
+#> 2    PS002P2      day 0            2       Gambia        28/01/2021  02/20/1952
+#> 3  PS004P2-1      day 0            2       Gambia        15/02/2021  06/15/1961
+#> 4    PS003P2      day 0            2       Gambia        11/02/2021  11/11/1947
+#> 5    P0005P2      day 0            2       Gambia        17/02/2021  09/26/2000
+#> 6    PS006P2      day 0            2       Gambia        17/02/2021         -99
+#> 7    PB500P2      day 0            2       Gambia        28/02/2021  11/03/1989
+#> 8    PS008P2      day 0            2       Gambia        22/02/2021  10/05/1976
+#> 9    PS010P2      day 0            2       Gambia        02/03/2021  09/23/1991
+#> 10   PS011P2      day 0            2       Gambia        05/03/2021  02/08/1991
+#>    date_first_pcr_positive_test sex
+#> 1                  Dec 01, 2020   1
+#> 2                  Jan 01, 2021   1
+#> 3                  Feb 11, 2021 -99
+#> 4                  Feb 01, 2021   1
+#> 5                  Feb 16, 2021   2
+#> 6                  May 02, 2021   2
+#> 7                  Feb 19, 2021   1
+#> 8                  Sep 20, 2021   2
+#> 9                  Feb 26, 2021   1
+#> 10                 Mar 03, 2021   2
 
 # DEFINING THE CLEANING PARAMETERS
 params <- list(
   remove_duplicates = TRUE,
-  duplicates_from = NULL,
+  target_columns = NULL,
   replace_missing = TRUE,
   na_comes_as = "-99",
   check_timeframe = TRUE,
@@ -151,21 +150,21 @@ cleaning_report <- res$report
 # VISUALISE THE CLEANED DATASET
 print(cleaned_data)
 #>    study_id date.of.admission dateOfBirth date_first_pcr_positive_test sex
-#> 1:  PS001P2        2020-12-01        <NA>                   2020-12-01   1
-#> 2:  PS002P2        2021-01-28        <NA>                   2021-01-01   1
-#> 3:  PS003P2        2021-02-11        <NA>                   2021-02-01   1
-#> 4:  PS006P2        2021-02-17        <NA>                   2021-05-02   2
-#> 5:  PS008P2        2021-02-22  1976-05-10                   2021-09-20   2
-#> 6:  PS010P2        2021-03-02  1991-09-23                   2021-02-26   1
-#> 7:  PS011P2        2021-03-05  1991-08-02                   2021-03-03   2
+#> 1   PS001P2        2020-12-01        <NA>                   2020-12-01   1
+#> 2   PS002P2        2021-01-28        <NA>                   2021-01-01   1
+#> 4   PS003P2        2021-02-11        <NA>                   2021-02-01   1
+#> 6   PS006P2        2021-02-17        <NA>                   2021-05-02   2
+#> 8   PS008P2        2021-02-22  1976-05-10                   2021-09-20   2
+#> 9   PS010P2        2021-03-02  1991-09-23                   2021-02-26   1
+#> 10  PS011P2        2021-03-05  1991-08-02                   2021-03-03   2
 #>    row_id
-#> 1:      1
-#> 2:      2
-#> 3:      4
-#> 4:      6
-#> 5:      8
-#> 6:      9
-#> 7:     10
+#> 1       1
+#> 2       2
+#> 4       4
+#> 6       6
+#> 8       8
+#> 9       9
+#> 10     10
 ```
 
 Note that a function to visualize the report from the data cleaning will
@@ -214,14 +213,14 @@ dat <- check_subject_ids(
 # VISUALISE THE REPORT
 dat$report
 #> $incorrect_subject_id
-#>     study_id event_name country_code country_name date.of.admission dateOfBirth
-#> 1:   P0005P2      day 0            2       Gambia        17/02/2021  09/26/2000
-#> 2:   PB500P2      day 0            2       Gambia        28/02/2021  11/03/1989
-#> 3: PS004P2-1      day 0            2       Gambia        15/02/2021  06/15/1961
-#>    date_first_pcr_positive_test sex
-#> 1:                 Feb 16, 2021   2
-#> 2:                 Feb 19, 2021   1
-#> 3:                 Feb 11, 2021 -99
+#>    study_id event_name country_code country_name date.of.admission dateOfBirth
+#> 5   P0005P2      day 0            2       Gambia        17/02/2021  09/26/2000
+#> 7   PB500P2      day 0            2       Gambia        28/02/2021  11/03/1989
+#> 3 PS004P2-1      day 0            2       Gambia        15/02/2021  06/15/1961
+#>   date_first_pcr_positive_test sex
+#> 5                 Feb 16, 2021   2
+#> 7                 Feb 19, 2021   1
+#> 3                 Feb 11, 2021 -99
 ```
 
 ### STANDARDIZING DATE COLUMN
@@ -244,28 +243,28 @@ dat <- standardize_date(
 )
 
 print(dat$data)
-#>      study_id event_name country_code country_name date.of.admission
-#>  1:   PS001P2      day 0            2       Gambia        01/12/2020
-#>  2:   PS002P2      day 0            2       Gambia        28/01/2021
-#>  3: PS004P2-1      day 0            2       Gambia        15/02/2021
-#>  4:   PS003P2      day 0            2       Gambia        11/02/2021
-#>  5:   P0005P2      day 0            2       Gambia        17/02/2021
-#>  6:   PS006P2      day 0            2       Gambia        17/02/2021
-#>  7:   PB500P2      day 0            2       Gambia        28/02/2021
-#>  8:   PS008P2      day 0            2       Gambia        22/02/2021
-#>  9:   PS010P2      day 0            2       Gambia        02/03/2021
-#> 10:   PS011P2      day 0            2       Gambia        05/03/2021
-#>     dateOfBirth date_first_pcr_positive_test sex
-#>  1:  06/01/1972                   2020-12-01   1
-#>  2:  02/20/1952                   2021-01-01   1
-#>  3:  06/15/1961                   2021-02-11 -99
-#>  4:  11/11/1947                   2021-02-01   1
-#>  5:  09/26/2000                   2021-02-16   2
-#>  6:         -99                   2021-05-02   2
-#>  7:  11/03/1989                   2021-02-19   1
-#>  8:  10/05/1976                   2021-09-20   2
-#>  9:  09/23/1991                   2021-02-26   1
-#> 10:  02/08/1991                   2021-03-03   2
+#>     study_id event_name country_code country_name date.of.admission dateOfBirth
+#> 1    PS001P2      day 0            2       Gambia        01/12/2020  06/01/1972
+#> 2    PS002P2      day 0            2       Gambia        28/01/2021  02/20/1952
+#> 3  PS004P2-1      day 0            2       Gambia        15/02/2021  06/15/1961
+#> 4    PS003P2      day 0            2       Gambia        11/02/2021  11/11/1947
+#> 5    P0005P2      day 0            2       Gambia        17/02/2021  09/26/2000
+#> 6    PS006P2      day 0            2       Gambia        17/02/2021         -99
+#> 7    PB500P2      day 0            2       Gambia        28/02/2021  11/03/1989
+#> 8    PS008P2      day 0            2       Gambia        22/02/2021  10/05/1976
+#> 9    PS010P2      day 0            2       Gambia        02/03/2021  09/23/1991
+#> 10   PS011P2      day 0            2       Gambia        05/03/2021  02/08/1991
+#>    date_first_pcr_positive_test sex
+#> 1                    2020-12-01   1
+#> 2                    2021-01-01   1
+#> 3                    2021-02-11 -99
+#> 4                    2021-02-01   1
+#> 5                    2021-02-16   2
+#> 6                    2021-05-02   2
+#> 7                    2021-02-19   1
+#> 8                    2021-09-20   2
+#> 9                    2021-02-26   1
+#> 10                   2021-03-03   2
 ```
 
 ### CALCULATE AGE
@@ -285,28 +284,28 @@ dat <- calculate_age(
 )
 
 print(dat)
-#>      study_id event_name country_code country_name date.of.admission
-#>  1:   PS001P2      day 0            2       Gambia        01/12/2020
-#>  2:   PS002P2      day 0            2       Gambia        28/01/2021
-#>  3: PS004P2-1      day 0            2       Gambia        15/02/2021
-#>  4:   PS003P2      day 0            2       Gambia        11/02/2021
-#>  5:   P0005P2      day 0            2       Gambia        17/02/2021
-#>  6:   PS006P2      day 0            2       Gambia        17/02/2021
-#>  7:   PB500P2      day 0            2       Gambia        28/02/2021
-#>  8:   PS008P2      day 0            2       Gambia        22/02/2021
-#>  9:   PS010P2      day 0            2       Gambia        02/03/2021
-#> 10:   PS011P2      day 0            2       Gambia        05/03/2021
-#>     dateOfBirth date_first_pcr_positive_test sex age_months remainder_days
-#>  1:  1972-06-01                 Dec 01, 2020   1        612             12
-#>  2:  1952-02-20                 Jan 01, 2021   1        855             22
-#>  3:  1961-06-15                 Feb 11, 2021 -99        743             28
-#>  4:  1947-11-11                 Feb 01, 2021   1        907              2
-#>  5:  2000-09-26                 Feb 16, 2021   2        272             17
-#>  6:        <NA>                 May 02, 2021   2         NA             NA
-#>  7:  1989-11-03                 Feb 19, 2021   1        403              9
-#>  8:  1976-10-05                 Sep 20, 2021   2        560              8
-#>  9:  1991-09-23                 Feb 26, 2021   1        380             20
-#> 10:  1991-02-08                 Mar 03, 2021   2        388              4
+#>     study_id event_name country_code country_name date.of.admission dateOfBirth
+#> 1    PS001P2      day 0            2       Gambia        01/12/2020  1972-06-01
+#> 2    PS002P2      day 0            2       Gambia        28/01/2021  1952-02-20
+#> 3  PS004P2-1      day 0            2       Gambia        15/02/2021  1961-06-15
+#> 4    PS003P2      day 0            2       Gambia        11/02/2021  1947-11-11
+#> 5    P0005P2      day 0            2       Gambia        17/02/2021  2000-09-26
+#> 6    PS006P2      day 0            2       Gambia        17/02/2021        <NA>
+#> 7    PB500P2      day 0            2       Gambia        28/02/2021  1989-11-03
+#> 8    PS008P2      day 0            2       Gambia        22/02/2021  1976-10-05
+#> 9    PS010P2      day 0            2       Gambia        02/03/2021  1991-09-23
+#> 10   PS011P2      day 0            2       Gambia        05/03/2021  1991-02-08
+#>    date_first_pcr_positive_test sex age_months remainder_days
+#> 1                  Dec 01, 2020   1        612             12
+#> 2                  Jan 01, 2021   1        855             22
+#> 3                  Feb 11, 2021 -99        743             28
+#> 4                  Feb 01, 2021   1        907              2
+#> 5                  Feb 16, 2021   2        272             17
+#> 6                  May 02, 2021   2         NA             NA
+#> 7                  Feb 19, 2021   1        403              9
+#> 8                  Sep 20, 2021   2        560              8
+#> 9                  Feb 26, 2021   1        380             20
+#> 10                 Mar 03, 2021   2        388              4
 ```
 
 ### CHECK DATE SEQUENCE
@@ -333,12 +332,12 @@ print(good_date_sequence$report)
 #> date_first_pcr_positive_test < date.of.admission
 #> 
 #> $incorrect_date_sequence$bad_sequence
-#>    study_id event_name country_code country_name date.of.admission dateOfBirth
-#> 1:  PS006P2      day 0            2       Gambia        2021-02-17         -99
-#> 2:  PS008P2      day 0            2       Gambia        2021-02-22  10/05/1976
-#>    date_first_pcr_positive_test sex
-#> 1:                   2021-05-02   2
-#> 2:                   2021-09-20   2
+#>   study_id event_name country_code country_name date.of.admission dateOfBirth
+#> 6  PS006P2      day 0            2       Gambia        2021-02-17         -99
+#> 8  PS008P2      day 0            2       Gambia        2021-02-22  10/05/1976
+#>   date_first_pcr_positive_test sex
+#> 6                   2021-05-02   2
+#> 8                   2021-09-20   2
 ```
 
 ## Next steps

@@ -16,7 +16,7 @@
 #'        of duplicated rows.
 #'        When the user only needs to detect duplicated rows in the dataset, use
 #'        the `find_duplicates()` function.
-#'   \item `duplicates_from`: a vector of columns names or indices to consider
+#'   \item `target_columns`: a vector of columns names or indices to consider
 #'        when looking for duplicates. When the input data is a `linelist`
 #'        object, this parameter can be set to `tags` if you wish to look for
 #'        duplicates across the tagged variables only. Only used when
@@ -55,13 +55,18 @@
 #' If `check_timeframe = TRUE` and `timeframe = NULL`, the timeframe will be
 #' today's date and the same date 50 years before.
 #'
+#' in `clean_data()`, duplicated rows will be identified across the
+#' user-specified or all columns. Once detected, all occurrences of the
+#' duplicated rows will be removed except the first. If you only need to find
+#' and remove specific duplicates, use the `find_duplicates()` then
+#' `remove_duplicates()` functions.
+#'
 #' @examples
 #' cleaned_data <- clean_data(
-#' data = data.table::fread(system.file("extdata", "test.txt",
-#' package = "cleanepi")),
+#' data = readRDS(system.file("extdata", "test_df.rds", package = "cleanepi")),
 #' params = list(
 #'   remove_duplicates = TRUE,
-#'   duplicates_from = NULL,
+#'   target_columns = NULL,
 #'   replace_missing = TRUE,
 #'   na_comes_as = "-99",
 #'   check_timeframe = TRUE,
@@ -77,7 +82,7 @@
 #'
 clean_data <- function(data,
                        params = list(remove_duplicates = FALSE,
-                                     duplicates_from = NULL,
+                                     target_columns = NULL,
                                      replace_missing = FALSE,
                                      na_comes_as = NULL,
                                      check_timeframe = TRUE,
@@ -113,20 +118,20 @@ clean_data <- function(data,
   dat <- data %>%
     janitor::remove_empty(c("rows", "cols"))
   report <- report_cleaning(data, dat, state = "remove_empty", report = report)
+  data <- dat
 
   # remove constant columns
-  data <- dat
   R.utils::cat("\nremoving constant columns")
   dat <- data %>% janitor::remove_constant()
   report <- report_cleaning(data, dat, state = "remove_constant",
                            report = report)
+  data <- dat
 
   # remove duplicated records
   R.utils::cat("\nremoving duplicated rows")
-  data <- dat
   if (params$remove_duplicates) {
-    dat <- remove_duplicates(data, params$duplicates_from,
-                             remove = -1, report)
+    dat <- remove_duplicates(data, params$target_columns,
+                             remove = NULL, report)
     data <- dat$data
     report <- dat$report
   }

@@ -16,8 +16,7 @@ params <- list(
 
 test_that("cleanepi works as expected", {
   clean_data <- clean_data(
-    data = data.table::fread(system.file("extdata", "test.txt",
-                                         package = "cleanepi")),
+    data = readRDS(system.file("extdata", "test_df.rds", package = "cleanepi")),
     params <- params
   )
   expect_type(clean_data, "list")
