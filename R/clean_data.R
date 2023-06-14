@@ -16,11 +16,7 @@
 #'        of duplicated rows.
 #'        When the user only needs to detect duplicated rows in the dataset, use
 #'        the `find_duplicates()` function.
-<<<<<<< HEAD
 #'   \item `target_columns`: a vector of columns names or indices to consider
-=======
-#'   \item `duplicates_from`: a vector of columns names or indices to consider
->>>>>>> 86404dd (create find_duplicates function and update remove_duplicates and clean_data)
 #'        when looking for duplicates. When the input data is a `linelist`
 #'        object, this parameter can be set to `tags` if you wish to look for
 #'        duplicates across the tagged variables only. Only used when
@@ -64,7 +60,6 @@
 #' @details
 #' If `check_timeframe = TRUE` and `timeframe = NULL`, the timeframe will be
 #' today's date and the same date 50 years before.
-<<<<<<< HEAD
 #'
 #' in `clean_data()`, duplicated rows will be identified across the
 #' user-specified or all columns. Once detected, all occurrences of the
@@ -100,39 +95,7 @@ clean_data <- function(data,
                                      na_comes_as         = NULL,
                                      check_timeframe     = FALSE,
                                      timeframe           = NULL,
-                                     error_tolerance     = 0.5,
-=======
-#'
-#' @examples
-#' cleaned_data <- clean_data(
-#' data = data.table::fread(system.file("extdata", "test.txt",
-#' package = "cleanepi")),
-#' params = list(
-#'   remove_duplicates = TRUE,
-#'   duplicates_from = NULL,
-#'   replace_missing = TRUE,
-#'   na_comes_as = "-99",
-#'   check_timeframe = TRUE,
-#'   timeframe = as.Date(c("1973-05-29", "2023-05-29")),
-#'   error_tolerance = 0.5,
-#'   subject_id_col_name = "study_id",
-#'   subject_id_format = "PS000P2",
-#'   prefix = "PS",
-#'   suffix = "P2",
-#'   range = c(1, 100)
-#'   )
-#' )
-#'
-clean_data <- function(data,
-                       params = list(remove_duplicates = FALSE,
-                                     duplicates_from = NULL,
-                                     replace_missing = FALSE,
-                                     na_comes_as = NULL,
-                                     check_timeframe = TRUE,
-                                     timeframe = NULL,
-                                     error_tolerance = 0.5,
->>>>>>> 86404dd (create find_duplicates function and update remove_duplicates and clean_data)
-                                     subject_id_col_name = NULL,
+                                     error_tolerance     = 0.5,                                     subject_id_col_name = NULL,
                                      subject_id_format   = NULL,
                                      prefix              = NULL,
                                      suffix              = NULL,
@@ -148,7 +111,6 @@ clean_data <- function(data,
   ## | Column names in 'keep_col_names' will not be modified.
   ## -----
   R.utils::cat("\ncleaning column names")
-<<<<<<< HEAD
   res    <- clean_col_names(x              = data,
                             report         = report,
                             keep           = params[["keep"]])
@@ -162,14 +124,6 @@ clean_data <- function(data,
   ## | user if know, or inferred internally otherwise.
   ## -----
   if (params[["replace_missing"]]) {
-=======
-  res <- clean_col_names(data, report)
-  data <- res$data
-  report <- res$report
-
-  # replace missing values with NA
-  if (params$replace_missing) {
->>>>>>> 86404dd (create find_duplicates function and update remove_duplicates and clean_data)
     R.utils::cat("\nreplacing missing values with NA")
     for (cols in names(data)) {
       data <- replace_missing_char(data, cols, params[["na_comes_as"]])
@@ -198,7 +152,6 @@ clean_data <- function(data,
                             report = report)
   data   <- dat
 
-<<<<<<< HEAD
   ## -----
   ## | Date columns are expected in 'year-month-day' format. The will will
   ## | detect and convert columns with Date values. This conversion will make it
@@ -208,21 +161,6 @@ clean_data <- function(data,
   if (!("error_tolerance" %in% names(params))) {
     params[["error_tolerance"]] <- 0.5
   }
-=======
-  # remove duplicated records
-  R.utils::cat("\nremoving duplicated rows")
-  data <- dat
-  if (params$remove_duplicates) {
-    dat <- remove_duplicates(data, params$duplicates_from,
-                             remove = -1, report)
-    data <- dat$data
-    report <- dat$report
-  }
-
-
-  # standardize date columns
-  R.utils::cat("\nstandardising date columns")
->>>>>>> 86404dd (create find_duplicates function and update remove_duplicates and clean_data)
   dat <- standardize_date(
     data             = data,
     date_column_name = NULL,
