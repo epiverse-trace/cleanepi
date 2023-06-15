@@ -174,9 +174,8 @@ print(cleaned_data)
 
 ## Next steps
 
-- [ ] build function to display the cleaning report </input>
-- build function to display the cleaning report
-- build function to perform dictionary based cleaning
+- [ ] build function to display the cleaning report
+- :white_check_mark: build function to perform dictionary based cleaning
 - build function to quantify and handle missing data
 
 ### Lifecycle
