@@ -122,7 +122,6 @@ browseVignettes("cleanepi")
 :white_check_mark: build function to display the cleaning report    
 :white_check_mark: improve package coverage    
 
-
 ### Lifecycle
 
 This package is currently an *experimental*, as defined by the [RECON software
