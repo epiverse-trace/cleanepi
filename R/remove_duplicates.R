@@ -57,7 +57,6 @@ remove_duplicates <- function(data, target_columns,
   if (is.null(remove)) {
     # remove duplicates by keeping the first instance of the duplicate in each
     # duplicate group
-    data$row_id <- seq_len(nrow(data))
     data <- data %>%
       dplyr::distinct(dplyr::pick(target_columns), .keep_all = TRUE)
   } else {
