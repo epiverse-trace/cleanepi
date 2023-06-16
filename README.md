@@ -22,17 +22,18 @@ coverage](https://codecov.io/gh/epiverse-trace/cleanepi/branch/main/graph/badge.
 **cleanepi** is an R package to clean, curate, and standardize
 epidemiological data.
 
-**cleanepi** performs several data cleaning tasks that an end-user would
-anticipate to be performed on a cluttered dataset. These include
-standard tasks such as removing duplicated and empty rows and row,
-detecting columns of constant value, replacing missing values,
-performing a sanity check on uniquely identified columns, and converting
-dates in a string to date-format. **cleanepi** can also standardize
-column entries into specified formats, calculate age (in years, months,
-weeks, or days) for a given column and reference data, and perform
-further dictionary-based cleaning operations. **cleanepi** expects input
-data in form of dataframe-like structure (`data.frame`, `tibble`, etc)
-or `linelist` object.
+**cleanepi** performs several data cleansing tasks that an end-user
+would anticipate to be performed on a cluttered dataset. These include
+standard tasks such as removing duplicated and empty rows and columns,
+detecting columns of constant value, replacing missing values, ensuring
+uniqueness of uniquely identified columns, and converting dates in a
+string to date-format. **cleanepi** can also standardize column entries
+into specified formats, calculate age (in years, months, weeks, or days)
+for a given column and reference data, and perform further
+dictionary-based cleaning operations. **cleanepi** expects input data in
+a form of dataframe-like structure (`data.frame`, `tibble`, etc) or
+`linelist` object and returns dataframe of processed data and list of
+reports for each task.
 
 **cleanepi** is developed by the
 [Epiverse-TRACE](https://data.org/initiatives/epiverse/) team at the
@@ -51,19 +52,6 @@ The current development version of **cleanepi** can be installed from
 library(cleanepi)
 ```
 
-## Description
-
-| function name           | description                                                                                                                                                                                           |
-|:------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **clean_data**          | cleaning of column names, detecting and removing empty rows and columns as well as constant columns and duplicated rows. It also replaces missing values by NA and automatically convert date columns |
-| **check_subject_ids**   | check whether the IDs comply with the expected format                                                                                                                                                 |
-| **standardize_date**    | convert date column into *%Y-%m-%d*                                                                                                                                                                   |
-| **calculate_age**       | calculate age from date column. Returned age can be in either *years*, or *months*, or *weeks*, or *days* or a combination of some of these                                                           |
-| **check_date_sequence** | check whether the sequence of event dates is correct                                                                                                                                                  |
-| **find_duplicates**     | detect and return duplicated rows from the input dataset                                                                                                                                              |
-| **remove_duplicates**   | remove detected duplicated rows                                                                                                                                                                       |
-| **WIP**                 | work in progress                                                                                                                                                                                      |
-
 ## Quick start
 
 The main function in **cleanepi** is `clean_data(),` which calls
@@ -75,27 +63,6 @@ a specific task.
 `clean_data()` returns a `list` containing `data.frame` for the
 processed input data and a `list` of reports for each operation. Below
 is typical example of how to use `clean_data()` function.
-
-In this example, the following data cleaning operations are performed on
-the input dataset based on the following criteria:
-
-1.  removal of any duplicated line across all columns
-    (`remove_duplicates = TRUE`; `target_columns = NULL`)
-2.  replacement of the missing character `-99` by `NA`
-    (`replace_missing = TRUE`; `na_comes_as = "-99"`)
-3.  conversion of any `character` column into `Date` if the 50% or more
-    of its values turn out to be dates. Dates not within the specified
-    time frame will be considered as outliers and replaced by `NA`
-    (`check_timeframe = TRUE`;
-    `timeframe = as.Date(c("1973-05-29", "2023-05-29"))`;
-    `error_tolerance = 0.5`)
-4.  Checking if the subject IDs comply with the expected format
-    (`subject_id_col_name = "study_id"`;
-    `subject_id_format = "PS000P2"`; `prefix = "PS"`; `suffix = "P2"`;
-    `range = c(1, 100)`). This will detect and remove the rows where the
-    format of the subject IDs are incorrect.
-5.  The other cleaning operations, mentioned above, will be
-    automatically applied to the input dataset.
 
 ``` r
 # READING IN THE TEST DATASET
