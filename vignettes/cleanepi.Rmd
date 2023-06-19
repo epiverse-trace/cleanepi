@@ -23,11 +23,7 @@ No matter how many measures are taken, one must always expect  messy data from t
 
 **{cleanepi}** is an R package to clean, curate, and standardize epidemiological data. It contains functions to perform several data cleaning tasks that an end-user would anticipate to be performed on a cluttered dataset. 
 
-<<<<<<< HEAD
 **{cleanepi}** is specifically designed for epidemiological data, and works with data frame-like data structure. This vignette provides a detailed description of the functions included in the package and how to use them. 
-=======
-**cleanepi** is specifically designed for epidemiological data, and works with data frame-like data structure. This vignette provides a detailed description the functions included in the package and how to use them. 
->>>>>>> 2c11d83 (update readme, vignette and some function documentation)
 
 ```{r setup, eval=TRUE}
 library("cleanepi")

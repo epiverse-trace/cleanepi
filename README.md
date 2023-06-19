@@ -303,6 +303,12 @@ print(cleaned_data)
 browseVignettes("cleanepi")
 ```
 
+## Vignette
+
+``` r
+browseVignettes("cleanepi")
+```
+
 ## Next steps
 
 :white_check_mark: update and create test files  
