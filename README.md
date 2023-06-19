@@ -145,8 +145,8 @@ browseVignettes("cleanepi")
 
 ## Next steps
 
-:white_check_mark: write test scripts :white_check_mark: build function
-to display the cleaning report  
+:white_check_mark: write test scripts  
+:white_check_mark: build function to display the cleaning report  
 :white_check_mark: build function to perform dictionary based cleaning  
 :white_check_mark: build function to quantify and handle missing data  
 :white_check_mark: improve package coverage
