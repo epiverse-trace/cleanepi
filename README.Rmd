@@ -103,6 +103,11 @@ cleaning_report <- res$report
 print(cleaned_data)
 ```
 
+## Vignette
+```{r eval=FALSE}
+browseVignettes("cleanepi")
+```
+
 ## Next steps
 
 :white_check_mark: build function to display the cleaning report    

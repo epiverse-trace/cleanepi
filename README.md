@@ -137,6 +137,12 @@ print(cleaned_data)
 #> 10  PS011P2        2021-03-05  1991-08-02                   2021-03-03   2
 ```
 
+## Vignette
+
+``` r
+browseVignettes("cleanepi")
+```
+
 ## Next steps
 
 :white_check_mark: build function to display the cleaning report  
