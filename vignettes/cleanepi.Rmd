@@ -40,8 +40,8 @@ The main function in **cleanepi** is `clean_data()` that can perform the followi
 7. Detect and remove rows with subject IDs that do not comply with the expected format.
 
 The function `clean_data()` returns a `list` of 2 objects:\
-1. a `data.frame` or `linelist` with the cleaned data\
-2. a `list` that corresponds to a reports from all the actions performed on the given dataset.
+1. a `data.frame` or `linelist` object with the cleaned data.\
+2. a `list` of reports from all the actions performed on the given dataset.
 
 
 ```{r eval=FALSE}
@@ -77,28 +77,27 @@ cleaning_report <- res$report
 
 ## Specific data cleaning tasks
 
-Data cleaning operations like cleaning column names, removing empty rows and columns and constant columns and date columns standardization are automatically applied to the input object. We consider them as the `implicit data cleaning steps`.   
-On the other hand, the user can, when required, call the other data cleaning functions individually to perform a specific cleaning task. 
+Data cleaning operations such as renaming columns; removing empty rows, columns, and  columns with a constant value;  and standardization of date columns  are automatically applied to the input data. We consider them as the `implicit data cleaning steps` and will be executed by default.   The user can also call each data cleaning function individually to perform a specific  task. 
 
 ### Detect and remove incorrect subject IDs
 
-We propose the `check_subject_ids()` function to detect and eventually remove rows of the input dataset where the subject ID does not match the expected format. 
+The `check_subject_ids()` function  detects and  removes rows of the input dataset where the subject ID does not match the expected format. 
 The function requires the following parameters:   
 
-1. `data`: The input dataset (required)   
+1. `data`: the input dataset (required)   
 2. `id_column_name`: The name of the column with the subject IDs (required)  
-3. `format`: The expected subject IDs format (required)   
-4. `prefix`: The expected prefix in the subject IDs (optional)   
-5. `suffix`: The expected suffix in the subject IDs (optional)   
-6. `range`: The expected range of numbers in the subject IDs (optional)   
-7. `remove`: If `TRUE`, rows with incorrect subject IDs will be removed. default is `FALSE`   
-8. `verbose`: When `TRUE`, messages will be printed along the execution of the function. default is `FALSE`   
-9. `report`: A `list` that will contains details about the detected wrong IDs. This can be the output from another function in **cleanepi**.   
+3. `format`: the expected subject IDs format (required)   
+4. `prefix`: the expected prefix in the subject IDs (optional)   
+5. `suffix`: the expected suffix in the subject IDs (optional)   
+6. `range`: the expected range of numbers in the subject IDs (optional)   
+7. `remove`: a Boolean variable and default is `FALSE`. If `TRUE`, rows with incorrect subject IDs will be removed.    
+8. `verbose`: a Boolean variable and default is `FALSE`. If `TRUE`, a message will be printed along the execution of the function. 
+9. `report`: a `list` containing reports for other data cleaning tasks  **cleanepi** (optional).
 
 The function returns a `list` of 2 elements:    
 
-* the input dataset where rows with bad IDs were removed (`if remove = TRUE`) or not.
-* a `list` with an element named as `incorrect_subject_id` that is a subset of the input object with only rows that have incorrect subject IDs.    
+* Clean input dataset where rows with bad IDs were removed (`if remove = TRUE`) or not.
+* A `list`, or augmented  report list,   with an element named as `incorrect_subject_id` and  rows that have incorrect subject IDs as it value.    
 
 ```{r eval=FALSE}
 # DETECT INCORRECT SUBJECT IDs
@@ -134,14 +133,14 @@ dat <- check_subject_ids(
 
 ### Calculate age
 
-Use the `calculate_age()` function to calculate the ages of individuals from a given column. The functions can calculate age in years, months, weeks, and days. It needs the following arguments:  
+The `calculate_age()` function calculates  ages of individuals (in years, months, weeks, and) days for a given date column and reference date. It takes the following arguments:  
 
 1. `data`: the input dataset (required)
-2. `date_column_name`: the name of the column that will be used to calculate the age (required) 
-3. `end_date`: the reference date. The calculated age will be the number of years (or months, weeks, days) between the given dates and this. Default is today's date. (required)
-4. `age_in`: the age unit. Possible values are _years, months, weeks, days_ (required)
+2. `date_column_name`: the name of the column to which the age is calculated for (required) 
+3. `end_date`: the reference date to which the age is calculated from 
+4. `age_in`: the age unit (years, months, weeks, or days) and default is years (optional)
 
-This function returns the input dataset with 1 or 2 columns that contains respectively: the calculated age in the specified unit and the remaining number of days.  
+This function returns the input dataset with 1 or 2 columns that contains, respectively: the calculated age in the specified unit and the remaining number of days.  
 
 ```{r eval=FALSE}
 # CALCULATE INDIVIDUAL AGE FROM THE `dateOfBirth` COLUMN
@@ -158,15 +157,14 @@ head(age)  # note the last 2 columns
 
 
 ### Check date sequence
-
-When the order in the sequence of date events matters, it is necessary to check whether the values in all rows comply with this sequence of events. For example, when they exist, the values in `date_of_infection`, `date_of_admission`, and `date_of_death` columns should be in the order they are listed above. Any row where the values are not in this order will be considered as wrong and eventually be deleted by the `check_date_sequence()` function. The function needs the arguments described below:  
+The `check_date_sequence()` function checks the order of sequences in date columns and makes sure the values in all rows comply with the desired order. For example,  the values in `date_of_infection`, `date_of_admission`, and `date_of_death` columns should be in the order they are listed here. Any row where the values are not in this order will be considered as wrong and eventually be removed by the `check_date_sequence()` function. The function takes the following arguments:  
 
 1. `data`: the input dataset
-2. `event_cols`: a `vector` with the names of the date of interest. These should be listed in the expected order of occurrence. This would look like this for the mentioned example above: `event_cols = c("date_of_infection", "date_of_admission", "date_of_death"`
-3. `remove_bad_seq`: if `TRUE`, rows with incorrect date sequence will be deleted from the output object. Otherwise, they will be detected and stored in the report object. Default is `FALSE`.    
-4. `report`: A `list` that will contains the detected rows with wrong date sequence events. This can be the output from another function in **cleanepi**.   
+2. `event_cols`: a `vector` with the names of  date columns of interest. These should be listed in the expected order of occurrence, and would look like this for the mentioned example above: `event_cols = c("date_of_infection", "date_of_admission", "date_of_death"`
+3. `remove_bad_seq`: a Boolean variable and the default value is `false`. If `TRUE`, rows with incorrect date sequence will be deleted from the output object. Otherwise, they will be detected and stored in the report object.    
+4. `report`: a `list` containing reports for other data cleaning tasks  **cleanepi** (optional).
 
-The function returns the input dataset without the incorrect rows (if `remove_bad_seq = TRUE`) and a `list` containing the dataset with incorrect date sequences.    
+The function returns the input dataset without the incorrect rows (if `remove_bad_seq = TRUE`) and a `list` containing the details about the   incorrect date sequences.    
 
 ```{r eval=FALSE}
 # DETECT ROWS WITH INCORRECT DATE SEQUENCE
@@ -184,12 +182,12 @@ good_date_sequence$report
 
 ### Find duplicated rows
 
-The `find_duplicates()` functions can be used to identify duplicated rows from an input dataset. The function takes the following arguments:   
+The `find_duplicates()` function can be used to identify duplicated rows from an input dataset. The function takes the following arguments:   
 
 1. `data`: the input dataset
-2. `target_columns`: a `vector` of column names or indexes from which duplicated rows will be identified. If `NULL`, duplicates will be detected across all columns. For an input dataset of type `linelist`, this can be set to `tags` to identify duplicates across the **tagged variables** only.
+2. `target_columns`: a `vector` of column names or indexes from which duplicated rows will be identified. If `NULL`, duplicates will be detected across all columns. If the input dataset is a `linelist` object, this can be set to `tags` to identify duplicates across the **tagged variables** only.
 
-The function returns all duplicated rows in the dataset based on all or the specified columns. Two extra columns: `row_id` and `group_id` will be added to this dataset. They respectively represent the row numbers of the duplicated rows from the input dataset and the duplicated group ID assigned to them, every group being the same set of values in the columns of interest. 
+The function returns all duplicated rows in the dataset based on all or the specified columns. Two extra columns: `row_id` and `group_id` will be added to the dataset, to represent, respectively, the row numbers of the duplicated rows from the input dataset and the duplicated group ID assigned to them, every group being the same set of values in the columns of interest. 
 
 ```{r eval=FALSE}
 # FIND DUPLICATES
@@ -209,9 +207,9 @@ head(dups) # note the first 2 columns
 To remove duplicated rows, use the `remove_duplicates()` function. It internally calls the `find_duplicates()` function. It expects the following parameters:  
 
 1. `data`: the input dataset
-2. `target_columns`: a `vector` of column names or indexes from which duplicated rows will be identified. If `NULL`, duplicates will be detected across all columns. For an input dataset of type `linelist`, this can be set to `tags` to identify duplicates across the **tagged variables** only.
+2. `target_columns`: a `vector` of column names or indexes from which duplicated rows will be identified. If `NULL`, duplicates will be detected across all columns. f the input dataset is a `linelist` object, this can be set to `tags` to identify duplicates across the **tagged variables** only.
 3. `remove`: a `numeric vector` of the indices of the duplicated rows to be removed. If `NULL`, duplicates will be removed and only the first occurrence of the duplicated rows will be kept.
-4. `report`: A `list` that will contains the details about the detected and removed duplicated rows. This can be the output from another function in **cleanepi**.   
+4. `report`: a `list` containing reports for other data cleaning tasks  **cleanepi** (optional).   
 
 The function returns the inputs dataset without the duplicated rows and a `list` with the outcomes from the duplicates removal operation. This is in turn a list of 3 elements:  
 
