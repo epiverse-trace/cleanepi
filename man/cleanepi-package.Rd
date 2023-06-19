@@ -6,6 +6,8 @@
 \alias{cleanepi-package}
 \title{cleanepi: Data Cleaning Package}
 \description{
+\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
+
 cleanepi contains functions that are used for epidemiological data cleaning.
 }
 \author{

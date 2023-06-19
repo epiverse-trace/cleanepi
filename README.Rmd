@@ -26,7 +26,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# cleanepi: Clean and standardize epidemiological data
+# cleanepi: Clean and standardize epidemiological data <img src="man/figures/logo.png" align="right" width="130"/>
 
 <!-- badges: start -->
 
@@ -110,9 +110,11 @@ browseVignettes("cleanepi")
 
 ## Next steps
 
+:white_check_mark: write test scripts 
 :white_check_mark: build function to display the cleaning report    
 :white_check_mark: build function to perform dictionary based cleaning    
 :white_check_mark: build function to quantify and handle missing data   
+:white_check_mark: improve package coverage 
 
 
 ### Lifecycle

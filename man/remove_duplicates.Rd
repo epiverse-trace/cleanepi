@@ -38,6 +38,7 @@ no_dups <- remove_duplicates(
     package = "cleanepi"
   )),
   target_columns = "tags",
+  remove = NULL,
   report = list()
 )
 
