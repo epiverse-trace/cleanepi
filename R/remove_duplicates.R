@@ -24,26 +24,14 @@
 #'     package = "cleanepi"
 #'   )),
 #'   target_columns = "tags",
+#'   remove = NULL,
 #'   report = list()
 #' )
 #'
 remove_duplicates <- function(data, target_columns,
                               remove = NULL, report = list()) {
-  if (is.null(target_columns)) {
-    target_columns <- names(data)
-  }
-
-  # check for linelist object if target_columns='tags'
-  x_class <- class(data)
-  if (all(length(target_columns) == 1 & target_columns == "tags")) {
-    stopifnot(
-      "'tags' only works on linelist object. Please provide a vector of
-              column names if you are dealing with a data frame" =
-        "linelist" %in% x_class
-    )
-    original_tags <- linelist::tags(data)
-    target_columns <- as.character(original_tags)
-  }
+  # get the target column names
+  target_columns <- get_target_column_names(target_columns, data)
 
   # extract column names if target_columns is a vector of column indexes
   if (is.numeric(target_columns)) {
@@ -52,6 +40,7 @@ remove_duplicates <- function(data, target_columns,
 
   # find duplicates
   dups <- find_duplicates(data, target_columns)
+  data$row_id <- seq_len(nrow(data))
 
   # remove duplicates
   if (is.null(remove)) {
@@ -65,7 +54,7 @@ remove_duplicates <- function(data, target_columns,
   }
 
   if (nrow(dups) > 0) {
-    if (!("remove_dupliates" %in% names(report))) {
+    if (!("remove_duplicates" %in% names(report))) {
       report[["remove_dupliates"]] <- list()
       report[["remove_dupliates"]][["all_dups"]] <- dups
       idx <- which(!(dups$row_id %in% data$row_id))
@@ -76,7 +65,7 @@ remove_duplicates <- function(data, target_columns,
   }
 
   list(
-    data = data,
+    data = data %>% dplyr::select(-c(row_id)),
     report = report
   )
 }
@@ -112,6 +101,9 @@ remove_duplicates <- function(data, target_columns,
 #' )
 #'
 find_duplicates <- function(data, target_columns) {
+  # get the target column names
+  target_columns <- get_target_column_names(target_columns, data)
+
   # find duplicates
   num_dups <- row_id <- group_id <- NULL
   dups <- data %>%
@@ -127,4 +119,32 @@ find_duplicates <- function(data, target_columns) {
     dplyr::select(row_id, group_id, dplyr::everything())
 
   dups
+}
+
+
+#' Get the names of the columns from which duplicates will be found
+#'
+#' @param target_columns the user specified target column name
+#' @param data the input dataset
+#'
+#' @return a `vector` with the target column names or indexes
+#'
+get_target_column_names <- function(target_columns, data) {
+  if (is.null(target_columns)) {
+    target_columns <- names(data)
+  }
+
+  # check for linelist object if target_columns='tags'
+  x_class <- class(data)
+  if (all(length(target_columns) == 1 & target_columns == "tags")) {
+    stopifnot(
+      "'tags' only works on linelist object. Please provide a vector of
+              column names if you are dealing with a data frame" =
+        "linelist" %in% x_class
+    )
+    original_tags <- linelist::tags(data)
+    target_columns <- as.character(original_tags)
+  }
+
+  target_columns
 }

@@ -41,8 +41,9 @@ coverage](https://codecov.io/gh/epiverse-trace/cleanepi/branch/main/graph/badge.
 
 **cleanepi** is an R package to clean, curate, and standardize epidemiological data. 
 
-**cleanepi**  performs several data cleansing tasks that an end-user would anticipate to be performed on a cluttered dataset. These include standard tasks such as removing duplicated and empty rows and columns, detecting columns of constant value, replacing missing values, ensuring uniqueness of uniquely identified columns, and converting dates in a string to date-format. **cleanepi** can also standardize column entries into specified formats, calculate age (in years, months, weeks, or days) for a given column and reference data, and perform further dictionary-based cleaning operations.
-**cleanepi** expects input data  in  a form of  dataframe-like structure (`data.frame`, `tibble`, etc) or `linelist` object and returns dataframe of processed data and list of reports for each task.  
+**cleanepi**  performs several data cleaning tasks that an end-user would anticipate to be performed on a cluttered dataset. These include standard tasks such as: removing duplicated and empty rows and columns, removing columns with constant values, replacing missing value strings with `NA`, ensuring uniqueness of uniquely identified columns, and converting `character` columns to `Date` under certain conditions.    
+**cleanepi** can also standardize column entries into specified formats, calculates age (in years, months, weeks, or days) from a given `Date` column and reference date.   
+**cleanepi** expects input data in  a form of  data frame-like structure (`data.frame`, `tibble`, etc) or a `linelist` object and returns a processed data of the same type. It also returns an object of type `list` that reports the outcomes from every cleaning task.  
 
 **cleanepi** is developed by  the [Epiverse-TRACE](https://data.org/initiatives/epiverse/) team at the Medical Research Council The Gambia unit at the London School of Hygiene and Tropical Medicine (MRCG@LSHTM).
 
@@ -62,10 +63,7 @@ library(cleanepi)
 
 ## Quick start
 The main function in **cleanepi** is `clean_data(),` which calls 
-functions for almost all standard data cleaning tasks, such as removal of empty and duplicated rows and columns, replacement of missing values, etc. However, each function can also be called independently to perform a specific  task.
-
-`clean_data()` returns a `list` containing `data.frame` for the  processed input data and a `list` of reports for each operation. Below is typical example of how to use `clean_data()` function. 
-
+functions for almost all standard data cleaning tasks, such as removal of empty and duplicated rows and columns, replacement of missing values, etc. However, each function can also be called independently to perform a specific  task. Below is typical example of how to use `clean_data()` function. 
 
 
 ```{r eval=TRUE}
@@ -79,7 +77,7 @@ print(test_data)
 # DEFINING THE CLEANING PARAMETERS
 params <- list(
   remove_duplicates = TRUE,
-  target_columns = NULL,
+  target_columns = NULL, 
   replace_missing = TRUE,
   na_comes_as = "-99",
   check_timeframe = TRUE,

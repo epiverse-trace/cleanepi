@@ -43,7 +43,8 @@ check_date_sequence <- function(data, event_cols, remove_bad_seq = FALSE,
   if (!all(event_cols %in% names(data))) {
     idx <- which(!(event_cols %in% names(data)))
     event_cols <- event_cols[-idx]
-    warning("\nRemoving unrecognised column name: ", event_cols[idx])
+    warning("\nRemoving unrecognised column name: ", event_cols[idx],
+            call. = FALSE)
     if (length(event_cols) < 2) {
       stop("\nAt least 2 event dates are required!")
     }
@@ -66,9 +67,10 @@ check_date_sequence <- function(data, event_cols, remove_bad_seq = FALSE,
     tmp_data <- data[bad_order, ]
     if (remove_bad_seq) {
       data <- data[-bad_order, ]
+      warning(length(bad_order),
+              " incorrect date sequences were detected and removed",
+              call. = FALSE)
     }
-    warning(length(bad_order),
-    "incorrect date sequences were detected and removed")
   }
 
   # making the report
