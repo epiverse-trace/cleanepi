@@ -399,7 +399,7 @@ dat <- check_subject_ids(
  format = "PS000P2",
  prefix = "PS",
  suffix = "P2",
- range = c(1,100),
+ range = c(1, 100),
  remove = FALSE,
  verbose = TRUE,
  report = list()
@@ -415,7 +415,7 @@ dat <- check_subject_ids(
  format = "PS000P2",
  prefix = "PS",
  suffix = "P2",
- range = c(1,100),
+ range = c(1, 100),
  remove = TRUE,
  verbose = FALSE,
  report = list()
@@ -435,7 +435,7 @@ Use the `calculate_age()` function to calculate the ages of individuals from a g
 This function returns the input dataset with 1 or 2 columns that contains respectively: the calculated age in the specified unit and the remaining number of days.  
 
 ```{r eval=FALSE}
-# CALCULATE INDIVIDUAL AGE FROM THE `dateOfBirth` COLUMN 
+# CALCULATE INDIVIDUAL AGE FROM THE `dateOfBirth` COLUMN
 age <- calculate_age(
  data = readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi")),
  date_column_name = "dateOfBirth",
@@ -485,7 +485,7 @@ The function returns all duplicated rows in the dataset based on all or the spec
 ```{r eval=FALSE}
 # FIND DUPLICATES
 dups <- find_duplicates(
-  data = readRDS(system.file("extdata", "test_linelist.RDS", 
+  data = readRDS(system.file("extdata", "test_linelist.RDS",
                              package = "cleanepi")),
   target_columns = "tags"
 )
@@ -511,9 +511,10 @@ The function returns the inputs dataset without the duplicated rows and a `list`
 * `duplicates_checked_from`: a comma-separated string of column names that were used to identify the duplicated rows.
 
 ```{r eval=FALSE}
-# REMOVE DUPLICATES ACROSS TAGGED VARIABLES(KEEP ONLY THE FIRST OCCURENCE OF THE DUPLICATED ROWS)
+# REMOVE DUPLICATES ACROSS TAGGED VARIABLES (KEEP ONLY THE FIRST OCCURENCE OF
+# THE DUPLICATED ROWS)
 no_dups <- remove_duplicates(
-  data = readRDS(system.file("extdata", "test_linelist.RDS", 
+  data = readRDS(system.file("extdata", "test_linelist.RDS",
                              package = "cleanepi")),
   target_columns = "tags",
   remove = NULL,
@@ -522,15 +523,15 @@ no_dups <- remove_duplicates(
 
 # DETECT DUPLICATES FROM TAGGED COLUMNS
 dups <- find_duplicates(
-  data = readRDS(system.file("extdata", "test_linelist.RDS", 
+  data = readRDS(system.file("extdata", "test_linelist.RDS",
                              package = "cleanepi")),
   target_columns = "tags"
 )
 
-# REMOVE FIRST OCCURRENCE OF DUPLICATED ROWS 
+# REMOVE FIRST OCCURRENCE OF DUPLICATED ROWS
 dups_index_to_remove <- dups$row_id[seq(1, nrow(dups), 2)]
 no_dups <- remove_duplicates(
-  data = readRDS(system.file("extdata", "test_linelist.RDS", 
+  data = readRDS(system.file("extdata", "test_linelist.RDS",
                              package = "cleanepi")),
   target_columns = "tags",
   remove = dups_index_to_remove,
