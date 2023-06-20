@@ -217,7 +217,7 @@ res$report
 The `find_duplicates()` function can be used to identify duplicated rows from an input dataset. The function takes the following arguments:   
 
 1. `data`: the input dataset
-2. `target_columns`: a `vector` of column names or indexes from which duplicated rows will be identified. If `NULL`, duplicates will be detected across all columns. If the input dataset is a `linelist` object, this can be set to `tags` to identify duplicates across the **tagged variables** only.
+2. `target_columns`: a `vector` of column names or indexes from which duplicated rows will be identified. If `NULL`, duplicates will be detected across all columns. If the input dataset is a `linelist` object, this can be set to `tags` to identify duplicates across the **tagged variables** only.  
 
 ```{r eval=TRUE}
 library(magrittr)
