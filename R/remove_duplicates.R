@@ -54,14 +54,12 @@ remove_duplicates <- function(data, target_columns,
   }
 
   if (nrow(dups) > 0) {
-    if (!("remove_duplicates" %in% names(report))) {
-      report[["remove_dupliates"]] <- list()
-      report[["remove_dupliates"]][["all_dups"]] <- dups
+      report[["remove_duplicates"]] <- list()
+      report[["remove_duplicates"]][["all_dups"]] <- dups
       idx <- which(!(dups$row_id %in% data$row_id))
-      report[["remove_dupliates"]][["removed_dups"]] <- dups[idx, ]
-      report[["remove_dupliates"]][["duplicates_checked_from"]] <-
+      report[["remove_duplicates"]][["removed_dups"]] <- dups[idx, ]
+      report[["remove_duplicates"]][["duplicates_checked_from"]] <-
         glue::glue_collapse(target_columns, sep = ", ")
-    }
   }
 
   list(
