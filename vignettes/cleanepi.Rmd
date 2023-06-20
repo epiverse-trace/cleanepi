@@ -202,6 +202,8 @@ res <- check_subject_ids(
 )
 ```
 
+
+
 ### Calculate age
 
 The `calculate_age()` function calculates  ages of individuals (in either years, or months, or weeks, or days) for a given date column and reference date. It takes the following arguments:  
@@ -289,14 +291,45 @@ dups <- find_duplicates(
 )
 ```
 
-The function returns all duplicated rows in the dataset based on all or the specified columns. Two extra columns: `row_id` and `group_id` will be added to the dataset, to represent, respectively, the row numbers of the duplicated rows from the input dataset and the duplicated group ID assigned to them, every group being the same set of values in the columns of interest. 
+```{r eval=TRUE}
+library(magrittr)
+# IMPORT A `linelist` DATA 
+data = readRDS(system.file("extdata", "test_linelist.RDS",
+                             package = "cleanepi"))
+head(data)
+```
 
 ```{r eval=TRUE}
+<<<<<<< HEAD
 # VISUALIZE THE DUPLICATES
 head(dups %>% dplyr::select(c(row_id, group_id,
                               as.character(linelist::tags(data)))))
 ```
 
+=======
+# SHOW THE ATGGED VARIABLES
+linelist::tags(data)
+```
+
+```{r eval=TRUE}
+# FIND DUPLICATES ACROSS TAGGED VARIABLES
+dups <- find_duplicates(
+  data = data,
+  target_columns = "tags"
+)
+```
+
+The function returns all duplicated rows in the dataset based on all or the specified columns. Two extra columns: `row_id` and `group_id` will be added to the dataset, to represent, respectively, the row numbers of the duplicated rows from the input dataset and the duplicated group ID assigned to them, every group being the same set of values in the columns of interest. 
+
+```{r eval=TRUE}
+# VISUALIZE THE DUPLICATES
+library("magrittr")
+head(dups %>% dplyr::select(c(row_id, group_id, as.character(linelist::tags(data))))) 
+```
+
+
+
+>>>>>>> 5bfb801 (update vignette)
 ### Remove duplicates
 
 To remove duplicated rows, use the `remove_duplicates()` function. It internally calls the `find_duplicates()` function and it expects the following parameters:  
@@ -304,6 +337,7 @@ To remove duplicated rows, use the `remove_duplicates()` function. It internally
 1. `data`: the input dataset
 2. `target_columns`: a `vector` of column names or indexes from which duplicated rows will be identified. If `NULL`, duplicates will be detected across all columns. f the input dataset is a `linelist` object, this can be set to `tags` to identify duplicates across the **tagged variables** only.
 3. `remove`: a `numeric vector` of the indices of the duplicated rows to be removed. If `NULL`, duplicates will be removed and only the first occurrence of the duplicated rows will be kept.
+<<<<<<< HEAD
 4. `report`: a `list` that will contains details about the duplicates removal process. This can be the output `report object` from another function in **cleanepi** (optional).
 
 ```{r eval=TRUE}
@@ -315,6 +349,15 @@ data <- readRDS(system.file("extdata", "test_linelist.RDS",
 # THE DUPLICATED ROWS)
 res <- remove_duplicates(
   data           = data,
+=======
+4. `report`: a `list` that will contains details about the duplicates removal process. This can be the output `report object` from another function in **cleanepi**. (optional)
+
+```{r eval=TRUE}
+# REMOVE DUPLICATES ACROSS TAGGED VARIABLES (KEEP ONLY THE FIRST OCCURENCE OF
+# THE DUPLICATED ROWS)
+res <- remove_duplicates(
+  data = data,
+>>>>>>> 5bfb801 (update vignette)
   target_columns = "tags",
   remove         = NULL,
   report         = list()
@@ -323,12 +366,18 @@ res <- remove_duplicates(
 
 The function returns the inputs dataset without the duplicated rows and a `list` with the outcomes from the duplicates removal operation. This is in turn a list named as `r names(res$report)` with `r length(res$report$remove_duplicates)` elements:  
 
+<<<<<<< HEAD
 * **`r names(res$report$remove_duplicates)[1]`**: this is a subset of the input dataset with all the duplicated rows detected using the `find_duplicates()` function.    
 * **`r names(res$report$remove_duplicates)[2]`**: a subset of the input dataset that was removed.
+=======
+* **`r names(res$report$remove_duplicates)[1]`**: this is a subset of the input dataset with all the duplicated rows detected using the `find_duplicates()` function    
+* **`r names(res$report$remove_duplicates)[2]`**: a subset of the input dataset that was removed
+>>>>>>> 5bfb801 (update vignette)
 * **`r names(res$report$remove_duplicates)[3]`**: a comma-separated string of column names that were used to identify the duplicated rows.
 
 ```{r eval=TRUE}
 # STORE THE DUPLICATES REMOVAL PROCESS REPORT IN A VARIABLE
+<<<<<<< HEAD
 dups_removal_report <- res[["report"]][["remove_duplicates"]]
 
 # DISPLAY ALL DUPLICATES FOUND
@@ -344,6 +393,23 @@ dups_removal_report[["duplicates_checked_from"]]
 ```
 
 The output from  `find_duplicates()` function can also be passed to  `remove_duplicates()`  function to specify which duplicated rows to be removed.  
+=======
+dups_removal_report = res$report$remove_duplicates
+
+# DISPLAY ALL DUPLICATES FOUND
+head(dups_removal_report$all_dups %>% 
+       dplyr::select(c(row_id, group_id, as.character(linelist::tags(data))))) 
+
+# DISPLAY THE DUPLICATED LINES THAT WAS REMOVED
+head(dups_removal_report$removed_dups %>% 
+       dplyr::select(c(row_id, group_id, as.character(linelist::tags(data)))))
+
+# DISPLAY COLUMN NAMES USED TO DETECT DUPLICATES
+dups_removal_report$duplicates_checked_from
+```
+
+The output from the `find_duplicates()` function can also be provided to the `remove_duplicates()` to specify which duplicated rows to be removed.  
+>>>>>>> 5bfb801 (update vignette)
 
 ```{r eval=TRUE}
 # DETECT DUPLICATES FROM TAGGED COLUMNS
