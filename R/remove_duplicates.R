@@ -63,7 +63,6 @@ remove_duplicates <- function(data, target_columns,
         glue::glue_collapse(target_columns, sep = ", ")
   }
 
-  # added 21/06/2023
   if ("row_id" %in% names(data)) {
     data = data %>% dplyr::select(-c(row_id))
   }
