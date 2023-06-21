@@ -48,7 +48,7 @@ The current development version of **cleanepi** can be installed from
 
 ``` r
 # install.packages("remotes")
-# remotes::install_github("epiverse-trace/cleanepi@develop", 
+# remotes::install_github("epiverse-trace/cleanepi@develop",
 #                         build_vignettes=TRUE)
 library(cleanepi)
 ```
@@ -136,14 +136,6 @@ print(cleaned_data)
 #> 8   PS008P2        2021-02-22  1976-05-10                   2021-09-20   2
 #> 9   PS010P2        2021-03-02  1991-09-23                   2021-02-26   1
 #> 10  PS011P2        2021-03-05  1991-08-02                   2021-03-03   2
-#>    row_id
-#> 1       1
-#> 2       2
-#> 4       4
-#> 6       6
-#> 8       8
-#> 9       9
-#> 10     10
 ```
 
 ## Vignette
