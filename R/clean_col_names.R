@@ -18,7 +18,11 @@ clean_col_names <- function(x, report = list()) {
 
   # detect modified column names from the previous command
   xx <- data.frame(cbind(original_name = original_names,
-                         new_name = unique_names))
+                         new_name = unique_names)) %>%
+    dplyr::mutate(
+      original_name = as.character(original_name),
+      new_name = as.character(new_name)
+    )
   idx <- which(xx$original_name != xx$new_name)
   if (length(idx) > 0) {
     report[["modified_column_names"]] <- xx[idx, ]

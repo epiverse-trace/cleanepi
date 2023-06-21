@@ -221,8 +221,8 @@ The `find_duplicates()` function can be used to identify duplicated rows from an
 
 ```{r eval=TRUE}
 library(magrittr)
-# IMPORT A `linelist` DATA 
-data = readRDS(system.file("extdata", "test_linelist.RDS",
+# IMPORT A `linelist` DATA
+data <- readRDS(system.file("extdata", "test_linelist.RDS",
                              package = "cleanepi"))
 head(data)
 ```
@@ -245,7 +245,8 @@ The function returns all duplicated rows in the dataset based on all or the spec
 ```{r eval=TRUE}
 # VISUALIZE THE DUPLICATES
 library("magrittr")
-head(dups %>% dplyr::select(c(row_id, group_id, as.character(linelist::tags(data))))) 
+head(dups %>% dplyr::select(c(row_id, group_id,
+                              as.character(linelist::tags(data)))))
 ```
 
 
@@ -260,8 +261,8 @@ To remove duplicated rows, use the `remove_duplicates()` function. It internally
 4. `report`: a `list` that will contains details about the duplicates removal process. This can be the output `report object` from another function in **cleanepi** (optional).
 
 ```{r eval=TRUE}
-# IMPORT A `linelist` DATA 
-data = readRDS(system.file("extdata", "test_linelist.RDS",
+# IMPORT A `linelist` DATA
+data <- readRDS(system.file("extdata", "test_linelist.RDS",
                              package = "cleanepi"))
 
 # REMOVE DUPLICATES ACROSS TAGGED VARIABLES (KEEP ONLY THE FIRST OCCURENCE OF
@@ -282,14 +283,14 @@ The function returns the inputs dataset without the duplicated rows and a `list`
 
 ```{r eval=TRUE}
 # STORE THE DUPLICATES REMOVAL PROCESS REPORT IN A VARIABLE
-dups_removal_report = res$report$remove_duplicates
+dups_removal_report <- res$report$remove_duplicates
 
 # DISPLAY ALL DUPLICATES FOUND
-head(dups_removal_report$all_dups %>% 
-       dplyr::select(c(row_id, group_id, as.character(linelist::tags(data))))) 
+head(dups_removal_report$all_dups %>%
+       dplyr::select(c(row_id, group_id, as.character(linelist::tags(data)))))
 
 # DISPLAY THE DUPLICATED LINES THAT WAS REMOVED
-head(dups_removal_report$removed_dups %>% 
+head(dups_removal_report$removed_dups %>%
        dplyr::select(c(row_id, group_id, as.character(linelist::tags(data)))))
 
 # DISPLAY COLUMN NAMES USED TO DETECT DUPLICATES
