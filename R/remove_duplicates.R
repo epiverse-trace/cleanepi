@@ -64,7 +64,7 @@ remove_duplicates <- function(data, target_columns,
   }
 
   if ("row_id" %in% names(data)) {
-    data = data %>% dplyr::select(-c(row_id))
+    data <- data %>% dplyr::select(-c(row_id))
   }
 
   list(

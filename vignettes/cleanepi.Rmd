@@ -293,6 +293,7 @@ The function returns all duplicated rows in the dataset based on all or the spec
 
 ```{r eval=TRUE}
 # VISUALIZE THE DUPLICATES
+library("magrittr")
 head(dups %>% dplyr::select(c(row_id, group_id,
                               as.character(linelist::tags(data)))))
 ```
