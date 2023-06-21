@@ -47,7 +47,8 @@ remove_duplicates <- function(data, target_columns,
     # remove duplicates by keeping the first instance of the duplicate in each
     # duplicate group
     data <- data %>%
-      dplyr::distinct(dplyr::pick(target_columns), .keep_all = TRUE)
+      dplyr::select(dplyr::all_of(target_columns)) %>%
+      dplyr::distinct(.keep_all = TRUE)
   } else {
     # remove duplicates from user specified rows
     data <- data[-remove, ]
@@ -62,8 +63,13 @@ remove_duplicates <- function(data, target_columns,
         glue::glue_collapse(target_columns, sep = ", ")
   }
 
+  # added 21/06/2023
+  if ("row_id" %in% names(data)) {
+    data = data %>% dplyr::select(-c(row_id))
+  }
+
   list(
-    data = data %>% dplyr::select(-c(row_id)),
+    data = data,
     report = report
   )
 }
@@ -126,6 +132,8 @@ find_duplicates <- function(data, target_columns) {
 #' @param data the input dataset
 #'
 #' @return a `vector` with the target column names or indexes
+#'
+#' @keywords internal
 #'
 get_target_column_names <- function(target_columns, data) {
   if (is.null(target_columns)) {
