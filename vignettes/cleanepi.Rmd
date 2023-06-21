@@ -291,13 +291,7 @@ dups <- find_duplicates(
 )
 ```
 
-```{r eval=TRUE}
-library(magrittr)
-# IMPORT A `linelist` DATA 
-data = readRDS(system.file("extdata", "test_linelist.RDS",
-                             package = "cleanepi"))
-head(data)
-```
+The function returns all duplicated rows in the dataset based on all or the specified columns. Two extra columns: `row_id` and `group_id` will be added to the dataset, to represent, respectively, the row numbers of the duplicated rows from the input dataset and the duplicated group ID assigned to them, every group being the same set of values in the columns of interest. 
 
 ```{r eval=TRUE}
 # VISUALIZE THE DUPLICATES
