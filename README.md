@@ -30,7 +30,7 @@ with `NA`, ensuring uniqueness of uniquely identified columns, and
 converting `character` columns to `Date` under certain conditions.  
 **cleanepi** can also standardize column entries into specified formats,
 calculates age (in years, months, weeks, or days) from a given `Date`
-column and reference date.  
+column and a reference date.  
 **cleanepi** expects input data in a form of data frame-like structure
 (`data.frame`, `tibble`, etc) or a `linelist` object and returns a
 processed data of the same type. It also returns an object of type
@@ -55,12 +55,13 @@ library(cleanepi)
 
 ## Quick start
 
-The main function in **cleanepi** is `clean_data(),` which calls
-functions for almost all standard data cleaning tasks, such as removal
-of empty and duplicated rows and columns, replacement of missing values,
-etc. However, each function can also be called independently to perform
-a specific task. Below is typical example of how to use `clean_data()`
-function.
+The main function in **cleanepi** is `clean_data(),` which internally
+makes call of the functions for almost all standard data cleaning tasks,
+such as removal of empty and duplicated rows and columns, replacement of
+missing values, etc. However, each function can also be called
+independently to perform a specific task. This mechanism is explained in
+details in the **vignette**. Below is typical example of how to use the
+`clean_data()` function.
 
 ``` r
 # READING IN THE TEST DATASET
@@ -135,6 +136,14 @@ print(cleaned_data)
 #> 8   PS008P2        2021-02-22  1976-05-10                   2021-09-20   2
 #> 9   PS010P2        2021-03-02  1991-09-23                   2021-02-26   1
 #> 10  PS011P2        2021-03-05  1991-08-02                   2021-03-03   2
+#>    row_id
+#> 1       1
+#> 2       2
+#> 4       4
+#> 6       6
+#> 8       8
+#> 9       9
+#> 10     10
 ```
 
 ## Vignette
