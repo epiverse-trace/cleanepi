@@ -26,6 +26,7 @@ epidemiological data.
 would anticipate to be performed on a cluttered dataset. These include
 standard tasks such as: removing duplicated and empty rows and columns,
 removing columns with constant values, replacing missing value strings
+<<<<<<< HEAD
 with `NA`, ensuring uniqueness of uniquely identified columns,
 converting `character` columns to `Date` under certain conditions,
 etc.  
@@ -33,6 +34,14 @@ etc.
 formats, calculates age (in years, months, weeks, or days) from a given
 `Date` column and a reference date.  
 **{cleanepi}** expects input data in a form of data frame-like structure
+=======
+with `NA`, ensuring uniqueness of uniquely identified columns, and
+converting `character` columns to `Date` under certain conditions.  
+**cleanepi** can also standardize column entries into specified formats,
+calculates age (in years, months, weeks, or days) from a given `Date`
+column and a reference date.  
+**cleanepi** expects input data in a form of data frame-like structure
+>>>>>>> 1b3c3ee (for banky..)
 (`data.frame`, `tibble`, etc) or a `linelist` object and returns a
 processed data of the same type. It also returns an object of type
 `list` that reports the outcomes from every cleaning task.
@@ -201,6 +210,7 @@ library(cleanepi)
 
 ## Quick start
 
+<<<<<<< HEAD
 The main function in **{cleanepi}** is `clean_data(),` which internally
 makes call of almost all standard data cleaning functions, such as
 removal of empty and duplicated rows and columns, replacement of missing
@@ -208,6 +218,15 @@ values, etc. However, each function can also be called independently to
 perform a specific task. This mechanism is explained in details in the
 **vignette**. Below is typical example of how to use the `clean_data()`
 function.
+=======
+The main function in **cleanepi** is `clean_data(),` which internally
+makes call of the functions for almost all standard data cleaning tasks,
+such as removal of empty and duplicated rows and columns, replacement of
+missing values, etc. However, each function can also be called
+independently to perform a specific task. This mechanism is explained in
+details in the **vignette**. Below is typical example of how to use the
+`clean_data()` function.
+>>>>>>> 1b3c3ee (for banky..)
 
 ``` r
 # READING IN THE TEST DATASET

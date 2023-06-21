@@ -312,7 +312,6 @@ To remove duplicated rows, use the `remove_duplicates()` function. It internally
 # IMPORT A `linelist` DATA
 data <- readRDS(system.file("extdata", "test_linelist.RDS",
                             package = "cleanepi"))
-
 # REMOVE DUPLICATES ACROSS TAGGED VARIABLES (KEEP ONLY THE FIRST OCCURENCE OF
 # THE DUPLICATED ROWS)
 res <- remove_duplicates(
