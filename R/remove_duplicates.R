@@ -129,7 +129,7 @@ find_duplicates <- function(data, target_columns) {
 #'
 get_target_column_names <- function(target_columns, data) {
   if (is.null(target_columns)) {
-    target_columns <- names(data)
+    return(names(data))
   }
 
   # check for linelist object if target_columns='tags'

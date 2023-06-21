@@ -228,7 +228,7 @@ head(data)
 ```
 
 ```{r eval=TRUE}
-# SHOW THE ATGGED VARIABLES
+# SHOW THE TAGGED VARIABLES
 linelist::tags(data)
 ```
 
