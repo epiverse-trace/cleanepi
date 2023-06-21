@@ -17,3 +17,4 @@ a \code{vector} with the target column names or indexes
 \description{
 Get the names of the columns from which duplicates will be found
 }
+\keyword{internal}
