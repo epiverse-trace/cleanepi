@@ -85,7 +85,7 @@ head(res$data)
 summary(res$report)
 ```
 
-Note that the function to visualize this report object will be built in the next release of the package.
+**Note** a function to visualize this report object will be built in the next release of the package.
 
 ## Specific data cleaning tasks
 
@@ -97,14 +97,14 @@ The `check_subject_ids()` function  detects and  removes rows of the input datas
 The function requires the following parameters:   
 
 1. `data`: the input dataset (required)   
-2. `id_column_name`: The name of the column with the subject IDs (required)  
+2. `id_column_name`:  the name of the column with the subject IDs (required)  
 3. `format`: the expected subject IDs format (required)   
 4. `prefix`: the expected prefix in the subject IDs (optional)   
 5. `suffix`: the expected suffix in the subject IDs (optional)   
 6. `range`: the expected range of numbers in the subject IDs (optional)   
 7. `remove`: a Boolean variable and default is `FALSE`. If `TRUE`, rows with incorrect subject IDs will be removed.    
 8. `verbose`: a Boolean variable and default is `FALSE`. If `TRUE`, a message will be printed along the execution of the function. 
-9. `report`: a `list` that will contains details about the detected wrong IDs. This can be the output `report object` from another function in **cleanepi**. (optional)
+9. `report`: a `list` that will contains details about the detected wrong IDs. This can be the output `report object` from another function in **cleanepi** (optional).
 
 ```{r eval=TRUE}
 # DETECT INCORRECT SUBJECT IDs
@@ -121,7 +121,7 @@ res <- check_subject_ids(
  )
 ```
 
-The function returns a `list` of `r length(res)` elements named as:
+This function returns a `list` of `r length(res)` elements named as:
 
 * **`r names(res)[1]`**: the input dataset or a subset from it where rows with bad IDs have been removed (`if remove = TRUE`).
 * **`r names(res)[2]`**: a `list`, or augmented  report `list` with an element named as **`r names(res$report)`** that contains a `data.frame` of the detected rows with the incorrect subject IDs.  
@@ -252,12 +252,12 @@ head(dups %>% dplyr::select(c(row_id, group_id, as.character(linelist::tags(data
 
 ### Remove duplicates
 
-To remove duplicated rows, use the `remove_duplicates()` function. It internally calls the `find_duplicates()` function. It expects the following parameters:  
+To remove duplicated rows, use the `remove_duplicates()` function. It internally calls the `find_duplicates()` function and it expects the following parameters:  
 
 1. `data`: the input dataset
 2. `target_columns`: a `vector` of column names or indexes from which duplicated rows will be identified. If `NULL`, duplicates will be detected across all columns. f the input dataset is a `linelist` object, this can be set to `tags` to identify duplicates across the **tagged variables** only.
 3. `remove`: a `numeric vector` of the indices of the duplicated rows to be removed. If `NULL`, duplicates will be removed and only the first occurrence of the duplicated rows will be kept.
-4. `report`: a `list` that will contains details about the duplicates removal process. This can be the output `report object` from another function in **cleanepi**. (optional)
+4. `report`: a `list` that will contains details about the duplicates removal process. This can be the output `report object` from another function in **cleanepi** (optional).
 
 ```{r eval=TRUE}
 # IMPORT A `linelist` DATA 
@@ -276,8 +276,8 @@ res <- remove_duplicates(
 
 The function returns the inputs dataset without the duplicated rows and a `list` with the outcomes from the duplicates removal operation. This is in turn a list named as `r names(res$report)` with `r length(res$report$remove_duplicates)` elements:  
 
-* **`r names(res$report$remove_duplicates)[1]`**: this is a subset of the input dataset with all the duplicated rows detected using the `find_duplicates()` function    
-* **`r names(res$report$remove_duplicates)[2]`**: a subset of the input dataset that was removed
+* **`r names(res$report$remove_duplicates)[1]`**: this is a subset of the input dataset with all the duplicated rows detected using the `find_duplicates()` function.    
+* **`r names(res$report$remove_duplicates)[2]`**: a subset of the input dataset that was removed.
 * **`r names(res$report$remove_duplicates)[3]`**: a comma-separated string of column names that were used to identify the duplicated rows.
 
 ```{r eval=TRUE}
@@ -296,7 +296,7 @@ head(dups_removal_report$removed_dups %>%
 dups_removal_report$duplicates_checked_from
 ```
 
-The output from the `find_duplicates()` function can also be provided to the `remove_duplicates()` to specify which duplicated rows to be removed.  
+The output from  `find_duplicates()` function can also be passed to  `remove_duplicates()`  function to specify which duplicated rows to be removed.  
 
 ```{r eval=TRUE}
 # DETECT DUPLICATES FROM TAGGED COLUMNS
