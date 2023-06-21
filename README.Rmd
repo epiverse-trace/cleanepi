@@ -54,8 +54,8 @@ The current development version of **cleanepi** can be installed from  [here](ht
 
 ```{r}
 # install.packages("remotes")
-remotes::install_github("epiverse-trace/cleanepi@develop",
-                        build_vignettes=TRUE)
+# remotes::install_github("epiverse-trace/cleanepi@develop",
+#                         build_vignettes=TRUE)
 library(cleanepi)
 ```
 
