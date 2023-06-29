@@ -91,6 +91,41 @@ summary(res$report)
 
 Data cleaning operations such as renaming columns, removing empty rows, columns, removing columns with a same values across all rows, and standardization of date columns  are automatically applied to the input data. We consider them as the `implicit data cleaning steps` and will be executed by default. However, users can call the specific functions of these data cleaning steps separately to perform a specific task. So as they can also call the other data cleaning functions individually on their own. 
 
+### Standardise columns of type `Date`
+
+The default date format in R is `%Y-%m-%d`. However, it is very common to encounter date values recoded differently from this. Also, there are cases where a column in a data frame contains both values of type `Date`, `character` or others.    
+The `standardize_date()` function offers the possibility to convert date columns into `%Y-%m-%d` format and convert `character` columns into `Date` if the percentage of date values reach a specified threshold. The function needs the following arguments:
+
+1. `data`: the input dataset (required)   
+2. `date_column_name`: a vector of the name of the column to be converted (required)   
+3. `format`: the current format of the values in that column. Default is `NULL` (optional)
+4. `timeframe`: the expected time frame within which the date values should fall under. Any value outside of this range will be set to `NA`. Default is NULL (optional)
+5. `check_timeframe`: a logical that determines whether to check if the date values are within the given time frame. Default is `FALSE` (optional)
+6. `report`: a `list` that will contains details about the date columns standardization process. This can be the output `report object` from another function in **cleanepi** (optional).
+7. `error_tolerance`: the minimum percentage of values of type `Date` in a `character` column of interest needed to convert it into a `Date` column. Default is 50% i.e. `0.5`.    
+
+
+⚠️ The `error_tolerance` must be used with caution. When it is set, and the         percentage of date values in a character column is less than this threshold,     the column will be returned as it is. 
+
+
+
+```{r eval=TRUE}
+res <- standardize_date(
+ data = readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi")),
+ date_column_name = "date_first_pcr_positive_test",
+ format = NULL,
+ timeframe = NULL,
+ check_timeframe = FALSE,
+ report = list(),
+ error_tolerance = 0.5
+ )
+```
+
+This function returns a `list` of `r length(res)` elements named as:
+
+* **`r names(res)[1]`**: the input dataset where the (specified) columns are converted into date if the condition is met.
+* **`r names(res)[2]`**: a `list`, or augmented  report `list` with an element named as **`r names(res$report)`** that contains a `vector` of the transformed column names.    
+
 ### Detect and remove incorrect subject IDs
 
 The `check_subject_ids()` function  detects and  removes rows of the input dataset where the subject ID does not match the expected format. 

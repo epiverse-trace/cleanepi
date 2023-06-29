@@ -46,6 +46,8 @@ standardize_date <- function(data, date_column_name = NULL, format = NULL,
     date_column_name <- check_column_existence(data, date_column_name)
 
     # standardize it
+    report[["standardize_date"]] <- glue::glue_collapse(date_column_name,
+                                                        sep = ", ")
     for (cols in date_column_name) {
       sep <- unique(as.character(unlist(lapply(data[[cols]],
                                                detect_date_separator))))
@@ -63,5 +65,5 @@ standardize_date <- function(data, date_column_name = NULL, format = NULL,
   list(
     data = data,
     report = report
-    )
+  )
 }
