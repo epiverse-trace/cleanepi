@@ -28,6 +28,7 @@ clean_col_names <- function(x, report = list()) {
     report[["modified_column_names"]] <- xx[idx, ]
   }
 
+  names(x) <- unique_names
   list(
     data = x,
     report = report

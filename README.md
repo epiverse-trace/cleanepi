@@ -128,14 +128,14 @@ cleaning_report <- res$report
 
 # VISUALISE THE CLEANED DATASET
 print(cleaned_data)
-#>    study_id date.of.admission dateOfBirth date_first_pcr_positive_test sex
-#> 1   PS001P2        2020-12-01        <NA>                   2020-12-01   1
-#> 2   PS002P2        2021-01-28        <NA>                   2021-01-01   1
-#> 4   PS003P2        2021-02-11        <NA>                   2021-02-01   1
-#> 6   PS006P2        2021-02-17        <NA>                   2021-05-02   2
-#> 8   PS008P2        2021-02-22  1976-05-10                   2021-09-20   2
-#> 9   PS010P2        2021-03-02  1991-09-23                   2021-02-26   1
-#> 10  PS011P2        2021-03-05  1991-08-02                   2021-03-03   2
+#>    study_id date_of_admission date_of_birth date_first_pcr_positive_test sex
+#> 1   PS001P2        2020-12-01          <NA>                   2020-12-01   1
+#> 2   PS002P2        2021-01-28          <NA>                   2021-01-01   1
+#> 4   PS003P2        2021-02-11          <NA>                   2021-02-01   1
+#> 6   PS006P2        2021-02-17          <NA>                   2021-05-02   2
+#> 8   PS008P2        2021-02-22    1976-05-10                   2021-09-20   2
+#> 9   PS010P2        2021-03-02    1991-09-23                   2021-02-26   1
+#> 10  PS011P2        2021-03-05    1991-08-02                   2021-03-03   2
 ```
 
 ## Vignette
