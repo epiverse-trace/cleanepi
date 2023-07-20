@@ -60,6 +60,13 @@ get_sum <- function(x) {
   x
 }
 
+#' Extract letters from a string
+#'
+#' @param x the string of interest
+only_letters <- function(x) {
+  gsub("^([[:alpha:]]*).*$", "\\1", x)
+}
+
 #' Check if date column exists in given data frame
 #'
 #' @param data the input data frame
