@@ -20,17 +20,30 @@
 #'
 #' @examples
 #' no_dups <- remove_duplicates(
+<<<<<<< HEAD
 #'   data           = readRDS(system.file("extdata", "test_linelist.RDS",
 #'                              package = "cleanepi")),
 #'   target_columns = "tags",
 #'   remove         = NULL,
 #'   report         = list()
+=======
+#'   data = readRDS(system.file("extdata", "test_linelist.RDS",
+#'     package = "cleanepi"
+#'   )),
+#'   target_columns = "tags",
+#'   remove = NULL,
+#'   report = list()
+>>>>>>> e489906 (rename remove_duplicates to find_and_remove_duplicates)
 #' )
 #'
 remove_duplicates <- function(data, target_columns,
                               remove = NULL, report = list()) {
   # get the target column names
+<<<<<<< HEAD
   target_columns   <- get_target_column_names(data, target_columns)
+=======
+  target_columns <- get_target_column_names(target_columns, data)
+>>>>>>> e489906 (rename remove_duplicates to find_and_remove_duplicates)
 
   # extract column names if target_columns is a vector of column indexes
   if (is.numeric(target_columns)) {
@@ -38,20 +51,31 @@ remove_duplicates <- function(data, target_columns,
   }
 
   # find duplicates
+<<<<<<< HEAD
   dups             <- find_duplicates(data, target_columns)
   data[["row_id"]] <- seq_len(nrow(data))
+=======
+  dups <- find_duplicates(data, target_columns)
+  data$row_id <- seq_len(nrow(data))
+>>>>>>> e489906 (rename remove_duplicates to find_and_remove_duplicates)
 
   # remove duplicates
   if (is.null(remove)) {
     # remove duplicates by keeping the first instance of the duplicate in each
     # duplicate group
     data <- data %>%
+<<<<<<< HEAD
       dplyr::distinct_at({{ target_columns }}, .keep_all = TRUE)
+=======
+      dplyr::select(dplyr::all_of(target_columns)) %>%
+      dplyr::distinct(.keep_all = TRUE)
+>>>>>>> e489906 (rename remove_duplicates to find_and_remove_duplicates)
   } else {
     # remove duplicates from user specified rows
     data <- data[-remove, ]
   }
 
+<<<<<<< HEAD
   if (nrow(dups) > 0L) {
     report[["remove_duplicates"]]               <- list()
     report[["remove_duplicates"]][["all_dups"]] <- dups
@@ -64,6 +88,19 @@ remove_duplicates <- function(data, target_columns,
   if ("row_id" %in% names(data)) {
     row_id <- NULL
     data   <- data %>% dplyr::select(-c(row_id))
+=======
+  if (nrow(dups) > 0) {
+      report[["remove_duplicates"]] <- list()
+      report[["remove_duplicates"]][["all_dups"]] <- dups
+      idx <- which(!(dups$row_id %in% data$row_id))
+      report[["remove_duplicates"]][["removed_dups"]] <- dups[idx, ]
+      report[["remove_duplicates"]][["duplicates_checked_from"]] <-
+        glue::glue_collapse(target_columns, sep = ", ")
+  }
+
+  if ("row_id" %in% names(data)) {
+    data <- data %>% dplyr::select(-c(row_id))
+>>>>>>> e489906 (rename remove_duplicates to find_and_remove_duplicates)
   }
 
   list(
@@ -97,17 +134,27 @@ remove_duplicates <- function(data, target_columns,
 #' @examples
 #' dups <- find_duplicates(
 #'   data = readRDS(system.file("extdata", "test_linelist.RDS",
+<<<<<<< HEAD
 #'     package = "cleanepi")),
+=======
+#'     package = "cleanepi"
+#'   )),
+>>>>>>> e489906 (rename remove_duplicates to find_and_remove_duplicates)
 #'   target_columns = c("dt_onset", "dt_report", "sex", "outcome")
 #' )
 #'
 find_duplicates <- function(data, target_columns) {
   # get the target column names
+<<<<<<< HEAD
   target_columns <- get_target_column_names(data, target_columns)
+=======
+  target_columns <- get_target_column_names(target_columns, data)
+>>>>>>> e489906 (rename remove_duplicates to find_and_remove_duplicates)
 
   # find duplicates
   num_dups <- row_id <- group_id <- NULL
   dups <- data %>%
+<<<<<<< HEAD
     dplyr::group_by(dplyr::pick({{ target_columns }})) %>%
     dplyr::mutate(num_dups = dplyr::n()) %>%
     dplyr::ungroup() %>%
@@ -116,6 +163,16 @@ find_duplicates <- function(data, target_columns) {
     dplyr::filter(num_dups > 1L) %>%
     dplyr::select(-c(num_dups)) %>%
     dplyr::group_by(dplyr::pick({{ target_columns }})) %>%
+=======
+    dplyr::group_by(dplyr::pick(target_columns)) %>%
+    dplyr::mutate(num_dups = dplyr::n()) %>%
+    dplyr::ungroup() %>%
+    dplyr::mutate(row_id = seq_len(nrow(data))) %>%
+    dplyr::arrange(dplyr::pick(target_columns)) %>%
+    dplyr::filter(num_dups > 1) %>%
+    dplyr::select(-c(num_dups)) %>%
+    dplyr::group_by(dplyr::pick(target_columns)) %>%
+>>>>>>> e489906 (rename remove_duplicates to find_and_remove_duplicates)
     dplyr::mutate(group_id = dplyr::cur_group_id()) %>%
     dplyr::select(row_id, group_id, dplyr::everything())
 
@@ -125,20 +182,31 @@ find_duplicates <- function(data, target_columns) {
 
 #' Get the names of the columns from which duplicates will be found
 #'
+<<<<<<< HEAD
 #' @param data the input dataset
 #' @param target_columns the user specified target column name
+=======
+#' @param target_columns the user specified target column name
+#' @param data the input dataset
+>>>>>>> e489906 (rename remove_duplicates to find_and_remove_duplicates)
 #'
 #' @return a `vector` with the target column names or indexes
 #'
 #' @keywords internal
+<<<<<<< HEAD
 #' @noRd
 #'
 get_target_column_names <- function(data, target_columns) {
+=======
+#'
+get_target_column_names <- function(target_columns, data) {
+>>>>>>> e489906 (rename remove_duplicates to find_and_remove_duplicates)
   if (is.null(target_columns)) {
     return(names(data))
   }
 
   # check for linelist object if target_columns='tags'
+<<<<<<< HEAD
   if (all(length(target_columns) == 1L && target_columns == "tags")) {
     stopifnot(
       "'tags' only works on linelist object. Please provide a vector of
@@ -146,6 +214,16 @@ get_target_column_names <- function(data, target_columns) {
         inherits(data, "linelist")
     )
     original_tags  <- linelist::tags(data)
+=======
+  x_class <- class(data)
+  if (all(length(target_columns) == 1 & target_columns == "tags")) {
+    stopifnot(
+      "'tags' only works on linelist object. Please provide a vector of
+              column names if you are dealing with a data frame" =
+        "linelist" %in% x_class
+    )
+    original_tags <- linelist::tags(data)
+>>>>>>> e489906 (rename remove_duplicates to find_and_remove_duplicates)
     target_columns <- as.character(original_tags)
   }
 
