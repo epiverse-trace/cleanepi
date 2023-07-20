@@ -7,13 +7,13 @@
 #'    parameter can be set to `tags` if you wish to look for duplicates on
 #'    tagged columns.
 #' @param remove A vector of duplicate indices to be removed.
-#' Duplicate indices are unique identifiers for all rows in the original
-#' data frame or linelist that are duplicates of each other based on the
-#' `target_columns`.
-#' If remove = NULL (default value), the first duplicate is kept and
-#' the rest of the duplicates in the group are removed.
+#'    Duplicate indices are unique identifiers for all rows in the original
+#'    data frame or linelist that are duplicates of each other based on the
+#'    `target_columns`.
+#'    If remove = NULL (default value), the first duplicate is kept and
+#'    the rest of the duplicates in the group are removed.
 #' @param report A list with the information about the effects of the
-#' cleaning steps.
+#'    cleaning steps.
 #'
 #' @return A `list` with elements data (the filtered dataset) and report.
 #' @export

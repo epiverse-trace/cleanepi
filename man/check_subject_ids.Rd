@@ -35,8 +35,7 @@ specified, the first column will be considered by default}
 \item{verbose}{a Boolean to specify whether print the detected incorrect
 subject IDs}
 
-\item{report}{the report object
-sample IDs. default is FALSE}
+\item{report}{the report object}
 }
 \value{
 if found, the function return a list with 2 elements: the cleaned

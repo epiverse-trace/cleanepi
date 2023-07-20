@@ -1,3 +1,47 @@
+#' Check the prefix of the subject IDs
+#'
+#' @param x the sample ID
+#' @param prefix the prefix to look up to
+check_prefix <- function(x, prefix) {
+  res <- TRUE
+  prefix_found_at <- stringr::str_locate(x, prefix)
+  if (all(is.na(prefix_found_at[1, ])) ||
+      (prefix_found_at[1, 1] != 1 && prefix_found_at[1, 2] != nchar(prefix))) {
+    res <- FALSE
+  }
+  res
+}
+
+#' Check the suffix of the subject IDs
+#'
+#' @param x the sample IDs
+#' @param suffix the suffix to lookup to
+check_suffix <- function(x, suffix) {
+  res <- TRUE
+  suffix_found_at <- as.matrix(stringr::str_locate_all(x, suffix)[[1]])
+  if (all(is.na(suffix_found_at[nrow(suffix_found_at), ])) ||
+      (suffix_found_at[nrow(suffix_found_at), 1] !=
+       (nchar(x) - (nchar(suffix) - 1)) &&
+       suffix_found_at[nrow(suffix_found_at), 2] != nchar(x))) {
+    res <- FALSE
+  }
+  res
+}
+
+#' Check the length of sample IDs
+#'
+#' @param x the sample ID
+#' @param ref the template sample ID
+check_id_length <- function(x, ref) {
+  res <- TRUE
+  if (nchar(ref) < nchar(x)) {
+    res <- FALSE
+  }
+  res
+}
+
+
+
 #' Check whether the subject IDs comply with the expected format
 #'
 #' @param data the data frame of interest
@@ -11,10 +55,11 @@
 #' @param verbose a Boolean to specify whether print the detected incorrect
 #'    subject IDs
 #' @param report the report object
-#' sample IDs. default is FALSE
+#'
 #' @returns if found, the function return a list with 2 elements: the cleaned
 #'    data frame with correct subject IDs and a report containing the rows of
 #'    the input data frame with incorrect subject IDs
+#'
 #' @examples
 #' dat <- check_subject_ids(
 #' data = readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi")),
@@ -127,3 +172,4 @@ check_subject_ids <- function(data, id_column_name = NULL, format,
     report = report
     )
 }
+
