@@ -4,7 +4,7 @@
 \alias{convert_to_date}
 \title{Convert characters to dates}
 \usage{
-convert_to_date(data, cols, sep)
+convert_to_date(data, cols, sep, error_tolerance)
 }
 \arguments{
 \item{data}{the input data frame}
@@ -12,6 +12,10 @@ convert_to_date(data, cols, sep)
 \item{cols}{the date column name(s)}
 
 \item{sep}{the separator in the date values}
+
+\item{error_tolerance}{a number between 0 and 1 indicating the proportion of
+entries which cannot be identified as dates to be tolerated. See the
+\code{clean_data()} helper for more details}
 }
 \value{
 the input data frame where the specified columns have been converted

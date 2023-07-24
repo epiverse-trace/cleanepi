@@ -3,7 +3,11 @@
 \name{scan_data}
 \alias{scan_data}
 \title{Scan a data frame object to determine the percentage of \code{missing}, \code{numeric},
+<<<<<<< HEAD
 \code{Date}, \code{character}, \code{logical} values in every column.}
+=======
+\code{Date} and \code{character} values in every column.}
+>>>>>>> 7ed29d1 (add scan_data(), and check_ids_uniqueness() functions)
 \usage{
 scan_data(data)
 }
@@ -11,6 +15,7 @@ scan_data(data)
 \item{data}{the input data frame}
 }
 \value{
+<<<<<<< HEAD
 a data frame with the same columns as the input data and 5 rows.
 These rows represent the percentage of missing, numeric, date, character,
 and logical values in each column.
@@ -25,3 +30,20 @@ scan_result <- scan_data(
                              package = "cleanepi"))
 )
 }
+=======
+a data frame with the same columns as the input data and 4 rows.
+These rows represent the percentage of missing, numeric, date, and
+character values for each column.
+}
+\description{
+Scan a data frame object to determine the percentage of \code{missing}, \code{numeric},
+\code{Date} and \code{character} values in every column.
+}
+\examples{
+scan_result <- scan_data(
+data = readRDS(system.file("extdata", "messy_data.RDS",
+    package = "cleanepi"))
+)
+}
+\keyword{internal}
+>>>>>>> 7ed29d1 (add scan_data(), and check_ids_uniqueness() functions)
