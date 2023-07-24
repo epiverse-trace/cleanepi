@@ -83,7 +83,7 @@
 clean_data <- function(data,
                        params = list(remove_duplicates = FALSE,
                                      target_columns = NULL,
-                                     replace_missing = FALSE,
+                                     replace_missing = TRUE,
                                      na_comes_as = NULL,
                                      check_timeframe = TRUE,
                                      timeframe = NULL,
@@ -126,6 +126,16 @@ clean_data <- function(data,
   report <- report_cleaning(data, dat, state = "remove_constant",
                            report = report)
   data <- dat
+
+  # check for subject IDs uniqueness
+  if (!is.null(params$subject_id_col_name)) {
+    R.utils::cat("\nchecking for subject IDs uniqueness")
+    report <- check_ids_uniqueness(
+      data = data,
+      id_col_name = params$subject_id_col_name,
+      report = report
+    )
+  }
 
   # remove duplicated records
   R.utils::cat("\nremoving duplicated rows")

@@ -8,8 +8,8 @@ standardize_date(
   data,
   date_column_name = NULL,
   format = NULL,
-  timeframe,
-  check_timeframe,
+  timeframe = NULL,
+  check_timeframe = FALSE,
   report = list(),
   error_tolerance = 0.5
 )
@@ -35,7 +35,9 @@ entries which cannot be identified as dates to be tolerated. See the
 \code{clean_data()} helper for more details}
 }
 \value{
-a list of 2 elements
+a \code{list} of 2 elements: the input dataset where the date columns have
+been standardized and a report object of type \code{list} that contains the
+details about the columns that have been modified.
 }
 \description{
 Standardize date variables

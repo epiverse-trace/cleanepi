@@ -66,18 +66,21 @@ check_first_and_last_date <- function(first_date, last_date) {
 #' @param data the input data frame
 #' @param cols the date column name(s)
 #' @param sep the separator in the date values
+#' @param error_tolerance a number between 0 and 1 indicating the proportion of
+#'     entries which cannot be identified as dates to be tolerated. See the
+#'     `clean_data()` helper for more details
 #'
 #' @return the input data frame where the specified columns have been converted
 #'    into Date.
 #'
 #' @keywords internal
-convert_to_date <- function(data, cols, sep) {
+convert_to_date <- function(data, cols, sep, error_tolerance) {
   format <- get_format(data, cols, sep)
   if (!is.null(format)) {
     data[[cols]] <- as.Date(data[[cols]], format = format)
   } else {
     data[[cols]] <- guess_dates(data[[cols]],
-                                error_tolerance = 0.5,
+                                error_tolerance = error_tolerance,
                                 check_timeframe = FALSE)
   }
   data

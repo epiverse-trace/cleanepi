@@ -13,7 +13,9 @@
 #'     entries which cannot be identified as dates to be tolerated. See the
 #'     `clean_data()` helper for more details
 #'
-#' @returns a list of 2 elements
+#' @returns a `list` of 2 elements: the input dataset where the date columns have
+#'    been standardized and a report object of type `list` that contains the
+#'    details about the columns that have been modified.
 #'
 #' @export
 #' @examples
@@ -27,7 +29,7 @@
 #' error_tolerance = 0.5
 #' )
 standardize_date <- function(data, date_column_name = NULL, format = NULL,
-                             timeframe, check_timeframe,
+                             timeframe = NULL, check_timeframe = FALSE,
                              report = list(), error_tolerance = 0.5) {
   checkmate::assert_data_frame(data, null.ok = FALSE, min.cols = 1)
   checkmate::assert_character(date_column_name, null.ok = TRUE,
@@ -52,7 +54,7 @@ standardize_date <- function(data, date_column_name = NULL, format = NULL,
       sep <- unique(as.character(unlist(lapply(data[[cols]],
                                                detect_date_separator))))
       if (is.null(format)) {
-        data <- convert_to_date(data, cols, sep)
+        data <- convert_to_date(data, cols, sep, error_tolerance)
       }
     }
   } else {
