@@ -45,5 +45,8 @@ data = readRDS(system.file("extdata", "messy_data.RDS",
     package = "cleanepi"))
 )
 }
+<<<<<<< HEAD
 \keyword{internal}
 >>>>>>> 7ed29d1 (add scan_data(), and check_ids_uniqueness() functions)
+=======
+>>>>>>> aa3d20e (update readme)
