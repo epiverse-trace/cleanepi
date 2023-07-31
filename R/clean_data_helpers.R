@@ -46,7 +46,7 @@ get_column_composition <- function(x) {
 #'    These rows represent the percentage of missing, numeric, date, and
 #'    character values for each column.
 #'
-#' @keywords internal
+#' @export
 #'
 #' @examples
 #' scan_result <- scan_data(

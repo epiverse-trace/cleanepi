@@ -128,14 +128,14 @@ clean_data <- function(data,
   data <- dat
 
   # check for subject IDs uniqueness
-  if (!is.null(params$subject_id_col_name)) {
-    R.utils::cat("\nchecking for subject IDs uniqueness")
-    report <- check_ids_uniqueness(
-      data = data,
-      id_col_name = params$subject_id_col_name,
-      report = report
-    )
-  }
+  stopifnot("params$subject_id_col_name must be provided." =
+              !is.null(params$subject_id_col_name))
+  R.utils::cat("\nchecking for subject IDs uniqueness")
+  report <- check_ids_uniqueness(
+    data = data,
+    id_col_name = params$subject_id_col_name,
+    report = report
+  )
 
   # remove duplicated records
   R.utils::cat("\nremoving duplicated rows")

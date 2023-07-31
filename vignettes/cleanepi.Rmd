@@ -19,9 +19,9 @@ knitr::opts_chunk$set(collapse = TRUE, comment = "#>", eval = FALSE,
 
 No matter how many measures are taken, one must always expect  messy data from the real-world, with duplicates, errors, incomplete,  or  irrelevant formats. Data cleaning is an essential step in data analysis. It allows to produce accurate, reliable and reproducible results. However, data cleaning is a significant barrier in data analysis because it takes a long time to complete. 
 
-**cleanepi** is an R package to clean, curate, and standardize epidemiological data. It contains functions to perform several data cleaning tasks that an end-user would anticipate to be performed on a cluttered dataset. 
+**{cleanepi}** is an R package to clean, curate, and standardize epidemiological data. It contains functions to perform several data cleaning tasks that an end-user would anticipate to be performed on a cluttered dataset. 
 
-**cleanepi** is specifically designed for epidemiological data, and works with data frame-like data structure. This vignette provides a detailed description of the functions included in the package and how to use them. 
+**{cleanepi}** is specifically designed for epidemiological data, and works with data frame-like data structure. This vignette provides a detailed description of the functions included in the package and how to use them. 
 
 ```{r setup, eval=TRUE}
 library(cleanepi)
@@ -29,21 +29,28 @@ library(cleanepi)
 
 ## General data cleaning tasks
 
-The main function in **cleanepi** is `clean_data()` that can perform the following tasks:
+The main function in **{cleanepi}** is `clean_data()` that can perform the following tasks:
 
-1.  Clean up column names and convert them to more sensible formats. This includes many sub-tasks such as changing a space, dot, or hyphen between two words with underscore; converting camel-cases to snake-cases; substituting foreign characters with their corresponding English characters; and splitting a long word into multiple short words by capital characters within, if any, and connecting them with underscores.   
-2. Remove empty rows and columns.   
-3. Remove constant columns, i.e. columns with the same value across all rows.   
-4. Replace missing entries with `NA`.   
-5. Remove duplicated rows (across all columns or some specific columns).   
-6. Convert `character` columns into `Date` if the column actually contains values of type `Date` to some extent (default is 50% of the values are `Date`).
-7. Detect and remove rows with subject IDs that do not comply with the expected format.
+1. Scan the input data to determine the percent of missing, numeric, character and date values in every column of the input data frame.   
+2. Clean up column names and convert them to more sensible formats. This includes many sub-tasks such as changing a space, dot, or hyphen between two words with underscore; converting camel-cases to snake-cases; substituting foreign characters with their corresponding English characters; and splitting a long word into multiple short words by capital characters within, if any, and connecting them with underscores.   
+3. Remove empty rows and columns.   
+4. Remove constant columns, i.e. columns with the same value across all rows.   
+5. Replace missing entries with `NA`. 
+6. Scanning the input dataset and determine the proportion of missing, numeric, character, and date values in each column.
+7. Checking for the uniqueness of the subject IDs.
+8. Remove duplicated rows (across all columns or some specific columns).   
+9. Convert `character` columns into `Date` if the column actually contains values of type `Date` to some extent (default is 50% of the values are `Date`).
+10. Detect and remove rows with subject IDs that do not comply with the expected format.
 
 ```{r eval=TRUE, comment="read_input"}
 # IMPORTING THE TEST DATASET
 test_data <- readRDS(system.file("extdata", "test_df.RDS",
                                  package = "cleanepi"))
 head(test_data)
+
+# SCAN THE DATA
+scan_result <- scan_data(test_data)
+scan_result
 ```
 
 ```{r eval=TRUE}
@@ -61,7 +68,7 @@ params <- list(
   prefix = "PS",
   suffix = "P2",
   range = c(1, 100)
-  )
+)
 ```
 
 ```{r eval=TRUE}

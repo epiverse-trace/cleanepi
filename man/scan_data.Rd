@@ -25,4 +25,3 @@ data = readRDS(system.file("extdata", "messy_data.RDS",
     package = "cleanepi"))
 )
 }
-\keyword{internal}
