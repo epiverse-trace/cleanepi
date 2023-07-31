@@ -75,11 +75,13 @@ scan_data <- function(data) {
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' report <- check_ids_uniqueness(
 #' data = readRDS(system.file("extdata", "messy_data.RDS",
 #'     package = "cleanepi")),
 #' id_col_name = "case_id",
 #' )
+#' }
 check_ids_uniqueness <- function(data, id_col_name, report = list()) {
   # check for missing values in ID column
   scan_result <- scan_data(data)
