@@ -1,11 +1,8 @@
 #' Detect whether a string contains only numbers
 #'
 #' @param x the string that contains the numbers
-<<<<<<< HEAD
 #' @keywords internal
 #' @noRd
-=======
->>>>>>> d92146c (restructure the code base)
 numbers_only <- function(x) {
   !grepl("\\D", x)
 }
@@ -14,7 +11,6 @@ numbers_only <- function(x) {
 #'
 #' @param x the string of interest
 #' @param sep the separator in the string of interest
-<<<<<<< HEAD
 #' @keywords internal
 #' @noRd
 get_part1 <- function(x, sep) {
@@ -22,17 +18,12 @@ get_part1 <- function(x, sep) {
     return(NA)
   }
   unlist(strsplit(x, sep, fixed = TRUE))[[1L]]
-=======
-get_part1 <- function(x, sep) {
-  unlist(strsplit(x, sep))[1]
->>>>>>> d92146c (restructure the code base)
 }
 
 #' Get part2 of date value
 #'
 #' @param x the string of interest
 #' @param sep the separator in the string of interest
-<<<<<<< HEAD
 #' @keywords internal
 #' @noRd
 get_part2 <- function(x, sep) {
@@ -40,17 +31,12 @@ get_part2 <- function(x, sep) {
     return(NA)
   }
   unlist(strsplit(x, sep, fixed = TRUE))[[2L]]
-=======
-get_part2 <- function(x, sep) {
-  unlist(strsplit(x, sep))[2]
->>>>>>> d92146c (restructure the code base)
 }
 
 #' Get part3 of date value
 #'
 #' @param x the string of interest
 #' @param sep the separator in the string of interest
-<<<<<<< HEAD
 #' @keywords internal
 #' @noRd
 #'
@@ -59,60 +45,33 @@ get_part3 <- function(x, sep) {
     return(NA)
   }
   unlist(strsplit(x, sep, fixed = TRUE))[[3L]]
-=======
-get_part3 <- function(x, sep) {
-  unlist(strsplit(x, sep))[3]
->>>>>>> d92146c (restructure the code base)
 }
 
 #' Get sum from number
 #'
 #' @param x the string of interest
-<<<<<<< HEAD
 #' @keywords internal
 #' @noRd
 #'
 get_sum <- function(x) {
   if (nchar(x) == 2L) {
     x <- sum(as.numeric(substr(x, 1L, 1L)), as.numeric(substr(x, 2L, 2L)))
-=======
-get_sum <- function(x) {
-  if (nchar(x) == 2) {
-    x <- sum(as.numeric(substr(x, 1, 1)), as.numeric(substr(x, 2, 2)))
->>>>>>> d92146c (restructure the code base)
   }
   x
 }
 
-<<<<<<< HEAD
-=======
-#' Extract letters from a string
-#'
-#' @param x the string of interest
-only_letters <- function(x) {
-  gsub("^([[:alpha:]]*).*$", "\\1", x)
-}
-
->>>>>>> d92146c (restructure the code base)
 #' Check if date column exists in given data frame
 #'
 #' @param data the input data frame
 #' @param date_column_name the date column of interest
-<<<<<<< HEAD
 #' @keywords internal
 #' @noRd
 #'
-=======
->>>>>>> d92146c (restructure the code base)
 check_column_existence <- function(data, date_column_name) {
   # check the column name
   if (is.null(date_column_name)) {
     idx <- which(names(data) %in% c("Date", "DATE", "date"))
-<<<<<<< HEAD
     if (length(idx) == 0L) {
-=======
-    if (length(idx) == 0) {
->>>>>>> d92146c (restructure the code base)
       stop("Could not find column named as ",
            glue::glue_collapse(c("Date", "DATE", "date"), sep = " or "),
            "\nPlease specify the date column name.")
@@ -127,7 +86,6 @@ check_column_existence <- function(data, date_column_name) {
   }
   date_column_name
 }
-<<<<<<< HEAD
 
 #' Detect the numeric columns that appears as characters due to the presence of
 #' some character values in the column.
@@ -291,5 +249,3 @@ add_report <- function(data, report, name = NULL) {
 
   data
 }
-=======
->>>>>>> d92146c (restructure the code base)

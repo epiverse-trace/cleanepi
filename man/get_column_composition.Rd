@@ -3,7 +3,7 @@
 \name{get_column_composition}
 \alias{get_column_composition}
 \title{Get the percentage of missing and other data type values in a vector.
-The considered data types are: \code{numeric}, \code{Date}, \code{character}}
+The considered data types are: \code{numeric}, \code{Date}, \code{character}, \code{logical}}
 \usage{
 get_column_composition(x)
 }
@@ -17,6 +17,6 @@ missing, numeric, Date and character values found in the input vector.
 }
 \description{
 Get the percentage of missing and other data type values in a vector.
-The considered data types are: \code{numeric}, \code{Date}, \code{character}
+The considered data types are: \code{numeric}, \code{Date}, \code{character}, \code{logical}
 }
 \keyword{internal}

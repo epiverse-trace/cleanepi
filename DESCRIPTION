@@ -37,6 +37,8 @@ Imports:
     readr,
     snakecase,
     stringr
+Remotes:
+    bahadzie/numberize
 Suggests: 
     kableExtra,
     knitr,
