@@ -4,10 +4,14 @@
 \alias{scan_data}
 \title{Scan a data frame object to determine the percentage of \code{missing}, \code{numeric},
 <<<<<<< HEAD
+<<<<<<< HEAD
 \code{Date}, \code{character}, \code{logical} values in every column.}
 =======
 \code{Date} and \code{character} values in every column.}
 >>>>>>> 7ed29d1 (add scan_data(), and check_ids_uniqueness() functions)
+=======
+\code{Date}, \code{character}, \code{logical} values in every column.}
+>>>>>>> f1c90a5 (add the convert_to_numeric function and restructure the package)
 \usage{
 scan_data(data)
 }
@@ -15,6 +19,7 @@ scan_data(data)
 \item{data}{the input data frame}
 }
 \value{
+<<<<<<< HEAD
 <<<<<<< HEAD
 a data frame with the same columns as the input data and 5 rows.
 These rows represent the percentage of missing, numeric, date, character,
@@ -34,15 +39,20 @@ scan_result <- scan_data(
 a data frame with the same columns as the input data and 4 rows.
 These rows represent the percentage of missing, numeric, date, and
 character values for each column.
+=======
+a data frame with the same columns as the input data and 5 rows.
+These rows represent the percentage of missing, numeric, date, character,
+and logical values in each column.
+>>>>>>> f1c90a5 (add the convert_to_numeric function and restructure the package)
 }
 \description{
 Scan a data frame object to determine the percentage of \code{missing}, \code{numeric},
-\code{Date} and \code{character} values in every column.
+\code{Date}, \code{character}, \code{logical} values in every column.
 }
 \examples{
 scan_result <- scan_data(
-data = readRDS(system.file("extdata", "messy_data.RDS",
-    package = "cleanepi"))
+  data = readRDS(system.file("extdata", "messy_data.RDS",
+                             package = "cleanepi"))
 )
 }
 <<<<<<< HEAD

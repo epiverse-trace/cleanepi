@@ -271,6 +271,36 @@ clean_data <- function(data,
   report  <- tmp_res[["report"]]
 
 
+  ## -----
+  ## | knowing the composition of every column of the data will help in deciding
+  ## | about what actions can be taken for a specific column.
+  ## | Note that any modification made to a column will be reported in the
+  ## | report object.
+  ## -----
+  scan_result <- scan_data(
+    data = readRDS(system.file("extdata", "messy_data.RDS",
+                               package = "cleanepi"))
+  )
+
+  ## -----
+  ## | We convert the few character values into numeric when they are found in a
+  ## | numeric column. This ensures that the values in a numeric column are
+  ## | homogeneous.
+  ## -----
+  if (!"to_numeric" %in% names(params)) {
+    params[["to_numeric"]] <- NULL
+  }
+  tmp_res <- convert_to_numeric(
+    data       = data,
+    report     = report,
+    to_numeric = params[["to_numeric"]],
+    scan_res   = scan_result
+  )
+  data    <- tmp_res[["data"]]
+  report  <- tmp_res[["report"]]
+
+
+
   # this is where to call the reporting function
   report[["params"]] <- params
 

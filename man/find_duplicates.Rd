@@ -51,6 +51,7 @@ Identify and return duplicated rows in a data frame or linelist.
 dups <- find_duplicates(
   data = readRDS(system.file("extdata", "test_linelist.RDS",
     package = "cleanepi")),
+<<<<<<< HEAD
   target_columns = c("dt_onset", "dt_report", "sex", "outcome")
 )
 
@@ -58,6 +59,8 @@ dups <- find_duplicates(
   data = readRDS(system.file("extdata", "test_linelist.RDS",
     package = "cleanepi"
   )),
+=======
+>>>>>>> f1c90a5 (add the convert_to_numeric function and restructure the package)
   target_columns = c("dt_onset", "dt_report", "sex", "outcome")
 )
 
