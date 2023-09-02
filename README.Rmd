@@ -87,7 +87,7 @@ params <- list(
   prefix = "PS",
   suffix = "P2",
   range = c(1, 100)
-  )
+)
 
 # PERFORMING THE DATA CLEANING
 res <- clean_data(

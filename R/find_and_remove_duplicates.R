@@ -31,7 +31,7 @@
 remove_duplicates <- function(data, target_columns,
                               remove = NULL, report = list()) {
   # get the target column names
-  target_columns <- get_target_column_names(target_columns, data)
+  target_columns <- get_target_column_names(data, target_columns)
 
   # extract column names if target_columns is a vector of column indexes
   if (is.numeric(target_columns)) {
@@ -47,7 +47,7 @@ remove_duplicates <- function(data, target_columns,
     # remove duplicates by keeping the first instance of the duplicate in each
     # duplicate group
     data <- data %>%
-      dplyr::select(dplyr::all_of(target_columns)) %>%
+      dplyr::select(dplyr::all_of({{ target_columns }})) %>%
       dplyr::distinct(.keep_all = TRUE)
   } else {
     # remove duplicates from user specified rows
@@ -98,26 +98,25 @@ remove_duplicates <- function(data, target_columns,
 #' @examples
 #' dups <- find_duplicates(
 #'   data = readRDS(system.file("extdata", "test_linelist.RDS",
-#'     package = "cleanepi"
-#'   )),
+#'     package = "cleanepi")),
 #'   target_columns = c("dt_onset", "dt_report", "sex", "outcome")
 #' )
 #'
 find_duplicates <- function(data, target_columns) {
   # get the target column names
-  target_columns <- get_target_column_names(target_columns, data)
+  target_columns <- get_target_column_names(data, target_columns)
 
   # find duplicates
   num_dups <- row_id <- group_id <- NULL
   dups <- data %>%
-    dplyr::group_by(dplyr::pick(target_columns)) %>%
+    dplyr::group_by(dplyr::pick({{ target_columns }})) %>%
     dplyr::mutate(num_dups = dplyr::n()) %>%
     dplyr::ungroup() %>%
     dplyr::mutate(row_id = seq_len(nrow(data))) %>%
-    dplyr::arrange(dplyr::pick(target_columns)) %>%
+    dplyr::arrange(dplyr::pick({{ target_columns }})) %>%
     dplyr::filter(num_dups > 1) %>%
     dplyr::select(-c(num_dups)) %>%
-    dplyr::group_by(dplyr::pick(target_columns)) %>%
+    dplyr::group_by(dplyr::pick({{ target_columns }})) %>%
     dplyr::mutate(group_id = dplyr::cur_group_id()) %>%
     dplyr::select(row_id, group_id, dplyr::everything())
 
@@ -127,27 +126,27 @@ find_duplicates <- function(data, target_columns) {
 
 #' Get the names of the columns from which duplicates will be found
 #'
-#' @param target_columns the user specified target column name
 #' @param data the input dataset
+#' @param target_columns the user specified target column name
 #'
 #' @return a `vector` with the target column names or indexes
 #'
 #' @keywords internal
 #'
-get_target_column_names <- function(target_columns, data) {
+get_target_column_names <- function(data, target_columns) {
   if (is.null(target_columns)) {
     return(names(data))
   }
 
   # check for linelist object if target_columns='tags'
   x_class <- class(data)
-  if (all(length(target_columns) == 1 & target_columns == "tags")) {
+  if (all(length(target_columns) == 1 && target_columns == "tags")) {
     stopifnot(
       "'tags' only works on linelist object. Please provide a vector of
               column names if you are dealing with a data frame" =
         "linelist" %in% x_class
     )
-    original_tags <- linelist::tags(data)
+    original_tags  <- linelist::tags(data)
     target_columns <- as.character(original_tags)
   }
 

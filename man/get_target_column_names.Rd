@@ -4,12 +4,12 @@
 \alias{get_target_column_names}
 \title{Get the names of the columns from which duplicates will be found}
 \usage{
-get_target_column_names(target_columns, data)
+get_target_column_names(data, target_columns)
 }
 \arguments{
-\item{target_columns}{the user specified target column name}
-
 \item{data}{the input dataset}
+
+\item{target_columns}{the user specified target column name}
 }
 \value{
 a \code{vector} with the target column names or indexes

@@ -3,7 +3,7 @@
 \name{scan_data}
 \alias{scan_data}
 \title{Scan a data frame object to determine the percentage of \code{missing}, \code{numeric},
-\code{Date} and \code{character} values in every column.}
+\code{Date}, \code{character}, \code{logical} values in every column.}
 \usage{
 scan_data(data)
 }
@@ -11,17 +11,17 @@ scan_data(data)
 \item{data}{the input data frame}
 }
 \value{
-a data frame with the same columns as the input data and 4 rows.
-These rows represent the percentage of missing, numeric, date, and
-character values for each column.
+a data frame with the same columns as the input data and 5 rows.
+These rows represent the percentage of missing, numeric, date, character,
+and logical values in each column.
 }
 \description{
 Scan a data frame object to determine the percentage of \code{missing}, \code{numeric},
-\code{Date} and \code{character} values in every column.
+\code{Date}, \code{character}, \code{logical} values in every column.
 }
 \examples{
 scan_result <- scan_data(
-data = readRDS(system.file("extdata", "messy_data.RDS",
-    package = "cleanepi"))
+  data = readRDS(system.file("extdata", "messy_data.RDS",
+                             package = "cleanepi"))
 )
 }

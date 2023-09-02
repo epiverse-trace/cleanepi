@@ -78,20 +78,20 @@ and remove specific duplicates, use the \code{find_duplicates()} then
 }
 \examples{
 cleaned_data <- clean_data(
-data = readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi")),
+data   = readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi")), # nolint: line_length_linter
 params = list(
-  remove_duplicates = TRUE,
-  target_columns = NULL,
-  replace_missing = TRUE,
-  na_comes_as = "-99",
-  check_timeframe = TRUE,
-  timeframe = as.Date(c("1973-05-29", "2023-05-29")),
-  error_tolerance = 0.5,
+  remove_duplicates   = TRUE,
+  target_columns      = NULL,
+  replace_missing     = TRUE,
+  na_comes_as         = "-99",
+  check_timeframe     = TRUE,
+  timeframe           = as.Date(c("1973-05-29", "2023-05-29")),
+  error_tolerance     = 0.5,
   subject_id_col_name = "study_id",
-  subject_id_format = "PS000P2",
-  prefix = "PS",
-  suffix = "P2",
-  range = c(1, 100)
+  subject_id_format   = "PS000P2",
+  prefix              = "PS",
+  suffix              = "P2",
+  range               = c(1, 100)
   )
 )
 

@@ -63,119 +63,187 @@
 #'
 #' @examples
 #' cleaned_data <- clean_data(
-#' data = readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi")),
+#' data   = readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi")), # nolint: line_length_linter
 #' params = list(
-#'   remove_duplicates = TRUE,
-#'   target_columns = NULL,
-#'   replace_missing = TRUE,
-#'   na_comes_as = "-99",
-#'   check_timeframe = TRUE,
-#'   timeframe = as.Date(c("1973-05-29", "2023-05-29")),
-#'   error_tolerance = 0.5,
+#'   remove_duplicates   = TRUE,
+#'   target_columns      = NULL,
+#'   replace_missing     = TRUE,
+#'   na_comes_as         = "-99",
+#'   check_timeframe     = TRUE,
+#'   timeframe           = as.Date(c("1973-05-29", "2023-05-29")),
+#'   error_tolerance     = 0.5,
 #'   subject_id_col_name = "study_id",
-#'   subject_id_format = "PS000P2",
-#'   prefix = "PS",
-#'   suffix = "P2",
-#'   range = c(1, 100)
+#'   subject_id_format   = "PS000P2",
+#'   prefix              = "PS",
+#'   suffix              = "P2",
+#'   range               = c(1, 100)
 #'   )
 #' )
 #'
 clean_data <- function(data,
-                       params = list(remove_duplicates = FALSE,
-                                     target_columns = NULL,
-                                     replace_missing = TRUE,
-                                     na_comes_as = NULL,
-                                     check_timeframe = TRUE,
-                                     timeframe = NULL,
-                                     error_tolerance = 0.5,
+                       params = list(remove_duplicates   = FALSE,
+                                     target_columns      = NULL,
+                                     replace_missing     = TRUE,
+                                     na_comes_as         = NULL,
+                                     check_timeframe     = TRUE,
+                                     timeframe           = NULL,
+                                     error_tolerance     = 0.5,
                                      subject_id_col_name = NULL,
-                                     subject_id_format = NULL,
-                                     prefix = "PS",
-                                     suffix = "P2",
-                                     range = c(1, 100)
+                                     subject_id_format   = NULL,
+                                     prefix              = "PS",
+                                     suffix              = "P2",
+                                     range               = c(1, 100)
                                     )
                        ) {
   checkmate::assert_data_frame(data, null.ok = FALSE, min.cols = 1)
-  checkmate::assert_list(params, min.len = 1, null.ok = TRUE)
+  checkmate::assert_list(params, min.len = 0, null.ok = TRUE)
 
   report <- list()
-  # clean the column names based on janitor package
+  ## -----
+  ## | we choose to use snake_cases for both variable and column names
+  ## | column names are cleaned based on {janitor} package
+  ## | TBD: make sure not clean user-specified columns names
+  ## -----
   R.utils::cat("\ncleaning column names")
-  res <- clean_col_names(data, report)
-  data <- res$data
-  report <- res$report
+  res    <- clean_col_names(data, report)
+  data   <- res[["data"]]
+  report <- res[["report"]]
 
-  # replace missing values with NA
-  if (params$replace_missing) {
+  ## -----
+  ## | we choose to standardize on the value for the missing data.
+  ## | missing values will be replaced with NA
+  ## | values for missing data from the original data can be provided by the
+  ## | user if know, or inferred internally otherwise.
+  ## -----
+  if (params[["replace_missing"]]) {
     R.utils::cat("\nreplacing missing values with NA")
     for (cols in names(data)) {
-      data <- replace_missing_char(data, cols, params$na_comes_as)
+      data <- replace_missing_char(data, cols, params[["na_comes_as"]])
     }
   }
 
-  # remove empty records and columns
+  ## -----
+  ## | empty rows and columns will not be used in downstream analysis. For that
+  ## | reason, we choose to remove them from the dataset
+  ## -----
   R.utils::cat("\nremoving empty rows and columns")
-  dat <- data %>%
+  dat    <- data %>%
     janitor::remove_empty(c("rows", "cols"))
   report <- report_cleaning(data, dat, state = "remove_empty", report = report)
-  data <- dat
+  data   <- dat
 
-  # remove constant columns
+  ## -----
+  ## | constant columns will not have an impact in downstream analysis as there
+  ## | is no variation between the records. For that reason, we choose to
+  ## | delete them from the dataset.
+  ## -----
   R.utils::cat("\nremoving constant columns")
-  dat <- data %>% janitor::remove_constant()
-  report <- report_cleaning(data, dat, state = "remove_constant",
-                           report = report)
-  data <- dat
+  dat    <- data %>% janitor::remove_constant()
+  report <- report_cleaning(data, dat,
+                            state  = "remove_constant",
+                            report = report)
+  data   <- dat
 
-  # check for subject IDs uniqueness
-  stopifnot("params$subject_id_col_name must be provided." =
-              !is.null(params$subject_id_col_name))
-  R.utils::cat("\nchecking for subject IDs uniqueness")
-  report <- check_ids_uniqueness(
-    data = data,
-    id_col_name = params$subject_id_col_name,
-    report = report
-  )
-
-  # remove duplicated records
-  R.utils::cat("\nremoving duplicated rows")
-  if (params$remove_duplicates) {
-    dat <- remove_duplicates(data, params$target_columns,
-                             remove = NULL, report)
-    data <- dat$data
-    report <- dat$report
-  }
-
-
-  # standardize date columns
+  ## -----
+  ## | Date columns are expected in 'year-month-day' format. The will will
+  ## | detect and convert columns with Date values. This conversion will make it
+  ## | easy to apply the functions that operate on variables of type Date.
+  ## -----
   R.utils::cat("\nstandardising date columns")
   dat <- standardize_date(
-    data = data,
+    data             = data,
     date_column_name = NULL,
-    format = NULL,
-    timeframe = params$timeframe,
-    check_timeframe = params$check_timeframe,
+    format           = NULL,
+    timeframe        = params[["timeframe"]],
+    check_timeframe  = params[["check_timeframe"]],
     report,
-    error_tolerance = params$error_tolerance
+    error_tolerance  = params[["error_tolerance"]]
   )
-  report <- dat$report
-  report <- report_cleaning(data, dat$data, state = "standardize_date",
-                           report = report)
+  report <- dat[["report"]]
+  report <- report_cleaning(data, dat[["data"]],
+                            state  = "standardize_date",
+                            report = report)
   data <- dat[[1]]
 
-  # check the subject IDs
-  if (!is.null(params$subject_id_format)) {
+  ## -----
+  ## | The uniqueness of the IDs is checked here to ensure that there is no
+  ## | redundant sample ID.
+  ## -----
+  stopifnot("'subject_id_col_name' must be provided in the list of cleaning
+            parameters." = !is.null(params[["subject_id_col_name"]]))
+  R.utils::cat("\nchecking for subject IDs uniqueness")
+  report <- check_ids_uniqueness(
+    data        = data,
+    id_col_name = params[["subject_id_col_name"]],
+    report      = report
+  )
+
+  ## -----
+  ## | The existence of duplicated records can be genuine. But duplication is
+  ## | generally introduced by mistake. We looks for and remove duplicates to
+  ## | minimise potential issues during data analysis. When no column is
+  ## | provided, duplicates are identified across all column. Otherwise, the
+  ## | duplicates will only be considered from the specified columns.
+  ## -----
+  R.utils::cat("\nremoving duplicated rows")
+  if (params[["remove_duplicates"]]) {
+    dat    <- remove_duplicates(data, params[["target_columns"]],
+                                remove = NULL, report)
+    data   <- dat[["data"]]
+    report <- dat[["report"]]
+  }
+
+  ## -----
+  ## | We check how the format of the subject IDs complies with the expected
+  ## | format to detect typos or incorrect entries. This will result in a tidy
+  ## | subject ID column where all values are in the correct format.
+  ## -----
+  if (!is.null(params[["subject_id_format"]])) {
     R.utils::cat("\nchecking subject IDs format")
-    tmp_res <- check_subject_ids(data = data,
-                             id_column_name = params$subject_id_col_name,
-                             format = params$subject_id_format,
-                             prefix = params$prefix, suffix = params$suffix,
-                             range = params$range, remove = TRUE,
-                             verbose = FALSE, report = report
-                            )
-    data <- tmp_res[[1]]
+    tmp_res <- check_subject_ids(
+      data           = data,
+      id_column_name = params[["subject_id_col_name"]],
+      format         = params[["subject_id_format"]],
+      prefix         = params[["prefix"]],
+      suffix         = params[["suffix"]],
+      range          = params[["range"]],
+      remove         = TRUE,
+      verbose        = FALSE,
+      report         = report
+    )
+    data   <- tmp_res[[1]]
     report <- tmp_res[[2]]
   }
+
+  ## -----
+  ## | knowing the composition of every column of the data will help in deciding
+  ## | about what actions can be taken for a specific column.
+  ## | Note that any modification made to a column will be reported in the
+  ## | report object.
+  ## -----
+  scan_result <- scan_data(
+    data = readRDS(system.file("extdata", "messy_data.RDS",
+                               package = "cleanepi"))
+  )
+
+  ## -----
+  ## | We convert the few character values into numeric when they are found in a
+  ## | numeric column. This ensures that the values in a numeric column are
+  ## | homogeneous.
+  ## -----
+  if (!"to_numeric" %in% names(params)) {
+    params[["to_numeric"]] <- NULL
+  }
+  tmp_res <- convert_to_numeric(
+    data       = data,
+    report     = report,
+    to_numeric = params[["to_numeric"]],
+    scan_res   = scan_result
+  )
+  data    <- tmp_res[["data"]]
+  report  <- tmp_res[["report"]]
+
+
 
   # this is where to call the reporting function
   timeframe <- params$timeframe
