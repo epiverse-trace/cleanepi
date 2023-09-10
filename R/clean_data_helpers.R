@@ -93,19 +93,23 @@ check_ids_uniqueness <- function(data, id_col_name, report = list()) {
   # check for missing values in ID column
   scan_result <- scan_data(data)
   if (scan_result[[id_col_name]][1] != 0) {
-    idx <- which(is.na(data[[id_col_name]]))
-    stop("Missing values found at ID column in lines: ",
+    idx       <- which(is.na(data[[id_col_name]]))
+    warning("\nMissing values found at ID column in lines: ",
          glue::glue_collapse(idx, ", "), call. = FALSE)
+    report[["missing_ids"]] <- data[idx, ]
+    data                    <- data[-idx, ]
   }
 
   # check for duplicates ID column
   duplicated_ids <- find_duplicates(data, id_col_name)
   if (nrow(duplicated_ids) > 0) {
-    warning("Found duplicated IDs! See the cleaning report for more details",
+    warning("\nFound duplicated IDs! See the cleaning report for more details",
             call. = FALSE)
-    report$duplicated_ids <- duplicated_ids
-  } else {
-    report$duplicated_ids
+    report[["duplicated_ids"]] <- duplicated_ids
   }
-  report
+
+  list(
+    data   = data,
+    report = report
+  )
 }

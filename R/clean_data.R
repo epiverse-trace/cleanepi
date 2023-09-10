@@ -172,11 +172,13 @@ clean_data <- function(data,
   stopifnot("'subject_id_col_name' must be provided in the list of cleaning
             parameters." = !is.null(params[["subject_id_col_name"]]))
   R.utils::cat("\nchecking for subject IDs uniqueness")
-  report <- check_ids_uniqueness(
+  dat <- check_ids_uniqueness(
     data        = data,
     id_col_name = params[["subject_id_col_name"]],
     report      = report
   )
+  report <- dat[["report"]]
+  data   <- dat[["data"]]
 
   ## -----
   ## | The existence of duplicated records can be genuine. But duplication is
