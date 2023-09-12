@@ -40,6 +40,7 @@ remove_duplicates <- function(data, target_columns,
   # find duplicates
   dups             <- find_duplicates(data, target_columns)
   data[["row_id"]] <- seq_len(nrow(data))
+
   # remove duplicates
   if (is.null(remove)) {
     # remove duplicates by keeping the first instance of the duplicate in each
