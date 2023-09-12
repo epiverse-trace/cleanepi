@@ -30,7 +30,7 @@
 remove_duplicates <- function(data, target_columns,
                               remove = NULL, report = list()) {
   # get the target column names
-  target_columns <- get_target_column_names(data, target_columns)
+  target_columns   <- get_target_column_names(data, target_columns)
 
   # extract column names if target_columns is a vector of column indexes
   if (is.numeric(target_columns)) {
@@ -38,7 +38,7 @@ remove_duplicates <- function(data, target_columns,
   }
 
   # find duplicates
-  dups <- find_duplicates(data, target_columns)
+  dups        <- find_duplicates(data, target_columns)
   data$row_id <- seq_len(nrow(data))
 
   # remove duplicates
@@ -46,15 +46,14 @@ remove_duplicates <- function(data, target_columns,
     # remove duplicates by keeping the first instance of the duplicate in each
     # duplicate group
     data <- data %>%
-      dplyr::select(dplyr::all_of({{ target_columns }})) %>%
-      dplyr::distinct(.keep_all = TRUE)
+      dplyr::distinct_at({{ target_columns }}, .keep_all = TRUE)
   } else {
     # remove duplicates from user specified rows
     data <- data[-remove, ]
   }
 
   if (nrow(dups) > 0) {
-      report[["remove_duplicates"]] <- list()
+      report[["remove_duplicates"]]               <- list()
       report[["remove_duplicates"]][["all_dups"]] <- dups
       idx <- which(!(dups$row_id %in% data$row_id))
       report[["remove_duplicates"]][["removed_dups"]] <- dups[idx, ]
@@ -63,7 +62,8 @@ remove_duplicates <- function(data, target_columns,
   }
 
   if ("row_id" %in% names(data)) {
-    data <- data %>% dplyr::select(-c(row_id))
+    row_id <- NULL
+    data   <- data %>% dplyr::select(-c(row_id))
   }
 
   list(
