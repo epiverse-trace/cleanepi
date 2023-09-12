@@ -97,36 +97,16 @@ remove_duplicates <- function(data, target_columns,
 #' @examples
 #' dups <- find_duplicates(
 #'   data = readRDS(system.file("extdata", "test_linelist.RDS",
-<<<<<<< HEAD
-<<<<<<< HEAD
 #'     package = "cleanepi")),
-=======
-#'     package = "cleanepi"
-#'   )),
->>>>>>> e489906 (rename remove_duplicates to find_and_remove_duplicates)
-=======
-#'     package = "cleanepi")),
->>>>>>> f1c90a5 (add the convert_to_numeric function and restructure the package)
 #'   target_columns = c("dt_onset", "dt_report", "sex", "outcome")
 #' )
 #'
 find_duplicates <- function(data, target_columns) {
   # get the target column names
-<<<<<<< HEAD
-<<<<<<< HEAD
   target_columns <- get_target_column_names(data, target_columns)
-=======
-  target_columns <- get_target_column_names(target_columns, data)
->>>>>>> e489906 (rename remove_duplicates to find_and_remove_duplicates)
-=======
-  target_columns <- get_target_column_names(data, target_columns)
->>>>>>> f1c90a5 (add the convert_to_numeric function and restructure the package)
-
   # find duplicates
   num_dups <- row_id <- group_id <- NULL
   dups <- data %>%
-<<<<<<< HEAD
-<<<<<<< HEAD
     dplyr::group_by(dplyr::pick({{ target_columns }})) %>%
     dplyr::mutate(num_dups = dplyr::n()) %>%
     dplyr::ungroup() %>%
@@ -135,23 +115,6 @@ find_duplicates <- function(data, target_columns) {
     dplyr::filter(num_dups > 1L) %>%
     dplyr::select(-c(num_dups)) %>%
     dplyr::group_by(dplyr::pick({{ target_columns }})) %>%
-=======
-    dplyr::group_by(dplyr::pick(target_columns)) %>%
-=======
-    dplyr::group_by(dplyr::pick({{ target_columns }})) %>%
->>>>>>> f1c90a5 (add the convert_to_numeric function and restructure the package)
-    dplyr::mutate(num_dups = dplyr::n()) %>%
-    dplyr::ungroup() %>%
-    dplyr::mutate(row_id = seq_len(nrow(data))) %>%
-    dplyr::arrange(dplyr::pick({{ target_columns }})) %>%
-    dplyr::filter(num_dups > 1) %>%
-    dplyr::select(-c(num_dups)) %>%
-<<<<<<< HEAD
-    dplyr::group_by(dplyr::pick(target_columns)) %>%
->>>>>>> e489906 (rename remove_duplicates to find_and_remove_duplicates)
-=======
-    dplyr::group_by(dplyr::pick({{ target_columns }})) %>%
->>>>>>> f1c90a5 (add the convert_to_numeric function and restructure the package)
     dplyr::mutate(group_id = dplyr::cur_group_id()) %>%
     dplyr::select(row_id, group_id, dplyr::everything())
 
@@ -161,40 +124,20 @@ find_duplicates <- function(data, target_columns) {
 
 #' Get the names of the columns from which duplicates will be found
 #'
-<<<<<<< HEAD
-<<<<<<< HEAD
 #' @param data the input dataset
 #' @param target_columns the user specified target column name
-=======
-#' @param target_columns the user specified target column name
-#' @param data the input dataset
->>>>>>> e489906 (rename remove_duplicates to find_and_remove_duplicates)
-=======
-#' @param data the input dataset
-#' @param target_columns the user specified target column name
->>>>>>> f1c90a5 (add the convert_to_numeric function and restructure the package)
 #'
 #' @return a `vector` with the target column names or indexes
 #'
 #' @keywords internal
-<<<<<<< HEAD
 #' @noRd
 #'
 get_target_column_names <- function(data, target_columns) {
-=======
-#'
-<<<<<<< HEAD
-get_target_column_names <- function(target_columns, data) {
->>>>>>> e489906 (rename remove_duplicates to find_and_remove_duplicates)
-=======
-get_target_column_names <- function(data, target_columns) {
->>>>>>> f1c90a5 (add the convert_to_numeric function and restructure the package)
   if (is.null(target_columns)) {
     return(names(data))
   }
 
   # check for linelist object if target_columns='tags'
-<<<<<<< HEAD
   if (all(length(target_columns) == 1L && target_columns == "tags")) {
     stopifnot(
       "'tags' only works on linelist object. Please provide a vector of
@@ -202,20 +145,6 @@ get_target_column_names <- function(data, target_columns) {
         inherits(data, "linelist")
     )
     original_tags  <- linelist::tags(data)
-=======
-  x_class <- class(data)
-  if (all(length(target_columns) == 1 && target_columns == "tags")) {
-    stopifnot(
-      "'tags' only works on linelist object. Please provide a vector of
-              column names if you are dealing with a data frame" =
-        "linelist" %in% x_class
-    )
-<<<<<<< HEAD
-    original_tags <- linelist::tags(data)
->>>>>>> e489906 (rename remove_duplicates to find_and_remove_duplicates)
-=======
-    original_tags  <- linelist::tags(data)
->>>>>>> f1c90a5 (add the convert_to_numeric function and restructure the package)
     target_columns <- as.character(original_tags)
   }
 

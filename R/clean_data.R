@@ -198,7 +198,7 @@ clean_data <- function(data,
   ## | provided, duplicates are identified across all column. Otherwise, the
   ## | duplicates will only be considered from the specified columns.
   ## -----
-  R.utils::cat("\nremoving duplicated rows")
+  R.utils::cat("\nremoving duplicated rows\n")
   if (params[["remove_duplicates"]]) {
     dat    <- remove_duplicates(data, params[["target_columns"]],
                                 remove = NULL, report)
