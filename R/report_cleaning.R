@@ -48,13 +48,13 @@ report_cleaning <- function(original, modified,
 report_remove_empty <- function(report, state, original, modified) {
   cols <- rows <- NULL
   idx <- which(!(names(original) %in% names(modified)))
-  if (length(idx) > 0) {
+  if (length(idx) > 0L) {
     cols <- names(original)[idx]
   }
 
-  if (nrow(summary(arsenal::comparedf(original, modified))$obs.table) > 0) {
+  if (nrow(summary(arsenal::comparedf(original, modified))[["obs.table"]]) > 0L) { # nolint: line_length_linter
     rows <-
-      summary(arsenal::comparedf(original, modified))$obs.table$observation
+      summary(arsenal::comparedf(original, modified))[["obs.table"]][["observation"]] # nolint: line_length_linter
   }
 
   if (!is.null(cols)) {

@@ -4,13 +4,7 @@
 \alias{date_guess_convert}
 \title{Guess if a character vector contains Date values, and convert them into Date}
 \usage{
-date_guess_convert(
-  data,
-  error_tolerance = error_tolerance,
-  timeframe,
-  check_timeframe,
-  report
-)
+date_guess_convert(data, error_tolerance, timeframe, check_timeframe, report)
 }
 \arguments{
 \item{data}{the input data frame}

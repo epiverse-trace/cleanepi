@@ -319,6 +319,7 @@ get_format <- function(data, date_column_name, sep) {
   } else {
     part3 <- rep(NA, length(data[[date_column_name]]))
   }
+
   f1 <- ifelse(all(is.na(part1)), NA, detect_date_format(part1))
   f2 <- ifelse(all(is.na(part2)), NA, detect_date_format(part2))
   f3 <- ifelse(all(is.na(part3)), NA, detect_date_format(part3))
