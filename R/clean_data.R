@@ -217,7 +217,7 @@ clean_data <- function(data,
   ## | provided, duplicates are identified across all column. Otherwise, the
   ## | duplicates will only be considered from the specified columns.
   ## -----
-  R.utils::cat("\nremoving duplicated rows\n")
+  R.utils::cat("\nremoving duplicated rows")
   if (params[["remove_duplicates"]]) {
     dat    <- remove_duplicates(data, params[["target_columns"]],
                                 remove = NULL, report)
@@ -287,15 +287,13 @@ clean_data <- function(data,
   ## | numeric column. This ensures that the values in a numeric column are
   ## | homogeneous.
   ## -----
-  if (!"to_numeric" %in% names(params)) {
+  if (!("to_numeric" %in% names(params))) {
     params[["to_numeric"]] <- NULL
   }
-  tmp_res <- convert_to_numeric(
-    data       = data,
-    report     = report,
-    to_numeric = params[["to_numeric"]],
-    scan_res   = scan_result
-  )
+  tmp_res <- convert_to_numeric(data       = data,
+                                report     = report,
+                                to_numeric = params[["to_numeric"]],
+                                scan_res   = scan_result)
   data    <- tmp_res[["data"]]
   report  <- tmp_res[["report"]]
 

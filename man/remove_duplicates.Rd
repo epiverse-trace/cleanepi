@@ -48,6 +48,7 @@ or linelist object.
 no_dups <- remove_duplicates(
   data           = readRDS(system.file("extdata", "test_linelist.RDS",
                              package = "cleanepi")),
+<<<<<<< HEAD
   target_columns = "tags",
   remove         = NULL,
   report         = list()
@@ -57,9 +58,11 @@ no_dups <- remove_duplicates(
   data = readRDS(system.file("extdata", "test_linelist.RDS",
     package = "cleanepi"
   )),
+=======
+>>>>>>> c5b7088 (fix linters)
   target_columns = "tags",
-  remove = NULL,
-  report = list()
+  remove         = NULL,
+  report         = list()
 )
 
 }

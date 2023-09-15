@@ -177,4 +177,3 @@ check_subject_ids <- function(data, format, id_column_name = NULL,
     report = report
   )
 }
-

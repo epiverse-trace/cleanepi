@@ -64,8 +64,8 @@ calculate_age <- function(data, date_column_name = NULL, end_date = Sys.Date(),
     months = data %>%
       dplyr::mutate(tmp_age = lubridate::as.period(end_date -
                                                      data[[date_column_name]])) %>% # nolint: line_length_linter.
-      dplyr::mutate(age_months = tmp_age %/% months(1L), # nolint
-                    remainder_days = (tmp_age %% months(1L)) %/% # nolint
+      dplyr::mutate(age_months = tmp_age %/% months(1L),
+                    remainder_days = (tmp_age %% months(1L)) %/%
                       lubridate::days(1L)) %>%
       dplyr::select(-tmp_age),
     days = data %>%
