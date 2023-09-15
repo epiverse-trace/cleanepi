@@ -92,11 +92,9 @@ clean_data <- function(data,
                                      subject_id_format   = NULL,
                                      prefix              = "PS",
                                      suffix              = "P2",
-                                     range               = c(1, 100)
-                                    )
-                       ) {
-  checkmate::assert_data_frame(data, null.ok = FALSE, min.cols = 1)
-  checkmate::assert_list(params, min.len = 0, null.ok = TRUE)
+                                     range               = c(1L, 100L))) {
+  checkmate::assert_data_frame(data, null.ok = FALSE, min.cols = 1L)
+  checkmate::assert_list(params, min.len = 0L, null.ok = TRUE)
 
   report <- list()
   ## -----
@@ -163,7 +161,7 @@ clean_data <- function(data,
   report <- report_cleaning(data, dat[["data"]],
                             state  = "standardize_date",
                             report = report)
-  data <- dat[[1]]
+  data <- dat[[1L]]
 
   ## -----
   ## | The uniqueness of the IDs is checked here to ensure that there is no
@@ -187,7 +185,7 @@ clean_data <- function(data,
   ## | provided, duplicates are identified across all column. Otherwise, the
   ## | duplicates will only be considered from the specified columns.
   ## -----
-  R.utils::cat("\nremoving duplicated rows\n")
+  R.utils::cat("\nremoving duplicated rows")
   if (params[["remove_duplicates"]]) {
     dat    <- remove_duplicates(data, params[["target_columns"]],
                                 remove = NULL, report)
@@ -204,8 +202,8 @@ clean_data <- function(data,
     R.utils::cat("\nchecking subject IDs format")
     tmp_res <- check_subject_ids(
       data           = data,
-      id_column_name = params[["subject_id_col_name"]],
       format         = params[["subject_id_format"]],
+      id_column_name = params[["subject_id_col_name"]],
       prefix         = params[["prefix"]],
       suffix         = params[["suffix"]],
       range          = params[["range"]],
@@ -213,8 +211,8 @@ clean_data <- function(data,
       verbose        = FALSE,
       report         = report
     )
-    data   <- tmp_res[[1]]
-    report <- tmp_res[[2]]
+    data   <- tmp_res[[1L]]
+    report <- tmp_res[[2L]]
   }
 
   ## -----
@@ -223,40 +221,35 @@ clean_data <- function(data,
   ## | Note that any modification made to a column will be reported in the
   ## | report object.
   ## -----
-  scan_result <- scan_data(
-    data = readRDS(system.file("extdata", "messy_data.RDS",
-                               package = "cleanepi"))
-  )
+  scan_result <- scan_data(data = data)
 
   ## -----
   ## | We convert the few character values into numeric when they are found in a
   ## | numeric column. This ensures that the values in a numeric column are
   ## | homogeneous.
   ## -----
-  if (!"to_numeric" %in% names(params)) {
+  if (!("to_numeric" %in% names(params))) {
     params[["to_numeric"]] <- NULL
   }
-  tmp_res <- convert_to_numeric(
-    data       = data,
-    report     = report,
-    to_numeric = params[["to_numeric"]],
-    scan_res   = scan_result
-  )
+  tmp_res <- convert_to_numeric(data       = data,
+                                report     = report,
+                                to_numeric = params[["to_numeric"]],
+                                scan_res   = scan_result)
   data    <- tmp_res[["data"]]
   report  <- tmp_res[["report"]]
 
 
 
   # this is where to call the reporting function
-  timeframe <- params$timeframe
-  report$params <- as.data.frame(do.call(rbind, params)) %>%
+  timeframe <- params[["timeframe"]]
+  report[["params"]] <- as.data.frame(do.call(rbind, params)) %>%
     dplyr::rename("value1" = "V1", "value2" = "V2")
-  report$params[which(rownames(report$params) == "timeframe"), ] <-
+  report[["params"]][which(rownames(report[["params"]]) == "timeframe"), ] <-
     as.character(timeframe)
 
   # return the final object
   list(
     data = data,
     report = report
-    )
+  )
 }

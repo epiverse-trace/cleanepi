@@ -10,7 +10,10 @@ numbers_only <- function(x) {
 #' @param x the string of interest
 #' @param sep the separator in the string of interest
 get_part1 <- function(x, sep) {
-  unlist(strsplit(x, sep))[1]
+  if (is.na(x)) {
+    return(NA)
+  }
+  unlist(strsplit(x, sep, fixed = TRUE))[[1L]]
 }
 
 #' Get part2 of date value
@@ -18,7 +21,10 @@ get_part1 <- function(x, sep) {
 #' @param x the string of interest
 #' @param sep the separator in the string of interest
 get_part2 <- function(x, sep) {
-  unlist(strsplit(x, sep))[2]
+  if (is.na(x)) {
+    return(NA)
+  }
+  unlist(strsplit(x, sep, fixed = TRUE))[[2L]]
 }
 
 #' Get part3 of date value
@@ -26,15 +32,18 @@ get_part2 <- function(x, sep) {
 #' @param x the string of interest
 #' @param sep the separator in the string of interest
 get_part3 <- function(x, sep) {
-  unlist(strsplit(x, sep))[3]
+  if (is.na(x)) {
+    return(NA)
+  }
+  unlist(strsplit(x, sep, fixed = TRUE))[[3L]]
 }
 
 #' Get sum from number
 #'
 #' @param x the string of interest
 get_sum <- function(x) {
-  if (nchar(x) == 2) {
-    x <- sum(as.numeric(substr(x, 1, 1)), as.numeric(substr(x, 2, 2)))
+  if (nchar(x) == 2L) {
+    x <- sum(as.numeric(substr(x, 1L, 1L)), as.numeric(substr(x, 2L, 2L)))
   }
   x
 }
@@ -54,7 +63,7 @@ check_column_existence <- function(data, date_column_name) {
   # check the column name
   if (is.null(date_column_name)) {
     idx <- which(names(data) %in% c("Date", "DATE", "date"))
-    if (length(idx) == 0) {
+    if (length(idx) == 0L) {
       stop("Could not find column named as ",
            glue::glue_collapse(c("Date", "DATE", "date"), sep = " or "),
            "\nPlease specify the date column name.")
@@ -89,7 +98,6 @@ detect_columns_to_convert <- function(scan_res) {
                                null.ok = FALSE)
   to_numeric <- vector(mode = "character", length = 0L)
   for (col in names(scan_res)[-1L]) {
-    # print(col)
     values        <- scan_res[[col]]
     names(values) <- scan_res[["data_type"]]
     values        <- values[values > 0L]
@@ -97,9 +105,9 @@ detect_columns_to_convert <- function(scan_res) {
       values <- values[-(which(names(values) == "missing"))]
     }
     if (length(values) == 2L && "numeric" %in% names(values) &&
-        "character" %in% names(values)) {
-      if (values["numeric"] == values["character"] ||
-          values["numeric"] < (2L * values["character"])) {
+          "character" %in% names(values)) {
+      if (values[["numeric"]] == values[["character"]] ||
+            values[["numeric"]] < (2L * values[["character"]])) {
         warning(sprintf("In '%s' column, the number of numeric values is same as
                         the number of character values", col), call. = FALSE)
       } else {
@@ -154,7 +162,6 @@ convert_to_numeric <- function(data,
 
   report[["converted_into_numeric"]] <- glue::glue_collapse(to_numeric,
                                                             sep = ", ")
-
   list(
     data   = data,
     report = report
@@ -179,7 +186,7 @@ convert <- function(x) {
   tmp   <- x
   is_na <- which(is.na(x))
   x     <- suppressWarnings(as.numeric(x))
-  if (length(is_na) > 0) {
+  if (length(is_na) > 0L) {
     xx  <- which(is.na(x))
     y   <- xx[!(xx %in% is_na)]
   }

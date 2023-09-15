@@ -10,8 +10,10 @@ vignette: >
 ---
 
 ```{r, include = FALSE} 
-knitr::opts_chunk$set(collapse = TRUE, comment = "#>", eval = FALSE,
-                      fig.width = 7, fig.height = 7, fig.align = "center")
+knitr::opts_chunk[["set"]](collapse = TRUE, comment = "#>", eval = FALSE,
+                           fig.width = 7L, fig.height = 7L,
+                           fig.align = "center")
+row_id <- group_id <- NULL
 ```
 
 
@@ -24,7 +26,8 @@ No matter how many measures are taken, one must always expect  messy data from t
 **{cleanepi}** is specifically designed for epidemiological data, and works with data frame-like data structure. This vignette provides a detailed description of the functions included in the package and how to use them. 
 
 ```{r setup, eval=TRUE}
-library(cleanepi)
+library("cleanepi") # nolint
+library("magrittr") # nolint
 ```
 
 ## General data cleaning tasks
@@ -67,14 +70,14 @@ params <- list(
   subject_id_format = "PS000P2",
   prefix = "PS",
   suffix = "P2",
-  range = c(1, 100)
+  range = c(1L, 100L)
 )
 ```
 
 ```{r eval=TRUE}
 # CLEAN THE INPUT DATA FRAME
 res <- clean_data(
-  data = test_data,
+  data   = test_data,
   params = params
 )
 ```
@@ -86,13 +89,13 @@ The function `clean_data()` returns a `list` of `r length(res)` objects:
 
 ```{r eval=TRUE}
 # PRINT TOP 6 ROWS OF THE CLEANED DATA
-head(res$data)
+head(res[["data"]])
 
 # SUMMARIZE THE REPORT OBJECT
-summary(res$report)
+summary(res[["report"]])
 ```
 
-**Note** a function to visualize this report object will be built in the next release of the package.
+**Note:** a function to visualize this report object will be built in the next release of the package.
 
 ## Specific data cleaning tasks
 
@@ -118,14 +121,15 @@ The `standardize_date()` function offers the possibility to convert date columns
 
 ```{r eval=TRUE}
 res <- standardize_date(
- data = readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi")),
- date_column_name = "date_first_pcr_positive_test",
- format = NULL,
- timeframe = NULL,
- check_timeframe = FALSE,
- report = list(),
- error_tolerance = 0.5
- )
+  data             = readRDS(system.file("extdata", "test_df.RDS",
+                                         package = "cleanepi")),
+  date_column_name = "date_first_pcr_positive_test",
+  format           = NULL,
+  timeframe        = NULL,
+  check_timeframe  = FALSE,
+  report           = list(),
+  error_tolerance  = 0.5
+)
 ```
 
 This function returns a `list` of `r length(res)` elements named as:
@@ -151,16 +155,17 @@ The function requires the following parameters:
 ```{r eval=TRUE}
 # DETECT INCORRECT SUBJECT IDs
 res <- check_subject_ids(
- data = readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi")),
- id_column_name = "study_id",
- format = "PS000P2",
- prefix = "PS",
- suffix = "P2",
- range = c(1, 100),
- remove = FALSE,
- verbose = TRUE,
- report = list()
- )
+  data           = readRDS(system.file("extdata", "test_df.RDS",
+                                       package = "cleanepi")),
+  id_column_name = "study_id",
+  format         = "PS000P2",
+  prefix         = "PS",
+  suffix         = "P2",
+  range          = c(1L, 100L),
+  remove         = FALSE,
+  verbose        = TRUE,
+  report         = list()
+)
 ```
 
 This function returns a `list` of `r length(res)` elements named as:
@@ -170,22 +175,23 @@ This function returns a `list` of `r length(res)` elements named as:
 
 ```{r eval=TRUE}
 # DISPLAY ROWS WITH THE INCORRECT SUBJECT IDs
-res$report$incorrect_subject_id
+res[["report"]][["incorrect_subject_id"]]
 ```
 
 ```{r eval=TRUE}
 # DETECT AND REMOVE INCORRECT SUBJECT IDs
 res <- check_subject_ids(
- data = readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi")),
- id_column_name = "study_id",
- format = "PS000P2",
- prefix = "PS",
- suffix = "P2",
- range = c(1, 100),
- remove = TRUE,
- verbose = FALSE,
- report = list()
- )
+  data           = readRDS(system.file("extdata", "test_df.RDS",
+                                       package = "cleanepi")),
+  id_column_name = "study_id",
+  format         = "PS000P2",
+  prefix         = "PS",
+  suffix         = "P2",
+  range          = c(1L, 100L),
+  remove         = TRUE,
+  verbose        = FALSE,
+  report         = list()
+)
 ```
 
 
@@ -203,11 +209,12 @@ The `calculate_age()` function calculates  ages of individuals (in either years,
 ```{r eval=TRUE}
 # CALCULATE INDIVIDUAL AGE FROM THE `dateOfBirth` COLUMN
 age <- calculate_age(
- data = readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi")),
- date_column_name = "dateOfBirth",
- end_date = Sys.Date(),
- age_in = "months"
- )
+  data             = readRDS(system.file("extdata", "test_df.RDS",
+                                         package = "cleanepi")),
+  date_column_name = "dateOfBirth",
+  end_date         = Sys.Date(),
+  age_in           = "months"
+)
 ```
 
 This function returns the input dataset with 1 or 2 extra columns that contains, respectively: the calculated age in the specified unit and the remaining number of days. 
@@ -231,15 +238,16 @@ The `check_date_sequence()` function checks the order of sequences in date event
 ```{r eval=TRUE}
 # DETECT ROWS WITH INCORRECT DATE SEQUENCE
 res <- check_date_sequence(
- data = readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi")),
- event_cols = c("date_first_pcr_positive_test", "date.of.admission"),
- remove_bad_seq = FALSE,
- report = list()
- )
+  data           = readRDS(system.file("extdata", "test_df.RDS",
+                                       package = "cleanepi")),
+  event_cols     = c("date_first_pcr_positive_test", "date.of.admission"),
+  remove_bad_seq = FALSE,
+  report         = list()
+)
 ```
 
 ```{r eval=TRUE, include=FALSE}
-target_name <- names(res$report)
+target_name <- names(res[["report"]])
 ```
 
 The `check_date_sequence()` function returns a `list` of `r length(res)` elements:  
@@ -249,7 +257,7 @@ The `check_date_sequence()` function returns a `list` of `r length(res)` element
 
 ```{r eval=TRUE}
 # PRINT ROWS WITH INCORRECT DATE SEQUENCE
-res$report
+res[["report"]]
 ```
 
 
@@ -262,10 +270,9 @@ The `find_duplicates()` function can be used to identify duplicated rows from an
 2. `target_columns`: a `vector` of column names or indexes from which duplicated rows will be identified. If `NULL`, duplicates will be detected across all columns. If the input dataset is a `linelist` object, this can be set to `tags` to identify duplicates across the **tagged variables** only.  
 
 ```{r eval=TRUE}
-library(magrittr)
 # IMPORT A `linelist` DATA
 data <- readRDS(system.file("extdata", "test_linelist.RDS",
-                             package = "cleanepi"))
+                            package = "cleanepi"))
 head(data)
 ```
 
@@ -277,7 +284,7 @@ linelist::tags(data)
 ```{r eval=TRUE}
 # FIND DUPLICATES ACROSS TAGGED VARIABLES
 dups <- find_duplicates(
-  data = data,
+  data           = data,
   target_columns = "tags"
 )
 ```
@@ -286,7 +293,6 @@ The function returns all duplicated rows in the dataset based on all or the spec
 
 ```{r eval=TRUE}
 # VISUALIZE THE DUPLICATES
-library("magrittr")
 head(dups %>% dplyr::select(c(row_id, group_id,
                               as.character(linelist::tags(data)))))
 ```
@@ -305,15 +311,15 @@ To remove duplicated rows, use the `remove_duplicates()` function. It internally
 ```{r eval=TRUE}
 # IMPORT A `linelist` DATA
 data <- readRDS(system.file("extdata", "test_linelist.RDS",
-                             package = "cleanepi"))
+                            package = "cleanepi"))
 
 # REMOVE DUPLICATES ACROSS TAGGED VARIABLES (KEEP ONLY THE FIRST OCCURENCE OF
 # THE DUPLICATED ROWS)
 res <- remove_duplicates(
-  data = data,
+  data           = data,
   target_columns = "tags",
-  remove = NULL,
-  report = list()
+  remove         = NULL,
+  report         = list()
 )
 ```
 
@@ -325,18 +331,18 @@ The function returns the inputs dataset without the duplicated rows and a `list`
 
 ```{r eval=TRUE}
 # STORE THE DUPLICATES REMOVAL PROCESS REPORT IN A VARIABLE
-dups_removal_report <- res$report$remove_duplicates
+dups_removal_report <- res[["report"]][["remove_duplicates"]]
 
 # DISPLAY ALL DUPLICATES FOUND
-head(dups_removal_report$all_dups %>%
+head(dups_removal_report[["all_dups"]] %>%
        dplyr::select(c(row_id, group_id, as.character(linelist::tags(data)))))
 
 # DISPLAY THE DUPLICATED LINES THAT WAS REMOVED
-head(dups_removal_report$removed_dups %>%
+head(dups_removal_report[["removed_dups"]] %>%
        dplyr::select(c(row_id, group_id, as.character(linelist::tags(data)))))
 
 # DISPLAY COLUMN NAMES USED TO DETECT DUPLICATES
-dups_removal_report$duplicates_checked_from
+dups_removal_report[["duplicates_checked_from"]]
 ```
 
 The output from  `find_duplicates()` function can also be passed to  `remove_duplicates()`  function to specify which duplicated rows to be removed.  
@@ -350,12 +356,12 @@ dups <- find_duplicates(
 )
 
 # REMOVE FIRST OCCURRENCE OF DUPLICATED ROWS
-dups_index_to_remove <- dups$row_id[seq(1, nrow(dups), 2)]
+dups_index_to_remove <- dups[["row_id"]][seq(1L, nrow(dups), 2L)]
 no_dups <- remove_duplicates(
   data = readRDS(system.file("extdata", "test_linelist.RDS",
                              package = "cleanepi")),
   target_columns = "tags",
-  remove = dups_index_to_remove,
-  report = list()
+  remove         = dups_index_to_remove,
+  report         = list()
 )
 ```

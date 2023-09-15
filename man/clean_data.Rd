@@ -9,7 +9,7 @@ clean_data(
   params = list(remove_duplicates = FALSE, target_columns = NULL, replace_missing = TRUE,
     na_comes_as = NULL, check_timeframe = TRUE, timeframe = NULL, error_tolerance = 0.5,
     subject_id_col_name = NULL, subject_id_format = NULL, prefix = "PS", suffix = "P2",
-    range = c(1, 100))
+    range = c(1L, 100L))
 )
 }
 \arguments{

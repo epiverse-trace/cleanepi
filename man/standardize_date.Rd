@@ -35,9 +35,9 @@ entries which cannot be identified as dates to be tolerated. See the
 \code{clean_data()} helper for more details}
 }
 \value{
-a \code{list} of 2 elements: the input dataset where the date columns have
-been standardized and a report object of type \code{list} that contains the
-details about the columns that have been modified.
+a \code{list} of 2 elements: the input dataset where the date columns
+have been standardized and a report object of type \code{list} that contains
+the details about the columns that have been modified.
 }
 \description{
 Standardize date variables

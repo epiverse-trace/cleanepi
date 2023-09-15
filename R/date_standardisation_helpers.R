@@ -3,13 +3,13 @@
 #' @param x the string of interest
 #' @param format the date format
 #'
-as_Date <- function(x, format = c("ymd", "ydm", "dmy", "mdy", "myd", "dym",
+as_date <- function(x, format = c("ymd", "ydm", "dmy", "mdy", "myd", "dym",
                                   "Ymd", "Ydm", "dmY", "mdY", "mYd", "dYm")) {
   fmt <- lubridate::guess_formats(x, format)
   fmt <- unique(fmt)
-  y <- as.Date(x, format = fmt[1])
-  for (i in seq_along(fmt)[-1]) {
-    na <- is.na(y)
+  y   <- as.Date(x, format = fmt[[1L]])
+  for (i in seq_along(fmt)[-1L]) {
+    na    <- is.na(y)
     if (!any(na)) break
     y[na] <- as.Date(x[na], format = fmt[i])
   }
@@ -32,7 +32,7 @@ check_first_and_last_date <- function(first_date, last_date) {
   iso_8601 <- "[0-9]{4}-(0|1(?=[0-2]))[0-9]-([0-2]|3(?=[0-1]))[0-9]"
 
   first_date_is_charcater <- is.character(first_date)
-  first_date_has_len_1 <- length(first_date) == 1
+  first_date_has_len_1    <- length(first_date) == 1L
   first_date_has_iso_8601 <- grepl(iso_8601, first_date, perl = TRUE)
   verdict <- first_date_is_charcater & first_date_has_len_1 &
     first_date_has_iso_8601
@@ -41,7 +41,7 @@ check_first_and_last_date <- function(first_date, last_date) {
   }
 
   last_date_is_charcater <- is.character(last_date)
-  last_date_has_len_1 <- length(last_date) == 1
+  last_date_has_len_1    <- length(last_date) == 1L
   last_date_has_iso_8601 <- grepl(iso_8601, last_date, perl = TRUE)
   verdict <- last_date_is_charcater & last_date_has_len_1 &
     last_date_has_iso_8601
@@ -51,7 +51,7 @@ check_first_and_last_date <- function(first_date, last_date) {
 
   # Set the first date to 50 years before the last date if it's not set
   if (is.null(first_date) && inherits(last_date, "Date")) {
-    first_date <- min(seq.Date(last_date, length.out = 2, by = "-50 years"))
+    first_date <- min(seq.Date(last_date, length.out = 2L, by = "-50 years"))
   }
 
   if (!inherits(first_date, "Date") || !inherits(last_date, "Date")) {
@@ -98,46 +98,45 @@ convert_to_date <- function(data, cols, sep, error_tolerance) {
 #'    fall under the given time frame of not
 #' @param report the object that will contains the report from this operation
 #'
-date_guess_convert <- function(data, error_tolerance = error_tolerance,
+date_guess_convert <- function(data, error_tolerance,
                                timeframe, check_timeframe, report) {
   # guess and convert for column of type character, factor and POSIX
-  col_types <- vapply(data, function(x) class(x)[1], FUN.VALUE = "character")
-  are_POSIX      <- which(grepl("^POSIX", col_types, fixed = TRUE))
+  col_types <- vapply(data, function(x) class(x)[[1L]], FUN.VALUE = "character")
+  are_posix      <- which(grepl("^POSIX", col_types, fixed = TRUE))
   are_characters <- which(col_types == "character")
   are_factors    <- which(col_types == "factor")
   are_dates      <- which(col_types == "Date")
 
   # convert POSIX to date
-  for (i in are_POSIX) {
+  for (i in are_posix) {
     data[[i]] <- as.Date(data[[i]])
   }
 
   # convert characters and factors to date
   if (is.null(timeframe)) {
     first_date <- NULL
-    last_date <- Sys.Date()
+    last_date  <- Sys.Date()
   } else {
-    first_date <- timeframe[1]
-    last_date <- timeframe[2]
+    first_date <- timeframe[[1L]]
+    last_date  <- timeframe[[2L]]
   }
 
   if (!("standardize_date" %in% names(report))) {
     report[["standardize_date"]] <- list()
   }
-  for (i in c(are_characters, are_factors, are_dates, are_POSIX)) {
-    tmp_data <- guess_dates(data[[i]], error_tolerance = error_tolerance,
+  of_interest <- c(are_characters, are_factors, are_dates, are_posix)
+  for (i in names(of_interest)) {
+    tmp_data <- guess_dates(data[[i]], check_timeframe,
+                            error_tolerance = error_tolerance,
                             first_date, last_date,
                             orders = list(world_named_months = c("Ybd", "dby"),
                                           world_digit_months = c("dmy", "Ymd"),
-                                          US_formats = c("Omdy", "YOmd")),
-                            check_timeframe
-    )
-    data[[i]] <- tmp_data[[1]]
-    if (!is.null(tmp_data[[2]])) {
+                                          US_formats = c("Omdy", "YOmd")))
+    data[[i]] <- tmp_data[[1L]]
+    if (!is.null(tmp_data[[2L]])) {
       variable_name <- paste0(names(data)[i], "_NOT_IN_TIMEFRAME")
-      report[["standardize_date"]][[variable_name]] <- tmp_data[[2]]
+      report[["standardize_date"]][[variable_name]] <- tmp_data[[2L]]
     }
-
   }
 
   list(data, report)
@@ -154,7 +153,7 @@ detect_complex_format <- function(x) {
     if (is.null(f1)) {
       f1 <- detect_day_or_month(x)
     }
-  } else if (!is.na(tmp_sep) && length(tmp_sep) == 1) {
+  } else if (!is.na(tmp_sep) && length(tmp_sep) == 1L) {
     p1 <- as.character(unlist(lapply(x, get_part1, tmp_sep)))
     p2 <- as.character(unlist(lapply(x, get_part2, tmp_sep)))
     f1 <- detect_simple_format(p1)
@@ -180,7 +179,7 @@ detect_complex_format <- function(x) {
 detect_date_format <- function(x) {
   # check the format in x
   idx <- which(is.na(x))
-  if (length(idx) > 0) {
+  if (length(idx) > 0L) {
     x <- x[-idx]
   }
   if (all(numbers_only(x))) {
@@ -245,17 +244,17 @@ detect_day_or_month <- function(x) {
 detect_simple_format <- function(x) {
   f1 <- NULL
   if (is.null(x)) f1 <- NULL
-  if (all(nchar(x) == 4)) {
+  if (all(nchar(x) == 4L)) {
     f1 <- "%Y" # year with century i.e 4 digits year
-  } else if (any(nchar(x) == 4) && any(nchar(x) == 2)) {
+  } else if (any(nchar(x) == 4L) && any(nchar(x) == 2L)) {
     stop("Detected different lengths in first digits of date column.\n
          Please use same number of digits or specify the date format with
          the 'format' argument.")
-  } else if (all(nchar(x) == 2)) {
+  } else if (all(nchar(x) == 2L)) {
     tmp <- as.numeric(x)
-    if (all(tmp <= 12)) {
+    if (all(tmp <= 12L)) {
       f1 <- "%m"
-    } else if (all(tmp >= 1) && all(tmp <= 31)) {
+    } else if (all(tmp >= 1L) && all(tmp <= 31L)) {
       f1 <- "%d"
     } else {
       f1 <- "%y"
@@ -274,25 +273,41 @@ detect_simple_format <- function(x) {
 get_format <- function(data, date_column_name, sep) {
   format <- NULL
   data[[date_column_name]] <- as.character(data[[date_column_name]])
-  part1 <- as.character(unlist(lapply(data[[date_column_name]], get_part1,
-                                      sep[1])))
-  part2 <- as.character(unlist(lapply(data[[date_column_name]], get_part2,
-                                      sep[1])))
-  part3 <- as.character(unlist(lapply(data[[date_column_name]], get_part3,
-                                      sep[1])))
+  tmp_list <- strsplit(data[[date_column_name]], sep[[1L]], fixed = TRUE)
+  idx <- which(is.na(tmp_list))
+  if (length(idx) > 0L) {
+    tmp_list[[idx]] <- rep(NA, max(lengths(tmp_list)))
+  }
+  if (any(lengths(tmp_list) >= 1L)) {
+    part1 <- as.character(unlist(lapply(data[[date_column_name]], get_part1,
+                                        sep[[1L]])))
+  } else {
+    part1 <- rep(NA, length(data[[date_column_name]]))
+  }
+  if (any(lengths(tmp_list) >= 2L)) {
+    part2 <- as.character(unlist(lapply(data[[date_column_name]], get_part2,
+                                        sep[[1L]])))
+  } else {
+    part2 <- rep(NA, length(data[[date_column_name]]))
+  }
+  if (any(lengths(tmp_list) >= 3L)) {
+    part3 <- as.character(unlist(lapply(data[[date_column_name]], get_part3,
+                                        sep[[1L]])))
+  } else {
+    part3 <- rep(NA, length(data[[date_column_name]]))
+  }
+
   f1 <- ifelse(all(is.na(part1)), NA, detect_date_format(part1))
   f2 <- ifelse(all(is.na(part2)), NA, detect_date_format(part2))
   f3 <- ifelse(all(is.na(part3)), NA, detect_date_format(part3))
   idx <- which(is.na(c(f1, f2, f3)))
-  if (length(idx) == 0) {
-    format <- paste0(format, f1, sep[1], f2, sep[1], f3)
-  } else if (idx == 3) {
-    format <- paste0(format, f1, sep[1], f2)
-  } else if (idx == c(2, 3)) {
+  if (length(idx) == 0L) {
+    format <- paste0(format, f1, sep[[1L]], f2, sep[[1L]], f3)
+  } else if (idx == 3L) {
+    format <- paste0(format, f1, sep[[1L]], f2)
+  } else if (idx == c(2L, 3L)) {
     format <- paste0(format, f1)
   } else {
-    # stop("Unrecognised date format.\nPlease specify the date format using the
-    #        'format' argument.")
     return(NULL)
   }
   format

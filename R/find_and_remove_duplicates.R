@@ -38,8 +38,8 @@ remove_duplicates <- function(data, target_columns,
   }
 
   # find duplicates
-  dups        <- find_duplicates(data, target_columns)
-  data$row_id <- seq_len(nrow(data))
+  dups             <- find_duplicates(data, target_columns)
+  data[["row_id"]] <- seq_len(nrow(data))
 
   # remove duplicates
   if (is.null(remove)) {
@@ -52,13 +52,13 @@ remove_duplicates <- function(data, target_columns,
     data <- data[-remove, ]
   }
 
-  if (nrow(dups) > 0) {
-      report[["remove_duplicates"]]               <- list()
-      report[["remove_duplicates"]][["all_dups"]] <- dups
-      idx <- which(!(dups$row_id %in% data$row_id))
-      report[["remove_duplicates"]][["removed_dups"]] <- dups[idx, ]
-      report[["remove_duplicates"]][["duplicates_checked_from"]] <-
-        glue::glue_collapse(target_columns, sep = ", ")
+  if (nrow(dups) > 0L) {
+    report[["remove_duplicates"]]               <- list()
+    report[["remove_duplicates"]][["all_dups"]] <- dups
+    idx <- which(!(dups[["row_id"]] %in% data[["row_id"]]))
+    report[["remove_duplicates"]][["removed_dups"]] <- dups[idx, ]
+    report[["remove_duplicates"]][["duplicates_checked_from"]] <-
+      glue::glue_collapse(target_columns, sep = ", ")
   }
 
   if ("row_id" %in% names(data)) {
@@ -113,7 +113,7 @@ find_duplicates <- function(data, target_columns) {
     dplyr::ungroup() %>%
     dplyr::mutate(row_id = seq_len(nrow(data))) %>%
     dplyr::arrange(dplyr::pick({{ target_columns }})) %>%
-    dplyr::filter(num_dups > 1) %>%
+    dplyr::filter(num_dups > 1L) %>%
     dplyr::select(-c(num_dups)) %>%
     dplyr::group_by(dplyr::pick({{ target_columns }})) %>%
     dplyr::mutate(group_id = dplyr::cur_group_id()) %>%
@@ -139,7 +139,7 @@ get_target_column_names <- function(data, target_columns) {
 
   # check for linelist object if target_columns='tags'
   x_class <- class(data)
-  if (all(length(target_columns) == 1 && target_columns == "tags")) {
+  if (all(length(target_columns) == 1L && target_columns == "tags")) {
     stopifnot(
       "'tags' only works on linelist object. Please provide a vector of
               column names if you are dealing with a data frame" =

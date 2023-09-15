@@ -6,18 +6,20 @@
 \usage{
 guess_dates(
   x,
+  check_timeframe,
   error_tolerance = 0.5,
   first_date = NULL,
   last_date = Sys.Date(),
   orders = list(world_named_months = c("Ybd", "dby"), world_digit_months = c("dmy",
     "Ymd"), US_formats = c("Omdy", "YOmd")),
-  check_timeframe,
   quiet = TRUE,
   modern_excel = TRUE
 )
 }
 \arguments{
 \item{x}{a \code{character} vector or a \code{factor}}
+
+\item{check_timeframe}{a logical to check whether dates fall within timeframe}
 
 \item{error_tolerance}{a number between 0 and 1 indicating the proportion of
 entries which cannot be identified as dates to be tolerated; if this
@@ -36,8 +38,6 @@ successive tries in parsing.  This is passed on to
 \code{\link[lubridate:parse_date_time]{lubridate::parse_date_time()}}. Default orders
 (\code{getOption("linelist_guess_orders")}) parse World dmy/dby dates before US
 mdy/bdy dates.}
-
-\item{check_timeframe}{a logical to check whether dates fall within timeframe}
 
 \item{quiet}{a logical indicating if messages should be displayed to the
 console (\code{TRUE}, default); set to \code{FALSE} to silence messages}

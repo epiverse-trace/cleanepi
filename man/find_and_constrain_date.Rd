@@ -6,20 +6,18 @@
 \usage{
 find_and_constrain_date(
   x,
-  orders = NULL,
-  keep = TRUE,
+  check_timeframe,
   dmin,
   dmax,
   baddies,
-  check_timeframe
+  orders = NULL,
+  keep = TRUE
 )
 }
 \arguments{
 \item{x}{a character vector that can be converted to dates}
 
-\item{orders}{a vector of lubridate orders to consider}
-
-\item{keep}{a logical vector indicating the dates to test from \code{x}}
+\item{check_timeframe}{a logical to check whether dates fall within timeframe}
 
 \item{dmin}{the minimum dates}
 
@@ -27,7 +25,9 @@ find_and_constrain_date(
 
 \item{baddies}{an environment that will act as a list of bad dates.}
 
-\item{check_timeframe}{a logical to check whether dates fall within timeframe}
+\item{orders}{a vector of lubridate orders to consider}
+
+\item{keep}{a logical vector indicating the dates to test from \code{x}}
 }
 \description{
 This takes a character vector and returns a vector of successfully translated

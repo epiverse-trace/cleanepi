@@ -2,7 +2,7 @@
 #'
 #' @param x the string of interest
 is_order <- function(x) {
-  x <- as_Date(x)
+  x <- as_date(x)
   sum(order(x) == seq_along(x)) == length(x)
 }
 
@@ -37,14 +37,14 @@ is_order <- function(x) {
 #' )
 check_date_sequence <- function(data, event_cols, remove_bad_seq = FALSE,
                                 report = list()) {
-  checkmate::assert_vector(event_cols, any.missing = FALSE, min.len = 1,
+  checkmate::assert_vector(event_cols, any.missing = FALSE, min.len = 1L,
                            null.ok = FALSE, unique = TRUE)
   checkmate::assert_data_frame(data, null.ok = FALSE)
-  checkmate::assert_logical(remove_bad_seq, any.missing = FALSE, len = 1,
+  checkmate::assert_logical(remove_bad_seq, any.missing = FALSE, len = 1L,
                             null.ok = FALSE)
 
   # check if input is character string
-  if (all(grepl(",", event_cols, fixed = TRUE)) == TRUE) {
+  if (all(grepl(",", event_cols, fixed = TRUE))) {
     event_cols <- as.character(unlist(strsplit(event_cols, ",", fixed = TRUE)))
     event_cols <- gsub(" ", "", event_cols, fixed = TRUE)
   }
@@ -55,7 +55,7 @@ check_date_sequence <- function(data, event_cols, remove_bad_seq = FALSE,
     event_cols <- event_cols[-idx]
     warning("\nRemoving unrecognised column name: ", event_cols[idx],
             call. = FALSE)
-    if (length(event_cols) < 2) {
+    if (length(event_cols) < 2L) {
       stop("\nAt least 2 event dates are required!")
     }
   }
@@ -65,13 +65,13 @@ check_date_sequence <- function(data, event_cols, remove_bad_seq = FALSE,
     if (!lubridate::is.Date(data[[cols]])) {
       data <- standardize_date(data, cols, timeframe = NULL,
                                check_timeframe = FALSE,
-                               report = list(), error_tolerance = 0.5)[[1]]
+                               report = list(), error_tolerance = 0.5)[[1L]]
     }
   }
 
   # checking the date sequence
   tmp_data <- data %>% dplyr::select(dplyr::all_of(event_cols))
-  order_date <- apply(tmp_data, 1, is_order)
+  order_date <- apply(tmp_data, 1L, is_order)
   bad_order <- which(!order_date)
   if (!all(order_date)) {
     tmp_data <- data[bad_order, ]
@@ -84,13 +84,13 @@ check_date_sequence <- function(data, event_cols, remove_bad_seq = FALSE,
   }
 
   # making the report
-  if (length(bad_order) > 0) {
+  if (length(bad_order) > 0L) {
     if (!("incorrect_date_sequence" %in% names(report))) {
-      report$incorrect_date_sequence <- list()
+      report[["incorrect_date_sequence"]] <- list()
     }
-    report$incorrect_date_sequence$date_sequence <-
+    report[["incorrect_date_sequence"]][["date_sequence"]] <-
       glue::glue_collapse(event_cols, sep = " < ")
-    report$incorrect_date_sequence$bad_sequence <- tmp_data
+    report[["incorrect_date_sequence"]][["bad_sequence"]] <- tmp_data
   } else {
     report <- NULL
   }

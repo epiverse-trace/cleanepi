@@ -108,7 +108,7 @@ params <- list(
   prefix = "PS",
   suffix = "P2",
   range = c(1, 100)
-  )
+)
 
 # PERFORMING THE DATA CLEANING
 res <- clean_data(
@@ -120,9 +120,9 @@ res <- clean_data(
 #> replacing missing values with NA
 #> removing empty rows and columns
 #> removing constant columns
+#> standardising date columns
 #> checking for subject IDs uniqueness
 #> removing duplicated rows
-#> standardising date columns
 #> checking subject IDs format
 
 cleaned_data <- res$data

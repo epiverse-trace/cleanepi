@@ -34,12 +34,11 @@ or linelist object.
 }
 \examples{
 no_dups <- remove_duplicates(
-  data = readRDS(system.file("extdata", "test_linelist.RDS",
-    package = "cleanepi"
-  )),
+  data           = readRDS(system.file("extdata", "test_linelist.RDS",
+                             package = "cleanepi")),
   target_columns = "tags",
-  remove = NULL,
-  report = list()
+  remove         = NULL,
+  report         = list()
 )
 
 }
