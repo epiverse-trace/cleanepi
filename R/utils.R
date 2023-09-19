@@ -89,9 +89,12 @@ check_column_existence <- function(data, date_column_name) {
 #' @keywords internal
 #'
 #' @examples
-#' scan_res <- scan_data(data = readRDS(system.file("extdata", "messy_data.RDS",
-#'                       package = "cleanepi")))
-#' to_numeric <- detect_columns_to_convert(scan_res = scan_res)
+#' \dontrun{
+#'   scan_res <- scan_data(data = readRDS(system.file("extdata",
+#'                         "messy_data.RDS",
+#'                         package = "cleanepi")))
+#'   to_numeric <- detect_columns_to_convert(scan_res = scan_res)
+#' }
 #'
 detect_columns_to_convert <- function(scan_res) {
   checkmate::assert_data_frame(scan_res, min.rows = 1L, min.cols = 1L,
@@ -179,8 +182,10 @@ convert_to_numeric <- function(data,
 #' @keywords internal
 #'
 #' @examples
-#' x     <- c(2, "ten", NA, 2, "twenty", 6)
-#' num_x <- convert(x)
+#' \dontrun{
+#'   x     <- c(2, "ten", NA, 2, "twenty", 6)
+#'   num_x <- convert(x)
+#' }
 #'
 convert <- function(x) {
   tmp   <- x
