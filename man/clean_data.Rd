@@ -79,8 +79,12 @@ and remove specific duplicates, use the \code{find_duplicates()} then
 \examples{
 cleaned_data <- clean_data(
 <<<<<<< HEAD
+<<<<<<< HEAD
   data   = readRDS(system.file("extdata", "test_df.RDS",
                                package = "cleanepi")),
+=======
+  data   = readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi")), # nolint: line_length_linter
+>>>>>>> d5f4be9 (update on date standardisation)
   params = list(
     remove_duplicates   = TRUE,
     target_columns      = NULL,
@@ -94,6 +98,7 @@ cleaned_data <- clean_data(
     prefix              = "PS",
     suffix              = "P2",
     range               = c(1, 100)))
+<<<<<<< HEAD
 =======
 data   = readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi")), # nolint: line_length_linter
 params = list(
@@ -112,5 +117,7 @@ params = list(
   )
 )
 >>>>>>> f1c90a5 (add the convert_to_numeric function and restructure the package)
+=======
+>>>>>>> d5f4be9 (update on date standardisation)
 
 }

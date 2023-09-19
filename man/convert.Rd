@@ -17,8 +17,10 @@ The conversion is only applied on non-missing and non-numeric values found
 from the input vector
 }
 \examples{
-x     <- c(2, "ten", NA, 2, "twenty", 6)
-num_x <- convert(x)
+\dontrun{
+  x     <- c(2, "ten", NA, 2, "twenty", 6)
+  num_x <- convert(x)
+}
 
 }
 \keyword{internal}
