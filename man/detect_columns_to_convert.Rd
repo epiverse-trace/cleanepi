@@ -19,9 +19,12 @@ Detect the numeric columns that appears as characters due to the presence of
 some character values in the column.
 }
 \examples{
-scan_res <- scan_data(data = readRDS(system.file("extdata", "messy_data.RDS",
-                      package = "cleanepi")))
-to_numeric <- detect_columns_to_convert(scan_res = scan_res)
+\dontrun{
+  scan_res <- scan_data(data = readRDS(system.file("extdata",
+                        "messy_data.RDS",
+                        package = "cleanepi")))
+  to_numeric <- detect_columns_to_convert(scan_res = scan_res)
+}
 
 }
 \keyword{internal}
