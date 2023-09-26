@@ -36,6 +36,7 @@ Imports:
     readr,
     snakecase,
     stringr
+    numberize
 Suggests: 
     kableExtra,
     knitr,

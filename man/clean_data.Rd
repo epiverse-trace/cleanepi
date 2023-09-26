@@ -80,11 +80,16 @@ and remove specific duplicates, use the \code{find_duplicates()} then
 cleaned_data <- clean_data(
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   data   = readRDS(system.file("extdata", "test_df.RDS",
                                package = "cleanepi")),
 =======
   data   = readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi")), # nolint: line_length_linter
 >>>>>>> d5f4be9 (update on date standardisation)
+=======
+  data   = readRDS(system.file("extdata", "test_df.RDS",
+                               package = "cleanepi")),
+>>>>>>> 8e4694d (fix checks issues)
   params = list(
     remove_duplicates   = TRUE,
     target_columns      = NULL,
