@@ -146,6 +146,9 @@ clean_data <- function(data,
   ## | easy to apply the functions that operate on variables of type Date.
   ## -----
   R.utils::cat("\nstandardising date columns")
+  if (!("error_tolerance" %in% names(params))) {
+    params[["error_tolerance"]] <- 0.5
+  }
   dat <- standardize_date(
     data             = data,
     date_column_name = NULL,
