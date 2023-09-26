@@ -63,6 +63,9 @@ get_sum <- function(x) {
 #' Extract letters from a string
 #'
 #' @param x the string of interest
+#' @keywords internal
+#' @noRd
+#'
 only_letters <- function(x) {
   gsub("^([[:alpha:]]*).*$", "\\1", x)
 }
