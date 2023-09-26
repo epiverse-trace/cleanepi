@@ -131,6 +131,7 @@ find_duplicates <- function(data, target_columns) {
 #' @return a `vector` with the target column names or indexes
 #'
 #' @keywords internal
+#' @noRd
 #'
 get_target_column_names <- function(data, target_columns) {
   if (is.null(target_columns)) {

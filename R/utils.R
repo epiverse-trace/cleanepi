@@ -1,6 +1,8 @@
 #' Detect whether a string contains only numbers
 #'
 #' @param x the string that contains the numbers
+#' @keywords internal
+#' @noRd
 numbers_only <- function(x) {
   !grepl("\\D", x)
 }
@@ -9,6 +11,8 @@ numbers_only <- function(x) {
 #'
 #' @param x the string of interest
 #' @param sep the separator in the string of interest
+#' @keywords internal
+#' @noRd
 get_part1 <- function(x, sep) {
   if (is.na(x)) {
     return(NA)
@@ -20,6 +24,8 @@ get_part1 <- function(x, sep) {
 #'
 #' @param x the string of interest
 #' @param sep the separator in the string of interest
+#' @keywords internal
+#' @noRd
 get_part2 <- function(x, sep) {
   if (is.na(x)) {
     return(NA)
@@ -31,6 +37,9 @@ get_part2 <- function(x, sep) {
 #'
 #' @param x the string of interest
 #' @param sep the separator in the string of interest
+#' @keywords internal
+#' @noRd
+#'
 get_part3 <- function(x, sep) {
   if (is.na(x)) {
     return(NA)
@@ -41,6 +50,9 @@ get_part3 <- function(x, sep) {
 #' Get sum from number
 #'
 #' @param x the string of interest
+#' @keywords internal
+#' @noRd
+#'
 get_sum <- function(x) {
   if (nchar(x) == 2L) {
     x <- sum(as.numeric(substr(x, 1L, 1L)), as.numeric(substr(x, 2L, 2L)))
@@ -51,6 +63,9 @@ get_sum <- function(x) {
 #' Extract letters from a string
 #'
 #' @param x the string of interest
+#' @keywords internal
+#' @noRd
+#'
 only_letters <- function(x) {
   gsub("^([[:alpha:]]*).*$", "\\1", x)
 }
@@ -59,6 +74,9 @@ only_letters <- function(x) {
 #'
 #' @param data the input data frame
 #' @param date_column_name the date column of interest
+#' @keywords internal
+#' @noRd
+#'
 check_column_existence <- function(data, date_column_name) {
   # check the column name
   if (is.null(date_column_name)) {
@@ -87,6 +105,7 @@ check_column_existence <- function(data, date_column_name) {
 #'
 #' @return a vector of column names to be converted into numeric
 #' @keywords internal
+#' @noRd
 #'
 #' @examples
 #' \dontrun{
@@ -137,7 +156,8 @@ detect_columns_to_convert <- function(scan_res) {
 #'
 #' @return the input data frame where all the specified or the detected columns
 #'    (as described above) have been converted into numeric
-#' @export
+#' @keywords internal
+#' @noRd
 #'
 #' @examples
 #' data = readRDS(system.file("extdata", "messy_data.RDS",
@@ -180,6 +200,7 @@ convert_to_numeric <- function(data,
 #'
 #' @return a vector of type numeric with the same length as the input vector
 #' @keywords internal
+#' @noRd
 #'
 #' @examples
 #' \dontrun{

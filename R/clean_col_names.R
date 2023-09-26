@@ -6,6 +6,8 @@
 #'
 #' @return the a list with 2 elements: input data frame with a knit column names
 #'          and the report object
+#' @keywords internal
+#' @noRd
 #'
 clean_col_names <- function(x, report = list()) {
   original_names <- col_names <- colnames(x)

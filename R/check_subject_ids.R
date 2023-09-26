@@ -2,6 +2,9 @@
 #'
 #' @param x the sample ID
 #' @param prefix the prefix to look up to
+#' @keywords internal
+#' @noRd
+#'
 check_prefix <- function(x, prefix) {
   res <- TRUE
   prefix_found_at <- stringr::str_locate(x, prefix)
@@ -17,6 +20,9 @@ check_prefix <- function(x, prefix) {
 #'
 #' @param x the sample IDs
 #' @param suffix the suffix to lookup to
+#' @keywords internal
+#' @noRd
+#'
 check_suffix <- function(x, suffix) {
   res <- TRUE
   suffix_found_at <- as.matrix(stringr::str_locate_all(x, suffix)[[1L]])
@@ -33,6 +39,8 @@ check_suffix <- function(x, suffix) {
 #'
 #' @param x the sample ID
 #' @param ref the template sample ID
+#' @keywords internal
+#' @noRd
 check_id_length <- function(x, ref) {
   res <- TRUE
   if (nchar(ref) < nchar(x)) {

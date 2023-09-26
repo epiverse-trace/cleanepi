@@ -134,6 +134,8 @@
 #'
 #' guess_dates(x, error_tolerance = 0.15) # only 15% errors allowed
 #' }
+#' @keywords internal
+#' @noRd
 #'
 guess_dates <- function(x, check_timeframe,
                         error_tolerance = 0.5,
@@ -262,6 +264,8 @@ guess_dates <- function(x, check_timeframe,
 #' @param orders a vector of lubridate orders to consider
 #' @param keep a logical vector indicating the dates to test from `x`
 #' @keywords internal
+#' @noRd
+#'
 find_and_constrain_date <- function(x, check_timeframe, dmin, dmax, baddies,
                                     orders = NULL, keep = TRUE) {
 
@@ -289,6 +293,8 @@ find_and_constrain_date <- function(x, check_timeframe, dmin, dmax, baddies,
 #' @param original_dates the vector of original dates (to be collected
 #'    for errors)
 #' @keywords internal
+#' @noRd
+#'
 constrain_dates <- function(new_dates, original_dates, dmin, dmax, baddies) {
 
   # filter out the dates that are below the threshold
@@ -317,6 +323,7 @@ constrain_dates <- function(new_dates, original_dates, dmin, dmax, baddies) {
 #' @param date_a_frame a data frame where each column contains a different
 #'   parsing of the same date vector
 #' @keywords internal
+#'
 choose_first_good_date <- function(date_a_frame) {
   n   <- nrow(date_a_frame)
   date_a_frame <- as.matrix(date_a_frame)
@@ -387,7 +394,8 @@ rescue_lubridate_failures <- function(date_a_frame, original_dates,
 ##
 ## @return
 ## Either `NA_character_` or a date, as a standardised character string.
-##
+#' @keywords internal
+#' @noRd
 i_extract_date_string <- function(x) {
 
   ## This function tries converting a single character string into a
@@ -417,7 +425,8 @@ i_extract_date_string <- function(x) {
 ## @return If no matching format can be found, the function returns NULL; if a
 ##   matching format is found, the function returned the matched regular
 ##   expression (clean date) and its format compatible with `as.Date`.
-
+#' @keywords internal
+#' @noRd
 i_find_date_format <- function(x) {
   x <- as.character(x[[1L]])
 
@@ -473,6 +482,6 @@ i_find_date_format <- function(x) {
   expression <- formats[[format]]
   cleaning_expr <- paste0("^.*(", expression, ").*$")
   clean_date <- gsub(cleaning_expr, "\\1", x, fixed = TRUE)
-  out <- c("format" = format, "date" = clean_date)
+  out <- c("format" = format, "date" = clean_date) # nolint: keyword_quote_linter
   out
 }

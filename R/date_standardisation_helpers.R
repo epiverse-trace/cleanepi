@@ -2,6 +2,8 @@
 #'
 #' @param x the string of interest
 #' @param format the date format
+#' @keywords internal
+#' @noRd
 #'
 as_date <- function(x, format = c("ymd", "ydm", "dmy", "mdy", "myd", "dym",
                                   "Ymd", "Ydm", "dmY", "mdY", "mYd", "dYm")) {
@@ -25,6 +27,8 @@ as_date <- function(x, format = c("ymd", "ydm", "dmy", "mdy", "myd", "dym",
 #'   Defaults to the current date.
 #'
 #' @return a list with the first and last date
+#' @keywords internal
+#' @noRd
 #'
 check_first_and_last_date <- function(first_date, last_date) {
 
@@ -74,6 +78,8 @@ check_first_and_last_date <- function(first_date, last_date) {
 #'    into Date.
 #'
 #' @keywords internal
+#' @noRd
+#'
 convert_to_date <- function(data, cols, sep, error_tolerance) {
   format <- get_format(data, cols, sep)
   if (!is.null(format)) {
@@ -97,6 +103,8 @@ convert_to_date <- function(data, cols, sep, error_tolerance) {
 #' @param check_timeframe a logical to determine whether to check if the dates
 #'    fall under the given time frame of not
 #' @param report the object that will contains the report from this operation
+#' @keywords internal
+#' @noRd
 #'
 date_guess_convert <- function(data, error_tolerance,
                                timeframe, check_timeframe, report) {
@@ -145,6 +153,8 @@ date_guess_convert <- function(data, error_tolerance,
 #' Detect complex format
 #'
 #' @param x the string of interest
+#' @keywords internal
+#' @noRd
 detect_complex_format <- function(x) {
   f1 <- f2 <- NULL
   tmp_sep <- unique(unlist(lapply(x, detect_date_separator)))
@@ -176,6 +186,9 @@ detect_complex_format <- function(x) {
 #' Detect the date format with only 1 separator
 #'
 #' @param x the string of interest
+#' @keywords internal
+#' @noRd
+#'
 detect_date_format <- function(x) {
   # check the format in x
   idx <- which(is.na(x))
@@ -194,6 +207,9 @@ detect_date_format <- function(x) {
 #'
 #' @param x the string of interest
 #' @returns the detected separator
+#' @keywords internal
+#' @noRd
+#'
 detect_date_separator <- function(x) {
   sep <- NULL
   if (!is.na(x)) {
@@ -211,6 +227,9 @@ detect_date_separator <- function(x) {
 #' Detect whether it's day or month
 #'
 #' @param x the string of interest
+#' @keywords internal
+#' @noRd
+#'
 detect_day_or_month <- function(x) {
   f1 <- NULL
   full_days <- c("Monday", "Tuesday", "Wednesday", "Thursday",
@@ -241,6 +260,9 @@ detect_day_or_month <- function(x) {
 #' function to get simple format
 #'
 #' @param x the string of interest
+#' @keywords internal
+#' @noRd
+#'
 detect_simple_format <- function(x) {
   f1 <- NULL
   if (is.null(x)) f1 <- NULL
@@ -270,6 +292,9 @@ detect_simple_format <- function(x) {
 #' @param sep the separator in the date string
 #'
 #' @return a string with the detected date format
+#' @keywords internal
+#' @noRd
+#'
 get_format <- function(data, date_column_name, sep) {
   format <- NULL
   data[[date_column_name]] <- as.character(data[[date_column_name]])
@@ -327,6 +352,8 @@ get_format <- function(data, date_column_name, sep) {
 #'    values.
 #'
 #' @keywords internal
+#' @noRd
+#'
 make_format <- function(f1, f2, tmp_sep) {
   if (all(is.null(f1) & is.null(f2))) {
     stop("Unrecognised date format.\nPlease specify the date format using
@@ -353,6 +380,8 @@ make_format <- function(f1, f2, tmp_sep) {
 #'    fall under the specified timeframe
 #'
 #' @return the modified input object
+#' @keywords internal
+#' @noRd
 #'
 process_dates <- function(x, first_date, last_date, check_timeframe) {
   # If the input is a date already: no guessing needed!

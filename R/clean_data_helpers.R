@@ -8,6 +8,7 @@
 #'    missing, numeric, Date and character values found in the input vector.
 #'
 #' @keywords internal
+#' @noRd
 #'
 get_column_composition <- function(x) {
   # --- save the variable length ---

@@ -58,22 +58,22 @@ calculate_age <- function(data, date_column_name = NULL, end_date = Sys.Date(),
   # calculate the age
   res <- switch(
     age_in,
-    "years" = data %>%
+    "years" = data %>% # nolint: keyword_quote_linter
       dplyr::mutate(age_years = round((data[[date_column_name]] %--% end_date)
                                       %/% lubridate::years(1L))),
-    "months" = data %>%
+    "months" = data %>% # nolint: keyword_quote_linter
       dplyr::mutate(tmp_age = lubridate::as.period(end_date -
                                                      data[[date_column_name]])) %>% # nolint: line_length_linter.
       dplyr::mutate(age_months = tmp_age %/% months(1L), # nolint
                     remainder_days = (tmp_age %% months(1L)) %/% # nolint
                       lubridate::days(1L)) %>%
       dplyr::select(-tmp_age),
-    "days" = data %>%
+    "days" = data %>% # nolint: keyword_quote_linter
       dplyr::mutate(tmp_age = lubridate::as.period(end_date -
                                                      data[[date_column_name]])) %>% # nolint: line_length_linter.
       dplyr::mutate(age_days = tmp_age %/% lubridate::days(1L)) %>%
       dplyr::select(-tmp_age),
-    "weeks" = data %>%
+    "weeks" = data %>% # nolint: keyword_quote_linter
       dplyr::mutate(tmp_age = lubridate::as.period(end_date -
                                                      data[[date_column_name]])) %>% # nolint: line_length_linter.
       dplyr::mutate(age_weeks = tmp_age %/% lubridate::weeks(1L),

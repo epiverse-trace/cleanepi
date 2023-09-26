@@ -7,6 +7,9 @@
 #' of interest
 #'
 #' @return a data frame where missing values are represented by NA
+#' @keywords internal
+#' @noRd
+#'
 replace_missing_char <- function(data, column_name, na_char = NULL) {
   index <- which(names(data) == column_name)
   names(data)[index] <- "x"
