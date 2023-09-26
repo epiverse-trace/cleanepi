@@ -24,7 +24,8 @@ Imports:
     R.utils,
     readr,
     snakecase,
-    stringr
+    stringr,
+    numberize
 Remotes:
     bahadzie/numberize
 Suggests: 
