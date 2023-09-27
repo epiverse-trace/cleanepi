@@ -7,7 +7,7 @@
 clean_data(
   data,
   params = list(remove_duplicates = FALSE, target_columns = NULL, replace_missing = TRUE,
-    na_comes_as = NULL, check_timeframe = TRUE, timeframe = NULL, error_tolerance = 0.5,
+    na_comes_as = NULL, check_timeframe = FALSE, timeframe = NULL, error_tolerance = 0.5,
     subject_id_col_name = NULL, subject_id_format = NULL, prefix = "PS", suffix = "P2",
     range = c(1L, 100L))
 )
@@ -34,7 +34,7 @@ with NA or not. default is FALSE
 \item \code{na_comes_as}: the characters that represent the missing values in
 the data frame. Only used when \code{replace_missing=TRUE}
 \item \code{check_timeframe}: a logical to determine whether to check if the
-dates fall under the given time frame of not. default: TRUE
+dates fall under the given time frame of not. default: FALSE
 \item \code{timeframe}: a vector of 2 elements of Date class that specifies the
 first and last date. If provided, all Dates in the data frame must be
 within this range or set to NA during the cleaning.
