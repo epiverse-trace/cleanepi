@@ -39,7 +39,8 @@ Imports:
     stringr,
     numberize
 Remotes:
-    bahadzie/numberize
+    bahadzie/numberize,
+    epiverse-trace/linelist
 Suggests: 
     kableExtra,
     knitr,
