@@ -12,7 +12,7 @@ clean_data(
     NULL, error_tolerance = 0.5, subject_id_col_name = NULL, subject_id_format = NULL,prefix = NULL, suffix = NULL, range = NULL, dictionary = NULL)
 =======
   params = list(remove_duplicates = FALSE, target_columns = NULL, replace_missing = TRUE,
-    na_comes_as = NULL, check_timeframe = TRUE, timeframe = NULL, error_tolerance = 0.5,
+    na_comes_as = NULL, check_timeframe = FALSE, timeframe = NULL, error_tolerance = 0.5,
     subject_id_col_name = NULL, subject_id_format = NULL, prefix = "PS", suffix = "P2",
 <<<<<<< HEAD
     range = c(1, 100))
