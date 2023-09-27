@@ -2,46 +2,59 @@
 % Please edit documentation in R/check_subject_ids.R
 \name{check_subject_ids}
 \alias{check_subject_ids}
-\title{Check whether the subject IDs complies with user-specified format}
+\title{Check whether the subject IDs comply with the expected format}
 \usage{
 check_subject_ids(
-  data = NULL,
-  id.position = 1,
-  format = NULL,
-  check = TRUE,
+  data,
+  format,
+  id_column_name = NULL,
   prefix = NULL,
   suffix = NULL,
-  range = NULL
+  range = NULL,
+  remove = FALSE,
+  verbose = FALSE,
+  report = list()
 )
 }
 \arguments{
 \item{data}{the data frame of interest}
 
-\item{id.position}{the column position of the variable that unique identifies the subjects. This should only be specified when the column with the subject IDs is not the first column. default is 1.}
+\item{format}{the expected subject IDs format}
 
-\item{format}{a template of the correct format for the subject IDs}
-
-\item{check}{a boolean that specifies whether to clean the subject IDs or not}
+\item{id_column_name}{the name of the column with the subject IDs. If not
+specified, the first column will be considered by default}
 
 \item{prefix}{the prefix used in the subject IDs}
 
 \item{suffix}{the prefix used in the subject IDs}
 
 \item{range}{a vector with the range of numbers in the sample IDs}
+
+\item{remove}{a Boolean to specify whether to remove rows with incorrect}
+
+\item{verbose}{a Boolean to specify whether print the detected incorrect
+subject IDs}
+
+\item{report}{the report object}
 }
 \value{
-The will display messages about incorrect subject IDs, nothing if all IDs are correct.
+if found, the function return a list with 2 elements: the cleaned
+data frame with correct subject IDs and a report containing the rows of
+the input data frame with incorrect subject IDs
 }
 \description{
-Check whether the subject IDs complies with user-specified format
+Check whether the subject IDs comply with the expected format
 }
 \examples{
-check_subject_ids(data=data.table::fread(system.file("extdata","test.txt", package = "cleanepi")),
-                  id.position=1,
-                  format="PS000P2",
-                  check=TRUE,
-                  prefix="PS",
-                  suffix="P2",
-                  range=c(0,100)
-                  )
+dat <- check_subject_ids(
+data = readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi")),
+id_column_name = "study_id",
+format = "PS000P2",
+prefix = "PS",
+suffix = "P2",
+range = c(1,100),
+remove = FALSE,
+verbose = TRUE,
+report = list()
+)
 }
