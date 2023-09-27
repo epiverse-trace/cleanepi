@@ -17,7 +17,7 @@ Imports:
     epitrix,
     glue,
     janitor,
-    linelist,
+    linelist (>= 1.0.0),
     lubridate,
     magrittr,
     naniar,
@@ -27,7 +27,8 @@ Imports:
     stringr,
     numberize
 Remotes:
-    bahadzie/numberize
+    bahadzie/numberize,
+    epiverse-trace/linelist
 Suggests: 
     covr,
     knitr,
