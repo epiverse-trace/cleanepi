@@ -54,6 +54,8 @@ Remotes:
     epiverse-trace/linelist
 Config/Needs/website:epiverse-trace/epiversetheme
 Config/testthat/edition: 3
+Config/Needs/website:
+    epiverse-trace/epiversetheme
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
