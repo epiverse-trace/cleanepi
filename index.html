@@ -41,7 +41,7 @@
     
     <a class="navbar-brand me-2" href="index.html">cleanepi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -82,11 +82,10 @@
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>The current development version of <strong>cleanepi</strong> can be installed from <a href="https://epiverse-trace.github.io/cleanepi/dev/">here</a>.</p>
+<p>The current development version of <strong>cleanepi</strong> can be installed from <a href="https://github.com/epiverse-trace/cleanepi" class="external-link">GitHub</a>.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
-<span><span class="co"># remotes::install_github("epiverse-trace/cleanepi@develop",</span></span>
-<span><span class="co">#                         build_vignettes=TRUE)</span></span>
+<code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://pak.r-lib.org/" class="external-link">"pak"</a></span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"pak"</span><span class="op">)</span></span>
+<span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"epiverse-trace/cleanepi"</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">cleanepi</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
@@ -141,7 +140,7 @@
 <span></span>
 <span><span class="co"># PERFORMING THE DATA CLEANING</span></span>
 <span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/clean_data.html">clean_data</a></span><span class="op">(</span></span>
-<span>  data <span class="op">=</span> <span class="va">test_data</span>,</span>
+<span>  data   <span class="op">=</span> <span class="va">test_data</span>,</span>
 <span>  params <span class="op">=</span> <span class="va">params</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -154,7 +153,7 @@
 <span><span class="co">#&gt; removing duplicated rows</span></span>
 <span><span class="co">#&gt; checking subject IDs format</span></span>
 <span></span>
-<span><span class="va">cleaned_data</span> <span class="op">&lt;-</span> <span class="va">res</span><span class="op">$</span><span class="va">data</span></span>
+<span><span class="va">cleaned_data</span>    <span class="op">&lt;-</span> <span class="va">res</span><span class="op">$</span><span class="va">data</span></span>
 <span><span class="va">cleaning_report</span> <span class="op">&lt;-</span> <span class="va">res</span><span class="op">$</span><span class="va">report</span></span>
 <span></span>
 <span><span class="co"># VISUALISE THE CLEANED DATASET</span></span>
@@ -181,7 +180,7 @@
 <div class="section level3">
 <h3 id="lifecycle">Lifecycle<a class="anchor" aria-label="anchor" href="#lifecycle"></a>
 </h3>
-<p>This package is currently a <em>concept</em>, as defined by the <a href="https://www.reconverse.org/lifecycle.html" class="external-link">RECON software lifecycle</a>. This means that essential features and mechanisms are still being developed, and the package is not ready for use outside of the development team.</p>
+<p>This package is currently <em>experimental</em>, as defined by the <a href="https://www.reconverse.org/lifecycle.html" class="external-link">RECON software lifecycle</a>. This means that it is functional, but interfaces and functionalities may change over time.</p>
 </div>
 <div class="section level3">
 <h3 id="contributions">Contributions<a class="anchor" aria-label="anchor" href="#contributions"></a>
@@ -235,7 +234,7 @@
 <li><a href="https://opensource.org/licenses/MIT" class="external-link"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a></li>
 <li><a href="https://github.com/epiverse-trace/cleanepi/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/epiverse-trace/cleanepi/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
 <li><a href="https://app.codecov.io/gh/epiverse-trace/cleanepi?branch=main" class="external-link"><img src="https://codecov.io/gh/epiverse-trace/cleanepi/branch/main/graph/badge.svg" alt="Codecov test coverage"></a></li>
-<li><a href="https://www.reconverse.org/lifecycle.html#concept" class="external-link"><img src="https://raw.githubusercontent.com/reconverse/reconverse.github.io/master/images/badge-concept.svg" alt="lifecycle-concept"></a></li>
+<li><a href="https://www.reconverse.org/lifecycle.html#experimental" class="external-link"><img src="https://raw.githubusercontent.com/reconverse/reconverse.github.io/master/images/badge-experimental.svg" alt="lifecycle-experimental"></a></li>
 </ul>
 </div>
 
