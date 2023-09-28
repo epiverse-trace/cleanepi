@@ -175,8 +175,6 @@ detect_complex_format <- function(x) {
       f2 <- detect_day_or_month(p2)
     }
   } else {
-    # stop("Unrecognised date format.\nPlease specify the date format using the
-    #      'format' argument.")
     return(NULL)
   }
   format <- make_format(f1, f2, tmp_sep)
@@ -269,9 +267,9 @@ detect_simple_format <- function(x) {
   if (all(nchar(x) == 4L)) {
     f1 <- "%Y" # year with century i.e 4 digits year
   } else if (any(nchar(x) == 4L) && any(nchar(x) == 2L)) {
-    stop("Detected different lengths in first digits of date column.\n
-         Please use same number of digits or specify the date format with
-         the 'format' argument.")
+    stop("Detected different lengths in first digits of date column.\n",
+         "Please use same number of digits or specify the date format with",
+         "the 'format' argument.")
   } else if (all(nchar(x) == 2L)) {
     tmp <- as.numeric(x)
     if (all(tmp <= 12L)) {
@@ -356,8 +354,8 @@ get_format <- function(data, date_column_name, sep) {
 #'
 make_format <- function(f1, f2, tmp_sep) {
   if (is.null(f1) && is.null(f2)) {
-    stop("Unrecognised date format.\nPlease specify the date format using
-         the 'format' argument.")
+    stop("Unrecognised date format.\n",
+         "Please specify the date format using the 'format' argument.")
   } else if (!is.null(f1) && !is.null(f2)) {
     format <- paste0(f1, tmp_sep, f2)
   } else if (!is.null(f1) && is.null(f2)) {
