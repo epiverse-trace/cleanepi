@@ -15,7 +15,7 @@ MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.or
 [![R-CMD-check](https://github.com/epiverse-trace/cleanepi/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/epiverse-trace/cleanepi/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
 coverage](https://codecov.io/gh/epiverse-trace/cleanepi/branch/main/graph/badge.svg)](https://app.codecov.io/gh/epiverse-trace/cleanepi?branch=main)
-[![lifecycle-concept](https://raw.githubusercontent.com/reconverse/reconverse.github.io/master/images/badge-concept.svg)](https://www.reconverse.org/lifecycle.html#concept)
+[![lifecycle-experimental](https://raw.githubusercontent.com/reconverse/reconverse.github.io/master/images/badge-experimental.svg)](https://www.reconverse.org/lifecycle.html#experimental)
 
 <!-- badges: end -->
 
@@ -45,12 +45,11 @@ and Tropical Medicine (<MRCG@LSHTM>).
 ## Installation
 
 The current development version of **cleanepi** can be installed from
-[here](https://epiverse-trace.github.io/cleanepi/dev/).
+[GitHub](https://github.com/epiverse-trace/cleanepi).
 
 ``` r
-# install.packages("remotes")
-# remotes::install_github("epiverse-trace/cleanepi@develop",
-#                         build_vignettes=TRUE)
+if (!require("pak")) install.packages("pak")
+pak::pak("epiverse-trace/cleanepi")
 library(cleanepi)
 ```
 
@@ -112,7 +111,7 @@ params <- list(
 
 # PERFORMING THE DATA CLEANING
 res <- clean_data(
-  data = test_data,
+  data   = test_data,
   params = params
 )
 #> 
@@ -125,7 +124,7 @@ res <- clean_data(
 #> removing duplicated rows
 #> checking subject IDs format
 
-cleaned_data <- res$data
+cleaned_data    <- res$data
 cleaning_report <- res$report
 
 # VISUALISE THE CLEANED DATASET
@@ -155,10 +154,10 @@ browseVignettes("cleanepi")
 
 ### Lifecycle
 
-This package is currently a *concept*, as defined by the [RECON software
-lifecycle](https://www.reconverse.org/lifecycle.html). This means that
-essential features and mechanisms are still being developed, and the
-package is not ready for use outside of the development team.
+This package is currently *experimental*, as defined by the [RECON
+software lifecycle](https://www.reconverse.org/lifecycle.html). This
+means that it is functional, but interfaces and functionalities may
+change over time.
 
 ### Contributions
 
