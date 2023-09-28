@@ -139,12 +139,11 @@ get_target_column_names <- function(data, target_columns) {
   }
 
   # check for linelist object if target_columns='tags'
-  x_class <- class(data)
   if (all(length(target_columns) == 1L && target_columns == "tags")) {
     stopifnot(
       "'tags' only works on linelist object. Please provide a vector of
               column names if you are dealing with a data frame" =
-        "linelist" %in% x_class
+        inherits(data, "linelist")
     )
     original_tags  <- linelist::tags(data)
     target_columns <- as.character(original_tags)
