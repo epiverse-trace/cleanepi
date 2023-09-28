@@ -49,9 +49,9 @@ calculate_age <- function(data, date_column_name = NULL, end_date = Sys.Date(),
 
   # calculate age
   if (!(age_in %in% c("years", "months", "weeks", "days"))) {
-    stop("Incorrect value for 'age_in' parameter.\n
-         Please specify whether the age should be returned in 'year', or
-         'month', or in 'weeks', or in 'days'.")
+    stop("Incorrect value for 'age_in' parameter.\n",
+         "Please specify whether the age should be returned in 'year', or",
+         "'month', or in 'weeks', or in 'days'.")
   }
   end_date <- as.Date(end_date)
 
