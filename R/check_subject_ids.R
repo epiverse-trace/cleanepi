@@ -42,11 +42,7 @@ check_suffix <- function(x, suffix) {
 #' @keywords internal
 #' @noRd
 check_id_length <- function(x, ref) {
-  res <- TRUE
-  if (nchar(ref) < nchar(x)) {
-    res <- FALSE
-  }
-  res
+  return(nchar(ref) >= nchar(x))
 }
 
 
