@@ -31,8 +31,7 @@ the specified columns is correct or not.
 }
 \examples{
 good_date_sequence <- check_date_sequence(
-data = data.table::fread(system.file("extdata", "test.txt",
-package = "cleanepi")),
+data = readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi")),
 event_cols = c("date_first_pcr_positive_test", "date.of.admission"),
 remove_bad_seq = FALSE,
 report = list()

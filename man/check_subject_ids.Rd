@@ -6,8 +6,8 @@
 \usage{
 check_subject_ids(
   data,
-  id_column_name = NULL,
   format,
+  id_column_name = NULL,
   prefix = NULL,
   suffix = NULL,
   range = NULL,
@@ -19,10 +19,10 @@ check_subject_ids(
 \arguments{
 \item{data}{the data frame of interest}
 
+\item{format}{the expected subject IDs format}
+
 \item{id_column_name}{the name of the column with the subject IDs. If not
 specified, the first column will be considered by default}
-
-\item{format}{the expected subject IDs format}
 
 \item{prefix}{the prefix used in the subject IDs}
 
@@ -35,8 +35,7 @@ specified, the first column will be considered by default}
 \item{verbose}{a Boolean to specify whether print the detected incorrect
 subject IDs}
 
-\item{report}{the report object
-sample IDs. default is FALSE}
+\item{report}{the report object}
 }
 \value{
 if found, the function return a list with 2 elements: the cleaned
@@ -48,8 +47,7 @@ Check whether the subject IDs comply with the expected format
 }
 \examples{
 dat <- check_subject_ids(
-data = data.table::fread(system.file("extdata", "test.txt",
-package = "cleanepi")),
+data = readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi")),
 id_column_name = "study_id",
 format = "PS000P2",
 prefix = "PS",

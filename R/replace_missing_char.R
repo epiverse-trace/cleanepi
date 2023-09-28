@@ -7,6 +7,9 @@
 #' of interest
 #'
 #' @return a data frame where missing values are represented by NA
+#' @keywords internal
+#' @noRd
+#'
 replace_missing_char <- function(data, column_name, na_char = NULL) {
   index <- which(names(data) == column_name)
   names(data)[index] <- "x"
@@ -20,7 +23,7 @@ replace_missing_char <- function(data, column_name, na_char = NULL) {
                           "Not A Number", "-99")
 
     idx <- which(common_na_string %in% data[["x"]])
-    if (length(idx) > 0) {
+    if (length(idx) > 0L) {
       data <- naniar::replace_with_na(data,
                                       replace = list(x = common_na_string[idx]))
     } else {

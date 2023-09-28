@@ -11,14 +11,13 @@ params <- list(
   subject_id_format = "PS000P2",
   prefix = "PS",
   suffix = "P2",
-  range = c(1, 100)
+  range = c(1L, 100L)
 )
 
 test_that("cleanepi works as expected", {
   clean_data <- clean_data(
-    data = data.table::fread(system.file("extdata", "test.txt",
-                                         package = "cleanepi")),
-    params <- params
+    data = readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi")),
+    params = params
   )
   expect_type(clean_data, "list")
 })

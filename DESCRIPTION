@@ -3,8 +3,16 @@ Package: cleanepi
 Title: Data Cleaning Package
 Version: 0.0.1
 Authors@R: c(
-    person("Karim", "Mané", , "lshkm1@lshtm.ac.uk", role = c("aut", "cre")),
-    person("Thibaut", "Jombart", , "thibautjombart@gmail.com", role = "cph")
+    person("Karim", "Mané", , "lshkm1@lshtm.ac.uk", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-9892-2999")),
+    person("Thibaut", "Jombart", , "thibautjombart@gmail.com", role = "cph"),
+    person("Bubacarr", "Bah", , "Bubacarr.Bah1@lshtm.ac.uk", role = "ctb",
+           comment = c(ORCID = "0000-0003-3318-6668")),
+    person("Bankolé", "Ahadzie", , "Bankole.Ahadzie@lshtm.ac.uk", role = "ctb"),
+    person("Nuredin", "Mohammed", , "Nuredin.Mohammed@lshtm.ac.uk", role = "ctb"),
+    person("Abdoelnaser", "Degoot", , "abdoelnaser-mahmood.degoot@lshtm.ac.uk", role = "ctb"),
+    person("Hugo", "Gruson", , "hugo@data.org", role = "rev",
+           comment = c(ORCID = "0000-0002-4094-1476"))
   )
 Maintainer: Karim Mané <lshkm1@lshtm.ac.uk>
 Description: cleanepi contains functions that are used for epidemiological
@@ -14,16 +22,18 @@ Imports:
     arsenal,
     checkmate,
     dplyr,
+    epitrix,
     glue,
     janitor,
+    linelist (>= 1.0.0),
     lubridate,
     magrittr,
     naniar,
+    numberize,
     R.utils,
     readr,
-    stringr,
-    epitrix,
-    snakecase
+    snakecase,
+    stringr
 Suggests: 
     knitr,
     lintr,
@@ -31,6 +41,10 @@ Suggests:
     testthat (>= 3.0.0)
 VignetteBuilder: 
     knitr
+Remotes:
+    bahadzie/numberize,
+    epiverse-trace/linelist
+Config/Needs/website:epiverse-trace/epiversetheme
 Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: true

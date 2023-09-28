@@ -11,11 +11,11 @@
 #' @export
 convert_numeric_to_date <- function(data, numeric_date_columns, ref_date,
                                     forward = TRUE) {
-  checkmate::assert_date(ref_date, any.missing = FALSE, min.len = 1,
-                         max.len = 1, null.ok = FALSE)
+  checkmate::assert_date(ref_date, any.missing = FALSE, min.len = 1L,
+                         max.len = 1L, null.ok = FALSE)
   checkmate::assert_character(numeric_date_columns, null.ok = FALSE,
-                              any.missing = FALSE, min.len = 1)
-  checkmate::assert_data_frame(data, null.ok = FALSE, min.cols = 1)
+                              any.missing = FALSE, min.len = 1L)
+  checkmate::assert_data_frame(data, null.ok = FALSE, min.cols = 1L)
   if (forward) {
     for (cols in numeric_date_columns) {
       data[[cols]] <- ref_date + data[[cols]]
