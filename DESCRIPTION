@@ -18,6 +18,8 @@ Maintainer: Karim Mané <lshkm1@lshtm.ac.uk>
 Description: cleanepi contains functions that are used for epidemiological
     data cleaning.
 License: MIT + file LICENSE
+URL: https://epiverse-trace.github.io/cleanepi, https://github.com/epiverse-trace/cleanepi
+BugReports: https://github.com/epiverse-trace/cleanepi/issues
 Imports:
     arsenal,
     checkmate,
@@ -35,6 +37,7 @@ Imports:
     snakecase,
     stringr
 Suggests: 
+    kableExtra,
     knitr,
     lintr,
     rmarkdown,
