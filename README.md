@@ -15,7 +15,7 @@ MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.or
 [![R-CMD-check](https://github.com/epiverse-trace/cleanepi/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/epiverse-trace/cleanepi/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
 coverage](https://codecov.io/gh/epiverse-trace/cleanepi/branch/main/graph/badge.svg)](https://app.codecov.io/gh/epiverse-trace/cleanepi?branch=main)
-[![lifecycle-concept](https://raw.githubusercontent.com/reconverse/reconverse.github.io/master/images/badge-concept.svg)](https://www.reconverse.org/lifecycle.html#concept)
+[![lifecycle-experimental](https://raw.githubusercontent.com/reconverse/reconverse.github.io/master/images/badge-experimental.svg)](https://www.reconverse.org/lifecycle.html#experimental)
 
 <!-- badges: end -->
 
@@ -45,12 +45,200 @@ and Tropical Medicine (<MRCG@LSHTM>).
 ## Installation
 
 The current development version of **cleanepi** can be installed from
-[here](https://epiverse-trace.github.io/cleanepi/dev/).
+[GitHub](https://github.com/epiverse-trace/cleanepi).
 
 ``` r
-# install.packages("remotes")
-# remotes::install_github("epiverse-trace/cleanepi@develop",
-#                         build_vignettes=TRUE)
+if (!require("pak")) install.packages("pak")
+#> Loading required package: pak
+pak::pak("epiverse-trace/readepi")
+#> ℹ Loading metadata database
+#> ✔ Loading metadata database ... done
+#> 
+#> 
+#> → Will install 90 packages.
+#> → All 90 packages (90.99 MB) are cached.
+#> + askpass           1.2.0       
+#> + backports         1.4.1       
+#> + base64enc         0.1-3       
+#> + bit               4.0.5       
+#> + bit64             4.0.5       
+#> + blob              1.2.4       
+#> + bslib             0.5.1       
+#> + cachem            1.0.8       
+#> + cellranger        1.1.0       
+#> + checkmate         2.2.0       
+#> + cli               3.6.1       
+#> + clipr             0.8.0       
+#> + commonmark        1.9.0       
+#> + crayon            1.5.2       
+#> + crosstalk         1.2.0       
+#> + curl              5.0.2       
+#> + data.table        1.14.8      
+#> + DBI               1.1.3       
+#> + digest            0.6.33      
+#> + dplyr             1.1.3       
+#> + DT                0.29        
+#> + ellipsis          0.3.2       
+#> + evaluate          0.21        
+#> + fansi             1.0.4       
+#> + fastmap           1.1.1       
+#> + fingertipsR       1.0.10.9002 👷🏼‍♂️🔧 (GitHub: caa9b7b)
+#> + fontawesome       0.5.2       
+#> + forcats           1.0.0       
+#> + fs                1.6.3       
+#> + generics          0.1.3       
+#> + glue              1.6.2       
+#> + haven             2.5.3       
+#> + highr             0.10        
+#> + hms               1.1.3       
+#> + htmltools         0.5.6       
+#> + htmlwidgets       1.6.2       
+#> + httpuv            1.6.11      
+#> + httr              1.4.7       
+#> + jquerylib         0.1.4       
+#> + jsonlite          1.8.7       
+#> + knitr             1.44        
+#> + later             1.3.1       
+#> + lazyeval          0.2.2       
+#> + lifecycle         1.0.3       
+#> + magrittr          2.0.3       
+#> + memoise           2.0.1       
+#> + mime              0.12        
+#> + miniUI            0.1.1.1     
+#> + odbc              1.3.5       
+#> + openssl           2.1.1       
+#> + pillar            1.9.0       
+#> + pkgconfig         2.0.3       
+#> + pool              1.0.1       
+#> + promises          1.2.1       
+#> + purrr             1.0.2       
+#> + R.methodsS3       1.8.2       
+#> + R.oo              1.25.0      
+#> + R.utils           2.12.2      
+#> + R6                2.5.1       
+#> + rappdirs          0.3.3       
+#> + Rcpp              1.0.11      
+#> + readepi           0.0.1       👷🏾‍♂️🔧 (GitHub: 6b4212c)
+#> + readr             2.1.4       
+#> + readxl            1.4.3       
+#> + REDCapR           1.1.0       
+#> + rematch           2.0.0       
+#> + rio               1.0.1       
+#> + rlang             1.1.1       
+#> + rmarkdown         2.25        
+#> + RMySQL            0.10.26     
+#> + sass              0.4.7       
+#> + shiny             1.7.5       
+#> + shinycssloaders   1.0.0       
+#> + sourcetools       0.1.7-1     
+#> + stringi           1.7.12      
+#> + stringr           1.5.0       
+#> + sys               3.4.2       
+#> + tibble            3.2.1       
+#> + tidyr             1.3.0       
+#> + tidyselect        1.2.0       
+#> + tinytex           0.46        
+#> + tzdb              0.4.0       
+#> + utf8              1.2.3       
+#> + vctrs             0.6.3       
+#> + vroom             1.6.3       
+#> + withr             2.5.1       
+#> + writexl           1.4.2       
+#> + xfun              0.40        
+#> + xtable            1.8-4       
+#> + yaml              2.3.7
+#> ℹ No downloads are needed, 90 pkgs (90.99 MB) are cached
+#> ✔ Installed readepi 0.0.1 (github::epiverse-trace/readepi@6b4212c) (49ms)
+#> ✔ Installed DBI 1.1.3  (68ms)
+#> ✔ Installed R.methodsS3 1.8.2  (87ms)
+#> ✔ Installed R.oo 1.25.0  (98ms)
+#> ✔ Installed R.utils 2.12.2  (108ms)
+#> ✔ Installed R6 2.5.1  (119ms)
+#> ✔ Installed REDCapR 1.1.0  (139ms)
+#> ✔ Installed RMySQL 0.10.26  (171ms)
+#> ✔ Installed askpass 1.2.0  (177ms)
+#> ✔ Installed Rcpp 1.0.11  (201ms)
+#> ✔ Installed backports 1.4.1  (97ms)
+#> ✔ Installed bit64 4.0.5  (46ms)
+#> ✔ Installed bit 4.0.5  (31ms)
+#> ✔ Installed blob 1.2.4  (31ms)
+#> ✔ Installed cellranger 1.1.0  (30ms)
+#> ✔ Installed checkmate 2.2.0  (33ms)
+#> ✔ Installed cli 3.6.1  (74ms)
+#> ✔ Installed clipr 0.8.0  (72ms)
+#> ✔ Installed crayon 1.5.2  (31ms)
+#> ✔ Installed curl 5.0.2  (33ms)
+#> ✔ Installed data.table 1.14.8  (45ms)
+#> ✔ Installed dplyr 1.1.3  (45ms)
+#> ✔ Installed fansi 1.0.4  (35ms)
+#> ✔ Installed forcats 1.0.0  (32ms)
+#> ✔ Installed generics 0.1.3  (33ms)
+#> ✔ Installed glue 1.6.2  (56ms)
+#> ✔ Installed haven 2.5.3  (55ms)
+#> ✔ Installed hms 1.1.3  (34ms)
+#> ✔ Installed httr 1.4.7  (33ms)
+#> ✔ Installed jsonlite 1.8.7  (33ms)
+#> ✔ Installed later 1.3.1  (33ms)
+#> ✔ Installed lifecycle 1.0.3  (32ms)
+#> ✔ Installed magrittr 2.0.3  (31ms)
+#> ✔ Installed mime 0.12  (30ms)
+#> ✔ Installed odbc 1.3.5  (65ms)
+#> ✔ Installed openssl 2.1.1  (67ms)
+#> ✔ Installed pillar 1.9.0  (34ms)
+#> ✔ Installed pkgconfig 2.0.3  (32ms)
+#> ✔ Installed pool 1.0.1  (31ms)
+#> ✔ Installed purrr 1.0.2  (38ms)
+#> ✔ Installed readr 2.1.4  (44ms)
+#> ✔ Installed readxl 1.4.3  (35ms)
+#> ✔ Installed rematch 2.0.0  (32ms)
+#> ✔ Installed rio 1.0.1  (55ms)
+#> ✔ Installed rlang 1.1.1  (58ms)
+#> ✔ Installed stringr 1.5.0  (20ms)
+#> ✔ Installed sys 3.4.2  (15ms)
+#> ✔ Installed tibble 3.2.1  (27ms)
+#> ✔ Installed stringi 1.7.12  (130ms)
+#> ✔ Installed tidyr 1.3.0  (36ms)
+#> ✔ Installed tidyselect 1.2.0  (34ms)
+#> ✔ Installed tzdb 0.4.0  (33ms)
+#> ✔ Installed utf8 1.2.3  (55ms)
+#> ✔ Installed vctrs 0.6.3  (55ms)
+#> ✔ Installed withr 2.5.1  (17ms)
+#> ✔ Installed vroom 1.6.3  (64ms)
+#> ✔ Installed writexl 1.4.2  (36ms)
+#> ✔ Installed fingertipsR 1.0.10.9002 (github::rOpenSci/fingertipsR@caa9b7b) (31ms)
+#> ✔ Installed base64enc 0.1-3  (13ms)
+#> ✔ Installed DT 0.29  (85ms)
+#> ✔ Installed cachem 1.0.8  (15ms)
+#> ✔ Installed commonmark 1.9.0  (41ms)
+#> ✔ Installed bslib 0.5.1  (144ms)
+#> ✔ Installed crosstalk 1.2.0  (36ms)
+#> ✔ Installed digest 0.6.33  (32ms)
+#> ✔ Installed ellipsis 0.3.2  (30ms)
+#> ✔ Installed evaluate 0.21  (31ms)
+#> ✔ Installed fastmap 1.1.1  (36ms)
+#> ✔ Installed fontawesome 0.5.2  (38ms)
+#> ✔ Installed fs 1.6.3  (35ms)
+#> ✔ Installed highr 0.10  (55ms)
+#> ✔ Installed htmltools 0.5.6  (55ms)
+#> ✔ Installed htmlwidgets 1.6.2  (35ms)
+#> ✔ Installed httpuv 1.6.11  (40ms)
+#> ✔ Installed jquerylib 0.1.4  (41ms)
+#> ✔ Installed lazyeval 0.2.2  (16ms)
+#> ✔ Installed knitr 1.44  (70ms)
+#> ✔ Installed memoise 2.0.1  (40ms)
+#> ✔ Installed miniUI 0.1.1.1  (30ms)
+#> ✔ Installed promises 1.2.1  (55ms)
+#> ✔ Installed rappdirs 0.3.3  (56ms)
+#> ✔ Installed sass 0.4.7  (40ms)
+#> ✔ Installed rmarkdown 2.25  (91ms)
+#> ✔ Installed shinycssloaders 1.0.0  (19ms)
+#> ✔ Installed shiny 1.7.5  (84ms)
+#> ✔ Installed sourcetools 0.1.7-1  (47ms)
+#> ✔ Installed tinytex 0.46  (31ms)
+#> ✔ Installed xfun 0.40  (32ms)
+#> ✔ Installed xtable 1.8-4  (56ms)
+#> ✔ Installed yaml 2.3.7  (50ms)
+#> ✔ 1 pkg + 90 deps: added 90 [9.5s]
 library(cleanepi)
 ```
 
@@ -112,7 +300,7 @@ params <- list(
 
 # PERFORMING THE DATA CLEANING
 res <- clean_data(
-  data = test_data,
+  data   = test_data,
   params = params
 )
 #> 
@@ -125,7 +313,7 @@ res <- clean_data(
 #> removing duplicated rows
 #> checking subject IDs format
 
-cleaned_data <- res$data
+cleaned_data    <- res$data
 cleaning_report <- res$report
 
 # VISUALISE THE CLEANED DATASET
@@ -155,10 +343,10 @@ browseVignettes("cleanepi")
 
 ### Lifecycle
 
-This package is currently a *concept*, as defined by the [RECON software
-lifecycle](https://www.reconverse.org/lifecycle.html). This means that
-essential features and mechanisms are still being developed, and the
-package is not ready for use outside of the development team.
+This package is currently *experimental*, as defined by the [RECON
+software lifecycle](https://www.reconverse.org/lifecycle.html). This
+means that it is functional, but interfaces and functionalities may
+change over time.
 
 ### Contributions
 
