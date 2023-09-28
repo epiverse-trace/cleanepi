@@ -1,55 +1,100 @@
 test_that("check_subject_ids works as expected", {
-  expect_output(
-    check_subject_ids(
-      data=data.table::fread(system.file("extdata","test.txt", package = "cleanepi")),
-      id.position=1,
-      format="PS000P2",
-      check=TRUE,
-      prefix="PS",
-      suffix="P2",
-      range=c(0,100)
-    ),
-    ""
+  dat <- check_subject_ids(
+    data = readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi")),
+    id_column_name = "study_id",
+    format = "PS000P2",
+    prefix = "PS",
+    suffix = "P2",
+    range = c(1L, 100L),
+    remove = FALSE,
+    verbose = TRUE,
+    report = list()
   )
+  expect_type(dat, "list")
 })
 
 test_that("check_subject_ids fails as expected", {
   expect_error(
     check_subject_ids(
-      data=data.table::fread(system.file("extdata","test.txt", package = "cleanepi")),
-      id.position=-1,
-      format="PS000P2",
-      check=TRUE,
-      prefix="PS",
-      suffix="P2",
-      range=c(0,100)
+      data = NULL,
+      id_column_name = "study_id",
+      format = "PS000P2",
+      prefix = "PS",
+      suffix = "P2",
+      range = c(1L, 100L),
+      remove = FALSE,
+      verbose = TRUE,
+      report = list()
     ),
-    regexp = cat("Assertion on',id.position,'failed: negative column number not allowed.")
+    regexp = cat("Assertion on',data,'failed: input data frame must be
+                 provided.")
   )
 
   expect_error(
     check_subject_ids(
-      data=NULL,
-      id.position=1,
-      format="PS000P2",
-      check=TRUE,
-      prefix="PS",
-      suffix="P2",
-      range=c(0,100)
+      data = readRDS(system.file("extdata", "test_df.RDS",
+                                 package = "cleanepi")),
+      id_column_name = NA,
+      format = "PS000P2",
+      prefix = "PS",
+      suffix = "P2",
+      range = c(1L, 100L),
+      remove = FALSE,
+      verbose = TRUE,
+      report = list()
     ),
-    regexp = cat("Assertion on',data,'failed: input data frame must be provided.")
+    regexp = cat("Assertion on',id_column_name,'failed: Missing value not
+                 allowed for 'id_column_name'.")
   )
 
   expect_error(
     check_subject_ids(
-      data=data.table::fread(system.file("extdata","test.txt", package = "cleanepi")),
-      id.position=1,
-      format="PS000P2",
-      check="TRUE",
-      prefix="PS",
-      suffix="P2",
-      range=c(1,100)
+      data = readRDS(system.file("extdata", "test_df.RDS",
+                                 package = "cleanepi")),
+      id_column_name = c("study_id", "event_name"),
+      format = "PS000P2",
+      prefix = "PS",
+      suffix = "P2",
+      range = c(1L, 100L),
+      remove = FALSE,
+      verbose = TRUE,
+      report = list()
     ),
-    regexp = cat("Assertion on',check,'failed: Must be a logical.")
+    regexp = cat("Assertion on',id_column_name,'failed: Must be a character of
+                 length 1.")
+  )
+
+  expect_error(
+    check_subject_ids(
+      data = readRDS(system.file("extdata", "test_df.RDS",
+                                 package = "cleanepi")),
+      id_column_name = "study_id",
+      format = NA,
+      prefix = "PS",
+      suffix = "P2",
+      range = c(1L, 100L),
+      remove = FALSE,
+      verbose = TRUE,
+      report = list()
+    ),
+    regexp = cat("Assertion on',format,'failed: template sample IDs format
+                 must be provided.")
+  )
+
+  expect_error(
+    check_subject_ids(
+      data = readRDS(system.file("extdata", "test_df.RDS",
+                                 package = "cleanepi")),
+      id_column_name = "study_id",
+      format = c("PS000P2", "PS000P1"),
+      prefix = "PS",
+      suffix = "P2",
+      range = c(1L, 100L),
+      remove = FALSE,
+      verbose = TRUE,
+      report = list()
+    ),
+    regexp = cat("Assertion on',format,'failed: Must be a character of length
+                 1.")
   )
 })

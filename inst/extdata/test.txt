@@ -1,10 +1,10 @@
-study_id	event_name	country_code	country_name	date_of_admission	date_of_birth	date_first_pcr_positive_test	sex
+study_id	event_name	country_code	country_name	date.of.admission	dateOfBirth	date_first_pcr_positive_test	sex
 PS001P2	day 0	2	Gambia	01/12/2020	06/01/1972	Dec 01, 2020	1
 PS002P2	day 0	2	Gambia	28/01/2021	02/20/1952	Jan 01, 2021	1
-PS004P2-1	day 0	2	Gambia	15/02/2021	06/15/1961	Feb 11, 2021	2
+PS004P2-1	day 0	2	Gambia	15/02/2021	06/15/1961	Feb 11, 2021	-99
 PS003P2	day 0	2	Gambia	11/02/2021	11/11/1947	Feb 01, 2021	1
 P0005P2	day 0	2	Gambia	17/02/2021	09/26/2000	Feb 16, 2021	2
-PS006P2	day 0	2	Gambia	17/02/2021		May 02, 2021	2
+PS006P2	day 0	2	Gambia	17/02/2021	-99	May 02, 2021	2
 PB500P2	day 0	2	Gambia	28/02/2021	11/03/1989	Feb 19, 2021	1
 PS008P2	day 0	2	Gambia	22/02/2021	10/05/1976	Sep 20, 2021	2
 PS010P2	day 0	2	Gambia	02/03/2021	09/23/1991	Feb 26, 2021	1
