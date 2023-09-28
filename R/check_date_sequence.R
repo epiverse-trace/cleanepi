@@ -5,7 +5,7 @@
 #' @noRd
 is_order <- function(x) {
   x <- as_date(x)
-  sum(order(x) == seq_along(x)) == length(x)
+  !is.unsorted(x)
 }
 
 
