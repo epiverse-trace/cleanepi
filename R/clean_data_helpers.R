@@ -20,7 +20,11 @@ get_column_composition <- function(x) {
 
   # --- get the proportion of numeric values ---
   tmp         <- suppressWarnings(as.numeric(x))
+<<<<<<< HEAD
   are_numeric <- round((sum(!is.na(tmp)) / n_rows), 6L)
+=======
+  are_numeric <- round(sum(!is.na(tmp)) / n_rows), 6L)
+>>>>>>> 319c1a6 (Update R/clean_data_helpers.R)
 
   # --- get the proportion of date values ---
   x <- x[which(is.na(tmp))]
@@ -28,13 +32,21 @@ get_column_composition <- function(x) {
                                              "dym", "Ymd", "Ydm", "dmY", "mdY",
                                              "mYd", "dYm")))) {
     x        <- as_date(x)
+<<<<<<< HEAD
     are_date <- round((sum(!is.na(x)) / n_rows), 6L)
+=======
+    are_date <- round(sum(!is.na(x)) / n_rows), 6L)
+>>>>>>> 319c1a6 (Update R/clean_data_helpers.R)
   } else {
     are_date <- 0L
   }
 
   # --- get the proportion of logical values ---
+<<<<<<< HEAD
   are_logical   <- round((sum(is.logical(x)) / n_rows), 6L)
+=======
+  are_logical   <- round(sum(is.logical(x)) / n_rows), 6L)
+>>>>>>> 319c1a6 (Update R/clean_data_helpers.R)
 
   # --- get the proportion of character values ---
   are_character <- round((1.0 - (are_na + are_numeric +
