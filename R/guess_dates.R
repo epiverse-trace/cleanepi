@@ -478,7 +478,7 @@ i_find_date_format <- function(x) {
 
   expression <- formats[[format]]
   cleaning_expr <- paste0("^.*(", expression, ").*$")
-  clean_date <- gsub(cleaning_expr, "\\1", x, fixed = TRUE)
+  clean_date <- gsub(cleaning_expr, "\\1", x)
   out <- c("format" = format, "date" = clean_date) # nolint: keyword_quote_linter
   out
 }
