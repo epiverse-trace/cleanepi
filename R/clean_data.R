@@ -88,8 +88,7 @@
 #'     dictionary          = NULL))
 #'
 clean_data <- function(data,
-                       params = list(keep                = NULL,
-                                     remove_duplicates   = FALSE,
+                       params = list(keep                = NULL,                                     remove_duplicates   = FALSE,
                                      target_columns      = NULL,
                                      replace_missing     = TRUE,
                                      na_comes_as         = NULL,
