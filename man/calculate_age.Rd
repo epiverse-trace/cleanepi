@@ -6,30 +6,41 @@
 \usage{
 calculate_age(
   data,
-  date.column.name = NULL,
-  end.date = Sys.Date(),
-  format = NULL,
-  age.in = "years"
+  date_column_name = NULL,
+  end_date = Sys.Date(),
+  age_in = "years"
 )
 }
 \arguments{
 \item{data}{a data frame with the date column to standardise}
 
-\item{date.column.name}{the name of the date column of interest. default: 'Date', or 'DATE', or 'date'}
+\item{date_column_name}{the name of the date column of interest.
+default: 'Date', or, 'DATE', or 'date'}
 
-\item{end.date}{the end date. default: today's date}
+\item{end_date}{the end date. default: today's date}
 
-\item{format}{the format of the date values in the date column}
-
-\item{age.in}{a character string to specify whether to calculate the age in 'years', or 'months', or 'days', or 'weeks'. default is: 'years'}
+\item{age_in}{a character string to specify whether to calculate
+the age in 'years', or 'months', or 'days', or 'weeks'.
+default is: 'years'}
 }
 \value{
-a data frame with the bellow 1 or 2 extra columns compared to the input data frame
+a data frame with 1 or 2 extra columns compared to the input data
+frame
 \enumerate{
-\item "age_years", or "age_months", or "age_weeks", or "age_days", depending on the value of the 'age.in' parameter
-\item "remainder_days": a column with the number of remaining days after the age is converted in weeks or months
+\item "age_years", or "age_months", or "age_weeks", or "age_days",
+depending on the value of the 'age_in' parameter
+\item "remainder_days": a column with the number of remaining days
+after the age is converted in weeks or months
 }
 }
 \description{
 function to calculate age from date of birth
+}
+\examples{
+age <- calculate_age(
+data = readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi")),
+date_column_name = "dateOfBirth",
+end_date = Sys.Date(),
+age_in = "months"
+)
 }
