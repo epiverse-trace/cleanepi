@@ -6,10 +6,10 @@
 \usage{
 clean_data(
   data,
-  params = list(remove_duplicates = FALSE, target_columns = NULL, replace_missing = TRUE,
-    na_comes_as = NULL, check_timeframe = FALSE, timeframe = NULL, error_tolerance = 0.5,
-    subject_id_col_name = NULL, subject_id_format = NULL, prefix = "PS", suffix = "P2",
-    range = c(1L, 100L), dictionary = NULL)
+  params = list(keep = NULL, remove_duplicates = FALSE, target_columns = NULL,
+    replace_missing = TRUE, na_comes_as = NULL, check_timeframe = FALSE, timeframe =
+    NULL, error_tolerance = 0.5, subject_id_col_name = NULL, subject_id_format = NULL,
+    prefix = NULL, suffix = NULL, range = NULL, dictionary = NULL)
 )
 }
 \arguments{
@@ -51,6 +51,9 @@ the subject IDs
 \item \code{dictionary}: an object of type data frame. This is the data
 dictionary that will be used to clean the specified columns. Use
 \code{?clean_using_dictionary} for more details.
+\item \code{range}: a vector with the range of numbers in the sample IDs
+\item \code{keep}: a vector of column names to be kept as they appear
+in the original data. default is \code{NULL}
 }}
 }
 \value{
@@ -58,8 +61,8 @@ a list of the following 2 elements:
 \enumerate{
 \item \code{data}: the cleaned data frame according to the user-specified
 parameters
-\item \code{report}: a list with the information about the effects of the
-the cleaning steps
+\item \code{report}: an object of type list with the details from every
+cleaning operation.
 }
 }
 \description{
@@ -84,6 +87,7 @@ cleaned_data <- clean_data(
   data   = readRDS(system.file("extdata", "test_df.RDS",
                                package = "cleanepi")),
   params = list(
+    keep_col_names      = NULL,
     remove_duplicates   = TRUE,
     target_columns      = NULL,
     replace_missing     = TRUE,
