@@ -40,14 +40,15 @@
 #'   \item `prefix`: the prefix used in the subject IDs
 #'   \item `suffix`: the prefix used in the subject IDs
 #'   \item `range`: a vector with the range of numbers in the sample IDs
+#'   \item `range`: a vector with the range of numbers in the sample IDs
 #'   }
 #'
 #' @return a list of the following 2 elements:
 #'  \enumerate{
 #'    \item `data`: the cleaned data frame according to the user-specified
 #'          parameters
-#'    \item `report`: a list with the information about the effects of the
-#'          the cleaning steps
+#'    \item `keep_col_names`: a vector of column names to be kept as they appear
+#'          in the original data. default is `NULL`
 #'  }
 #' @export
 #'
@@ -66,6 +67,7 @@
 #'   data   = readRDS(system.file("extdata", "test_df.RDS",
 #'                                package = "cleanepi")),
 #'   params = list(
+#'     keep_col_names      = NULL,
 #'     remove_duplicates   = TRUE,
 #'     target_columns      = NULL,
 #'     replace_missing     = TRUE,
@@ -80,7 +82,8 @@
 #'     range               = c(1, 100)))
 #'
 clean_data <- function(data,
-                       params = list(remove_duplicates   = FALSE,
+                       params = list(keep_col_names      = NULL,
+                                     remove_duplicates   = FALSE,
                                      target_columns      = NULL,
                                      replace_missing     = TRUE,
                                      na_comes_as         = NULL,
@@ -98,11 +101,13 @@ clean_data <- function(data,
   report <- list()
   ## -----
   ## | we choose to use snake_cases for both variable and column names
-  ## | column names are cleaned based on {janitor} package
-  ## | TBD: make sure not clean user-specified columns names
+  ## | are cleaned based using {baser} and {epitrix} packages.
+  ## | Column names in 'keep_col_names' will not be modified.
   ## -----
   R.utils::cat("\ncleaning column names")
-  res    <- clean_col_names(data, report)
+  res    <- clean_col_names(x              = data,
+                            report         = report,
+                            keep_col_names = params[["keep_col_names"]])
   data   <- res[["data"]]
   report <- res[["report"]]
 
