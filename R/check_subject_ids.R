@@ -103,8 +103,7 @@ check_subject_ids <- function(data, format, id_column_name = NULL,
   bad_rows <- NULL
   # check prefix of subject IDs
   if (!is.null(prefix)) {
-    prefix_check <- as.logical(as.character(lapply(data[[subject_id_col_name]],
-                                                   check_prefix, prefix)))
+    prefix_check <- startsWith(data[[subject_id_col_name]], prefix)
     idx <- which(!(prefix_check))
     if (length(idx) > 0L) {
       bad_rows      <- c(bad_rows, idx)
@@ -118,8 +117,7 @@ check_subject_ids <- function(data, format, id_column_name = NULL,
 
   # check suffix of subject IDs
   if (!is.null(suffix)) {
-    suffix_check <- as.logical(as.character(lapply(data[[subject_id_col_name]],
-                                                   check_suffix, suffix)))
+    suffix_check <- endsWith(data[[subject_id_col_name]], suffix)
     idx <- which(!(suffix_check))
     if (length(idx) > 0L) {
       bad_rows <- c(bad_rows, idx)
