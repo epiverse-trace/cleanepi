@@ -1,40 +1,3 @@
-#' Check the prefix of the subject IDs
-#'
-#' @param x the sample ID
-#' @param prefix the prefix to look up to
-#' @keywords internal
-#' @noRd
-#'
-check_prefix <- function(x, prefix) {
-  res <- TRUE
-  prefix_found_at <- stringr::str_locate(x, prefix)
-  if (all(is.na(prefix_found_at[1L, ])) ||
-        (prefix_found_at[1L, 1L] != 1L &&
-           prefix_found_at[1L, 2L] != nchar(prefix))) {
-    res <- FALSE
-  }
-  res
-}
-
-#' Check the suffix of the subject IDs
-#'
-#' @param x the sample IDs
-#' @param suffix the suffix to lookup to
-#' @keywords internal
-#' @noRd
-#'
-check_suffix <- function(x, suffix) {
-  res <- TRUE
-  suffix_found_at <- as.matrix(stringr::str_locate_all(x, suffix)[[1L]])
-  if (all(is.na(suffix_found_at[nrow(suffix_found_at), ])) ||
-        (suffix_found_at[nrow(suffix_found_at), 1L] !=
-           (nchar(x) - (nchar(suffix) - 1L)) &&
-           suffix_found_at[nrow(suffix_found_at), 2L] != nchar(x))) {
-    res <- FALSE
-  }
-  res
-}
-
 #' Check the length of sample IDs
 #'
 #' @param x the sample ID
@@ -103,8 +66,7 @@ check_subject_ids <- function(data, format, id_column_name = NULL,
   bad_rows <- NULL
   # check prefix of subject IDs
   if (!is.null(prefix)) {
-    prefix_check <- as.logical(as.character(lapply(data[[subject_id_col_name]],
-                                                   check_prefix, prefix)))
+    prefix_check <- startsWith(data[[subject_id_col_name]], prefix)
     idx <- which(!(prefix_check))
     if (length(idx) > 0L) {
       bad_rows      <- c(bad_rows, idx)
@@ -118,8 +80,7 @@ check_subject_ids <- function(data, format, id_column_name = NULL,
 
   # check suffix of subject IDs
   if (!is.null(suffix)) {
-    suffix_check <- as.logical(as.character(lapply(data[[subject_id_col_name]],
-                                                   check_suffix, suffix)))
+    suffix_check <- endsWith(data[[subject_id_col_name]], suffix)
     idx <- which(!(suffix_check))
     if (length(idx) > 0L) {
       bad_rows <- c(bad_rows, idx)
