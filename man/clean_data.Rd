@@ -7,6 +7,7 @@
 clean_data(
   data,
 <<<<<<< HEAD
+<<<<<<< HEAD
   params = list(keep = NULL, remove_duplicates = FALSE, target_columns = NULL,
     replace_missing = TRUE, na_comes_as = NULL, check_timeframe = FALSE, timeframe =
     NULL, error_tolerance = 0.5, subject_id_col_name = NULL, subject_id_format = NULL,prefix = NULL, suffix = NULL, range = NULL, dictionary = NULL)
@@ -20,6 +21,12 @@ clean_data(
 =======
     range = c(1L, 100L))
 >>>>>>> c5b7088 (fix linters)
+=======
+  params = list(keep_col_names = NULL, remove_duplicates = FALSE, target_columns = NULL,
+    replace_missing = TRUE, na_comes_as = NULL, check_timeframe = FALSE, timeframe =
+    NULL, error_tolerance = 0.5, subject_id_col_name = NULL, subject_id_format = NULL,
+    prefix = "PS", suffix = "P2", range = c(1L, 100L))
+>>>>>>> 3e4b90f (do not modify user-specified column names when cleaning column name)
 )
 }
 \arguments{
@@ -64,7 +71,7 @@ dictionary that will be used to clean the specified columns. Use
 \item \code{range}: a vector with the range of numbers in the sample IDs
 \item \code{keep}: a vector of column names to be kept as they appear
 in the original data. default is \code{NULL}
-}}
+}
 }
 \value{
 a list of the following 2 elements:
