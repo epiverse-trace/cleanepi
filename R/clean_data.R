@@ -114,7 +114,7 @@ clean_data <- function(data,
   R.utils::cat("\ncleaning column names")
   res    <- clean_col_names(x              = data,
                             report         = report,
-                            keep           = params[["keep_col_names"]])
+                            keep           = params[["keep"]])
   data   <- res[["data"]]
   report <- res[["report"]]
 
