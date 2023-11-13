@@ -240,6 +240,18 @@ clean_data <- function(data,
   data    <- tmp_res[["data"]]
   report  <- tmp_res[["report"]]
 
+  ## -----
+  ## The values in some columns are coded and their correspondent expressions
+  ## will be stored in a data dictionary file. We implement this function to
+  ## replace these coded values with the exact values from the data dictionary.
+  ## We also account for the
+  ## -----
+  cleaned <- matchmaker::match_df(data,
+                                  dictionary = dictionary,
+                                  from       = "options",
+                                  to         = "values",
+                                  by         = "grp")
+
 
 
   # this is where to call the reporting function
