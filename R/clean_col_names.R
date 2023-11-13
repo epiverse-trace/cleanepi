@@ -26,6 +26,7 @@ clean_col_names <- function(x, report = list(), keep = NULL) {
 
   # get the indexes of the column names to not change
   idx <- match(keep, original_names)
+
   # We have opted for snake case in the column names. Thus, all camel cases will
   # be converted into snake cases.
   if (length(idx) > 0L) {
