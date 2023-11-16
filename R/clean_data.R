@@ -246,13 +246,7 @@ clean_data <- function(data,
   ## replace these coded values with the exact values from the data dictionary.
   ## We also account for the
   ## -----
-  cleaned <- matchmaker::match_df(data,
-                                  dictionary = dictionary,
-                                  from       = "options",
-                                  to         = "values",
-                                  by         = "grp")
-
-
+  data <- clean_using_dictionary(data, params[["dictionary"]], correct = FALSE)
 
   # this is where to call the reporting function
   timeframe <- params[["timeframe"]]

@@ -29,11 +29,11 @@ make_readcap_dictionary <- function(metadata,
                                     field_column,
                                     opt_column,
                                     field_type) {
-  checkmate::assert_data_frame(metadata, min.rows = 1, min.cols = 1,
+  checkmate::assert_data_frame(metadata, min.rows = 1L, min.cols = 1L,
                                null.ok = FALSE)
-  checkmate::assert_character(opt_column, len = 1, null.ok = FALSE)
-  checkmate::assert_character(field_type, len = 1, null.ok = FALSE)
-  checkmate::assert_character(field_column, len = 1, null.ok = FALSE)
+  checkmate::assert_character(opt_column, len = 1L, null.ok = FALSE)
+  checkmate::assert_character(field_type, len = 1L, null.ok = FALSE)
+  checkmate::assert_character(field_column, len = 1L, null.ok = FALSE)
 
   stopifnot(opt_column %in% names(metadata))
 
@@ -42,7 +42,7 @@ make_readcap_dictionary <- function(metadata,
                     metadata[[field_type]] != "calc")
 
   dictionary   <- NULL
-  for (i in 1:nrow(metadata)) {
+  for (i in seq_len(nrow(metadata))) {
     dictionary <- rbind(dictionary,
                         make_metadata(metadata[[opt_column]][i],
                                       metadata[[field_column]][i]))
@@ -111,8 +111,8 @@ clean_using_dictionary <- function(data, dictionary, correct = FALSE) {
                                null.ok = FALSE)
   checkmate::assert_data_frame(dictionary, min.rows = 1L, max.cols = 4L,
                                null.ok = FALSE)
-  stopifnot(all(c("options", "values", "grp") %in% names(dictionary)) &&
-              all(unique(dictionary[["grp"]]) %in% names(data)))
+  stopifnot(all(c("options", "values", "grp") %in% names(dictionary)),
+            all(unique(dictionary[["grp"]]) %in% names(data)))
 
   # detect misspelled options in the columns to clean
   misspelled_options <- detect_misspelled_options(data, dictionary)
@@ -155,6 +155,7 @@ clean_using_dictionary <- function(data, dictionary, correct = FALSE) {
 #' @noRd
 #'
 detect_misspelled_options <- function(data, dictionary) {
+  grp <- NULL
   cols_to_modify  <- unique(dictionary[["grp"]])
   outliers        <- list()
   for (col in cols_to_modify) {
@@ -164,7 +165,7 @@ detect_misspelled_options <- function(data, dictionary) {
     opts          <- c(temp_dict[["options"]], unique(temp_dict[["values"]]))
     m             <- match(unique_values, opts)
     which(!(unique(data[[col]]) %in% dictionary[["options"]]))
-    if (length(which(is.na(m))) > 0L) {
+    if (anyNA(m)) {
       outliers[[col]] <- which(data[[col]] == unique_values[which(is.na(m))])
     }
   }
@@ -181,7 +182,8 @@ detect_misspelled_options <- function(data, dictionary) {
 #' @keywords internal
 #' @noRd
 correct_misspelled_options <- function(data, dictionary, outliers) {
-  checkmate::assert_list(outliers, min.len = 1, null.ok = FALSE)
+  grp <- NULL
+  checkmate::assert_list(outliers, min.len = 1L, null.ok = FALSE)
   for (target_col in names(outliers)) {
     target_values    <- dictionary |>
       dplyr::filter(grp == target_col)
@@ -217,7 +219,7 @@ correct_misspelled_options <- function(data, dictionary, outliers) {
 print_misspelled_values <- function(misspelled_options) {
   for (opts in names(misspelled_options)) {
     message("\nDetected misspelled values at lines ",
-            paste(misspelled_options[[opts]], collapse = ", "),
+            glue::glue_collapse(misspelled_options[[opts]], sep = ", "),
             " of column '", opts, "'")
   }
 }
