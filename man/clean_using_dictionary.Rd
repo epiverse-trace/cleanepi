@@ -16,8 +16,8 @@ input data. This should be in the format}
 values in the data or not. default is \code{FALSE}}
 }
 \value{
-a \verb{data frame} with cleaned values in the target columns specified in
-the data dictionary.
+a \verb{data frame} with cleaned values in the target columns specified
+in the data dictionary.
 }
 \description{
 Perform dictionary-based cleaning

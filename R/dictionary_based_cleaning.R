@@ -96,8 +96,8 @@ get_meta_rows <- function(x) {
 #' @param correct a `logical` specifying whether to correct the misspelled
 #'    values in the data or not. default is `FALSE`
 #'
-#' @returns a `data frame` with cleaned values in the target columns specified in
-#'    the data dictionary.
+#' @returns a `data frame` with cleaned values in the target columns specified
+#'    in the data dictionary.
 #' @export
 #'
 #' @examples
