@@ -96,7 +96,7 @@ get_meta_rows <- function(x) {
 #' @param correct a `logical` specifying whether to correct the misspelled
 #'    values in the data or not. default is `FALSE`
 #'
-#' @return a `data frame` with cleaned values in the target columns specified in
+#' @returns a `data frame` with cleaned values in the target columns specified in
 #'    the data dictionary.
 #' @export
 #'
@@ -208,14 +208,14 @@ correct_misspelled_options <- function(data, dictionary, outliers) {
 }
 
 
-#' Title
+#' Print the detected misspelled values
 #'
-#' @param misspelled_options
+#' @param misspelled_options a name `list` with the misspelled values found in
+#'    the different columns of the input data
 #'
-#' @return
-#' @export
+#' @keywords internal
+#' @noRd
 #'
-#' @examples
 print_misspelled_values <- function(misspelled_options) {
   for (opts in names(misspelled_options)) {
     message("\nDetected misspelled values at lines ",

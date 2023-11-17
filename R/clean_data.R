@@ -40,6 +40,9 @@
 #'   \item `prefix`: the prefix used in the subject IDs
 #'   \item `suffix`: the prefix used in the subject IDs
 #'   \item `range`: a vector with the range of numbers in the sample IDs
+#'   \item `dictionary`: an object of type data frame. This is the data
+#'         dictionary that will be used to clean the specified columns. Use
+#'         `?clean_using_dictionary` for more details.
 #'   }
 #'
 #' @return a list of the following 2 elements:
@@ -77,7 +80,8 @@
 #'     subject_id_format   = "PS000P2",
 #'     prefix              = "PS",
 #'     suffix              = "P2",
-#'     range               = c(1, 100)))
+#'     range               = c(1, 100),
+#'     dictionary          = NULL))
 #'
 clean_data <- function(data,
                        params = list(remove_duplicates   = FALSE,
@@ -91,7 +95,8 @@ clean_data <- function(data,
                                      subject_id_format   = NULL,
                                      prefix              = "PS",
                                      suffix              = "P2",
-                                     range               = c(1L, 100L))) {
+                                     range               = c(1L, 100L),
+                                     dictionary          = NULL)) {
   checkmate::assert_data_frame(data, null.ok = FALSE, min.cols = 1L)
   checkmate::assert_list(params, min.len = 0L, null.ok = TRUE)
 

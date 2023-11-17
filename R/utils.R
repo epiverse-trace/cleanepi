@@ -222,7 +222,6 @@ convert <- function(x) {
 #' @keywords internal
 #' @noRd
 #'
-#' @examples
 add_report <- function(data, report, name = NULL) {
   # when the data is not associated with any report, make it be
   if (is.null(attr(data, "report"))) {

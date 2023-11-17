@@ -22,3 +22,10 @@ the data dictionary.
 \description{
 Perform dictionary-based cleaning
 }
+\examples{
+cleaned_df <- clean_using_dictionary(
+  data       = system.file("extdata","messy_data.RDS",package = "cleanepi"),
+  dictionary = system.file("extdata","test_dict.RDS",package = "cleanepi"),
+  correct    = FALSE
+)
+}

@@ -9,7 +9,7 @@ clean_data(
   params = list(remove_duplicates = FALSE, target_columns = NULL, replace_missing = TRUE,
     na_comes_as = NULL, check_timeframe = FALSE, timeframe = NULL, error_tolerance = 0.5,
     subject_id_col_name = NULL, subject_id_format = NULL, prefix = "PS", suffix = "P2",
-    range = c(1L, 100L))
+    range = c(1L, 100L), dictionary = NULL)
 )
 }
 \arguments{
@@ -48,6 +48,9 @@ the subject IDs
 \item \code{prefix}: the prefix used in the subject IDs
 \item \code{suffix}: the prefix used in the subject IDs
 \item \code{range}: a vector with the range of numbers in the sample IDs
+\item \code{dictionary}: an object of type data frame. This is the data
+dictionary that will be used to clean the specified columns. Use
+\code{?clean_using_dictionary} for more details.
 }}
 }
 \value{
@@ -92,6 +95,7 @@ cleaned_data <- clean_data(
     subject_id_format   = "PS000P2",
     prefix              = "PS",
     suffix              = "P2",
-    range               = c(1, 100)))
+    range               = c(1, 100),
+    dictionary          = NULL))
 
 }
