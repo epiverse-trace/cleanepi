@@ -102,8 +102,10 @@ get_meta_rows <- function(x) {
 #'
 #' @examples
 #' cleaned_df <- clean_using_dictionary(
-#'   data       = system.file("extdata","messy_data.RDS",package = "cleanepi"),
-#'   dictionary = system.file("extdata","test_dict.RDS",package = "cleanepi"),
+#'   data       = readRDS(system.file("extdata", "messy_data.RDS",
+#'                        package = "cleanepi")),
+#'   dictionary = readRDS(system.file("extdata", "test_dict.RDS",
+#'                        package = "cleanepi")),
 #'   correct    = FALSE
 #' )
 clean_using_dictionary <- function(data, dictionary, correct = FALSE) {
@@ -131,18 +133,18 @@ clean_using_dictionary <- function(data, dictionary, correct = FALSE) {
                            name = "misspel_correction")
 
       # perform the dictionary-based cleaning
-      cleaned <- matchmaker::match_df(data,
-                                      dictionary = dictionary,
-                                      from       = "options",
-                                      to         = "values",
-                                      by         = "grp")
-      cleaned <- add_report(cleaned,
-                            unique(dictionary[["grp"]]),
-                            name = "columns_modified_based_on_dictionary")
+      data   <- matchmaker::match_df(data,
+                                     dictionary = dictionary,
+                                     from       = "options",
+                                     to         = "values",
+                                     by         = "grp")
+      data   <- add_report(cleaned,
+                           unique(dictionary[["grp"]]),
+                           name = "columns_modified_based_on_dictionary")
     }
   }
 
-  cleaned
+  data
 }
 
 #' Detect misspelled options in columns to be cleaned

@@ -251,7 +251,12 @@ clean_data <- function(data,
   ## replace these coded values with the exact values from the data dictionary.
   ## We also account for the
   ## -----
-  data <- clean_using_dictionary(data, params[["dictionary"]], correct = FALSE)
+  if (!is.null(params[["dictionary"]])) {
+    data <- clean_using_dictionary(data,
+                                   params[["dictionary"]],
+                                   correct = FALSE)
+  }
+
 
   # this is where to call the reporting function
   timeframe <- params[["timeframe"]]
