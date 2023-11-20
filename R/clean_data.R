@@ -72,7 +72,7 @@
 #'   data   = readRDS(system.file("extdata", "test_df.RDS",
 #'                                package = "cleanepi")),
 #'   params = list(
-#'     keep_col_names      = NULL,
+#'     keep                = NULL,
 #'     remove_duplicates   = TRUE,
 #'     target_columns      = NULL,
 #'     replace_missing     = TRUE,
