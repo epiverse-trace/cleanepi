@@ -38,8 +38,8 @@ make_readcap_dictionary <- function(metadata,
   stopifnot(opt_column %in% names(metadata))
 
   metadata     <- metadata %>%
-    dplyr::filter(!is.na(metadata[[opt_column]]) &
-                    metadata[[field_type]] != "calc")
+    dplyr::filter(!is.na(metadata[[opt_column]]),
+                  metadata[[field_type]] != "calc")
 
   dictionary   <- NULL
   for (i in seq_len(nrow(metadata))) {
@@ -121,12 +121,7 @@ clean_using_dictionary <- function(data, dictionary, correct = FALSE) {
 
   # correct the misspelled options if they exist
   if (length(misspelled_options) > 0L) {
-    if (!correct) {
-      print_misspelled_values(misspelled_options)
-      message("Please correct them first or use `correct=TRUE` for ",
-              "auto-correction")
-      cleaned <- NULL
-    } else {
+    if (correct) {
       res    <- correct_misspelled_options(data, dictionary, misspelled_options)
       data   <- add_report(res[["data"]],
                            res[["report"]],
@@ -138,9 +133,15 @@ clean_using_dictionary <- function(data, dictionary, correct = FALSE) {
                                      from       = "options",
                                      to         = "values",
                                      by         = "grp")
-      data   <- add_report(cleaned,
+      data   <- add_report(data,
                            unique(dictionary[["grp"]]),
                            name = "columns_modified_based_on_dictionary")
+
+    } else {
+      print_misspelled_values(misspelled_options)
+      message("Please correct them first or use `correct=TRUE` for ",
+              "auto-correction")
+      return(NULL)
     }
   }
 
@@ -162,7 +163,7 @@ detect_misspelled_options <- function(data, dictionary) {
   outliers        <- list()
   for (col in cols_to_modify) {
     unique_values <- unique(data[[col]])[!is.na(unique(data[[col]]))]
-    temp_dict     <- dictionary |>
+    temp_dict     <- dictionary %>%
       dplyr::filter(grp == col)
     opts          <- c(temp_dict[["options"]], unique(temp_dict[["values"]]))
     m             <- match(unique_values, opts)
@@ -187,7 +188,7 @@ correct_misspelled_options <- function(data, dictionary, outliers) {
   grp <- NULL
   checkmate::assert_list(outliers, min.len = 1L, null.ok = FALSE)
   for (target_col in names(outliers)) {
-    target_values    <- dictionary |>
+    target_values    <- dictionary %>%
       dplyr::filter(grp == target_col)
     target_values    <- unique(target_values[["values"]])
     misspelled_words <- data[[target_col]][outliers[[target_col]]]
