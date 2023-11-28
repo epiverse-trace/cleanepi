@@ -265,11 +265,6 @@ clean_data <- function(data,
 
   # this is where to call the reporting function
   report[["params"]] <- params
-  # timeframe <- params[["timeframe"]]
-  # report[["params"]] <- as.data.frame(do.call(rbind, params)) %>%
-  #   dplyr::rename("value1" = "V1", "value2" = "V2") # nolint: keyword_quote_linter
-  # report[["params"]][which(rownames(report[["params"]]) == "timeframe"), ] <-
-  #   as.character(timeframe)
 
   # return the final object
   list(
