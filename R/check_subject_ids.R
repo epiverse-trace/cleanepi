@@ -14,7 +14,7 @@ check_id_length <- function(x, ref) {
 #'
 #' @param data the data frame of interest
 #' @param id_column_name the name of the column with the subject IDs. If not
-#' specified, the first column will be considered by default
+#'    specified, the first column will be considered by default
 #' @param format the expected subject IDs format
 #' @param prefix the prefix used in the subject IDs
 #' @param suffix the prefix used in the subject IDs
@@ -30,21 +30,27 @@ check_id_length <- function(x, ref) {
 #'
 #' @examples
 #' dat <- check_subject_ids(
-#' data = readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi")),
-#' id_column_name = "study_id",
-#' format = "PS000P2",
-#' prefix = "PS",
-#' suffix = "P2",
-#' range = c(1,100),
-#' remove = FALSE,
-#' verbose = TRUE,
-#' report = list()
+#'   data           = readRDS(system.file("extdata", "test_df.RDS",
+#'                                        package = "cleanepi")),
+#'   id_column_name = "study_id",
+#'   format         = "PS000P2",
+#'   prefix         = "PS",
+#'   suffix         = "P2",
+#'   range          = c(1, 100),
+#'   remove         = FALSE,
+#'   verbose        = TRUE,
+#'   report         = list()
 #' )
 #' @export
-check_subject_ids <- function(data, format, id_column_name = NULL,
-                              prefix = NULL, suffix = NULL, range = NULL,
-                              remove = FALSE, verbose = FALSE,
-                              report = list()) {
+check_subject_ids <- function(data,
+                              format,
+                              id_column_name = NULL,
+                              prefix         = NULL,
+                              suffix         = NULL,
+                              range          = NULL,
+                              remove         = FALSE,
+                              verbose        = FALSE,
+                              report         = list()) {
   checkmate::assert_data_frame(data, null.ok = FALSE)
   checkmate::assert_character(id_column_name, null.ok = TRUE,
                               any.missing = FALSE, len = 1L)
