@@ -35,11 +35,11 @@
 #'         this proportion is exceeded, the original vector is returned, and a
 #'         message is issued; defaults to 0.1 (10 percent)
 #'   \item `subject_id_col_name`: the name of the column in the data frame with
-#'         the subject IDs
+#'          the subject IDs
 #'   \item `subject_id_format`: the expected subject format
 #'   \item `prefix`: the prefix used in the subject IDs
 #'   \item `suffix`: the prefix used in the subject IDs
-#'   \item `range`: a vector with the range of numbers in the sample IDs
+#'   \item `range`: a vector with the range of numbers in the subject IDs
 #'   \item `dictionary`: an object of type data frame. This is the data
 #'         dictionary that will be used to clean the specified columns. Use
 #'         `?clean_using_dictionary` for more details.
@@ -179,7 +179,7 @@ clean_data <- function(data,
 
   ## -----
   ## | The uniqueness of the IDs is checked here to ensure that there is no
-  ## | redundant sample ID.
+  ## | redundant subject ID.
   ## -----
   stopifnot("'subject_id_col_name' must be provided in the list of cleaning
             parameters." = !is.null(params[["subject_id_col_name"]]))
@@ -259,8 +259,7 @@ clean_data <- function(data,
   ## We also account for the
   ## -----
   if (!is.null(params[["dictionary"]])) {
-    data <- clean_using_dictionary(data,
-                                   params[["dictionary"]])
+    data <- clean_using_dictionary(data, params[["dictionary"]])
   }
 
 

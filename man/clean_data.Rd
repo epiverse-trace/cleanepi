@@ -47,7 +47,7 @@ the subject IDs
 \item \code{subject_id_format}: the expected subject format
 \item \code{prefix}: the prefix used in the subject IDs
 \item \code{suffix}: the prefix used in the subject IDs
-\item \code{range}: a vector with the range of numbers in the sample IDs
+\item \code{range}: a vector with the range of numbers in the subject IDs
 \item \code{dictionary}: an object of type data frame. This is the data
 dictionary that will be used to clean the specified columns. Use
 \code{?clean_using_dictionary} for more details.

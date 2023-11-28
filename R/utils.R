@@ -233,11 +233,11 @@ add_report <- function(data, report, name = NULL) {
     }
     attr(data, which = "report") <- tmp_report
   } else {
-    # when the report object object is a data frame, the user will provide the
+    # when the report object is a data frame, the user will provide the
     # name of the analysis step. This will be used to add the report to the data
     #
     # if it is a list (we expect a named list), then it will be concatenated to
-    # data existing report.
+    # the existing report.
     tmp_report <- attr(data, "report")
     if (!is.null(name)) {
       tmp_report[[name]] <- report

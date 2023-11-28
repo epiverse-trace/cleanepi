@@ -34,7 +34,6 @@ Imports:
     R.utils,
     readr,
     snakecase,
-    stringdist,
     stringr
 Suggests: 
     knitr,

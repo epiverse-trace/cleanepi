@@ -4,16 +4,13 @@
 \alias{clean_using_dictionary}
 \title{Perform dictionary-based cleaning}
 \usage{
-clean_using_dictionary(data, dictionary, correct = FALSE)
+clean_using_dictionary(data, dictionary)
 }
 \arguments{
 \item{data}{the input data}
 
 \item{dictionary}{a \verb{data frame} with the data dictionary associated to the
 input data. This should be in the format}
-
-\item{correct}{a \code{logical} specifying whether to correct the misspelled
-values in the data or not. default is \code{FALSE}}
 }
 \value{
 a \verb{data frame} with cleaned values in the target columns specified
@@ -27,7 +24,6 @@ cleaned_df <- clean_using_dictionary(
   data       = readRDS(system.file("extdata", "messy_data.RDS",
                        package = "cleanepi")),
   dictionary = readRDS(system.file("extdata", "test_dict.RDS",
-                       package = "cleanepi")),
-  correct    = FALSE
+                       package = "cleanepi"))
 )
 }

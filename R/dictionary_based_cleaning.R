@@ -62,9 +62,8 @@ make_readcap_dictionary <- function(metadata,
 #' @noRd
 #'
 make_metadata <- function(x, field_column) {
-  splits          <- unlist(strsplit(x, "|", fixed = TRUE))
-  splits          <- trimws(splits)
-  combined_splits <- lapply(splits, get_meta_rows)
+  splits          <- trimws(unlist(strsplit(x, "|", fixed = TRUE)))
+  combined_splits <- lapply(splits, function(x) { trimws(unlist(strsplit(x, ",", fixed = TRUE))) }) # nolint: line_length_linter
   combined_splits <- do.call(rbind.data.frame, combined_splits)
   res             <- data.frame(options = combined_splits[, 1L],
                                 values  = combined_splits[, 2L],
@@ -75,26 +74,12 @@ make_metadata <- function(x, field_column) {
   res
 }
 
-#' Split a character and remove white space at the beginning and the end
-#'
-#' @param x a `character` to be split
-#'
-#' @keywords internal
-#' @noRd
-#'
-#' @returns a `vector` of character
-get_meta_rows <- function(x) {
-  x <- trimws(unlist(strsplit(x, ",", fixed = TRUE)))
-}
-
 
 #' Perform dictionary-based cleaning
 #'
 #' @param data the input data
 #' @param dictionary a `data frame` with the data dictionary associated to the
 #'    input data. This should be in the format
-#' @param correct a `logical` specifying whether to correct the misspelled
-#'    values in the data or not. default is `FALSE`
 #'
 #' @returns a `data frame` with cleaned values in the target columns specified
 #'    in the data dictionary.
@@ -105,10 +90,9 @@ get_meta_rows <- function(x) {
 #'   data       = readRDS(system.file("extdata", "messy_data.RDS",
 #'                        package = "cleanepi")),
 #'   dictionary = readRDS(system.file("extdata", "test_dict.RDS",
-#'                        package = "cleanepi")),
-#'   correct    = FALSE
+#'                        package = "cleanepi"))
 #' )
-clean_using_dictionary <- function(data, dictionary, correct = FALSE) {
+clean_using_dictionary <- function(data, dictionary) {
   checkmate::assert_data_frame(data, min.rows = 1L, min.cols = 1L,
                                null.ok = FALSE)
   checkmate::assert_data_frame(dictionary, min.rows = 1L, max.cols = 4L,
@@ -121,31 +105,84 @@ clean_using_dictionary <- function(data, dictionary, correct = FALSE) {
 
   # correct the misspelled options if they exist
   if (length(misspelled_options) > 0L) {
-    if (correct) {
-      res    <- correct_misspelled_options(data, dictionary, misspelled_options)
-      data   <- add_report(res[["data"]],
-                           res[["report"]],
-                           name = "misspel_correction")
+    print_misspelled_values(misspelled_options)
+    stop("Please add the misspelled options to the data dictionary using the ",
+         "add_to_dictionnary() function.")
+  } else {
+    # perform the dictionary-based cleaning
+    data   <- matchmaker::match_df(data,
+                                   dictionary = dictionary,
+                                   from       = "options",
+                                   to         = "values",
+                                   by         = "grp")
 
-      # perform the dictionary-based cleaning
-      data   <- matchmaker::match_df(data,
-                                     dictionary = dictionary,
-                                     from       = "options",
-                                     to         = "values",
-                                     by         = "grp")
-      data   <- add_report(data,
-                           unique(dictionary[["grp"]]),
-                           name = "columns_modified_based_on_dictionary")
-
-    } else {
-      print_misspelled_values(misspelled_options)
-      message("Please correct them first or use `correct=TRUE` for ",
-              "auto-correction")
-      return(NULL)
-    }
+    # add the result to the reporting object
+    data   <- add_report(data,
+                         unique(dictionary[["grp"]]),
+                         name = "columns_modified_based_on_dictionary")
   }
 
   data
+}
+
+#' Add an element to the data dictionary
+#'
+#' @param dictionary a data frame with the data dictionary
+#' @param option a `character` with the new option to add to the dictionary
+#' @param value a `character` with the value the new option should be replaced
+#'    with
+#' @param grp a `character` with the name of the column that contains the option
+#'    of interest
+#' @param order a `numeric` with the order of the new option
+#'
+#' @return an object of type data frame. This is the new data dictionary with an
+#'    additional line that contains the details about the new options.
+#' @export
+#'
+#' @examples
+#' test <- add_to_dictionnary(
+#'   dictionary = readRDS(system.file("extdata", "test_dict.RDS",
+#'                        package = "cleanepi")),
+#'   option     = "ml",
+#'   value      = "male",
+#'   grp        = "gender",
+#'   order      = NULL
+#'  )
+add_to_dictionnary <- function(dictionary,
+                               option,
+                               value,
+                               grp,
+                               order = NULL) {
+  checkmate::assert_character(option, len = 1L, any.missing = FALSE,
+                              null.ok = FALSE)
+  checkmate::assert_character(value, len = 1L, any.missing = FALSE,
+                              null.ok = FALSE)
+  checkmate::assert_character(grp, len = 1L, any.missing = FALSE,
+                              null.ok = FALSE)
+  checkmate::assert_numeric(order, any.missing = FALSE, lower = 1L,
+                            null.ok = TRUE)
+
+  # select the lines in the data dictionary where the column name is the same as
+  # the value of the grp argument
+  tmp_dictionary <- dictionary %>%
+    dplyr::filter(grp == grp)
+
+  dictionary     <- dictionary %>%
+    dplyr::filter(grp != grp)
+
+  # make the new order
+  new_order      <- ifelse(is.null(order),
+                           max(tmp_dictionary[["orders"]]) + 1L,
+                           order)
+
+  # make the data frame with the new option
+  new_option     <- data.frame(options = option,
+                               values  = value,
+                               grp     = grp,
+                               orders  = new_order)
+  tmp_dictionary <- rbind(tmp_dictionary, new_option)
+  dictionary     <- rbind(dictionary, tmp_dictionary)
+  dictionary
 }
 
 #' Detect misspelled options in columns to be cleaned
@@ -173,41 +210,6 @@ detect_misspelled_options <- function(data, dictionary) {
     }
   }
   outliers
-}
-
-#' Correct the misspelled values with their closest values from the data
-#' dictionary
-#'
-#' @inheritParams clean_using_dictionary
-#' @param outliers
-#'
-#' @importFrom stringdist stringdist
-#' @keywords internal
-#' @noRd
-correct_misspelled_options <- function(data, dictionary, outliers) {
-  grp <- NULL
-  checkmate::assert_list(outliers, min.len = 1L, null.ok = FALSE)
-  for (target_col in names(outliers)) {
-    target_values    <- dictionary %>%
-      dplyr::filter(grp == target_col)
-    target_values    <- unique(target_values[["values"]])
-    misspelled_words <- data[[target_col]][outliers[[target_col]]]
-    target_dist      <- do.call("rbind", lapply(misspelled_words,
-                                                stringdist::stringdist,
-                                                target_values))
-    rownames(target_dist) <- misspelled_words
-    colnames(target_dist) <- target_values
-    data[[target_col]][outliers[[target_col]]] <-
-      colnames(target_dist)[apply(target_dist, 1L, which.min)]
-    report <- data.frame(misspelled   = misspelled_words,
-                         corrected_to = colnames(target_dist)[apply(target_dist,
-                                                                    1L,
-                                                                    which.min)])
-  }
-  list(
-    data   = data,
-    report = report
-  )
 }
 
 
