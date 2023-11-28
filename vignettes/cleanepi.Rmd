@@ -366,4 +366,10 @@ no_dups <- remove_duplicates(
 
 ### Clean data based on dictionary
 
+Some columns in a data frame or linelist could contain values that represents the different options proposed to the study participants.
+The complete labels for those options are generally stored in so called data dictionary file. Note that such dictionary files usually contain other information needed for the understanding of the input dataset.
+
+The `clean_using_dictionary()` function can be used to replace the options with their corresponding values that are stored in the data dictionary. It takes the input data frame and its correspondent dictionary as inputs. The structure of this data dictionary should be the same as expected by the {matchmaker} package, with the following 4 columns:
+
+
 
