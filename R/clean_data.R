@@ -273,7 +273,7 @@ clean_data <- function(data,
 
   # return the final object
   list(
-    data = data,
+    data   = data,
     report = report
   )
 }

@@ -140,7 +140,7 @@ check_subject_ids <- function(data,
   }
 
   list(
-    data = data,
+    data   = data,
     report = report
   )
 }
