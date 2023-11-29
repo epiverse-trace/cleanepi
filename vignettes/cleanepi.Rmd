@@ -393,7 +393,6 @@ test_dictionary <- add_to_dictionnary(test_dictionary,
 test_dictionary
 ```
 
-
 ```{r eval=TRUE, comment="dictionary-base_cleaning"}
 cleaned_df <- clean_using_dictionary(
   data       = data,
