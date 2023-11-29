@@ -464,7 +464,7 @@ i_find_date_format <- function(x) {
   ## look for these expressions in 'x', return NULL if we don't find anything
   matching <- vapply(formats, function(pattern) {
     any(grepl(pattern, x))
-  }, logical(1))
+  }, logical(1L))
   format   <- names(any(matching))[[1L]] # only get the first matching format
 
   if (length(format) == 0L) {

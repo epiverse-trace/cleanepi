@@ -29,6 +29,7 @@ Imports:
     janitor,
     linelist (>= 1.0.0),
     lubridate,
+    matchmaker,
     magrittr,
     naniar,
     numberize,
