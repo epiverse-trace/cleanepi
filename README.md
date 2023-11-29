@@ -94,12 +94,8 @@ print(test_data)
 
 ``` r
 # READING IN THE DATA DICTIONARY
-# test_dictionary <- readRDS(system.file("extdata", "test_dictionary.RDS",
-#                                        package = "cleanepi"))
-test_dictionary <- data.frame(options = c("1", "2"),
-                        values  = c("male", "female"),
-                        grp = rep("sex", 2L),
-                        orders = 1:2)
+test_dictionary <- readRDS(system.file("extdata", "test_dictionary.RDS",
+                                       package = "cleanepi"))
 print(test_dictionary)
 #>   options values grp orders
 #> 1       1   male sex      1
