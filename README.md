@@ -211,10 +211,8 @@ function.
 
 ``` r
 # READING IN THE TEST DATASET
-test_data <- readRDS(system.file("extdata", "test_df.RDS", 
-                                 package = "cleanepi"))
-
-# VISUALISE THE INPUT DATASET
+test_data       <- readRDS(system.file("extdata", "test_df.RDS",
+                                       package = "cleanepi"))
 print(test_data)
 #>     study_id event_name country_code country_name date.of.admission dateOfBirth
 #> 1    PS001P2      day 0            2       Gambia        01/12/2020  06/01/1972
@@ -238,7 +236,23 @@ print(test_data)
 #> 8                  Sep 20, 2021   2
 #> 9                  Feb 26, 2021   1
 #> 10                 Mar 03, 2021   2
+```
 
+``` r
+# READING IN THE DATA DICTIONARY
+# test_dictionary <- readRDS(system.file("extdata", "test_dictionary.RDS",
+#                                        package = "cleanepi"))
+test_dictionary <- data.frame(options = c("1", "2"),
+                        values  = c("male", "female"),
+                        grp = rep("sex", 2L),
+                        orders = 1:2)
+print(test_dictionary)
+#>   options values grp orders
+#> 1       1   male sex      1
+#> 2       2 female sex      2
+```
+
+``` r
 # DEFINING THE CLEANING PARAMETERS
 params <- list(
   remove_duplicates   = TRUE,
@@ -252,7 +266,9 @@ params <- list(
   subject_id_format   = "PS000P2",
   prefix              = "PS",
   suffix              = "P2",
-  range               = c(1, 100)
+  range               = c(1, 100),
+  keep                = "date.of.admission",
+  dictionary          = test_dictionary
 )
 
 # PERFORMING THE DATA CLEANING
@@ -275,14 +291,14 @@ cleaning_report <- res$report
 
 # VISUALISE THE CLEANED DATASET
 print(cleaned_data)
-#>    study_id date_of_admission date_of_birth date_first_pcr_positive_test sex
-#> 1   PS001P2        2020-12-01          <NA>                   2020-12-01   1
-#> 2   PS002P2        2021-01-28          <NA>                   2021-01-01   1
-#> 4   PS003P2        2021-02-11          <NA>                   2021-02-01   1
-#> 6   PS006P2        2021-02-17          <NA>                   2021-05-02   2
-#> 8   PS008P2        2021-02-22    1976-05-10                   2021-09-20   2
-#> 9   PS010P2        2021-03-02    1991-09-23                   2021-02-26   1
-#> 10  PS011P2        2021-03-05    1991-08-02                   2021-03-03   2
+#>    study_id date.of.admission date_of_birth date_first_pcr_positive_test    sex
+#> 1   PS001P2        2020-12-01          <NA>                   2020-12-01   male
+#> 2   PS002P2        2021-01-28          <NA>                   2021-01-01   male
+#> 4   PS003P2        2021-02-11          <NA>                   2021-02-01   male
+#> 6   PS006P2        2021-02-17          <NA>                   2021-05-02 female
+#> 8   PS008P2        2021-02-22    1976-05-10                   2021-09-20 female
+#> 9   PS010P2        2021-03-02    1991-09-23                   2021-02-26   male
+#> 10  PS011P2        2021-03-05    1991-08-02                   2021-03-03 female
 ```
 
 ## Vignette
