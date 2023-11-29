@@ -155,11 +155,11 @@ add_to_dictionnary <- function(dictionary,
                                order = NULL) {
   checkmate::assert_character(option, len = 1L, any.missing = FALSE,
                               null.ok = FALSE)
-  checkmate::assert_character(value, len = 1L, any.missing = FALSE,
+  checkmate::assert_character(value, len = 1L, any.missing = TRUE,
                               null.ok = FALSE)
   checkmate::assert_character(grp, len = 1L, any.missing = FALSE,
                               null.ok = FALSE)
-  checkmate::assert_numeric(order, any.missing = FALSE, lower = 1L,
+  checkmate::assert_numeric(order, any.missing = TRUE, lower = 1L,
                             null.ok = TRUE)
 
   # select the lines in the data dictionary where the column name is the same as
