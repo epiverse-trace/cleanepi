@@ -72,7 +72,7 @@ print(test_data)
 ```{r eval=TRUE}
 # READING IN THE DATA DICTIONARY
 test_dictionary <- readRDS(system.file("extdata", "test_dictionary.RDS",
-                                          package = "cleanepi"))
+                                       package = "cleanepi"))
 print(test_dictionary)
 ```
 
