@@ -52,9 +52,13 @@ coverage](https://codecov.io/gh/epiverse-trace/cleanepi/branch/main/graph/badge.
 
 The current development version of **{cleanepi}** can be installed from  [here](https://epiverse-trace.github.io/cleanepi).
 
-```{r message=FALSE}
+```{r message=FALSE, eval=FALSE}
 if (!require("pak")) install.packages("pak")
 pak::pak("epiverse-trace/cleanepi")
+library(cleanepi)
+```
+
+```{r eval=TRUE, echo=FALSE}
 library(cleanepi)
 ```
 
