@@ -366,10 +366,43 @@ no_dups <- remove_duplicates(
 
 ### Clean data based on dictionary
 
-Some columns in a data frame or linelist could contain values that represents the different options proposed to the study participants.
+Some columns in a data frame or linelist contain values that represents the different options proposed to the study participants.
 The complete labels for those options are generally stored in so called data dictionary file. Note that such dictionary files usually contain other information needed for the understanding of the input dataset.
 
-The `clean_using_dictionary()` function can be used to replace the options with their corresponding values that are stored in the data dictionary. It takes the input data frame and its correspondent dictionary as inputs. The structure of this data dictionary should be the same as expected by the {matchmaker} package, with the following 4 columns:
+The `clean_using_dictionary()` function can be used to replace the options with their corresponding values that are stored in the data dictionary. It takes the input data frame and its correspondent dictionary as inputs. The structure of this data dictionary should be the same as expected by the [matchmaker](https://www.repidemicsconsortium.org/matchmaker/) package.
+Note that any dictionary that is fit for {matchmaker} is for `clean_using_dictionary()` as it makes call of functions from this package. 
+
+```{r eval=TRUE, comment="display_dictionary"}
+test_dictionary
+```
+
+It is common to have some options in the input data that are not defined in the dictionary. Use the `add_to_dictionnary()` function to define them in the data dictionary.
+In the example below, `-99` is not defined in the data dictionary ABOVE.
+
+```{r eval=TRUE}
+## READING IN THE DATA
+data <- readRDS(system.file("extdata", "test_df.RDS",
+                            package = "cleanepi"))
+
+## ADD THE EXTRA OPTION TO THE DICTIONARY
+test_dictionary <- add_to_dictionnary(test_dictionary,
+                                      option = "-99",
+                                      value  = "unknow",
+                                      grp    = "sex",
+                                      order  = NULL)
+test_dictionary
+```
+
+
+```{r eval=TRUE, comment="dictionary-base_cleaning"}
+cleaned_df <- clean_using_dictionary(
+  data       = data,
+  dictionary = test_dictionary
+)
+
+cleaned_df
+```
+
 
 
 
