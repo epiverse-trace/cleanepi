@@ -202,8 +202,6 @@ res <- check_subject_ids(
 )
 ```
 
-
-
 ### Calculate age
 
 The `calculate_age()` function calculates  ages of individuals (in either years, or months, or weeks, or days) for a given date column and reference date. It takes the following arguments:  

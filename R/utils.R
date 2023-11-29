@@ -193,10 +193,8 @@ convert_to_numeric <- function(data,
 #' @noRd
 #'
 #' @examples
-#' \dontrun{
-#'   x     <- c(2, "ten", NA, 2, "twenty", 6)
-#'   num_x <- convert(x)
-#' }
+#' x     <- c(2, "ten", NA, 2, "twenty", 6)
+#' num_x <- convert(x)
 #'
 convert <- function(x) {
   tmp   <- x

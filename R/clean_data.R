@@ -284,8 +284,6 @@ clean_data <- function(data,
   data    <- tmp_res[["data"]]
   report  <- tmp_res[["report"]]
 
-
-
   # this is where to call the reporting function
   report[["params"]] <- params
 
