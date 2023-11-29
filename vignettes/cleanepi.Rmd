@@ -26,8 +26,8 @@ No matter how many measures are taken, one must always expect  messy data from t
 **{cleanepi}** is specifically designed for epidemiological data, and works with data frame-like data structure. This vignette provides a detailed description of the functions included in the package and how to use them. 
 
 ```{r setup, eval=TRUE}
-library("cleanepi") # nolint
-library("magrittr") # nolint
+library("cleanepi")
+library("magrittr")
 ```
 
 ## General data cleaning tasks
@@ -39,38 +39,46 @@ The main function in **{cleanepi}** is `clean_data()` that can perform the follo
 3. Remove empty rows and columns.   
 4. Remove constant columns, i.e. columns with the same value across all rows.   
 5. Replace missing entries with `NA`. 
-6. Scanning the input dataset and determine the proportion of missing, numeric, character, and date values in each column.
-7. Checking for the uniqueness of the subject IDs.
-8. Remove duplicated rows (across all columns or some specific columns).   
-9. Convert `character` columns into `Date` if the column actually contains values of type `Date` to some extent (default is 50% of the values are `Date`).
-10. Detect and remove rows with subject IDs that do not comply with the expected format.
+6. Checking for the uniqueness of the subject IDs.
+7. Remove duplicated rows (across all columns or some specific columns).   
+8. Convert `character` columns into `Date` if the column actually contains values of type `Date` to some extent (default is 50% of the values are `Date`).
+9. Detect and remove rows with subject IDs that do not comply with the expected format.
+10. Perform dictionary-based cleaning: replace keys in specific columns with their corresponding values stored in a data dictionary file, replace misspelled values with their most closest values from the dictionary.
 
 ```{r eval=TRUE, comment="read_input"}
 # IMPORTING THE TEST DATASET
-test_data <- readRDS(system.file("extdata", "test_df.RDS",
-                                 package = "cleanepi"))
+test_data       <- readRDS(system.file("extdata", "test_df.RDS",
+                                       package = "cleanepi"))
 head(test_data)
 
+# IMPORTING THE DATA DICTIONARY
+test_dictionary <- readRDS(system.file("extdata", "test_dictionary.RDS",
+                                       package = "cleanepi"))
+```
+
+```{r eval=TRUE, comment="scan_data"}
 # SCAN THE DATA
-scan_result <- scan_data(test_data)
+scan_result     <- scan_data(test_data)
 scan_result
 ```
 
 ```{r eval=TRUE}
 # DEFINING THE DATA CLEANING PARAMETERS
 params <- list(
-  remove_duplicates = TRUE,
-  target_columns = NULL,
-  replace_missing = TRUE,
-  na_comes_as = "-99",
-  check_timeframe = TRUE,
-  timeframe = as.Date(c("1973-05-29", "2023-05-29")),
-  error_tolerance = 0.5,
+  keep                = "date.of.admission",
+  remove_duplicates   = TRUE,
+  target_columns      = NULL,
+  replace_missing     = TRUE,
+  na_comes_as         = "-99",
+  check_timeframe     = TRUE,
+  timeframe           = as.Date(c("1973-05-29", "2023-05-29")),
+  error_tolerance     = 0.5,
   subject_id_col_name = "study_id",
-  subject_id_format = "PS000P2",
-  prefix = "PS",
-  suffix = "P2",
-  range = c(1L, 100L)
+  subject_id_format   = "PS000P2",
+  prefix              = "PS",
+  suffix              = "P2",
+  range               = c(1L, 100L),
+  dictionary          = test_dictionary
 )
 ```
 
@@ -115,7 +123,7 @@ The `standardize_date()` function offers the possibility to convert date columns
 7. `error_tolerance`: the minimum percentage of values of type `Date` in a `character` column of interest needed to convert it into a `Date` column. Default is 50% i.e. `0.5`.    
 
 
-⚠️ The `error_tolerance` must be used with caution. When it is set, and the         percentage of date values in a character column is less than this threshold,     the column will be returned as it is. 
+⚠️ The `error_tolerance` must be used with caution. When it is set, and the         percentage of date values in a character column is less than this threshold, the column will be returned as it is. 
 
 
 
@@ -194,9 +202,6 @@ res <- check_subject_ids(
 )
 ```
 
-
-
-
 ### Calculate age
 
 The `calculate_age()` function calculates  ages of individuals (in either years, or months, or weeks, or days) for a given date column and reference date. It takes the following arguments:  
@@ -223,9 +228,6 @@ This function returns the input dataset with 1 or 2 extra columns that contains,
 # DISPLAY THE OUTPUT OBJECT
 head(age)  # note the last 2 columns
 ```
-
-
-
 
 ### Check date sequence
 The `check_date_sequence()` function checks the order of sequences in date event columns and makes sure that the values in all rows in those columns comply with the desired order. For example,  the values in `date_of_infection`, `date_of_admission`, and `date_of_death` columns should be in the order they are listed here. Any row where the values are not in this order will be considered as wrong and eventually be removed by the `check_date_sequence()` function. The function takes the following arguments:  
@@ -259,8 +261,6 @@ The `check_date_sequence()` function returns a `list` of `r length(res)` element
 # PRINT ROWS WITH INCORRECT DATE SEQUENCE
 res[["report"]]
 ```
-
-
 
 ### Find duplicated rows
 
@@ -296,8 +296,6 @@ The function returns all duplicated rows in the dataset based on all or the spec
 head(dups %>% dplyr::select(c(row_id, group_id,
                               as.character(linelist::tags(data)))))
 ```
-
-
 
 ### Remove duplicates
 
@@ -350,18 +348,28 @@ The output from  `find_duplicates()` function can also be passed to  `remove_dup
 ```{r eval=TRUE}
 # DETECT DUPLICATES FROM TAGGED COLUMNS
 dups <- find_duplicates(
-  data = readRDS(system.file("extdata", "test_linelist.RDS",
-                             package = "cleanepi")),
+  data           = readRDS(system.file("extdata", "test_linelist.RDS",
+                                       package = "cleanepi")),
   target_columns = "tags"
 )
 
 # REMOVE FIRST OCCURRENCE OF DUPLICATED ROWS
 dups_index_to_remove <- dups[["row_id"]][seq(1L, nrow(dups), 2L)]
 no_dups <- remove_duplicates(
-  data = readRDS(system.file("extdata", "test_linelist.RDS",
-                             package = "cleanepi")),
+  data           = readRDS(system.file("extdata", "test_linelist.RDS",
+                                       package = "cleanepi")),
   target_columns = "tags",
   remove         = dups_index_to_remove,
   report         = list()
 )
 ```
+
+### Clean data based on dictionary
+
+Some columns in a data frame or linelist could contain values that represents the different options proposed to the study participants.
+The complete labels for those options are generally stored in so called data dictionary file. Note that such dictionary files usually contain other information needed for the understanding of the input dataset.
+
+The `clean_using_dictionary()` function can be used to replace the options with their corresponding values that are stored in the data dictionary. It takes the input data frame and its correspondent dictionary as inputs. The structure of this data dictionary should be the same as expected by the {matchmaker} package, with the following 4 columns:
+
+
+

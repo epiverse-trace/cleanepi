@@ -35,20 +35,25 @@
 #'         this proportion is exceeded, the original vector is returned, and a
 #'         message is issued; defaults to 0.1 (10 percent)
 #'   \item `subject_id_col_name`: the name of the column in the data frame with
-#'         the subject IDs
+#'          the subject IDs
 #'   \item `subject_id_format`: the expected subject format
 #'   \item `prefix`: the prefix used in the subject IDs
 #'   \item `suffix`: the prefix used in the subject IDs
+#'   \item `range`: a vector with the range of numbers in the subject IDs
+#'   \item `dictionary`: an object of type data frame. This is the data
+#'         dictionary that will be used to clean the specified columns. Use
+#'         `?clean_using_dictionary` for more details.
 #'   \item `range`: a vector with the range of numbers in the sample IDs
-#'   \item `range`: a vector with the range of numbers in the sample IDs
+#'   \item `keep`: a vector of column names to be kept as they appear
+#'          in the original data. default is `NULL`
 #'   }
 #'
 #' @return a list of the following 2 elements:
 #'  \enumerate{
 #'    \item `data`: the cleaned data frame according to the user-specified
 #'          parameters
-#'    \item `keep_col_names`: a vector of column names to be kept as they appear
-#'          in the original data. default is `NULL`
+#'    \item `report`: an object of type list with the details from every
+#'          cleaning operation.
 #'  }
 #' @export
 #'
@@ -67,7 +72,7 @@
 #'   data   = readRDS(system.file("extdata", "test_df.RDS",
 #'                                package = "cleanepi")),
 #'   params = list(
-#'     keep_col_names      = NULL,
+#'     keep                = NULL,
 #'     remove_duplicates   = TRUE,
 #'     target_columns      = NULL,
 #'     replace_missing     = TRUE,
@@ -79,10 +84,11 @@
 #'     subject_id_format   = "PS000P2",
 #'     prefix              = "PS",
 #'     suffix              = "P2",
-#'     range               = c(1, 100)))
+#'     range               = c(1, 100),
+#'     dictionary          = NULL))
 #'
 clean_data <- function(data,
-                       params = list(keep_col_names      = NULL,
+                       params = list(keep                = NULL,
                                      remove_duplicates   = FALSE,
                                      target_columns      = NULL,
                                      replace_missing     = TRUE,
@@ -92,9 +98,10 @@ clean_data <- function(data,
                                      error_tolerance     = 0.5,
                                      subject_id_col_name = NULL,
                                      subject_id_format   = NULL,
-                                     prefix              = "PS",
-                                     suffix              = "P2",
-                                     range               = c(1L, 100L))) {
+                                     prefix              = NULL,
+                                     suffix              = NULL,
+                                     range               = NULL,
+                                     dictionary          = NULL)) {
   checkmate::assert_data_frame(data, null.ok = FALSE, min.cols = 1L)
   checkmate::assert_list(params, min.len = 0L, null.ok = TRUE)
 
@@ -107,7 +114,7 @@ clean_data <- function(data,
   R.utils::cat("\ncleaning column names")
   res    <- clean_col_names(x              = data,
                             report         = report,
-                            keep = params[["keep_col_names"]])
+                            keep           = params[["keep"]])
   data   <- res[["data"]]
   report <- res[["report"]]
 
@@ -172,7 +179,7 @@ clean_data <- function(data,
 
   ## -----
   ## | The uniqueness of the IDs is checked here to ensure that there is no
-  ## | redundant sample ID.
+  ## | redundant subject ID.
   ## -----
   stopifnot("'subject_id_col_name' must be provided in the list of cleaning
             parameters." = !is.null(params[["subject_id_col_name"]]))
@@ -245,18 +252,23 @@ clean_data <- function(data,
   data    <- tmp_res[["data"]]
   report  <- tmp_res[["report"]]
 
+  ## -----
+  ## The values in some columns are coded and their correspondent expressions
+  ## will be stored in a data dictionary file. We implement this function to
+  ## replace these coded values with the exact values from the data dictionary.
+  ## We also account for the
+  ## -----
+  if (!is.null(params[["dictionary"]])) {
+    data <- clean_using_dictionary(data, params[["dictionary"]])
+  }
 
 
   # this is where to call the reporting function
-  timeframe <- params[["timeframe"]]
-  report[["params"]] <- as.data.frame(do.call(rbind, params)) %>%
-    dplyr::rename("value1" = "V1", "value2" = "V2") # nolint: keyword_quote_linter
-  report[["params"]][which(rownames(report[["params"]]) == "timeframe"), ] <-
-    as.character(timeframe)
+  report[["params"]] <- params
 
   # return the final object
   list(
-    data = data,
+    data   = data,
     report = report
   )
 }
