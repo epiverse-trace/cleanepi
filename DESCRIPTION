@@ -1,7 +1,7 @@
 Type: Package
 Package: cleanepi
 Title: Data Cleaning Package
-Version: 0.0.1
+Version: 0.0.2
 Authors@R: c(
     person("Karim", "Mané", , "lshkm1@lshtm.ac.uk", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-9892-2999")),
