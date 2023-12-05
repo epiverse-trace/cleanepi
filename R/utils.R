@@ -170,11 +170,15 @@ convert_to_numeric <- function(data,
     }
     to_numeric   <- detect_columns_to_convert(scan_res)
   }
-  data <- data %>%
-    dplyr::mutate(dplyr::across({{ to_numeric }}, ~ convert(.x)))
+  if (length(to_numeric) > 0L) {
+    data <- data %>%
+      dplyr::mutate(dplyr::across({{ to_numeric }}, ~ convert(.x)))
+    report[["converted_into_numeric"]] <- glue::glue_collapse(to_numeric,
+                                                              sep = ", ")
+  } else {
+    report[["converted_into_numeric"]] <- NULL
+  }
 
-  report[["converted_into_numeric"]] <- glue::glue_collapse(to_numeric,
-                                                            sep = ", ")
   list(
     data   = data,
     report = report
