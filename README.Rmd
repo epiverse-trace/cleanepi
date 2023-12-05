@@ -50,15 +50,11 @@ coverage](https://codecov.io/gh/epiverse-trace/cleanepi/branch/main/graph/badge.
 
 The current development version of **{cleanepi}** can be installed from  [here](https://epiverse-trace.github.io/cleanepi).
 
-```{r message=FALSE, eval=FALSE}
+```{r message=FALSE}
 if (!require("pak")) install.packages("pak")
-pak::pak("epiverse-trace/cleanepi")
+if (!require("cleanepi")) pak::pak("epiverse-trace/cleanepi")
 library(cleanepi)
 ```
-
-## Quick start
-
-The main function in **{cleanepi}** is `clean_data(),` which internally makes call of almost all standard data cleaning functions, such as removal of empty and duplicated rows and columns, replacement of missing values, etc. However, each function can also be called independently to perform a specific  task. This mechanism is explained in details in the **vignette**. Below is typical example of how to use the `clean_data()` function. 
 
 ## Quick start
 
@@ -73,12 +69,8 @@ print(test_data)
 
 ```{r eval=TRUE}
 # READING IN THE DATA DICTIONARY
-# test_dictionary <- readRDS(system.file("extdata", "test_dictionary.RDS",
-#                                        package = "cleanepi"))
-test_dictionary <- data.frame(options = c("1", "2"),
-                        values  = c("male", "female"),
-                        grp = rep("sex", 2L),
-                        orders = 1:2)
+test_dictionary <- readRDS(system.file("extdata", "test_dictionary.RDS",
+                                       package = "cleanepi"))
 print(test_dictionary)
 ```
 
