@@ -45,7 +45,7 @@ The main function in **{cleanepi}** is `clean_data()` that can perform the follo
 10. Perform dictionary-based cleaning: replace keys in specific columns with their corresponding values stored in a data dictionary file, replace misspelled values with their most closest values from the dictionary.
 
 
-```{r eval=FALSE}
+```{r eval=TRUE}
 # IMPORTING THE TEST DATASET
 test_data       <- readRDS(system.file("extdata", "test_df.RDS",
                                        package = "cleanepi"))
