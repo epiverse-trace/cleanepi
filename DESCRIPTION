@@ -36,8 +36,7 @@ Imports:
     R.utils,
     readr,
     snakecase,
-    stringr,
-    numberize
+    stringr
 Suggests: 
     kableExtra,
     knitr,
