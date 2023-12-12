@@ -3,7 +3,7 @@
 include the cleaning of column names, detecting and removing of
 duplicates, empty records and columns, constant columns, replacing missing
 values by NA, converting character columns into Date when they contain a
-certain number of Date values, detecting subject IDs with wrong format"><title>Clean data — clean_data • cleanepi</title><!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png"><link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png"><link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png"><link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png"><link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png"><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Clean data — clean_data"><meta property="og:description" content="this function is used to clean up messy data frames. This
+certain number of Date values, detecting subject IDs with wrong format"><title>Clean data — clean_data • cleanepi</title><!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png"><link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png"><link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png"><link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png"><link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png"><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Clean data — clean_data"><meta property="og:description" content="this function is used to clean up messy data frames. This
 include the cleaning of column names, detecting and removing of
 duplicates, empty records and columns, constant columns, replacing missing
 values by NA, converting character columns into Date when they contain a
@@ -20,7 +20,7 @@ certain number of Date values, detecting subject IDs with wrong format"><meta pr
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
     
 
-    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-light"><div class="container">
+    <nav class="navbar fixed-top navbar-dark navbar-expand-lg bg-dark"><div class="container">
     
     <a href="https://epiverse-trace.github.io/" class="external-link"><img src="../logo_white.svg" id="logo" alt="Epiverse-TRACE"></a>
     <a class="navbar-brand me-2" href="../index.html">cleanepi</a>
@@ -66,10 +66,10 @@ certain number of Date values, detecting subject IDs with wrong format</p>
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">clean_data</span><span class="op">(</span></span>
 <span>  <span class="va">data</span>,</span>
-<span>  params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>remove_duplicates <span class="op">=</span> <span class="cn">FALSE</span>, target_columns <span class="op">=</span> <span class="cn">NULL</span>, replace_missing <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>    na_comes_as <span class="op">=</span> <span class="cn">NULL</span>, check_timeframe <span class="op">=</span> <span class="cn">FALSE</span>, timeframe <span class="op">=</span> <span class="cn">NULL</span>, error_tolerance <span class="op">=</span> <span class="fl">0.5</span>,</span>
-<span>    subject_id_col_name <span class="op">=</span> <span class="cn">NULL</span>, subject_id_format <span class="op">=</span> <span class="cn">NULL</span>, prefix <span class="op">=</span> <span class="st">"PS"</span>, suffix <span class="op">=</span> <span class="st">"P2"</span>,</span>
-<span>    range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1L</span>, <span class="fl">100L</span><span class="op">)</span><span class="op">)</span></span>
+<span>  params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>keep <span class="op">=</span> <span class="cn">NULL</span>, remove_duplicates <span class="op">=</span> <span class="cn">FALSE</span>, target_columns <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>    replace_missing <span class="op">=</span> <span class="cn">TRUE</span>, na_comes_as <span class="op">=</span> <span class="cn">NULL</span>, check_timeframe <span class="op">=</span> <span class="cn">FALSE</span>, timeframe <span class="op">=</span></span>
+<span>    <span class="cn">NULL</span>, error_tolerance <span class="op">=</span> <span class="fl">0.5</span>, subject_id_col_name <span class="op">=</span> <span class="cn">NULL</span>, subject_id_format <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>    prefix <span class="op">=</span> <span class="cn">NULL</span>, suffix <span class="op">=</span> <span class="cn">NULL</span>, range <span class="op">=</span> <span class="cn">NULL</span>, dictionary <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -110,7 +110,13 @@ the subject IDs</p></li>
 <li><p><code>subject_id_format</code>: the expected subject format</p></li>
 <li><p><code>prefix</code>: the prefix used in the subject IDs</p></li>
 <li><p><code>suffix</code>: the prefix used in the subject IDs</p></li>
+<li><p><code>range</code>: a vector with the range of numbers in the subject IDs</p></li>
+<li><p><code>dictionary</code>: an object of type data frame. This is the data
+dictionary that will be used to clean the specified columns. Use
+<code><a href="clean_using_dictionary.html">?clean_using_dictionary</a></code> for more details.</p></li>
 <li><p><code>range</code>: a vector with the range of numbers in the sample IDs</p></li>
+<li><p><code>keep</code>: a vector of column names to be kept as they appear
+in the original data. default is <code>NULL</code></p></li>
 </ol></dd>
 
 </dl></div>
@@ -120,8 +126,8 @@ the subject IDs</p></li>
 
 <p>a list of the following 2 elements:</p><ol><li><p><code>data</code>: the cleaned data frame according to the user-specified
 parameters</p></li>
-<li><p><code>report</code>: a list with the information about the effects of the
-the cleaning steps</p></li>
+<li><p><code>report</code>: an object of type list with the details from every
+cleaning operation.</p></li>
 </ol></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -140,6 +146,7 @@ and remove specific duplicates, use the <code><a href="find_duplicates.html">fin
 <span class="r-in"><span>  data   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"test_df.RDS"</span>,</span></span>
 <span class="r-in"><span>                               package <span class="op">=</span> <span class="st">"cleanepi"</span><span class="op">)</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    keep                <span class="op">=</span> <span class="cn">NULL</span>,</span></span>
 <span class="r-in"><span>    remove_duplicates   <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
 <span class="r-in"><span>    target_columns      <span class="op">=</span> <span class="cn">NULL</span>,</span></span>
 <span class="r-in"><span>    replace_missing     <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
@@ -151,7 +158,8 @@ and remove specific duplicates, use the <code><a href="find_duplicates.html">fin
 <span class="r-in"><span>    subject_id_format   <span class="op">=</span> <span class="st">"PS000P2"</span>,</span></span>
 <span class="r-in"><span>    prefix              <span class="op">=</span> <span class="st">"PS"</span>,</span></span>
 <span class="r-in"><span>    suffix              <span class="op">=</span> <span class="st">"P2"</span>,</span></span>
-<span class="r-in"><span>    range               <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">100</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    range               <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">100</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    dictionary          <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> cleaning column names</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> replacing missing values with NA</span>

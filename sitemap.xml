@@ -22,6 +22,9 @@
     <loc>https://epiverse-trace.github.io/cleanepi/index.html</loc>
   </url>
   <url>
+    <loc>https://epiverse-trace.github.io/cleanepi/reference/add_to_dictionnary.html</loc>
+  </url>
+  <url>
     <loc>https://epiverse-trace.github.io/cleanepi/reference/calculate_age.html</loc>
   </url>
   <url>
@@ -35,6 +38,9 @@
   </url>
   <url>
     <loc>https://epiverse-trace.github.io/cleanepi/reference/clean_data.html</loc>
+  </url>
+  <url>
+    <loc>https://epiverse-trace.github.io/cleanepi/reference/clean_using_dictionary.html</loc>
   </url>
   <url>
     <loc>https://epiverse-trace.github.io/cleanepi/reference/cleanepi-package.html</loc>
