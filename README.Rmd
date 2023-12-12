@@ -126,7 +126,8 @@ browseVignettes("cleanepi")
 ### Lifecycle
 
 This package is currently *experimental*, as defined by the [RECON software
-lifecycle](https://www.reconverse.org/lifecycle.html). This means that it is functional, but interfaces and functionalities may change over time.
+lifecycle](https://www.reconverse.org/lifecycle.html). This means that it is
+functional, but interfaces and functionalities may change over time.
 
 ### Contributions
 
