@@ -462,12 +462,9 @@ i_find_date_format <- function(x) {
 
 
   ## look for these expressions in 'x', return NULL if we don't find anything
-
-  grep_logical <- function(pattern, x, ...) {
-    length(grep(pattern, x, ...)) > 0L # nolint
-  }
-
-  matching <- vapply(formats, grep_logical, logical(1L), x)
+  matching <- vapply(formats, function(pattern) {
+    any(grepl(pattern, x))
+  }, logical(1L))
   format   <- names(any(matching))[[1L]] # only get the first matching format
 
   if (length(format) == 0L) {
@@ -481,7 +478,7 @@ i_find_date_format <- function(x) {
 
   expression <- formats[[format]]
   cleaning_expr <- paste0("^.*(", expression, ").*$")
-  clean_date <- gsub(cleaning_expr, "\\1", x, fixed = TRUE)
+  clean_date <- gsub(cleaning_expr, "\\1", x)
   out <- c("format" = format, "date" = clean_date) # nolint: keyword_quote_linter
   out
 }
