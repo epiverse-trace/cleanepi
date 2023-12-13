@@ -10,6 +10,15 @@
 
 cleanepi contains functions that are used for epidemiological data cleaning.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://epiverse-trace.github.io/cleanepi}
+  \item \url{https://github.com/epiverse-trace/cleanepi}
+  \item Report bugs at \url{https://github.com/epiverse-trace/cleanepi/issues}
+}
+
+}
 \author{
 \strong{Maintainer}: Karim Mané \email{lshkm1@lshtm.ac.uk} (\href{https://orcid.org/0000-0002-9892-2999}{ORCID})
 

@@ -15,7 +15,7 @@ this parameter can be set to \code{tags} if you wish to look for
 duplicates across the tagged variables only.}
 }
 \value{
-a data frame or linelist of all duplicated rows with following 2
+Data frame or linelist of all duplicated rows with following 2
 additional columns:
 \enumerate{
 \item \code{row_id}: the indices of the duplicated rows from the input data.

@@ -23,25 +23,11 @@ with duplicated IDs or \code{NULL} if not.
 Check the uniqueness in values of the sample IDs column
 }
 \examples{
-<<<<<<< HEAD
-<<<<<<< HEAD
 \dontrun{
-=======
->>>>>>> 7ed29d1 (add scan_data(), and check_ids_uniqueness() functions)
-=======
-\dontrun{
->>>>>>> 7d8b1cf (update readme and vignette)
 report <- check_ids_uniqueness(
 data = readRDS(system.file("extdata", "messy_data.RDS",
     package = "cleanepi")),
 id_col_name = "case_id",
 )
 }
-<<<<<<< HEAD
-<<<<<<< HEAD
 }
-=======
->>>>>>> 7ed29d1 (add scan_data(), and check_ids_uniqueness() functions)
-=======
-}
->>>>>>> 7d8b1cf (update readme and vignette)
