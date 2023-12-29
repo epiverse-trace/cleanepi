@@ -47,7 +47,7 @@ In the implementation of {cleanepi}, these operations are translated into module
 * standardization of subject IDs,
 * standardization of date values,
 * replacement of existing values with pre-defined ones,
-* conversion of some values when required,
+* conversion of some values when required, and
 * transformation of some columns.
 
 ## Output
@@ -68,7 +68,7 @@ This module contains functions to harmonize the style and format of column names
   * Output: the input object with standardized column names.
   * Report: a two-column table with the initial and current column names for
     each updated column in the original dataset.
-  *	Mode: implicit
+  *	Mode: implicit.
   
 **2. Duplicates removal**
 This module contains functions to remove duplicated rows, columns, and constant columns.
@@ -76,26 +76,25 @@ This module contains functions to remove duplicated rows, columns, and constant 
   * main function: **remove_duplicates()**  
   * Input: a `data.frame` or `linelist` object; a vector of target columns (the
       default option is to consider all columns); remove empty rows (all rows by
-      default), remove empty columns (all columns  by default), and remove constant
+      default), remove empty columns (all columns  by default), and remove constant.
       columns (all constant columns by default).
   * Output: the input object with the effects of the specified operations.
   * Report:    
       ● a two-column table with items and their values. Items include empty rows,
       empty columns, and  constant columns.     
       ● a table of removed duplicates.   
-  *	Mode: implicit
+  *	Mode: implicit.
   
 **3. Replacement of missing values with `NA`**
 This module is to standardize and unify the text representing the missing values in the dataset. 
     
   * main function: **replace_missing_char()**  
   * Input: a `data.frame` or `linelist` object; a `vector` of column names (if
-    not provided, the operation will be performed across all columns); and a string
-    specifying missing values (the default value is null).
+    not provided, the operation will be performed across all columns); and a string specifying missing values (the default value is null).
   * Output: the input object where all missing values are represented by `NA`.
   * Report: a three-column table with index, column and value for each  missing
     item in the dataset.
-  *	Mode: implicit
+  *	Mode: implicit.
   
 **4. Date values standardization**
 This module has functions to standardize the format of dated-value columns and ensure that all dates are inside a given timeframe. 
@@ -106,13 +105,13 @@ This module has functions to standardize the format of dated-value columns and e
     date-values), tolerance_threshold (the default value is 50%), format (the
     default value is NULL), and timeframe (the default value is null).
   * Output: the input object with standardized date values (in the form of
-    yyyy-mm-dd).
+    *yyyy-mm-dd*).
   * Report:   
       ● a two-column table with the list of columns where the date values were
-        standardized,    
+        standardized.    
       ● a three-column table of index, column name, and values that are out of
         the specified timeframe.   
-  *	Mode: implicit
+  *	Mode: implicit.
 
 **5. Subject IDs standardization**
 The functions in this module are designed to check whether the values in the
@@ -124,7 +123,7 @@ column that unique identifies the subjects have the same format.
   * Output: the input object with standardize subject ids.
   * Report: a two-column table with index and value of each subject id that do
     not comply with the expected format. 
-  *	Mode: explicit
+  *	Mode: explicit.
 
 **6. Dictionary based substitution **
 This standardizes entries in specific columns to certain values, such as replacing 1 with male and 2 with female in gender column. It is also interoperable with the `get_meta_data()` function from {readepi}.
@@ -136,7 +135,7 @@ This standardizes entries in specific columns to certain values, such as replaci
     provided values.
   * Report: a three-column table with index, column and value for each
     unexpected value found in a targeted column. 
-  *	Mode: explicit
+  *	Mode: explicit.
 
 Note that the `clean_using_dictionary()` function will return a warning when it
 detects unexpected values in the target columns specified in the data dictionary.
@@ -152,7 +151,7 @@ This module contains functions to convert numbers written in letters to numerica
     into numeric.
   * Report: a three-column table with index, column and value for each unrecognized
     value in the dataset (strings that could not be converted into numeric). 
-  *	Mode: explicit
+  *	Mode: explicit.
   
 Note that `convert_to_numeric()` will issue a warning for unexpected values and return them in the report.
 
