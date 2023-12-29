@@ -166,7 +166,7 @@ This is used to do various specialized operations related to epidemiological dat
   * Output: the input object with the clean data with an additional age column
     with values in the intended time unit. 
   * Report: none. 
-  *	Mode: explicit
+  *	Mode: explicit.
 
 ### Surrogate functions
 
@@ -189,10 +189,10 @@ The modules and surrogate functions will depend mainly on the following packages
   [{glue}](https://CRAN.R-project.org/package=glue),
   [{stringr}](https://CRAN.R-project.org/package=stringr),
   [{snakecase}](https://CRAN.R-project.org/package=snakecase),
-  [{readr}](https://CRAN.R-project.org/package=readr),
-  [{R.utils}](https://CRAN.R-project.org/package=R.utils),
+  [{readr}](https://CRAN.R-project.org/package=readr), and
+  [{R.utils}](https://CRAN.R-project.org/package=R.utils).
   
-Both functions will require all other packages that needed in the package development process including:    
+The functions will require all other packages that needed in the package development process including:    
 
   [{checkmate}](https://CRAN.R-project.org/package=checkmate),
   [{kableExtra}](https://CRAN.R-project.org/package=kableExtra),
