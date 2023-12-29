@@ -20,18 +20,26 @@ In this document we outline the design decisions that will guide the development
 
 The data cleaning represents an important step for the success of the downstream analysis. The steps involved in the cleaning process vary depending on the data type and research goal. There are, however, some steps that can be performed across almost all data types, independently of the source of the data. 
 
-In {cleanepi}, we consider each of them as a **module**, that will have *one main function and helpers* to achieve a specific task. The main function of each module will be exported. This will provide the users with the ability to perform the cleaning task individually when needed.
+## Design decisions
 
-In the heart of {cleanepi}, there will be `clean_data()`, a wrapper around all the modules. We expect it to be main function to be called by users to clean their data.
+The {cleanepi} R package is developed to provide functional programming-style data cleansing tasks. We classified the data cleaning operations into  several categories, which we call **modules**. This division is based on general goals from data cleaning procedures that are generally expected by end users. Each **module** will have one main function and other helper functions to achieve a specific task. However, only  the main function of each module will be exported. This will provide the users with the ability to perform the cleaning task individually when needed.
+
+![cleanepi modules and main functions](../man/figures/cleanepi_design_diagram.drawio.png){#fig:1}
+
+
+
+In the heart of {cleanepi}, there will be `clean_data()`, a wrapper around all the modules (see Figure @fig:1). We expect it to be main function to be called by users to clean their data. We considered some cleaning actions as **implicit** (they will be performed whether the user specified them or not), others as **explicit** (performed only on the user's request).
+
 There will also be two surrogate functions: the `scan_data()` function to assess of the data types found in every column, and the `print_report()` function to display the report made from every applied cleaning task.
 
-![cleanepi modules and main functions](../man/figures/cleanepi_design_diagram.drawio.png)
+
+
 
 ## Scope
 
 {cleanepi} is an R package designed to clean, curate, and standardize tabular datasets, with an emphasis on epidemiological data in particular.
 The primary function of {cleanepi} is `clean_data()`, which accepts as input the intended dataset in the form of a `data.frame` object or `linelist` object and a `list` of operations to be performed on the dataset. 
-In the implementation of {cleanepi}, these operations are translated into modules. Modules in the current version of {cleanepi} include: the
+In the implementation of {cleanepi}, these operations are translated into modules. Modules in the current version of {cleanepi} include: 
 
 * standardization of column names,
 * removal of duplicates,
@@ -46,19 +54,18 @@ In the implementation of {cleanepi}, these operations are translated into module
 
 The main functions in {cleanepi} return an object of type `data.frame` or `linelist`. The report made from all cleaning tasks is attached to this `data.frame` as an attribute and can be accessed using the `attr()` function in base R.
 
-## Design decisions
-
-The {cleanepi} R package, is developed to provide functional programming-style data cleansing tasks. We considered some cleaning actions as **implicit** (they will be performed whether the user specified it or not), others as **explicit** (performed only on the user's request). In this section, we provide a detailed description of the way that every module is built.
 
 ### Modules in {cleanepi}
+
+In this section, we provide a detailed description of the way that every module is built.
 
 **1. Column names standardization**
 This module contains functions to harmonize the style and format of column names in the target dataset, and optionally allows users to specify subset of focal columns i.e. a list of column names to keep as-is.
     
-  * main function: **standardize_columns()**  
+  * main function: **standardize_column_names()**  
   * Input: a `data.frame` or `linelist` object; a `vector` of focal column
     names (if not provided, all columns will be checked for eventual standardization).
-  * Output: the input object where the column names are standardized.
+  * Output: the input object with standardized column names.
   * Report: a two-column table with the initial and current column names for
     each updated column in the original dataset.
   *	Mode: implicit
@@ -70,7 +77,7 @@ This module contains functions to remove duplicated rows, columns, and constant 
   * Input: a `data.frame` or `linelist` object; a vector of target columns (the
       default option is to consider all columns); remove empty rows (all rows by
       default), remove empty columns (all columns  by default), and remove constant
-      columns (all columns by default).
+      columns (all constant columns by default).
   * Output: the input object with the effects of the specified operations.
   * Report:    
       ● a two-column table with items and their values. Items include empty rows,
@@ -78,12 +85,12 @@ This module contains functions to remove duplicated rows, columns, and constant 
       ● a table of removed duplicates.   
   *	Mode: implicit
   
-**3. replacement of missing values with `NA`**
+**3. Replacement of missing values with `NA`**
 This module is to standardize and unify the text representing the missing values in the dataset. 
     
   * main function: **replace_missing_char()**  
   * Input: a `data.frame` or `linelist` object; a `vector` of column names (if
-    not provided, the operation will be performed across all columns); a string
+    not provided, the operation will be performed across all columns); and a string
     specifying missing values (the default value is null).
   * Output: the input object where all missing values are represented by `NA`.
   * Report: a three-column table with index, column and value for each  missing
