@@ -24,7 +24,9 @@ The data cleaning represents an important step for the success of the downstream
 
 The {cleanepi} R package is developed to provide functional programming-style data cleansing tasks. We classified the data cleaning operations into  several categories, which we call **modules**. This division is based on general goals from data cleaning procedures that are generally expected by end users. Each **module** will have one main function and other helper functions to achieve a specific task. However, only the main function of each module will be exported. This will provide the users with the ability to perform the cleaning task individually when needed.
 
-![cleanepi modules and main functions](../man/figures/cleanepi_design_diagram.drawio.png){#fig:1}
+```{r echo=FALSE}
+knitr::include_graphics("../man/figures/cleanepi_design_diagram.drawio.png")
+```
 
 In the heart of {cleanepi}, there will be `clean_data()`, a wrapper around all the modules (see Figure @fig:1). We expect it to be main function to be called by users to clean their data. We considered some cleaning actions as **implicit** (they will be performed whether the user specified them or not), others as **explicit** (performed only on the user's request).
 
