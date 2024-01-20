@@ -1,9 +1,9 @@
 Type: Package
 Package: cleanepi
-Title: Data Cleaning Package
+Title: Clean and standardize epidemiological data
 Version: 0.0.2
 Authors@R: c(
-    person("Karim", "Mané", , "lshkm1@lshtm.ac.uk", role = c("aut", "cre"),
+    person("Karim", "Mané", , "karim.mane@lshtm.ac.uk", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-9892-2999")),
     person("Thibaut", "Jombart", , "thibautjombart@gmail.com", role = "cph"),
     person("Bubacarr", "Bah", , "Bubacarr.Bah1@lshtm.ac.uk", role = "ctb",
@@ -14,9 +14,9 @@ Authors@R: c(
     person("Hugo", "Gruson", , "hugo@data.org", role = "rev",
            comment = c(ORCID = "0000-0002-4094-1476"))
   )
-Maintainer: Karim Mané <lshkm1@lshtm.ac.uk>
+Maintainer: Karim Mané <karim.mane@lshtm.ac.uk>
 Description: cleanepi contains functions that are used for epidemiological
-    data cleaning.
+    data cleaning and standardization.
 License: MIT + file LICENSE
 URL: https://epiverse-trace.github.io/cleanepi, https://github.com/epiverse-trace/cleanepi
 BugReports: https://github.com/epiverse-trace/cleanepi/issues
