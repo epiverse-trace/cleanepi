@@ -20,11 +20,11 @@ report_cleaning <- function(original, modified,
     report <- list()
   }
   report <- switch(state,
-    "remove_empty" = report_remove_empty(report, state, original, modified), # nolint: keyword_quote_linter
-    "remove_constant" = report_remove_constant(state, original, modified, # nolint: keyword_quote_linter
-                                               report),
-    "remove_dupliates" = report_remove_dups(report, state, original, modified), # nolint: keyword_quote_linter
-    "standardize_date" = report_dates(report, state, original, modified) # nolint: keyword_quote_linter
+                   "remove_empty" = report_remove_empty(report, state, original, modified), # nolint: keyword_quote_linter
+                   "remove_constant" = report_remove_constant(state, original, modified, # nolint: keyword_quote_linter
+                                                              report),
+                   "remove_dupliates" = report_remove_dups(report, state, original, modified), # nolint: keyword_quote_linter
+                   "standardize_date" = report_dates(report, state, original, modified) # nolint: keyword_quote_linter
   )
   report
 }

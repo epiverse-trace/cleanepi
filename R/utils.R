@@ -117,9 +117,9 @@ detect_columns_to_convert <- function(scan_res) {
       values <- values[-(which(names(values) == "missing"))]
     }
     if (length(values) == 2L && "numeric" %in% names(values) &&
-          "character" %in% names(values)) {
+        "character" %in% names(values)) {
       if (values[["numeric"]] == values[["character"]] ||
-            values[["numeric"]] < (2L * values[["character"]])) {
+          values[["numeric"]] < (2L * values[["character"]])) {
         warning(sprintf("In '%s' column, the number of numeric values is same as
                         the number of character values", col), call. = FALSE)
       } else {
