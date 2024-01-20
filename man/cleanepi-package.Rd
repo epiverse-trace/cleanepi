@@ -4,14 +4,21 @@
 \name{cleanepi-package}
 \alias{cleanepi}
 \alias{cleanepi-package}
-\title{cleanepi: Data Cleaning Package}
+\title{cleanepi: Clean and standardize epidemiological data}
 \description{
-\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
+cleanepi contains functions that are used for epidemiological data cleaning and standardization.
+}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://epiverse-trace.github.io/cleanepi}
+  \item \url{https://github.com/epiverse-trace/cleanepi}
+  \item Report bugs at \url{https://github.com/epiverse-trace/cleanepi/issues}
+}
 
-cleanepi contains functions that are used for epidemiological data cleaning.
 }
 \author{
-\strong{Maintainer}: Karim Mané \email{lshkm1@lshtm.ac.uk} (\href{https://orcid.org/0000-0002-9892-2999}{ORCID})
+\strong{Maintainer}: Karim Mané \email{karim.mane@lshtm.ac.uk} (\href{https://orcid.org/0000-0002-9892-2999}{ORCID})
 
 Other contributors:
 \itemize{

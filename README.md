@@ -6,7 +6,7 @@
 <!-- `gh_repo` is extracted via a special environment variable in GitHub Actions -->
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# cleanepi: Clean and standardize epidemiological data <img src="man/figures/logo.png" align="right" width="130"/>
+# cleanepi: Clean and standardize epidemiological data <img src="man/figures/logo.svg" align="right" width="130"/>
 
 <!-- badges: start -->
 
@@ -19,33 +19,35 @@ coverage](https://codecov.io/gh/epiverse-trace/cleanepi/branch/main/graph/badge.
 
 <!-- badges: end -->
 
-**{cleanepi}** is an R package to clean, curate, and standardize
+**cleanepi** is an R package to clean, curate, and standardize
 epidemiological data.
 
-**{cleanepi}** performs several data cleaning tasks that an end-user
-would anticipate to be performed on a cluttered dataset. These include
+**cleanepi** performs several data cleaning tasks that an end-user would
+anticipate to be performed on a cluttered dataset. These include
 standard tasks such as: removing duplicated and empty rows and columns,
 removing columns with constant values, replacing missing value strings
 with `NA`, ensuring uniqueness of uniquely identified columns,
-converting `character` columns to `Date` under certain conditions,
-etc.  
-**{cleanepi}** can also standardize column entries into specified
-formats, calculates age (in years, months, weeks, or days) from a given
-`Date` column and a reference date.  
-**{cleanepi}** expects input data in a form of data frame-like structure
+converting `character` columns to `Date` under certain conditions, etc.
+
+**cleanepi** can also standardize column entries into specified formats,
+calculates age (in years, months, weeks, or days) from a given `Date`
+column and a reference date.
+
+**cleanepi** expects input data in a form of data frame-like structure
 (`data.frame`, `tibble`, etc) or a `linelist` object and returns a
 processed data of the same type. It also returns an object of type
 `list` that reports the outcomes from every cleaning task.
 
-**{cleanepi}** is developed by the
+**cleanepi** is developed by the
 [Epiverse-TRACE](https://data.org/initiatives/epiverse/) team at the
-Medical Research Council The Gambia unit at the London School of Hygiene
-and Tropical Medicine (<MRCG@LSHTM>).
+[Medical Research Council The Gambia unit at the London School of
+Hygiene and Tropical
+Medicine](https://www.lshtm.ac.uk/research/units/mrc-gambia).
 
 ## Installation
 
-The current development version of **{cleanepi}** can be installed from
-[here](https://epiverse-trace.github.io/cleanepi).
+The latest development version of **cleanepi** can be installed from
+[GitHub](https://epiverse-trace.github.io/cleanepi).
 
 ``` r
 if (!require("pak")) install.packages("pak")
@@ -201,7 +203,7 @@ library(cleanepi)
 
 ## Quick start
 
-The main function in **{cleanepi}** is `clean_data(),` which internally
+The main function in **cleanepi** is `clean_data(),` which internally
 makes call of almost all standard data cleaning functions, such as
 removal of empty and duplicated rows and columns, replacement of missing
 values, etc. However, each function can also be called independently to
@@ -326,3 +328,22 @@ Please note that the cleanepi project is released with a [Contributor
 Code of
 Conduct](https://github.com/epiverse-trace/.github/blob/main/CODE_OF_CONDUCT.md).
 By contributing to this project, you agree to abide by its terms.
+
+## Citing this package
+
+``` r
+citation("cleanepi")
+#> To cite package 'cleanepi' in publications use:
+#> 
+#>   Mané K (2023). _cleanepi: Data Cleaning Package_. R package version
+#>   0.0.2.
+#> 
+#> A BibTeX entry for LaTeX users is
+#> 
+#>   @Manual{,
+#>     title = {cleanepi: Data Cleaning Package},
+#>     author = {Karim Mané},
+#>     year = {2023},
+#>     note = {R package version 0.0.2},
+#>   }
+```
