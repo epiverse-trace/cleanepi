@@ -57,12 +57,25 @@
 <li class="nav-item">
   <a class="nav-link" href="reference/index.html">Reference</a>
 </li>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="articles/design_principle.html">Package Design vignette for {cleanepi}</a>
+  </div>
+</li>
       </ul>
 <form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="search.json" id="search-input" placeholder="Search for" autocomplete="off">
 </form>
 
-      <ul class="navbar-nav"></ul>
+      <ul class="navbar-nav">
+<li class="nav-item">
+  <a class="external-link nav-link" href="https://github.com/epiverse-trace/cleanepi/" aria-label="github">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
 </div>
 
     
@@ -83,11 +96,157 @@
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>The current development version of <strong>cleanepi</strong> can be installed from <a href="https://github.com/epiverse-trace/cleanepi" class="external-link">GitHub</a>.</p>
+<p>The current development version of <strong>{cleanepi}</strong> can be installed from <a href="https://epiverse-trace.github.io/cleanepi">here</a>.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://pak.r-lib.org/" class="external-link">"pak"</a></span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"pak"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Loading required package: pak</span></span>
 <span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"epiverse-trace/cleanepi"</span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">cleanepi</span><span class="op">)</span></span></code></pre></div>
+<span><span class="co">#&gt; ℹ Loading metadata database</span></span>
+<span><span class="co">#&gt; ✔ Loading metadata database ... done</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; → Will install 67 packages.</span></span>
+<span><span class="co">#&gt; → Will update 1 package.</span></span>
+<span><span class="co">#&gt; → All 68 packages (75.16 MB) are cached.</span></span>
+<span><span class="co">#&gt; + arsenal              3.6.3      </span></span>
+<span><span class="co">#&gt; + backports            1.4.1      </span></span>
+<span><span class="co">#&gt; + bit                  4.0.5      </span></span>
+<span><span class="co">#&gt; + bit64                4.0.5      </span></span>
+<span><span class="co">#&gt; + checkmate            2.3.0      </span></span>
+<span><span class="co">#&gt; + cleanepi     0.0.2 → 0.0.2      👷🏾🔧 (GitHub: 1044209)</span></span>
+<span><span class="co">#&gt; + cli                  3.6.1      </span></span>
+<span><span class="co">#&gt; + clipr                0.8.0      </span></span>
+<span><span class="co">#&gt; + colorspace           2.1-0      </span></span>
+<span><span class="co">#&gt; + crayon               1.5.2      </span></span>
+<span><span class="co">#&gt; + distcrete            1.0.3      </span></span>
+<span><span class="co">#&gt; + dplyr                1.1.4      </span></span>
+<span><span class="co">#&gt; + epitrix              0.4.0      </span></span>
+<span><span class="co">#&gt; + evaluate             0.23       </span></span>
+<span><span class="co">#&gt; + fansi                1.0.5      </span></span>
+<span><span class="co">#&gt; + farver               2.1.1      </span></span>
+<span><span class="co">#&gt; + forcats              1.0.0      </span></span>
+<span><span class="co">#&gt; + generics             0.1.3      </span></span>
+<span><span class="co">#&gt; + ggplot2              3.4.4      </span></span>
+<span><span class="co">#&gt; + glue                 1.6.2      </span></span>
+<span><span class="co">#&gt; + gridExtra            2.3        </span></span>
+<span><span class="co">#&gt; + gtable               0.3.4      </span></span>
+<span><span class="co">#&gt; + highr                0.10       </span></span>
+<span><span class="co">#&gt; + hms                  1.1.3      </span></span>
+<span><span class="co">#&gt; + isoband              0.2.7      </span></span>
+<span><span class="co">#&gt; + janitor              2.2.0      </span></span>
+<span><span class="co">#&gt; + knitr                1.45       </span></span>
+<span><span class="co">#&gt; + labeling             0.4.3      </span></span>
+<span><span class="co">#&gt; + lifecycle            1.0.4      </span></span>
+<span><span class="co">#&gt; + linelist             1.0.0.9000 👷🔧 (GitHub: 9c65cc1)</span></span>
+<span><span class="co">#&gt; + lubridate            1.9.3      </span></span>
+<span><span class="co">#&gt; + magrittr             2.0.3      </span></span>
+<span><span class="co">#&gt; + munsell              0.5.0      </span></span>
+<span><span class="co">#&gt; + naniar               1.0.0      </span></span>
+<span><span class="co">#&gt; + norm                 1.0-11.1   </span></span>
+<span><span class="co">#&gt; + numberize            0.0.1      👷🏿‍♀️🔧 (GitHub: 8f0650a)</span></span>
+<span><span class="co">#&gt; + pillar               1.9.0      </span></span>
+<span><span class="co">#&gt; + pkgconfig            2.0.3      </span></span>
+<span><span class="co">#&gt; + plyr                 1.8.9      </span></span>
+<span><span class="co">#&gt; + purrr                1.0.2      </span></span>
+<span><span class="co">#&gt; + R.methodsS3          1.8.2      </span></span>
+<span><span class="co">#&gt; + R.oo                 1.25.0     </span></span>
+<span><span class="co">#&gt; + R.utils              2.12.3     </span></span>
+<span><span class="co">#&gt; + R6                   2.5.1      </span></span>
+<span><span class="co">#&gt; + RColorBrewer         1.1-3      </span></span>
+<span><span class="co">#&gt; + Rcpp                 1.0.11     </span></span>
+<span><span class="co">#&gt; + readr                2.1.4      </span></span>
+<span><span class="co">#&gt; + rlang                1.1.2      </span></span>
+<span><span class="co">#&gt; + scales               1.3.0      </span></span>
+<span><span class="co">#&gt; + snakecase            0.11.1     </span></span>
+<span><span class="co">#&gt; + sodium               1.3.1      </span></span>
+<span><span class="co">#&gt; + stringi              1.8.2      </span></span>
+<span><span class="co">#&gt; + stringr              1.5.1      </span></span>
+<span><span class="co">#&gt; + tibble               3.2.1      </span></span>
+<span><span class="co">#&gt; + tidyr                1.3.0      </span></span>
+<span><span class="co">#&gt; + tidyselect           1.2.0      </span></span>
+<span><span class="co">#&gt; + timechange           0.2.0      </span></span>
+<span><span class="co">#&gt; + tzdb                 0.4.0      </span></span>
+<span><span class="co">#&gt; + UpSetR               1.4.0      </span></span>
+<span><span class="co">#&gt; + utf8                 1.2.4      </span></span>
+<span><span class="co">#&gt; + vctrs                0.6.4      </span></span>
+<span><span class="co">#&gt; + viridis              0.6.4      </span></span>
+<span><span class="co">#&gt; + viridisLite          0.4.2      </span></span>
+<span><span class="co">#&gt; + visdat               0.6.0      </span></span>
+<span><span class="co">#&gt; + vroom                1.6.4      </span></span>
+<span><span class="co">#&gt; + withr                2.5.2      </span></span>
+<span><span class="co">#&gt; + xfun                 0.41       </span></span>
+<span><span class="co">#&gt; + yaml                 2.3.7</span></span>
+<span><span class="co">#&gt; ℹ No downloads are needed, 68 pkgs (75.16 MB) are cached</span></span>
+<span><span class="co">#&gt; ✔ Installed cleanepi 0.0.2 (github::epiverse-trace/cleanepi@1044209) (53ms)</span></span>
+<span><span class="co">#&gt; ✔ Installed R.methodsS3 1.8.2  (65ms)</span></span>
+<span><span class="co">#&gt; ✔ Installed R.oo 1.25.0  (106ms)</span></span>
+<span><span class="co">#&gt; ✔ Installed R.utils 2.12.3  (117ms)</span></span>
+<span><span class="co">#&gt; ✔ Installed R6 2.5.1  (127ms)</span></span>
+<span><span class="co">#&gt; ✔ Installed RColorBrewer 1.1-3  (135ms)</span></span>
+<span><span class="co">#&gt; ✔ Installed Rcpp 1.0.11  (151ms)</span></span>
+<span><span class="co">#&gt; ✔ Installed UpSetR 1.4.0  (165ms)</span></span>
+<span><span class="co">#&gt; ✔ Installed arsenal 3.6.3  (176ms)</span></span>
+<span><span class="co">#&gt; ✔ Installed backports 1.4.1  (186ms)</span></span>
+<span><span class="co">#&gt; ✔ Installed bit64 4.0.5  (76ms)</span></span>
+<span><span class="co">#&gt; ✔ Installed bit 4.0.5  (67ms)</span></span>
+<span><span class="co">#&gt; ✔ Installed checkmate 2.3.0  (67ms)</span></span>
+<span><span class="co">#&gt; ✔ Installed cli 3.6.1  (33ms)</span></span>
+<span><span class="co">#&gt; ✔ Installed clipr 0.8.0  (31ms)</span></span>
+<span><span class="co">#&gt; ✔ Installed crayon 1.5.2  (13ms)</span></span>
+<span><span class="co">#&gt; ✔ Installed colorspace 2.1-0  (57ms)</span></span>
+<span><span class="co">#&gt; ✔ Installed distcrete 1.0.3  (30ms)</span></span>
+<span><span class="co">#&gt; ✔ Installed dplyr 1.1.4  (31ms)</span></span>
+<span><span class="co">#&gt; ✔ Installed epitrix 0.4.0  (31ms)</span></span>
+<span><span class="co">#&gt; ✔ Installed evaluate 0.23  (30ms)</span></span>
+<span><span class="co">#&gt; ✔ Installed fansi 1.0.5  (58ms)</span></span>
+<span><span class="co">#&gt; ✔ Installed farver 2.1.1  (31ms)</span></span>
+<span><span class="co">#&gt; ✔ Installed forcats 1.0.0  (31ms)</span></span>
+<span><span class="co">#&gt; ✔ Installed generics 0.1.3  (33ms)</span></span>
+<span><span class="co">#&gt; ✔ Installed ggplot2 3.4.4  (39ms)</span></span>
+<span><span class="co">#&gt; ✔ Installed glue 1.6.2  (40ms)</span></span>
+<span><span class="co">#&gt; ✔ Installed gridExtra 2.3  (32ms)</span></span>
+<span><span class="co">#&gt; ✔ Installed gtable 0.3.4  (29ms)</span></span>
+<span><span class="co">#&gt; ✔ Installed highr 0.10  (30ms)</span></span>
+<span><span class="co">#&gt; ✔ Installed hms 1.1.3  (75ms)</span></span>
+<span><span class="co">#&gt; ✔ Installed isoband 0.2.7  (48ms)</span></span>
+<span><span class="co">#&gt; ✔ Installed janitor 2.2.0  (33ms)</span></span>
+<span><span class="co">#&gt; ✔ Installed labeling 0.4.3  (13ms)</span></span>
+<span><span class="co">#&gt; ✔ Installed knitr 1.45  (66ms)</span></span>
+<span><span class="co">#&gt; ✔ Installed lifecycle 1.0.4  (44ms)</span></span>
+<span><span class="co">#&gt; ✔ Installed lubridate 1.9.3  (34ms)</span></span>
+<span><span class="co">#&gt; ✔ Installed magrittr 2.0.3  (34ms)</span></span>
+<span><span class="co">#&gt; ✔ Installed munsell 0.5.0  (31ms)</span></span>
+<span><span class="co">#&gt; ✔ Installed naniar 1.0.0  (63ms)</span></span>
+<span><span class="co">#&gt; ✔ Installed norm 1.0-11.1  (67ms)</span></span>
+<span><span class="co">#&gt; ✔ Installed pillar 1.9.0  (33ms)</span></span>
+<span><span class="co">#&gt; ✔ Installed pkgconfig 2.0.3  (29ms)</span></span>
+<span><span class="co">#&gt; ✔ Installed plyr 1.8.9  (28ms)</span></span>
+<span><span class="co">#&gt; ✔ Installed purrr 1.0.2  (30ms)</span></span>
+<span><span class="co">#&gt; ✔ Installed readr 2.1.4  (34ms)</span></span>
+<span><span class="co">#&gt; ✔ Installed rlang 1.1.2  (34ms)</span></span>
+<span><span class="co">#&gt; ✔ Installed scales 1.3.0  (31ms)</span></span>
+<span><span class="co">#&gt; ✔ Installed snakecase 0.11.1  (55ms)</span></span>
+<span><span class="co">#&gt; ✔ Installed sodium 1.3.1  (59ms)</span></span>
+<span><span class="co">#&gt; ✔ Installed stringr 1.5.1  (19ms)</span></span>
+<span><span class="co">#&gt; ✔ Installed tibble 3.2.1  (25ms)</span></span>
+<span><span class="co">#&gt; ✔ Installed tidyr 1.3.0  (28ms)</span></span>
+<span><span class="co">#&gt; ✔ Installed stringi 1.8.2  (144ms)</span></span>
+<span><span class="co">#&gt; ✔ Installed tidyselect 1.2.0  (34ms)</span></span>
+<span><span class="co">#&gt; ✔ Installed timechange 0.2.0  (30ms)</span></span>
+<span><span class="co">#&gt; ✔ Installed tzdb 0.4.0  (32ms)</span></span>
+<span><span class="co">#&gt; ✔ Installed utf8 1.2.4  (32ms)</span></span>
+<span><span class="co">#&gt; ✔ Installed vctrs 0.6.4  (65ms)</span></span>
+<span><span class="co">#&gt; ✔ Installed viridisLite 0.4.2  (33ms)</span></span>
+<span><span class="co">#&gt; ✔ Installed viridis 0.6.4  (31ms)</span></span>
+<span><span class="co">#&gt; ✔ Installed visdat 0.6.0  (31ms)</span></span>
+<span><span class="co">#&gt; ✔ Installed withr 2.5.2  (16ms)</span></span>
+<span><span class="co">#&gt; ✔ Installed vroom 1.6.4  (59ms)</span></span>
+<span><span class="co">#&gt; ✔ Installed xfun 0.41  (32ms)</span></span>
+<span><span class="co">#&gt; ✔ Installed yaml 2.3.7  (29ms)</span></span>
+<span><span class="co">#&gt; ✔ Installed linelist 1.0.0.9000 (github::epiverse-trace/linelist@9c65cc1) (30ms)</span></span>
+<span><span class="co">#&gt; ✔ Installed numberize 0.0.1 (github::bahadzie/numberize@8f0650a) (53ms)</span></span>
+<span><span class="co">#&gt; ✔ 1 pkg + 72 deps: upd 1, added 67 [7.7s]</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://epiverse-trace.github.io/cleanepi">cleanepi</a></span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="quick-start">Quick start<a class="anchor" aria-label="anchor" href="#quick-start"></a>
@@ -189,7 +348,7 @@
 <div class="section level3">
 <h3 id="lifecycle">Lifecycle<a class="anchor" aria-label="anchor" href="#lifecycle"></a>
 </h3>
-<p>This package is currently <em>experimental</em>, as defined by the <a href="https://www.reconverse.org/lifecycle.html" class="external-link">RECON software lifecycle</a>. This means that it is functional, but interfaces and functionalities may change over time.</p>
+<p>This package is currently an <em>experimental</em>, as defined by the <a href="https://www.reconverse.org/lifecycle.html" class="external-link">RECON software lifecycle</a>. This means that it is functional, but interfaces and functionalities may change over time, testing and documentation may be lacking.</p>
 </div>
 <div class="section level3">
 <h3 id="contributions">Contributions<a class="anchor" aria-label="anchor" href="#contributions"></a>
@@ -203,7 +362,15 @@
 </div>
 </div>
 </div>
-  </main><aside class="col-md-3"><div class="license">
+  </main><aside class="col-md-3"><div class="links">
+<h2 data-toc-skip>Links</h2>
+<ul class="list-unstyled">
+<li><a href="https://github.com/epiverse-trace/cleanepi/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/epiverse-trace/cleanepi/issues" class="external-link">Report a bug</a></li>
+</ul>
+</div>
+
+<div class="license">
 <h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li><a href="LICENSE.html">Full license</a></li>

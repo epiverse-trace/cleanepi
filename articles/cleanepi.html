@@ -55,12 +55,25 @@
 <li class="nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="../articles/design_principle.html">Package Design vignette for {cleanepi}</a>
+  </div>
+</li>
       </ul>
 <form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off">
 </form>
 
-      <ul class="navbar-nav"></ul>
+      <ul class="navbar-nav">
+<li class="nav-item">
+  <a class="external-link nav-link" href="https://github.com/epiverse-trace/cleanepi/" aria-label="github">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
 </div>
 
     
@@ -75,7 +88,7 @@
       <img src="../logo.png" class="logo" alt=""><h1>cleanepi</h1>
             
       
-      
+      <small class="dont-index">Source: <a href="https://github.com/epiverse-trace/cleanepi/blob/HEAD/vignettes/cleanepi.Rmd" class="external-link"><code>vignettes/cleanepi.Rmd</code></a></small>
       <div class="d-none name"><code>cleanepi.Rmd</code></div>
     </div>
 
@@ -99,7 +112,7 @@ epidemiological data, and works with data frame-like data structure.
 This vignette provides a detailed description of the functions included
 in the package and how to use them.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st">"cleanepi"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://epiverse-trace.github.io/cleanepi">"cleanepi"</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://magrittr.tidyverse.org" class="external-link">"magrittr"</a></span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
@@ -237,7 +250,7 @@ actions performed on the given dataset.</li>
 <span><span class="co">#&gt; remove_constant         1     -none-     list     </span></span>
 <span><span class="co">#&gt; standardize_date        2     -none-     list     </span></span>
 <span><span class="co">#&gt; incorrect_subject_id    5     data.table list     </span></span>
-<span><span class="co">#&gt; converted_into_numeric  0     glue       character</span></span>
+<span><span class="co">#&gt; converted_into_numeric  1     glue       character</span></span>
 <span><span class="co">#&gt; params                 14     -none-     list</span></span></code></pre></div>
 <p><strong>Note:</strong> a function to visualize this report object
 will be built in the next release of the package.</p>
@@ -474,11 +487,11 @@ and the remaining number of days.</p>
 <span><span class="co">#&gt; 5   P0005P2      day 0            2       Gambia        17/02/2021  2000-09-26</span></span>
 <span><span class="co">#&gt; 6   PS006P2      day 0            2       Gambia        17/02/2021        &lt;NA&gt;</span></span>
 <span><span class="co">#&gt;   date_first_pcr_positive_test sex age_months remainder_days</span></span>
-<span><span class="co">#&gt; 1                 Dec 01, 2020   1        618             10</span></span>
-<span><span class="co">#&gt; 2                 Jan 01, 2021   1        861             21</span></span>
-<span><span class="co">#&gt; 3                 Feb 11, 2021 -99        749             27</span></span>
-<span><span class="co">#&gt; 4                 Feb 01, 2021   1        913              0</span></span>
-<span><span class="co">#&gt; 5                 Feb 16, 2021   2        278             15</span></span>
+<span><span class="co">#&gt; 1                 Dec 01, 2020   1        619             19</span></span>
+<span><span class="co">#&gt; 2                 Jan 01, 2021   1        862             29</span></span>
+<span><span class="co">#&gt; 3                 Feb 11, 2021 -99        751              5</span></span>
+<span><span class="co">#&gt; 4                 Feb 01, 2021   1        914              9</span></span>
+<span><span class="co">#&gt; 5                 Feb 16, 2021   2        279             23</span></span>
 <span><span class="co">#&gt; 6                 May 02, 2021   2         NA             NA</span></span></code></pre></div>
 </div>
 <div class="section level3">
