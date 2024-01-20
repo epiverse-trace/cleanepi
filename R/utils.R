@@ -249,3 +249,23 @@ add_report <- function(data, report, name = NULL) {
 
   data
 }
+
+
+#' Add an element to the report object
+#'
+#' @param x an onject of class `data frame` or `linelist`
+#' @param name the name of the cleaning operation
+#' @param add_this the object to add to the report object
+#'
+#' @return the input report object with an additional element
+#' @keywords internal
+#'
+add_to_report <- function(x, name, add_this = NULL) {
+  report   <- attr(x, "report")
+  if (is.null(report)) {
+    report <- list()
+  }
+  report[[name]]            <- add_this
+  attr(x, which = "report") <- report
+  return(x)
+}

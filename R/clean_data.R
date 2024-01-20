@@ -105,18 +105,13 @@ clean_data <- function(data,
   checkmate::assert_data_frame(data, null.ok = FALSE, min.cols = 1L)
   checkmate::assert_list(params, min.len = 0L, null.ok = TRUE)
 
-  report <- list()
   ## -----
   ## | we choose to use snake_cases for both variable and column names
-  ## | are cleaned based using {baser} and {epitrix} packages.
-  ## | Column names in 'keep_col_names' will not be modified.
+  ## | are cleaned based using {base r} and {epitrix} packages.
+  ## | Column names in 'keep' will not be modified.
   ## -----
   R.utils::cat("\ncleaning column names")
-  res    <- clean_col_names(x              = data,
-                            report         = report,
-                            keep           = params[["keep"]])
-  data   <- res[["data"]]
-  report <- res[["report"]]
+  data <- standardize_column_names(x = data, keep = params[["keep"]])
 
   ## -----
   ## | we choose to standardize on the value for the missing data.
