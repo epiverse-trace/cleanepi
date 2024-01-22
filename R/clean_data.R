@@ -88,20 +88,26 @@
 #'     dictionary          = NULL))
 #'
 clean_data <- function(data,
-                       params = list(keep                = NULL,
-                                     remove_duplicates   = FALSE,
-                                     target_columns      = NULL,
-                                     replace_missing     = TRUE,
-                                     na_comes_as         = NULL,
-                                     check_timeframe     = FALSE,
-                                     timeframe           = NULL,
-                                     error_tolerance     = 0.5,
-                                     subject_id_col_name = NULL,
-                                     subject_id_format   = NULL,
-                                     prefix              = NULL,
-                                     suffix              = NULL,
-                                     range               = NULL,
-                                     dictionary          = NULL)) {
+                       params = list(
+                         keep                   = NULL,
+                         replace_missing_values = list(from        = NULL,
+                                                       na_comes_as = NULL),
+                         remove_duplicates   = list(target_columns    = NULL,
+                                                    rm_empty_rows    = "all",
+                                                    rm_empty_cols    = "all",
+                                                    rm_constant_cols = TRUE),
+                         standardize_date = list(target_columns   = NULL,
+                                                 error_tolerance = 0.5,
+                                                 format          = NULL,
+                                                 timeframe       = NULL),
+                         standardize_subject_ids = list(id_col_name = "id",
+                                                        format      = NULL,
+                                                        prefix      = NULL,
+                                                        suffix      = NULL,
+                                                        range       = NULL),
+                         dictionary          = NULL,
+                         to_numeric = NULL)
+                       ) {
   checkmate::assert_data_frame(data, null.ok = FALSE, min.cols = 1L)
   checkmate::assert_list(params, min.len = 0L, null.ok = TRUE)
 
@@ -116,37 +122,39 @@ clean_data <- function(data,
   ## -----
   ## | we choose to standardize on the value for the missing data.
   ## | missing values will be replaced with NA
-  ## | values for missing data from the original data can be provided by the
+  ## | missing values from the original data can be provided by the
   ## | user if know, or inferred internally otherwise.
   ## -----
-  if (params[["replace_missing"]]) {
+  if (!is.null(params[["replace_missing_values"]])) {
     R.utils::cat("\nreplacing missing values with NA")
-    for (cols in names(data)) {
-      data <- replace_missing_char(data, cols, params[["na_comes_as"]])
-    }
+    data <- replace_missing_values(
+      data,
+      from        = params[["replace_missing_values"]][["from"]],
+      na_comes_as = params[["replace_missing_values"]][["na_comes_as"]]
+    )
   }
 
   ## -----
-  ## | empty rows and columns will not be used in downstream analysis. For that
-  ## | reason, we choose to remove them from the dataset
+  ## | The existence of duplicated records can be genuine. But duplication is
+  ## | generally introduced by mistake. We looks for and remove duplicates to
+  ## | minimise potential issues during data analysis. When no column is
+  ## | provided, duplicates are identified across all column. Otherwise, the
+  ## | duplicates will only be considered from the specified columns.
+  ## |
+  ## | Empty rows and columns will also be removed. So will the constant columns
+  ## | be.
   ## -----
-  R.utils::cat("\nremoving empty rows and columns")
-  dat    <- data %>%
-    janitor::remove_empty(c("rows", "cols"))
-  report <- report_cleaning(data, dat, state = "remove_empty", report = report)
-  data   <- dat
-
-  ## -----
-  ## | constant columns will not have an impact in downstream analysis as there
-  ## | is no variation between the records. For that reason, we choose to
-  ## | delete them from the dataset.
-  ## -----
-  R.utils::cat("\nremoving constant columns")
-  dat    <- data %>% janitor::remove_constant()
-  report <- report_cleaning(data, dat,
-                            state  = "remove_constant",
-                            report = report)
-  data   <- dat
+  R.utils::cat("\nremoving duplicated rows")
+  if (!is.null(params[["remove_duplicates"]])) {
+    data <- remove_duplicates(
+      data,
+      target_columns   = params[["remove_duplicates"]][["target_columns"]],
+      remove           = params[["remove_duplicates"]][["remove"]],
+      rm_empty_rows    = params[["remove_duplicates"]][["rm_empty_rows"]],
+      rm_empty_cols    = params[["remove_duplicates"]][["rm_empty_cols"]],
+      rm_constant_cols = params[["remove_duplicates"]][["rm_constant_cols"]]
+    )
+  }
 
   ## -----
   ## | Date columns are expected in 'year-month-day' format. The will will
@@ -186,21 +194,6 @@ clean_data <- function(data,
   )
   report <- dat[["report"]]
   data   <- dat[["data"]]
-
-  ## -----
-  ## | The existence of duplicated records can be genuine. But duplication is
-  ## | generally introduced by mistake. We looks for and remove duplicates to
-  ## | minimise potential issues during data analysis. When no column is
-  ## | provided, duplicates are identified across all column. Otherwise, the
-  ## | duplicates will only be considered from the specified columns.
-  ## -----
-  R.utils::cat("\nremoving duplicated rows")
-  if (params[["remove_duplicates"]]) {
-    dat    <- remove_duplicates(data, params[["target_columns"]],
-                                remove = NULL, report)
-    data   <- dat[["data"]]
-    report <- dat[["report"]]
-  }
 
   ## -----
   ## | We check how the format of the subject IDs complies with the expected
