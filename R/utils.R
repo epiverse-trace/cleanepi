@@ -253,7 +253,7 @@ add_report <- function(data, report, name = NULL) {
 
 #' Add an element to the report object
 #'
-#' @param x an onject of class `data frame` or `linelist`
+#' @param x an object of class `data frame` or `linelist`
 #' @param name the name of the cleaning operation
 #' @param add_this the object to add to the report object
 #'
