@@ -6,10 +6,12 @@
 \usage{
 clean_data(
   data,
-  params = list(keep = NULL, remove_duplicates = FALSE, target_columns = NULL,
-    replace_missing = TRUE, na_comes_as = NULL, check_timeframe = FALSE, timeframe =
-    NULL, error_tolerance = 0.5, subject_id_col_name = NULL, subject_id_format = NULL,
-    prefix = NULL, suffix = NULL, range = NULL, dictionary = NULL)
+  params = list(keep = NULL, replace_missing_values = list(from = NULL, na_comes_as =
+    NULL), remove_duplicates = list(target_columns = NULL, rm_empty_rows = "all",
+    rm_empty_cols = "all", rm_constant_cols = TRUE), standardize_date =
+    list(target_columns = NULL, error_tolerance = 0.5, format = NULL, timeframe = NULL),
+    standardize_subject_ids = list(id_col_name = "id", format = NULL, prefix = NULL,
+    suffix = NULL, range = NULL), dictionary = NULL, to_numeric = NULL)
 )
 }
 \arguments{
@@ -88,18 +90,23 @@ cleaned_data <- clean_data(
                                package = "cleanepi")),
   params = list(
     keep                = NULL,
-    remove_duplicates   = TRUE,
-    target_columns      = NULL,
-    replace_missing     = TRUE,
-    na_comes_as         = "-99",
-    check_timeframe     = TRUE,
-    timeframe           = as.Date(c("1973-05-29", "2023-05-29")),
-    error_tolerance     = 0.5,
-    subject_id_col_name = "study_id",
-    subject_id_format   = "PS000P2",
-    prefix              = "PS",
-    suffix              = "P2",
-    range               = c(1, 100),
-    dictionary          = NULL))
+    replace_missing_values = list(from        = NULL,
+                                  na_comes_as = "-99"),
+    remove_duplicates   = list(target_columns   = NULL,
+                               rm_empty_rows    = "all",
+                               rm_empty_cols    = "all",
+                               rm_constant_cols = TRUE),
+    standardize_date = list(target_columns  = NULL,
+                            error_tolerance = 0.5,
+                            format          = NULL,
+                            timeframe       = as.Date(c("1973-05-29",
+                                                        "2023-05-29"))),
+    standardize_subject_ids = list(id_col_name,
+                                   format      = NULL,
+                                   prefix      = NULL,
+                                   suffix      = NULL,
+                                   range       = NULL),
+    to_numeric = NULL
+    dictionary = NULL))
 
 }
