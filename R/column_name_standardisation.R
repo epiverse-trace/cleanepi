@@ -15,7 +15,6 @@
 #'
 standardize_column_names <- function(x, keep = NULL) {
   original_names <- col_names <- colnames(x)
-  report         <- attr(x, "report")
 
   # in case the user wants to keep some column names as they are,
   # they should be provided as value for the keep arguments.
@@ -61,9 +60,9 @@ standardize_column_names <- function(x, keep = NULL) {
   names(x) <- col_names
   idx      <- which(xx[["original_name"]] != xx[["new_name"]])
   if (length(idx) > 0L) {
-    x      <- add_to_report(x        = x,
-                            name     = "standardized_column_names",
-                            add_this = xx[idx, ])
+    x      <- add_to_report(x     = x,
+                            key   = "standardized_column_names",
+                            value = xx[idx, ])
   }
 
   return(x)
