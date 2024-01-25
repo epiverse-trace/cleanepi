@@ -55,9 +55,9 @@ remove_duplicates <- function(data, target_columns, remove = NULL,
       add_this <- paste(cols, collapse = ", ")
     }
   }
-  dat      <- add_to_report(x        = dat,
-                            name     = "empty_columns",
-                            add_this = add_this)
+  dat      <- add_to_report(x     = dat,
+                            key   = "empty_columns",
+                            value = add_this)
   add_this <- "none"
   if (nrow(summary(arsenal::comparedf(data, dat))[["obs.table"]]) > 0L) {
     rows   <- summary(arsenal::comparedf(data,
@@ -66,9 +66,9 @@ remove_duplicates <- function(data, target_columns, remove = NULL,
       add_this <- rows
     }
   }
-  dat <- add_to_report(x        = dat,
-                       name     = "empty_rows",
-                       add_this = add_this)
+  dat <- add_to_report(x     = dat,
+                       key   = "empty_rows",
+                       value = add_this)
 
   # remove constant columns
   add_this <- "none"
@@ -79,9 +79,9 @@ remove_duplicates <- function(data, target_columns, remove = NULL,
     add_this <- paste(names(data)[idx], collapse = ", ")
     cols     <- c(cols, names(data)[idx])
   }
-  dat        <- add_to_report(x        = dat,
-                              name     = "constant_columns",
-                              add_this = add_this)
+  dat        <- add_to_report(x     = dat,
+                              key   = "constant_columns",
+                              value = add_this)
 
   # get the target column names
   target_columns   <- get_target_column_names(dat, target_columns, cols)
@@ -111,9 +111,9 @@ remove_duplicates <- function(data, target_columns, remove = NULL,
     add_this[["removed_duplicates"]]      <- dplyr::anti_join(dups, dat)
   }
 
-  dat      <- add_to_report(x        = dat,
-                            name     = "duplicates",
-                            add_this = add_this)
+  dat      <- add_to_report(x     = dat,
+                            key   = "duplicates",
+                            value = add_this)
   return(dat)
 }
 
@@ -164,7 +164,7 @@ find_duplicates <- function(data, target_columns) {
     dplyr::mutate(group_id = dplyr::cur_group_id()) %>%
     dplyr::select(row_id, group_id, dplyr::everything())
 
-  dups
+  return(dups)
 }
 
 

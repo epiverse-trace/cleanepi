@@ -60,9 +60,9 @@ replace_missing_values <- function(data, from = NULL, na_comes_as = NULL) {
   xx   <- ifelse(length(indexes) == ncol(data),
                  paste(names(data), collapse = ", "),
                  paste(indexes, collapse = ", "))
-  data <- add_to_report(x        = data,
-                        name     = "missing_values_replaced_at",
-                        add_this = xx)
+  data <- add_to_report(x     = data,
+                        key   = "missing_values_replaced_at",
+                        value = xx)
 
   return(data)
 }
