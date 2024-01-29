@@ -12,8 +12,7 @@ numbers_only <- function(x) {
 #' @param x the string of interest
 #' @param sep the separator in the string of interest
 #' @keywords internal
-#' @noRd
-get_part1 <- function(x, sep) {
+date_get_part1 <- function(x, sep) {
   if (is.na(x)) {
     return(NA)
   }
@@ -25,8 +24,7 @@ get_part1 <- function(x, sep) {
 #' @param x the string of interest
 #' @param sep the separator in the string of interest
 #' @keywords internal
-#' @noRd
-get_part2 <- function(x, sep) {
+date_get_part2 <- function(x, sep) {
   if (is.na(x)) {
     return(NA)
   }
@@ -38,9 +36,8 @@ get_part2 <- function(x, sep) {
 #' @param x the string of interest
 #' @param sep the separator in the string of interest
 #' @keywords internal
-#' @noRd
 #'
-get_part3 <- function(x, sep) {
+date_get_part3 <- function(x, sep) {
   if (is.na(x)) {
     return(NA)
   }
@@ -58,33 +55,6 @@ get_sum <- function(x) {
     x <- sum(as.numeric(substr(x, 1L, 1L)), as.numeric(substr(x, 2L, 2L)))
   }
   x
-}
-
-#' Check if date column exists in given data frame
-#'
-#' @param data the input data frame
-#' @param date_column_name the date column of interest
-#' @keywords internal
-#' @noRd
-#'
-check_column_existence <- function(data, date_column_name) {
-  # check the column name
-  if (is.null(date_column_name)) {
-    idx <- which(names(data) %in% c("Date", "DATE", "date"))
-    if (length(idx) == 0L) {
-      stop("Could not find column named as ",
-           glue::glue_collapse(c("Date", "DATE", "date"), sep = " or "),
-           "\nPlease specify the date column name.")
-    }
-    date_column_name <- names(data)[idx]
-  }
-
-  # check whether the provided column name belong to the data
-  if (!all(date_column_name %in% names(data))) {
-    idx <- which(!(date_column_name %in% names(data)))
-    stop("Can't find column: ", date_column_name[idx])
-  }
-  date_column_name
 }
 
 #' Detect the numeric columns that appears as characters due to the presence of
