@@ -6,7 +6,7 @@
 \usage{
 standardize_dates(
   data,
-  date_column_name = NULL,
+  target_columns = NULL,
   format = NULL,
   timeframe = NULL,
   error_tolerance = 0.5
@@ -14,6 +14,9 @@ standardize_dates(
 }
 \arguments{
 \item{data}{the input data frame}
+
+\item{target_columns}{a vector or a comma-separated list of targeted date
+column names.}
 
 \item{format}{the format of the date values in the date columns}
 
@@ -23,9 +26,6 @@ that do not fall within this timeframe will be set to \code{NA}.}
 \item{error_tolerance}{a number between 0 and 1 indicating the proportion of
 entries which cannot be identified as dates to be tolerated. See the
 \code{clean_data()} helper for more details.}
-
-\item{target_columns}{a vector of targeted date column names.
-default: 'Date', or 'DATE', or 'date'}
 }
 \value{
 the input dataset where the date columns have been standardized

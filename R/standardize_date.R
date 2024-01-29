@@ -1,8 +1,8 @@
 #' Standardize date variables
 #'
 #' @param data the input data frame
-#' @param target_columns a vector of targeted date column names.
-#'    default: 'Date', or 'DATE', or 'date'
+#' @param target_columns a vector or a comma-separated list of targeted date
+#'    column names.
 #' @param format the format of the date values in the date columns
 #' @param timeframe a vector of 2 values of type date. If provided, date values
 #'    that do not fall within this timeframe will be set to `NA`.
@@ -23,12 +23,13 @@
 #'   error_tolerance = 0.5
 #' )
 standardize_dates <- function(data,
-                             date_column_name = NULL,
-                             format           = NULL,
-                             timeframe        = NULL,
-                             error_tolerance  = 0.5) {
+                              target_columns  = NULL,
+                              format          = NULL,
+                              timeframe       = NULL,
+                              error_tolerance = 0.5) {
+
   checkmate::assert_data_frame(data, null.ok = FALSE, min.cols = 1L)
-  checkmate::assert_character(date_column_name, null.ok = TRUE,
+  checkmate::assert_character(target_columns, null.ok = TRUE,
                               any.missing = FALSE)
   checkmate::assert_character(format, null.ok = TRUE, any.missing = FALSE)
   checkmate::assert_date(timeframe, any.missing = FALSE,
@@ -37,29 +38,25 @@ standardize_dates <- function(data,
                             max.len = 2L,
                             any.missing = FALSE, null.ok = TRUE)
 
-  if (!is.null(date_column_name)) {
+  if (!is.null(target_columns)) {
     # check input data format
-    date_column_name <- check_column_existence(data, date_column_name)
-
-    # standardize it
-    report[["standardize_date"]] <- glue::glue_collapse(date_column_name,
-                                                        sep = ", ")
-    for (cols in date_column_name) {
-      sep <- unique(as.character(unlist(lapply(data[[cols]],
-                                               detect_date_separator))))
+    target_columns <- date_check_column_existence(data, target_columns)
+    for (cols in target_columns) {
+      sep         <- unique(as.character(unlist(lapply(data[[cols]],
+                                                       date_detect_separator))))
+      # Guess the date format if it is not provided.
+      # This returns NULL if the format is not resolved.
       if (is.null(format)) {
-        data <- convert_to_date(data, cols, sep, error_tolerance)
+        format     <- date_get_format(data, cols, sep)
       }
+      data         <- date_convert(data, cols, sep, error_tolerance,
+                                   format, timeframe)
     }
   } else {
-    tmp_res <- date_guess_convert(data, error_tolerance = error_tolerance,
-                                  timeframe, check_timeframe, report)
-    data    <- tmp_res[[1L]]
-    report  <- tmp_res[[2L]]
+    data           <- date_guess_convert(data,
+                                         error_tolerance = error_tolerance,
+                                         timeframe)
   }
 
-  list(
-    data   = data,
-    report = report
-  )
+  return(data)
 }
