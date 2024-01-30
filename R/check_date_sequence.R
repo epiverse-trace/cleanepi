@@ -38,7 +38,7 @@ is_order <- function(x) {
 #' )
 check_date_sequence <- function(data, event_cols, remove_bad_seq = FALSE,
                                 report = list()) {
-  checkmate::assert_vector(event_cols, any.missing = FALSE, min.len = 1L,
+  checkmate::assert_vector(event_cols, any.missing = FALSE, min.len = 1L, max.len = dim(data)[2],
                            null.ok = FALSE, unique = TRUE)
   checkmate::assert_data_frame(data, null.ok = FALSE)
   checkmate::assert_logical(remove_bad_seq, any.missing = FALSE, len = 1L,
