@@ -70,7 +70,7 @@ scan_data <- function(data) {
   scan_result
 }
 
-#' Check the uniqueness in values of the sample IDs column
+#' Checks the uniqueness in values of the sample IDs column
 #'
 #' @param data the input data frame
 #' @param id_col_name the name of the column that contains the sample IDs
@@ -95,7 +95,7 @@ check_ids_uniqueness <- function(data, id_col_name, report = list()) {
   scan_result <- scan_data(data)
   if (scan_result[[id_col_name]][[1L]] != 0L) {
     idx       <- which(is.na(data[[id_col_name]]))
-    warning("\nMissing values found at ID column in lines: ",
+    warning("\nMissing values found on ID column in lines: ",
             glue::glue_collapse(idx, ", "), call. = FALSE)
     report[["missing_ids"]] <- data[idx, ]
     data                    <- data[-idx, ]
@@ -104,7 +104,7 @@ check_ids_uniqueness <- function(data, id_col_name, report = list()) {
   # check for duplicates ID column
   duplicated_ids <- find_duplicates(data, id_col_name)
   if (nrow(duplicated_ids) > 0L) {
-    warning("Found duplicated IDs! See the cleaning report for more details",
+    warning("Found duplicated IDs! See the attached cleaning report for more details",
             call. = FALSE)
     report[["duplicated_ids"]] <- duplicated_ids
   }
