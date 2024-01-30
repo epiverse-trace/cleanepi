@@ -38,7 +38,7 @@
 #'          the subject IDs
 #'   \item `subject_id_format`: the expected subject format
 #'   \item `prefix`: the prefix used in the subject IDs
-#'   \item `suffix`: the prefix used in the subject IDs
+#'   \item `suffix`: the suffix used in the subject IDs
 #'   \item `range`: a vector with the range of numbers in the subject IDs
 #'   \item `dictionary`: an object of type data frame. This is the data
 #'         dictionary that will be used to clean the specified columns. Use
@@ -52,8 +52,8 @@
 #'  \enumerate{
 #'    \item `data`: the cleaned data frame according to the user-specified
 #'          parameters
-#'    \item `report`: an object of type list with the details from every
-#'          cleaning operation.
+#'    \item `report`: an object of type list with the details from each
+#'          cleaning operation considered.
 #'  }
 #' @export
 #'
