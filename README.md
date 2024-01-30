@@ -1,5 +1,4 @@
 
-<!-- README.md is generated from README.Rmd. Please edit that file. -->
 <!-- The code to render this README is stored in .github/workflows/render-readme.yaml -->
 <!-- Variables marked with double curly braces will be transformed beforehand: -->
 <!-- `packagename` is extracted from the DESCRIPTION file -->
@@ -20,7 +19,7 @@ coverage](https://codecov.io/gh/epiverse-trace/cleanepi/branch/main/graph/badge.
 <!-- badges: end -->
 
 **cleanepi** is an R package to clean, curate, and standardize
-epidemiological data.
+tabular-data, specifically designed for epidemiological data
 
 **cleanepi** performs several data cleaning tasks that an end-user would
 anticipate to be performed on a cluttered dataset. These include
