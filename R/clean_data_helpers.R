@@ -1,11 +1,11 @@
-#' Get the percentage of missing and other data type values in a vector.
+#' Calculate the percentage of missing and other data type values in a vector.
 #' The considered data types are: `numeric`, `Date`, `character`, `logical`
 #'
 #' @param x a vector of 1 or a combination of the values of the type mentioned
 #'    above
 #'
 #' @return a vector of 4 elements that represent respectively the percent of:
-#'    missing, numeric, Date and character values found in the input vector.
+#'    missing, numeric, date, and character values found in the input vector.
 #'
 #' @keywords internal
 #' @noRd
