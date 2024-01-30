@@ -1,10 +1,10 @@
 #' Clean data
 #'
-#' @description this function is used to clean up messy data frames. This
-#'    include the cleaning of column names, detecting and removing of
+#' @description this function cleans up messy data frames by performing several operations. These Include
+#'    cleaning of column names, detecting and removing
 #'    duplicates, empty records and columns, constant columns, replacing missing
-#'    values by NA, converting character columns into Date when they contain a
-#'    certain number of Date values, detecting subject IDs with wrong format
+#'    values by NA, converting character columns into dates when they contain a
+#'    certain number of date values, and detecting subject IDs with wrong format
 #'
 #' @param data the input data frame
 #' @param params a list of parameters that define what cleaning operations will
