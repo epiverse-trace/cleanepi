@@ -5,8 +5,6 @@ editor_options:
     wrap: 72
 ---
 
-<!-- README.md is generated from README.Rmd. Please edit that file. -->
-
 <!-- The code to render this README is stored in .github/workflows/render-readme.yaml -->
 
 <!-- Variables marked with double curly braces will be transformed beforehand: -->
@@ -39,7 +37,7 @@ coverage](https://codecov.io/gh/epiverse-trace/cleanepi/branch/main/graph/badge.
 
 <!-- badges: end -->
 
-**{{ packagename }}** is an R package to clean, curate, and standardize epidemiological data. 
+**{{ packagename }}**  is an R package to clean, curate, and standardize tabular-data, specifically designed for  epidemiological data 
 
 **{{ packagename }}**  performs several data cleaning tasks that an end-user would anticipate to be performed on a cluttered dataset. These include standard tasks such as: removing duplicated and empty rows and columns, removing columns with constant values, replacing missing value strings with `NA`, ensuring uniqueness of uniquely identified columns, converting `character` columns to `Date` under certain conditions, etc.    
 
