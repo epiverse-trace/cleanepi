@@ -21,7 +21,7 @@ is_order <- function(x) {
 #'    For example: event_cols = c("date_symptoms_onset", "date_hospitalization", "date_death").
 #' @param remove_bad_seq a Boolean to specify if rows with incorrect order
 #'    should be filtered out or not. The default is FALSE
-#' @param report the object that will contains details about the result from the
+#' @param report  object  will contain details about the results from the
 #'    date columns standardization
 #'
 #' @returns rows of the input data frame with incorrect date sequence
