@@ -101,14 +101,13 @@ date_trim_outliers <- function(new_dates, dmin, dmax, cols, original_dates) {
 #'
 #' @inheritParams standardize_dates
 #' @param cols the date column name(s)
-#' @param sep the separator in the date values
 #'
 #' @return the input data frame where the specified columns have been converted
 #'    into Date.
 #'
 #' @keywords internal
 #'
-date_convert <- function(data, cols, sep, error_tolerance, format = NULL,
+date_convert <- function(data, cols, error_tolerance, format = NULL,
                          timeframe = NULL) {
   # Use the format or guess the date format and convert the date values
   if (!is.null(format)) {
@@ -476,7 +475,7 @@ date_process <- function(x) {
     return(x)
   }
 
-  if (is.factor(x)) {
+  if (is.factor(x) || is.numeric(x)) {
     x <- as.character(x)
   }
 
