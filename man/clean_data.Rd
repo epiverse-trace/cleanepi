@@ -6,12 +6,12 @@
 \usage{
 clean_data(
   data,
-  params = list(keep = NULL, replace_missing_values = list(from = NULL, na_comes_as =
-    NULL), remove_duplicates = list(target_columns = NULL, rm_empty_rows = "all",
-    rm_empty_cols = "all", rm_constant_cols = TRUE), standardize_date =
-    list(target_columns = NULL, error_tolerance = 0.5, format = NULL, timeframe = NULL),
-    standardize_subject_ids = list(id_col_name = "id", format = NULL, prefix = NULL,
-    suffix = NULL, range = NULL), dictionary = NULL, to_numeric = NULL)
+  params = list(keep = NULL, replace_missing_values = list(target_columns = NULL,
+    na_strings = cleanepi::common_na_strings), remove_duplicates = list(target_columns =
+    NULL, rm_empty_rows = "all", rm_empty_cols = "all", rm_constant_cols = TRUE),
+    standardize_date = list(target_columns = NULL, error_tolerance = 0.5, format = NULL,
+    timeframe = NULL), standardize_subject_ids = list(id_col_name = "id", format = NULL,
+    prefix = NULL, suffix = NULL, range = NULL), dictionary = NULL, to_numeric = NULL)
 )
 }
 \arguments{
