@@ -122,6 +122,7 @@ date_convert <- function(data, cols, sep, error_tolerance, format = NULL,
 
   # Trim outliers i.e. date values that are out of the range of the provided
   # timeframe
+  outsiders        <- NULL
   if (!is.null(timeframe)) {
     res            <- date_convert_and_update(data, timeframe, new_dates, cols,
                                               error_tolerance)
@@ -209,6 +210,7 @@ date_guess_convert <- function(data, error_tolerance, timeframe) {
   }
 
   # convert characters and factors to date when applicable
+  outsiders     <- NULL
   of_interest   <- c(are_characters, are_factors, are_dates, are_posix)
   for (i in names(of_interest)) {
     new_dates   <- date_guess(data[[i]], error_tolerance = error_tolerance)
