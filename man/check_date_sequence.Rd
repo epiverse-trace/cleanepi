@@ -2,7 +2,7 @@
 % Please edit documentation in R/check_date_sequence.R
 \name{check_date_sequence}
 \alias{check_date_sequence}
-\title{Check the sequence of event dates}
+\title{Check order for sequence of date-events}
 \usage{
 check_date_sequence(data, event_cols, remove_bad_seq = FALSE, report = list())
 }
@@ -11,13 +11,12 @@ check_date_sequence(data, event_cols, remove_bad_seq = FALSE, report = list())
 
 \item{event_cols}{a vector or a comma-separated list of the event columns
 names. Users should specify at least 2 column names in the expected order.
-For example: event_cols = c("DS", "DH", "DD") where DS=date of the
-symptoms onset, DH=date of hospitalization, DD=date of death}
+For example: event_cols = c("date_symptoms_onset", "date_hospitalization", "date_death").}
 
 \item{remove_bad_seq}{a Boolean to specify if rows with incorrect order
-should be filtered out or not. default is FALSE}
+should be filtered out or not. The default is FALSE}
 
-\item{report}{the object that will contains details about the result from the
+\item{report}{object  will contain details about the results from the
 date columns standardization}
 }
 \value{
@@ -26,8 +25,8 @@ if \code{remove_bad_seq = FALSE}, the input data frame without those
 rows if not
 }
 \description{
-This function is used to check whether date sequence in
-the specified columns is correct or not.
+This function checks whether a date sequence in
+a vector of  specified columns is correct or not.
 }
 \examples{
 good_date_sequence <- check_date_sequence(

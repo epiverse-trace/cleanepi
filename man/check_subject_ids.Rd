@@ -19,14 +19,14 @@ check_subject_ids(
 \arguments{
 \item{data}{the data frame of interest}
 
-\item{format}{the expected subject IDs format}
+\item{format}{the expected format of the subject IDs}
 
 \item{id_column_name}{the name of the column with the subject IDs. If not
-specified, the first column will be considered by default}
+specified, the first column will be considered by default.}
 
 \item{prefix}{the prefix used in the subject IDs}
 
-\item{suffix}{the prefix used in the subject IDs}
+\item{suffix}{the suffix used in the subject IDs}
 
 \item{range}{a vector with the range of numbers in the sample IDs}
 
@@ -38,9 +38,9 @@ subject IDs}
 \item{report}{the report object}
 }
 \value{
-if found, the function return a list with 2 elements: the cleaned
-data frame with correct subject IDs and a report containing the rows of
-the input data frame with incorrect subject IDs
+a list of 2 elements: the cleaned
+data frame with correct subject IDs, and a report containing the rows of
+the input data frame where incorrect subject IDs were found.
 }
 \description{
 Check whether the subject IDs comply with the expected format

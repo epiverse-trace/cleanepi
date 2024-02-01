@@ -14,12 +14,6 @@ parsing of the same date vector}
 
 \item{mxl}{"modern excel" if TRUE, then it uses 1900 as the origin, otherwise
 1904 is used as the origin.}
-
-\item{dmin}{the minimum dates}
-
-\item{dmax}{the maximum dates}
-
-\item{baddies}{an environment that will act as a list of bad dates.}
 }
 \description{
 Find the dates that lubridate couldn't

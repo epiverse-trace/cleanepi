@@ -12,7 +12,7 @@ calculate_age(
 )
 }
 \arguments{
-\item{data}{a data frame with the date column to standardise}
+\item{data}{a data frame with at one date column.}
 
 \item{date_column_name}{the name of the date column of interest.
 default: 'Date', or, 'DATE', or 'date'}
@@ -21,16 +21,16 @@ default: 'Date', or, 'DATE', or 'date'}
 
 \item{age_in}{a character string to specify whether to calculate
 the age in 'years', or 'months', or 'days', or 'weeks'.
-default is: 'years'}
+default is: 'years'.}
 }
 \value{
 a data frame with 1 or 2 extra columns compared to the input data
-frame
+frame.
 \enumerate{
-\item "age_years", or "age_months", or "age_weeks", or "age_days",
-depending on the value of the 'age_in' parameter
+\item "age_in_years", or "age_in_months", or "age_in_weeks", or "age_in_days",
+depending on the value of the 'age_in' parameter.
 \item "remainder_days": a column with the number of remaining days
-after the age is converted in weeks or months
+after the age is converted in weeks or months.
 }
 }
 \description{
