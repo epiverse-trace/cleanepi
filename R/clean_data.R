@@ -212,15 +212,11 @@ clean_data <- function(data,
   ## | numeric column. This ensures that the values in a numeric column are
   ## | homogeneous.
   ## -----
-  if (!("to_numeric" %in% names(params))) {
-    params[["to_numeric"]] <- NULL
+  if (!is.null(params[["to_numeric"]])) {
+    data <- convert_to_numeric(data       = data,
+                               to_numeric = params[["to_numeric"]],
+                               scan_res   = scan_result)
   }
-  tmp_res <- convert_to_numeric(data       = data,
-                                report     = report,
-                                to_numeric = params[["to_numeric"]],
-                                scan_res   = scan_result)
-  data    <- tmp_res[["data"]]
-  report  <- tmp_res[["report"]]
 
   ## -----
   ## The values in some columns are coded and their correspondent expressions
@@ -233,12 +229,10 @@ clean_data <- function(data,
   }
 
 
-  # this is where to call the reporting function
-  report[["params"]] <- params
+  # this is where to call the report printing function
+  report <- attr(data, "report")
+  print_report(report)
 
   # return the final object
-  list(
-    data   = data,
-    report = report
-  )
+  return(data)
 }
