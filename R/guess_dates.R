@@ -242,9 +242,6 @@ date_choose_first_good <- function(date_a_frame) {
 #' @param date_a_frame a data frame where each column contains a different
 #'    parsing of the same date vector
 #' @param original_dates the vector of original dates.
-#' @param dmin the minimum dates
-#' @param dmax the maximum dates
-#' @param baddies an environment that will act as a list of bad dates.
 #' @param mxl "modern excel" if TRUE, then it uses 1900 as the origin, otherwise
 #'    1904 is used as the origin.
 #'
@@ -276,17 +273,14 @@ date_rescue_lubridate_failures <- function(date_a_frame, original_dates,
 }
 
 
-## Extract date fron a character string
-##
-## Internal function. This function looks for a well-formatted date character
-## string inside a single character string, and returns the matching date using
-## the `%Y-%m-%d` format (e.g. `2018-01-23`).
-##
-##
-## @author Thibaut Jombart
-##
-## @return
-## Either `NA_character_` or a date, as a standardised character string.
+#' Extract date from a character string
+#'
+#' This function looks for a well-formatted date character string inside a
+#' single character string, and returns the matching date using the `%Y-%m-%d`
+#' format (e.g. `2018-01-23`).
+#'
+#' @author Thibaut Jombart
+#' @return Either `NA_character_` or a date, as a standardized character string.
 #' @keywords internal
 date_i_extract_string <- function(x) {
 
@@ -303,20 +297,20 @@ date_i_extract_string <- function(x) {
                               format = date_info[["format"]])))
 }
 
-## Guess date format of a character string
-##
-## Internal function. The motivation behing this is that `as.Date` does not
-## handle correctly its `format` argument,
-## e.g. `as.Date("01-12-2001", format = "%Y-%m-%d")` returns `1-12-20`. Tries to
-## match a single character string against regular expressions representing
-## potential date formats. Returns the format as something that can be processed
-## by `as.Date` if a match is found, and `NULL` otherwise.
-##
-## @author Thibaut Jombart
-##
-## @return If no matching format can be found, the function returns NULL; if a
-##   matching format is found, the function returned the matched regular
-##   expression (clean date) and its format compatible with `as.Date`.
+#' Guess date format of a character string
+#'
+#' The motivation behind this is that `as.Date` does not handle correctly its
+#' `format` argument, e.g. `as.Date("01-12-2001", format = "%Y-%m-%d")` returns
+#' `1-12-20`. Tries to match a single character string against regular
+#' expressions representing potential date formats. Returns the format as
+#' something that can be processed by `as.Date` if a match is found, and `NULL`
+#' otherwise.
+#'
+#' @author Thibaut Jombart
+#'
+#' @return If no matching format can be found, the function returns NULL; if a
+#'    matching format is found, the function returned the matched regular
+#'    expression (clean date) and its format compatible with `as.Date`.
 #' @keywords internal
 date_i_find_format <- function(x) {
   x <- as.character(x[[1L]])
