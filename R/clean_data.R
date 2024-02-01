@@ -95,8 +95,8 @@
 clean_data <- function(data,
                        params = list(
                          keep                   = NULL,
-                         replace_missing_values = list(from        = NULL,
-                                                       na_comes_as = NULL),
+                         replace_missing_values = list(target_columns = NULL,
+                                                       na_strings = cleanepi::common_na_strings),
                          remove_duplicates   = list(target_columns    = NULL,
                                                     rm_empty_rows    = "all",
                                                     rm_empty_cols    = "all",
@@ -134,15 +134,15 @@ clean_data <- function(data,
     R.utils::cat("\nreplacing missing values with NA")
     data <- replace_missing_values(
       data,
-      from        = params[["replace_missing_values"]][["from"]],
-      na_comes_as = params[["replace_missing_values"]][["na_comes_as"]]
+      target_columns = params[["replace_missing_values"]][["from"]],
+      na_strings     = params[["replace_missing_values"]][["na_comes_as"]]
     )
   }
 
   ## -----
   ## | The existence of duplicated records can be genuine. But duplication is
   ## | generally introduced by mistake. We looks for and remove duplicates to
-  ## | minimise potential issues during data analysis. When no column is
+  ## | minimize potential issues during data analysis. When no column is
   ## | provided, duplicates are identified across all column. Otherwise, the
   ## | duplicates will only be considered from the specified columns.
   ## |
@@ -170,56 +170,33 @@ clean_data <- function(data,
   if (!("error_tolerance" %in% names(params))) {
     params[["error_tolerance"]] <- 0.5
   }
-  dat <- standardize_dates(
-    data             = data,
-    date_column_name = NULL,
-    format           = NULL,
-    timeframe        = params[["timeframe"]],
-    check_timeframe  = params[["check_timeframe"]],
-    report,
-    error_tolerance  = params[["error_tolerance"]]
+  data <- standardize_dates(
+    data            = data,
+    target_columns  = params[["standardize_date"]][["target_columns"]],
+    format          = params[["standardize_date"]][["format"]],
+    timeframe       = params[["standardize_date"]][["timeframe"]],
+    error_tolerance = params[["standardize_date"]][["error_tolerance"]]
   )
-  report <- dat[["report"]]
-  report <- report_cleaning(data, dat[["data"]],
-                            state  = "standardize_date",
-                            report = report)
-  data <- dat[[1L]]
 
   ## -----
-  ## | The uniqueness of the IDs is checked here to ensure that there is no
-  ## | redundant subject ID.
-  ## -----
-  stopifnot("'subject_id_col_name' must be provided in the list of cleaning
-            parameters." = !is.null(params[["subject_id_col_name"]]))
-  R.utils::cat("\nchecking for subject IDs uniqueness")
-  dat <- check_ids_uniqueness(
-    data        = data,
-    id_col_name = params[["subject_id_col_name"]],
-    report      = report
-  )
-  report <- dat[["report"]]
-  data   <- dat[["data"]]
-
-  ## -----
-  ## | We check how the format of the subject IDs complies with the expected
+  ## | We check whether the format of the subject IDs complies with the expected
   ## | format to detect typos or incorrect entries. This will result in a tidy
   ## | subject ID column where all values are in the correct format.
+  ## | The uniqueness of the IDs is also checked here to ensure that there is no
+  ## | redundant subject ID.
   ## -----
-  if (!is.null(params[["subject_id_format"]])) {
+  if (!is.null(params[["standardize_subject_ids"]])) {
     R.utils::cat("\nchecking subject IDs format")
-    tmp_res <- check_subject_ids(
+    stopifnot("'id_col_name' must be provided." =
+                !is.null(params[["standardize_subject_ids"]][["id_col_name"]]))
+    data <- check_subject_ids(
       data           = data,
-      format         = params[["subject_id_format"]],
-      id_column_name = params[["subject_id_col_name"]],
-      prefix         = params[["prefix"]],
-      suffix         = params[["suffix"]],
-      range          = params[["range"]],
-      remove         = TRUE,
-      verbose        = FALSE,
-      report         = report
+      format         = params[["standardize_subject_ids"]][["format"]],
+      id_column_name = params[["standardize_subject_ids"]][["id_col_name"]],
+      prefix         = params[["standardize_subject_ids"]][["prefix"]],
+      suffix         = params[["standardize_subject_ids"]][["suffix"]],
+      range          = params[["standardize_subject_ids"]][["range"]]
     )
-    data   <- tmp_res[[1L]]
-    report <- tmp_res[[2L]]
   }
 
   ## -----
