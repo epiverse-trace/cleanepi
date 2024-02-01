@@ -4,16 +4,22 @@
 \alias{replace_missing_values}
 \title{Replace missing values with \code{NA}}
 \usage{
-replace_missing_values(data, from = NULL, na_comes_as = NULL)
+replace_missing_values(
+  data,
+  target_columns = NULL,
+  na_strings = cleanepi::common_na_strings
+)
 }
 \arguments{
 \item{data}{the input data}
 
-\item{from}{a vector of column names. If provided, the missing values
-substitution will only be performed in those columns}
+\item{target_columns}{a vector of column names. If provided, the missing
+values substitution will only be performed in those columns.}
 
-\item{na_comes_as}{the string that represents the missing values in the
-column of interest}
+\item{na_strings}{a vector of strings that represent the missing values in
+the columns of interest. Default values are \code{cleanepi::common_na_strings}.
+When the missing values string in the columns of interest is not part of
+this predefined vector, it can be used as the value for this argument.}
 }
 \value{
 the input data where missing values are replaced by \code{NA}
@@ -25,8 +31,8 @@ Replace missing values with \code{NA}
 cleaned_data <- replace_missing_values(
   data        = readRDS(system.file("extdata", "test_df.RDS",
                                     package = "cleanepi")),
-  from        = "sex",
-  na_comes_as = "-99"
+  target_columns = "sex",
+  na_strings     = "-99"
 )
 
 }

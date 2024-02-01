@@ -2,7 +2,7 @@
 % Please edit documentation in R/clean_data_helpers.R
 \name{check_ids_uniqueness}
 \alias{check_ids_uniqueness}
-\title{Check the uniqueness in values of the sample IDs column}
+\title{Checks the uniqueness in values of the sample IDs column}
 \usage{
 check_ids_uniqueness(data, id_col_name, report = list())
 }
@@ -20,7 +20,7 @@ as \strong{duplicated_ids}. This is either a \code{data.frame} if there are rows
 with duplicated IDs or \code{NULL} if not.
 }
 \description{
-Check the uniqueness in values of the sample IDs column
+Checks the uniqueness in values of the sample IDs column
 }
 \examples{
 \dontrun{
