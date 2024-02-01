@@ -1,10 +1,10 @@
 #' Clean data
 #'
-#' @description this function is used to clean up messy data frames. This
-#'    include the cleaning of column names, detecting and removing of
+#' @description this function cleans up messy data frames by performing several operations. These Include
+#'    cleaning of column names, detecting and removing
 #'    duplicates, empty records and columns, constant columns, replacing missing
-#'    values by NA, converting character columns into Date when they contain a
-#'    certain number of Date values, detecting subject IDs with wrong format
+#'    values by NA, converting character columns into dates when they contain a
+#'    certain number of date values, and detecting subject IDs with wrong format
 #'
 #' @param data the input data frame
 #' @param params a list of parameters that define what cleaning operations will
@@ -38,7 +38,7 @@
 #'          the subject IDs
 #'   \item `subject_id_format`: the expected subject format
 #'   \item `prefix`: the prefix used in the subject IDs
-#'   \item `suffix`: the prefix used in the subject IDs
+#'   \item `suffix`: the suffix used in the subject IDs
 #'   \item `range`: a vector with the range of numbers in the subject IDs
 #'   \item `dictionary`: an object of type data frame. This is the data
 #'         dictionary that will be used to clean the specified columns. Use
@@ -52,8 +52,8 @@
 #'  \enumerate{
 #'    \item `data`: the cleaned data frame according to the user-specified
 #'          parameters
-#'    \item `report`: an object of type list with the details from every
-#'          cleaning operation.
+#'    \item `report`: an object of type list with the details from each
+#'          cleaning operation considered.
 #'  }
 #' @export
 #'

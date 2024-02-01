@@ -1,4 +1,4 @@
-#' Check the sequence of the event
+#' Check order for sequence of events
 #'
 #' @param x the string of interest
 #' @keywords internal
@@ -10,19 +10,18 @@ is_order <- function(x) {
 
 
 
-#' Check the sequence of event dates
+#' Check order for sequence of date-events
 #'
-#' @description This function is used to check whether date sequence in
-#' the specified columns is correct or not.
+#' @description This function checks whether a date sequence in
+#' a vector of  specified columns is correct or not.
 #'
 #' @param data the input data frame
 #' @param event_cols a vector or a comma-separated list of the event columns
 #'    names. Users should specify at least 2 column names in the expected order.
-#'    For example: event_cols = c("DS", "DH", "DD") where DS=date of the
-#'    symptoms onset, DH=date of hospitalization, DD=date of death
+#'    For example: event_cols = c("date_symptoms_onset", "date_hospitalization", "date_death").
 #' @param remove_bad_seq a Boolean to specify if rows with incorrect order
-#'    should be filtered out or not. default is FALSE
-#' @param report the object that will contains details about the result from the
+#'    should be filtered out or not. The default is FALSE
+#' @param report  object  will contain details about the results from the
 #'    date columns standardization
 #'
 #' @returns rows of the input data frame with incorrect date sequence
@@ -39,7 +38,7 @@ is_order <- function(x) {
 #' )
 check_date_sequence <- function(data, event_cols, remove_bad_seq = FALSE,
                                 report = list()) {
-  checkmate::assert_vector(event_cols, any.missing = FALSE, min.len = 1L,
+  checkmate::assert_vector(event_cols, any.missing = FALSE, min.len = 1L, max.len = dim(data)[2],
                            null.ok = FALSE, unique = TRUE)
   checkmate::assert_data_frame(data, null.ok = FALSE)
   checkmate::assert_logical(remove_bad_seq, any.missing = FALSE, len = 1L,

@@ -14,19 +14,19 @@ check_id_length <- function(x, ref) {
 #'
 #' @param data the data frame of interest
 #' @param id_column_name the name of the column with the subject IDs. If not
-#'    specified, the first column will be considered by default
-#' @param format the expected subject IDs format
+#'    specified, the first column will be considered by default.
+#' @param format the expected format of the subject IDs
 #' @param prefix the prefix used in the subject IDs
-#' @param suffix the prefix used in the subject IDs
+#' @param suffix the suffix used in the subject IDs
 #' @param range a vector with the range of numbers in the sample IDs
 #' @param remove a Boolean to specify whether to remove rows with incorrect
 #' @param verbose a Boolean to specify whether print the detected incorrect
 #'    subject IDs
 #' @param report the report object
 #'
-#' @returns if found, the function return a list with 2 elements: the cleaned
-#'    data frame with correct subject IDs and a report containing the rows of
-#'    the input data frame with incorrect subject IDs
+#' @returns a list of 2 elements: the cleaned
+#'    data frame with correct subject IDs, and a report containing the rows of
+#'    the input data frame where incorrect subject IDs were found.
 #'
 #' @examples
 #' dat <- check_subject_ids(
