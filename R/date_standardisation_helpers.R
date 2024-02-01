@@ -3,7 +3,6 @@
 #' @param x the string of interest
 #' @param format the date format
 #' @keywords internal
-#' @noRd
 #'
 as_date <- function(x, format = c("ymd", "ydm", "dmy", "mdy", "myd", "dym",
                                   "Ymd", "Ydm", "dmY", "mdY", "mYd", "dYm")) {
@@ -74,7 +73,6 @@ date_check_timeframe <- function(first_date, last_date) {
 #' @param cols the name of the date column of interest
 #' @param original_dates a vector of the original date values
 #' @keywords internal
-#' @noRd
 #'
 date_trim_outliers <- function(new_dates, dmin, dmax, cols, original_dates) {
 
@@ -189,11 +187,8 @@ date_convert_and_update <- function(data, timeframe, new_dates, cols,
 #'     `clean_data()` helper for more details
 #' @param timeframe the expected first and last date. See the `clean_data()`
 #'    helper for more details
-#' @param check_timeframe a logical to determine whether to check if the dates
-#'    fall under the given time frame of not
-#' @param report the object that will contains the report from this operation
+#'
 #' @keywords internal
-#' @noRd
 #'
 date_guess_convert <- function(data, error_tolerance, timeframe) {
   # guess and convert for column of type character, factor and POSIX
