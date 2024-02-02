@@ -4,14 +4,12 @@
 \alias{date_convert}
 \title{Convert characters to dates}
 \usage{
-date_convert(data, cols, sep, error_tolerance, format = NULL, timeframe = NULL)
+date_convert(data, cols, error_tolerance, format = NULL, timeframe = NULL)
 }
 \arguments{
 \item{data}{the input data frame}
 
 \item{cols}{the date column name(s)}
-
-\item{sep}{the separator in the date values}
 
 \item{error_tolerance}{a number between 0 and 1 indicating the proportion of
 entries which cannot be identified as dates to be tolerated. See the

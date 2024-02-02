@@ -20,10 +20,12 @@ in the data dictionary.
 Perform dictionary-based cleaning
 }
 \examples{
-cleaned_df <- clean_using_dictionary(
-  data       = readRDS(system.file("extdata", "messy_data.RDS",
-                       package = "cleanepi")),
+data           <- readRDS(system.file("extdata", "messy_data.RDS",
+                                      package = "cleanepi"))
+data$gender[2] <- "homme"
+cleaned_df     <- clean_using_dictionary(
+  data       = data,
   dictionary = readRDS(system.file("extdata", "test_dict.RDS",
-                       package = "cleanepi"))
+                                   package = "cleanepi"))
 )
 }
