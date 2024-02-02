@@ -8,111 +8,101 @@
 #'
 #' @param data the input data frame
 #' @param params a list of parameters that define what cleaning operations will
-#'    be applied on the input data. Possible parameters are:
+#'    be applied on the input data. Possible values are:
 #' \enumerate{
-#'   \item `remove_duplicates`: whether to remove duplicated records or not. If
-#'        `TRUE`, the `remove` argument of the `remove_duplicate()` function
-#'        will automatically be set to `-1` i.e. to keep only the first instance
-#'        of duplicated rows.
-#'        When the user only needs to detect duplicated rows in the dataset, use
-#'        the `find_duplicates()` function.
-#'   \item `target_columns`: a vector of columns names or indices to consider
-#'        when looking for duplicates. When the input data is a `linelist`
-#'        object, this parameter can be set to `tags` if you wish to look for
-#'        duplicates across the tagged variables only. Only used when
-#'        `remove_duplicates=TRUE`
-#'   \item `replace_missing`: whether to replace the missing value characters
-#'         with NA or not. default is FALSE
-#'   \item `na_comes_as`: the characters that represent the missing values in
-#'         the data frame. Only used when `replace_missing=TRUE`
-#'   \item `check_timeframe`: a logical to determine whether to check if the
-#'         dates fall under the given time frame of not. default: FALSE
-#'   \item `timeframe`: a vector of 2 elements of Date class that specifies the
-#'         first and last date. If provided, all Dates in the data frame must be
-#'         within this range or set to NA during the cleaning.
-#'   \item `error_tolerance`: a number between 0 and 1 indicating the proportion
-#'         of entries which cannot be identified as dates to be tolerated; if
-#'         this proportion is exceeded, the original vector is returned, and a
-#'         message is issued; defaults to 0.1 (10 percent)
-#'   \item `subject_id_col_name`: the name of the column in the data frame with
-#'          the subject IDs
-#'   \item `subject_id_format`: the expected subject format
-#'   \item `prefix`: the prefix used in the subject IDs
-#'   \item `suffix`: the suffix used in the subject IDs
-#'   \item `range`: a vector with the range of numbers in the subject IDs
-#'   \item `dictionary`: an object of type data frame. This is the data
-#'         dictionary that will be used to clean the specified columns. Use
-#'         `?clean_using_dictionary` for more details.
-#'   \item `range`: a vector with the range of numbers in the sample IDs
-#'   \item `keep`: a vector of column names to be kept as they appear
-#'          in the original data. default is `NULL`
+#'   \item `keep`: a vector of column names to be kept as they appear in the
+#'      original data. All column names will be standardized if this is `NULL`
+#'      (the default value).
+#'   \item `replace_missing_values`: a list of parameters to be used when
+#'      replacing the missing values by `NA`. These parameters are the inputs
+#'      for the `replace_missing_values()` function.
+#'   \item `remove_duplicates`: a list of arguments that defines the list of
+#'      columns to be considered when looking for duplicates. It also contains
+#'      arguments that determine how constant rows and columns will be handled.
+#'      They are the input values for the `remove_duplicates()` function.
+#'   \item `standardize_date`: a list of parameters that will be used to
+#'      standardize the date values from the input data. They represent the
+#'      input values for the `standardize_dates()` function.
+#'   \item `standardize_subject_ids`: a list of parameters that are needed to
+#'      check the IDs that comply with the expect format. These arguments are
+#'      the input values of the `check_subject_ids()`.
+#'   \item `to_numeric`: a vector of column names. When provided, the values in
+#'      these columns will be converted into numeric.
+#'   \item `dictionary`: an data frame that will be used to substitute the
+#'      current values in the specified columns the those in the dictionary. It
+#'      is the main argument for the `clean_using_dictionary()` function.
 #'   }
 #'
-#' @return a list of the following 2 elements:
-#'  \enumerate{
-#'    \item `data`: the cleaned data frame according to the user-specified
-#'          parameters
-#'    \item `report`: an object of type list with the details from each
-#'          cleaning operation considered.
-#'  }
+#' @return the cleaned data frame according to the user-specified parameters
 #' @export
 #'
-#' @details
-#' If `check_timeframe = TRUE` and `timeframe = NULL`, the timeframe will be
-#' today's date and the same date 50 years before.
-#'
-#' in `clean_data()`, duplicated rows will be identified across the
-#' user-specified or all columns. Once detected, all occurrences of the
-#' duplicated rows will be removed except the first. If you only need to find
-#' and remove specific duplicates, use the `find_duplicates()` then
-#' `remove_duplicates()` functions.
-#'
 #' @examples
+#' Here `keep = NULL` i.e. column names standardization will be performed across
+#' all columns
+#'
+#' Parameters for substituting missing values with NA:
+#' replace_missing_values = list(target_columns = NULL, na_strings = "-99")
+#'
+#' Parameters for duplicates removal across all columns (target_columns = NULL)
+#' remove_duplicates = list(target_columns   = NULL,
+#'                          rm_empty_rows    = TRUE,
+#'                          rm_empty_cols    = TRUE,
+#'                          rm_constant_cols = TRUE)
+#'
+#' Parameters for dates standardization
+#' standardize_date = list(target_columns  = NULL,
+#'                         error_tolerance = 0.5,
+#'                         format          = NULL,
+#'                         timeframe       = as.Date(c("1973-05-29",
+#'                                                     "2023-05-29")))
+#'
+#' Parameters for subject IDs standardization
+#' standardize_subject_ids = list(id_col_name,
+#'                                format      = NULL,
+#'                                prefix      = "PS",
+#'                                suffix      = "P2",
+#'                                range       = c(1, 100))
+#'
+#' `to_numeric = "sex"`: the 'sex' column will be converted into numeric
+#'
+#' `dictionary = NULL`: the dictionary-based cleaning will not be performed here
+#'
 #' cleaned_data <- clean_data(
 #'   data   = readRDS(system.file("extdata", "test_df.RDS",
 #'                                package = "cleanepi")),
 #'   params = list(
-#'     keep                = NULL,
-#'     replace_missing_values = list(from        = NULL,
-#'                                   na_comes_as = "-99"),
-#'     remove_duplicates   = list(target_columns   = NULL,
-#'                                rm_empty_rows    = "all",
-#'                                rm_empty_cols    = "all",
-#'                                rm_constant_cols = TRUE),
-#'     standardize_date = list(target_columns  = NULL,
-#'                             error_tolerance = 0.5,
-#'                             format          = NULL,
-#'                             timeframe       = as.Date(c("1973-05-29",
-#'                                                         "2023-05-29"))),
-#'     standardize_subject_ids = list(id_col_name,
-#'                                    format      = NULL,
-#'                                    prefix      = NULL,
-#'                                    suffix      = NULL,
-#'                                    range       = NULL),
-#'     to_numeric = NULL
-#'     dictionary = NULL))
+#'     keep                    = NULL,
+#'     replace_missing_values  = replace_missing_values,
+#'     remove_duplicates       = remove_duplicates,
+#'     standardize_date        = standardize_date,
+#'     standardize_subject_ids = standardize_subject_ids,
+#'     to_numeric              = "sex"
+#'     dictionary             = NULL
+#'   )
+#' )
 #'
-clean_data <- function(data,
-                       params = list(
-                         keep                   = NULL,
-                         replace_missing_values = list(target_columns = NULL,
-                                                       na_strings = cleanepi::common_na_strings),
-                         remove_duplicates   = list(target_columns    = NULL,
-                                                    rm_empty_rows    = "all",
-                                                    rm_empty_cols    = "all",
-                                                    rm_constant_cols = TRUE),
-                         standardize_date = list(target_columns   = NULL,
-                                                 error_tolerance = 0.5,
-                                                 format          = NULL,
-                                                 timeframe       = NULL),
-                         standardize_subject_ids = list(id_col_name = "id",
-                                                        format      = NULL,
-                                                        prefix      = NULL,
-                                                        suffix      = NULL,
-                                                        range       = NULL),
-                         dictionary          = NULL,
-                         to_numeric = NULL)
-                       ) {
+clean_data <- function(
+    data,
+    params = list(
+      keep                   = NULL,
+      replace_missing_values = list(target_columns = NULL,
+                                    na_strings = cleanepi::common_na_strings),
+      remove_duplicates      = list(target_columns   = NULL,
+                                    rm_empty_rows    = TRUE,
+                                    rm_empty_cols    = TRUE,
+                                    rm_constant_cols = TRUE),
+     standardize_date        = list(target_columns  = NULL,
+                                    error_tolerance = 0.5,
+                                    format          = NULL,
+                                    timeframe       = NULL),
+     standardize_subject_ids = list(id_col_name = "id",
+                                    format      = NULL,
+                                    prefix      = NULL,
+                                    suffix      = NULL,
+                                    range       = NULL),
+     dictionary              = NULL,
+     to_numeric              = NULL)
+   ) {
   checkmate::assert_data_frame(data, null.ok = FALSE, min.cols = 1L)
   checkmate::assert_list(params, min.len = 0L, null.ok = TRUE)
 
