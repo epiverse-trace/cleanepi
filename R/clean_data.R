@@ -213,6 +213,9 @@ clean_data <- function(data,
   ## | homogeneous.
   ## -----
   if (!is.null(params[["to_numeric"]])) {
+    R.utils::cat("\nconverting",
+                 paste(params[["to_numeric"]], collapse = ", "),
+                 "into numeric")
     data <- convert_to_numeric(data       = data,
                                to_numeric = params[["to_numeric"]],
                                scan_res   = scan_result)
@@ -225,13 +228,13 @@ clean_data <- function(data,
   ## We also account for the
   ## -----
   if (!is.null(params[["dictionary"]])) {
+    R.utils::cat("\nperforming dictionary-based cleaning")
     data <- clean_using_dictionary(data, params[["dictionary"]])
   }
 
 
   # this is where to call the report printing function
-  report <- attr(data, "report")
-  print_report(report)
+  # print_report(report)
 
   # return the final object
   return(data)

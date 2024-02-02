@@ -1,3 +1,78 @@
+#' Perform dictionary-based cleaning
+#'
+#' @param data the input data
+#' @param dictionary a `data frame` with the data dictionary associated to the
+#'    input data. This should be in the format
+#'
+#' @returns a `data frame` with cleaned values in the target columns specified
+#'    in the data dictionary.
+#' @export
+#'
+#' @examples
+#' data           <- readRDS(system.file("extdata", "messy_data.RDS",
+#'                                       package = "cleanepi"))
+#' data$gender[2] <- "homme"
+#' cleaned_df     <- clean_using_dictionary(
+#'   data       = data,
+#'   dictionary = readRDS(system.file("extdata", "test_dict.RDS",
+#'                                    package = "cleanepi"))
+#' )
+clean_using_dictionary <- function(data, dictionary) {
+  checkmate::assert_data_frame(data, min.rows = 1L, min.cols = 1L,
+                               null.ok = FALSE)
+  checkmate::assert_data_frame(dictionary, min.rows = 1L, max.cols = 4L,
+                               null.ok = FALSE)
+  stopifnot(all(c("options", "values", "grp") %in% names(dictionary)),
+            all(unique(dictionary[["grp"]]) %in% names(data)))
+
+  # detect misspelled options in the columns to clean
+  misspelled_options <- detect_misspelled_options(data, dictionary)
+
+  # correct the misspelled options if they exist
+  if (length(misspelled_options) > 0L) {
+    print_misspelled_values(misspelled_options)
+    message("Please add the misspelled options to the data dictionary using",
+            " the add_to_dictionnary() function.", call. = FALSE)
+    misspelled_report <- construct_misspelled_report(misspelled_options, data)
+    # add the result to the reporting object
+    data <- add_to_report(x     = data,
+                          key   = "misspelled_values",
+                          value = misspelled_report)
+  }
+  # perform the dictionary-based cleaning
+  data   <- matchmaker::match_df(data,
+                                 dictionary = dictionary,
+                                 from       = "options",
+                                 to         = "values",
+                                 by         = "grp")
+
+  return(data)
+}
+
+
+#' Build the report for the detected misspelled values during dictionary-based
+#' data cleaning operation
+#'
+#' @param misspelled_options
+#' @inheritParams clean_using_dictionary
+#'
+#' @return a data frame the details about where in the input data the misspelled
+#'    values were found.
+#' @keywords internal
+#'
+construct_misspelled_report <- function(misspelled_options, data) {
+  checkmate::assert_list(misspelled_options, null.ok = FALSE)
+  result  <- NULL
+  for (opts in names(misspelled_options)) {
+    res   <- data.frame(idx    = misspelled_options[[opts]],
+                        column = rep(opts, length(misspelled_options[[opts]])),
+                        value  = data[[opts]][misspelled_options[[opts]]])
+    result <- rbind(result, res)
+  }
+  return(result)
+}
+
+
 #' Convert Redcap data dictionary into {matchmaker} dictionary format
 #'
 #' @param metadata a `data frame` with the data dictionary associated to a
@@ -13,7 +88,6 @@
 #' @return a data frame with 4 columns. This is in the format required by the
 #'    {matchmaker} R package for dictionary-based cleaning.
 #' @keywords internal
-#' @noRd
 #'
 #' @examples
 #' test <- make_readcap_dictionary(
@@ -47,7 +121,7 @@ make_readcap_dictionary <- function(metadata,
                         make_metadata(metadata[[opt_column]][i],
                                       metadata[[field_column]][i]))
   }
-  dictionary
+  return(dictionary)
 }
 
 #' Make data dictionary for 1 field
@@ -59,7 +133,6 @@ make_readcap_dictionary <- function(metadata,
 #' @return a `data frame` with the dictionary in the format that is accepted by
 #'    the {matchmaker} package.
 #' @keywords internal
-#' @noRd
 #'
 make_metadata <- function(x, field_column) {
   splits          <- trimws(unlist(strsplit(x, "|", fixed = TRUE)))
@@ -71,58 +144,7 @@ make_metadata <- function(x, field_column) {
                                               nrow(combined_splits)),
                                 orders  = seq_len(nrow(combined_splits)))
   rownames(res)   <- NULL
-  res
-}
-
-
-#' Perform dictionary-based cleaning
-#'
-#' @param data the input data
-#' @param dictionary a `data frame` with the data dictionary associated to the
-#'    input data. This should be in the format
-#'
-#' @returns a `data frame` with cleaned values in the target columns specified
-#'    in the data dictionary.
-#' @export
-#'
-#' @examples
-#' cleaned_df <- clean_using_dictionary(
-#'   data       = readRDS(system.file("extdata", "messy_data.RDS",
-#'                        package = "cleanepi")),
-#'   dictionary = readRDS(system.file("extdata", "test_dict.RDS",
-#'                        package = "cleanepi"))
-#' )
-clean_using_dictionary <- function(data, dictionary) {
-  checkmate::assert_data_frame(data, min.rows = 1L, min.cols = 1L,
-                               null.ok = FALSE)
-  checkmate::assert_data_frame(dictionary, min.rows = 1L, max.cols = 4L,
-                               null.ok = FALSE)
-  stopifnot(all(c("options", "values", "grp") %in% names(dictionary)),
-            all(unique(dictionary[["grp"]]) %in% names(data)))
-
-  # detect misspelled options in the columns to clean
-  misspelled_options <- detect_misspelled_options(data, dictionary)
-
-  # correct the misspelled options if they exist
-  if (length(misspelled_options) > 0L) {
-    print_misspelled_values(misspelled_options)
-    stop("Please add the misspelled options to the data dictionary using the ",
-         "add_to_dictionnary() function.")
-  } else {
-    # perform the dictionary-based cleaning
-    data   <- matchmaker::match_df(data,
-                                   dictionary = dictionary,
-                                   from       = "options",
-                                   to         = "values",
-                                   by         = "grp")
-
-    # add the result to the reporting object
-    data   <- add_report(data,
-                         unique(dictionary[["grp"]]),
-                         name = "columns_modified_based_on_dictionary")
-  }
-
-  data
+  return(res)
 }
 
 #' Add an element to the data dictionary
@@ -182,7 +204,7 @@ add_to_dictionnary <- function(dictionary,
                                orders  = new_order)
   tmp_dictionary <- rbind(tmp_dictionary, new_option)
   dictionary     <- rbind(dictionary, tmp_dictionary)
-  dictionary
+  return(dictionary)
 }
 
 #' Detect misspelled options in columns to be cleaned
@@ -192,7 +214,6 @@ add_to_dictionnary <- function(dictionary,
 #' @return a `list` with the indexes of the misspelled values in every column
 #'    that needs to be cleaned
 #' @keywords internal
-#' @noRd
 #'
 detect_misspelled_options <- function(data, dictionary) {
   grp <- NULL
@@ -209,7 +230,7 @@ detect_misspelled_options <- function(data, dictionary) {
       outliers[[col]] <- which(data[[col]] == unique_values[which(is.na(m))])
     }
   }
-  outliers
+  return(outliers)
 }
 
 
@@ -219,12 +240,11 @@ detect_misspelled_options <- function(data, dictionary) {
 #'    the different columns of the input data
 #'
 #' @keywords internal
-#' @noRd
 #'
 print_misspelled_values <- function(misspelled_options) {
   for (opts in names(misspelled_options)) {
     message("\nDetected misspelled values at lines ",
-            glue::glue_collapse(misspelled_options[[opts]], sep = ", "),
+            paste(misspelled_options[[opts]], collapse = ", "),
             " of column '", opts, "'")
   }
 }
