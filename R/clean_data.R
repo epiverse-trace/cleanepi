@@ -124,8 +124,8 @@ clean_data <- function(
     R.utils::cat("\nreplacing missing values with NA")
     data <- replace_missing_values(
       data,
-      target_columns = params[["replace_missing_values"]][["from"]],
-      na_strings     = params[["replace_missing_values"]][["na_comes_as"]]
+      target_columns = params[["replace_missing_values"]][["target_columns"]],
+      na_strings     = params[["replace_missing_values"]][["na_strings"]]
     )
   }
 
@@ -144,7 +144,6 @@ clean_data <- function(
     data <- remove_duplicates(
       data,
       target_columns   = params[["remove_duplicates"]][["target_columns"]],
-      remove           = params[["remove_duplicates"]][["remove"]],
       rm_empty_rows    = params[["remove_duplicates"]][["rm_empty_rows"]],
       rm_empty_cols    = params[["remove_duplicates"]][["rm_empty_cols"]],
       rm_constant_cols = params[["remove_duplicates"]][["rm_constant_cols"]]
