@@ -53,7 +53,8 @@ clean_using_dictionary <- function(data, dictionary) {
 #' Build the report for the detected misspelled values during dictionary-based
 #' data cleaning operation
 #'
-#' @param misspelled_options
+#' @param misspelled_options a list with the detected misspelled values in the
+#'    columns of interest.
 #' @inheritParams clean_using_dictionary
 #'
 #' @return a data frame the details about where in the input data the misspelled
