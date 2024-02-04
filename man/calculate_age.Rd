@@ -8,7 +8,8 @@ calculate_age(
   data,
   target_column = NULL,
   end_date = Sys.Date(),
-  age_in = "years"
+  age_in = "years",
+  ...
 )
 }
 \arguments{
@@ -21,6 +22,14 @@ calculate_age(
 
 \item{age_in}{a string that specifies whether to return the age in 'years',
 or 'months', or 'days', or 'weeks'. Default is 'years'.}
+
+\item{...}{Other extra arguments needed to perform this operation. They
+include:
+\enumerate{
+\item "na_strings": a string that represents the missing values in the
+date column of interest. This is only needed when the date column
+contains missing values.
+}}
 }
 \value{
 the input data frame with the following 1 or 2 extra columns:
@@ -40,6 +49,7 @@ age <- calculate_age(
                                       package = "cleanepi")),
   target_column = "dateOfBirth",
   end_date      = Sys.Date(),
-  age_in        = "months"
+  age_in        = "months",
+  na_strings    = "-99"
 )
 }
