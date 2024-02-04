@@ -6,6 +6,13 @@
 #' @param end_date the end date. default: today's date
 #' @param age_in a string that specifies whether to return the age in 'years',
 #'    or 'months', or 'days', or 'weeks'. Default is 'years'.
+#' @param ... Other extra arguments needed to perform this operation. They
+#'    include:
+#'    \enumerate{
+#'      \item "na_strings": a string that represents the missing values in the
+#'            date column of interest. This is only needed when the date column
+#'            contains missing values.
+#'   }
 #'
 #' @returns the input data frame with the following 1 or 2 extra columns:
 #' \enumerate{
@@ -22,10 +29,14 @@
 #'                                       package = "cleanepi")),
 #'   target_column = "dateOfBirth",
 #'   end_date      = Sys.Date(),
-#'   age_in        = "months"
+#'   age_in        = "months",
+#'   na_strings    = "-99"
 #' )
-calculate_age <- function(data, target_column = NULL, end_date = Sys.Date(),
-                          age_in = "years") {
+calculate_age <- function(data,
+                          target_column = NULL,
+                          end_date      = Sys.Date(),
+                          age_in        = "years",
+                          ...) {
   checkmate::assert_data_frame(data, null.ok = FALSE)
   checkmate::assert_character(target_column, null.ok = TRUE,
                               any.missing = FALSE, len = 1L)
@@ -35,12 +46,17 @@ calculate_age <- function(data, target_column = NULL, end_date = Sys.Date(),
                          null.ok = TRUE)
 
   tmp_age <- remainder_days <- NULL
+  extra_args <- list(...)
 
   # check if date column exists in the data
   target_column <- date_check_column_existence(data, target_column)
 
   # replace missing data characters with NA
-  data          <- replace_missing_values(data, target_column)
+  if ("na_strings" %in% names(extra_args)) {
+    na_strings  <- extra_args[["na_strings"]]
+  }
+  data          <- replace_missing_values(data, target_column,
+                                          na_strings = na_strings)
 
   # standardize the input data if required
   if (!lubridate::is.Date(data[[target_column]])) {
