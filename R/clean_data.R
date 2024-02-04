@@ -223,7 +223,7 @@ clean_data <- function(
 
 
   # this is where to call the report printing function
-  # print_report(report)
+  print_report(report)
 
   # return the final object
   return(data)

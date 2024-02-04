@@ -8,7 +8,6 @@
 #'    missing, numeric, date, and character values found in the input vector.
 #'
 #' @keywords internal
-#' @noRd
 #'
 get_column_composition <- function(x) {
   # --- save the variable length ---
@@ -41,7 +40,7 @@ get_column_composition <- function(x) {
                                    are_date + are_logical)), 6L)
 
   # --- return the output ---
-  c(are_na, are_numeric, are_date, are_character, are_logical)
+  return(c(are_na, are_numeric, are_date, are_character, are_logical))
 }
 
 #' Scan a data frame object to determine the percentage of `missing`, `numeric`,
@@ -67,5 +66,5 @@ scan_data <- function(data) {
                                         stringsAsFactors = FALSE)
   scan_result             <- cbind(data_type_percent, scan_result)
   names(scan_result)[[1L]] <- "data_type"
-  scan_result
+  return(scan_result)
 }
