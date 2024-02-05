@@ -172,7 +172,7 @@ The functions in this module will allow to check whether the sequence of date ev
 **9. Transformation **
 This is used to do various specialized operations related to epidemiological data analytics. The current implementation includes the following functions.
     
-  * main function: **calculate_age_in()**  
+  * main function: **calculate_age()**  
   * Input: a `data.frame` or `linelist` object; the name of the column of
     interest; the reference date; and the time unit (possible values are days,
     weeks, months, or years).
