@@ -59,35 +59,36 @@ calculate_age <- function(data,
   }
 
   # calculate the age
-  res <- switch(age_in,
-                years = data %>%
-                  dplyr::mutate(age_years = round((data[[target_column]] %--% end_date)
-                                                  %/% lubridate::years(1L))),
-                months = data %>%
-                  dplyr::mutate(tmp_age = lubridate::as.period(end_date -
-                                                                 data[[target_column]])) %>%
-                  dplyr::mutate(
-                    age_months = tmp_age %/% months(1L, abbreviate = FALSE),
-                    remainder_days = (tmp_age %% months(1L, abbreviate = FALSE)) %/%
-                      lubridate::days(1L)
-                  ) %>%
-                  dplyr::select(-tmp_age),
-                days = data %>%
-                  dplyr::mutate(tmp_age = lubridate::as.period(end_date -
-                                                                 data[[target_column]])) %>%
-                  dplyr::mutate(
-                    age_days = tmp_age %/% lubridate::days(1L)
-                  ) %>%
-                  dplyr::select(-tmp_age),
-                weeks = data %>%
-                  dplyr::mutate(tmp_age = lubridate::as.period(end_date -
-                                                                 data[[target_column]])) %>%
-                  dplyr::mutate(
-                    age_weeks = tmp_age %/% lubridate::weeks(1L),
-                    remainder_days = (tmp_age %% lubridate::weeks(1L))
-                    %/% lubridate::days(1L)
-                  ) %>%
-                  dplyr::select(-tmp_age)
+  res <- switch(
+    age_in,
+    years = data %>%
+      dplyr::mutate(age_years = round((data[[target_column]] %--% end_date)
+                                      %/% lubridate::years(1L))),
+    months = data %>%
+      dplyr::mutate(tmp_age = lubridate::as.period(end_date -
+                                                     data[[target_column]])) %>%
+      dplyr::mutate(
+        age_months = tmp_age %/% months(1L, abbreviate = FALSE),
+        remainder_days = (tmp_age %% months(1L, abbreviate = FALSE)) %/%
+          lubridate::days(1L)
+      ) %>%
+      dplyr::select(-tmp_age),
+    days = data %>%
+      dplyr::mutate(tmp_age = lubridate::as.period(end_date -
+                                                     data[[target_column]])) %>%
+      dplyr::mutate(
+        age_days = tmp_age %/% lubridate::days(1L)
+      ) %>%
+      dplyr::select(-tmp_age),
+    weeks = data %>%
+      dplyr::mutate(tmp_age = lubridate::as.period(end_date -
+                                                     data[[target_column]])) %>%
+      dplyr::mutate(
+        age_weeks = tmp_age %/% lubridate::weeks(1L),
+        remainder_days = (tmp_age %% lubridate::weeks(1L))
+        %/% lubridate::days(1L)
+      ) %>%
+      dplyr::select(-tmp_age)
   )
   if (age_in %in% c("months", "weeks") && all(res[["remainder_days"]] == 0L)) {
     res <- res %>% dplyr::select(-remainder_days)
