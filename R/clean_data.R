@@ -6,8 +6,8 @@
 #'    values by NA, converting character columns into dates when they contain a
 #'    certain number of date values, and detecting subject IDs with wrong format
 #'
-#' @param data the input data frame or linelist
-#' @param params a list of parameters that define what cleaning operations will
+#' @param data The input data frame or linelist
+#' @param params A list of parameters that define what cleaning operations will
 #'    be applied on the input data. Possible values are:
 #' \enumerate{
 #'   \item `keep`: a vector of column names to be kept as they appear in the
@@ -33,7 +33,7 @@
 #'      is the main argument for the `clean_using_dictionary()` function.
 #'   }
 #'
-#' @return the cleaned data frame according to the user-specified parameters
+#' @return The cleaned data frame according to the user-specified parameters
 #' @export
 #'
 #' @examples
