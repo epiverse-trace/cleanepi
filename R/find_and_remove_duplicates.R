@@ -1,15 +1,15 @@
 #' Remove duplicates and constant rows and columns
 #'
 #' @description
-#' Remove duplicates and noise such as  empty rows and
+#' Removes duplicates and noise such as  empty rows and
 #' columns, and constant columns. These operations are
 #' automatically performed by default unless specified otherwise.
 #' Users can specify a set columns to consider when removing
 #' duplicates with the 'target_columns' argument.
 #'
-#' @param data The input data frame or linelist.
+#' @param data A input data frame or linelist.
 #' @param target_columns A vector of column names to use when looking for
-#'    duplicates. When the input data is a `linelist` object, this
+#'    duplicates. When the input data is a `linelist`, this
 #'    parameter can be set to `tags`from which duplicates to be removed.
 #'    Its default value is `NULL`, which considers duplicates across all columns.
 #' @param remove A vector of duplicate indices to be removed. Duplicate indices
@@ -24,7 +24,7 @@
 #' @param rm_constant_cols A logical variable that is used to specify whether to remove
 #'     constant columns or not. Its Default value is `TRUE`.
 #'
-#' @return The input data without the duplicates values.
+#' @return A  data frame or linelist  without the duplicates values and nor constant columns.
 #' @export
 #'
 #' @examples
@@ -92,7 +92,7 @@ remove_duplicates <- function(data, target_columns, remove = NULL,
 
   # remove duplicates
   if (is.null(remove)) {
-    # remove duplicates by keeping the first instance of the duplicate in each
+    # remove duplicates and keep the first instance of the duplicate in each
     # duplicate group
     dat <- dat %>%
       dplyr::distinct_at({{ target_columns }}, .keep_all = TRUE)
@@ -121,11 +121,11 @@ remove_duplicates <- function(data, target_columns, remove = NULL,
 
 #' Identify and return duplicated rows in a data frame or linelist.
 #'
-#' @param data The input data frame or linelist.
+#' @param data A data frame or linelist.
 #' @param target_columns A vector of columns names or indices to consider when
-#'    looking for duplicates. When the input data is a `linelist` object,
-#'    this parameter can be set to `tags` if you wish to look for
-#'    duplicates across the tagged variables only.
+#'    looking for duplicates. When the input data is a `linelist` object, this
+#'    parameter can be set to `tags`from which duplicates to be removed.
+#'    Its default value is `NULL`, which considers duplicates across all columns.
 #'
 #' @return Data frame or linelist of all duplicated rows with following 2
 #'    additional columns:
@@ -170,11 +170,11 @@ find_duplicates <- function(data, target_columns) {
 
 #' Get the names of the columns from which duplicates will be found
 #'
-#' @param data the input dataset
-#' @param target_columns the user specified target column name
+#' @param data A dataframe or linelist
+#' @param target_columns A vector of column names
 #' @param cols a vector of empty and constant columns
 #'
-#' @return a `vector` with the target column names or indexes
+#' @return a vector with the target column names or indexes
 #'
 #' @keywords internal
 #'
