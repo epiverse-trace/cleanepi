@@ -6,9 +6,9 @@
 #'    values by NA, converting character columns into dates when they contain a
 #'    certain number of date values, and detecting subject IDs with wrong format
 #'
-#' @param data the input data frame
-#' @param params a list of parameters that define what cleaning operations will
-#'    be applied on the input data. Possible values are:
+#' @param data A  data frame
+#' @param params A list of parameters that define what cleaning operations will
+#'    be applied on the input data. Possible parameters are:
 #' \enumerate{
 #'   \item `keep`: a vector of column names to be kept as they appear in the
 #'      original data. All column names will be standardized if this is `NULL`
@@ -33,7 +33,14 @@
 #'      is the main argument for the `clean_using_dictionary()` function.
 #'   }
 #'
-#' @return the cleaned data frame according to the user-specified parameters
+#' @return a list of the following 2 elements:
+#'  \enumerate{
+#'    \item `data`: A  clean data frame  according to the user-specified
+#'          parameters.
+#'    \item `report`: A list with  details from each
+#'          cleaning operation considered.
+#'  }
+#'
 #' @export
 #'
 #' @examples
@@ -219,7 +226,7 @@ clean_data <- function(
 
 
   # this is where to call the report printing function
-  # print_report(report)
+  print_report(attr(data, "report"))
 
   # return the final object
   return(data)
