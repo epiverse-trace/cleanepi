@@ -50,7 +50,8 @@ In the implementation of {cleanepi}, these operations are translated into module
 * standardization of subject IDs,
 * standardization of date values,
 * replacement of existing values with pre-defined ones,
-* conversion of some values when required, and
+* conversion of some values when required,
+* checking the sequence of date-events and
 * transformation of some columns.
 
 ## Output
@@ -158,7 +159,17 @@ This module contains functions to convert numbers written in letters to numerica
   
 Note that `convert_to_numeric()` will issue a warning for unexpected values and return them in the report.
 
-**8. Transformation **
+**8. Checking order of sequence of date-events **
+The functions in this module will allow to check whether the sequence of date events is as expected. For example, it will flag out rows where the date of admission to hospital is prior to the individual date of birth.
+    
+  * main function: **check_date_sequence()**  
+  * Input: a `data.frame` or `linelist` object; a vector of date column names to be
+    considered; and a logical to specify whether to remove the incorrect rows from the input      data or not.
+  * Output: the input object where the incorrect rows are removed if specified.
+  * Report: a table with the incorrect rows from the specified columns. 
+  *	Mode: explicit.
+
+**9. Transformation **
 This is used to do various specialized operations related to epidemiological data analytics. The current implementation includes the following functions.
     
   * main function: **calculate_age_in()**  
