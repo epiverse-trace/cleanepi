@@ -270,7 +270,7 @@ By organizing the output in this manner, the function offers clarity and structu
 res[["report"]]
 ```
 
-### Find duplicated rows
+### Finding duplicated rows
 
 The `find_duplicates()` function serves the purpose of identifying duplicated rows within a given dataset. It accepts the following parameters:
 
@@ -314,7 +314,7 @@ head(dups %>% dplyr::select(c(row_id, group_id,
                               as.character(linelist::tags(data)))))
 ```
 
-### Remove duplicates
+### Removing duplicates
 
 To eliminate duplicated rows from a dataset, the `remove_duplicates()` function can be employed. This function internally utilizes the `find_duplicates()` function and expects the following parameters:
 
@@ -386,20 +386,34 @@ no_dups <- remove_duplicates(
 )
 ```
 
-### Clean data based on dictionary
+### Dictionary based data substituting
 
-Some columns in a data frame or linelist contain values that represents the different options proposed to the study participants.
-The complete labels for those options are generally stored in so called data dictionary file. Note that such dictionary files usually contain other information needed for the understanding of the input dataset.
+The `clean_using_dictionary()` function offers a convenient way to replace the options in a data frame or linelist with their corresponding values stored in a data dictionary file. The structure of this data dictionary file should adhere to the standards expected by the [matchmaker](https://www.repidemicsconsortium.org/matchmaker/) package, as the `clean_using_dictionary()` function relies on functions from this package.
 
-The `clean_using_dictionary()` function can be used to replace the options with their corresponding values that are stored in the data dictionary. It takes the input data frame and its correspondent dictionary as inputs. The structure of this data dictionary should be the same as expected by the [matchmaker](https://www.repidemicsconsortium.org/matchmaker/) package.
-Note that any dictionary that is fit for {matchmaker} is for `clean_using_dictionary()` as it makes call of functions from this package. 
+Here's how the function operates:
+
+- **Inputs**: The function accepts two main inputs:
+  1. The input data frame or linelist that contains the options to be replaced.
+  2. The corresponding data dictionary file that contains the complete labels for these options. This dictionary file typically includes additional information necessary for understanding the input dataset.
+
+- **Data Dictionary Structure**: The structure of the data dictionary should align with the format expected by the matchmaker package. This format ensures compatibility and seamless integration with the `clean_using_dictionary()` function.
+
+By leveraging the `clean_using_dictionary()` function with a suitable data dictionary, users can effectively replace option values in their datasets with their corresponding labels, enhancing the interpretability and clarity of the data.
 
 ```{r eval=TRUE, comment="display_dictionary"}
 test_dictionary
 ```
 
-It is common to have some options in the input data that are not defined in the dictionary. Use the `add_to_dictionnary()` function to define them in the data dictionary.
-In the example below, `-99` is not defined in the data dictionary ABOVE.
+The `add_to_dictionary()` function is a useful tool for expanding the coverage of a data dictionary by defining options that are present in the input data but not originally included in the dictionary. This function enables users to dynamically update the dictionary to accommodate new values encountered in the dataset.
+
+Here's how the `add_to_dictionary()` function can be utilized:
+
+1. **Identify Undefined Options**: Users can identify options in the input data that are not defined in the existing data dictionary. For instance, in your example, the value `-99` is not defined in the dictionary.
+
+2. **Call `add_to_dictionary()`**: Users can then use the `add_to_dictionary()` function to add the undefined options to the data dictionary. This function facilitates the expansion of the dictionary to include new values encountered in the dataset.
+
+By employing the `add_to_dictionary()` function, users can ensure that the data dictionary remains comprehensive and aligned with the evolving nature of the input dataset, thereby enhancing the accuracy and completeness of data interpretation and analysis. 
+In the example below, we add `-99` to our test data dictionary, `test_dictionary`.
 
 ```{r eval=TRUE}
 ## READING IN THE DATA
