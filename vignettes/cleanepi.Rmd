@@ -196,7 +196,7 @@ This structure facilitates easy access to both the cleaned dataset and a detaile
 # DISPLAY ROWS WITH THE INCORRECT SUBJECT IDs
 res[["report"]][["incorrect_subject_id"]]
 ```
-### Calculate age in different time scales
+### Calculating age in different time scales
 
 The `calculate_age()` function computes the ages of individuals, expressed in years, months, weeks, or days, based on a given date column and a reference date. It requires the following arguments:
 
@@ -230,22 +230,22 @@ The `calculate_age()` function is designed to enhance the input dataset by addin
 head(age)  # note the last 2 columns
 ```
 
-### Check date sequence
-The `check_date_sequence()` function checks the order of sequences in date event columns and makes sure that the values in all rows in those columns comply with the desired order. For example,  the values in `date_of_infection`, `date_of_admission`, and `date_of_death` columns should be in the order they are listed here. Any row where the values are not in this order will be considered as wrong and eventually be removed by the `check_date_sequence()` function. The function takes the following arguments:  
+### Checking date sequence
+The `check_date_sequence()` function verifies the order of sequences in date event columns within a dataset. It ensures that the values in specified date columns follow the desired chronological order. Here are the arguments accepted by the function:
 
-1. `data`: the input dataset
-2. `event_cols`: a `vector` with the names of  date columns of interest. These should be listed in the expected order of occurrence, and would look like this for the mentioned example above: `event_cols = c("date_of_infection", "date_of_admission", "date_of_death"`
-3. `remove_bad_seq`: a Boolean variable and the default value is `false`. If `TRUE`, rows with incorrect date sequence will be deleted from the output object. Otherwise, they will be detected and stored in the report object.    
-4. `report`: a `list` that will contains details about the detected wrong date sequences. This can be the output `report object` from another function in **cleanepi**. (optional)
+1. **`data`**: This parameter represents the input dataset that is being analyzed for the correctness of date sequences.
+2. **`target_columns`**: A vector containing the names of date columns of interest. These columns should be listed in the expected order of occurrence, reflecting the chronological sequence of events. For example, `target_columns = c("date_of_infection", "date_of_admission", "date_of_death")`.
+3. **`remove_bad_seq`**: A Boolean variable with a default value of `FALSE`. If set to `TRUE`, rows with incorrect date sequences will be removed from the output object. Otherwise, they will be flagged as erroneous and stored in the report object.
+
+By utilizing these arguments, the `check_date_sequence()` function facilitates the validation of date sequences within a dataset, ensuring data integrity and accuracy for further analysis. Additionally, it offers flexibility by allowing users to choose whether to remove rows with incorrect sequences or store them for further examination in the report object.
 
 ```{r eval=TRUE}
 # DETECT ROWS WITH INCORRECT DATE SEQUENCE
 res <- check_date_sequence(
   data           = readRDS(system.file("extdata", "test_df.RDS",
                                        package = "cleanepi")),
-  event_cols     = c("date_first_pcr_positive_test", "date.of.admission"),
-  remove_bad_seq = FALSE,
-  report         = list()
+  target_columns     = c("date_first_pcr_positive_test", "date.of.admission"),
+  remove_bad_seq = FALSE
 )
 ```
 
@@ -253,10 +253,16 @@ res <- check_date_sequence(
 target_name <- names(res[["report"]])
 ```
 
-The `check_date_sequence()` function returns a `list` of `r length(res)` elements:  
+The `check_date_sequence()` function returns a list with elements named according to the following conventions:
 
-* **`r names(res)[1]`**: the input dataset or a subset from it without the incorrect rows (if `remove_bad_seq = TRUE`)
-* **`r names(res)[2]`**: a `list`, or augmented  report `list` with an element named as **`r names(res$report)`**. This in turn is a `list` of `r length(res$report[[target_name]])` elements named as: **`r names(res$report[[target_name]])[1]`** (the expected order of the date events) and **`r names(res$report[[target_name]])[2]`** (a `data.frame` of the rows with the incorrect date sequences).    
+1. **`r names(res)[1]`**: This element contains either the original input dataset or a subset of it without the rows that have incorrect date sequences, depending on whether the `remove_bad_seq` parameter is set to `TRUE`.
+2. **`r names(res)[2]`**: This element is a list, possibly an augmented report list, with an element named as **`r names(res$report)`**. This sub-list, in turn, consists of two elements:
+
+   - **`r names(res$report[[target_name]])[1]`**: This element provides information about the expected order of the date events, as specified by the `event_cols` parameter.
+   
+   - **`r names(res$report[[target_name]])[2]`**: This element contains a data frame listing the rows with incorrect date sequences detected during the validation process.
+
+By organizing the output in this manner, the function offers clarity and structure, making it easier for users to access and interpret the results of the date sequence validation. It provides both the cleaned dataset and a detailed report highlighting any discrepancies found in the date sequences, enabling users to take appropriate actions based on their specific requirements and analysis goals. 
 
 ```{r eval=TRUE}
 # PRINT ROWS WITH INCORRECT DATE SEQUENCE
