@@ -119,36 +119,39 @@ summary(res[["report"]])
 **Note:** a function to visualize this report object will be built in the next release of the package.
 
 ## Specific data cleaning tasks
+Certain data cleaning operations are automatically applied to input data. These operations include renaming columns, removing empty rows and columns, removing columns with the same values across all rows, and standardizing date columns. We refer to these as the `implicit data cleaning steps`,  which are executed by default.
 
-Data cleaning operations such as renaming columns, removing empty rows, columns, removing columns with a same values across all rows, and standardization of date columns  are automatically applied to the input data. We consider them as the `implicit data cleaning steps` and will be executed by default. However, users can call the specific functions of these data cleaning steps separately to perform a specific task. So as they can also call the other data cleaning functions individually on their own. 
+However, we also provide users with the flexibility to call specific functions for these data cleaning steps separately if they wish to perform a particular task individually. This approach allows users to have more control over the data cleaning process and to apply additional data cleaning functions as needed.
 
-### Standardise columns of type `Date`
+This setup offers users both convenience and flexibility, as they can benefit from default data cleaning operations while also having the option to customize their data cleaning process according to their specific requirements.
+
+
+### Standardizing Dates
+
+The `standardize_date()` function provides a comprehensive set of options for converting date columns into a specified format and handling various scenarios, such as different date formats and mixed data types in a column. Below we summarize the key parameters of the function:
 
 The default date format in R is `%Y-%m-%d`. However, it is very common to encounter date values recoded differently from this. Also, there are cases where a column in a data frame contains both values of type `Date`, `character` or others.    
 The `standardize_date()` function offers the possibility to convert date columns into `%Y-%m-%d` format and convert `character` columns into `Date` if the percentage of date values reach a specified threshold. The function needs the following arguments:
 
-1. `data`: the input dataset (required)   
-2. `date_column_name`: a vector of the name of the column to be converted (required)   
-3. `format`: the current format of the values in that column. Default is `NULL` (optional)
-4. `timeframe`: the expected time frame within which the date values should fall under. Any value outside of this range will be set to `NA`. Default is NULL (optional)
-5. `check_timeframe`: a logical that determines whether to check if the date values are within the given time frame. Default is `FALSE` (optional)
-6. `report`: a `list` that will contains details about the date columns standardization process. This can be the output `report object` from another function in **cleanepi** (optional).
-7. `error_tolerance`: the minimum percentage of values of type `Date` in a `character` column of interest needed to convert it into a `Date` column. Default is 50% i.e. `0.5`.    
+1. `data`: A data frame or linelist  (required)   
+2. `date_column_name`: A vector of the names of the columns to be converted (required)   
+3. `format`: A format of the values in the specified columns (optional). If not provided, the function will attempt to infer the format
+4. `timeframe`: The expected time frame within which the date values should fall. Values outside this range will be set to `NA`(optional).
+5. `error_tolerance`: The minimum percentage of values of type Date in a character column needed to convert it into a Date column. Default is 50% i.e. `0.5`.    
 
 
-⚠️ The `error_tolerance` must be used with caution. When it is set, and the         percentage of date values in a character column is less than this threshold, the column will be returned as it is. 
+⚠️ The `error_tolerance` must be used with caution. When it is set, and the  percentage of date values in a character column is less than this threshold, the column will be returned as it is. 
 
+This function provides users with the flexibility to standardize date columns in their dataset according to specified requirements, including format, timeframe, and error tolerance for conversion from character to date columns.
 
 
 ```{r eval=TRUE}
-res <- standardize_date(
+res <- standardize_dates(
   data             = readRDS(system.file("extdata", "test_df.RDS",
                                          package = "cleanepi")),
-  date_column_name = "date_first_pcr_positive_test",
+  target_columns  = "date_first_pcr_positive_test",
   format           = NULL,
   timeframe        = NULL,
-  check_timeframe  = FALSE,
-  report           = list(),
   error_tolerance  = 0.5
 )
 ```
@@ -158,20 +161,23 @@ This function returns a `list` of `r length(res)` elements named as:
 * **`r names(res)[1]`**: the input dataset where the (specified) columns are converted into date if the condition is met.
 * **`r names(res)[2]`**: a `list`, or augmented  report `list` with an element named as **`r names(res$report)`** that contains a `vector` of the transformed column names.    
 
-### Detect and remove incorrect subject IDs
+### Standardizing subject IDs
 
-The `check_subject_ids()` function  detects and  removes rows of the input dataset where the subject ID does not match the expected format. 
-The function requires the following parameters:   
+The `check_subject_ids()` function is designed to identify and eliminate rows from the input dataset that don't conform to the expected format for subject IDs. To implement this function, you need to provide the following parameters:
 
-1. `data`: the input dataset (required)   
-2. `id_column_name`:  the name of the column with the subject IDs (required)  
-3. `format`: the expected subject IDs format (required)   
-4. `prefix`: the expected prefix in the subject IDs (optional)   
-5. `suffix`: the expected suffix in the subject IDs (optional)   
-6. `range`: the expected range of numbers in the subject IDs (optional)   
-7. `remove`: a Boolean variable and default is `FALSE`. If `TRUE`, rows with incorrect subject IDs will be removed.    
-8. `verbose`: a Boolean variable and default is `FALSE`. If `TRUE`, a message will be printed along the execution of the function. 
-9. `report`: a `list` that will contains details about the detected wrong IDs. This can be the output `report object` from another function in **cleanepi** (optional).
+1. **`data`** (required): This parameter represents the input dataset.
+
+2. **`id_column_name`** (required): Specify the name of the column containing the subject IDs in the dataset.
+
+3. **`format`** (required): Define the expected format for the subject IDs. The function will use this format to validate the IDs.
+
+4. **`prefix`** (optional): If subject IDs have a specified prefix, provide it as an argument. This is optional and can be omitted if there is no prefix.
+
+5. **`suffix`** (optional): Similarly, if subject IDs have a specified suffix, include it here. If there is no suffix, you can skip this parameter.
+
+6. **`range`** (optional): If there is an expected range of numbers within the subject IDs, define it using this parameter. It is optional and can be omitted if there is no specific range.
+
+By incorporating these parameters, the function becomes a versatile tool for data cleaning, ensuring that only rows with subject IDs adhering to the specified format are retained in the dataset. When using the function, make sure to tailor the parameters according to the specific requirements of your dataset and the expected characteristics of the subject IDs.
 
 ```{r eval=TRUE}
 # DETECT INCORRECT SUBJECT IDs
@@ -182,39 +188,27 @@ res <- check_subject_ids(
   format         = "PS000P2",
   prefix         = "PS",
   suffix         = "P2",
-  range          = c(1L, 100L),
-  remove         = FALSE,
-  verbose        = TRUE,
-  report         = list()
+  range          = c(1L, 100L)
 )
 ```
 
-This function returns a `list` of `r length(res)` elements named as:
+The `check_subject_ids()` function returns a list with elements named according to the following conventions:
 
-* **`r names(res)[1]`**: the input dataset or a subset from it where rows with bad IDs have been removed (`if remove = TRUE`).
-* **`r names(res)[2]`**: a `list`, or augmented  report `list` with an element named as **`r names(res$report)`** that contains a `data.frame` of the detected rows with the incorrect subject IDs.  
+1. **`r names(res)[1]`**: This element contains either the original input dataset or a subset of it where rows with incorrect IDs have been removed, depending on whether the `remove` parameter is set to `TRUE`.
+
+2. **`r names(res)[2]`**: This element is a list, possibly an augmented report list, where one of its elements is named as **`r names(res$report)`**. This particular element contains a data frame detailing the rows that were detected to have incorrect subject IDs.
+
+To summarize:
+
+- Element 1: Contains the cleaned dataset, either the original or a subset with rows containing bad IDs removed.
+- Element 2: Contains a list, possibly with additional information, and one of its elements provides a data frame specifying the rows with incorrect subject IDs.
+
+This structure facilitates easy access to both the cleaned dataset and a detailed report on the detected issues with subject IDs, enhancing the transparency and usability of the function's output.
 
 ```{r eval=TRUE}
 # DISPLAY ROWS WITH THE INCORRECT SUBJECT IDs
 res[["report"]][["incorrect_subject_id"]]
 ```
-
-```{r eval=TRUE}
-# DETECT AND REMOVE INCORRECT SUBJECT IDs
-res <- check_subject_ids(
-  data           = readRDS(system.file("extdata", "test_df.RDS",
-                                       package = "cleanepi")),
-  id_column_name = "study_id",
-  format         = "PS000P2",
-  prefix         = "PS",
-  suffix         = "P2",
-  range          = c(1L, 100L),
-  remove         = TRUE,
-  verbose        = FALSE,
-  report         = list()
-)
-```
-
 ### Calculate age
 
 The `calculate_age()` function calculates  ages of individuals (in either years, or months, or weeks, or days) for a given date column and reference date. It takes the following arguments:  
