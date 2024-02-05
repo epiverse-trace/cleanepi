@@ -73,7 +73,7 @@ check_date_sequence <- function(data, target_columns,
   order_date <- apply(tmp_data, 1L, is_order)
   bad_order  <- which(!order_date)
   if (!all(order_date)) {
-    tmp_data <- data[bad_order, ]
+    tmp_data <- tmp_data[bad_order, ]
     # adding incorrect records to the report
     data     <- add_to_report(x     = data,
                               key   = "incorrect_date_sequence",
