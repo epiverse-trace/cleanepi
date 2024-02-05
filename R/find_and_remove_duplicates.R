@@ -146,14 +146,17 @@ remove_duplicates <- function(data,
 #'
 #' @examples
 #' dups <- find_duplicates(
-#'   data = readRDS(system.file("extdata", "test_linelist.RDS",
-#'     package = "cleanepi")),
+#'   data           = readRDS(system.file("extdata", "test_linelist.RDS",
+#'                                        package = "cleanepi")),
 #'   target_columns = c("dt_onset", "dt_report", "sex", "outcome")
 #' )
 #'
-find_duplicates <- function(data, target_columns) {
+find_duplicates <- function(data, target_columns = NULL) {
   # get the target column names
-  target_columns <- get_target_column_names(data, target_columns, cols = NULL)
+  if (is.null(target_columns)) {
+    target_columns <- names(data)
+  }
+  target_columns   <- get_target_column_names(data, target_columns, cols = NULL)
 
   # find duplicates
   num_dups <- row_id <- group_id <- NULL
