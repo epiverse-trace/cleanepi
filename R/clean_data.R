@@ -7,7 +7,7 @@
 #'    certain number of date values, and detecting subject IDs with wrong format
 #'
 <<<<<<< HEAD
-#' @param data A data frame
+#' @param data A  data frame
 #' @param params A list of parameters that define what cleaning operations will
 #'    be applied on the input data. Possible parameters are:
 #' \enumerate{
