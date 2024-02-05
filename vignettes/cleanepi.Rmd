@@ -378,11 +378,11 @@ dups <- find_duplicates(
 )
 
 # REMOVE FIRST OCCURRENCE OF DUPLICATED ROWS
-dups_index_to_remove <- dups[["row_id"]][seq(1L, nrow(dups), 2L)]
+#dups_index_to_remove <- dups[["row_id"]][seq(1L, nrow(dups), 2L)]
 no_dups <- remove_duplicates(
   data           = readRDS(system.file("extdata", "test_linelist.RDS",
                                        package = "cleanepi")),
-  remove         = dups_index_to_remove
+  remove         = NULL#dups_index_to_remove
 )
 ```
 
