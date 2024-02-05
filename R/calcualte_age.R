@@ -1,11 +1,10 @@
-#' function to calculate age from date of birth
-#' @param data a data frame with at one date column.
+#' function to calculate age in days, weeks, months, or years from the date of birth
+#' @param data a data frame with at least one date column.
 #' @param date_column_name the name of the date column of interest.
-#' default: 'Date', or, 'DATE', or 'date'
 #' @param end_date the end date. default: today's date
-#' @param age_in a character string to specify whether to calculate
-#'  the age in 'years', or 'months', or 'days', or 'weeks'.
-#' default is: 'years'.
+#' @param age_in a string indicating whether to calculate
+#'  the age in 'years', 'months',  'weeks', or 'days'.
+#' The default is: 'years'.
 #' @returns a data frame with 1 or 2 extra columns compared to the input data
 #' frame.
 #' \enumerate{
