@@ -15,6 +15,8 @@
 #'   }
 #'
 #' @returns the input data frame with the following 1 or 2 extra columns:
+#' @returns a data frame with the following 1 or 2 extra columns compared to the
+#'    input data frame:
 #' \enumerate{
 #'   \item "age_in_years", or "age_in_months", or "age_in_weeks", or
 #'         "age_in_days", depending on the value of the 'age_in' parameter.
@@ -45,8 +47,8 @@ calculate_age <- function(data,
   checkmate::assert_date(end_date, any.missing = FALSE, len = 1L,
                          null.ok = TRUE)
 
-  tmp_age <- remainder_days <- NULL
-  extra_args <- list(...)
+  tmp_age       <- remainder_days <- NULL
+  extra_args    <- list(...)
 
   # check if date column exists in the data
   target_column <- date_check_column_existence(data, target_column)
