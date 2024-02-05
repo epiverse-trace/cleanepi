@@ -8,6 +8,9 @@ data cleaning operation}
 construct_misspelled_report(misspelled_options, data)
 }
 \arguments{
+\item{misspelled_options}{a list with the detected misspelled values in the
+columns of interest.}
+
 \item{data}{the input data}
 }
 \value{

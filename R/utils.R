@@ -2,9 +2,8 @@
 #'
 #' @param x the string that contains the numbers
 #' @keywords internal
-#' @noRd
 numbers_only <- function(x) {
-  !grepl("\\D", x)
+  return(!grepl("\\D", x))
 }
 
 #' Get part1 of date value
@@ -16,7 +15,7 @@ date_get_part1 <- function(x, sep) {
   if (is.na(x)) {
     return(NA)
   }
-  unlist(strsplit(x, sep, fixed = TRUE))[[1L]]
+  return(unlist(strsplit(x, sep, fixed = TRUE))[[1L]])
 }
 
 #' Get part2 of date value
@@ -28,7 +27,7 @@ date_get_part2 <- function(x, sep) {
   if (is.na(x)) {
     return(NA)
   }
-  unlist(strsplit(x, sep, fixed = TRUE))[[2L]]
+  return(unlist(strsplit(x, sep, fixed = TRUE))[[2L]])
 }
 
 #' Get part3 of date value
@@ -41,20 +40,19 @@ date_get_part3 <- function(x, sep) {
   if (is.na(x)) {
     return(NA)
   }
-  unlist(strsplit(x, sep, fixed = TRUE))[[3L]]
+  return(unlist(strsplit(x, sep, fixed = TRUE))[[3L]])
 }
 
 #' Get sum from number
 #'
 #' @param x the string of interest
 #' @keywords internal
-#' @noRd
 #'
 get_sum <- function(x) {
   if (nchar(x) == 2L) {
     x <- sum(as.numeric(substr(x, 1L, 1L)), as.numeric(substr(x, 2L, 2L)))
   }
-  x
+  return(x)
 }
 
 #' Add a report obtained from a data cleaning step to a data frame
@@ -68,7 +66,6 @@ get_sum <- function(x) {
 #' @return the input data frame with a report associated to it. This can be
 #'    accessed using `attr(data, "report")`
 #' @keywords internal
-#' @noRd
 #'
 add_report <- function(data, report, name = NULL) {
   # when the data is not associated with any report, make it be
@@ -95,7 +92,7 @@ add_report <- function(data, report, name = NULL) {
     attr(data, which = "report") <- tmp_report
   }
 
-  data
+  return(data)
 }
 
 
