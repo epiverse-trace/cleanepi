@@ -63,22 +63,35 @@ scan_result
 ```
 
 ```{r eval=TRUE}
-# DEFINING THE DATA CLEANING PARAMETERS
+# DEFINE INPUT FOR EACH MODULE
+# OPERATIONS FOR REPLACING MISSING VALUES
+rm_na                  <- list(target_columns = NULL, na_strings = "-99")
+# OPERATIONS FOR DUBLICATES AND CONSTANTS COLUMNS AND ROWS
+rm_dup               <- list(target_columns   = NULL, # to consider duplicate across all columns
+                                rm_empty_rows    = TRUE, #
+                                rm_empty_cols    = TRUE,
+                                rm_constant_cols = TRUE)
+# OPERATIONS FOR STANDARDING DATES
+stdn_date        <- list(target_columns  = NULL,
+                                error_tolerance = 0.5,
+                                format          = NULL,
+                                timeframe       = as.Date(c("1973-05-29",
+                                                            "2023-05-29")))
+#  OPERATIONS FOR STANDARDING subject ID
+stdn_ids <- list(id_col_name = "study_id", # the target column
+                                format      = NULL,
+                                prefix      = "PS",
+                                suffix      = "P2",
+                                range       = c(1, 100))
+# LAOD A DATA DICTIONARY
+test_dictionary <- readRDS(system.file("extdata", "test_dictionary.RDS",
+                                       package = "cleanepi"))
 params <- list(
-  keep                = "date.of.admission",
-  remove_duplicates   = TRUE,
-  target_columns      = NULL,
-  replace_missing     = TRUE,
-  na_comes_as         = "-99",
-  check_timeframe     = TRUE,
-  timeframe           = as.Date(c("1973-05-29", "2023-05-29")),
-  error_tolerance     = 0.5,
-  subject_id_col_name = "study_id",
-  subject_id_format   = "PS000P2",
-  prefix              = "PS",
-  suffix              = "P2",
-  range               = c(1L, 100L),
-  dictionary          = test_dictionary
+  replace_missing_values  = rm_na, 
+  remove_duplicates       = rm_dup,
+  standardize_date        = stdn_date,
+  standardize_subject_ids = stdn_ids,
+  dictionary              = test_dictionary
 )
 ```
 

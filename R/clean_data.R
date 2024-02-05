@@ -6,6 +6,7 @@
 #'    values by NA, converting character columns into dates when they contain a
 #'    certain number of date values, and detecting subject IDs with wrong format
 #'
+<<<<<<< HEAD
 #' @param data A data frame
 #' @param params A list of parameters that define what cleaning operations will
 #'    be applied on the input data. Possible parameters are:
@@ -43,6 +44,23 @@
 #'   \item `keep`: A vector of column names to be kept as they appear
 #'          in the original data. default is `NULL`.
 #'   \item `standardize_date`: A list of parameters that will be used to
+=======
+#' @param data the input data frame
+#' @param params a list of parameters that define what cleaning operations will
+#'    be applied on the input data. Possible values are:
+#' \enumerate{
+#'   \item `keep`: a vector of column names to be kept as they appear in the
+#'      original data. All column names will be standardized if this is `NULL`
+#'      (the default value).
+#'   \item `replace_missing_values`: a list of parameters to be used when
+#'      replacing the missing values by `NA`. These parameters are the inputs
+#'      for the `replace_missing_values()` function.
+#'   \item `remove_duplicates`: a list of arguments that defines the list of
+#'      columns to be considered when looking for duplicates. It also contains
+#'      arguments that determine how constant rows and columns will be handled.
+#'      They are the input values for the `remove_duplicates()` function.
+#'   \item `standardize_date`: a list of parameters that will be used to
+>>>>>>> 018c12509ed66ff094a405cc4c4b5fe6666d6188
 #'      standardize the date values from the input data. They represent the
 #'      input values for the `standardize_dates()` function.
 #'   \item `standardize_subject_ids`: a list of parameters that are needed to
@@ -55,6 +73,7 @@
 #'      is the main argument for the `clean_using_dictionary()` function.
 #'   }
 #'
+<<<<<<< HEAD
 #' @return a list of the following 2 elements:
 #'  \enumerate{
 #'    \item `data`: A  clean data frame  according to the user-specified
@@ -63,6 +82,9 @@
 #'          cleaning operation considered.
 #'  }
 #'
+=======
+#' @return the cleaned data frame according to the user-specified parameters
+>>>>>>> 018c12509ed66ff094a405cc4c4b5fe6666d6188
 #' @export
 #'
 #' @examples
