@@ -1,6 +1,6 @@
 #' Clean data
 #'
-#' @description this function cleans up messy data frames by performing several operations. These Include
+#' @description Cleans up messy data frames by performing several operations. These Include
 #'    cleaning of column names, detecting and removing
 #'    duplicates, empty records and columns, constant columns, replacing missing
 #'    values by NA, converting character columns into dates when they contain a
