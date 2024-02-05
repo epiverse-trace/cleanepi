@@ -316,58 +316,65 @@ head(dups %>% dplyr::select(c(row_id, group_id,
 
 ### Remove duplicates
 
-To remove duplicated rows, use the `remove_duplicates()` function. It internally calls the `find_duplicates()` function and it expects the following parameters:  
+To eliminate duplicated rows from a dataset, the `remove_duplicates()` function can be employed. This function internally utilizes the `find_duplicates()` function and expects the following parameters:
 
-1. `data`: the input dataset
-2. `target_columns`: a `vector` of column names or indexes from which duplicated rows will be identified. If `NULL`, duplicates will be detected across all columns. f the input dataset is a `linelist` object, this can be set to `tags` to identify duplicates across the **tagged variables** only.
-3. `remove`: a `numeric vector` of the indices of the duplicated rows to be removed. If `NULL`, duplicates will be removed and only the first occurrence of the duplicated rows will be kept.
-4. `report`: a `list` that will contains details about the duplicates removal process. This can be the output `report object` from another function in **cleanepi** (optional).
+1. `data`: This parameter represents the input dataset from which duplicated rows will be removed.
+2. `target_columns`: It is a vector containing either column names or indexes specifying the columns from which duplicated rows will be identified. If set to `NULL`, the function will detect duplicates across all columns. If the input dataset is a `linelist` object, setting this parameter to `tags` will identify duplicates across the tagged variables only.
+3. `remove`: This is a numeric vector comprising the indices of the duplicated rows to be removed. If set to `NULL`, the function removes duplicates and retains only the first occurrence of the duplicated rows.
+4. `rm_empty_rows`: A Boolean to indicate whether to remove empty rows or not.
+5. `rm_empty_cols`: A Boolean to indicate whether to remove empty columns or not.
+6. `rm_constant_cols`: A Boolean to indicate whether to remove constant columns or not.
+
 
 ```{r eval=TRUE}
-# IMPORT A `linelist` DATA
-data <- readRDS(system.file("extdata", "test_linelist.RDS",
-                            package = "cleanepi"))
-
-# REMOVE DUPLICATES ACROSS TAGGED VARIABLES (KEEP ONLY THE FIRST OCCURENCE OF
-# THE DUPLICATED ROWS)
+# IMPORT  DATA
+#CALLING THE REMOVE_DUPLICATE FUNCTION.
 res <- remove_duplicates(
-  data           = data,
-  target_columns = "tags",
-  remove         = NULL,
-  report         = list()
+  data <- readRDS(system.file("extdata", "test_linelist.RDS",
+                            package = "cleanepi")),
+  target_columns = NULL,
+  remove         = NULL
 )
 ```
 
-The function returns the inputs dataset without the duplicated rows and a `list` with the outcomes from the duplicates removal operation. This is in turn a list named as `r names(res$report)` with `r length(res$report$remove_duplicates)` elements:  
+Upon execution, the `remove_duplicates()` function returns two main outputs:
 
-* **`r names(res$report$remove_duplicates)[1]`**: this is a subset of the input dataset with all the duplicated rows detected using the `find_duplicates()` function.    
-* **`r names(res$report$remove_duplicates)[2]`**: a subset of the input dataset that was removed.
-* **`r names(res$report$remove_duplicates)[3]`**: a comma-separated string of column names that were used to identify the duplicated rows.
+1. The input dataset with duplicated rows removed.
+2. A list containing details about the duplicates removal operation, labeled `res$report`.
+
+The `res$report` list consists of elements with the following information:
+
+- **`names(res$report$remove_duplicates)[1]`**: This subset of the input dataset contains all the duplicated rows detected using the `find_duplicates()` function.
+
+- **`names(res$report$remove_duplicates)[2]`**: This subset of the input dataset represents the rows that were removed due to duplication.
+
+- **`names(res$report$remove_duplicates)[3]`**: This is a comma-separated string containing the column names that were used to identify the duplicated rows.
+
+By examining these elements within the `res$report` list, users gain insights into the specific duplicated rows detected, those that were removed, and the columns used to identify the duplications, thus facilitating transparency and documentation of the duplicates removal process.
 
 ```{r eval=TRUE}
 # STORE THE DUPLICATES REMOVAL PROCESS REPORT IN A VARIABLE
-dups_removal_report <- res[["report"]][["remove_duplicates"]]
+#dups_removal_report <- res[["report"]][["remove_duplicates"]]
 
 # DISPLAY ALL DUPLICATES FOUND
-head(dups_removal_report[["all_dups"]] %>%
-       dplyr::select(c(row_id, group_id, as.character(linelist::tags(data)))))
+#head(dups_removal_report[["all_dups"]] %>%
+ #      dplyr::select(c(row_id, group_id, as.character(linelist::tags(data)))))
 
 # DISPLAY THE DUPLICATED LINES THAT WAS REMOVED
-head(dups_removal_report[["removed_dups"]] %>%
-       dplyr::select(c(row_id, group_id, as.character(linelist::tags(data)))))
+#head(dups_removal_report[["removed_dups"]] %>%
+ #      dplyr::select(c(row_id, group_id, as.character(linelist::tags(data)))))
 
 # DISPLAY COLUMN NAMES USED TO DETECT DUPLICATES
-dups_removal_report[["duplicates_checked_from"]]
+#dups_removal_report[["duplicates_checked_from"]]
 ```
 
-The output from  `find_duplicates()` function can also be passed to  `remove_duplicates()`  function to specify which duplicated rows to be removed.  
+The output from  `find_duplicates()` function can also be passed to `remove_duplicates()` function to specify which duplicated rows to be removed.  
 
 ```{r eval=TRUE}
 # DETECT DUPLICATES FROM TAGGED COLUMNS
 dups <- find_duplicates(
   data           = readRDS(system.file("extdata", "test_linelist.RDS",
                                        package = "cleanepi")),
-  target_columns = "tags"
 )
 
 # REMOVE FIRST OCCURRENCE OF DUPLICATED ROWS
@@ -375,9 +382,7 @@ dups_index_to_remove <- dups[["row_id"]][seq(1L, nrow(dups), 2L)]
 no_dups <- remove_duplicates(
   data           = readRDS(system.file("extdata", "test_linelist.RDS",
                                        package = "cleanepi")),
-  target_columns = "tags",
-  remove         = dups_index_to_remove,
-  report         = list()
+  remove         = dups_index_to_remove
 )
 ```
 
