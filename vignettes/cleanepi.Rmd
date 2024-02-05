@@ -196,27 +196,34 @@ This structure facilitates easy access to both the cleaned dataset and a detaile
 # DISPLAY ROWS WITH THE INCORRECT SUBJECT IDs
 res[["report"]][["incorrect_subject_id"]]
 ```
-### Calculate age
+### Calculate age in different time scales
 
-The `calculate_age()` function calculates  ages of individuals (in either years, or months, or weeks, or days) for a given date column and reference date. It takes the following arguments:  
+The `calculate_age()` function computes the ages of individuals, expressed in years, months, weeks, or days, based on a given date column and a reference date. It requires the following arguments:
 
-1. `data`: the input dataset (required)
-2. `date_column_name`: the name of the column to which the age is calculated for (required) 
-3. `end_date`: the reference date to which the age is calculated from 
-4. `age_in`: the age unit (years, months, weeks, or days) and default is years (optional)
+1. **`data`** (required): This parameter represents the input dataset containing the relevant information.
+   
+2. **`date_column_name`** (required): Specify the name of the column containing the birth or relevant dates for which the age is being calculated.
+   
+3. **`end_date`** (required): This is the reference date used to calculate the age of individuals. The function computes the age relative to this date.
+   
+4. **`age_in`** (optional): This parameter determines the unit in which the age is expressed. It can be specified as "years", "months", "weeks", or "days". By default, the age is calculated in years if this parameter is not provided.
+
+By utilizing these arguments, the function offers flexibility in determining the age of individuals based on different units and reference dates. It facilitates various analytical tasks where age computation is a necessary component, providing users with the ability to customize the output according to their specific requirements.
 
 ```{r eval=TRUE}
 # CALCULATE INDIVIDUAL AGE FROM THE `dateOfBirth` COLUMN
-age <- calculate_age(
-  data             = readRDS(system.file("extdata", "test_df.RDS",
-                                         package = "cleanepi")),
-  date_column_name = "dateOfBirth",
-  end_date         = Sys.Date(),
-  age_in           = "months"
-)
+age <- calculate_age(data, 
+                     target_column = "dateOfBirth", 
+                     age_in = "weeks", 
+                     na_strings="-99"
+                     )
 ```
 
-This function returns the input dataset with 1 or 2 extra columns that contains, respectively: the calculated age in the specified unit and the remaining number of days. 
+The `calculate_age()` function is designed to enhance the input dataset by adding one or two extra columns containing pertinent age-related information. These additional columns are as follows:
+
+1. **Calculated Age in Specified Unit**: This column contains the calculated age of individuals expressed in the specified unit (years, months, weeks, or days).
+
+2. **Remaining Number of Days**: This optional column indicates the remaining number of days after calculating the age, representing the fractional part of the age calculation. This column is included if needed, providing additional granularity in age representation.
 
 ```{r eval=TRUE}
 # DISPLAY THE OUTPUT OBJECT
