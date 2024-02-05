@@ -2,7 +2,7 @@
 % Please edit documentation in R/find_and_remove_duplicates.R
 \name{remove_duplicates}
 \alias{remove_duplicates}
-\title{Remove duplicates}
+\title{Remove duplicates and constant rows and columns}
 \usage{
 remove_duplicates(
   data,
@@ -18,32 +18,32 @@ remove_duplicates(
 
 \item{target_columns}{A vector of column names to use when looking for
 duplicates. When the input data is a \code{linelist} object, this
-parameter can be set to \code{tags} if you wish to look for duplicates on
-tagged columns only. Default is \code{NULL}.}
+parameter can be set to \code{tags}from which duplicates to be removed.
+Its default value is \code{NULL}, which considers duplicates across all columns.}
 
 \item{remove}{A vector of duplicate indices to be removed. Duplicate indices
 are unique identifiers for all rows in the original data frame or linelist
 that are duplicates of each other based on the \code{target_columns}.
-If remove = NULL (default value), the first duplicate is kept and
+If remove = \code{NULL} (default value), the first duplicate is kept and
 the rest of the duplicates in the group are removed.}
 
-\item{rm_empty_rows}{a logical that is used to specify whether to remove
-the empty rows or not. Default is \code{TRUE}}
+\item{rm_empty_rows}{A logical variable that is used to specify whether to remove
+empty rows or not. Its default  value is \code{TRUE}.}
 
-\item{rm_empty_cols}{a logical that is used to specify whether to remove
-the empty columns or not. Default is \code{TRUE}}
+\item{rm_empty_cols}{A logical variable that is used to specify whether to remove
+empty columns or not. Its default value is \code{TRUE}.}
 
-\item{rm_constant_cols}{a logical that is used to specify whether to remove
-the constant columns or not. Default is \code{TRUE}}
+\item{rm_constant_cols}{A logical variable that is used to specify whether to remove
+constant columns or not. Its Default value is \code{TRUE}.}
 }
 \value{
 The input data without the duplicates values.
 }
 \description{
-In this package, duplicate removal also include the removal of empty rows and
-columns as well as the removal of constant column. The later operations are
+Remove duplicates and noise such as  empty rows and
+columns, and constant columns. These operations are
 automatically performed by default unless specified otherwise.
-Note that users can specify a set columns to consider when removing
+Users can specify a set columns to consider when removing
 duplicates with the 'target_columns' argument.
 }
 \examples{

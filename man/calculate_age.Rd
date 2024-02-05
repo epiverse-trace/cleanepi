@@ -33,6 +33,9 @@ contains missing values.
 }
 \value{
 the input data frame with the following 1 or 2 extra columns:
+
+a data frame with the following 1 or 2 extra columns compared to the
+input data frame:
 \enumerate{
 \item "age_in_years", or "age_in_months", or "age_in_weeks", or
 "age_in_days", depending on the value of the 'age_in' parameter.
