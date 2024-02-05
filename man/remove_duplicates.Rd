@@ -6,7 +6,7 @@
 \usage{
 remove_duplicates(
   data,
-  target_columns,
+  target_columns = NULL,
   remove = NULL,
   rm_empty_rows = TRUE,
   rm_empty_cols = TRUE,
@@ -19,7 +19,7 @@ remove_duplicates(
 \item{target_columns}{A vector of column names to use when looking for
 duplicates. When the input data is a \code{linelist} object, this
 parameter can be set to \code{tags} if you wish to look for duplicates on
-tagged columns only.}
+tagged columns only. Default is \code{NULL}.}
 
 \item{remove}{A vector of duplicate indices to be removed. Duplicate indices
 are unique identifiers for all rows in the original data frame or linelist

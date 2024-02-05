@@ -11,7 +11,7 @@
 #' @param target_columns A vector of column names to use when looking for
 #'    duplicates. When the input data is a `linelist` object, this
 #'    parameter can be set to `tags` if you wish to look for duplicates on
-#'    tagged columns only.
+#'    tagged columns only. Default is `NULL`.
 #' @param remove A vector of duplicate indices to be removed. Duplicate indices
 #'    are unique identifiers for all rows in the original data frame or linelist
 #'    that are duplicates of each other based on the `target_columns`.
@@ -38,7 +38,9 @@
 #'   rm_constant_cols = TRUE
 #' )
 #'
-remove_duplicates <- function(data, target_columns, remove = NULL,
+remove_duplicates <- function(data,
+                              target_columns   = NULL,
+                              remove           = NULL,
                               rm_empty_rows    = TRUE,
                               rm_empty_cols    = TRUE,
                               rm_constant_cols = TRUE) {
@@ -84,6 +86,9 @@ remove_duplicates <- function(data, target_columns, remove = NULL,
                               value = add_this)
 
   # get the target column names
+  if (is.null(target_columns)) {
+    target_columns <- names(data)
+  }
   target_columns   <- get_target_column_names(dat, target_columns, cols)
 
   # find duplicates
