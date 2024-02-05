@@ -1,0 +1,127 @@
+---
+title: "Print data cleaning report"
+output: html_document
+params:
+    standardized_column_names: NULL
+    missing_values_replaced_at: NULL
+    empty_columns: "none"
+    constant_columns: "none"
+    duplicates: "none"
+    out_of_range_dates: NULL
+    standardize_subject_ids: NULL
+    converted_into_numeric: NULL
+    misspelled_values: NULL
+    incorrect_date_sequence: NULL
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library("cleanepi")
+library("kableExtra")
+library("magrittr")
+```
+
+---
+    date: `r format(Sys.Date(), "%d/%m/%Y")`
+---
+
+```{r echo=FALSE, eval=TRUE, include=FALSE}
+# GET THE USER PARAMETERS
+standardized_column_names  <- params[["standardized_column_names"]]
+missing_values_replaced_at <- params[["missing_values_replaced_at"]]
+empty_columns              <- params[["empty_columns"]]
+constant_columns           <- params[["constant_columns"]]
+duplicates                 <- params[["duplicates"]]
+out_of_range_dates         <- params[["out_of_range_dates"]]
+standardize_subject_ids    <- params[["standardize_subject_ids"]]
+converted_into_numeric     <- params[["converted_into_numeric"]]
+misspelled_values          <- params[["misspelled_values"]]
+incorrect_date_sequence    <- params[["incorrect_date_sequence"]]
+```
+
+```{r echo=FALSE}
+# SET LOGICALS FOR THE CODE CHUNCKS BELOW
+are_column_standardised <- ifelse(is.null(standardized_column_names), FALSE,
+                                  TRUE)
+are_missing_values_replaced <- ifelse(is.null(missing_values_replaced_at),
+                                      FALSE,
+                                      TRUE)
+are_empty_columns_found <- ifelse(empty_columns == "none", FALSE, TRUE)
+are_constant_columns_found <- ifelse(constant_columns == "none", FALSE, TRUE)
+are_duplicates_found <- ifelse(duplicates == "none", FALSE, TRUE)
+are_out_of_range_dates_found <- ifelse(is.null(out_of_range_dates), FALSE, TRUE)
+are_subject_ids_standardised <- ifelse(is.null(standardize_subject_ids), FALSE,
+                                       TRUE)
+are_converted_to_numeric <- ifelse(is.null(converted_into_numeric), FALSE, TRUE)
+are_misspelled_values_found <- ifelse(is.null(misspelled_values), FALSE, TRUE)
+are_incorrect_date_sequence_found <- ifelse(is.null(incorrect_date_sequence),
+                                            FALSE, TRUE)
+```
+
+```{r eval=are_column_standardised, echo=FALSE, comment=""}
+message("\nStandardised column names:\n")
+standardized_column_names %>%
+  rlang::set_names(toupper) %>%
+  kbl() %>%
+  kableExtra::kable_paper("striped", font_size = 18, full_width = FALSE)
+```
+
+```{r eval=are_missing_values_replaced, echo=FALSE, comment=""}
+cat("\nMissing values were replaced in the following columns:\n")
+print(missing_values_replaced_at)
+```
+
+```{r eval=are_empty_columns_found, echo=FALSE, comment=""}
+cat("\nThe following columns are empty:\n")
+print(empty_columns)
+```
+
+```{r eval=are_constant_columns_found, echo=FALSE, comment=""}
+cat("\nThe following columns are constant:\n")
+print(constant_columns)
+```
+
+```{r eval=are_duplicates_found, echo=FALSE, comment=""}
+cat("\nFound the following duplicates:\n")
+duplicates %>%
+  rlang::set_names(toupper) %>%
+  kbl() %>%
+  kableExtra::kable_paper("striped", font_size = 18, full_width = FALSE)
+```
+
+```{r eval=are_out_of_range_dates_found, echo=FALSE, comment=""}
+cat("\nOut of range dates found at the following lines:\n")
+out_of_range_dates %>%
+  rlang::set_names(toupper) %>%
+  kbl() %>%
+  kableExtra::kable_paper("striped", font_size = 18, full_width = FALSE)
+```
+
+```{r eval=are_subject_ids_standardised, echo=FALSE, comment=""}
+cat("\nDetected the following incorrect subject IDs:\n")
+standardize_subject_ids[["incorrect_subject_id"]] %>%
+  rlang::set_names(toupper) %>%
+  kbl() %>%
+  kableExtra::kable_paper("striped", font_size = 18, full_width = FALSE)
+```
+
+```{r eval=are_converted_to_numeric, echo=FALSE, comment=""}
+cat("\nThe following columns were converted into numeric:\n")
+print(converted_into_numeric)
+```
+
+```{r eval=are_misspelled_values_found, echo=FALSE, comment=""}
+cat("\nDetected the following misspelled values:\n")
+misspelled_values %>%
+  rlang::set_names(toupper) %>%
+  kbl() %>%
+  kableExtra::kable_paper("striped", font_size = 18, full_width = FALSE)
+```
+
+```{r eval=are_incorrect_date_sequence_found, echo=FALSE, comment=""}
+cat("\nDetected the following incorrect date sequences:\n")
+incorrect_date_sequence %>%
+  rlang::set_names(toupper) %>%
+  kbl() %>%
+  kableExtra::kable_paper("striped", font_size = 18, full_width = FALSE)
+```
