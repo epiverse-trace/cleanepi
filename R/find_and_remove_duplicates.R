@@ -87,7 +87,7 @@ remove_duplicates <- function(data,
 
   # get the target column names
   if (is.null(target_columns)) {
-    target_columns <- names(data)
+    target_columns <- names(dat)
   }
   target_columns   <- get_target_column_names(dat, target_columns, cols)
 
