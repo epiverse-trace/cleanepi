@@ -1,26 +1,24 @@
 #' Calculate age from a specified date column
 #'
-#' @param data the input data frame with the date column of interest
-#' @param target_column the name of the date column of interest. default are
-#'    'Date', or, 'DATE', or 'date'
-#' @param end_date the end date. default: today's date
+#' @param data A data frame with one date column
+#' @param target_column A string specifying the name of the date column of interest
+#' @param end_date An end date, the default is today's date
 #' @param age_in a string that specifies whether to return the age in 'years',
-#'    or 'months', or 'days', or 'weeks'. Default is 'years'.
+#'     'months',  'weeks', or 'days'. The default is in 'years'.
 #' @param ... Other extra arguments needed to perform this operation. They
 #'    include:
 #'    \enumerate{
-#'      \item "na_strings": a string that represents the missing values in the
+#'      \item "na_strings": A string that represents the missing values in the
 #'            date column of interest. This is only needed when the date column
 #'            contains missing values.
 #'   }
 #'
-#' @returns the input data frame with the following 1 or 2 extra columns:
-#' @returns a data frame with the following 1 or 2 extra columns compared to the
+#' @return A data frame with the following 1 or 2 extra columns compared to the
 #'    input data frame:
 #' \enumerate{
-#'   \item "age_in_years", or "age_in_months", or "age_in_weeks", or
-#'         "age_in_days", depending on the value of the 'age_in' parameter.
-#'   \item "remainder_days": a column with the number of remaining days after
+#'   \item "age_in_years",  "age_in_months",  "age_in_weeks", or
+#'         "age_in_days" depending on the value of the 'age_in' parameter.
+#'   \item "remainder_days": A column with the number of remaining days after
 #'         the age is converted in weeks or months.
 #'   }
 #' @export
@@ -54,11 +52,12 @@ calculate_age <- function(data,
   target_column <- date_check_column_existence(data, target_column)
 
   # replace missing data characters with NA
-  if ("na_strings" %in% names(extra_args)) {
+  if (length(extra_args) > 0L && "na_strings" %in% names(extra_args)) {
     na_strings  <- extra_args[["na_strings"]]
+    data        <- replace_missing_values(data, target_column,
+                                            na_strings = na_strings)
   }
-  data          <- replace_missing_values(data, target_column,
-                                          na_strings = na_strings)
+
 
   # standardize the input data if required
   if (!lubridate::is.Date(data[[target_column]])) {
