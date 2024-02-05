@@ -225,9 +225,10 @@ By utilizing these arguments, the function offers flexibility in determining the
 
 ```{r eval=TRUE}
 # CALCULATE INDIVIDUAL AGE FROM THE `dateOfBirth` COLUMN
-age <- calculate_age(data, 
+age <- calculate_age(data           = readRDS(system.file("extdata", "test_df.RDS",
+                                       package = "cleanepi")),
                      target_column = "dateOfBirth", 
-                     age_in = "weeks", 
+                     age_in = "days", 
                      na_strings="-99"
                      )
 ```
@@ -284,10 +285,13 @@ res[["report"]]
 
 ### Find duplicated rows
 
-The `find_duplicates()` function can be used to identify duplicated rows from an input dataset. The function takes the following arguments:   
+The `find_duplicates()` function serves the purpose of identifying duplicated rows within a given dataset. It accepts the following parameters:
 
-1. `data`: the input dataset
-2. `target_columns`: a `vector` of column names or indexes from which duplicated rows will be identified. If `NULL`, duplicates will be detected across all columns. If the input dataset is a `linelist` object, this can be set to `tags` to identify duplicates across the **tagged variables** only.  
+1. `data`: A dataframe on which the duplication check will be performed.
+   
+2. `target_columns`: A vector containing either column names or indexes from which duplicated rows will be identified. If `NULL` is passed, duplicates will be detected across all columns of the dataset. Notably, if the input dataset is a `linelist` object, `target_columns` can be set to `tags` specifically to identify duplicates across the tagged variables only. 
+
+By leveraging the `find_duplicates()` function with appropriate parameters, users can efficiently pinpoint duplicated rows within their datasets, either across all columns or selectively across tagged variables in a `linelist` object.
 
 ```{r eval=TRUE}
 # IMPORT A `linelist` DATA
@@ -304,12 +308,18 @@ linelist::tags(data)
 ```{r eval=TRUE}
 # FIND DUPLICATES ACROSS TAGGED VARIABLES
 dups <- find_duplicates(
-  data           = data,
-  target_columns = "tags"
+                        data           = data,
+                        target_columns = "tags"
 )
 ```
 
-The function returns all duplicated rows in the dataset based on all or the specified columns. Two extra columns: `row_id` and `group_id` will be added to the dataset, to represent, respectively, the row numbers of the duplicated rows from the input dataset and the duplicated group ID assigned to them, every group being the same set of values in the columns of interest. 
+Upon execution, the `find_duplicates()` function identifies and returns all duplicated rows within the dataset, either based on all columns or those specified. Additionally, it appends two extra columns to the dataset:
+
+1. `row_id`: This column indicates the row numbers of the duplicated rows from the original input dataset.
+
+2. `group_id`: Each duplicated group is assigned a unique identifier in this column. A duplicated group comprises rows with identical values in the specified columns of interest.
+
+By including these extra columns, users gain insights into the specific rows identified as duplicates and their corresponding group identifiers, enabling efficient analysis and management of duplicated data within the dataset.
 
 ```{r eval=TRUE}
 # VISUALIZE THE DUPLICATES
