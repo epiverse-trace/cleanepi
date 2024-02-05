@@ -14,10 +14,10 @@ remove_duplicates(
 )
 }
 \arguments{
-\item{data}{The input data frame or linelist.}
+\item{data}{A input data frame or linelist.}
 
 \item{target_columns}{A vector of column names to use when looking for
-duplicates. When the input data is a \code{linelist} object, this
+duplicates. When the input data is a \code{linelist}, this
 parameter can be set to \code{tags}from which duplicates to be removed.
 Its default value is \code{NULL}, which considers duplicates across all columns.}
 
@@ -37,10 +37,10 @@ empty columns or not. Its default value is \code{TRUE}.}
 constant columns or not. Its Default value is \code{TRUE}.}
 }
 \value{
-The input data without the duplicates values.
+A  data frame or linelist  without the duplicates values and nor constant columns.
 }
 \description{
-Remove duplicates and noise such as  empty rows and
+Removes duplicates and noise such as  empty rows and
 columns, and constant columns. These operations are
 automatically performed by default unless specified otherwise.
 Users can specify a set columns to consider when removing

@@ -46,7 +46,8 @@ remove_duplicates <- function(data,
                               rm_constant_cols = TRUE) {
 
   # remove the empty rows and columns
-  dat <- data %>%
+  report <- attr(data, "report")
+  dat    <- data %>%
     janitor::remove_empty(c("rows", "cols"))
   cols     <- rows <- NULL
   add_this <- "none"
@@ -60,7 +61,6 @@ remove_duplicates <- function(data,
   dat      <- add_to_report(x     = dat,
                             key   = "empty_columns",
                             value = add_this)
-  add_this <- "none"
   if (nrow(summary(arsenal::comparedf(data, dat))[["obs.table"]]) > 0L) {
     rows   <- summary(arsenal::comparedf(data,
                                          dat))[["obs.table"]][["observation"]]
@@ -68,9 +68,6 @@ remove_duplicates <- function(data,
       add_this <- rows
     }
   }
-  dat <- add_to_report(x     = dat,
-                       key   = "empty_rows",
-                       value = add_this)
 
   # remove constant columns
   add_this <- "none"
@@ -116,9 +113,12 @@ remove_duplicates <- function(data,
     add_this[["removed_duplicates"]]      <- dplyr::anti_join(dups, dat)
   }
 
-  dat      <- add_to_report(x     = dat,
-                            key   = "duplicates",
-                            value = add_this)
+  dat        <- add_to_report(x     = dat,
+                              key   = "duplicates",
+                              value = add_this)
+  tmp_report <- attr(dat, "report")
+  report     <- c(report, tmp_report)
+  attr(dat, which = "report") <- report
   return(dat)
 }
 
