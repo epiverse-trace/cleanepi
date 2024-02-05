@@ -2,27 +2,24 @@
 % Please edit documentation in R/check_date_sequence.R
 \name{check_date_sequence}
 \alias{check_date_sequence}
-\title{Check order for sequence of date-events}
+\title{Check whether the order of the sequence of date-events is valid}
 \usage{
-check_date_sequence(data, event_cols, remove_bad_seq = FALSE, report = list())
+check_date_sequence(data, target_columns, remove_bad_seq = FALSE)
 }
 \arguments{
 \item{data}{the input data frame}
 
-\item{event_cols}{a vector or a comma-separated list of the event columns
+\item{target_columns}{a vector or a comma-separated list of the event columns
 names. Users should specify at least 2 column names in the expected order.
-For example: event_cols = c("date_symptoms_onset", "date_hospitalization", "date_death").}
+For example: target_columns = c("date_symptoms_onset", "date_hospitalization", "date_death"). # nolint: line_length_linter}
 
 \item{remove_bad_seq}{a Boolean to specify if rows with incorrect order
 should be filtered out or not. The default is FALSE}
-
-\item{report}{object  will contain details about the results from the
-date columns standardization}
 }
 \value{
 rows of the input data frame with incorrect date sequence
 if \code{remove_bad_seq = FALSE}, the input data frame without those
-rows if not
+rows if not.
 }
 \description{
 This function checks whether a date sequence in
@@ -30,9 +27,9 @@ a vector of  specified columns is correct or not.
 }
 \examples{
 good_date_sequence <- check_date_sequence(
-data = readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi")),
-event_cols = c("date_first_pcr_positive_test", "date.of.admission"),
-remove_bad_seq = FALSE,
-report = list()
+  data           = readRDS(system.file("extdata", "test_df.RDS",
+                                       package = "cleanepi")),
+  target_columns = c("date_first_pcr_positive_test", "date.of.admission"),
+  remove_bad_seq = FALSE
 )
 }

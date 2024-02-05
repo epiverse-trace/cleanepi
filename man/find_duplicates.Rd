@@ -4,7 +4,7 @@
 \alias{find_duplicates}
 \title{Identify and return duplicated rows in a data frame or linelist.}
 \usage{
-find_duplicates(data, target_columns)
+find_duplicates(data, target_columns = NULL)
 }
 \arguments{
 \item{data}{The input data frame or linelist.}
@@ -30,8 +30,8 @@ Identify and return duplicated rows in a data frame or linelist.
 }
 \examples{
 dups <- find_duplicates(
-  data = readRDS(system.file("extdata", "test_linelist.RDS",
-    package = "cleanepi")),
+  data           = readRDS(system.file("extdata", "test_linelist.RDS",
+                                       package = "cleanepi")),
   target_columns = c("dt_onset", "dt_report", "sex", "outcome")
 )
 

@@ -2,45 +2,57 @@
 % Please edit documentation in R/calcualte_age.R
 \name{calculate_age}
 \alias{calculate_age}
-\title{function to calculate age from date of birth}
+\title{Calculate age from a specified date column}
 \usage{
 calculate_age(
   data,
-  date_column_name = NULL,
+  target_column = NULL,
   end_date = Sys.Date(),
-  age_in = "years"
+  age_in = "years",
+  ...
 )
 }
 \arguments{
-\item{data}{a data frame with at one date column.}
+\item{data}{the input data frame with the date column of interest}
 
-\item{date_column_name}{the name of the date column of interest.
-default: 'Date', or, 'DATE', or 'date'}
+\item{target_column}{the name of the date column of interest. default are
+'Date', or, 'DATE', or 'date'}
 
 \item{end_date}{the end date. default: today's date}
 
-\item{age_in}{a character string to specify whether to calculate
-the age in 'years', or 'months', or 'days', or 'weeks'.
-default is: 'years'.}
+\item{age_in}{a string that specifies whether to return the age in 'years',
+or 'months', or 'days', or 'weeks'. Default is 'years'.}
+
+\item{...}{Other extra arguments needed to perform this operation. They
+include:
+\enumerate{
+\item "na_strings": a string that represents the missing values in the
+date column of interest. This is only needed when the date column
+contains missing values.
+}}
 }
 \value{
-a data frame with 1 or 2 extra columns compared to the input data
-frame.
+the input data frame with the following 1 or 2 extra columns:
+
+a data frame with the following 1 or 2 extra columns compared to the
+input data frame:
 \enumerate{
-\item "age_in_years", or "age_in_months", or "age_in_weeks", or "age_in_days",
-depending on the value of the 'age_in' parameter.
-\item "remainder_days": a column with the number of remaining days
-after the age is converted in weeks or months.
+\item "age_in_years", or "age_in_months", or "age_in_weeks", or
+"age_in_days", depending on the value of the 'age_in' parameter.
+\item "remainder_days": a column with the number of remaining days after
+the age is converted in weeks or months.
 }
 }
 \description{
-function to calculate age from date of birth
+Calculate age from a specified date column
 }
 \examples{
 age <- calculate_age(
-data = readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi")),
-date_column_name = "dateOfBirth",
-end_date = Sys.Date(),
-age_in = "months"
+  data          = readRDS(system.file("extdata", "test_df.RDS",
+                                      package = "cleanepi")),
+  target_column = "dateOfBirth",
+  end_date      = Sys.Date(),
+  age_in        = "months",
+  na_strings    = "-99"
 )
 }

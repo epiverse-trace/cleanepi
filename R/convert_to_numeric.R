@@ -37,8 +37,11 @@ convert_to_numeric <- function(data,
   }
 
   if (length(to_numeric) > 0L) {
-    data <- data %>%
-      dplyr::mutate(dplyr::across({{ to_numeric }}, ~ convert(.x)))
+    for (col in to_numeric) {
+      data[[col]] <- convert(data[[col]])
+    }
+    # data <- data %>%
+    #   dplyr::mutate(dplyr::across({{ to_numeric }}, ~ convert(.x)))
     data <- add_to_report(x     = data,
                           key   = "converted_into_numeric",
                           value = paste(to_numeric, collapse = ", "))
@@ -94,14 +97,22 @@ detect_columns_to_convert <- function(scan_res) {
 #' @keywords internal
 #'
 convert <- function(x) {
-  tmp   <- x
-  is_na <- which(is.na(x))
-  x     <- suppressWarnings(as.numeric(x))
-  if (length(is_na) > 0L) {
-    xx  <- which(is.na(x))
-    y   <- xx[!(xx %in% is_na)]
+  if (all(is.numeric(x))) {
+    return(as.numeric(x))
   }
-  converted <- unlist(lapply(tmp[y], numberize::numberize, lang = "en"))
-  x[y]      <- converted
-  return(x)
+  tmp    <- x
+  is_na  <- which(is.na(x))
+  xx     <- suppressWarnings(as.numeric(x))
+  after_conversion_is_na <- NULL
+  if (length(is_na) > 0L) {
+    xx[is_na]              <- "i_set_this"
+    after_conversion_is_na <- which(is.na(xx))
+  }
+
+  y <- ifelse(!is.null(after_conversion_is_na),
+              after_conversion_is_na,
+              seq_along(x)[-is_na])
+  x[y]   <- unlist(lapply(tmp[y], numberize::numberize, lang = "en"))
+
+  return(as.numeric(x))
 }
