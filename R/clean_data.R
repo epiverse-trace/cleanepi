@@ -6,7 +6,7 @@
 #'    values by NA, converting character columns into dates when they contain a
 #'    certain number of date values, and detecting subject IDs with wrong format
 #'
-#' @param data the input data frame
+#' @param data the input data frame or linelist
 #' @param params a list of parameters that define what cleaning operations will
 #'    be applied on the input data. Possible values are:
 #' \enumerate{
