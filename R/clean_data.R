@@ -1,58 +1,54 @@
 #' Clean data
 #'
-#' @description this function cleans up messy data frames by performing several operations. These Include
+#' @description Cleans up messy data frames by performing several operations. These Include
 #'    cleaning of column names, detecting and removing
 #'    duplicates, empty records and columns, constant columns, replacing missing
 #'    values by NA, converting character columns into dates when they contain a
 #'    certain number of date values, and detecting subject IDs with wrong format
 #'
-#' @param data the input data frame
-#' @param params a list of parameters that define what cleaning operations will
+#' @param data A data frame
+#' @param params A list of parameters that define what cleaning operations will
 #'    be applied on the input data. Possible parameters are:
 #' \enumerate{
-#'   \item `remove_duplicates`: whether to remove duplicated records or not. If
-#'        `TRUE`, the `remove` argument of the `remove_duplicate()` function
-#'        will automatically be set to `-1` i.e. to keep only the first instance
-#'        of duplicated rows.
-#'        When the user only needs to detect duplicated rows in the dataset, use
+#'   \item `remove_duplicates`: A logical variable to indicate whether to remove duplicated records or not. If
+#'        set `TRUE`, it calls the `remove_duplicate()` function
+#'        with parameter `remove` set to `NULL` i.e., to keep only the first instance
+#'        of duplicated rows. If you only want to detect duplicated rows in the dataset, use
 #'        the `find_duplicates()` function.
-#'   \item `target_columns`: a vector of columns names or indices to consider
-#'        when looking for duplicates. When the input data is a `linelist`
-#'        object, this parameter can be set to `tags` if you wish to look for
-#'        duplicates across the tagged variables only. Only used when
-#'        `remove_duplicates=TRUE`
-#'   \item `replace_missing`: whether to replace the missing value characters
-#'         with NA or not. default is FALSE
-#'   \item `na_comes_as`: the characters that represent the missing values in
-#'         the data frame. Only used when `replace_missing=TRUE`
-#'   \item `check_timeframe`: a logical to determine whether to check if the
-#'         dates fall under the given time frame of not. default: FALSE
-#'   \item `timeframe`: a vector of 2 elements of Date class that specifies the
+#'   \item `target_columns`: A vector of columns names or indices to consider
+#'        when looking for duplicates. this
+#'        parameter can be set to `tags`from which duplicates to be removed.
+#'   \item `replace_missing`: A logical variable that indicates whether to replace missing value characters
+#'          with NA or not. The default value is `FALSE`.
+#'   \item `na_comes_as`: A string that represents the missing values in
+#'         the data frame. This only required when `replace_missing=TRUE`.
+#'   \item `check_timeframe`: A logical variable that determines whether to check if the
+#'         dates fall under the given time frame of not. default: `FALSE`.
+#'   \item `timeframe`: A vector of 2 dates that specifies the
 #'         first and last date. If provided, all Dates in the data frame must be
 #'         within this range or set to NA during the cleaning.
-#'   \item `error_tolerance`: a number between 0 and 1 indicating the proportion
+#'   \item `error_tolerance`: A number between 0 and 1 indicating the proportion
 #'         of entries which cannot be identified as dates to be tolerated; if
 #'         this proportion is exceeded, the original vector is returned, and a
-#'         message is issued; defaults to 0.1 (10 percent)
-#'   \item `subject_id_col_name`: the name of the column in the data frame with
-#'          the subject IDs
-#'   \item `subject_id_format`: the expected subject format
-#'   \item `prefix`: the prefix used in the subject IDs
-#'   \item `suffix`: the suffix used in the subject IDs
-#'   \item `range`: a vector with the range of numbers in the subject IDs
-#'   \item `dictionary`: an object of type data frame. This is the data
+#'         message is issued; defaults to 0.1 (10 percent).
+#'   \item `subject_id_col_name`: A column name of subject IDs
+#'   \item `subject_id_format`: A expected subject format
+#'   \item `prefix`: A prefix used in the subject IDs.
+#'   \item `suffix`: A suffix used in the subject IDs.
+#'   \item `range`: A vector with the range of numbers in the subject IDs.
+#'   \item `dictionary`: A data frame of data
 #'         dictionary that will be used to clean the specified columns. Use
 #'         `?clean_using_dictionary` for more details.
-#'   \item `range`: a vector with the range of numbers in the sample IDs
-#'   \item `keep`: a vector of column names to be kept as they appear
+#'   \item `range`: A vector with the range of numbers in the sample IDs
+#'   \item `keep`: A vector of column names to be kept as they appear
 #'          in the original data. default is `NULL`
 #'   }
 #'
 #' @return a list of the following 2 elements:
 #'  \enumerate{
-#'    \item `data`: the cleaned data frame according to the user-specified
-#'          parameters
-#'    \item `report`: an object of type list with the details from each
+#'    \item `data`: A  clean data frame  according to the user-specified
+#'          parameters.
+#'    \item `report`: A list with  details from each
 #'          cleaning operation considered.
 #'  }
 #' @export
