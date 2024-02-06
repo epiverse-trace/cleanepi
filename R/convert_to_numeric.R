@@ -42,11 +42,9 @@ convert_to_numeric <- function(data,
     for (col in to_numeric) {
       data[[col]] <- convert(data[[col]])
     }
-    # data <- data %>%
-    #   dplyr::mutate(dplyr::across({{ to_numeric }}, ~ convert(.x)))
     data <- add_to_report(x     = data,
                           key   = "converted_into_numeric",
-                          value = paste(to_numeric, collapse = ", "))
+                          value = glue::glue_collapse(to_numeric, sep = ", "))
   }
 
   return(data)

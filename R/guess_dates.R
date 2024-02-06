@@ -210,7 +210,8 @@ date_guess <- function(x,
                                                mxl            = modern_excel)
 
   # Select the correct dates and test if we were successful --------------------
-  # this section needs to be out of here and use it to correct for the error tolerance
+  # this section needs to be out of here and use it to correct for the error
+  # tolerance
   new_x     <- date_choose_first_good(x_rescued)
   return(new_x)
 }

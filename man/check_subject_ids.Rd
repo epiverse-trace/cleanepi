@@ -30,17 +30,18 @@ specified, the first column will be considered by default.}
 \value{
 A cleaned data frame with correct subject IDs. The incorrect
 subject ids will be stored in the report object.
-
-ta", "test_df.RDS",
-package = "cleanepi"  data           = readRDS(system.file("extda)),
-id_column_name = "study_id",
-format         = "PS000P2",#' @
-dat <- check_subject_ids(examples
-prefix         = "PS",
-suffix         = "P2",
-range          = c(1, 100)
-)
 }
 \description{
 Check whether the subject IDs comply with the expected format
+}
+\examples{
+dat <- check_subject_ids(
+  data           = readRDS(system.file("extdata", "test_df.RDS",
+                                       package = "cleanepi")),
+  id_column_name = "study_id",
+  format         = NULL,
+  prefix         = "PS",
+  suffix         = "P2",
+  range          = c(1, 100)
+)
 }

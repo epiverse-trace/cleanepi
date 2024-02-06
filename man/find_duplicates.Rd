@@ -12,7 +12,8 @@ find_duplicates(data, target_columns = NULL)
 \item{target_columns}{A vector of columns names or indices to consider when
 looking for duplicates. When the input data is a \code{linelist} object, this
 parameter can be set to \code{tags}from which duplicates to be removed.
-Its default value is \code{NULL}, which considers duplicates across all columns.}
+Its default value is \code{NULL}, which considers duplicates across all
+columns.}
 }
 \value{
 A data frame or linelist of all duplicated rows with following 2

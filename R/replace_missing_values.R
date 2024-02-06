@@ -52,8 +52,8 @@ replace_missing_values <- function(data,
 
   # make report
   xx   <- ifelse(length(indexes) == ncol(data),
-                 paste(names(data), collapse = ", "),
-                 paste(indexes, collapse = ", "))
+                 glue::glue_collapse(names(data), sep = ", "),
+                 glue::glue_collapse(indexes, sep = ", "))
   data <- add_to_report(x     = data,
                         key   = "missing_values_replaced_at",
                         value = xx)

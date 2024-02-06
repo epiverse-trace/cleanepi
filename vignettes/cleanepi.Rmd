@@ -46,36 +46,58 @@ The main function in **{cleanepi}** is `clean_data()` that can perform the follo
 
 Every cleaning operation in **{cleanepi}** is implemented as a module. These modules are described in details in the package design vignette.
 
-```{r eval=TRUE, comment="read_input"}
+```{r eval=TRUE, comment=""}
 # IMPORTING THE TEST DATASET
 test_data <- readRDS(system.file("extdata", "test_df.RDS",
                                  package = "cleanepi"))
 head(test_data)
 ```
 
-```{r eval=TRUE, comment="scan_data"}
+```{r eval=TRUE, comment=""}
 # SCAN THE DATA
 scan_result <- scan_data(test_data)
 print(scan_result)
 ```
 
-```{r eval=TRUE}
-# DEFINING THE DATA CLEANING PARAMETERS
+Each module has specific parameters. The parameters needed for the main function
+of each module are described the sections below.
+In the following chunk, we will define the list of the cleaning operations that
+we want to perform on the input data.
+
+```{r eval=TRUE, comment=""}
+# PARAMETERS FOR REPLACING MISSING VALUES WITH NA
+rm_na <- list(target_columns = NULL, na_strings = "-99")
+
+# PARAMETERS FOR DUBLICATES DETECTION AND REMOVAL
+rm_dup <- list(target_columns   = NULL,
+               rm_empty_rows    = TRUE,
+               rm_empty_cols    = TRUE,
+               rm_constant_cols = TRUE)
+
+# PARAMETERS FOR STANDARDING DATES
+stdn_date <- list(target_columns  = NULL,
+                  error_tolerance = 0.5,
+                  format          = NULL,
+                  timeframe       = as.Date(c("1973-05-29", "2023-05-29")))
+
+# PARAMETERS FOR STANDARDING SUBJECT IDs
+stdn_ids <- list(id_col_name = "study_id",
+                 format      = NULL,
+                 prefix      = "PS",
+                 suffix      = "P2",
+                 range       = c(1, 100))
+
+# LAOD THE DATA DICTIONARY
+test_dictionary <- readRDS(system.file("extdata", "test_dictionary.RDS",
+                                       package = "cleanepi"))
+
+# DEFINE THE LIST OF PARAMETERS
 params <- list(
-  keep                = "date.of.admission",
-  remove_duplicates   = TRUE,
-  target_columns      = NULL,
-  replace_missing     = TRUE,
-  na_comes_as         = "-99",
-  check_timeframe     = TRUE,
-  timeframe           = as.Date(c("1973-05-29", "2023-05-29")),
-  error_tolerance     = 0.5,
-  subject_id_col_name = "study_id",
-  subject_id_format   = "PS000P2",
-  prefix              = "PS",
-  suffix              = "P2",
-  range               = c(1L, 100L),
-  dictionary          = test_dictionary
+  replace_missing_values  = rm_na,
+  remove_duplicates       = rm_dup,
+  standardize_date        = stdn_date,
+  standardize_subject_ids = stdn_ids,
+  dictionary              = test_dictionary
 )
 ```
 
@@ -85,7 +107,7 @@ The `clean_data()` function expects 2 arguments:
 2. **params**: a list of parameters that define which cleaning operations will
     be performed.
 
-```{r eval=TRUE, comment="run_clean_data"}
+```{r eval=TRUE, comment=""}
 # CLEAN THE INPUT DATA FRAME
 cleaned_data <- clean_data(
   data   = test_data,
@@ -105,6 +127,12 @@ report <- attr(cleaned_data, "report")
 
 # SUMMARIZE THE REPORT OBJECT
 summary(report)
+```
+
+The report can also be displayed in an HTML format using the `print_report()` function as shown below:
+
+```{r eval=FALSE}
+print_report(report)
 ```
 
 ## Specific data cleaning tasks
@@ -274,7 +302,7 @@ The `find_duplicates()` function serves the purpose of identifying duplicated ro
 
 By leveraging the `find_duplicates()` function with appropriate parameters, users can efficiently pinpoint duplicated rows within their datasets, either across all columns or selectively across tagged variables in a `linelist` object.
 
-```{r eval=TRUE, comment="find_dups"}
+```{r eval=TRUE, comment=""}
 # IMPORT A `linelist` DATA
 data <- readRDS(system.file("extdata", "test_linelist.RDS",
                             package = "cleanepi"))
@@ -337,7 +365,7 @@ The details about the duplicates removal operation are reported as a list attach
 
 By examining these elements within the report, users gain insights into the specific duplicated rows, those that were removed, and the columns used to identify the duplicated, thus facilitating transparency and documentation of the duplicates removal process.
 
-```{r eval=TRUE, comment="print_dups_report"}
+```{r eval=TRUE, comment=""}
 # ACCESS THE REPORT
 report <- attr(res, "report")
 
@@ -368,39 +396,28 @@ no_dups <- remove_duplicates(
 
 ### Dictionary based data substituting
 
-The `clean_using_dictionary()` function offers a convenient way to replace the options in a data frame or linelist with their corresponding values stored in a data dictionary file. The structure of this data dictionary file should adhere to the standards expected by the [matchmaker](https://www.repidemicsconsortium.org/matchmaker/) package, as the `clean_using_dictionary()` function relies on functions from this package.
+The `clean_using_dictionary()` function offers a convenient way to replace the options in a data frame or linelist with their corresponding values stored in a data dictionary file. The function expects the following arguments:
 
-Here's how the function operates:
+1. **data**: The input data frame or linelist that contains the options to be replaced.
+2. **dictionary**: The data frame with the data dictionary that contains the complete labels        for these options. The structure of this data dictionary file should adhere to the            standards expected by the [matchmaker](https://www.repidemicsconsortium.org/matchmaker/)       package, as the `clean_using_dictionary()` function relies on functions from this             package.
 
-- **Inputs**: The function accepts two main inputs:
-  1. The input data frame or linelist that contains the options to be replaced.
-  2. The corresponding data dictionary file that contains the complete labels for these options. This dictionary file typically includes additional information necessary for understanding the input dataset.
-
-- **Data Dictionary Structure**: The structure of the data dictionary should align with the format expected by the matchmaker package. This format ensures compatibility and seamless integration with the `clean_using_dictionary()` function.
-
-By leveraging the `clean_using_dictionary()` function with a suitable data dictionary, users can effectively replace option values in their datasets with their corresponding labels, enhancing the interpretability and clarity of the data.
-
-```{r eval=TRUE, comment="display_dictionary"}
+```{r eval=TRUE, comment=""}
 test_dictionary
 ```
 
-The `add_to_dictionary()` function is a useful tool for expanding the coverage of a data dictionary by defining options that are present in the input data but not originally included in the dictionary. This function enables users to dynamically update the dictionary to accommodate new values encountered in the dataset.
+The `add_to_dictionary()` function is a useful tool for expanding the coverage of a data dictionary by defining options that are present in the input data but not originally included in the dictionary. This function enables users to dynamically update the dictionary to accommodate new values encountered in the dataset. In addition to the current data dictionary the function takes the arguments defined below:
 
-Here's how the `add_to_dictionary()` function can be utilized:
-
-1. **Identify Undefined Options**: Users can identify options in the input data that are not defined in the existing data dictionary. For instance, in your example, the value `-99` is not defined in the dictionary.
-
-2. **Call `add_to_dictionary()`**: Users can then use the `add_to_dictionary()` function to add the undefined options to the data dictionary. This function facilitates the expansion of the dictionary to include new values encountered in the dataset.
+**option, value, grp, order**: the values for the options to be added in the data dictionary. The example below shows how this function is used.
 
 By employing the `add_to_dictionary()` function, users can ensure that the data dictionary remains comprehensive and aligned with the evolving nature of the input dataset, thereby enhancing the accuracy and completeness of data interpretation and analysis. 
 In the example below, we add `-99` to our test data dictionary, `test_dictionary`.
 
 ```{r eval=TRUE}
-## READING IN THE DATA
+# READING IN THE DATA
 data <- readRDS(system.file("extdata", "test_df.RDS",
                             package = "cleanepi"))
 
-## ADD THE EXTRA OPTION TO THE DICTIONARY
+# ADD THE EXTRA OPTION TO THE DICTIONARY
 test_dictionary <- add_to_dictionnary(test_dictionary,
                                       option = "-99",
                                       value  = "unknow",
@@ -410,7 +427,7 @@ test_dictionary
 ```
 
 
-```{r eval=TRUE, comment="dictionary-base_cleaning"}
+```{r eval=TRUE, comment=""}
 cleaned_df <- clean_using_dictionary(
   data       = data,
   dictionary = test_dictionary
@@ -419,28 +436,25 @@ cleaned_df <- clean_using_dictionary(
 cleaned_df
 ```
 
-
 ### Calculating age in different time scales
 
 The `calculate_age()` function computes the ages of individuals, expressed in years, months, weeks, or days, based on a given date column and a reference date. It requires the following arguments:
 
-1. **`data`** (required): This parameter represents the input dataset containing the relevant information.
-   
-2. **`date_column_name`** (required): Specify the name of the column containing the birth or relevant dates for which the age is being calculated.
-   
-3. **`end_date`** (required): This is the reference date used to calculate the age of individuals. The function computes the age relative to this date.
-   
-4. **`age_in`** (optional): This parameter determines the unit in which the age is expressed. It can be specified as "years", "months", "weeks", or "days". By default, the age is calculated in years if this parameter is not provided.
+1. **data**: The input dataset (required).
+2. **target_column**: A vector of the name of the column containing the birth or relevant           dates for which the age is being calculated (required).
+3. **end_date**: This is the reference date used to calculate the age of individuals                (required). The function computes the age relative to this date.
+4. **age_in**: This parameter determines the unit in which the age is expressed (required). It       can be specified as "years", "months", "weeks", or "days". By default, the age is             calculated in years if this parameter is not provided.
+5. **na_strings**: This is an extra parameters that is only needed when there are missing           values in the date column of interest. It will be used to replace those missing values        into `NA` prior to the age calculation.
 
-By utilizing these arguments, the function offers flexibility in determining the age of individuals based on different units and reference dates. It facilitates various analytical tasks where age computation is a necessary component, providing users with the ability to customize the output according to their specific requirements.
+With these arguments, the function offers flexibility in determining the age of individuals based on different units and reference dates. It facilitates various analytics tasks where age computation is a necessary component, providing users with the ability to customize the output according to their specific requirements.
 
 ```{r eval=TRUE}
-# CALCULATE INDIVIDUAL AGE FROM THE `dateOfBirth` COLUMN
+# CALCULATE INDIVIDUAL AGE FROM THE 'dateOfBirth' COLUMN
 age <- calculate_age(
   data          = readRDS(system.file("extdata", "test_df.RDS",
-                                       package = "cleanepi")),
-  target_column = "dateOfBirth", 
-  age_in        = "days", 
+                                      package = "cleanepi")),
+  target_column = "dateOfBirth",
+  age_in        = "days",
   na_strings    = "-99"
 )
 ```
@@ -455,9 +469,3 @@ The `calculate_age()` function is designed to enhance the input dataset by addin
 # DISPLAY THE OUTPUT OBJECT
 head(age)  # note the last 2 columns
 ```
-
-
-
-
-
-

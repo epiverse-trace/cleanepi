@@ -243,7 +243,7 @@ detect_misspelled_options <- function(data, dictionary) {
 print_misspelled_values <- function(misspelled_options) {
   for (opts in names(misspelled_options)) {
     message("\nDetected misspelled values at lines ",
-            paste(misspelled_options[[opts]], collapse = ", "),
+            glue::glue_collapse(misspelled_options[[opts]], sep = ", "),
             " of column '", opts, "'")
   }
 }

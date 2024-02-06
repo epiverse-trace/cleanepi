@@ -11,9 +11,9 @@ date_convert(data, cols, error_tolerance, format = NULL, timeframe = NULL)
 
 \item{cols}{date column name(s)}
 
-\item{error_tolerance}{A numerical value between 0 and 1, indicating the proportion of
-entries which cannot be identified as dates to be tolerated. See the
-\code{clean_data()} helper for more details.}
+\item{error_tolerance}{A numerical value between 0 and 1, indicating the
+proportion of entries which cannot be identified as dates to be tolerated.
+See the \code{clean_data()} helper for more details.}
 
 \item{format}{A format of the date values in the date columns}
 

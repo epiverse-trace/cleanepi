@@ -65,7 +65,7 @@ are_missing_ids_found <- ifelse(is.null(missing_ids), FALSE, TRUE)
 are_duplicated_ids_found <- ifelse(is.null(duplicated_ids), FALSE, TRUE)
 are_converted_to_numeric <- ifelse(is.null(converted_into_numeric), FALSE, TRUE)
 are_misspelled_values_found <- ifelse(is.null(misspelled_values), FALSE, TRUE)
-are_incorrect_date_sequence_found <- ifelse(is.null(incorrect_date_sequence),
+are_incorrect_date_seq_found <- ifelse(is.null(incorrect_date_sequence),
                                             FALSE, TRUE)
 ```
 
@@ -155,7 +155,7 @@ misspelled_values %>%
   kableExtra::kable_paper("striped", font_size = 18, full_width = FALSE)
 ```
 
-```{r eval=are_incorrect_date_sequence_found, echo=FALSE, comment=""}
+```{r eval=are_incorrect_date_seq_found, echo=FALSE, comment=""}
 cat("\nDetected the following incorrect date sequences:\n")
 incorrect_date_sequence %>%
   rlang::set_names(toupper) %>%

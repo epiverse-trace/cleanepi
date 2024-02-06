@@ -46,6 +46,9 @@ remove_duplicates <- function(data,
                               rm_empty_cols    = TRUE,
                               rm_constant_cols = TRUE) {
 
+  # setting up the variables below to NULL to avoid linters
+  row_id <- NULL
+
   # remove the empty rows and columns
   report <- attr(data, "report")
   dat    <- data %>%
@@ -56,7 +59,7 @@ remove_duplicates <- function(data,
   if (length(idx) > 0L) {
     cols <- names(data)[idx]
     if (!is.null(cols)) {
-      add_this <- paste(cols, collapse = ", ")
+      add_this <- glue::glue_collapse(cols, sep = ", ")
     }
   }
   dat      <- add_to_report(x     = dat,
@@ -76,7 +79,7 @@ remove_duplicates <- function(data,
   dat      <- data %>% janitor::remove_constant()
   idx      <- which(!(names(data) %in% names(dat)))
   if (length(idx) > 0L) {
-    add_this <- paste(names(data)[idx], collapse = ", ")
+    add_this <- glue::glue_collapse(names(data)[idx], sep = ", ")
     cols     <- c(cols, names(data)[idx])
   }
   dat        <- add_to_report(x     = dat,
@@ -118,7 +121,8 @@ remove_duplicates <- function(data,
                          value = to_be_removed)
     dat <- add_to_report(x     = dat,
                          key   = "duplicates_checked_from",
-                         value = paste(target_columns, collapse = ", "))
+                         value = glue::glue_collapse(target_columns,
+                                                     sep = ", "))
   }
 
   tmp_report <- attr(dat, "report")
@@ -135,7 +139,8 @@ remove_duplicates <- function(data,
 #' @param target_columns A vector of columns names or indices to consider when
 #'    looking for duplicates. When the input data is a `linelist` object, this
 #'    parameter can be set to `tags`from which duplicates to be removed.
-#'    Its default value is `NULL`, which considers duplicates across all columns.
+#'    Its default value is `NULL`, which considers duplicates across all
+#'    columns.
 #'
 #' @return A data frame or linelist of all duplicated rows with following 2
 #'    additional columns:

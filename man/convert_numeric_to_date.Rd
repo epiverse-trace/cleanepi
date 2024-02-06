@@ -14,8 +14,8 @@ names to be converted from numeric to date}
 
 \item{ref_date}{A reference date}
 
-\item{forward}{A Boolean to indicate whether the counts started after the reference date (TRUE) or
-not (FALSE). The default is FALSE.}
+\item{forward}{A Boolean to indicate whether the counts started after the
+reference date (TRUE) or not (FALSE). The default is FALSE.}
 }
 \value{
 A data frame where the column of interest are updated

@@ -11,7 +11,8 @@ check_date_sequence(data, target_columns, remove_bad_seq = FALSE)
 
 \item{target_columns}{A vector of event column names.
 Users should specify at least 2 column names in the expected order.
-For example: target_columns = c("date_symptoms_onset", "date_hospitalization", "date_death"). # nolint: line_length_linter}
+For example: target_columns = c("date_symptoms_onset",
+"date_hospitalization", "date_death").}
 
 \item{remove_bad_seq}{A Boolean to specify if rows with incorrect order
 should be filtered out or not. The default is FALSE}
