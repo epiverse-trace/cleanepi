@@ -2,22 +2,22 @@
 % Please edit documentation in R/clean_data_helpers.R
 \name{scan_data}
 \alias{scan_data}
-\title{Scan a data frame object to determine the percentage of \code{missing}, \code{numeric},
-\code{Date}, \code{character}, \code{logical} values in every column.}
+\title{Scan a data frame to determine the percentage of \code{missing}, \code{numeric},
+\code{Date}, \code{character},  and \code{logical} values in every column.}
 \usage{
 scan_data(data)
 }
 \arguments{
-\item{data}{the input data frame}
+\item{data}{A data frame or linelist}
 }
 \value{
-a data frame with the same columns as the input data and 5 rows.
-These rows represent the percentage of missing, numeric, date, character,
+A  data frame or linelist with the same columns as the input data
+and 5 rows representing the percentage of missing, numeric, date, character,
 and logical values in each column.
 }
 \description{
-Scan a data frame object to determine the percentage of \code{missing}, \code{numeric},
-\code{Date}, \code{character}, \code{logical} values in every column.
+Scan a data frame to determine the percentage of \code{missing}, \code{numeric},
+\code{Date}, \code{character},  and \code{logical} values in every column.
 }
 \examples{
 scan_result <- scan_data(

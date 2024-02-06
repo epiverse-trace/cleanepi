@@ -11,18 +11,19 @@ replace_missing_values(
 )
 }
 \arguments{
-\item{data}{the input data}
+\item{data}{A data frame or linelist}
 
-\item{target_columns}{a vector of column names. If provided, the missing
-values substitution will only be performed in those columns.}
+\item{target_columns}{A vector of column names. If provided, the substitution
+of missing values will only be executed in those specified columns}
 
-\item{na_strings}{a vector of strings that represent the missing values in
-the columns of interest. Default values are \code{cleanepi::common_na_strings}.
-When the missing values string in the columns of interest is not part of
-this predefined vector, it can be used as the value for this argument.}
+\item{na_strings}{This is a vector of strings that represents the missing
+values in the columns of interest. By default, it utilizes
+\code{cleanepi::common_na_strings}. However, if the missing values string in the
+columns of interest is not included in this predefined vector,
+it can be used as the value for this argument.}
 }
 \value{
-the input data where missing values are replaced by \code{NA}
+The input data where missing values are replaced by \code{NA}.
 }
 \description{
 Replace missing values with \code{NA}

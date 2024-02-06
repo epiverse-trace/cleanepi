@@ -7,15 +7,15 @@
 date_trim_outliers(new_dates, dmin, dmax, cols, original_dates)
 }
 \arguments{
-\item{new_dates}{a vector of the new date values}
+\item{new_dates}{A vector of the new date values}
 
-\item{dmin}{the minimum date}
+\item{dmin}{A minimum date}
 
-\item{dmax}{the maximum date}
+\item{dmax}{A maximum date}
 
-\item{cols}{the name of the date column of interest}
+\item{cols}{The name of the date column of interest}
 
-\item{original_dates}{a vector of the original date values}
+\item{original_dates}{A vector of the original date values}
 }
 \description{
 Trim dates outside of the defined boundaries

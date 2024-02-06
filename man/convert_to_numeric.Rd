@@ -2,26 +2,28 @@
 % Please edit documentation in R/convert_to_numeric.R
 \name{convert_to_numeric}
 \alias{convert_to_numeric}
-\title{Convert provided or auto-detected character columns into numeric}
+\title{Convert columns into numeric}
 \usage{
 convert_to_numeric(data, to_numeric = NULL, scan_res = NULL)
 }
 \arguments{
-\item{data}{the input data frame}
+\item{data}{A data frame}
 
-\item{to_numeric}{a vector of column names}
+\item{to_numeric}{A vector of column names}
 
-\item{scan_res}{a data frame obtained from the \code{scan_data()} function}
+\item{scan_res}{A data frame obtained from the \code{scan_data()} function}
 }
 \value{
-the input data frame where all the specified or the detected columns
-(as described above) have been converted into numeric
+A resulting data frame after the conversion process,
+wherein all the specified or detected columns have been transformed into
+numeric format.
 }
 \description{
-When the names of the columns to be converted is not provided, the function
-looks for columns that contains only missing, numeric and character values
-and where the percentage of numeric values is at least 2 times the percent of
-character values.
+When the function is invoked without specifying the column names to be
+converted, it automatically scans for columns containing exclusively missing,
+numeric, and character values. Furthermore, it identifies columns where the
+proportion of numeric values is at least twice the percentage of character
+values.
 }
 \examples{
 dat <- convert_to_numeric(

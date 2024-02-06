@@ -2,21 +2,22 @@
 % Please edit documentation in R/clean_data_helpers.R
 \name{get_column_composition}
 \alias{get_column_composition}
-\title{Calculate the percentage of missing and other data type values in a vector.
-The considered data types are: \code{numeric}, \code{Date}, \code{character}, \code{logical}}
+\title{Calculate the percentage of missing and other data type values in a vector
+containing different data types such as numeric, Date, character, and
+logical.}
 \usage{
 get_column_composition(x)
 }
 \arguments{
-\item{x}{a vector of 1 or a combination of the values of the type mentioned
-above}
+\item{x}{A vector of ones or a combination of various data types.}
 }
 \value{
-a vector of 4 elements that represent respectively the percent of:
-missing, numeric, date, and character values found in the input vector.
+A vector of 5 elements representing the percentage of missing,
+numeric, date, character, and logical values found in the input vector.
 }
 \description{
-Calculate the percentage of missing and other data type values in a vector.
-The considered data types are: \code{numeric}, \code{Date}, \code{character}, \code{logical}
+Calculate the percentage of missing and other data type values in a vector
+containing different data types such as numeric, Date, character, and
+logical.
 }
 \keyword{internal}

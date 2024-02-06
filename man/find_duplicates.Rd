@@ -15,7 +15,7 @@ parameter can be set to \code{tags}from which duplicates to be removed.
 Its default value is \code{NULL}, which considers duplicates across all columns.}
 }
 \value{
-Data frame or linelist of all duplicated rows with following 2
+A data frame or linelist of all duplicated rows with following 2
 additional columns:
 \enumerate{
 \item \code{row_id}: the indices of the duplicated rows from the input data.

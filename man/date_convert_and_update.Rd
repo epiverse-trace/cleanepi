@@ -13,21 +13,21 @@ date_convert_and_update(
 )
 }
 \arguments{
-\item{data}{the input data frame}
+\item{data}{A data frame}
 
-\item{timeframe}{a vector of 2 values of type date. If provided, date values
+\item{timeframe}{A vector of 2 values of type date. If provided, date values
 that do not fall within this timeframe will be set to \code{NA}.}
 
-\item{new_dates}{a vector of the converted date values}
+\item{new_dates}{A vector of the converted date values}
 
-\item{cols}{the name of the date column been converted}
+\item{cols}{The names of the date column been converted}
 
-\item{error_tolerance}{a number between 0 and 1 indicating the proportion of
+\item{error_tolerance}{A numerical value between 0 and 1, indicating the proportion of
 entries which cannot be identified as dates to be tolerated. See the
 \code{clean_data()} helper for more details.}
 }
 \value{
-a list of 2 data frames: the updated input data (if some columns were
+A list of 2 data frames: the updated input data (if some columns were
 converted to Date) and a data frame of date values that are not within the
 specified timeframe.
 }

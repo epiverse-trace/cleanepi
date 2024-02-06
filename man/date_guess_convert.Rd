@@ -2,21 +2,22 @@
 % Please edit documentation in R/date_standardisation_helpers.R
 \name{date_guess_convert}
 \alias{date_guess_convert}
-\title{Guess if a character vector contains Date values, and convert them into Date}
+\title{Guess if a character vector contains Date values, and convert them to date}
 \usage{
 date_guess_convert(data, error_tolerance, timeframe)
 }
 \arguments{
-\item{data}{the input data frame}
+\item{data}{A data frame}
 
-\item{error_tolerance}{a number between 0 and 1 indicating the proportion of
-entries which cannot be identified as dates to be tolerated. See the
-\code{clean_data()} helper for more details}
+\item{error_tolerance}{A numeric value between 0 and 1 that signifies the
+proportion of entries that cannot be recognized as dates and are acceptable.
+For more detailed information, you can refer to the \code{clean_data()}
+helper function.}
 
-\item{timeframe}{the expected first and last date. See the \code{clean_data()}
-helper for more details}
+\item{timeframe}{The expected first and last date. See the \code{clean_data()}
+helper for more details.}
 }
 \description{
-Guess if a character vector contains Date values, and convert them into Date
+Guess if a character vector contains Date values, and convert them to date
 }
 \keyword{internal}

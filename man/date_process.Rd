@@ -7,10 +7,10 @@
 date_process(x)
 }
 \arguments{
-\item{x}{an object of date class}
+\item{x}{A object of date class}
 }
 \value{
-the modified input object
+A modified input object
 }
 \description{
 Process date variable

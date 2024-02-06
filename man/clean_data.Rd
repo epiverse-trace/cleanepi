@@ -2,7 +2,7 @@
 % Please edit documentation in R/clean_data.R
 \name{clean_data}
 \alias{clean_data}
-\title{Clean data}
+\title{Clean and standardize data}
 \usage{
 clean_data(
   data,
@@ -15,43 +15,43 @@ clean_data(
 )
 }
 \arguments{
-\item{data}{the input data frame}
+\item{data}{The input data frame or linelist}
 
-\item{params}{a list of parameters that define what cleaning operations will
+\item{params}{A list of parameters that define what cleaning operations will
 be applied on the input data. Possible values are:
 \enumerate{
-\item \code{keep}: a vector of column names to be kept as they appear in the
+\item \code{keep}: A vector of column names to be kept as they appear in the
 original data. All column names will be standardized if this is \code{NULL}
 (the default value).
-\item \code{replace_missing_values}: a list of parameters to be used when
+\item \code{replace_missing_values}: A list of parameters to be used when
 replacing the missing values by \code{NA}. These parameters are the inputs
 for the \code{replace_missing_values()} function.
-\item \code{remove_duplicates}: a list of arguments that defines the list of
+\item \code{remove_duplicates}: A list of arguments that defines the list of
 columns to be considered when looking for duplicates. It also contains
 arguments that determine how constant rows and columns will be handled.
 They are the input values for the \code{remove_duplicates()} function.
-\item \code{standardize_date}: a list of parameters that will be used to
+\item \code{standardize_date}: A list of parameters that will be used to
 standardize the date values from the input data. They represent the
 input values for the \code{standardize_dates()} function.
-\item \code{standardize_subject_ids}: a list of parameters that are needed to
+\item \code{standardize_subject_ids}: A list of parameters that are needed to
 check the IDs that comply with the expect format. These arguments are
 the input values of the \code{check_subject_ids()}.
 \item \code{to_numeric}: a vector of column names. When provided, the values in
 these columns will be converted into numeric.
-\item \code{dictionary}: an data frame that will be used to substitute the
+\item \code{dictionary}: A data frame that will be used to substitute the
 current values in the specified columns the those in the dictionary. It
 is the main argument for the \code{clean_using_dictionary()} function.
 }}
 }
 \value{
-the cleaned data frame according to the user-specified parameters
+The cleaned data frame according to the user-specified parameters
 }
 \description{
 Cleans up messy data frames by performing several operations. These Include
 cleaning of column names, detecting and removing
 duplicates, empty records and columns, constant columns, replacing missing
 values by NA, converting character columns into dates when they contain a
-certain number of date values, and detecting subject IDs with wrong format
+certain number of date values, and detecting subject IDs with wrong formats.
 }
 \examples{
 Here `keep = NULL` i.e. column names standardization will be performed across

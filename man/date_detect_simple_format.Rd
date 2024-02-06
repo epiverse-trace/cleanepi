@@ -7,7 +7,7 @@
 date_detect_simple_format(x)
 }
 \arguments{
-\item{x}{a string with the date value of interest}
+\item{x}{A string with the date value of interest}
 }
 \description{
 Get format from a simple date value

@@ -7,13 +7,13 @@
 make_metadata(x, field_column)
 }
 \arguments{
-\item{x}{a \code{vector} choices from the input data}
+\item{x}{A vector choices from the input data}
 
-\item{field_column}{a \code{character} with the name of the field where the
+\item{field_column}{A character with the name of the field where the
 choices are made.}
 }
 \value{
-a \verb{data frame} with the dictionary in the format that is accepted by
+A data frame with the dictionary in the format that is accepted by
 the {matchmaker} package.
 }
 \description{

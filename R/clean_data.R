@@ -6,15 +6,9 @@
 #'    values by NA, converting character columns into dates when they contain a
 #'    certain number of date values, and detecting subject IDs with wrong formats.
 #'
-<<<<<<< HEAD
 #' @param data The input data frame or linelist
 #' @param params A list of parameters that define what cleaning operations will
 #'    be applied on the input data. Possible values are:
-=======
-#' @param data A  data frame
-#' @param params A list of parameters that defines what cleaning operations will
-#'    be applied on the input data. Possible parameters are:
->>>>>>> f72cfea (Update the documentation fo clean_data() function.)
 #' \enumerate{
 #'   \item `keep`: A vector of column names to be kept as they appear in the
 #'      original data. All column names will be standardized if this is `NULL`

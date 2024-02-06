@@ -7,13 +7,12 @@
 clean_using_dictionary(data, dictionary)
 }
 \arguments{
-\item{data}{the input data}
+\item{data}{A data frame}
 
-\item{dictionary}{a \verb{data frame} with the data dictionary associated to the
-input data. This should be in the format}
+\item{dictionary}{A data dictionary associated with the input data.}
 }
 \value{
-a \verb{data frame} with cleaned values in the target columns specified
+A data frame with cleaned values in the target columns specified
 in the data dictionary.
 }
 \description{
