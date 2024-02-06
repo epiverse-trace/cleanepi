@@ -7,23 +7,23 @@
 check_date_sequence(data, target_columns, remove_bad_seq = FALSE)
 }
 \arguments{
-\item{data}{the input data frame}
+\item{data}{A data frame}
 
-\item{target_columns}{a vector or a comma-separated list of the event columns
-names. Users should specify at least 2 column names in the expected order.
+\item{target_columns}{A vector of event column names.
+Users should specify at least 2 column names in the expected order.
 For example: target_columns = c("date_symptoms_onset", "date_hospitalization", "date_death"). # nolint: line_length_linter}
 
-\item{remove_bad_seq}{a Boolean to specify if rows with incorrect order
+\item{remove_bad_seq}{A Boolean to specify if rows with incorrect order
 should be filtered out or not. The default is FALSE}
 }
 \value{
-rows of the input data frame with incorrect date sequence
+Rows of the input data frame with incorrect date sequence
 if \code{remove_bad_seq = FALSE}, the input data frame without those
 rows if not.
 }
 \description{
-This function checks whether a date sequence in
-a vector of  specified columns is correct or not.
+Checks whether a date sequence in
+a vector of  specified columns is in order or not.
 }
 \examples{
 good_date_sequence <- check_date_sequence(

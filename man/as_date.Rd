@@ -2,7 +2,7 @@
 % Please edit documentation in R/date_standardisation_helpers.R
 \name{as_date}
 \alias{as_date}
-\title{Reformat the date}
+\title{Reformat a given date}
 \usage{
 as_date(
   x,
@@ -11,11 +11,11 @@ as_date(
 )
 }
 \arguments{
-\item{x}{the string of interest}
+\item{x}{A string of interest}
 
-\item{format}{the date format}
+\item{format}{A date format}
 }
 \description{
-Reformat the date
+Reformat a given date
 }
 \keyword{internal}

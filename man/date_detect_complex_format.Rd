@@ -7,7 +7,7 @@
 date_detect_complex_format(x)
 }
 \arguments{
-\item{x}{the string of interest}
+\item{x}{A string of interest}
 }
 \description{
 Detect complex date format

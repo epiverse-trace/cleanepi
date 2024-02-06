@@ -7,15 +7,15 @@
 date_make_format(f1, f2, tmp_sep)
 }
 \arguments{
-\item{f1}{the first part of the date values}
+\item{f1}{The first part of the date values}
 
-\item{f2}{the second part of the date values}
+\item{f2}{The second part of the date values}
 
-\item{tmp_sep}{the character string that separate the first and second parts
-of the date values}
+\item{tmp_sep}{The character string that separate the first and second parts
+of the date values.}
 }
 \value{
-a character string that represent the inferred format of the date
+A character string that represent the inferred format of the date
 values.
 }
 \description{

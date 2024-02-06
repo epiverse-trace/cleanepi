@@ -7,8 +7,8 @@
 print_misspelled_values(misspelled_options)
 }
 \arguments{
-\item{misspelled_options}{a name \code{list} with the misspelled values found in
-the different columns of the input data}
+\item{misspelled_options}{A list with the misspelled values found in
+the different columns of the input data.}
 }
 \description{
 Print the detected misspelled values

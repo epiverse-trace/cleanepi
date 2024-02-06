@@ -7,14 +7,13 @@
 detect_misspelled_options(data, dictionary)
 }
 \arguments{
-\item{data}{the input data}
+\item{data}{A data frame}
 
-\item{dictionary}{a \verb{data frame} with the data dictionary associated to the
-input data. This should be in the format}
+\item{dictionary}{A data dictionary associated with the input data.}
 }
 \value{
-a \code{list} with the indexes of the misspelled values in every column
-that needs to be cleaned
+A list with the indexes of the misspelled values in every column
+that needs to be cleaned.
 }
 \description{
 Detect misspelled options in columns to be cleaned

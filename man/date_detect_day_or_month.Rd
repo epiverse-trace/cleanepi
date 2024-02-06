@@ -7,7 +7,7 @@
 date_detect_day_or_month(x)
 }
 \arguments{
-\item{x}{the string of interest}
+\item{x}{A string of interest}
 }
 \description{
 Detect whether it's day or month

@@ -14,34 +14,33 @@ check_subject_ids(
 )
 }
 \arguments{
-\item{data}{the data frame of interest}
+\item{data}{A data frame}
 
-\item{format}{the expected format of the subject IDs}
+\item{format}{A  format of the subject IDs}
 
-\item{id_column_name}{the name of the column with the subject IDs. If not
+\item{id_column_name}{A column name of  the subject IDs. If not
 specified, the first column will be considered by default.}
 
-\item{prefix}{the prefix used in the subject IDs}
+\item{prefix}{A prefix used in the subject IDs}
 
-\item{suffix}{the suffix used in the subject IDs}
+\item{suffix}{A suffix used in the subject IDs}
 
-\item{range}{a vector with the range of numbers in the sample IDs}
+\item{range}{A vector with the range of numbers in the sample IDs}
 }
 \value{
-the cleaned data frame with correct subject IDs. The incorrect
+A cleaned data frame with correct subject IDs. The incorrect
 subject ids will be stored in the report object.
+
+ta", "test_df.RDS",
+package = "cleanepi"  data           = readRDS(system.file("extda)),
+id_column_name = "study_id",
+format         = "PS000P2",#' @
+dat <- check_subject_ids(examples
+prefix         = "PS",
+suffix         = "P2",
+range          = c(1, 100)
+)
 }
 \description{
 Check whether the subject IDs comply with the expected format
-}
-\examples{
-dat <- check_subject_ids(
-  data           = readRDS(system.file("extdata", "test_df.RDS",
-                                       package = "cleanepi")),
-  id_column_name = "study_id",
-  format         = "PS000P2",
-  prefix         = "PS",
-  suffix         = "P2",
-  range          = c(1, 100)
-)
 }

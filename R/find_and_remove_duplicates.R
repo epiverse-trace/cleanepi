@@ -11,20 +11,22 @@
 #' @param target_columns A vector of column names to use when looking for
 #'    duplicates. When the input data is a `linelist`, this
 #'    parameter can be set to `tags`from which duplicates to be removed.
-#'    Its default value is `NULL`, which considers duplicates across all columns.
+#'    Its default value is `NULL`, which considers duplicates across
+#'    all columns.
 #' @param remove A vector of duplicate indices to be removed. Duplicate indices
 #'    are unique identifiers for all rows in the original data frame or linelist
 #'    that are duplicates of each other based on the `target_columns`.
 #'    If remove = `NULL` (default value), the first duplicate is kept and
 #'    the rest of the duplicates in the group are removed.
-#' @param rm_empty_rows A logical variable that is used to specify whether to remove
-#'     empty rows or not. The default  value is `TRUE`.
-#' @param rm_empty_cols A logical variable that is used to specify whether to remove
-#'     empty columns or not. The default value is `TRUE`.
-#' @param rm_constant_cols A logical variable that is used to specify whether to remove
-#'     constant columns or not. The default value is `TRUE`.
+#' @param rm_empty_rows A logical variable that is used to specify whether to
+#'    remove empty rows or not. The default  value is `TRUE`.
+#' @param rm_empty_cols A logical variable that is used to specify whether to
+#'    remove empty columns or not. The default value is `TRUE`.
+#' @param rm_constant_cols A logical variable that is used to specify whether to
+#'    remove constant columns or not. The default value is `TRUE`.
 #'
-#' @return A  data frame or linelist  without the duplicates values and nor constant columns.
+#' @return A  data frame or linelist  without the duplicates values and nor
+#'    constant columns.
 #' @export
 #'
 #' @examples
@@ -105,17 +107,21 @@ remove_duplicates <- function(data,
 
 
   if (nrow(dups) > 0L) {
+    to_be_removed <- dplyr::anti_join(dups, dat) %>%
+      dplyr::select(c(row_id, {{ target_columns }}))
     dups[["row_id"]] <- NULL
-    add_this         <- list()
-    add_this[["duplicated_rows"]]         <- dups
-    add_this[["duplicates_checked_from"]] <- paste(target_columns,
-                                                   collapse = ", ")
-    add_this[["removed_duplicates"]]      <- dplyr::anti_join(dups, dat)
+    dat <- add_to_report(x     = dat,
+                         key   = "duplicated_rows",
+                         value = dups %>%
+                           dplyr::select({{ target_columns }}))
+    dat <- add_to_report(x     = dat,
+                         key   = "removed_duplicates",
+                         value = to_be_removed)
+    dat <- add_to_report(x     = dat,
+                         key   = "duplicates_checked_from",
+                         value = paste(target_columns, collapse = ", "))
   }
 
-  dat        <- add_to_report(x     = dat,
-                              key   = "duplicates",
-                              value = add_this)
   tmp_report <- attr(dat, "report")
   report     <- c(report, tmp_report)
   attr(dat, which = "report") <- report

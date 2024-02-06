@@ -7,17 +7,17 @@
 make_readcap_dictionary(metadata, field_column, opt_column, field_type)
 }
 \arguments{
-\item{metadata}{a \verb{data frame} with the data dictionary associated to a
+\item{metadata}{A data frame with the data dictionary associated to a
 Redcap project}
 
-\item{field_column}{the name of the column, in the input dictionary, that
+\item{field_column}{The name of the column, in the input dictionary, that
 contains the field names in of the Redcap project data}
 
-\item{opt_column}{the name of the column, in the input dictionary, that
+\item{opt_column}{The name of the column, in the input dictionary, that
 contains the definition of the choices in every column of the Redcap
 project data}
 
-\item{field_type}{a \code{character} with the name of the column that contains the
+\item{field_type}{A \code{character} with the name of the column that contains the
 field type information}
 }
 \value{

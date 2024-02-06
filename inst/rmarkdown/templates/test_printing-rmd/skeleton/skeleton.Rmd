@@ -6,7 +6,9 @@ params:
     missing_values_replaced_at: NULL
     empty_columns: "none"
     constant_columns: "none"
-    duplicates: "none"
+    duplicated_rows: NULL
+    removed_duplicates: NULL
+    duplicates_checked_from: NULL
     out_of_range_dates: NULL
     incorrect_subject_id: NULL
     missing_ids: NULL
@@ -33,7 +35,9 @@ standardized_column_names  <- params[["standardized_column_names"]]
 missing_values_replaced_at <- params[["missing_values_replaced_at"]]
 empty_columns              <- params[["empty_columns"]]
 constant_columns           <- params[["constant_columns"]]
-duplicates                 <- params[["duplicates"]]
+duplicated_rows            <- params[["duplicated_rows"]]
+removed_duplicates         <- params[["removed_duplicates"]]
+duplicates_checked_from    <- params[["duplicates_checked_from"]]
 out_of_range_dates         <- params[["out_of_range_dates"]]
 incorrect_subject_id       <- params[["incorrect_subject_id"]]
 missing_ids                <- params[["missing_ids"]]
@@ -52,7 +56,9 @@ are_missing_values_replaced <- ifelse(is.null(missing_values_replaced_at),
                                       TRUE)
 are_empty_columns_found <- ifelse(empty_columns == "none", FALSE, TRUE)
 are_constant_columns_found <- ifelse(constant_columns == "none", FALSE, TRUE)
-are_duplicates_found <- ifelse(duplicates == "none", FALSE, TRUE)
+are_duplicates_found <- ifelse(is.null(duplicated_rows), FALSE, TRUE)
+are_duplicates_removed <- ifelse(is.null(removed_duplicates), FALSE, TRUE)
+are_duplicates_checked <- ifelse(is.null(duplicates_checked_from), FALSE, TRUE)
 are_out_of_range_dates_found <- ifelse(is.null(out_of_range_dates), FALSE, TRUE)
 are_incorrect_subject_id <- ifelse(is.null(incorrect_subject_id), FALSE, TRUE)
 are_missing_ids_found <- ifelse(is.null(missing_ids), FALSE, TRUE)
@@ -88,10 +94,23 @@ print(constant_columns)
 
 ```{r eval=are_duplicates_found, echo=FALSE, comment=""}
 cat("\nFound the following duplicates:\n")
-duplicates %>%
+duplicated_rows %>%
   rlang::set_names(toupper) %>%
   kbl() %>%
   kableExtra::kable_paper("striped", font_size = 18, full_width = FALSE)
+```
+
+```{r eval=are_duplicates_removed, echo=FALSE, comment=""}
+cat("\nBelow are the removed duplicates:\n")
+removed_duplicates %>%
+  rlang::set_names(toupper) %>%
+  kbl() %>%
+  kableExtra::kable_paper("striped", font_size = 18, full_width = FALSE)
+```
+
+```{r eval=are_duplicates_checked, echo=FALSE, comment=""}
+cat("\nDuplicates were detected from the columns below:\n")
+print(duplicates_checked_from)
 ```
 
 ```{r eval=are_out_of_range_dates_found, echo=FALSE, comment=""}

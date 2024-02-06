@@ -7,20 +7,20 @@
 add_to_dictionnary(dictionary, option, value, grp, order = NULL)
 }
 \arguments{
-\item{dictionary}{a data frame with the data dictionary}
+\item{dictionary}{A data frame with the data dictionary}
 
-\item{option}{a \code{character} with the new option to add to the dictionary}
+\item{option}{A character with the new option to add to the dictionary}
 
-\item{value}{a \code{character} with the value the new option should be replaced
-with}
+\item{value}{A character with the value the new option should be replaced
+with.}
 
-\item{grp}{a \code{character} with the name of the column that contains the option
-of interest}
+\item{grp}{A character with the name of the column that contains the option
+of interest.}
 
-\item{order}{a \code{numeric} with the order of the new option}
+\item{order}{A numeric with the order of the new option.}
 }
 \value{
-an object of type data frame. This is the new data dictionary with an
+An object of type data frame. This is the new data dictionary with an
 additional line that contains the details about the new options.
 }
 \description{

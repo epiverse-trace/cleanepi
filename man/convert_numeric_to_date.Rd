@@ -2,24 +2,24 @@
 % Please edit documentation in R/convert_numeric_to_date.R
 \name{convert_numeric_to_date}
 \alias{convert_numeric_to_date}
-\title{convert numeric into Date}
+\title{Convert numeric to date}
 \usage{
 convert_numeric_to_date(data, numeric_date_columns, ref_date, forward = TRUE)
 }
 \arguments{
-\item{data}{the input data frame}
+\item{data}{A data frame}
 
-\item{numeric_date_columns}{a vector or a comma-separated list of the columns
+\item{numeric_date_columns}{A vector or a comma-separated list of  columns
 names to be converted from numeric to date}
 
-\item{ref_date}{the reference date}
+\item{ref_date}{A reference date}
 
-\item{forward}{whether the counts started after the reference date (TRUE) or
-not (FALSE). default is FALSE}
+\item{forward}{A Boolean to indicate whether the counts started after the reference date (TRUE) or
+not (FALSE). The default is FALSE.}
 }
 \value{
-the input data frame where the column of interest are updated
+A data frame where the column of interest are updated
 }
 \description{
-convert numeric into Date
+Convert numeric to date
 }

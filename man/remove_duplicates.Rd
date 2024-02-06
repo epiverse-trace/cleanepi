@@ -19,7 +19,8 @@ remove_duplicates(
 \item{target_columns}{A vector of column names to use when looking for
 duplicates. When the input data is a \code{linelist}, this
 parameter can be set to \code{tags}from which duplicates to be removed.
-Its default value is \code{NULL}, which considers duplicates across all columns.}
+Its default value is \code{NULL}, which considers duplicates across
+all columns.}
 
 \item{remove}{A vector of duplicate indices to be removed. Duplicate indices
 are unique identifiers for all rows in the original data frame or linelist
@@ -27,17 +28,18 @@ that are duplicates of each other based on the \code{target_columns}.
 If remove = \code{NULL} (default value), the first duplicate is kept and
 the rest of the duplicates in the group are removed.}
 
-\item{rm_empty_rows}{A logical variable that is used to specify whether to remove
-empty rows or not. Its default  value is \code{TRUE}.}
+\item{rm_empty_rows}{A logical variable that is used to specify whether to
+remove empty rows or not. The default  value is \code{TRUE}.}
 
-\item{rm_empty_cols}{A logical variable that is used to specify whether to remove
-empty columns or not. Its default value is \code{TRUE}.}
+\item{rm_empty_cols}{A logical variable that is used to specify whether to
+remove empty columns or not. The default value is \code{TRUE}.}
 
-\item{rm_constant_cols}{A logical variable that is used to specify whether to remove
-constant columns or not. Its Default value is \code{TRUE}.}
+\item{rm_constant_cols}{A logical variable that is used to specify whether to
+remove constant columns or not. The default value is \code{TRUE}.}
 }
 \value{
-A  data frame or linelist  without the duplicates values and nor constant columns.
+A  data frame or linelist  without the duplicates values and nor
+constant columns.
 }
 \description{
 Removes duplicates and noise such as  empty rows and

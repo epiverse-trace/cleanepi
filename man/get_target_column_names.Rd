@@ -11,10 +11,10 @@ get_target_column_names(data, target_columns, cols)
 
 \item{target_columns}{A vector of column names}
 
-\item{cols}{a vector of empty and constant columns}
+\item{cols}{A vector of empty and constant columns}
 }
 \value{
-a vector with the target column names or indexes
+A vector with the target column names or indexes
 }
 \description{
 Get the names of the columns from which duplicates will be found
