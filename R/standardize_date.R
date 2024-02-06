@@ -1,16 +1,16 @@
 #' Standardize date variables
 #'
-#' @param data the input data frame
-#' @param target_columns a vector or a comma-separated list of targeted date
+#' @param data A data frame
+#' @param target_columns A vector or a comma-separated list of targeted date
 #'    column names.
-#' @param format the format of the date values in the date columns
-#' @param timeframe a vector of 2 values of type date. If provided, date values
+#' @param format A format of the date values in the date columns
+#' @param timeframe A vector of 2 values of type date. If provided, date values
 #'    that do not fall within this timeframe will be set to `NA`.
-#' @param error_tolerance a number between 0 and 1 indicating the proportion of
+#' @param error_tolerance A numerical value between 0 and 1, indicating the proportion of
 #'     entries which cannot be identified as dates to be tolerated. See the
 #'     `clean_data()` helper for more details.
 #'
-#' @returns the input dataset where the date columns have been standardized
+#' @returns The input dataset where the date columns have been standardized
 #' @export
 #'
 #' @examples
