@@ -15,10 +15,10 @@ clean_data(
 )
 }
 \arguments{
-\item{data}{the input data frame}
+\item{data}{A  data frame}
 
-\item{params}{a list of parameters that define what cleaning operations will
-be applied on the input data. Possible values are:
+\item{params}{A list of parameters that define what cleaning operations will
+be applied on the input data. Possible parameters are:
 \enumerate{
 \item \code{keep}: a vector of column names to be kept as they appear in the
 original data. All column names will be standardized if this is \code{NULL}
@@ -44,7 +44,13 @@ is the main argument for the \code{clean_using_dictionary()} function.
 }}
 }
 \value{
-the cleaned data frame according to the user-specified parameters
+a list of the following 2 elements:
+\enumerate{
+\item \code{data}: A  clean data frame  according to the user-specified
+parameters.
+\item \code{report}: A list with  details from each
+cleaning operation considered.
+}
 }
 \description{
 Cleans up messy data frames by performing several operations. These Include
