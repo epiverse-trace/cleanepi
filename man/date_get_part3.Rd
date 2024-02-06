@@ -7,9 +7,9 @@
 date_get_part3(x, sep)
 }
 \arguments{
-\item{x}{the string of interest}
+\item{x}{A string of interest}
 
-\item{sep}{the separator in the string of interest}
+\item{sep}{A separator in the string of interest}
 }
 \description{
 Get part3 of date value

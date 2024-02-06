@@ -1,6 +1,6 @@
-#' Detect whether a string contains only numbers
+#' Detects whether a string contains only numbers or not.
 #'
-#' @param x the string that contains the numbers
+#' @param x A string of numbers
 #' @keywords internal
 numbers_only <- function(x) {
   return(!grepl("\\D", x))
@@ -8,8 +8,8 @@ numbers_only <- function(x) {
 
 #' Get part1 of date value
 #'
-#' @param x the string of interest
-#' @param sep the separator in the string of interest
+#' @param x A string of interest
+#' @param sep A separator in the string of interest
 #' @keywords internal
 date_get_part1 <- function(x, sep) {
   if (is.na(x)) {
@@ -20,8 +20,8 @@ date_get_part1 <- function(x, sep) {
 
 #' Get part2 of date value
 #'
-#' @param x the string of interest
-#' @param sep the separator in the string of interest
+#' @param x A string of interest
+#' @param sep A separator in the string of interest
 #' @keywords internal
 date_get_part2 <- function(x, sep) {
   if (is.na(x)) {
@@ -32,8 +32,8 @@ date_get_part2 <- function(x, sep) {
 
 #' Get part3 of date value
 #'
-#' @param x the string of interest
-#' @param sep the separator in the string of interest
+#' @param x A string of interest
+#' @param sep A separator in the string of interest
 #' @keywords internal
 #'
 date_get_part3 <- function(x, sep) {
@@ -45,7 +45,7 @@ date_get_part3 <- function(x, sep) {
 
 #' Get sum from number
 #'
-#' @param x the string of interest
+#' @param x A string of interest
 #' @keywords internal
 #'
 get_sum <- function(x) {
@@ -57,13 +57,13 @@ get_sum <- function(x) {
 
 #' Add a report obtained from a data cleaning step to a data frame
 #'
-#' @param data the input data frame
-#' @param report a named `list` or `data frame` containing details from the
-#'    cleaning step
-#' @param name a `character` with the name of the cleaning step. The default
+#' @param data A  data frame
+#' @param report A named list or a data frame containing details from the
+#'    cleaning operations.
+#' @param name A character with the name of the cleaning operation. The default
 #'    value is NULL.
 #'
-#' @return the input data frame with a report associated to it. This can be
+#' @return The input data frame with a report associated to it. This can be
 #'    accessed using `attr(data, "report")`
 #' @keywords internal
 #'
@@ -98,11 +98,11 @@ add_report <- function(data, report, name = NULL) {
 
 #' Add an element to the report object
 #'
-#' @param x an object of class `data frame` or `linelist`
-#' @param key the name of the cleaning operation
-#' @param value the object to add to the report object
+#' @param x A data frame  or linelist
+#' @param key The name of the cleaning operation
+#' @param value The object to add to the report object
 #'
-#' @return the input report object with an additional element
+#' @return The input report object with an additional element
 #' @keywords internal
 #'
 add_to_report <- function(x, key, value = NULL) {

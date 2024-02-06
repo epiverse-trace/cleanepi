@@ -7,14 +7,14 @@
 add_to_report(x, key, value = NULL)
 }
 \arguments{
-\item{x}{an object of class \verb{data frame} or \code{linelist}}
+\item{x}{A data frame  or linelist}
 
-\item{key}{the name of the cleaning operation}
+\item{key}{The name of the cleaning operation}
 
-\item{value}{the object to add to the report object}
+\item{value}{The object to add to the report object}
 }
 \value{
-the input report object with an additional element
+The input report object with an additional element
 }
 \description{
 Add an element to the report object

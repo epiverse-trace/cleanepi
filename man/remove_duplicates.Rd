@@ -28,6 +28,16 @@ that are duplicates of each other based on the \code{target_columns}.
 If remove = \code{NULL} (default value), the first duplicate is kept and
 the rest of the duplicates in the group are removed.}
 
+<<<<<<< HEAD
+\item{rm_empty_rows}{A logical variable that is used to specify whether to remove
+empty rows or not. The default  value is \code{TRUE}.}
+
+\item{rm_empty_cols}{A logical variable that is used to specify whether to remove
+empty columns or not. The default value is \code{TRUE}.}
+
+\item{rm_constant_cols}{A logical variable that is used to specify whether to remove
+constant columns or not. The default value is \code{TRUE}.}
+=======
 \item{rm_empty_rows}{A logical variable that is used to specify whether to
 remove empty rows or not. The default  value is \code{TRUE}.}
 
@@ -36,6 +46,7 @@ remove empty columns or not. The default value is \code{TRUE}.}
 
 \item{rm_constant_cols}{A logical variable that is used to specify whether to
 remove constant columns or not. The default value is \code{TRUE}.}
+>>>>>>> 9e04535fa9385e417ab0a85a8321613cb196496b
 }
 \value{
 A  data frame or linelist  without the duplicates values and nor
