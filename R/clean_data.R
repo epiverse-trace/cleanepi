@@ -1,34 +1,40 @@
-#' Clean data
+#' Clean and standardize data
 #'
 #' @description Cleans up messy data frames by performing several operations. These Include
 #'    cleaning of column names, detecting and removing
 #'    duplicates, empty records and columns, constant columns, replacing missing
 #'    values by NA, converting character columns into dates when they contain a
-#'    certain number of date values, and detecting subject IDs with wrong format
+#'    certain number of date values, and detecting subject IDs with wrong formats.
 #'
+<<<<<<< HEAD
 #' @param data The input data frame or linelist
 #' @param params A list of parameters that define what cleaning operations will
 #'    be applied on the input data. Possible values are:
+=======
+#' @param data A  data frame
+#' @param params A list of parameters that defines what cleaning operations will
+#'    be applied on the input data. Possible parameters are:
+>>>>>>> f72cfea (Update the documentation fo clean_data() function.)
 #' \enumerate{
-#'   \item `keep`: a vector of column names to be kept as they appear in the
+#'   \item `keep`: A vector of column names to be kept as they appear in the
 #'      original data. All column names will be standardized if this is `NULL`
 #'      (the default value).
-#'   \item `replace_missing_values`: a list of parameters to be used when
+#'   \item `replace_missing_values`: A list of parameters to be used when
 #'      replacing the missing values by `NA`. These parameters are the inputs
 #'      for the `replace_missing_values()` function.
-#'   \item `remove_duplicates`: a list of arguments that defines the list of
+#'   \item `remove_duplicates`: A list of arguments that defines the list of
 #'      columns to be considered when looking for duplicates. It also contains
 #'      arguments that determine how constant rows and columns will be handled.
 #'      They are the input values for the `remove_duplicates()` function.
-#'   \item `standardize_date`: a list of parameters that will be used to
+#'   \item `standardize_date`: A list of parameters that will be used to
 #'      standardize the date values from the input data. They represent the
 #'      input values for the `standardize_dates()` function.
-#'   \item `standardize_subject_ids`: a list of parameters that are needed to
+#'   \item `standardize_subject_ids`: A list of parameters that are needed to
 #'      check the IDs that comply with the expect format. These arguments are
 #'      the input values of the `check_subject_ids()`.
 #'   \item `to_numeric`: a vector of column names. When provided, the values in
 #'      these columns will be converted into numeric.
-#'   \item `dictionary`: an data frame that will be used to substitute the
+#'   \item `dictionary`: A data frame that will be used to substitute the
 #'      current values in the specified columns the those in the dictionary. It
 #'      is the main argument for the `clean_using_dictionary()` function.
 #'   }
