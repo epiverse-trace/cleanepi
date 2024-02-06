@@ -18,11 +18,11 @@
 #'    If remove = `NULL` (default value), the first duplicate is kept and
 #'    the rest of the duplicates in the group are removed.
 #' @param rm_empty_rows A logical variable that is used to specify whether to remove
-#'     empty rows or not. Its default  value is `TRUE`.
+#'     empty rows or not. The default  value is `TRUE`.
 #' @param rm_empty_cols A logical variable that is used to specify whether to remove
-#'     empty columns or not. Its default value is `TRUE`.
+#'     empty columns or not. The default value is `TRUE`.
 #' @param rm_constant_cols A logical variable that is used to specify whether to remove
-#'     constant columns or not. Its Default value is `TRUE`.
+#'     constant columns or not. The default value is `TRUE`.
 #'
 #' @return A  data frame or linelist  without the duplicates values and nor constant columns.
 #' @export
@@ -132,7 +132,7 @@ remove_duplicates <- function(data,
 #'    parameter can be set to `tags`from which duplicates to be removed.
 #'    Its default value is `NULL`, which considers duplicates across all columns.
 #'
-#' @return Data frame or linelist of all duplicated rows with following 2
+#' @return A data frame or linelist of all duplicated rows with following 2
 #'    additional columns:
 #'    \enumerate{
 #'      \item `row_id`: the indices of the duplicated rows from the input data.
@@ -180,9 +180,9 @@ find_duplicates <- function(data, target_columns = NULL) {
 #'
 #' @param data A dataframe or linelist
 #' @param target_columns A vector of column names
-#' @param cols a vector of empty and constant columns
+#' @param cols A vector of empty and constant columns
 #'
-#' @return a vector with the target column names or indexes
+#' @return A vector with the target column names or indexes
 #'
 #' @keywords internal
 #'
