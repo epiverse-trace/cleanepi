@@ -1,11 +1,11 @@
-#' Calculate the percentage of missing and other data type values in a vector.
-#' The considered data types are: `numeric`, `Date`, `character`, `logical`
+#' Calculate the percentage of missing and other data type values in a vector
+#' containing different data types such as numeric, Date, character, and
+#' logical.
 #'
-#' @param x a vector of 1 or a combination of the values of the type mentioned
-#'    above
+#' @param x A vector of ones or a combination of various data types.
 #'
-#' @return a vector of 4 elements that represent respectively the percent of:
-#'    missing, numeric, date, and character values found in the input vector.
+#' @return A vector of 5 elements representing the percentage of missing,
+#' numeric, date, character, and logical values found in the input vector.
 #'
 #' @keywords internal
 #'
@@ -43,14 +43,14 @@ get_column_composition <- function(x) {
   return(c(are_na, are_numeric, are_date, are_character, are_logical))
 }
 
-#' Scan a data frame object to determine the percentage of `missing`, `numeric`,
-#'    `Date`, `character`, `logical` values in every column.
+#' Scan a data frame to determine the percentage of `missing`, `numeric`,
+#'    `Date`, `character`,  and `logical` values in every column.
 #'
-#' @param data the input data frame
+#' @param data A data frame or linelist
 #'
-#' @return a data frame with the same columns as the input data and 5 rows.
-#'    These rows represent the percentage of missing, numeric, date, character,
-#'    and logical values in each column.
+#' @return A  data frame or linelist with the same columns as the input data
+#'  and 5 rows representing the percentage of missing, numeric, date, character,
+#'   and logical values in each column.
 #'
 #' @export
 #'
