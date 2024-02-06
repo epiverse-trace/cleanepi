@@ -215,18 +215,23 @@ clean_data <- function(
   }
 
   ## -----
-  ## The values in some columns are coded and their correspondent expressions
-  ## will be stored in a data dictionary file. We implement this function to
-  ## replace these coded values with the exact values from the data dictionary.
+  ## | The values in some columns are coded and their correspondent expressions
+  ## | will be stored in a data dictionary file. We implement this function to
+  ## | replace these coded values with the exact values from the data dictionary
   ## -----
   if (!is.null(params[["dictionary"]])) {
     R.utils::cat("\nperforming dictionary-based cleaning")
     data <- clean_using_dictionary(data, params[["dictionary"]])
   }
 
-
-  # this is where to call the report printing function
-  #print_report(attr(data, "report"))
+  ## -----
+  ## | Printing the report from the data cleaning to keep track of what have
+  ## | been modified, removed, added, renamed, etc...
+  ## -----
+  report <- attr(data, "report")
+  if (!is.null(report)) {
+    print_report(report)
+  }
 
   # return the final object
   return(data)

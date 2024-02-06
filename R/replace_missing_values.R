@@ -3,20 +3,20 @@
 #'
 #' @param data A data frame or linelist
 #' @param target_columns A vector of column names. If provided, the substitution
-#'  of missing values will only be executed in those specified columns
+#'    of missing values will only be executed in those specified columns
 #' @param na_strings This is a vector of strings that represents the missing
-#' values in the columns of interest. By default, it utilizes
-#' `cleanepi::common_na_strings`. However, if the missing values string in the
-#' columns of interest is not included in this predefined vector,
-#' it can be used as the value for this argument.
+#'    values in the columns of interest. By default, it utilizes
+#'    `cleanepi::common_na_strings`. However, if the missing values string in
+#'    the columns of interest is not included in this predefined vector,
+#'    it can be used as the value for this argument.
 #'
 #' @return The input data where missing values are replaced by `NA`.
 #' @export
 #'
 #' @examples
 #' cleaned_data <- replace_missing_values(
-#'   data        = readRDS(system.file("extdata", "test_df.RDS",
-#'                                     package = "cleanepi")),
+#'   data           = readRDS(system.file("extdata", "test_df.RDS",
+#'                                        package = "cleanepi")),
 #'   target_columns = "sex",
 #'   na_strings     = "-99"
 #' )
