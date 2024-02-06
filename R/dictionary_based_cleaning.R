@@ -1,10 +1,8 @@
 #' Perform dictionary-based cleaning
 #'
-#' @param data the input data
-#' @param dictionary a `data frame` with the data dictionary associated to the
-#'    input data. This should be in the format
-#'
-#' @returns a `data frame` with cleaned values in the target columns specified
+#' @param data A data frame
+#' @param dictionary A data dictionary associated with the input data.
+#' @returns A data frame with cleaned values in the target columns specified
 #'    in the data dictionary.
 #' @export
 #'
@@ -53,11 +51,11 @@ clean_using_dictionary <- function(data, dictionary) {
 #' Build the report for the detected misspelled values during dictionary-based
 #' data cleaning operation
 #'
-#' @param misspelled_options a list with the detected misspelled values in the
+#' @param misspelled_options A list with the detected misspelled values in the
 #'    columns of interest.
 #' @inheritParams clean_using_dictionary
 #'
-#' @return a data frame the details about where in the input data the misspelled
+#' @return A data frame the details about where in the input data the misspelled
 #'    values were found.
 #' @keywords internal
 #'
@@ -76,14 +74,14 @@ construct_misspelled_report <- function(misspelled_options, data) {
 
 #' Convert Redcap data dictionary into {matchmaker} dictionary format
 #'
-#' @param metadata a `data frame` with the data dictionary associated to a
+#' @param metadata A data frame with the data dictionary associated to a
 #'    Redcap project
-#' @param field_column the name of the column, in the input dictionary, that
+#' @param field_column The name of the column, in the input dictionary, that
 #'    contains the field names in of the Redcap project data
-#' @param opt_column the name of the column, in the input dictionary, that
+#' @param opt_column The name of the column, in the input dictionary, that
 #'    contains the definition of the choices in every column of the Redcap
 #'    project data
-#' @param field_type a `character` with the name of the column that contains the
+#' @param field_type A `character` with the name of the column that contains the
 #'    field type information
 #'
 #' @return a data frame with 4 columns. This is in the format required by the
@@ -127,11 +125,11 @@ make_readcap_dictionary <- function(metadata,
 
 #' Make data dictionary for 1 field
 #'
-#' @param x a `vector` choices from the input data
-#' @param field_column a `character` with the name of the field where the
+#' @param x A vector choices from the input data
+#' @param field_column A character with the name of the field where the
 #'    choices are made.
 #'
-#' @return a `data frame` with the dictionary in the format that is accepted by
+#' @return A data frame with the dictionary in the format that is accepted by
 #'    the {matchmaker} package.
 #' @keywords internal
 #'
@@ -150,15 +148,15 @@ make_metadata <- function(x, field_column) {
 
 #' Add an element to the data dictionary
 #'
-#' @param dictionary a data frame with the data dictionary
-#' @param option a `character` with the new option to add to the dictionary
-#' @param value a `character` with the value the new option should be replaced
-#'    with
-#' @param grp a `character` with the name of the column that contains the option
-#'    of interest
-#' @param order a `numeric` with the order of the new option
+#' @param dictionary A data frame with the data dictionary
+#' @param option A character with the new option to add to the dictionary
+#' @param value A character with the value the new option should be replaced
+#'    with.
+#' @param grp A character with the name of the column that contains the option
+#'    of interest.
+#' @param order A numeric with the order of the new option.
 #'
-#' @return an object of type data frame. This is the new data dictionary with an
+#' @return An object of type data frame. This is the new data dictionary with an
 #'    additional line that contains the details about the new options.
 #' @export
 #'
@@ -212,8 +210,8 @@ add_to_dictionnary <- function(dictionary,
 #'
 #' @inheritParams clean_using_dictionary
 #'
-#' @return a `list` with the indexes of the misspelled values in every column
-#'    that needs to be cleaned
+#' @return A list with the indexes of the misspelled values in every column
+#'    that needs to be cleaned.
 #' @keywords internal
 #'
 detect_misspelled_options <- function(data, dictionary) {
@@ -237,8 +235,8 @@ detect_misspelled_options <- function(data, dictionary) {
 
 #' Print the detected misspelled values
 #'
-#' @param misspelled_options a name `list` with the misspelled values found in
-#'    the different columns of the input data
+#' @param misspelled_options A list with the misspelled values found in
+#'    the different columns of the input data.
 #'
 #' @keywords internal
 #'

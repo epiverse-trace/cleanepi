@@ -445,7 +445,7 @@ date_get_format <- function(data, date_column_name, sep) {
 #' @param f1 The first part of the date values
 #' @param f2 The second part of the date values
 #' @param tmp_sep The character string that separate the first and second parts
-#'    of the date values
+#'    of the date values.
 #'
 #' @return A character string that represent the inferred format of the date
 #'    values.
