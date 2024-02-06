@@ -20,7 +20,6 @@ params:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-library("cleanepi")
 library("kableExtra")
 library("magrittr")
 ```
@@ -49,24 +48,24 @@ incorrect_date_sequence    <- params[["incorrect_date_sequence"]]
 
 ```{r echo=FALSE}
 # SET LOGICALS FOR THE CODE CHUNCKS BELOW
-are_column_standardised <- ifelse(is.null(standardized_column_names), FALSE,
-                                  TRUE)
-are_missing_values_replaced <- ifelse(is.null(missing_values_replaced_at),
-                                      FALSE,
-                                      TRUE)
-are_empty_columns_found <- ifelse(empty_columns == "none", FALSE, TRUE)
-are_constant_columns_found <- ifelse(constant_columns == "none", FALSE, TRUE)
-are_duplicates_found <- ifelse(is.null(duplicated_rows), FALSE, TRUE)
-are_duplicates_removed <- ifelse(is.null(removed_duplicates), FALSE, TRUE)
-are_duplicates_checked <- ifelse(is.null(duplicates_checked_from), FALSE, TRUE)
-are_out_of_range_dates_found <- ifelse(is.null(out_of_range_dates), FALSE, TRUE)
-are_incorrect_subject_id <- ifelse(is.null(incorrect_subject_id), FALSE, TRUE)
-are_missing_ids_found <- ifelse(is.null(missing_ids), FALSE, TRUE)
-are_duplicated_ids_found <- ifelse(is.null(duplicated_ids), FALSE, TRUE)
-are_converted_to_numeric <- ifelse(is.null(converted_into_numeric), FALSE, TRUE)
-are_misspelled_values_found <- ifelse(is.null(misspelled_values), FALSE, TRUE)
-are_incorrect_date_seq_found <- ifelse(is.null(incorrect_date_sequence),
-                                            FALSE, TRUE)
+are_column_standardised <- ifelse(is.null(standardized_column_names), FALSE, # nolint: redundant_ifelse_linter
+                                  TRUE) # nolint: redundant_ifelse_linter
+are_missing_values_replaced <- ifelse(is.null(missing_values_replaced_at), # nolint: redundant_ifelse_linter
+                                      FALSE, # nolint: redundant_ifelse_linter
+                                      TRUE) # nolint: redundant_ifelse_linter
+are_empty_columns_found <- ifelse(empty_columns == "none", FALSE, TRUE) # nolint: redundant_ifelse_linter
+are_constant_columns_found <- ifelse(constant_columns == "none", FALSE, TRUE) # nolint: redundant_ifelse_linter
+are_duplicates_found <- ifelse(is.null(duplicated_rows), FALSE, TRUE) # nolint: redundant_ifelse_linter
+are_duplicates_removed <- ifelse(is.null(removed_duplicates), FALSE, TRUE) # nolint: redundant_ifelse_linter
+are_duplicates_checked <- ifelse(is.null(duplicates_checked_from), FALSE, TRUE) # nolint: redundant_ifelse_linter
+are_out_of_range_dates_found <- ifelse(is.null(out_of_range_dates), FALSE, TRUE) # nolint: redundant_ifelse_linter
+are_incorrect_subject_id <- ifelse(is.null(incorrect_subject_id), FALSE, TRUE) # nolint: redundant_ifelse_linter
+are_missing_ids_found <- ifelse(is.null(missing_ids), FALSE, TRUE) # nolint: redundant_ifelse_linter
+are_duplicated_ids_found <- ifelse(is.null(duplicated_ids), FALSE, TRUE) # nolint: redundant_ifelse_linter
+are_converted_to_numeric <- ifelse(is.null(converted_into_numeric), FALSE, TRUE) # nolint: redundant_ifelse_linter
+are_misspelled_values_found <- ifelse(is.null(misspelled_values), FALSE, TRUE) # nolint: redundant_ifelse_linter
+are_incorrect_date_seq_found <- ifelse(is.null(incorrect_date_sequence), # nolint: redundant_ifelse_linter
+                                            FALSE, TRUE) # nolint: redundant_ifelse_linter
 ```
 
 ```{r eval=are_column_standardised, echo=FALSE, comment=""}
