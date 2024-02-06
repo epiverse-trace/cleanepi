@@ -48,46 +48,50 @@ Every cleaning operation in **{cleanepi}** is implemented as a module. These mod
 
 ```{r eval=TRUE, comment="read_input"}
 # IMPORTING THE TEST DATASET
-test_data       <- readRDS(system.file("extdata", "test_df.RDS",
-                                       package = "cleanepi"))
+test_data <- readRDS(system.file("extdata", "test_df.RDS",
+                                 package = "cleanepi"))
 head(test_data)
-
-# IMPORTING THE DATA DICTIONARY
-test_dictionary <- readRDS(system.file("extdata", "test_dictionary.RDS",
-                                       package = "cleanepi"))
-head(test_dictionary)
 ```
 
 ```{r eval=TRUE, comment="scan_data"}
 # SCAN THE DATA
-scan_result     <- scan_data(test_data)
-scan_result
+scan_result <- scan_data(test_data)
+print(scan_result)
 ```
 
-```{r eval=TRUE}
-# DEFINE INPUT FOR EACH MODULE
-# OPERATIONS FOR REPLACING MISSING VALUES
-rm_na                  <- list(target_columns = NULL, na_strings = "-99")
-# OPERATIONS FOR DUBLICATES AND CONSTANTS COLUMNS AND ROWS
-rm_dup               <- list(target_columns   = NULL, # to consider duplicate across all columns
-                                rm_empty_rows    = TRUE, #
-                                rm_empty_cols    = TRUE,
-                                rm_constant_cols = TRUE)
-# OPERATIONS FOR STANDARDING DATES
-stdn_date        <- list(target_columns  = NULL,
-                                error_tolerance = 0.5,
-                                format          = NULL,
-                                timeframe       = as.Date(c("1973-05-29",
-                                                            "2023-05-29")))
-#  OPERATIONS FOR STANDARDING subject ID
-stdn_ids <- list(id_col_name = "study_id", # the target column
-                                format      = NULL,
-                                prefix      = "PS",
-                                suffix      = "P2",
-                                range       = c(1, 100))
-# LAOD A DATA DICTIONARY
+Each module has specific parameters. The parameters needed for the main function
+of each module are described the sections below.
+In the following chunk, we will define the list of the cleaning operations that
+we want to perform on the input data.
+
+```{r eval=TRUE, comment="define_cleanining_params"}
+# PARAMETERS FOR REPLACING MISSING VALUES WITH NA
+rm_na <- list(target_columns = NULL, na_strings = "-99")
+
+# PARAMETERS FOR DUBLICATES DETECTION AND REMOVAL
+rm_dup <- list(target_columns   = NULL,
+               rm_empty_rows    = TRUE,
+               rm_empty_cols    = TRUE,
+               rm_constant_cols = TRUE)
+
+# PARAMETERS FOR STANDARDING DATES
+stdn_date <- list(target_columns  = NULL,
+                  error_tolerance = 0.5,
+                  format          = NULL,
+                  timeframe       = as.Date(c("1973-05-29", "2023-05-29")))
+                                              
+# PARAMETERS FOR STANDARDING SUBJECT IDs
+stdn_ids <- list(id_col_name = "study_id",
+                 format      = NULL,
+                 prefix      = "PS",
+                 suffix      = "P2",
+                 range       = c(1, 100))
+
+# LAOD THE DATA DICTIONARY
 test_dictionary <- readRDS(system.file("extdata", "test_dictionary.RDS",
                                        package = "cleanepi"))
+
+# DEFINE THE LIST OF PARAMETERS
 params <- list(
   replace_missing_values  = rm_na, 
   remove_duplicates       = rm_dup,
@@ -97,92 +101,94 @@ params <- list(
 )
 ```
 
-```{r eval=TRUE}
+The `clean_data()` function expects 2 arguments:
+
+1. **data**: the input data frame or linelist
+2. **params**: a list of parameters that define which cleaning operations will
+    be performed.
+
+```{r eval=TRUE, comment="run_clean_data"}
 # CLEAN THE INPUT DATA FRAME
-res <- clean_data(
+cleaned_data <- clean_data(
   data   = test_data,
   params = params
 )
 ```
 
-The function `clean_data()` returns a `list` of `r length(res)` objects:
-
-1. **`r names(res)[1]`**: a `data.frame` or `linelist` object with the cleaned data.
-2. **`r names(res)[2]`**: a `list` of reports from all the actions performed on the given dataset.
+It returns the cleaned dataset. The report generated from the data cleaning
+operations is a `list object` that is attached to the cleaned data and can be
+access using the `attr()` function as shown below. The report is automatically
+printed out if any of any of the defined cleaning operations were performed
+successfully. However, users can access the report using the code below:
 
 ```{r eval=TRUE}
-# PRINT TOP 6 ROWS OF THE CLEANED DATA
-head(res[["data"]])
+# ACCESS THE DATA CLEANING REPORT
+report <- attr(cleaned_data, "report")
 
 # SUMMARIZE THE REPORT OBJECT
-summary(res[["report"]])
+summary(report)
 ```
 
-**Note:** a function to visualize this report object will be built in the next release of the package.
-
 ## Specific data cleaning tasks
-Certain data cleaning operations are automatically applied to input data. These operations include renaming columns, removing empty rows and columns, removing columns with the same values across all rows, and standardizing date columns. We refer to these as the `implicit data cleaning steps`,  which are executed by default.
 
-However, we also provide users with the flexibility to call specific functions for these data cleaning steps separately if they wish to perform a particular task individually. This approach allows users to have more control over the data cleaning process and to apply additional data cleaning functions as needed.
+Certain data cleaning operations are automatically applied to input data. These operations include renaming columns, removing empty rows and columns, removing columns with the same values across all rows, and standardizing date columns. We refer to these operation as the `implicit data cleaning steps`,  which are executed by default.
 
-This setup offers users both convenience and flexibility, as they can benefit from default data cleaning operations while also having the option to customize their data cleaning process according to their specific requirements.
+However, we also provide users with the flexibility to call a specific function if they wish to perform that particular task individually. This approach allows users to have more control over the data cleaning process and to apply additional data cleaning functions as needed.
 
+This setup offers users both convenience and flexibility, as they can benefit from default data cleaning operations while also having the option to customize their data cleaning process according to their specific needs.
 
 ### Standardizing Dates
 
-The `standardize_date()` function provides a comprehensive set of options for converting date columns into a specified format and handling various scenarios, such as different date formats and mixed data types in a column. Below we summarize the key parameters of the function:
+The `standardize_dates()` function provides a comprehensive set of options for converting date columns into a specified format and handling various scenarios, such as different date formats and mixed data types in a column.
 
-The default date format in R is `%Y-%m-%d`. However, it is very common to encounter date values recoded differently from this. Also, there are cases where a column in a data frame contains both values of type `Date`, `character` or others.    
-The `standardize_date()` function offers the possibility to convert date columns into `%Y-%m-%d` format and convert `character` columns into `Date` if the percentage of date values reach a specified threshold. The function needs the following arguments:
+The default date format in R is `%Y-%m-%d`. However, it is very common to encounter date values that are written differently from this. Also, there are cases where a column in a data frame contains both values of type `Date`, `character` or others.    
+The `standardize_dates()` function offers the possibility to convert date columns into `%Y-%m-%d` format and convert `character` columns into `Date` if the percentage of date values reach a specified threshold. The function needs the following arguments:
 
-1. `data`: A data frame or linelist  (required)   
-2. `date_column_name`: A vector of the names of the columns to be converted (required)   
-3. `format`: A format of the values in the specified columns (optional). If not provided, the function will attempt to infer the format
-4. `timeframe`: The expected time frame within which the date values should fall. Values outside this range will be set to `NA`(optional).
-5. `error_tolerance`: The minimum percentage of values of type Date in a character column needed to convert it into a Date column. Default is 50% i.e. `0.5`.    
+1. **data**: A data frame or linelist  (required)   
+2. **target_columns**: A vector of the names of the columns to be converted (optional). When        not provided, the function will attempt to detect date columns and perform the                conversion if needed.
+3. **format**: A format of the values in the specified columns (optional). If not provided,         the function will attempt to infer the format.
+4. **timeframe**: The expected time frame within which the date values should fall. Values          outside of this range will be set to `NA` (optional).
+5. **error_tolerance**: The minimum percentage of values of type Date in a character column         needed to convert it into a Date column. Default is 50% i.e. `0.5`.
 
-
-⚠️ The `error_tolerance` must be used with caution. When it is set, and the  percentage of date values in a character column is less than this threshold, the column will be returned as it is. 
+⚠️ The `error_tolerance` must be used with caution. When it is set, and the  percentage of date values in a character column is less than this threshold, the column will be returned as it is.
 
 This function provides users with the flexibility to standardize date columns in their dataset according to specified requirements, including format, timeframe, and error tolerance for conversion from character to date columns.
 
+```{r eval=TRUE, comment="date_standardisation"}
+# STANDARDISE VALUES IN THE 'date_first_pcr_positive_test' COLUMN
+test_data <- readRDS(system.file("extdata", "test_df.RDS",
+                                 package = "cleanepi"))
 
-```{r eval=TRUE}
+head(test_data$date_first_pcr_positive_test)
+
 res <- standardize_dates(
-  data             = readRDS(system.file("extdata", "test_df.RDS",
-                                         package = "cleanepi")),
+  data            = test_data,
   target_columns  = "date_first_pcr_positive_test",
-  format           = NULL,
-  timeframe        = NULL,
-  error_tolerance  = 0.5
+  format          = NULL,
+  timeframe       = NULL,
+  error_tolerance = 0.5
 )
+
+head(res)
 ```
 
-This function returns a `list` of `r length(res)` elements named as:
-
-* **`r names(res)[1]`**: the input dataset where the (specified) columns are converted into date if the condition is met.
-* **`r names(res)[2]`**: a `list`, or augmented  report `list` with an element named as **`r names(res$report)`** that contains a `vector` of the transformed column names.    
+This function returns a the input dataset where the (specified) columns are converted into date if the condition is met.
 
 ### Standardizing subject IDs
 
-The `check_subject_ids()` function is designed to identify and eliminate rows from the input dataset that don't conform to the expected format for subject IDs. To implement this function, you need to provide the following parameters:
+The `check_subject_ids()` function is designed to identify and eliminate rows from the input dataset that don't comply with the expected format for subject IDs. It requires the following parameters:
 
-1. **`data`** (required): This parameter represents the input dataset.
+1. **data**: The input dataset (required).
+2. **id_column_name**: The name of the column containing the subject IDs in the dataset             (required).
+3. **format**: The expected format for the subject IDs. The function will use this format to        validate the IDs (optional).
+4. **prefix**: If subject IDs have a specified prefix, it is used as a value for this               argument. This is optional and can be omitted if there is no prefix.
+5. **suffix**: Similarly, if subject IDs have a specified suffix, it is used as a value for         this argument. It can be ignored otherwise.
+6. **range**: If there is an expected range of numbers within the subject IDs, define it using       this parameter. It is optional and can be omitted if there is no specific range.
 
-2. **`id_column_name`** (required): Specify the name of the column containing the subject IDs in the dataset.
+By providing these parameters, the function becomes a versatile tool for data cleaning, ensuring that only rows with subject IDs adhering to the expected format are retained in the dataset. When using the function, make sure to tailor the parameters according to the specific requirements of your dataset and the expected characteristics of the subject IDs.
 
-3. **`format`** (required): Define the expected format for the subject IDs. The function will use this format to validate the IDs.
-
-4. **`prefix`** (optional): If subject IDs have a specified prefix, provide it as an argument. This is optional and can be omitted if there is no prefix.
-
-5. **`suffix`** (optional): Similarly, if subject IDs have a specified suffix, include it here. If there is no suffix, you can skip this parameter.
-
-6. **`range`** (optional): If there is an expected range of numbers within the subject IDs, define it using this parameter. It is optional and can be omitted if there is no specific range.
-
-By incorporating these parameters, the function becomes a versatile tool for data cleaning, ensuring that only rows with subject IDs adhering to the specified format are retained in the dataset. When using the function, make sure to tailor the parameters according to the specific requirements of your dataset and the expected characteristics of the subject IDs.
-
-```{r eval=TRUE}
-# DETECT INCORRECT SUBJECT IDs
+```{r eval=TRUE, comment="subject_ids_standaedisation"}
+# DETECT AND REMOVE INCORRECT SUBJECT IDs
 res <- check_subject_ids(
   data           = readRDS(system.file("extdata", "test_df.RDS",
                                        package = "cleanepi")),
@@ -192,62 +198,17 @@ res <- check_subject_ids(
   suffix         = "P2",
   range          = c(1L, 100L)
 )
+
+# PRINT REPORT
+report <- attr(res, "report")
+print(report$incorrect_subject_id)
 ```
 
-The `check_subject_ids()` function returns a list with elements named according to the following conventions:
-
-1. **`r names(res)[1]`**: This element contains either the original input dataset or a subset of it where rows with incorrect IDs have been removed, depending on whether the `remove` parameter is set to `TRUE`.
-
-2. **`r names(res)[2]`**: This element is a list, possibly an augmented report list, where one of its elements is named as **`r names(res$report)`**. This particular element contains a data frame detailing the rows that were detected to have incorrect subject IDs.
-
-To summarize:
-
-- Element 1: Contains the cleaned dataset, either the original or a subset with rows containing bad IDs removed.
-- Element 2: Contains a list, possibly with additional information, and one of its elements provides a data frame specifying the rows with incorrect subject IDs.
-
-This structure facilitates easy access to both the cleaned dataset and a detailed report on the detected issues with subject IDs, enhancing the transparency and usability of the function's output.
-
-```{r eval=TRUE}
-# DISPLAY ROWS WITH THE INCORRECT SUBJECT IDs
-res[["report"]][["incorrect_subject_id"]]
-```
-### Calculating age in different time scales
-
-The `calculate_age()` function computes the ages of individuals, expressed in years, months, weeks, or days, based on a given date column and a reference date. It requires the following arguments:
-
-1. **`data`** (required): This parameter represents the input dataset containing the relevant information.
-   
-2. **`date_column_name`** (required): Specify the name of the column containing the birth or relevant dates for which the age is being calculated.
-   
-3. **`end_date`** (required): This is the reference date used to calculate the age of individuals. The function computes the age relative to this date.
-   
-4. **`age_in`** (optional): This parameter determines the unit in which the age is expressed. It can be specified as "years", "months", "weeks", or "days". By default, the age is calculated in years if this parameter is not provided.
-
-By utilizing these arguments, the function offers flexibility in determining the age of individuals based on different units and reference dates. It facilitates various analytical tasks where age computation is a necessary component, providing users with the ability to customize the output according to their specific requirements.
-
-```{r eval=TRUE}
-# CALCULATE INDIVIDUAL AGE FROM THE `dateOfBirth` COLUMN
-age <- calculate_age(
-  data          = readRDS(system.file("extdata", "test_df.RDS",
-                                       package = "cleanepi")),
-  target_column = "dateOfBirth", 
-  age_in        = "days", 
-  na_strings    = "-99"
-)
-```
-
-The `calculate_age()` function is designed to enhance the input dataset by adding one or two extra columns containing pertinent age-related information. These additional columns are as follows:
-
-1. **Calculated Age in Specified Unit**: This column contains the calculated age of individuals expressed in the specified unit (years, months, weeks, or days).
-
-2. **Remaining Number of Days**: This optional column indicates the remaining number of days after calculating the age, representing the fractional part of the age calculation. This column is included if needed, providing additional granularity in age representation.
-
-```{r eval=TRUE}
-# DISPLAY THE OUTPUT OBJECT
-head(age)  # note the last 2 columns
-```
+The `check_subject_ids()` function returns the input dataset or a subset of a subset of the input data where rows with incorrect IDs have been removed.
+In addition to detecting wrong subject IDs, the function will also look for missing and duplicated IDs. As the result of this, the report made from this operation might contain two extra elements: **missing_ids** (a vector of row indexes where there is a missing IDs) and **duplicated_ids** (a data frame of rows with the duplicated IDs)
 
 ### Checking date sequence
+
 The `check_date_sequence()` function verifies the order of sequences in date event columns within a dataset. It ensures that the values in specified date columns follow the desired chronological order. Here are the arguments accepted by the function:
 
 1. **`data`**: This parameter represents the input dataset that is being analyzed for the correctness of date sequences.
@@ -454,6 +415,45 @@ cleaned_df <- clean_using_dictionary(
 
 cleaned_df
 ```
+
+
+### Calculating age in different time scales
+
+The `calculate_age()` function computes the ages of individuals, expressed in years, months, weeks, or days, based on a given date column and a reference date. It requires the following arguments:
+
+1. **`data`** (required): This parameter represents the input dataset containing the relevant information.
+   
+2. **`date_column_name`** (required): Specify the name of the column containing the birth or relevant dates for which the age is being calculated.
+   
+3. **`end_date`** (required): This is the reference date used to calculate the age of individuals. The function computes the age relative to this date.
+   
+4. **`age_in`** (optional): This parameter determines the unit in which the age is expressed. It can be specified as "years", "months", "weeks", or "days". By default, the age is calculated in years if this parameter is not provided.
+
+By utilizing these arguments, the function offers flexibility in determining the age of individuals based on different units and reference dates. It facilitates various analytical tasks where age computation is a necessary component, providing users with the ability to customize the output according to their specific requirements.
+
+```{r eval=TRUE}
+# CALCULATE INDIVIDUAL AGE FROM THE `dateOfBirth` COLUMN
+age <- calculate_age(
+  data          = readRDS(system.file("extdata", "test_df.RDS",
+                                       package = "cleanepi")),
+  target_column = "dateOfBirth", 
+  age_in        = "days", 
+  na_strings    = "-99"
+)
+```
+
+The `calculate_age()` function is designed to enhance the input dataset by adding one or two extra columns containing pertinent age-related information. These additional columns are as follows:
+
+1. **Calculated Age in Specified Unit**: This column contains the calculated age of individuals expressed in the specified unit (years, months, weeks, or days).
+
+2. **Remaining Number of Days**: This optional column indicates the remaining number of days after calculating the age, representing the fractional part of the age calculation. This column is included if needed, providing additional granularity in age representation.
+
+```{r eval=TRUE}
+# DISPLAY THE OUTPUT OBJECT
+head(age)  # note the last 2 columns
+```
+
+
 
 
 
