@@ -1,13 +1,13 @@
-#' convert numeric into Date
+#' Convert numeric to date
 #'
-#' @param data the input data frame
-#' @param numeric_date_columns a vector or a comma-separated list of the columns
+#' @param data A data frame
+#' @param numeric_date_columns A vector or a comma-separated list of  columns
 #' names to be converted from numeric to date
-#' @param ref_date the reference date
-#' @param forward whether the counts started after the reference date (TRUE) or
-#' not (FALSE). default is FALSE
+#' @param ref_date A reference date
+#' @param forward A Boolean to indicate whether the counts started after the reference date (TRUE) or
+#' not (FALSE). The default is FALSE.
 #'
-#' @return the input data frame where the column of interest are updated
+#' @return A data frame where the column of interest are updated
 #' @export
 convert_numeric_to_date <- function(data, numeric_date_columns, ref_date,
                                     forward = TRUE) {

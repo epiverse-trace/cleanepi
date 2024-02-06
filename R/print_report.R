@@ -1,7 +1,7 @@
 
-#' Print the report from the data cleaning operations
+#' Print the report from  data cleaning operations
 #'
-#' @param report the report object
+#' @param report A report object
 #' @export
 #'
 print_report <- function(report) {

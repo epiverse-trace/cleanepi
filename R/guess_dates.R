@@ -14,17 +14,17 @@
 #' @author Thibaut Jombart, Zhian N. Kamvar
 #'
 #'
-#' @param x a `character` vector or a `factor`
+#' @param x A `character` vector or a `factor`
 #'
 #' @param error_tolerance a number between 0 and 1 indicating the proportion of
 #'     entries which cannot be identified as dates to be tolerated; if this
 #'     proportion is exceeded, the original vector is returned, and a message is
 #'     issued; defaults to 0.1 (10 percent)
 #'
-#' @param first_date a Date object specifying the first valid date. Defaults to
+#' @param first_date A Date object specifying the first valid date. Defaults to
 #'   fifty years before the `last_date`.
 #'
-#' @param last_date a Date object specifying the last valid date. Defaults to
+#' @param last_date A Date object specifying the last valid date. Defaults to
 #'   the current date.
 #'
 #' @param orders date codes for fine-grained parsing of dates. This allows for
@@ -239,9 +239,9 @@ date_choose_first_good <- function(date_a_frame) {
 
 #' Find the dates that lubridate couldn't
 #'
-#' @param date_a_frame a data frame where each column contains a different
+#' @param date_a_frame A data frame where each column contains a different
 #'    parsing of the same date vector
-#' @param original_dates the vector of original dates.
+#' @param original_dates The vector of original dates.
 #' @param mxl "modern excel" if TRUE, then it uses 1900 as the origin, otherwise
 #'    1904 is used as the origin.
 #'
