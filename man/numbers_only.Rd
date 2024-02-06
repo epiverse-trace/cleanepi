@@ -2,14 +2,14 @@
 % Please edit documentation in R/utils.R
 \name{numbers_only}
 \alias{numbers_only}
-\title{Detect whether a string contains only numbers}
+\title{Detects whether a string contains only numbers or not.}
 \usage{
 numbers_only(x)
 }
 \arguments{
-\item{x}{the string that contains the numbers}
+\item{x}{A string of numbers}
 }
 \description{
-Detect whether a string contains only numbers
+Detects whether a string contains only numbers or not.
 }
 \keyword{internal}

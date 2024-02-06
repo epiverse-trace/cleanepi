@@ -7,16 +7,16 @@
 add_report(data, report, name = NULL)
 }
 \arguments{
-\item{data}{the input data frame}
+\item{data}{A  data frame}
 
-\item{report}{a named \code{list} or \verb{data frame} containing details from the
-cleaning step}
+\item{report}{A named list or a data frame containing details from the
+cleaning operations.}
 
-\item{name}{a \code{character} with the name of the cleaning step. The default
+\item{name}{A character with the name of the cleaning operation. The default
 value is NULL.}
 }
 \value{
-the input data frame with a report associated to it. This can be
+The input data frame with a report associated to it. This can be
 accessed using \code{attr(data, "report")}
 }
 \description{
