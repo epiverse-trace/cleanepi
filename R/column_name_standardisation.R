@@ -1,9 +1,9 @@
 #' Standardize column names of a data frame or linelist
 #'
-#' @param x the input data frame or linelist
-#' @param keep a vector of column names to keep as-is. Default is `NULL`.
+#' @param x A data frame or linelist
+#' @param keep A vector of column names to keep as they are. The Default is `NULL`.
 #'
-#' @return the input data frame with knit column names
+#' @return A data frame with knit column names
 #'
 #' @export
 #' @examples
