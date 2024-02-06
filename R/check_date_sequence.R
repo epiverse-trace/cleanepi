@@ -1,6 +1,6 @@
-#' Check order for sequence of events
+#' Check order of a sequence of events
 #'
-#' @param x the string of interest
+#' @param x A string of interest
 #' @keywords internal
 is_order <- function(x) {
   x <- as_date(x)
@@ -11,17 +11,17 @@ is_order <- function(x) {
 
 #' Check whether the order of the sequence of date-events is valid
 #'
-#' @description This function checks whether a date sequence in
-#' a vector of  specified columns is correct or not.
+#' @description Checks whether a date sequence in
+#' a vector of  specified columns is in order or not.
 #'
-#' @param data the input data frame
-#' @param target_columns a vector or a comma-separated list of the event columns
-#'    names. Users should specify at least 2 column names in the expected order.
+#' @param data A data frame
+#' @param target_columns A vector of event column names.
+#'  Users should specify at least 2 column names in the expected order.
 #'    For example: target_columns = c("date_symptoms_onset", "date_hospitalization", "date_death"). # nolint: line_length_linter
-#' @param remove_bad_seq a Boolean to specify if rows with incorrect order
+#' @param remove_bad_seq A Boolean to specify if rows with incorrect order
 #'    should be filtered out or not. The default is FALSE
 #'
-#' @returns rows of the input data frame with incorrect date sequence
+#' @returns Rows of the input data frame with incorrect date sequence
 #'    if `remove_bad_seq = FALSE`, the input data frame without those
 #'    rows if not.
 #' @export
