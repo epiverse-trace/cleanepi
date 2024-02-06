@@ -7,7 +7,7 @@
 get_sum(x)
 }
 \arguments{
-\item{x}{the string of interest}
+\item{x}{A string of interest}
 }
 \description{
 Get sum from number

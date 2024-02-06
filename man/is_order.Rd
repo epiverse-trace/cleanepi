@@ -2,14 +2,14 @@
 % Please edit documentation in R/check_date_sequence.R
 \name{is_order}
 \alias{is_order}
-\title{Check order for sequence of events}
+\title{Check order of a sequence of events}
 \usage{
 is_order(x)
 }
 \arguments{
-\item{x}{the string of interest}
+\item{x}{A string of interest}
 }
 \description{
-Check order for sequence of events
+Check order of a sequence of events
 }
 \keyword{internal}

@@ -7,14 +7,14 @@
 date_get_format(data, date_column_name, sep)
 }
 \arguments{
-\item{data}{the input data frame}
+\item{data}{A  data frame}
 
-\item{date_column_name}{the name of the date columns of interest}
+\item{date_column_name}{The name of the date columns of interest}
 
-\item{sep}{the separator in the date string}
+\item{sep}{A separator in the date string}
 }
 \value{
-a string with the detected date format
+A string with the detected date format
 }
 \description{
 Detect date format from a date column

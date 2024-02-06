@@ -2,14 +2,14 @@
 % Please edit documentation in R/date_standardisation_helpers.R
 \name{date_detect_format}
 \alias{date_detect_format}
-\title{Detect the date format with only 1 separator}
+\title{Detect a date format with only 1 separator}
 \usage{
 date_detect_format(x)
 }
 \arguments{
-\item{x}{the string of interest}
+\item{x}{A string of interest}
 }
 \description{
-Detect the date format with only 1 separator
+Detect a date format with only 1 separator
 }
 \keyword{internal}

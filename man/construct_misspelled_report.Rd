@@ -8,13 +8,13 @@ data cleaning operation}
 construct_misspelled_report(misspelled_options, data)
 }
 \arguments{
-\item{misspelled_options}{a list with the detected misspelled values in the
+\item{misspelled_options}{A list with the detected misspelled values in the
 columns of interest.}
 
-\item{data}{the input data}
+\item{data}{A data frame}
 }
 \value{
-a data frame the details about where in the input data the misspelled
+A data frame the details about where in the input data the misspelled
 values were found.
 }
 \description{

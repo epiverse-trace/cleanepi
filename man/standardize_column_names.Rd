@@ -7,12 +7,12 @@
 standardize_column_names(x, keep = NULL)
 }
 \arguments{
-\item{x}{the input data frame or linelist}
+\item{x}{A data frame or linelist}
 
-\item{keep}{a vector of column names to keep as-is. Default is \code{NULL}.}
+\item{keep}{A vector of column names to keep as they are. The Default is \code{NULL}.}
 }
 \value{
-the input data frame with knit column names
+A data frame with knit column names
 }
 \description{
 Standardize column names of a data frame or linelist

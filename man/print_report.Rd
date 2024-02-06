@@ -2,13 +2,13 @@
 % Please edit documentation in R/print_report.R
 \name{print_report}
 \alias{print_report}
-\title{Print the report from the data cleaning operations}
+\title{Print the report from  data cleaning operations}
 \usage{
 print_report(report)
 }
 \arguments{
-\item{report}{the report object}
+\item{report}{A report object}
 }
 \description{
-Print the report from the data cleaning operations
+Print the report from  data cleaning operations
 }

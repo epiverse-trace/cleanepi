@@ -1,6 +1,8 @@
 ---
 title: "Package Design vignette for {cleanepi}"
-output: rmarkdown::html_vignette
+output:
+  rmarkdown::html_vignette:
+    df_print: "kable"
 vignette: >
   %\VignetteIndexEntry{Package Design vignette for {cleanepi}}
   %\VignetteEngine{knitr::rmarkdown}
@@ -16,43 +18,42 @@ knitr::opts_chunk$set(
 
 ## Concept and motivation
 
-In this document we outline the design decisions that will guide the development strategies of the {cleanepi} R package, as well as some of the reasoning, and possible pros and cons of each decision.
+In this document, we will outline the design decisions that have steered the development strategies of the {cleanepi} R package, along with the rationale behind each decision and the potential advantages and disadvantages associated with them.
 
-The data cleaning represents an important step for the success of the downstream analysis. The steps involved in the cleaning process vary depending on the data type and research goal. There are, however, some steps that can be performed across almost all data types, independently of the source of the data. 
+Data cleaning is an important phase for ensuring the efficacy of downstream analysis. The procedures entailed in the cleaning process may differ based on the data type and research objectives. Nonetheless, certain steps can be applied universally across diverse data types, irrespective of their origin.
 
 ## Design decisions
 
-The {cleanepi} R package is developed to provide functional programming-style data cleansing tasks. We classified the data cleaning operations into  several categories, which we call **modules**. This division is based on general goals from data cleaning procedures that are generally expected by end users. Each **module** will have one main function and other helper functions to achieve a specific task. However, only the main function of each module will be exported. This will provide the users with the ability to perform the cleaning task individually when needed.
+The {cleanepi} R package is designed to offer functional programming-style data cleansing tasks. To streamline the organization of data cleaning operations, we have categorized them into distinct groups referred to as **modules**. These modules are based on overarching goals derived from commonly anticipated data cleaning procedures. Each module features a primary function along with additional helper functions tailored to accomplish specific tasks. It's important to note that only the main function of each module will be exported. This deliberate choice empowers users to execute individual cleaning tasks as needed, enhancing flexibility and usability.
 
 ```{r echo=FALSE}
 knitr::include_graphics("../man/figures/cleanepi_design_diagram.drawio.png")
 ```
 
-In the heart of {cleanepi}, there will be `clean_data()`, a wrapper around all the modules (see Figure @fig:1). We expect it to be main function to be called by users to clean their data. We considered some cleaning actions as **implicit** (they will be performed whether the user specified them or not), others as **explicit** (performed only on the user's request).
+At the core of {cleanepi}, the pivotal function `clean_data()` serves as a wrapper encapsulating all the modules, as illustrated in Figure @fig:1. This function is intended to be the primary entry point for users seeking to cleanse their data. We have categorized cleaning actions into two main types: **implicit** and **explicit**. Implicit actions are executed regardless of user specifications, while explicit actions are performed only upon user request.
 
-There will also be two surrogate functions:
+In addition to `clean_data()`, we will incorporate two surrogate functions:
 
-1. `scan_data()` to assess the data types found in every column, and   
-2. `print_report()` to display the report made from every applied cleaning task.
-
-
-
+1. `scan_data()`: This function enables users to assess the data types present in each column of their dataset.
+2. `print_report()`: By utilizing this function, users can visualize the report generated from each applied cleaning task, facilitating transparency and understanding of the data cleaning process.
 
 ## Scope
 
-{cleanepi} is an R package designed to clean, curate, and standardize tabular datasets, with an emphasis on epidemiological data in particular.
-The primary function of {cleanepi} is `clean_data()`, which accepts as input the intended dataset in the form of a `data.frame` or `linelist` object and a `list` of operations to be performed on the dataset. 
-In the implementation of {cleanepi}, these operations are translated into modules. Modules in the current version of {cleanepi} include the: 
+{cleanepi} is an R package meticulously crafted to cleanse, curate, and standardize tabular datasets, with a particular focus on epidemiological data. At its core lies the primary function `clean_data()`, which accepts as input the target dataset in the form of a `data.frame` or `linelist` object, along with a `list` of operations to be executed on the dataset.
 
-* standardization of column names,
-* removal of duplicates,
-* replacement of missing values with `NA`, 
-* standardization of subject IDs,
-* standardization of date values,
-* replacement of existing values with pre-defined ones,
-* conversion of some values when required,
-* checking the sequence of date-events and
-* transformation of some columns.
+In the architecture of {cleanepi}, these operations are translated into modules, each catering to specific data cleaning tasks. The modules in the current version of {cleanepi} encompass:
+
+- Standardization of column names,
+- Removal of duplicates,
+- Replacement of missing values with `NA`,
+- Standardization of subject IDs,
+- Standardization of date values,
+- Replacement of existing values with predefined ones (Dictionary based substitution),
+- Conversion of values when necessary,
+- Verification of the sequence of date-events, and
+- Transformation of select columns.
+
+By compartmentalizing these operations into modules, {cleanepi} offers users a systematic and adaptable framework to address diverse data cleaning needs, especially within the realm of epidemiological datasets.
 
 ## Output
 
@@ -60,130 +61,157 @@ The main functions in {cleanepi} return an object of type `data.frame` or `linel
 
 
 ### Modules in {cleanepi}
-
 In this section, we provide a detailed description of the way that every module is built.
 
-**1. Column names standardization**
-This module contains functions to harmonize the style and format of column names in the target dataset, and optionally allows users to specify subset of focal columns i.e. a list of column names to keep as-is.
-    
-  * main function: **standardize_column_names()**  
-  * Input: a `data.frame` or `linelist` object; a `vector` of focal column
-    names (if not provided, all columns will be checked for eventual standardization).
-  * Output: the input object with standardized column names.
-  * Report: a two-column table with the initial and current column names for
-    each updated column in the original dataset.
-  *	Mode: implicit.
-  
-**2. Duplicates removal**
-This module contains functions to remove duplicated rows, columns, and constant columns.
-    
-  * main function: **remove_duplicates()**  
-  * Input: a `data.frame` or `linelist` object; a vector of target columns (the
-      default option is to consider all columns); remove empty rows (all rows by
-      default), remove empty columns (all columns  by default), and remove constant.
-      columns (all constant columns by default).
-  * Output: the input object with the effects of the specified operations.
-  * Report:    
-      ● a two-column table with items and their values. Items include empty rows,
-      empty columns, and  constant columns.     
-      ● a table of removed duplicates.   
-  *	Mode: implicit.
-  
-**3. Replacement of missing values with `NA`**
-This module is to standardize and unify the text representing the missing values in the dataset. 
-    
-  * main function: **replace_missing_char()**  
-  * Input: a `data.frame` or `linelist` object; a `vector` of column names (if
-    not provided, the operation will be performed across all columns); and a string specifying missing values (the default value is null).
-  * Output: the input object where all missing values are represented by `NA`.
-  * Report: a three-column table with index, column and value for each  missing
-    item in the dataset.
-  *	Mode: implicit.
-  
-**4. Date values standardization**
-This module has functions to standardize the format of dated-value columns and ensure that all dates are inside a given timeframe. 
-    
-  * main function: **standardize_dates()**  
-  * Input: a `data.frame` or `linelist` object; a `vector` of targeted date
-    columns (if not provides, it automatically figure out columns with
-    date-values), tolerance_threshold (the default value is 50%), format (the
-    default value is NULL), and timeframe (the default value is null).
-  * Output: the input object with standardized date values (in the form of
-    *yyyy-mm-dd*).
-  * Report:   
-      ● a two-column table with the list of columns where the date values were
-        standardized.    
-      ● a three-column table of index, column name, and values that are out of
-        the specified timeframe.   
-  *	Mode: implicit.
+**1. Standardization of column names**
 
-**5. Subject IDs standardization**
-The functions in this module are designed to check whether the values in the
-column that unique identifies the subjects have the same format. 
-    
-  * main function: **check_subject_ids()**  
-  * Input: a `data.frame` or `linelist` object; the name of id column; strings
-    for prefix, suffix, and numerical range within the ids.
-  * Output: the input object with standardize subject ids.
-  * Report: a two-column table with index and value of each subject id that do
-    not comply with the expected format. 
-  *	Mode: explicit.
+This module is designed to standardize the style and format of column names within the target dataset, offering users the flexibility to specify a subset of focal columns to preserve in their original format.
+
+- **Main function:** `standardize_column_names()`
+- **Input:** 
+  - A `data.frame` or `linelist` object.
+  - Optionally, a `vector` of focal column names. If not provided, all columns will undergo standardization.
+- **Output:** 
+  - The input object with standardized column names.
+- **Report:** 
+  - A two-column table displaying the initial and current column names for each updated column in the original dataset.
+- **Mode:** 
+  - Implicit.
+
+By incorporating the `standardize_column_names()` function, {cleanepi} streamlines the process of ensuring consistency and clarity in column naming conventions, thereby enhancing the overall organization and readability of the dataset.
+  
+**2. Removal of duplicates**
+
+This module is designed to identify and eliminate duplicate rows, columns, and constant columns within the dataset.
+
+- **Main function:** `remove_duplicates()`
+- **Input:** Accepts a `data.frame` or `linelist` object, along with optional parameters:
+  - Vector of target columns (default is to consider all columns)
+  - Option to remove empty rows (all rows by default)
+  - Option to remove empty columns (all columns by default)
+  - Option to remove constant columns (all constant columns by default)
+- **Output:** Returns the input object after applying the specified operations.
+- **Report:**
+  - A two-column table showcasing items and their values. Items include empty rows, empty columns, and constant columns.
+  - A table detailing the removed duplicates.
+- **Mode:** Operates implicitly.
+
+Through the `remove_duplicates()` function, users can streamline their dataset by eliminating redundant rows, columns, and constant values, thus enhancing data integrity and analysis efficiency.
+  
+**3. Replacement missing values with `NA`**
+
+This module aims to standardize and unify the representation of missing values within the dataset.
+
+- **Main function:** `replace_missing_char()`
+- **Input:** Accepts a `data.frame` or `linelist` object, along with:
+  - A `vector` of column names (if not provided, the operation is performed across all columns)
+  - A string specifying missing values (default value is null)
+- **Output:** Returns the input object with all missing values represented as `NA`.
+- **Report:** Generates a three-column table featuring index, column, and value for each missing item in the dataset.
+- **Mode:** Operates implicitly.
+
+By utilizing the `replace_missing_char()` function, users can ensure consistency in handling missing values across their dataset, facilitating accurate analysis and interpretation of the data.
+  
+**4. Standardization of date values**
+
+This module is dedicated to standardizing the format of date-value columns and ensuring that all dates fall within a specified timeframe.
+
+- **Main function:** `standardize_dates()`
+- **Input:** Accepts a `data.frame` or `linelist` object, along with:
+  - A `vector` of targeted date columns (automatically determined if not provided)
+  - Tolerance threshold (default value is 50%)
+  - Format (default value is NULL)
+  - Timeframe (default value is null)
+- **Output:** Returns the input object with standardized date values in the format of *yyyy-mm-dd*.
+- **Report:**
+  - A two-column table listing the columns where date values were standardized.
+  - A three-column table featuring index, column name, and values that fall outside the specified timeframe.
+- **Mode:** Operates implicitly.
+
+By employing the `standardize_dates()` function, users can ensure uniformity and coherence in date formats across their dataset, while also validating the temporal integrity of the data within the defined timeframe.
+
+**5. Standardization of subject IDs**
+
+This module is tailored to verify whether the values in the column uniquely identifying subjects adhere to a consistent format.
+
+- **Main function:** `check_subject_ids()`
+- **Input:** Accepts a `data.frame` or `linelist` object, along with:
+  - The name of the ID column
+  - Strings for prefix, suffix, and numerical range within the IDs
+- **Output:** Returns the input object with standardized subject IDs.
+- **Report:** Generates a two-column table featuring index and value of each subject ID that deviates from the expected format.
+- **Mode:** Operates explicitly.
+
+By utilizing the `check_subject_ids()` function, users can ensure uniformity in the format of subject IDs, facilitating accurate tracking and analysis of individual subjects within the dataset.
 
 **6. Dictionary based substitution **
-This standardizes entries in specific columns to certain values, such as replacing 1 with male and 2 with female in gender column. It is also interoperable with the `get_meta_data()` function from {readepi}.
-    
-  * main function: **clean_using_dictionary()**  
-  * Input: a `data.frame` or `linelist` object; and a data dictionary with the
-    following column names: options, values, column, and order.
-  * Output: the input object where the specified options are replaced by their
-    provided values.
-  * Report: a three-column table with index, column and value for each
-    unexpected value found in a targeted column. 
-  *	Mode: explicit.
+
+This module facilitates dictionary-based substitution, which involves replacing existing values with predefined ones. It standardizes entries in specific columns to certain values, such as substituting 1 with "male" and 2 with "female" in a gender column. It also interoperate seamlessly with the `get_meta_data()` function from {readepi} R package.
+
+- **Main function:** `clean_using_dictionary()`
+- **Input:** Accepts a `data.frame` or `linelist` object, along with a data dictionary featuring the following column names: options, values, column, and order.
+- **Output:** Returns the input object where the specified options are replaced by their corresponding values.
+- **Report:** Generates a three-column table with index, column, and value for each unexpected value encountered in a targeted column.
+- **Mode:** Operates explicitly.
+
+By leveraging the `clean_using_dictionary()` function, users can streamline and standardize the values within specific columns based on predefined mappings, enhancing consistency and accuracy in the dataset.
 
 Note that the `clean_using_dictionary()` function will return a warning when it
 detects unexpected values in the target columns specified in the data dictionary.
 The unexpected values can be added to the data dictionary using the `add_to_dictionary()` function.
 
-**7. Conversion **
-This module contains functions to convert numbers written in letters to numerical values, and it is interoperable with the {numberize} package.
-    
-  * main function: **convert_to_numeric()**  
-  * Input: a `data.frame` or `linelist` object; a vector of column names to be
-    converted into numeric; and the output of the `scan_data()` function.
-  * Output: the input object where the values in the target columns are converted
-    into numeric.
-  * Report: a three-column table with index, column and value for each unrecognized
-    value in the dataset (strings that could not be converted into numeric). 
-  *	Mode: explicit.
+**7. Conversion of values when necessary **
+
+This module is designed to convert numbers written in letters to numerical values, ensuring interoperability with the {numberize} package.
+
+- **Main function:** `convert_to_numeric()`
+- **Input:** Accepts a `data.frame` or `linelist` object, along with:
+  - A vector of column names to be converted into numeric
+  - The output of the `scan_data()` function
+- **Output:** Returns the input object with values in the target columns converted into numeric format.
+- **Report:** Generates a three-column table with index, column, and value for each unrecognized value in the dataset (strings that could not be converted into numeric).
+- **Mode:** Operates explicitly.
+
+By employing the `convert_to_numeric()` function, users can seamlessly transform numeric representations written in letters into numerical values, ensuring compatibility with the {numberize} package and promoting accuracy in numerical analysis.
   
 Note that `convert_to_numeric()` will issue a warning for unexpected values and return them in the report.
 
-**8. Checking order of sequence of date-events **
-The functions in this module will allow to check whether the sequence of date events is as expected. For example, it will flag out rows where the date of admission to hospital is prior to the individual date of birth.
-    
-  * main function: **check_date_sequence()**  
-  * Input: a `data.frame` or `linelist` object; a vector of date column names to be
-    considered; and a logical to specify whether to remove the incorrect rows from the input      data or not.
-  * Output: the input object where the incorrect rows are removed if specified.
-  * Report: a table with the incorrect rows from the specified columns. 
-  *	Mode: explicit.
+**8. Verification of the sequence of date-events **
 
-**9. Transformation **
-This is used to do various specialized operations related to epidemiological data analytics. The current implementation includes the following functions.
-    
-  * main function: **calculate_age()**  
-  * Input: a `data.frame` or `linelist` object; the name of the column of
-    interest; the reference date; and the time unit (possible values are days,
-    weeks, months, or years).
-  * Output: the input object with the clean data with an additional age column
-    with values in the intended time unit. 
-  * Report: none. 
-  *	Mode: explicit.
+This module provides functions to verify whether the sequence of date events aligns with expectations. For instance, it can flag rows where the date of admission to the hospital precedes the individual's date of birth.
+
+- **Main function:** `check_date_sequence()`
+- **Input:** Accepts a `data.frame` or `linelist` object, along with:
+  - A vector of date column names to be considered
+  - A logical value to specify whether to remove the incorrect rows from the input data or not
+- **Output:** Returns the input object with incorrect rows removed if specified.
+- **Report:** Generates a table listing the incorrect rows from the specified columns.
+- **Mode:** Operates explicitly.
+
+By using the `check_date_sequence()` function, users can systematically validate and ensure the coherence of date sequences within their dataset, promoting accuracy and reliability in subsequent analyses.
+
+**9. Transformation of select columns**
+
+This module is dedicated to performing various specialized operations related to epidemiological data analytics, and it currently includes the following function:
+
+- **Main function:** `calculate_age()`
+- **Input:** Accepts a `data.frame` or `linelist` object, along with:
+  - The name of the column of interest
+  - The reference date
+  - The time unit (possible values are days, weeks, months, or years)
+- **Output:** Returns the input object with clean data and an additional age column with values in the specified time unit.
+- **Report:** None.
+- **Mode:** Operates explicitly.
+
+By leveraging the `calculate_age()` function, users can efficiently compute and integrate age-related information into their epidemiological dataset based on user-defined parameters, enhancing the analytical capabilities of the dataset.
 
 ### Surrogate functions
 
-There are also two surrogate functions: `scan_data()` for providing a quick summary of the data, including the percentage of values of type character, numeric, missing, logical, date in every column, and `print_report()` for displaying reports of the cleaning operations performed on the dataset. 
+1. `scan_data()`: This function is designed to generate a quick summary of the dataset, offering insights into the composition of each column. It calculates the percentage of values belonging to different data types such as character, numeric, missing, logical, and date. This summary can help analysts and data scientists understand the structure and content of the dataset at a glance.
+
+2. `print_report()`: This function is responsible for displaying reports detailing the cleaning operations executed on the dataset. It likely presents information about the data cleaning processes performed, such as handling missing values, correcting data types, removing duplicates, and any other transformations applied to ensure data quality and integrity.
+
+These surrogate functions play crucial roles in the data analysis and cleaning workflow, providing valuable information and documentation about the dataset's characteristics and the steps taken to prepare it for analysis or modeling. 
 
 ## Dependencies
 

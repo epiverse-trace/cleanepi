@@ -7,21 +7,21 @@
 date_convert(data, cols, error_tolerance, format = NULL, timeframe = NULL)
 }
 \arguments{
-\item{data}{the input data frame}
+\item{data}{A data frame}
 
-\item{cols}{the date column name(s)}
+\item{cols}{date column name(s)}
 
-\item{error_tolerance}{a number between 0 and 1 indicating the proportion of
+\item{error_tolerance}{A numerical value between 0 and 1, indicating the proportion of
 entries which cannot be identified as dates to be tolerated. See the
 \code{clean_data()} helper for more details.}
 
-\item{format}{the format of the date values in the date columns}
+\item{format}{A format of the date values in the date columns}
 
-\item{timeframe}{a vector of 2 values of type date. If provided, date values
+\item{timeframe}{A vector of 2 values of type date. If provided, date values
 that do not fall within this timeframe will be set to \code{NA}.}
 }
 \value{
-the input data frame where the specified columns have been converted
+A data frame where the specified columns have been converted
 into Date.
 }
 \description{

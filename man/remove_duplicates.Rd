@@ -28,13 +28,13 @@ If remove = \code{NULL} (default value), the first duplicate is kept and
 the rest of the duplicates in the group are removed.}
 
 \item{rm_empty_rows}{A logical variable that is used to specify whether to remove
-empty rows or not. Its default  value is \code{TRUE}.}
+empty rows or not. The default  value is \code{TRUE}.}
 
 \item{rm_empty_cols}{A logical variable that is used to specify whether to remove
-empty columns or not. Its default value is \code{TRUE}.}
+empty columns or not. The default value is \code{TRUE}.}
 
 \item{rm_constant_cols}{A logical variable that is used to specify whether to remove
-constant columns or not. Its Default value is \code{TRUE}.}
+constant columns or not. The default value is \code{TRUE}.}
 }
 \value{
 A  data frame or linelist  without the duplicates values and nor constant columns.
