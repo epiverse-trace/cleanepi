@@ -1,22 +1,22 @@
 #' Check whether the subject IDs comply with the expected format
 #'
-#' @param data the data frame of interest
-#' @param id_column_name the name of the column with the subject IDs. If not
+#' @param data A data frame
+#' @param id_column_name A column name of  the subject IDs. If not
 #'    specified, the first column will be considered by default.
-#' @param format the expected format of the subject IDs
-#' @param prefix the prefix used in the subject IDs
-#' @param suffix the suffix used in the subject IDs
-#' @param range a vector with the range of numbers in the sample IDs
+#' @param format A  format of the subject IDs
+#' @param prefix A prefix used in the subject IDs
+#' @param suffix A suffix used in the subject IDs
+#' @param range A vector with the range of numbers in the sample IDs
 #'
-#' @returns the cleaned data frame with correct subject IDs. The incorrect
+#' @returns A cleaned data frame with correct subject IDs. The incorrect
 #'    subject ids will be stored in the report object.
 #'
-#' @examples
-#' dat <- check_subject_ids(
-#'   data           = readRDS(system.file("extdata", "test_df.RDS",
-#'                                        package = "cleanepi")),
+
+#' ta", "test_df.RDS",
+#'                                        package = "cleanepi"  data           = readRDS(system.file("extda)),
 #'   id_column_name = "study_id",
-#'   format         = "PS000P2",
+#'   format         = "PS000P2",#' @
+#' dat <- check_subject_ids(examples
 #'   prefix         = "PS",
 #'   suffix         = "P2",
 #'   range          = c(1, 100)
