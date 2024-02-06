@@ -83,19 +83,12 @@ check_subject_ids <- function(data,
   # remove the incorrect rows
   if (!is.null(bad_rows)) {
     bad_rows     <- unique(bad_rows)
-    report       <- attr(data, "report")
-    tmp_report   <- list()
-    if ("standardize_subject_ids" %in% names(report)) {
-      tmp_report <- report[["standardize_subject_ids"]]
-    }
-    tmp_report[["incorrect_subject_id"]] <- data.frame(
-      idx = bad_rows,
-      ids = data[[id_column_name]][bad_rows]
-    )
-    data <- data[-bad_rows, ]
-    data <- add_to_report(x     = data,
-                          key   = "standardize_subject_ids",
-                          value = tmp_report)
+    tmp_report   <- data.frame(idx = bad_rows,
+                               ids = data[[id_column_name]][bad_rows])
+    data         <- data[-bad_rows, ]
+    data         <- add_to_report(x     = data,
+                                  key   = "incorrect_subject_id",
+                                  value = tmp_report)
   }
 
   return(data)
@@ -112,13 +105,13 @@ check_subject_ids <- function(data,
 #'
 check_ids_uniqueness <- function(data, id_col_name) {
   # check for missing values in ID column
-  uniqueness_check_res <- list()
   if (anyNA(data[[id_col_name]])) {
     idx                <- which(is.na(data[[id_col_name]]))
     warning("\nMissing values found on ID column in lines: ",
             paste(idx, collapse = ", "), call. = FALSE)
-    uniqueness_check_res[["missing_ids"]] <- data.frame(idx = idx,
-                                                        ids = data[[id_col_name]][idx]) # nolint: line_length_linter
+    data <- add_to_report(x     = data,
+                          key   = "missing_ids",
+                          value = paste(idx, collapse = ", "))
   }
 
   # check for duplicates ID column
@@ -126,12 +119,10 @@ check_ids_uniqueness <- function(data, id_col_name) {
   if (nrow(duplicated_ids) > 0L) {
     warning("Found duplicated IDs! See the attached cleaning report for more
             details", call. = FALSE)
-    uniqueness_check_res[["duplicated_ids"]] <- duplicated_ids
+    data <- add_to_report(x     = data,
+                          key   = "duplicated_ids",
+                          value = duplicated_ids)
   }
-
-  data <- add_to_report(x     = data,
-                        key   = "standardize_subject_ids",
-                        value = uniqueness_check_res)
 
   return(data)
 }

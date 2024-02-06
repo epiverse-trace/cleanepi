@@ -8,7 +8,9 @@ params:
     constant_columns: "none"
     duplicates: "none"
     out_of_range_dates: NULL
-    standardize_subject_ids: NULL
+    incorrect_subject_id: NULL
+    missing_ids: NULL
+    duplicated_ids: NULL
     converted_into_numeric: NULL
     misspelled_values: NULL
     incorrect_date_sequence: NULL
@@ -33,7 +35,9 @@ empty_columns              <- params[["empty_columns"]]
 constant_columns           <- params[["constant_columns"]]
 duplicates                 <- params[["duplicates"]]
 out_of_range_dates         <- params[["out_of_range_dates"]]
-standardize_subject_ids    <- params[["standardize_subject_ids"]]
+incorrect_subject_id       <- params[["incorrect_subject_id"]]
+missing_ids                <- params[["missing_ids"]]
+duplicated_ids             <- params[["duplicated_ids"]]
 converted_into_numeric     <- params[["converted_into_numeric"]]
 misspelled_values          <- params[["misspelled_values"]]
 incorrect_date_sequence    <- params[["incorrect_date_sequence"]]
@@ -50,8 +54,9 @@ are_empty_columns_found <- ifelse(empty_columns == "none", FALSE, TRUE)
 are_constant_columns_found <- ifelse(constant_columns == "none", FALSE, TRUE)
 are_duplicates_found <- ifelse(duplicates == "none", FALSE, TRUE)
 are_out_of_range_dates_found <- ifelse(is.null(out_of_range_dates), FALSE, TRUE)
-are_subject_ids_standardised <- ifelse(is.null(standardize_subject_ids), FALSE,
-                                       TRUE)
+are_incorrect_subject_id <- ifelse(is.null(incorrect_subject_id), FALSE, TRUE)
+are_missing_ids_found <- ifelse(is.null(missing_ids), FALSE, TRUE)
+are_duplicated_ids_found <- ifelse(is.null(duplicated_ids), FALSE, TRUE)
 are_converted_to_numeric <- ifelse(is.null(converted_into_numeric), FALSE, TRUE)
 are_misspelled_values_found <- ifelse(is.null(misspelled_values), FALSE, TRUE)
 are_incorrect_date_sequence_found <- ifelse(is.null(incorrect_date_sequence),
@@ -97,12 +102,25 @@ out_of_range_dates %>%
   kableExtra::kable_paper("striped", font_size = 18, full_width = FALSE)
 ```
 
-```{r eval=are_subject_ids_standardised, echo=FALSE, comment=""}
+```{r eval=are_incorrect_subject_id, echo=FALSE, comment=""}
 cat("\nDetected the following incorrect subject IDs:\n")
-standardize_subject_ids[["incorrect_subject_id"]] %>%
+incorrect_subject_id %>%
   rlang::set_names(toupper) %>%
   kbl() %>%
   kableExtra::kable_paper("striped", font_size = 18, full_width = FALSE)
+```
+
+```{r eval=are_duplicated_ids_found, echo=FALSE, comment=""}
+cat("\nDetected the following duplicated subject IDs:\n")
+duplicated_ids %>%
+  rlang::set_names(toupper) %>%
+  kbl() %>%
+  kableExtra::kable_paper("striped", font_size = 18, full_width = FALSE)
+```
+
+```{r eval=are_missing_ids_found, echo=FALSE, comment=""}
+cat("\nIDs are missing from the following rows:\n")
+print(missing_ids)
 ```
 
 ```{r eval=are_converted_to_numeric, echo=FALSE, comment=""}
