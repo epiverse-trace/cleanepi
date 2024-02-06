@@ -114,6 +114,14 @@ cleaned_data <- clean_data(
 
 # VISUALISE THE CLEANED DATASET
 print(cleaned_data)
+
+# EXTRACT THE DATA CLEANING REPORT
+report <- attr(cleaned_data, "report")
+```
+
+```{r eval=FALSE}
+# DISPLAY THE DATA CLEANING REPORT
+print_report(report)
 ```
 
 ## Vignette

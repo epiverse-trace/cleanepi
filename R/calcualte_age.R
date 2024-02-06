@@ -1,7 +1,8 @@
 #' Calculate age from a specified date column
 #'
 #' @param data A data frame with one date column
-#' @param target_column A string specifying the name of the date column of interest
+#' @param target_column A string specifying the name of the date column of
+#'    interest
 #' @param end_date An end date, the default is today's date
 #' @param age_in a string that specifies whether to return the age in 'years',
 #'     'months',  'weeks', or 'days'. The default is in 'years'.

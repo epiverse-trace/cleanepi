@@ -11,12 +11,12 @@
 #' @returns A cleaned data frame with correct subject IDs. The incorrect
 #'    subject ids will be stored in the report object.
 #'
-
-#' ta", "test_df.RDS",
-#'                                        package = "cleanepi"  data           = readRDS(system.file("extda)),
+#' @examples
+#' dat <- check_subject_ids(
+#'   data           = readRDS(system.file("extdata", "test_df.RDS",
+#'                                        package = "cleanepi")),
 #'   id_column_name = "study_id",
-#'   format         = "PS000P2",#' @
-#' dat <- check_subject_ids(examples
+#'   format         = NULL,
 #'   prefix         = "PS",
 #'   suffix         = "P2",
 #'   range          = c(1, 100)
@@ -108,10 +108,10 @@ check_ids_uniqueness <- function(data, id_col_name) {
   if (anyNA(data[[id_col_name]])) {
     idx                <- which(is.na(data[[id_col_name]]))
     warning("\nMissing values found on ID column in lines: ",
-            paste(idx, collapse = ", "), call. = FALSE)
+            glue::glue_collapse(idx, sep = ", "), call. = FALSE)
     data <- add_to_report(x     = data,
                           key   = "missing_ids",
-                          value = paste(idx, collapse = ", "))
+                          value = glue::glue_collapse(idx, sep = ", "))
   }
 
   # check for duplicates ID column

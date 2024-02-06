@@ -6,9 +6,9 @@
 #' @param format A format of the date values in the date columns
 #' @param timeframe A vector of 2 values of type date. If provided, date values
 #'    that do not fall within this timeframe will be set to `NA`.
-#' @param error_tolerance A numerical value between 0 and 1, indicating the proportion of
-#'     entries which cannot be identified as dates to be tolerated. See the
-#'     `clean_data()` helper for more details.
+#' @param error_tolerance A numerical value between 0 and 1, indicating the
+#'    proportion of entries which cannot be identified as dates to be tolerated.
+#'    See the `clean_data()` helper for more details.
 #'
 #' @returns The input dataset where the date columns have been standardized
 #' @export

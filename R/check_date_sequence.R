@@ -17,7 +17,8 @@ is_order <- function(x) {
 #' @param data A data frame
 #' @param target_columns A vector of event column names.
 #'  Users should specify at least 2 column names in the expected order.
-#'    For example: target_columns = c("date_symptoms_onset", "date_hospitalization", "date_death"). # nolint: line_length_linter
+#'    For example: target_columns = c("date_symptoms_onset",
+#'    "date_hospitalization", "date_death").
 #' @param remove_bad_seq A Boolean to specify if rows with incorrect order
 #'    should be filtered out or not. The default is FALSE
 #'
@@ -45,7 +46,8 @@ check_date_sequence <- function(data, target_columns,
 
   # check if input is character string
   if (all(grepl(",", target_columns, fixed = TRUE))) {
-    target_columns <- as.character(unlist(strsplit(target_columns, ",", fixed = TRUE)))
+    target_columns <- as.character(unlist(strsplit(target_columns, ",",
+                                                   fixed = TRUE)))
     target_columns <- trimws(target_columns)
   }
 

@@ -4,8 +4,8 @@
 #' @param numeric_date_columns A vector or a comma-separated list of  columns
 #' names to be converted from numeric to date
 #' @param ref_date A reference date
-#' @param forward A Boolean to indicate whether the counts started after the reference date (TRUE) or
-#' not (FALSE). The default is FALSE.
+#' @param forward A Boolean to indicate whether the counts started after the
+#'    reference date (TRUE) or not (FALSE). The default is FALSE.
 #'
 #' @return A data frame where the column of interest are updated
 #' @export

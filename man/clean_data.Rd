@@ -53,11 +53,12 @@ cleaning operation considered.
 }
 }
 \description{
-Cleans up messy data frames by performing several operations. These Include
-cleaning of column names, detecting and removing
+Cleans up messy data frames by performing several operations.
+These Include cleaning of column names, detecting and removing
 duplicates, empty records and columns, constant columns, replacing missing
 values by NA, converting character columns into dates when they contain a
-certain number of date values, and detecting subject IDs with wrong formats.
+certain number of date values, and detecting subject IDs with wrong
+formats.
 }
 \examples{
 Here `keep = NULL` i.e. column names standardization will be performed across

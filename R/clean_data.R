@@ -1,10 +1,11 @@
 #' Clean and standardize data
 #'
-#' @description Cleans up messy data frames by performing several operations. These Include
-#'    cleaning of column names, detecting and removing
+#' @description Cleans up messy data frames by performing several operations.
+#'    These Include cleaning of column names, detecting and removing
 #'    duplicates, empty records and columns, constant columns, replacing missing
 #'    values by NA, converting character columns into dates when they contain a
-#'    certain number of date values, and detecting subject IDs with wrong formats.
+#'    certain number of date values, and detecting subject IDs with wrong
+#'    formats.
 #'
 #' @param data A  data frame
 #' @param params A list of parameters that defines what cleaning operations will
@@ -207,7 +208,7 @@ clean_data <- function(
   ## -----
   if (!is.null(params[["to_numeric"]])) {
     R.utils::cat("\nconverting",
-                 paste(params[["to_numeric"]], collapse = ", "),
+                 glue::glue_collapse(params[["to_numeric"]], sep = ", "),
                  "into numeric")
     data <- convert_to_numeric(data       = data,
                                to_numeric = params[["to_numeric"]],
@@ -222,15 +223,6 @@ clean_data <- function(
   if (!is.null(params[["dictionary"]])) {
     R.utils::cat("\nperforming dictionary-based cleaning")
     data <- clean_using_dictionary(data, params[["dictionary"]])
-  }
-
-  ## -----
-  ## | Printing the report from the data cleaning to keep track of what have
-  ## | been modified, removed, added, renamed, etc...
-  ## -----
-  report <- attr(data, "report")
-  if (!is.null(report)) {
-    print_report(report)
   }
 
   # return the final object

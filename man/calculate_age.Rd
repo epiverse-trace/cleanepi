@@ -15,7 +15,8 @@ calculate_age(
 \arguments{
 \item{data}{A data frame with one date column}
 
-\item{target_column}{A string specifying the name of the date column of interest}
+\item{target_column}{A string specifying the name of the date column of
+interest}
 
 \item{end_date}{An end date, the default is today's date}
 
