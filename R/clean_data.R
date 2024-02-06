@@ -226,7 +226,10 @@ clean_data <- function(
 
 
   # this is where to call the report printing function
-  print_report(attr(data, "report"))
+  report <- attr(data, "report")
+  if (!is.null(report)) {
+    print_report(report)
+  }
 
   # return the final object
   return(data)
