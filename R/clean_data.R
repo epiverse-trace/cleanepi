@@ -146,8 +146,8 @@ clean_data <- function(
   ## | Empty rows and columns will also be removed. So will the constant columns
   ## | be.
   ## -----
-  R.utils::cat("\nremoving duplicated rows")
   if (!is.null(params[["remove_duplicates"]])) {
+    R.utils::cat("\nremoving duplicated rows")
     data <- remove_duplicates(
       data,
       target_columns   = params[["remove_duplicates"]][["target_columns"]],
@@ -163,9 +163,6 @@ clean_data <- function(
   ## | easy to apply the functions that operate on variables of type Date.
   ## -----
   R.utils::cat("\nstandardising date columns")
-  if (!("error_tolerance" %in% names(params))) {
-    params[["error_tolerance"]] <- 0.5
-  }
   data <- standardize_dates(
     data            = data,
     target_columns  = params[["standardize_date"]][["target_columns"]],
@@ -221,7 +218,6 @@ clean_data <- function(
   ## The values in some columns are coded and their correspondent expressions
   ## will be stored in a data dictionary file. We implement this function to
   ## replace these coded values with the exact values from the data dictionary.
-  ## We also account for the
   ## -----
   if (!is.null(params[["dictionary"]])) {
     R.utils::cat("\nperforming dictionary-based cleaning")
@@ -230,7 +226,7 @@ clean_data <- function(
 
 
   # this is where to call the report printing function
-  #print_report(report)
+  print_report(attr(data, "report"))
 
   # return the final object
   return(data)

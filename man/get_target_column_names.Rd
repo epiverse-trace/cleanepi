@@ -7,14 +7,14 @@
 get_target_column_names(data, target_columns, cols)
 }
 \arguments{
-\item{data}{the input dataset}
+\item{data}{A dataframe or linelist}
 
-\item{target_columns}{the user specified target column name}
+\item{target_columns}{A vector of column names}
 
 \item{cols}{a vector of empty and constant columns}
 }
 \value{
-a \code{vector} with the target column names or indexes
+a vector with the target column names or indexes
 }
 \description{
 Get the names of the columns from which duplicates will be found

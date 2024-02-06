@@ -225,12 +225,13 @@ By utilizing these arguments, the function offers flexibility in determining the
 
 ```{r eval=TRUE}
 # CALCULATE INDIVIDUAL AGE FROM THE `dateOfBirth` COLUMN
-age <- calculate_age(data           = readRDS(system.file("extdata", "test_df.RDS",
+age <- calculate_age(
+  data          = readRDS(system.file("extdata", "test_df.RDS",
                                        package = "cleanepi")),
-                     target_column = "dateOfBirth", 
-                     age_in = "days", 
-                     na_strings="-99"
-                     )
+  target_column = "dateOfBirth", 
+  age_in        = "days", 
+  na_strings    = "-99"
+)
 ```
 
 The `calculate_age()` function is designed to enhance the input dataset by adding one or two extra columns containing pertinent age-related information. These additional columns are as follows:
@@ -343,7 +344,7 @@ To eliminate duplicated rows from a dataset, the `remove_duplicates()` function 
 # IMPORT  DATA
 #CALLING THE REMOVE_DUPLICATE FUNCTION.
 res <- remove_duplicates(
-  data <- readRDS(system.file("extdata", "test_linelist.RDS",
+  data = readRDS(system.file("extdata", "test_linelist.RDS",
                             package = "cleanepi")),
   target_columns = NULL,
   remove         = NULL

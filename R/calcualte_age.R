@@ -55,7 +55,7 @@ calculate_age <- function(data,
   if (length(extra_args) > 0L && "na_strings" %in% names(extra_args)) {
     na_strings  <- extra_args[["na_strings"]]
     data        <- replace_missing_values(data, target_column,
-                                            na_strings = na_strings)
+                                          na_strings = na_strings)
   }
 
 
