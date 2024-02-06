@@ -18,13 +18,8 @@ of missing values will only be executed in those specified columns}
 
 \item{na_strings}{This is a vector of strings that represents the missing
 values in the columns of interest. By default, it utilizes
-<<<<<<< HEAD
-\code{cleanepi::common_na_strings}. However, if the missing values string in the
-columns of interest is not included in this predefined vector,
-=======
 \code{cleanepi::common_na_strings}. However, if the missing values string in
 the columns of interest is not included in this predefined vector,
->>>>>>> 9e04535fa9385e417ab0a85a8321613cb196496b
 it can be used as the value for this argument.}
 }
 \value{
