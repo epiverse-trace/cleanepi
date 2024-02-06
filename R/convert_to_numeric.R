@@ -1,16 +1,18 @@
-#' Convert provided or auto-detected character columns into numeric
+#' Convert columns into numeric
 #'
-#' When the names of the columns to be converted is not provided, the function
-#' looks for columns that contains only missing, numeric and character values
-#' and where the percentage of numeric values is at least 2 times the percent of
-#' character values.
+#' When the function is invoked without specifying the column names to be
+#' converted, it automatically scans for columns containing exclusively missing,
+#' numeric, and character values. Furthermore, it identifies columns where the
+#' proportion of numeric values is at least twice the percentage of character
+#' values.
 #'
-#' @param data the input data frame
-#' @param to_numeric a vector of column names
-#' @param scan_res a data frame obtained from the `scan_data()` function
+#' @param data A data frame
+#' @param to_numeric A vector of column names
+#' @param scan_res A data frame obtained from the `scan_data()` function
 #'
-#' @return the input data frame where all the specified or the detected columns
-#'    (as described above) have been converted into numeric
+#' @return A resulting data frame after the conversion process,
+#' wherein all the specified or detected columns have been transformed into
+#' numeric format.
 #' @export
 #'
 #' @examples
