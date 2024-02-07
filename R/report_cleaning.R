@@ -1,15 +1,14 @@
 
-#' Build the report object
+#' Build data cleaning report
 #'
-#' @param original the original dataset. This could be a dataset generated from
-#'    a previous data cleaning operation
-#' @param modified the dataset obtained from the most recent data cleaning
-#'    operation
-#' @param state the name of the current data cleaning operation
-#' @param report an object of type `list`. This could be a report object
+#' @param original The original input data.
+#' @param modified A data frame that has been altered or modified as a result of
+#'  the most recent data cleaning operation.
+#' @param state The name of the current data cleaning operation.
+#' @param report A  list. This could be a report object
 #'    generated from a previous data cleaning step.
 #'
-#' @return an object of type `list` with the details about the cleaning
+#' @return A list  with the details about the cleaning
 #'    operations
 #' @keywords internal
 #' @noRd
@@ -31,15 +30,13 @@ report_cleaning <- function(original, modified,
 
 #' Generate report after the removal of empty rows
 #'
-#' @param report an object of type `list` that contains the data cleaning report
-#'    details
-#' @param state the current cleaning operation name
-#' @param original the original data set. This can be the dataset obtained from
-#'    a previous cleaning operation
-#' @param modified the data frame obtained after the most recent data cleaning
-#'    operation
+#' @param report A list  containing the details of data cleaning report.
+#' @param state The name of the current cleaning operation.
+#' @param original The original data set.
+#' @param modified A data frame that has been altered or modified as a result of
+#'  the most recent data cleaning operation.
 #'
-#' @return an object of type `list`. This is the input report object with the
+#' @return A list. This is the input report object with the
 #'    additional report made from the current operation.
 #' @keywords internal
 #' @noRd
@@ -74,13 +71,12 @@ report_remove_empty <- function(report, state, original, modified) {
 
 #' Generate report after constant columns and rows removal
 #'
-#' @param report an object of type `list` that contains the data cleaning report
-#'    details
-#' @param state the current cleaning operation name
-#' @param original the original data set. This can be the dataset obtained from
-#'    a previous cleaning operation
-#' @param modified the data frame obtained after the most recent data cleaning
-#'    operation
+#' @param report A list  containing the details of data cleaning report.
+#' @param state The name of the current cleaning operation.
+#' @param original The original data set. This can be the dataset obtained from
+#'    a previous cleaning operation.
+#' @param modified A data frame that has been altered or modified as a result of
+#'  the most recent data cleaning operation.
 #'
 #' @return an object of type `list`. This is the input report object with the
 #'    additional report made from the current operation.
@@ -103,15 +99,14 @@ report_remove_constant <- function(state, original, modified, report) {
 
 #' Generate report after the duplicates removal
 #'
-#' @param report an object of type `list` that contains the data cleaning report
-#'    details
-#' @param state the current cleaning operation name
-#' @param original the original data set. This can be the dataset obtained from
+#' @param report A list  containing the details of the data cleaning report.
+#' @param state The name of the current cleaning operation.
+#' @param original The original data set. This can be the dataset obtained from
 #'    a previous cleaning operation
-#' @param modified the data frame obtained after the most recent data cleaning
-#'    operation
+#' @param modified A data frame that has been altered or modified as a result of
+#'  the most recent data cleaning operation.
 #'
-#' @return an object of type `list`. This is the input report object with the
+#' @return A list. This is the input report object with the
 #'    additional report made from the current operation.
 #' @keywords internal
 #' @noRd
@@ -132,17 +127,16 @@ report_remove_dups <- function(report, state, original, modified) {
   report
 }
 
-#' Generate report after the date standardisation operation
+#' Generate report after the date standardization operation
 #'
-#' @param report an object of type `list` that contains the data cleaning report
-#'    details
-#' @param state the current cleaning operation name
-#' @param original the original data set. This can be the dataset obtained from
+#' @param report A list  containing the details of the data cleaning report.
+#' @param state The name of the current cleaning operation.
+#' @param original The original data set. This can be the dataset obtained from
 #'    a previous cleaning operation
-#' @param modified the data frame obtained after the most recent data cleaning
-#'    operation
+#' @param modified A data frame that has been altered or modified as a result of
+#'  the most recent data cleaning operation.
 #'
-#' @return an object of type `list`. This is the input report object with the
+#' @return A list. This is the input report object with the
 #'    additional report made from the current operation.
 #' @keywords internal
 #' @noRd

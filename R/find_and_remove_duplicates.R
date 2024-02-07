@@ -96,6 +96,14 @@ remove_duplicates <- function(data,
   # find duplicates
   add_this         <- "none"
   dups             <- find_duplicates(dat, target_columns)
+  tmp_report <- attr(dups, "report")
+  if ("duplicated_rows" %in% names(tmp_report) &&
+      nrow(tmp_report[["duplicated_rows"]]) > 0L) {
+    dups <- tmp_report[["duplicated_rows"]]
+  }
+  report     <- c(report, tmp_report)
+  dat <- data %>%
+    dplyr::mutate(row_id = seq_len(nrow(data)))
 
   # remove duplicates
   if (is.null(remove)) {
@@ -110,24 +118,12 @@ remove_duplicates <- function(data,
 
 
   if (nrow(dups) > 0L) {
-    to_be_removed <- dplyr::anti_join(dups, dat) %>%
-      dplyr::select(c(row_id, {{ target_columns }}))
-    dups[["row_id"]] <- NULL
-    dat <- add_to_report(x     = dat,
-                         key   = "duplicated_rows",
-                         value = dups %>%
-                           dplyr::select({{ target_columns }}))
-    dat <- add_to_report(x     = dat,
-                         key   = "removed_duplicates",
-                         value = to_be_removed)
-    dat <- add_to_report(x     = dat,
-                         key   = "duplicates_checked_from",
-                         value = glue::glue_collapse(target_columns,
-                                                     sep = ", "))
+    tmp_target_columns <- c("row_id", target_columns)
+    to_be_removed      <- suppressMessages(dplyr::anti_join(dups, dat) %>%
+        dplyr::select( {{ tmp_target_columns }} ))
+    report[["removed_duplicates"]] <- to_be_removed
   }
 
-  tmp_report <- attr(dat, "report")
-  report     <- c(report, tmp_report)
   attr(dat, which = "report") <- report
   return(dat)
 }
@@ -183,7 +179,21 @@ find_duplicates <- function(data, target_columns = NULL) {
     dplyr::mutate(group_id = dplyr::cur_group_id()) %>%
     dplyr::select(row_id, group_id, dplyr::everything())
 
-  return(dups)
+  if (nrow(dups) > 0L) {
+    message("Found ", nrow(dups), " duplicated rows. Please consult the report",
+            " for more details.")
+    to_be_shown <- dups %>%
+      dplyr::select(c(row_id, group_id, {{ target_columns }}))
+    print(head(dups))
+    data <- add_to_report(x     = data,
+                          key   = "duplicated_rows",
+                          value = to_be_shown)
+    data <- add_to_report(x     = data,
+                          key   = "duplicates_checked_from",
+                          value = glue::glue_collapse(target_columns,
+                                                      sep = ", "))
+  }
+  return(data)
 }
 
 
