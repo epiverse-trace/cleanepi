@@ -76,7 +76,7 @@ standardize_date = list(target_columns  = NULL,
                                                     "2023-05-29")))
 
 # Parameters for subject IDs standardization
-standardize_subject_ids = list(id_col_name,
+standardize_subject_ids = list(id_col_name = "study_id",
                                format      = NULL,
                                prefix      = "PS",
                                suffix      = "P2",

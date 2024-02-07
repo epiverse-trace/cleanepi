@@ -27,15 +27,4 @@ a data frame with 4 columns. This is in the format required by the
 \description{
 Convert Redcap data dictionary into {matchmaker} dictionary format
 }
-\examples{
-test <- make_readcap_dictionary(
-  metadata     = system.file("extdata", "test_readcap_dictionary.RDS",
-                             package = "cleanepi"),
-  field_column = "field_name",
-  opt_column   = "select_choices_or_calculations",
-  field_type   = "field_type"
-)
-
-
-}
 \keyword{internal}
