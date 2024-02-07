@@ -88,16 +88,6 @@ construct_misspelled_report <- function(misspelled_options, data) {
 #'    {matchmaker} R package for dictionary-based cleaning.
 #' @keywords internal
 #'
-#' @examples
-#' test <- make_readcap_dictionary(
-#'   metadata     = system.file("extdata", "test_readcap_dictionary.RDS",
-#'                              package = "cleanepi"),
-#'   field_column = "field_name",
-#'   opt_column   = "select_choices_or_calculations",
-#'   field_type   = "field_type"
-#' )
-#'
-#'
 make_readcap_dictionary <- function(metadata,
                                     field_column,
                                     opt_column,

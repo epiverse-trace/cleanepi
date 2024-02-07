@@ -82,15 +82,15 @@ standardize_date = list(target_columns  = NULL,
                                                     "2023-05-29")))
 
 # Parameters for subject IDs standardization
-standardize_subject_ids = list(id_col_name,
+standardize_subject_ids = list(id_col_name = "study_id",
                                format      = NULL,
                                prefix      = "PS",
                                suffix      = "P2",
                                range       = c(1, 100))
 
-to_numeric = "sex" # the 'sex' column will be converted into numeric
+# to_numeric = "sex" the 'sex' column will be converted into numeric
 
-dictionary = NULL # the dictionary-based cleaning will not be performed here
+# dictionary = NULL the dictionary-based cleaning will not be performed here
 
 cleaned_data <- clean_data(
   data   = readRDS(system.file("extdata", "test_df.RDS",
@@ -101,8 +101,8 @@ cleaned_data <- clean_data(
     remove_duplicates       = remove_duplicates,
     standardize_date        = standardize_date,
     standardize_subject_ids = standardize_subject_ids,
-    to_numeric              = "sex"
-    dictionary             = NULL
+    to_numeric              = "sex",
+    dictionary              = NULL
   )
 )
 
