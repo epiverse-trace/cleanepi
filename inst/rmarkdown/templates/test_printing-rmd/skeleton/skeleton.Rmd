@@ -73,7 +73,11 @@ message("\nStandardised column names:\n")
 standardized_column_names %>%
   rlang::set_names(toupper) %>%
   kbl() %>%
-  kableExtra::kable_paper("striped", font_size = 18, full_width = FALSE)
+  kableExtra::kable_paper("striped", font_size = 18, full_width = FALSE) %>%
+  kableExtra::scroll_box(height = "200px", width = "100%",
+                         box_css = "border: 1px solid #ddd; padding: 5px; ",
+                         extra_css = NULL,
+                         fixed_thead = TRUE)
 ```
 
 ```{r eval=are_missing_values_replaced, echo=FALSE, comment=""}
@@ -96,7 +100,11 @@ cat("\nFound the following duplicates:\n")
 duplicated_rows %>%
   rlang::set_names(toupper) %>%
   kbl() %>%
-  kableExtra::kable_paper("striped", font_size = 18, full_width = FALSE)
+  kableExtra::kable_paper("striped", font_size = 18, full_width = TRUE) %>%
+  kableExtra::scroll_box(height = "200px", width = "100%",
+                         box_css = "border: 1px solid #ddd; padding: 5px; ",
+                         extra_css = NULL,
+                         fixed_thead = TRUE)
 ```
 
 ```{r eval=are_duplicates_removed, echo=FALSE, comment=""}
@@ -104,7 +112,11 @@ cat("\nBelow are the removed duplicates:\n")
 removed_duplicates %>%
   rlang::set_names(toupper) %>%
   kbl() %>%
-  kableExtra::kable_paper("striped", font_size = 18, full_width = FALSE)
+  kableExtra::kable_paper("striped", font_size = 18, full_width = TRUE) %>%
+  kableExtra::scroll_box(height = "200px", width = "100%",
+                         box_css = "border: 1px solid #ddd; padding: 5px; ",
+                         extra_css = NULL,
+                         fixed_thead = TRUE)
 ```
 
 ```{r eval=are_duplicates_checked, echo=FALSE, comment=""}
@@ -117,7 +129,11 @@ cat("\nOut of range dates found at the following lines:\n")
 out_of_range_dates %>%
   rlang::set_names(toupper) %>%
   kbl() %>%
-  kableExtra::kable_paper("striped", font_size = 18, full_width = FALSE)
+  kableExtra::kable_paper("striped", font_size = 18, full_width = TRUE) %>%
+  kableExtra::scroll_box(height = "200px", width = "100%",
+                         box_css = "border: 1px solid #ddd; padding: 5px; ",
+                         extra_css = NULL,
+                         fixed_thead = TRUE)
 ```
 
 ```{r eval=are_incorrect_subject_id, echo=FALSE, comment=""}
@@ -125,7 +141,11 @@ cat("\nDetected the following incorrect subject IDs:\n")
 incorrect_subject_id %>%
   rlang::set_names(toupper) %>%
   kbl() %>%
-  kableExtra::kable_paper("striped", font_size = 18, full_width = FALSE)
+  kableExtra::kable_paper("striped", font_size = 18, full_width = TRUE) %>%
+  kableExtra::scroll_box(height = "200px", width = "100%",
+                         box_css = "border: 1px solid #ddd; padding: 5px; ",
+                         extra_css = NULL,
+                         fixed_thead = TRUE)
 ```
 
 ```{r eval=are_duplicated_ids_found, echo=FALSE, comment=""}
@@ -133,7 +153,11 @@ cat("\nDetected the following duplicated subject IDs:\n")
 duplicated_ids %>%
   rlang::set_names(toupper) %>%
   kbl() %>%
-  kableExtra::kable_paper("striped", font_size = 18, full_width = FALSE)
+  kableExtra::kable_paper("striped", font_size = 18, full_width = TRUE) %>%
+  kableExtra::scroll_box(height = "200px", width = "100%",
+                         box_css = "border: 1px solid #ddd; padding: 5px; ",
+                         extra_css = NULL,
+                         fixed_thead = TRUE)
 ```
 
 ```{r eval=are_missing_ids_found, echo=FALSE, comment=""}
@@ -151,7 +175,11 @@ cat("\nDetected the following misspelled values:\n")
 misspelled_values %>%
   rlang::set_names(toupper) %>%
   kbl() %>%
-  kableExtra::kable_paper("striped", font_size = 18, full_width = FALSE)
+  kableExtra::kable_paper("striped", font_size = 18, full_width = TRUE) %>%
+  kableExtra::scroll_box(height = "200px", width = "100%",
+                         box_css = "border: 1px solid #ddd; padding: 5px; ",
+                         extra_css = NULL,
+                         fixed_thead = TRUE)
 ```
 
 ```{r eval=are_incorrect_date_seq_found, echo=FALSE, comment=""}
@@ -159,5 +187,9 @@ cat("\nDetected the following incorrect date sequences:\n")
 incorrect_date_sequence %>%
   rlang::set_names(toupper) %>%
   kbl() %>%
-  kableExtra::kable_paper("striped", font_size = 18, full_width = FALSE)
+  kableExtra::kable_paper("striped", font_size = 18, full_width = TRUE) %>%
+  kableExtra::scroll_box(height = "200px", width = "100%",
+                         box_css = "border: 1px solid #ddd; padding: 5px; ",
+                         extra_css = NULL,
+                         fixed_thead = TRUE)
 ```

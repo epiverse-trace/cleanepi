@@ -100,10 +100,11 @@ remove_duplicates <- function(data,
   if ("duplicated_rows" %in% names(tmp_report) &&
       nrow(tmp_report[["duplicated_rows"]]) > 0L) {
     dups <- tmp_report[["duplicated_rows"]]
+    report <- c(report, tmp_report)
+    dat <- dat %>%
+      dplyr::mutate(row_id = seq_len(nrow(dat)))
   }
-  report     <- c(report, tmp_report)
-  dat <- data %>%
-    dplyr::mutate(row_id = seq_len(nrow(data)))
+
 
   # remove duplicates
   if (is.null(remove)) {
@@ -117,7 +118,8 @@ remove_duplicates <- function(data,
   }
 
 
-  if (nrow(dups) > 0L) {
+  if ("duplicated_rows" %in% names(tmp_report) &&
+      nrow(tmp_report[["duplicated_rows"]]) > 0L) {
     tmp_target_columns <- c("row_id", target_columns)
     to_be_removed      <- suppressMessages(dplyr::anti_join(dups, dat) %>%
         dplyr::select( {{ tmp_target_columns }} ))
