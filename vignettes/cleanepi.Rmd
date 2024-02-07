@@ -269,7 +269,7 @@ dups <- find_duplicates(
 )
 ```
 
-Upon execution, the `find_duplicates()` function identifies and returns all duplicated rows within the dataset, either based on all columns or those specified. Additionally, it appends two extra columns to the dataset:
+Upon execution, the `find_duplicates()` function identifies all duplicated rows either based on all columns or those specified, and stores them in the report. In addition to the existing columns, it appends two extra columns to the dataset:
 
 1. `row_id`: This column indicates the row numbers of the duplicated rows from the original input dataset.
 
@@ -279,8 +279,8 @@ By including these extra columns, users gain insights into the specific rows ide
 
 ```{r eval=TRUE}
 # VISUALIZE THE DUPLICATES
-head(dups %>% dplyr::select(c(row_id, group_id,
-                              as.character(linelist::tags(data)))))
+report <- attr(dups, "report")
+head(report$duplicated_rows)
 ```
 
 ### Removing duplicates
@@ -339,13 +339,20 @@ dups <- find_duplicates(
   target_columns = "tags"
 )
 
+# EXTRACT THE DUPLICATES
+report     <- attr(dups, "report")
+duplicates <- report$duplicated_rows
+
 # REMOVE FIRST OCCURRENCE OF DUPLICATED ROWS
-dups_index_to_remove <- dups[["row_id"]][seq(1L, nrow(dups), 2L)]
+dups_index_to_remove <- duplicates[["row_id"]][seq(1L, nrow(dups), 2L)]
 no_dups <- remove_duplicates(
   data           = readRDS(system.file("extdata", "test_linelist.RDS",
                                        package = "cleanepi")),
   remove         = dups_index_to_remove
 )
+
+# KEEP SPECIFIC DUPLICATED ROWS
+
 ```
 
 ### Dictionary based data substituting
