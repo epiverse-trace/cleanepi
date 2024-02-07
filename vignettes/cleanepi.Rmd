@@ -170,7 +170,14 @@ res <- standardize_dates(
   error_tolerance = 0.5
 )
 
-head(res)
+head(res) %>%
+  rlang::set_names(toupper) %>%
+  kableExtra::kbl() %>%
+  kableExtra::kable_paper("striped", font_size = 18, full_width = FALSE) %>%
+  kableExtra::scroll_box(height = "200px", width = "100%",
+                         box_css = "border: 1px solid #ddd; padding: 5px; ",
+                         extra_css = NULL,
+                         fixed_thead = TRUE)
 ```
 
 This function returns a the input dataset where the (specified) columns are converted into date if the condition is met.
@@ -311,6 +318,12 @@ dups <- find_duplicates(
   data           = data,
   target_columns = "tags"
 )
+
+# FIND DUPLICATES ACROSS ALL COLUMNS EXCEPT THE SUBJECT IDs COLUMN
+all_columns    <- names(data)
+target_columns <- all_columns[all_columns != "id"]
+dups           <- find_duplicates(data           = data,
+                                  target_columns = target_columns)
 ```
 
 Upon execution, the `find_duplicates()` function identifies all duplicated rows either based on all columns or those specified, and stores them in the report. In addition to the existing columns, it appends two extra columns to the dataset:
@@ -389,11 +402,18 @@ dups_index_to_remove <- duplicates[["row_id"]][seq(1L, nrow(dups), 2L)]
 no_dups <- remove_duplicates(
   data           = readRDS(system.file("extdata", "test_linelist.RDS",
                                        package = "cleanepi")),
+  target_columns = "tags",
   remove         = dups_index_to_remove
 )
 
 # KEEP SPECIFIC DUPLICATED ROWS
-
+dups_index_to_keep <- 
+no_dups <- remove_duplicates(
+  data           = readRDS(system.file("extdata", "test_linelist.RDS",
+                                       package = "cleanepi")),
+  target_columns = "tags",
+  remove         = -c(33, 55)
+)
 ```
 
 ### Dictionary based data substituting
