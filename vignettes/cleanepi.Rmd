@@ -49,13 +49,33 @@ The main function in **{cleanepi}** is `clean_data()` that can perform the follo
 # IMPORTING THE TEST DATASET
 test_data <- readRDS(system.file("extdata", "test_df.RDS",
                                  package = "cleanepi"))
-head(test_data)
+```
+
+```{r eval=TRUE, echo=FALSE}
+test_data %>%
+  rlang::set_names(toupper) %>%
+  kableExtra::kbl() %>%
+  kableExtra::kable_paper("striped", font_size = 18, full_width = TRUE) %>%
+  kableExtra::scroll_box(height = "200px", width = "100%",
+                         box_css = "border: 1px solid #ddd; padding: 5px; ",
+                         extra_css = NULL,
+                         fixed_thead = TRUE)
 ```
 
 ```{r eval=TRUE, comment=""}
 # SCAN THE DATA
 scan_result <- scan_data(test_data)
-print(scan_result)
+```
+
+```{r eval=TRUE, echo=FALSE}
+scan_result %>%
+  rlang::set_names(toupper) %>%
+  kableExtra::kbl() %>%
+  kableExtra::kable_paper("striped", font_size = 18, full_width = TRUE) %>%
+  kableExtra::scroll_box(height = "200px", width = "100%",
+                         box_css = "border: 1px solid #ddd; padding: 5px; ",
+                         extra_css = NULL,
+                         fixed_thead = TRUE)
 ```
 
 In **{cleanepi}**, every cleaning operation is encapsulated within a module, with detailed descriptions provided in the package design vignette. Each module also specifies the parameters required for its main function, outlined in the sections below.
@@ -169,18 +189,20 @@ res <- standardize_dates(
   timeframe       = NULL,
   error_tolerance = 0.5
 )
+```
 
-head(res) %>%
+This function returns a the input dataset where the (specified) columns are converted into date if the condition is met.
+
+```{r echo=FALSE, eval=TRUE}
+res %>%
   rlang::set_names(toupper) %>%
   kableExtra::kbl() %>%
-  kableExtra::kable_paper("striped", font_size = 18, full_width = FALSE) %>%
+  kableExtra::kable_paper("striped", font_size = 18, full_width = TRUE) %>%
   kableExtra::scroll_box(height = "200px", width = "100%",
                          box_css = "border: 1px solid #ddd; padding: 5px; ",
                          extra_css = NULL,
                          fixed_thead = TRUE)
 ```
-
-This function returns a the input dataset where the (specified) columns are converted into date if the condition is met.
 
 ### Standardizing subject IDs
 
@@ -207,7 +229,7 @@ res <- check_subject_ids(
   range          = c(1L, 100L)
 )
 
-# PRINT REPORT
+# EXTRACT REPORT
 report <- attr(res, "report")
 
 # SUMMARIZE THE REPORT OBJECT
@@ -236,7 +258,7 @@ res <- check_date_sequence(
   remove_bad_seq = FALSE
 )
 
-# PRINT INCORRECT DATE SEQUENCES
+# EXTRACT THE REPORT
 report <- attr(res, "report")
 
 # SUMMARIZE THE REPORT OBJECT
@@ -259,22 +281,21 @@ By leveraging the `find_duplicates()` function with appropriate parameters, user
 # IMPORT A `linelist` DATA
 data <- readRDS(system.file("extdata", "test_linelist.RDS",
                             package = "cleanepi"))
-head(data)
 
 # SHOW THE TAGGED VARIABLES
 linelist::tags(data)
-
-# FIND DUPLICATES ACROSS TAGGED VARIABLES
-dups <- find_duplicates(
-  data           = data,
-  target_columns = "tags"
-)
 
 # FIND DUPLICATES ACROSS ALL COLUMNS EXCEPT THE SUBJECT IDs COLUMN
 all_columns    <- names(data)
 target_columns <- all_columns[all_columns != "id"]
 dups           <- find_duplicates(data           = data,
                                   target_columns = target_columns)
+
+# FIND DUPLICATES ACROSS TAGGED VARIABLES
+dups <- find_duplicates(
+  data           = data,
+  target_columns = "tags"
+)
 ```
 
 Upon execution, the `find_duplicates()` function identifies all duplicated rows either based on all columns or those specified, and stores them in the report. In addition to the existing columns, it appends two extra columns to the dataset:
@@ -288,7 +309,19 @@ By including these extra columns, users gain insights into the specific rows ide
 ```{r eval=TRUE}
 # VISUALIZE THE DUPLICATES
 report <- attr(dups, "report")
-head(report$duplicated_rows)
+# duplicates <- report$duplicated_rows
+# duplicates %>%
+#   rlang::set_names(toupper) %>%
+#   kableExtra::kbl() %>%
+#   kableExtra::kable_paper("striped", font_size = 18, full_width = TRUE) %>%
+#   kableExtra::scroll_box(height = "200px", width = "100%",
+#                          box_css = "border: 1px solid #ddd; padding: 5px; ",
+#                          extra_css = NULL,
+#                          fixed_thead = TRUE)
+```
+
+```{r eval=TRUE, echo=FALSE}
+
 ```
 
 ### Removing duplicates
@@ -377,8 +410,15 @@ The `clean_using_dictionary()` function offers a convenient way to replace the o
 1. **data**: The input data frame or linelist that contains the options to be replaced.
 2. **dictionary**: The data frame with the data dictionary that contains the complete labels for these options. The structure of this data dictionary file should adhere to the standards expected by the [matchmaker](https://www.repidemicsconsortium.org/matchmaker/)  package, as the `clean_using_dictionary()` function relies on functions from this   package.
 
-```{r eval=TRUE, comment=""}
-test_dictionary
+```{r eval=TRUE, echo=FALSE}
+test_dictionary %>%
+  rlang::set_names(toupper) %>%
+  kableExtra::kbl() %>%
+  kableExtra::kable_paper("striped", font_size = 18, full_width = TRUE) %>%
+  kableExtra::scroll_box(height = "200px", width = "100%",
+                         box_css = "border: 1px solid #ddd; padding: 5px; ",
+                         extra_css = NULL,
+                         fixed_thead = TRUE)
 ```
 
 The `add_to_dictionary()` function is a useful tool for expanding the coverage of a data dictionary by defining options that are present in the input data but not originally included in the dictionary. This function enables users to dynamically update the dictionary to accommodate new values encountered in the dataset. In addition to the current data dictionary the function takes the arguments defined below:
@@ -399,7 +439,17 @@ test_dictionary <- add_to_dictionnary(test_dictionary,
                                       value  = "unknow",
                                       grp    = "sex",
                                       order  = NULL)
-test_dictionary
+```
+
+```{r eval=TRUE, echo=FALSE}
+test_dictionary %>%
+  rlang::set_names(toupper) %>%
+  kableExtra::kbl() %>%
+  kableExtra::kable_paper("striped", font_size = 18, full_width = TRUE) %>%
+  kableExtra::scroll_box(height = "200px", width = "100%",
+                         box_css = "border: 1px solid #ddd; padding: 5px; ",
+                         extra_css = NULL,
+                         fixed_thead = TRUE)
 ```
 
 
@@ -408,8 +458,17 @@ cleaned_df <- clean_using_dictionary(
   data       = data,
   dictionary = test_dictionary
 )
+```
 
-cleaned_df
+```{r eval=TRUE, echo=FALSE}
+cleaned_df %>%
+  rlang::set_names(toupper) %>%
+  kableExtra::kbl() %>%
+  kableExtra::kable_paper("striped", font_size = 18, full_width = TRUE) %>%
+  kableExtra::scroll_box(height = "200px", width = "100%",
+                         box_css = "border: 1px solid #ddd; padding: 5px; ",
+                         extra_css = NULL,
+                         fixed_thead = TRUE)
 ```
 
 ### Calculating age in different time scales
@@ -441,7 +500,14 @@ The `calculate_age()` function augments the input dataset by adding one or two e
 
 2. **Remaining number of days**:  Indicates the remaining number of days after calculating the age, representing the fractional part of the age calculation. This column is included if needed, and provides additional granularity in age representation.
 
-```{r eval=TRUE}
+```{r eval=TRUE, echo=FALSE}
 # DISPLAY THE OUTPUT OBJECT
-head(age)  # note the last 2 columns
+age %>%
+  rlang::set_names(toupper) %>%
+  kableExtra::kbl() %>%
+  kableExtra::kable_paper("striped", font_size = 18, full_width = TRUE) %>%
+  kableExtra::scroll_box(height = "200px", width = "100%",
+                         box_css = "border: 1px solid #ddd; padding: 5px; ",
+                         extra_css = NULL,
+                         fixed_thead = TRUE)
 ```
