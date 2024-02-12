@@ -308,16 +308,16 @@ By including these extra columns, users gain insights into the specific rows ide
 
 ```{r eval=TRUE}
 # VISUALIZE THE DUPLICATES
-report <- attr(dups, "report")
-# duplicates <- report$duplicated_rows
-# duplicates %>%
-#   rlang::set_names(toupper) %>%
-#   kableExtra::kbl() %>%
-#   kableExtra::kable_paper("striped", font_size = 18, full_width = TRUE) %>%
-#   kableExtra::scroll_box(height = "200px", width = "100%",
-#                          box_css = "border: 1px solid #ddd; padding: 5px; ",
-#                          extra_css = NULL,
-#                          fixed_thead = TRUE)
+report     <- attr(dups, "report")
+duplicates <- report$duplicated_rows
+duplicates %>%
+  rlang::set_names(toupper) %>%
+  kableExtra::kbl() %>%
+  kableExtra::kable_paper("striped", font_size = 18, full_width = TRUE) %>%
+  kableExtra::scroll_box(height = "200px", width = "100%",
+                         box_css = "border: 1px solid #ddd; padding: 5px; ",
+                         extra_css = NULL,
+                         fixed_thead = TRUE)
 ```
 
 ```{r eval=TRUE, echo=FALSE}
@@ -386,6 +386,7 @@ duplicates <- report$duplicated_rows
 
 # REMOVE FIRST OCCURRENCE OF DUPLICATED ROWS
 dups_index_to_remove <- duplicates[["row_id"]][seq(1L, nrow(dups), 2L)]
+dups_index_to_remove <- dups_index_to_remove[!is.na(dups_index_to_remove)]
 no_dups <- remove_duplicates(
   data           = readRDS(system.file("extdata", "test_linelist.RDS",
                                        package = "cleanepi")),
@@ -394,7 +395,6 @@ no_dups <- remove_duplicates(
 )
 
 # KEEP SPECIFIC DUPLICATED ROWS
-dups_index_to_keep <- 
 no_dups <- remove_duplicates(
   data           = readRDS(system.file("extdata", "test_linelist.RDS",
                                        package = "cleanepi")),

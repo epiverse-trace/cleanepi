@@ -94,15 +94,17 @@ remove_duplicates <- function(data,
   target_columns   <- get_target_column_names(dat, target_columns, cols)
 
   # find duplicates
-  add_this         <- "none"
-  dups             <- find_duplicates(dat, target_columns)
+  add_this   <- "none"
+  dups       <- find_duplicates(dat, target_columns)
   tmp_report <- attr(dups, "report")
   if ("duplicated_rows" %in% names(tmp_report) &&
       nrow(tmp_report[["duplicated_rows"]]) > 0L) {
-    dups <- tmp_report[["duplicated_rows"]]
+    dups   <- tmp_report[["duplicated_rows"]]
     report <- c(report, tmp_report)
-    dat <- dat %>%
+    dat    <- dat %>%
       dplyr::mutate(row_id = seq_len(nrow(dat)))
+  } else {
+    message("No duplicates found from the specified columns.")
   }
 
 
@@ -186,7 +188,6 @@ find_duplicates <- function(data, target_columns = NULL) {
             " for more details.")
     to_be_shown <- dups %>%
       dplyr::select(c(row_id, group_id, {{ target_columns }}))
-    print(head(dups))
     data <- add_to_report(x     = data,
                           key   = "duplicated_rows",
                           value = to_be_shown)
