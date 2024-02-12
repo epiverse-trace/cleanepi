@@ -116,12 +116,15 @@ check_ids_uniqueness <- function(data, id_col_name) {
 
   # check for duplicates ID column
   duplicated_ids       <- find_duplicates(data, id_col_name)
-  if (nrow(duplicated_ids) > 0L) {
-    warning("Found duplicated IDs! See the attached cleaning report for more
-            details", call. = FALSE)
-    data <- add_to_report(x     = data,
-                          key   = "duplicated_ids",
-                          value = duplicated_ids)
+  tmp_report           <- attr(duplicated_ids, "report")
+  if (!is.null(tmp_report) && "duplicated_rows" %in% names(tmp_report) &&
+      nrow(tmp_report[["duplicated_rows"]]) > 0L) {
+    dups               <- tmp_report[["duplicated_rows"]]
+    warning("Found duplicated IDs! See the attached cleaning report for more",
+            " details", call. = FALSE)
+    data               <- add_to_report(x     = data,
+                                        key   = "duplicated_ids",
+                                        value = dups)
   }
 
   return(data)
