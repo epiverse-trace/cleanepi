@@ -103,7 +103,7 @@ remove_duplicates <- function(data,
     dat    <- dat %>%
       dplyr::mutate(row_id = seq_len(nrow(dat)))
   } else {
-    message("No duplicates found from the specified columns.")
+    message("\nNo duplicates found from the specified columns.")
   }
 
 
