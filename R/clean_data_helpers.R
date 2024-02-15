@@ -60,11 +60,11 @@ get_column_composition <- function(x) {
 #'                              package = "cleanepi"))
 #' )
 scan_data <- function(data) {
-  scan_result             <- data.frame(apply(data, 2L, get_column_composition))
-  data_type_percent       <- data.frame(c("missing", "numeric", "date",
-                                          "character", "logical"),
-                                        stringsAsFactors = FALSE)
-  scan_result             <- cbind(data_type_percent, scan_result)
-  names(scan_result)[[1L]] <- "data_type"
+  scan_result           <- data.frame(t(apply(data, 2L, get_column_composition)))
+  names(scan_result)    <- c("missing", "numeric", "date", "character",
+                             "logical")
+  row_names             <- rownames(scan_result)
+  rownames(scan_result) <- NULL
+  scan_result           <- cbind(Field_names = row_names, scan_result)
   return(scan_result)
 }
