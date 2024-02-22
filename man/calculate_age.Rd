@@ -21,7 +21,7 @@ interest.}
 \item{end_date}{An end date, the default is today's date.}
 
 \item{age_in}{A string that specifies whether to return the age in 'years',
-'months',  'weeks', or 'days'. The default is in 'years'.}
+'months', 'weeks' or 'days'. The default is in 'years'.}
 
 \item{na_strings}{A string that represents the missing values in the
 date column of interest. This is only needed when the date column
