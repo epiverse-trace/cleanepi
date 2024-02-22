@@ -89,7 +89,7 @@ print_report <- function(data,
   stopifnot("No report associated with the input data." = !is.null(report))
 
   # generate output file and directory
-  timestamp_string  <- format(Sys.time(), "%Y-%m-%d%@%H:%M:%S")
+  timestamp_string  <- format(Sys.time(), "_%Y-%m-%d%_at_%H:%M:%S")
   if (is.null(output_filename)) {
     output_filename <- paste0("cleanepi_report_", timestamp_string)
   }
