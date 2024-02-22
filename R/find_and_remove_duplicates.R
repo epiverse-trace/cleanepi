@@ -48,7 +48,7 @@ remove_duplicates <- function(data,
                               rm_constant_cols = TRUE) {
 
   # setting up the variables below to NULL to avoid linters
-  row_id <- NULL
+  row_id <- NULL # nolint: object_usage_linter
 
   # remove the empty rows and columns
   report <- attr(data, "report")
@@ -124,7 +124,7 @@ remove_duplicates <- function(data,
       nrow(tmp_report[["duplicated_rows"]]) > 0L) {
     tmp_target_columns <- c("row_id", target_columns)
     to_be_removed      <- suppressMessages(dplyr::anti_join(dups, dat) %>%
-        dplyr::select( {{ tmp_target_columns }} ))
+        dplyr::select({{ tmp_target_columns }}))
     report[["removed_duplicates"]] <- to_be_removed
   }
 

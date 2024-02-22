@@ -101,6 +101,8 @@ date_trim_outliers <- function(new_dates, dmin, dmax, cols, original_dates) {
 #'
 #' @inheritParams standardize_dates
 #' @param cols  date column name(s)
+#' @param other a vector of row indices where the date values do not contain the
+#'    detected format. Default is `NULL`.
 #'
 #' @return A data frame where the specified columns have been converted
 #'    into Date.
@@ -411,7 +413,7 @@ date_get_format <- function(data, date_column_name, sep) {
   others          <- NULL
 
   # looking for the date values that do not contain the separator
-  if (any(!grepl(sep, tmp_date_column))) {
+  if (!all(grepl(sep, tmp_date_column))) {
     idx_not_to_consider    <- which(!grepl(sep, tmp_date_column))
     tmp_date_column        <- tmp_date_column[-idx_not_to_consider]
     others                 <- idx_not_to_consider
