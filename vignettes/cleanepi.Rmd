@@ -506,3 +506,16 @@ age |>
                          extra_css = NULL,
                          fixed_thead = TRUE)
 ```
+
+## Printing the report
+
+```{r echo=TRUE, eval=FALSE}
+print_report(
+  data             = data,
+  report_title     = "{cleanepi} data cleaning report",
+  output_directory = ".",
+  output_filename  = "template_data_report",
+  format           = "html",
+  print            = TRUE
+)
+```
