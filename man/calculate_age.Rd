@@ -8,32 +8,27 @@ calculate_age(
   data,
   target_column = NULL,
   end_date = Sys.Date(),
-  age_in = "years",
-  ...
+  age_in = c("years", "months", "weeks", "days"),
+  na_strings = cleanepi::common_na_strings
 )
 }
 \arguments{
-\item{data}{A data frame with one date column}
+\item{data}{A data frame with one date column.}
 
 \item{target_column}{A string specifying the name of the date column of
-interest}
+interest.}
 
-\item{end_date}{An end date, the default is today's date}
+\item{end_date}{An end date, the default is today's date.}
 
-\item{age_in}{a string that specifies whether to return the age in 'years',
+\item{age_in}{A string that specifies whether to return the age in 'years',
 'months',  'weeks', or 'days'. The default is in 'years'.}
 
-\item{...}{Other extra arguments needed to perform this operation. They
-include:
-\enumerate{
-\item "na_strings": A string that represents the missing values in the
+\item{na_strings}{A string that represents the missing values in the
 date column of interest. This is only needed when the date column
-contains missing values.
-}}
+contains missing values.}
 }
 \value{
-A data frame with the following 1 or 2 extra columns compared to the
-input data frame:
+The input data frame with 2 additional columns:
 \enumerate{
 \item "age_in_years",  "age_in_months",  "age_in_weeks", or
 "age_in_days" depending on the value of the 'age_in' parameter.
@@ -46,11 +41,12 @@ Calculate age from a specified date column
 }
 \examples{
 age <- calculate_age(
-  data          = readRDS(system.file("extdata", "test_df.RDS",
-                                      package = "cleanepi")),
+  data = readRDS(system.file("extdata", "test_df.RDS",
+    package = "cleanepi"
+  )),
   target_column = "dateOfBirth",
-  end_date      = Sys.Date(),
-  age_in        = "months",
-  na_strings    = "-99"
+  end_date = Sys.Date(),
+  age_in = "months",
+  na_strings = "-99"
 )
 }
