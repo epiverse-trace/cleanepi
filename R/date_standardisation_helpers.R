@@ -108,13 +108,22 @@ date_trim_outliers <- function(new_dates, dmin, dmax, cols, original_dates) {
 #' @keywords internal
 #'
 date_convert <- function(data, cols, error_tolerance, format = NULL,
-                         timeframe = NULL) {
-  # Use the format or guess the date format and convert the date values
+                         timeframe = NULL, others = NULL) {
+  # When the format is known, we will check if there are other values that do
+  # not comply with the format. Those values will be converted using
+  # 'date_guess()'.
+  # When the format is unknown, we will use 'date_guess()' only.
   if (!is.null(format)) {
-    new_dates      <- as.Date(data[[cols]], format = format)
+    if (!is.null(others)) {
+      new_dates          <- rep(lubridate::NA_Date_, length(data[[cols]]))
+      new_dates[-others] <- as.Date(data[[cols]][-others], format = format)
+      new_dates[others]  <- date_guess(data[[cols]][others],
+                                       error_tolerance = error_tolerance)
+    } else {
+      new_dates <- as.Date(data[[cols]], format = format)
+    }
   } else {
-    new_dates      <- date_guess(data[[cols]],
-                                 error_tolerance = error_tolerance)
+    new_dates   <- date_guess(data[[cols]], error_tolerance = error_tolerance)
   }
 
   # Trim outliers i.e. date values that are out of the range of the provided
@@ -392,33 +401,50 @@ date_detect_simple_format <- function(x) {
 #' @keywords internal
 #'
 date_get_format <- function(data, date_column_name, sep) {
-  data[[date_column_name]] <- as.character(data[[date_column_name]])
-  tmp_list                 <- strsplit(data[[date_column_name]], sep[[1L]],
+  # we will first check if all values in the date column have that separator in
+  # them. If there are some without the separator, we will set
+  # other = index_of_values_without_the_separator and return it. This will be
+  # used to inform the 'date_convert()' function that those values need to
+  # handle differently.
+  tmp_date_column <- data[[date_column_name]]
+  tmp_date_column <- as.character(tmp_date_column)
+  others          <- NULL
+
+  # looking for the date values that do not contain the separator
+  if (any(!grepl(sep, tmp_date_column))) {
+    idx_not_to_consider    <- which(!grepl(sep, tmp_date_column))
+    tmp_date_column        <- tmp_date_column[-idx_not_to_consider]
+    others                 <- idx_not_to_consider
+  }
+
+  # investigate the format among the date values that contain the separator
+  tmp_list                 <- strsplit(tmp_date_column,
+                                       sep[[1L]],
                                        fixed = TRUE)
   idx                      <- which(is.na(tmp_list))
   if (length(idx) > 0L) {
     tmp_list[[idx]]        <- rep(NA, max(lengths(tmp_list)))
   }
   if (any(lengths(tmp_list) >= 1L)) {
-    part1 <- as.character(unlist(lapply(data[[date_column_name]],
+    part1 <- as.character(unlist(lapply(tmp_date_column,
                                         date_get_part1,
                                         sep[[1L]])))
   } else {
-    part1 <- rep(NA, length(data[[date_column_name]]))
+    part1 <- rep(NA, length(tmp_date_column))
   }
   if (any(lengths(tmp_list) >= 2L)) {
-    part2 <- as.character(unlist(lapply(data[[date_column_name]],
+    part2 <- as.character(unlist(lapply(tmp_date_column,
                                         date_get_part2,
                                         sep[[1L]])))
   } else {
-    part2 <- rep(NA, length(data[[date_column_name]]))
+    part2 <- rep(NA, length(tmp_date_column))
   }
   if (any(lengths(tmp_list) >= 3L)) {
-    part3 <- as.character(unlist(lapply(data[[date_column_name]],
+    part3 <- as.character(unlist(lapply(tmp_date_column,
                                         date_get_part3,
                                         sep[[1L]])))
   } else {
-    part3 <- rep(NA, length(data[[date_column_name]]))
+    part3 <- rep(NA, length(tmp_date_column))
   }
 
   f1       <- ifelse(all(is.na(part1)), NA, date_detect_format(part1))
@@ -435,7 +461,7 @@ date_get_format <- function(data, date_column_name, sep) {
   } else {
     return(NULL)
   }
-  return(format)
+  return(list(format = format, others = others))
 }
 
 #' Build the auto-detected format

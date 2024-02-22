@@ -46,11 +46,13 @@ standardize_dates <- function(data,
                                                        date_detect_separator))))
       # Guess the date format if it is not provided.
       # This returns NULL if the format is not resolved.
-      if (is.null(format) && length(sep) > 0L) {
-        format     <- date_get_format(data, cols, sep)
+      if (length(sep) > 0L && is.null(format)) {
+        result     <- date_get_format(data, cols, sep)
+        format     <- result[["format"]]
+        others     <- result[["others"]]
       }
       data         <- date_convert(data, cols, error_tolerance,
-                                   format, timeframe)
+                                   format, timeframe, others)
     }
   } else {
     data           <- date_guess_convert(data,
