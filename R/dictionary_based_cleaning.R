@@ -30,7 +30,7 @@ clean_using_dictionary <- function(data, dictionary) {
   if (length(misspelled_options) > 0L) {
     print_misspelled_values(misspelled_options)
     message("Please add the misspelled options to the data dictionary using",
-            " the add_to_dictionnary() function.", call. = FALSE)
+            " the add_to_dictionary() function.", call. = FALSE)
     misspelled_report <- construct_misspelled_report(misspelled_options, data)
     # add the result to the reporting object
     data <- add_to_report(x     = data,
@@ -151,7 +151,7 @@ make_metadata <- function(x, field_column) {
 #' @export
 #'
 #' @examples
-#' test <- add_to_dictionnary(
+#' test <- add_to_dictionary(
 #'   dictionary = readRDS(system.file("extdata", "test_dict.RDS",
 #'                        package = "cleanepi")),
 #'   option     = "ml",
@@ -159,7 +159,7 @@ make_metadata <- function(x, field_column) {
 #'   grp        = "gender",
 #'   order      = NULL
 #'  )
-add_to_dictionnary <- function(dictionary,
+add_to_dictionary <- function(dictionary,
                                option,
                                value,
                                grp,
