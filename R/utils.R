@@ -103,7 +103,28 @@ add_report <- function(data, report, name = NULL) {
 #' @param value The object to add to the report object
 #'
 #' @return The input report object with an additional element
-#' @keywords internal
+#' @export
+#'
+#' @examples
+#' # scan through the data
+#' scan_res <- scan_data(data = readRDS(system.file("extdata", "test_df.RDS",
+#'                                                  package = "cleanepi")))
+#'
+#' # Perform data cleaning
+#' cleaned_data <- clean_data(
+#'   data   = readRDS(system.file("extdata", "test_df.RDS",
+#'                                package = "cleanepi")),
+#'   params = list(
+#'     keep       = NULL,
+#'     to_numeric = "sex",
+#'     dictionary = NULL
+#'   )
+#' )
+#'
+#' # add the data scanning result to the report
+#' cleaned_data <- add_to_report(x     = cleaned_data,
+#'                               key   = "scanning_result",
+#'                               value = scan_res)
 #'
 add_to_report <- function(x, key, value = NULL) {
   report   <- attr(x, "report")
