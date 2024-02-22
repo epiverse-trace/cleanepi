@@ -4,7 +4,14 @@
 \alias{date_convert}
 \title{Convert characters to dates}
 \usage{
-date_convert(data, cols, error_tolerance, format = NULL, timeframe = NULL)
+date_convert(
+  data,
+  cols,
+  error_tolerance,
+  format = NULL,
+  timeframe = NULL,
+  others = NULL
+)
 }
 \arguments{
 \item{data}{A data frame}
@@ -19,6 +26,9 @@ See the \code{clean_data()} helper for more details.}
 
 \item{timeframe}{A vector of 2 values of type date. If provided, date values
 that do not fall within this timeframe will be set to \code{NA}.}
+
+\item{other}{a vector of row indices where the date values do not contain the
+detected format. Default is \code{NULL}.}
 }
 \value{
 A data frame where the specified columns have been converted
