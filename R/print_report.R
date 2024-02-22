@@ -89,7 +89,7 @@ print_report <- function(data,
   stopifnot("No report associated with the input data." = !is.null(report))
 
   # generate output file and directory
-  timestamp_string  <- format(Sys.time(), "%Y%m%d%_%H%M%S")
+  timestamp_string  <- format(Sys.time(), "%Y-%m-%d%@%H:%M:%S")
   if (is.null(output_filename)) {
     output_filename <- paste0("cleanepi_report_", timestamp_string)
   }
@@ -104,33 +104,31 @@ print_report <- function(data,
   temp_dirname <- file.path(output_directory,
                             paste0("cleanepi_temp_", timestamp_string))
   dir.create(temp_dirname)
+  # consider using 'utils::packageName()' to specify the package name
   file.copy(
-    # from      = system.file("rmarkdown", "templates", "test_printing-rmd",
-    #                         "skeleton", "skeleton.Rmd",
-    #                         package  = "cleanepi", #utils::packageName(),
-    #                         mustWork = TRUE),
     from      = system.file("rmarkdown", "templates", "test_printing-rmd",
                             "skeleton", "report_htmldoc.Rmd",
-                            package  = "cleanepi", #utils::packageName(),
+                            package  = "cleanepi",
                             mustWork = TRUE),
     to        = temp_dirname,
     overwrite = TRUE
   )
+  report[["report_title"]] <- report_title
 
   if (format == "html") {
     message("Generating html report...")
     rmarkdown::render(
-      input       = file.path(temp_dirname, "skeleton.Rmd"),
+      input       = file.path(temp_dirname, "report_htmldoc.Rmd"),
       output_file = paste0(output_filename, ".html"),
       output_dir  = output_directory,
-      params      = list(report = report, report_title = report_title),
+      params      = report,
       quiet       = TRUE
     )
   } else {
-    stop(paste("Invalid format: ", format,
-               ". Only html format is currently supported."))
+    stop("Invalid format: ", format, "\n",
+         "Only html format is currently supported.")
   }
-  message("Report saved to: ", file_and_path)
+  message("Report saved to:\n", file_and_path)
 
   # remove temporary directory created earlier
   unlink(temp_dirname, recursive = TRUE)
