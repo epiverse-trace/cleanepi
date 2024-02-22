@@ -15,7 +15,7 @@
 #'
 #' @return A string containing the name and path of the saved report
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' replace_missing_values = list(target_columns = NULL, na_strings = "-99")
 #'
 #' remove_duplicates = list(target_columns   = NULL,
