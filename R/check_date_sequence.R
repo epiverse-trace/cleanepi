@@ -80,10 +80,13 @@ check_date_sequence <- function(data, target_columns,
     data     <- add_to_report(x     = data,
                               key   = "incorrect_date_sequence",
                               value = tmp_data)
+    warning("Detected ", length(bad_order),
+            " incorrect date sequences at line(s): ",
+            glue::glue_collapse(bad_order, sep = ", "),
+            call. = FALSE)
     if (remove_bad_seq) {
       data  <- data[-bad_order, ]
-      warning(length(bad_order),
-              " incorrect date sequences were detected and removed",
+      warning("The incorrect date sequences have been removed.",
               call. = FALSE)
     }
   }
