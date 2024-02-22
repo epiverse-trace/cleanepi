@@ -21,12 +21,13 @@
 #'
 #' @examples
 #' age <- calculate_age(
-#'   data          = readRDS(system.file("extdata", "test_df.RDS",
-#'                                       package = "cleanepi")),
+#'   data = readRDS(system.file("extdata", "test_df.RDS",
+#'     package = "cleanepi"
+#'   )),
 #'   target_column = "dateOfBirth",
-#'   end_date      = Sys.Date(),
-#'   age_in        = "months",
-#'   na_strings    = "-99"
+#'   end_date = Sys.Date(),
+#'   age_in = "months",
+#'   na_strings = "-99"
 #' )
 calculate_age <- function(data,
                           target_column = NULL,
@@ -59,11 +60,10 @@ calculate_age <- function(data,
   }
 
   # calculate the age
-  res <- switch(
-    age_in,
+  res <- switch(age_in,
     years = data %>%
       dplyr::mutate(age_years = round((data[[target_column]] %--% end_date)
-                                      %/% lubridate::years(1L))),
+      %/% lubridate::years(1L))),
     months = data %>%
       dplyr::mutate(tmp_age = lubridate::as.period(end_date -
                                                      data[[target_column]])) %>%
