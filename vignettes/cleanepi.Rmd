@@ -27,7 +27,6 @@ This vignette provides a comprehensive guide to the functionalities encapsulated
 
 ```{r setup, eval=TRUE}
 library("cleanepi")
-library("magrittr")
 ```
 
 ## General data cleaning tasks
@@ -52,10 +51,10 @@ test_data <- readRDS(system.file("extdata", "test_df.RDS",
 ```
 
 ```{r eval=TRUE, echo=FALSE}
-test_data %>%
-  rlang::set_names(toupper) %>%
-  kableExtra::kbl() %>%
-  kableExtra::kable_paper("striped", font_size = 18, full_width = TRUE) %>%
+test_data |>
+  rlang::set_names(toupper) |>
+  kableExtra::kbl() |>
+  kableExtra::kable_paper("striped", font_size = 18, full_width = TRUE) |>
   kableExtra::scroll_box(height = "200px", width = "100%",
                          box_css = "border: 1px solid #ddd; padding: 5px; ",
                          extra_css = NULL,
@@ -68,10 +67,10 @@ scan_result <- scan_data(test_data)
 ```
 
 ```{r eval=TRUE, echo=FALSE}
-scan_result %>%
-  rlang::set_names(toupper) %>%
-  kableExtra::kbl() %>%
-  kableExtra::kable_paper("striped", font_size = 18, full_width = TRUE) %>%
+scan_result |>
+  rlang::set_names(toupper) |>
+  kableExtra::kbl() |>
+  kableExtra::kable_paper("striped", font_size = 18, full_width = TRUE) |>
   kableExtra::scroll_box(height = "200px", width = "100%",
                          box_css = "border: 1px solid #ddd; padding: 5px; ",
                          extra_css = NULL,
@@ -194,10 +193,10 @@ res <- standardize_dates(
 This function returns a the input dataset where the (specified) columns are converted into date if the condition is met.
 
 ```{r echo=FALSE, eval=TRUE}
-res %>%
-  rlang::set_names(toupper) %>%
-  kableExtra::kbl() %>%
-  kableExtra::kable_paper("striped", font_size = 18, full_width = TRUE) %>%
+res |>
+  rlang::set_names(toupper) |>
+  kableExtra::kbl() |>
+  kableExtra::kable_paper("striped", font_size = 18, full_width = TRUE) |>
   kableExtra::scroll_box(height = "200px", width = "100%",
                          box_css = "border: 1px solid #ddd; padding: 5px; ",
                          extra_css = NULL,
@@ -359,18 +358,14 @@ By including these extra columns, users gain insights into the specific rows ide
 # VISUALIZE THE DUPLICATES
 report     <- attr(dups, "report")
 duplicates <- report$duplicated_rows
-duplicates %>%
-  rlang::set_names(toupper) %>%
-  kableExtra::kbl() %>%
-  kableExtra::kable_paper("striped", font_size = 18, full_width = TRUE) %>%
+duplicates |>
+  rlang::set_names(toupper) |>
+  kableExtra::kbl() |>
+  kableExtra::kable_paper("striped", font_size = 18, full_width = TRUE) |>
   kableExtra::scroll_box(height = "200px", width = "100%",
                          box_css = "border: 1px solid #ddd; padding: 5px; ",
                          extra_css = NULL,
                          fixed_thead = TRUE)
-```
-
-```{r eval=TRUE, echo=FALSE}
-
 ```
 
 ### Removing duplicates
@@ -457,10 +452,10 @@ The `clean_using_dictionary()` function offers a convenient way to replace the o
 2. **dictionary**: The data frame with the data dictionary that contains the complete labels for these options. The structure of this data dictionary file should adhere to the standards expected by the [matchmaker](https://www.repidemicsconsortium.org/matchmaker/)  package, as the `clean_using_dictionary()` function relies on functions from this   package.
 
 ```{r eval=TRUE, echo=FALSE}
-test_dictionary %>%
-  rlang::set_names(toupper) %>%
-  kableExtra::kbl() %>%
-  kableExtra::kable_paper("striped", font_size = 18, full_width = TRUE) %>%
+test_dictionary |>
+  rlang::set_names(toupper) |>
+  kableExtra::kbl() |>
+  kableExtra::kable_paper("striped", font_size = 18, full_width = TRUE) |>
   kableExtra::scroll_box(height = "200px", width = "100%",
                          box_css = "border: 1px solid #ddd; padding: 5px; ",
                          extra_css = NULL,
@@ -488,10 +483,10 @@ test_dictionary <- add_to_dictionnary(test_dictionary,
 ```
 
 ```{r eval=TRUE, echo=FALSE}
-test_dictionary %>%
-  rlang::set_names(toupper) %>%
-  kableExtra::kbl() %>%
-  kableExtra::kable_paper("striped", font_size = 18, full_width = TRUE) %>%
+test_dictionary |>
+  rlang::set_names(toupper) |>
+  kableExtra::kbl() |>
+  kableExtra::kable_paper("striped", font_size = 18, full_width = TRUE) |>
   kableExtra::scroll_box(height = "200px", width = "100%",
                          box_css = "border: 1px solid #ddd; padding: 5px; ",
                          extra_css = NULL,
@@ -507,10 +502,10 @@ cleaned_df <- clean_using_dictionary(
 ```
 
 ```{r eval=TRUE, echo=FALSE}
-cleaned_df %>%
-  rlang::set_names(toupper) %>%
-  kableExtra::kbl() %>%
-  kableExtra::kable_paper("striped", font_size = 18, full_width = TRUE) %>%
+cleaned_df |>
+  rlang::set_names(toupper) |>
+  kableExtra::kbl() |>
+  kableExtra::kable_paper("striped", font_size = 18, full_width = TRUE) |>
   kableExtra::scroll_box(height = "200px", width = "100%",
                          box_css = "border: 1px solid #ddd; padding: 5px; ",
                          extra_css = NULL,
@@ -548,10 +543,10 @@ The `calculate_age()` function augments the input dataset by adding one or two e
 
 ```{r eval=TRUE, echo=FALSE}
 # DISPLAY THE OUTPUT OBJECT
-age %>%
-  rlang::set_names(toupper) %>%
-  kableExtra::kbl() %>%
-  kableExtra::kable_paper("striped", font_size = 18, full_width = TRUE) %>%
+age |>
+  rlang::set_names(toupper) |>
+  kableExtra::kbl() |>
+  kableExtra::kable_paper("striped", font_size = 18, full_width = TRUE) |>
   kableExtra::scroll_box(height = "200px", width = "100%",
                          box_css = "border: 1px solid #ddd; padding: 5px; ",
                          extra_css = NULL,
