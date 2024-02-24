@@ -45,40 +45,49 @@
 #' @export
 #'
 #' @examples
-#' keep = NULL #: column names standardization will be performed across
+#' keep <- NULL # : column names standardization will be performed across
 #' # all columns
 #'
 #' # Parameters for substituting missing values with NA:
-#' replace_missing_values = list(target_columns = NULL, na_strings = "-99")
+#' replace_missing_values <- list(target_columns = NULL, na_strings = "-99")
 #'
 #' # Parameters for duplicates removal across all columns
 #' # (target_columns = NULL)
-#' remove_duplicates = list(target_columns   = NULL,
-#'                          rm_empty_rows    = TRUE,
-#'                          rm_empty_cols    = TRUE,
-#'                          rm_constant_cols = TRUE)
+#' remove_duplicates <- list(
+#'   target_columns = NULL,
+#'   rm_empty_rows = TRUE,
+#'   rm_empty_cols = TRUE,
+#'   rm_constant_cols = TRUE
+#' )
 #'
 #' # Parameters for dates standardization
-#' standardize_date = list(target_columns  = NULL,
-#'                         error_tolerance = 0.5,
-#'                         format          = NULL,
-#'                         timeframe       = as.Date(c("1973-05-29",
-#'                                                     "2023-05-29")))
+#' standardize_date <- list(
+#'   target_columns = NULL,
+#'   error_tolerance = 0.5,
+#'   format = NULL,
+#'   timeframe = as.Date(c(
+#'     "1973-05-29",
+#'     "2023-05-29"
+#'   ))
+#' )
 #'
 #' # Parameters for subject IDs standardization
-#' standardize_subject_ids = list(id_col_name = "study_id",
-#'                                format      = NULL,
-#'                                prefix      = "PS",
-#'                                suffix      = "P2",
-#'                                range       = c(1, 100))
+#' standardize_subject_ids <- list(
+#'   id_col_name = "study_id",
+#'   format = NULL,
+#'   prefix = "PS",
+#'   suffix = "P2",
+#'   range = c(1, 100)
+#' )
 #'
 #' # to_numeric = "sex" the 'sex' column will be converted into numeric
 #'
 #' # dictionary = NULL the dictionary-based cleaning will not be performed here
 #'
 #' cleaned_data <- clean_data(
-#'   data   = readRDS(system.file("extdata", "test_df.RDS",
-#'                                package = "cleanepi")),
+#'   data = readRDS(system.file("extdata", "test_df.RDS",
+#'     package = "cleanepi"
+#'   )),
 #'   params = list(
 #'     keep                    = NULL,
 #'     replace_missing_values  = replace_missing_values,
@@ -93,25 +102,33 @@
 clean_data <- function(
     data,
     params = list(
-      keep                   = NULL,
-      replace_missing_values = list(target_columns = NULL,
-                                    na_strings = cleanepi::common_na_strings),
-      remove_duplicates      = list(target_columns   = NULL,
-                                    rm_empty_rows    = TRUE,
-                                    rm_empty_cols    = TRUE,
-                                    rm_constant_cols = TRUE),
-     standardize_date        = list(target_columns  = NULL,
-                                    error_tolerance = 0.5,
-                                    format          = NULL,
-                                    timeframe       = NULL),
-     standardize_subject_ids = list(id_col_name = "id",
-                                    format      = NULL,
-                                    prefix      = NULL,
-                                    suffix      = NULL,
-                                    range       = NULL),
-     dictionary              = NULL,
-     to_numeric              = NULL)
-   ) {
+      keep = NULL,
+      replace_missing_values = list(
+        target_columns = NULL,
+        na_strings = cleanepi::common_na_strings
+      ),
+      remove_duplicates = list(
+        target_columns = NULL,
+        rm_empty_rows = TRUE,
+        rm_empty_cols = TRUE,
+        rm_constant_cols = TRUE
+      ),
+      standardize_dates = list(
+        target_columns = NULL,
+        error_tolerance = 0.5,
+        format = NULL,
+        timeframe = NULL
+      ),
+      standardize_subject_ids = list(
+        id_col_name = "id",
+        format = NULL,
+        prefix = NULL,
+        suffix = NULL,
+        range = NULL
+      ),
+      dictionary = NULL,
+      to_numeric = NULL
+    )) {
   checkmate::assert_data_frame(data, null.ok = FALSE, min.cols = 1L)
   checkmate::assert_list(params, min.len = 0L, null.ok = TRUE)
 
@@ -121,7 +138,7 @@ clean_data <- function(
   ## | Column names in 'keep' will not be modified.
   ## -----
   R.utils::cat("\ncleaning column names")
-  data <- standardize_column_names(x = data, keep = params[["keep"]])
+  data <- standardize_column_names(data = data, keep = params[["keep"]])
 
   ## -----
   ## | we choose to standardize on the value for the missing data.
@@ -182,8 +199,10 @@ clean_data <- function(
   ## -----
   if (!is.null(params[["standardize_subject_ids"]])) {
     R.utils::cat("\nchecking subject IDs format")
-    stopifnot("'id_col_name' must be provided." =
-                !is.null(params[["standardize_subject_ids"]][["id_col_name"]]))
+    stopifnot(
+      "'id_col_name' must be provided." =
+        !is.null(params[["standardize_subject_ids"]][["id_col_name"]])
+    )
     data <- check_subject_ids(
       data           = data,
       format         = params[["standardize_subject_ids"]][["format"]],
@@ -208,12 +227,16 @@ clean_data <- function(
   ## | homogeneous.
   ## -----
   if (!is.null(params[["to_numeric"]])) {
-    R.utils::cat("\nconverting",
-                 glue::glue_collapse(params[["to_numeric"]], sep = ", "),
-                 "into numeric")
-    data <- convert_to_numeric(data       = data,
-                               to_numeric = params[["to_numeric"]],
-                               scan_res   = scan_result)
+    R.utils::cat(
+      "\nconverting",
+      glue::glue_collapse(params[["to_numeric"]], sep = ", "),
+      "into numeric"
+    )
+    data <- convert_to_numeric(
+      data = data,
+      to_numeric = params[["to_numeric"]],
+      scan_res = scan_result
+    )
   }
 
   ## -----
