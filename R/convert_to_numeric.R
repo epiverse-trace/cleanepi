@@ -108,11 +108,8 @@ convert <- function(x) {
     xx[is_na]              <- "i_set_this"
     after_conversion_is_na <- which(is.na(xx))
   }
-
-  y <- ifelse(!is.null(after_conversion_is_na),
-              after_conversion_is_na,
-              seq_along(x)[-is_na])
-  x[y]   <- unlist(lapply(tmp[y], numberize::numberize, lang = "en"))
-
-  return(as.numeric(x))
+  tmp[after_conversion_is_na] <- unlist(lapply(tmp[after_conversion_is_na],
+                                               numberize::numberize,
+                                               lang = "en"))
+  return(as.numeric(tmp))
 }
