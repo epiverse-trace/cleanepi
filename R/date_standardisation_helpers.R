@@ -101,32 +101,16 @@ date_trim_outliers <- function(new_dates, dmin, dmax, cols, original_dates) {
 #'
 #' @inheritParams standardize_dates
 #' @param cols  date column name(s)
-#' @param other a vector of row indices where the date values do not contain the
-#'    detected format. Default is `NULL`.
 #'
 #' @return A data frame where the specified columns have been converted
 #'    into Date.
 #'
 #' @keywords internal
 #'
-date_convert <- function(data, cols, error_tolerance, format = NULL,
-                         timeframe = NULL, others = NULL) {
-  # When the format is known, we will check if there are other values that do
-  # not comply with the format. Those values will be converted using
-  # 'date_guess()'.
-  # When the format is unknown, we will use 'date_guess()' only.
-  if (!is.null(format)) {
-    if (!is.null(others)) {
-      new_dates          <- rep(lubridate::NA_Date_, length(data[[cols]]))
-      new_dates[-others] <- as.Date(data[[cols]][-others], format = format)
-      new_dates[others]  <- date_guess(data[[cols]][others],
-                                       error_tolerance = error_tolerance)
-    } else {
-      new_dates <- as.Date(data[[cols]], format = format)
-    }
-  } else {
-    new_dates   <- date_guess(data[[cols]], error_tolerance = error_tolerance)
-  }
+date_convert <- function(data, cols, error_tolerance,
+                         timeframe = NULL) {
+  # Guess the date using Thibault's parser
+  new_dates <- date_guess(data[[cols]], error_tolerance = error_tolerance)
 
   # Trim outliers i.e. date values that are out of the range of the provided
   # timeframe
@@ -412,11 +396,12 @@ date_get_format <- function(data, date_column_name, sep) {
   tmp_date_column <- as.character(tmp_date_column)
   others          <- NULL
 
-  # looking for the date values that do not contain the separator
-  if (!all(grepl(sep, tmp_date_column))) {
-    idx_not_to_consider    <- which(!grepl(sep, tmp_date_column))
-    tmp_date_column        <- tmp_date_column[-idx_not_to_consider]
-    others                 <- idx_not_to_consider
+  # return 'NULL' if there are multiple formats in the date column
+  if (!all(grepl(sep[[1L]], tmp_date_column))) {
+    return(NULL)
+    # idx_not_to_consider    <- which(!grepl(sep, tmp_date_column))
+    # tmp_date_column        <- tmp_date_column[-idx_not_to_consider]
+    # others                 <- idx_not_to_consider
   }
 
   # investigate the format among the date values that contain the separator
@@ -427,26 +412,21 @@ date_get_format <- function(data, date_column_name, sep) {
   if (length(idx) > 0L) {
     tmp_list[[idx]]        <- rep(NA, max(lengths(tmp_list)))
   }
+  part1 <- part2 <- part3 <- rep(NA, length(tmp_date_column))
   if (any(lengths(tmp_list) >= 1L)) {
     part1 <- as.character(unlist(lapply(tmp_date_column,
                                         date_get_part1,
                                         sep[[1L]])))
-  } else {
-    part1 <- rep(NA, length(tmp_date_column))
   }
   if (any(lengths(tmp_list) >= 2L)) {
     part2 <- as.character(unlist(lapply(tmp_date_column,
                                         date_get_part2,
                                         sep[[1L]])))
-  } else {
-    part2 <- rep(NA, length(tmp_date_column))
   }
   if (any(lengths(tmp_list) >= 3L)) {
     part3 <- as.character(unlist(lapply(tmp_date_column,
                                         date_get_part3,
                                         sep[[1L]])))
-  } else {
-    part3 <- rep(NA, length(tmp_date_column))
   }
 
   f1       <- ifelse(all(is.na(part1)), NA, date_detect_format(part1))
@@ -463,7 +443,7 @@ date_get_format <- function(data, date_column_name, sep) {
   } else {
     return(NULL)
   }
-  return(list(format = format, others = others))
+  return(format)
 }
 
 #' Build the auto-detected format
@@ -514,4 +494,172 @@ date_process <- function(x) {
   }
 
   return(x)
+}
+
+
+#' Detect date format from a date column
+#'
+#' @param data A  data frame
+#' @param date_column_name The name of the date columns of interest
+#' @param sep A separator in the date string
+#'
+#' @return A string with the detected date format
+#' @keywords internal
+#'
+date_get_one_format <- function(x, sep) {
+  if (is.na(x)) {
+    return(x)
+  }
+
+  # detect format
+  part1 <- part2 <- part3 <- NA
+  tmp_list <- unlist(strsplit(x, sep[[1L]], fixed = TRUE))
+  tmp_list <- trimws(tmp_list)
+  if (length(tmp_list) >= 1L) {
+    part1 <- tmp_list[[1L]]
+  }
+  if (length(tmp_list) >= 2L) {
+    part2 <- tmp_list[[2L]]
+  }
+  if (length(tmp_list) >= 3L) {
+    part3 <- tmp_list[[3L]]
+  }
+
+  f1       <- ifelse(is.na(part1), NA, date_detect_format_bis(part1))
+  f2       <- ifelse(is.na(part2), NA, date_detect_format_bis(part2))
+  f3       <- ifelse(is.na(part3), NA, date_detect_format_bis(part3))
+  if (!any(c("%y", "%Y") %in% c(f1, f2, f3)) ||
+        length(unique(c(f1, f2, f3))) <= 2L) {
+    return(lubridate::NA_Date_)
+  }
+  idx      <- which(is.na(c(f1, f2, f3)))
+  format   <- NULL
+  if (length(idx) == 0L) {
+    format <- paste0(format, f1, sep[[1L]], f2, sep[[1L]], f3)
+  } else if (idx == 3L) {
+    format <- paste0(format, f1, sep[[1L]], f2)
+  } else if (idx == c(2L, 3L)) {
+    format <- paste0(format, f1)
+  } else {
+    return(lubridate::NA_Date_)
+  }
+  return(format)
+}
+
+#' Get format from a simple date value
+#'
+#' @param x A string with the date value of interest
+#' @keywords internal
+#'
+date_detect_simple_format_bis <- function(x) {
+  f1 <- NULL
+  if (is.null(x)) f1 <- NULL
+  if (all(nchar(x) == 4L)) {
+    f1 <- "%Y" # year with century i.e 4 digits year
+  } else if (all(nchar(x) == 2L)) {
+    tmp <- as.numeric(x)
+    if (all(tmp <= 12L)) {
+      f1 <- "%m"
+    } else if (all(tmp >= 1L) && all(tmp <= 31L)) {
+      f1 <- "%d"
+    } else {
+      f1 <- "%y"
+    }
+  }
+  return(f1)
+}
+
+#' Detect a date format with only 1 separator
+#'
+#' @param x A string of interest
+#' @keywords internal
+#'
+date_detect_format_bis <- function(x) {
+  # check the format in x
+  idx <- which(is.na(x))
+  if (length(idx) > 0L) {
+    x <- x[-idx]
+  }
+  if (all(numbers_only(x))) {
+    f1 <- date_detect_simple_format_bis(x)
+  } else {
+    f1 <- date_detect_complex_format_bis(x)
+  }
+  return(f1)
+}
+
+#' Detect complex date format
+#'
+#' @param x A string of interest
+#' @keywords internal
+#'
+date_detect_complex_format_bis <- function(x) {
+  f1 <- f2 <- NULL
+  tmp_sep <- unique(unlist(lapply(x, date_detect_separator)))
+  if (is.null(tmp_sep)) {
+    f1 <- date_detect_simple_format(x)
+    if (is.null(f1)) {
+      f1 <- date_detect_day_or_month(x)
+    }
+  } else if (!is.na(tmp_sep) && length(tmp_sep) == 1L) {
+    p1 <- as.character(unlist(lapply(x, date_get_part1, tmp_sep)))
+    p2 <- as.character(unlist(lapply(x, date_get_part2, tmp_sep)))
+    f1 <- date_detect_simple_format(p1)
+    f2 <- date_detect_simple_format(p2)
+    if (is.null(f1)) {
+      f1 <- date_detect_day_or_month(p1)
+    }
+    if (is.null(f2)) {
+      f2 <- date_detect_day_or_month(p2)
+    }
+  } else {
+    return(NULL)
+  }
+  format <- date_make_format_bis(f1, f2, tmp_sep)
+  return(format)
+}
+
+#' Build the auto-detected format
+#'
+#' Put together the different date format characters that were identified in
+#' the target date column.
+#'
+#' @param f1 The first part of the date values
+#' @param f2 The second part of the date values
+#' @param tmp_sep The character string that separate the first and second parts
+#'    of the date values.
+#'
+#' @return A character string that represent the inferred format of the date
+#'    values.
+#'
+#' @keywords internal
+#'
+date_make_format_bis <- function(f1, f2, tmp_sep) {
+  if (is.null(f1) && is.null(f2)) {
+    return(lubridate::NA_Date_)
+  }
+
+  return(paste(c(f1, f2), collapse = tmp_sep))
+}
+
+
+#' Check whether the number of provided formats matches the number of target
+#' columns to be standardized.
+#'
+#' @param target_columns a vector of column names to be standardised
+#' @param format a vector of formats to be used when standardising the columns
+#'
+#' @return a vector of format
+#' @keywords internal
+#'
+date_match_format_and_column <- function(target_columns, format) {
+  if (length(target_columns) > 2L && length(format) == 2L) {
+    stop("Need to specify one format if all target columns have the same format.",
+         "Provide one format per target column, otherwise.")
+  }
+  if (length(target_columns) >= 1L && length(format) == 1L) {
+    warning("Using ", format, " to standardize all columns...", call. = FALSE)
+    format <- rep(format, length(target_columns))
+  }
+  return(format)
 }
