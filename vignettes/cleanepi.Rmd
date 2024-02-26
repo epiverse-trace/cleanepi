@@ -475,7 +475,7 @@ data <- readRDS(system.file("extdata", "test_df.RDS",
                             package = "cleanepi"))
 
 # ADD THE EXTRA OPTION TO THE DICTIONARY
-test_dictionary <- add_to_dictionnary(test_dictionary,
+test_dictionary <- add_to_dictionary(test_dictionary,
                                       option = "-99",
                                       value  = "unknow",
                                       grp    = "sex",
