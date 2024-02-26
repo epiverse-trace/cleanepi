@@ -1,14 +1,3 @@
-#' Check order of a sequence of events
-#'
-#' @param x A string of interest
-#' @keywords internal
-is_order <- function(x) {
-  x <- as_date(x)
-  return(!is.unsorted(x))
-}
-
-
-
 #' Check whether the order of the sequence of date-events is valid
 #'
 #' @description Checks whether a date sequence in
@@ -92,4 +81,12 @@ check_date_sequence <- function(data, target_columns,
   }
 
   return(data)
+}
+
+#' Check order of a sequence of events
+#'
+#' @param x A string of interest
+#' @keywords internal
+is_order <- function(x) {
+  return(!is.unsorted(x))
 }
