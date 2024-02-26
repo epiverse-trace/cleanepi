@@ -39,25 +39,39 @@ standardize_dates <- function(data,
                             any.missing = FALSE, null.ok = TRUE)
 
   if (!is.null(target_columns)) {
-    # check input data format
     target_columns <- date_check_column_existence(data, target_columns)
-    for (cols in target_columns) {
-      sep         <- unique(as.character(unlist(lapply(data[[cols]],
-                                                       date_detect_separator))))
-      # Guess the date format if it is not provided.
-      # This returns NULL if the format is not resolved.
-      if (length(sep) > 0L && is.null(format)) {
-        result     <- date_get_format(data, cols, sep)
-        format     <- result[["format"]]
-        others     <- result[["others"]]
+    if (!is.null(format)) {
+      # we assume that when the format is provided, all values in that column
+      # have the same format. Date standardization will be performed considering
+      # the entire column, not individual values.
+      format <- date_match_format_and_column(target_columns, format)
+      for (i in 1L:length(target_columns)) {
+        data[[target_columns[i]]] <- as.Date(data[[target_columns[i]]],
+                                             format = format[i])
       }
-      data         <- date_convert(data, cols, error_tolerance,
-                                   format, timeframe, others)
+    } else {
+      for (cols in target_columns) {
+        sep <- unique(as.character(unlist(lapply(data[[cols]],
+                                                 date_detect_separator))))
+        # Guess the date format if it is not provided.
+        # This returns NULL if the format is not resolved.
+        if (length(sep) > 0L) {
+          format <- date_get_format(data, cols, sep)
+        }
+
+        # convert to ISO date
+        if (!is.null(format)) {
+          data[[cols]] <- as.Date(data[[cols]], format = format)
+        } else {
+          data <- date_convert(data, cols, error_tolerance, timeframe)
+        }
+
+      }
     }
   } else {
-    data           <- date_guess_convert(data,
-                                         error_tolerance = error_tolerance,
-                                         timeframe)
+    data     <- date_guess_convert(data,
+                                   error_tolerance = error_tolerance,
+                                   timeframe)
   }
 
   return(data)

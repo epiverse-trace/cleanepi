@@ -21,12 +21,6 @@
 #'     proportion is exceeded, the original vector is returned, and a message is
 #'     issued; defaults to 0.1 (10 percent)
 #'
-#' @param first_date A Date object specifying the first valid date. Defaults to
-#'   fifty years before the `last_date`.
-#'
-#' @param last_date A Date object specifying the last valid date. Defaults to
-#'   the current date.
-#'
 #' @param orders date codes for fine-grained parsing of dates. This allows for
 #'   parsing of mixed dates. If a list is supplied, that list will be used for
 #'   successive tries in parsing.  This is passed on to
@@ -135,7 +129,6 @@
 #' guess_dates(x, error_tolerance = 0.15) # only 15% errors allowed
 #' }
 #' @keywords internal
-#' @noRd
 #'
 date_guess <- function(x,
                        error_tolerance = 0.5,
