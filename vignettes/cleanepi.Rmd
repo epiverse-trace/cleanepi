@@ -160,7 +160,7 @@ This setup offers users both convenience and flexibility, as they can benefit fr
 
 The `standardize_dates()` function provides a comprehensive set of options for converting date columns into a specified format and handling various scenarios, such as different date formats and mixed data types in a column.
 
-The default date format in R is `%Y-%m-%d`. However, it is very common to encounter date values that are written differently from this. Also, there are cases where a column in a data frame contains both values of type `Date`, `character` or others.   
+The default date format in R is `%Y-%m-%d` (the ISO format). However, it is very common to encounter date values that are written differently from this. Also, there are cases where a column in a data frame contains both values of type `Date`, `character` or others.   
 
 The `standardize_dates()` function offers the possibility to convert date columns into `%Y-%m-%d` format and convert `character` columns into `Date` if the percentage of date values reach a specified threshold. The function needs the following arguments:
 
@@ -235,57 +235,10 @@ report <- attr(res, "report")
 summary(report)
 ```
 
-The `check_subject_ids()` function returns a list with elements named according to the following conventions:
+The `check_subject_ids()` function returns the input dataset or a subset of a subset of the input data where rows with incorrect IDs have been removed.
 
-1. **`r names(res)[1]`**: This element contains either the original input dataset or a subset of it where rows with incorrect IDs have been removed, depending on whether the `remove` parameter is set to `TRUE`.
+In addition to detecting wrong subject IDs, the function will also look for missing and duplicated IDs. As the result of this, the report made from this operation might contain two extra elements: **missing_ids** (a vector of row indexes where there is a missing IDs) and **duplicated_ids** (a data frame of rows with the duplicated IDs). Use the `print_report()` function to display the report made from this operation.
 
-2. **`r names(res)[2]`**: This element is a list, possibly an augmented report list, where one of its elements is named as **`r names(res$report)`**. This particular element contains a data frame detailing the rows that were detected to have incorrect subject IDs.
-
-To summarize:
-
-- Element 1: Contains the cleaned dataset, either the original or a subset with rows containing bad IDs removed.
-- Element 2: Contains a list, possibly with additional information, and one of its elements provides a data frame specifying the rows with incorrect subject IDs.
-
-This structure facilitates easy access to both the cleaned dataset and a detailed report on the detected issues with subject IDs, enhancing the transparency and usability of the function's output.
-
-```{r eval=TRUE}
-# DISPLAY ROWS WITH THE INCORRECT SUBJECT IDs
-res[["report"]][["incorrect_subject_id"]]
-```
-### Calculating age in different time scales
-
-The `calculate_age()` function computes the ages of individuals, expressed in years, months, weeks, or days, based on a given date column and a reference date. It requires the following arguments:
-
-1. **`data`** (required): This parameter represents the input dataset containing the relevant information.
-   
-2. **`date_column_name`** (required): Specify the name of the column containing the birth or relevant dates for which the age is being calculated.
-   
-3. **`end_date`** (required): This is the reference date used to calculate the age of individuals. The function computes the age relative to this date.
-   
-4. **`age_in`** (optional): This parameter determines the unit in which the age is expressed. It can be specified as "years", "months", "weeks", or "days". By default, the age is calculated in years if this parameter is not provided.
-
-By utilizing these arguments, the function offers flexibility in determining the age of individuals based on different units and reference dates. It facilitates various analytical tasks where age computation is a necessary component, providing users with the ability to customize the output according to their specific requirements.
-
-```{r eval=TRUE}
-# CALCULATE INDIVIDUAL AGE FROM THE `dateOfBirth` COLUMN
-age <- calculate_age(data           = readRDS(system.file("extdata", "test_df.RDS",
-                                       package = "cleanepi")),
-                     target_column = "dateOfBirth", 
-                     age_in = "days", 
-                     na_strings="-99"
-                     )
-```
-
-The `calculate_age()` function is designed to enhance the input dataset by adding one or two extra columns containing pertinent age-related information. These additional columns are as follows:
-
-1. **Calculated Age in Specified Unit**: This column contains the calculated age of individuals expressed in the specified unit (years, months, weeks, or days).
-
-2. **Remaining Number of Days**: This optional column indicates the remaining number of days after calculating the age, representing the fractional part of the age calculation. This column is included if needed, providing additional granularity in age representation.
-
-```{r eval=TRUE}
-# DISPLAY THE OUTPUT OBJECT
-head(age)  # note the last 2 columns
-```
 
 ### Checking date sequence
 
@@ -383,8 +336,8 @@ To eliminate duplicated rows from a dataset, the `remove_duplicates()` function 
 ```{r eval=TRUE}
 # REMOVE DUPLICATE ACROSS TAGGED COLUMNS ONLY.
 res <- remove_duplicates(
-  data <- readRDS(system.file("extdata", "test_linelist.RDS",
-                            package = "cleanepi")),
+  data           = readRDS(system.file("extdata", "test_linelist.RDS",
+                                       package = "cleanepi")),
   target_columns = NULL,
   remove         = NULL
 )
