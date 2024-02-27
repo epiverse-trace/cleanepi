@@ -21,13 +21,12 @@
 #'
 #' @examples
 #' age <- calculate_age(
-#'   data = readRDS(system.file("extdata", "test_df.RDS",
-#'     package = "cleanepi"
-#'   )),
+#'   data          = readRDS(system.file("extdata", "test_df.RDS",
+#'                                       package = "cleanepi")),
 #'   target_column = "dateOfBirth",
-#'   end_date = Sys.Date(),
-#'   age_in = "months",
-#'   na_strings = "-99"
+#'   end_date      = Sys.Date(),
+#'   age_in        = "months",
+#'   na_strings    = "-99"
 #' )
 calculate_age <- function(data,
                           target_column = NULL,
