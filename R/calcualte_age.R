@@ -52,10 +52,11 @@ calculate_age <- function(data,
 
   # standardize the input data if required
   if (!lubridate::is.Date(data[[target_column]])) {
+    # the error_tolerance = 0.0 because target_column is explicit
     data <- standardize_dates(data, target_column,
                               format          = NULL,
                               timeframe       = NULL,
-                              error_tolerance = 0.0) # because target_column is explicit
+                              error_tolerance = 0.0)
   }
 
   # calculate the age

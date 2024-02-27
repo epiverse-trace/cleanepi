@@ -394,14 +394,10 @@ date_get_format <- function(data, date_column_name, sep) {
   # handle differently.
   tmp_date_column <- data[[date_column_name]]
   tmp_date_column <- as.character(tmp_date_column)
-  others          <- NULL
 
   # return 'NULL' if there are multiple formats in the date column
   if (!all(grepl(sep[[1L]], tmp_date_column))) {
     return(NULL)
-    # idx_not_to_consider    <- which(!grepl(sep, tmp_date_column))
-    # tmp_date_column        <- tmp_date_column[-idx_not_to_consider]
-    # others                 <- idx_not_to_consider
   }
 
   # investigate the format among the date values that contain the separator
@@ -507,8 +503,8 @@ date_process <- function(x) {
 #'
 date_match_format_and_column <- function(target_columns, format) {
   if (length(target_columns) > 2L && length(format) == 2L) {
-    stop("Need to specify one format if all target columns have the same format.",
-         "Provide one format per target column, otherwise.")
+    stop("Need to specify one format if all target columns have the same",
+         "format.\nProvide one format per target column, otherwise.")
   }
   if (length(target_columns) >= 1L && length(format) == 1L) {
     warning("Using ", format, " to standardize all columns...", call. = FALSE)

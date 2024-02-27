@@ -45,7 +45,7 @@ standardize_dates <- function(data,
       # have the same format. Date standardization will be performed considering
       # the entire column, not individual values.
       format <- date_match_format_and_column(target_columns, format)
-      for (i in 1L:length(target_columns)) {
+      for (i in seq_along(target_columns)) {
         data[[target_columns[i]]] <- as.Date(data[[target_columns[i]]],
                                              format = format[i])
       }
