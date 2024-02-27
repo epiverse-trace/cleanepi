@@ -7,7 +7,7 @@
 #'    certain number of date values, and detecting subject IDs with wrong
 #'    formats.
 #'
-#' @param data A  data frame
+#' @param data The input data frame or linelist
 #' @param params A list of parameters that defines what cleaning operations will
 #'    be applied on the input data. Possible parameters are:
 #' \enumerate{
@@ -34,18 +34,14 @@
 #'      is the main argument for the `clean_using_dictionary()` function.
 #'   }
 #'
-#' @return A list of the following 2 elements:
-#'  \enumerate{
-#'    \item `data`: A  clean data frame  according to the user-specified
-#'          parameters.
-#'    \item `report`: A list with  details from each
-#'          cleaning operation considered.
-#'  }
+#' @return The cleaned input date according to the user-specified parameters.
+#'    This is associated with a data cleaning report that can be accessed using
+#'    `attr(cleaned_data, "report")`
 #'
 #' @export
 #'
 #' @examples
-#' keep <- NULL # : column names standardization will be performed across
+#' keep <- NULL # column names standardization will be performed across
 #' # all columns
 #'
 #' # Parameters for substituting missing values with NA:
@@ -53,41 +49,32 @@
 #'
 #' # Parameters for duplicates removal across all columns
 #' # (target_columns = NULL)
-#' remove_duplicates <- list(
-#'   target_columns = NULL,
-#'   rm_empty_rows = TRUE,
-#'   rm_empty_cols = TRUE,
-#'   rm_constant_cols = TRUE
-#' )
+#' remove_duplicates <- list(target_columns   = NULL,
+#'                           rm_empty_rows    = TRUE,
+#'                           rm_empty_cols    = TRUE,
+#'                           rm_constant_cols = TRUE)
 #'
 #' # Parameters for dates standardization
-#' standardize_date <- list(
-#'   target_columns = NULL,
-#'   error_tolerance = 0.5,
-#'   format = NULL,
-#'   timeframe = as.Date(c(
-#'     "1973-05-29",
-#'     "2023-05-29"
-#'   ))
-#' )
+#' standardize_date <- list(target_columns  = NULL,
+#'                          error_tolerance = 0.5,
+#'                          format          = NULL,
+#'                          timeframe       = as.Date(c("1973-05-29",
+#'                                                      "2023-05-29")))
 #'
 #' # Parameters for subject IDs standardization
-#' standardize_subject_ids <- list(
-#'   id_col_name = "study_id",
-#'   format = NULL,
-#'   prefix = "PS",
-#'   suffix = "P2",
-#'   range = c(1, 100)
-#' )
+#' standardize_subject_ids <- list(id_col_name = "study_id",
+#'                                 format      = NULL,
+#'                                 prefix      = "PS",
+#'                                 suffix      = "P2",
+#'                                 range       = c(1, 100))
 #'
 #' # to_numeric = "sex" the 'sex' column will be converted into numeric
 #'
 #' # dictionary = NULL the dictionary-based cleaning will not be performed here
 #'
 #' cleaned_data <- clean_data(
-#'   data = readRDS(system.file("extdata", "test_df.RDS",
-#'     package = "cleanepi"
-#'   )),
+#'   data   = readRDS(system.file("extdata", "test_df.RDS",
+#'                                package = "cleanepi")),
 #'   params = list(
 #'     keep                    = NULL,
 #'     replace_missing_values  = replace_missing_values,
@@ -105,26 +92,26 @@ clean_data <- function(
       keep = NULL,
       replace_missing_values = list(
         target_columns = NULL,
-        na_strings = cleanepi::common_na_strings
+        na_strings     = cleanepi::common_na_strings
       ),
       remove_duplicates = list(
-        target_columns = NULL,
-        rm_empty_rows = TRUE,
-        rm_empty_cols = TRUE,
+        target_columns   = NULL,
+        rm_empty_rows    = TRUE,
+        rm_empty_cols    = TRUE,
         rm_constant_cols = TRUE
       ),
       standardize_dates = list(
-        target_columns = NULL,
+        target_columns  = NULL,
         error_tolerance = 0.5,
-        format = NULL,
-        timeframe = NULL
+        format          = NULL,
+        timeframe       = NULL
       ),
       standardize_subject_ids = list(
         id_col_name = "id",
-        format = NULL,
-        prefix = NULL,
-        suffix = NULL,
-        range = NULL
+        format      = NULL,
+        prefix      = NULL,
+        suffix      = NULL,
+        range       = NULL
       ),
       dictionary = NULL,
       to_numeric = NULL
@@ -142,9 +129,9 @@ clean_data <- function(
 
   ## -----
   ## | we choose to standardize on the value for the missing data.
-  ## | missing values will be replaced with NA
-  ## | missing values from the original data can be provided by the
-  ## | user if know, or inferred internally otherwise.
+  ## | missing values will be replaced with NA.
+  ## | Missing values from the original data can be provided by the
+  ## | user if known, or inferred internally otherwise.
   ## -----
   if (!is.null(params[["replace_missing_values"]])) {
     R.utils::cat("\nreplacing missing values with NA")
@@ -232,11 +219,9 @@ clean_data <- function(
       glue::glue_collapse(params[["to_numeric"]], sep = ", "),
       "into numeric"
     )
-    data <- convert_to_numeric(
-      data = data,
-      to_numeric = params[["to_numeric"]],
-      scan_res = scan_result
-    )
+    data <- convert_to_numeric(data       = data,
+                               to_numeric = params[["to_numeric"]],
+                               scan_res   = scan_result)
   }
 
   ## -----

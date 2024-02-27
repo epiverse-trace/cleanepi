@@ -15,7 +15,7 @@ clean_data(
 )
 }
 \arguments{
-\item{data}{A  data frame}
+\item{data}{The input data frame or linelist}
 
 \item{params}{A list of parameters that defines what cleaning operations will
 be applied on the input data. Possible parameters are:
@@ -44,13 +44,9 @@ is the main argument for the \code{clean_using_dictionary()} function.
 }}
 }
 \value{
-A list of the following 2 elements:
-\enumerate{
-\item \code{data}: A  clean data frame  according to the user-specified
-parameters.
-\item \code{report}: A list with  details from each
-cleaning operation considered.
-}
+The cleaned input date according to the user-specified parameters.
+This is associated with a data cleaning report that can be accessed using
+\code{attr(cleaned_data, "report")}
 }
 \description{
 Cleans up messy data frames by performing several operations.
@@ -61,7 +57,7 @@ certain number of date values, and detecting subject IDs with wrong
 formats.
 }
 \examples{
-keep <- NULL # : column names standardization will be performed across
+keep <- NULL # column names standardization will be performed across
 # all columns
 
 # Parameters for substituting missing values with NA:
@@ -69,41 +65,32 @@ replace_missing_values <- list(target_columns = NULL, na_strings = "-99")
 
 # Parameters for duplicates removal across all columns
 # (target_columns = NULL)
-remove_duplicates <- list(
-  target_columns = NULL,
-  rm_empty_rows = TRUE,
-  rm_empty_cols = TRUE,
-  rm_constant_cols = TRUE
-)
+remove_duplicates <- list(target_columns   = NULL,
+                          rm_empty_rows    = TRUE,
+                          rm_empty_cols    = TRUE,
+                          rm_constant_cols = TRUE)
 
 # Parameters for dates standardization
-standardize_date <- list(
-  target_columns = NULL,
-  error_tolerance = 0.5,
-  format = NULL,
-  timeframe = as.Date(c(
-    "1973-05-29",
-    "2023-05-29"
-  ))
-)
+standardize_date <- list(target_columns  = NULL,
+                         error_tolerance = 0.5,
+                         format          = NULL,
+                         timeframe       = as.Date(c("1973-05-29",
+                                                     "2023-05-29")))
 
 # Parameters for subject IDs standardization
-standardize_subject_ids <- list(
-  id_col_name = "study_id",
-  format = NULL,
-  prefix = "PS",
-  suffix = "P2",
-  range = c(1, 100)
-)
+standardize_subject_ids <- list(id_col_name = "study_id",
+                                format      = NULL,
+                                prefix      = "PS",
+                                suffix      = "P2",
+                                range       = c(1, 100))
 
 # to_numeric = "sex" the 'sex' column will be converted into numeric
 
 # dictionary = NULL the dictionary-based cleaning will not be performed here
 
 cleaned_data <- clean_data(
-  data = readRDS(system.file("extdata", "test_df.RDS",
-    package = "cleanepi"
-  )),
+  data   = readRDS(system.file("extdata", "test_df.RDS",
+                               package = "cleanepi")),
   params = list(
     keep                    = NULL,
     replace_missing_values  = replace_missing_values,
