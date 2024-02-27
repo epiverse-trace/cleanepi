@@ -24,7 +24,7 @@
 #' @export
 check_subject_ids <- function(data,
                               id_column_name,
-                              format= NULL,
+                              format         = NULL,
                               prefix         = NULL,
                               suffix         = NULL,
                               range          = NULL) {

@@ -6,8 +6,8 @@
 \usage{
 check_subject_ids(
   data,
-  format,
   id_column_name,
+  format = NULL,
   prefix = NULL,
   suffix = NULL,
   range = NULL
@@ -16,10 +16,10 @@ check_subject_ids(
 \arguments{
 \item{data}{A data frame}
 
-\item{format}{A  format of the subject IDs}
-
 \item{id_column_name}{A column name of  the subject IDs. If not
 specified, the first column will be considered by default.}
+
+\item{format}{A  format of the subject IDs}
 
 \item{prefix}{A prefix used in the subject IDs}
 
