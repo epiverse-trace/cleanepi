@@ -17,7 +17,6 @@
 standardize_column_names <- function(data, keep = NULL) {
   checkmate::assert_vector(keep, min.len = 1L, null.ok = TRUE,
                            any.missing = FALSE)
-  checkmate::assert_choice(keep, choices = colnames(data), null.ok = TRUE)
 
   # if they're anything apart from ASCII e.g. arabic, throw error
   before <- colnames(data)
