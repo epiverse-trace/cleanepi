@@ -4,25 +4,25 @@
 \alias{standardize_column_names}
 \title{Standardize column names of a data frame or linelist}
 \usage{
-standardize_column_names(x, keep = NULL)
+standardize_column_names(data, keep = NULL)
 }
 \arguments{
-\item{x}{A data frame or linelist}
+\item{data}{The input data frame or linelist.}
 
-\item{keep}{A vector of column names to keep as they are. The Default
+\item{keep}{A vector of column names to maintain. The Default
 is \code{NULL}.}
 }
 \value{
-A data frame with knit column names
+A data frame with easy to work with column names.
 }
 \description{
 Standardize column names of a data frame or linelist
 }
 \examples{
 cleaned_data <- standardize_column_names(
-  x    = readRDS(system.file("extdata", "test_df.RDS",
+  data = readRDS(system.file("extdata", "test_df.RDS",
                              package = "cleanepi")),
-  keep = "dateOfBirth"
+  keep = c("Sex", "Country")
 )
 
 }

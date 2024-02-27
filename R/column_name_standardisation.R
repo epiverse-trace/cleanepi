@@ -1,70 +1,37 @@
 #' Standardize column names of a data frame or linelist
 #'
-#' @param x A data frame or linelist
-#' @param keep A vector of column names to keep as they are. The Default
-#'    is `NULL`.
+#' @param data The input data frame or linelist.
+#' @param keep A vector of column names to maintain. The Default
+#' is `NULL`.
 #'
-#' @return A data frame with knit column names
+#' @return A data frame with easy to work with column names.
 #'
 #' @export
 #' @examples
 #' cleaned_data <- standardize_column_names(
-#'   x    = readRDS(system.file("extdata", "test_df.RDS",
+#'   data = readRDS(system.file("extdata", "test_df.RDS",
 #'                              package = "cleanepi")),
-#'   keep = "dateOfBirth"
+#'   keep = c("Sex", "Country")
 #' )
 #'
-standardize_column_names <- function(x, keep = NULL) {
-  original_names <- col_names <- colnames(x)
+standardize_column_names <- function(data, keep = NULL) {
+  checkmate::assert_vector(keep, min.len = 1L, null.ok = TRUE,
+                           any.missing = FALSE)
 
-  # in case the user wants to keep some column names as they are,
-  # they should be provided as value for the keep arguments.
-  # here we will make sure to spare those column names from been modified
+  # if they're anything apart from ASCII e.g. arabic, throw error
+  before <- colnames(data)
+  # TODO replace snakecase with fixed list of diacritics swapable to English
+  # TODO e.g. é,ê,è = e
+  after <- make.unique(
+    snakecase::to_snake_case(before, transliterations = "Latin-ASCII"),
+    sep = "_"
+  )
+  kept           <- which(before %in% keep)
+  after[kept]    <- before[kept]
+  colnames(data) <- after
 
-  # check if the column names to be kept exist
-  if (!is.null(keep)) {
-    stopifnot(
-      "\nIncorrect column names were provided: " =
-        all(keep %in% original_names)
-    )
-  }
-
-  # get the indexes of the column names to not change
-  idx <- match(keep, original_names)
-
-  # We have opted for snake case in the column names. Thus, all camel cases will
-  # be converted into snake cases.
-  if (length(idx) > 0L) {
-    tmp_col_names   <- snakecase::to_snake_case(col_names[-idx])
-    cleaned_names   <- epitrix::clean_labels(tmp_col_names)
-    # make column name unique
-    unique_names    <- make.unique(cleaned_names, sep = "_")
-    # update the column names
-    col_names[-idx] <- unique_names
-  } else {
-    col_names <- snakecase::to_snake_case(col_names)
-    col_names <- epitrix::clean_labels(col_names)
-    # make column name unique
-    col_names <- make.unique(col_names, sep = "_")
-  }
-
-  # detect modified column names from the previous command
-  original_name <- new_name <- NULL
-  xx            <- as.data.frame(cbind(
-    original_name = original_names,
-    new_name      = col_names
-  )) |>
-    dplyr::mutate(
-      original_name = as.character(original_name),
-      new_name      = as.character(new_name)
-    )
-  names(x) <- col_names
-  idx      <- which(xx[["original_name"]] != xx[["new_name"]])
-  if (length(idx) > 0L) {
-    x      <- add_to_report(x     = x,
-                            key   = "standardized_column_names",
-                            value = xx[idx, ])
-  }
-
-  return(x)
+  colnames_info <- data.frame(before, after)
+  data          <- add_to_report(data, "colnames", colnames_info)
+  print(colnames_info)
+  return(data)
 }

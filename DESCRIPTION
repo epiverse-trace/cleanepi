@@ -23,7 +23,6 @@ Imports:
     arsenal,
     checkmate,
     dplyr,
-    epitrix,
     glue,
     janitor,
     linelist (>= 1.0.0),
