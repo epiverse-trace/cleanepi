@@ -23,8 +23,8 @@
 #' )
 #' @export
 check_subject_ids <- function(data,
-                              format,
                               id_column_name,
+                              format= NULL,
                               prefix         = NULL,
                               suffix         = NULL,
                               range          = NULL) {
@@ -120,8 +120,8 @@ check_ids_uniqueness <- function(data, id_col_name) {
   if (!is.null(tmp_report) && "duplicated_rows" %in% names(tmp_report) &&
       nrow(tmp_report[["duplicated_rows"]]) > 0L) {
     dups               <- tmp_report[["duplicated_rows"]]
-    warning("Found duplicated IDs! See the attached cleaning report for more",
-            " details", call. = FALSE)
+    #warning("Found duplicated IDs! See the attached cleaning report for more",
+     #       " details", call. = FALSE)
     data               <- add_to_report(x     = data,
                                         key   = "duplicated_ids",
                                         value = dups)
