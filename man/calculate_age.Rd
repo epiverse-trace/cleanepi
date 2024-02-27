@@ -8,12 +8,12 @@ calculate_age(
   data,
   target_column = NULL,
   end_date = Sys.Date(),
-  age_in = c("years", "months", "weeks", "days"),
+  age_in = "years",
   na_strings = cleanepi::common_na_strings
 )
 }
 \arguments{
-\item{data}{A data frame with one date column.}
+\item{data}{A data frame with at least one date column.}
 
 \item{target_column}{A string specifying the name of the date column of
 interest.}
@@ -33,7 +33,7 @@ The input data frame with 2 additional columns:
 \item "age_in_years",  "age_in_months",  "age_in_weeks", or
 "age_in_days" depending on the value of the 'age_in' parameter.
 \item "remainder_days": A column with the number of remaining days after
-the age is converted in weeks or months.
+the age is calculated in years, weeks or months.
 }
 }
 \description{
@@ -41,12 +41,11 @@ Calculate age from a specified date column
 }
 \examples{
 age <- calculate_age(
-  data = readRDS(system.file("extdata", "test_df.RDS",
-    package = "cleanepi"
-  )),
+  data          = readRDS(system.file("extdata", "test_df.RDS",
+                                      package = "cleanepi")),
   target_column = "dateOfBirth",
-  end_date = Sys.Date(),
-  age_in = "months",
-  na_strings = "-99"
+  end_date      = Sys.Date(),
+  age_in        = "months",
+  na_strings    = "-99"
 )
 }
