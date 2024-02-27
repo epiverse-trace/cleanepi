@@ -31,34 +31,41 @@ knitr::include_graphics(file.path("..", "man", "figures",
                                   "cleanepi_design_diagram.drawio.png"))
 ```
 
-At the core of {cleanepi}, the pivotal function `clean_data()` serves as a wrapper encapsulating all the modules, as illustrated in Figure @fig:1. This function is intended to be the primary entry point for users seeking to cleanse their data. We have categorized cleaning actions into two main types: **implicit** and **explicit**. Implicit actions are executed regardless of user specifications, while explicit actions are performed only upon user request.
+At the core of {cleanepi}, the pivotal function `clean_data()` serves as a wrapper encapsulating all the modules, as illustrated in Figure @fig:1. This function is intended to be the primary entry point for users seeking to cleanse their data. We have categorized cleaning actions into two main types: **implicit** and **explicit**. Implicit actions are executed by default, regardless of user specifications; while explicit actions are performed only upon user request.
 
-In addition to `clean_data()`, we will incorporate two surrogate functions:
+In addition, this package also has two surrogate functions:
 
 1. `scan_data()`: This function enables users to assess the data types present in each column of their dataset.
 2. `print_report()`: By utilizing this function, users can visualize the report generated from each applied cleaning task, facilitating transparency and understanding of the data cleaning process.
 
 ## Scope
 
-{cleanepi} is an R package meticulously crafted to cleanse, curate, and standardize tabular datasets, with a particular focus on epidemiological data. At its core lies the primary function `clean_data()`, which accepts as input the target dataset in the form of a `data.frame` or `linelist` object, along with a `list` of operations to be executed on the dataset.
+{cleanepi} is an R package  crafted to clean, curate, and standardize tabular datasets, with a particular focus on epidemiological data. In the architecture of {cleanepi}, the data cleaning operations are categorized into modules, each provides specific data cleaning task. The modules in the current version of {cleanepi} encompass:
 
-In the architecture of {cleanepi}, these operations are translated into modules, each catering to specific data cleaning tasks. The modules in the current version of {cleanepi} encompass:
-
-- Standardization of column names,
-- Removal of duplicates,
-- Replacement of missing values with `NA`,
-- Standardization of subject IDs,
-- Standardization of date values,
-- Replacement of existing values with predefined ones (Dictionary based substitution),
-- Conversion of values when necessary,
-- Verification of the sequence of date-events, and
+- Standardization of column names
+- Removal of duplicates
+- Replacement of missing values with `NA`
+- Standardization of subject IDs
+- Standardization of date values
+- Replacement of existing values with predefined ones (dictionary based substitutions)
+- Conversion of values when necessary
+- Verification of the sequence order of date-events
 - Transformation of select columns.
 
-By compartmentalizing these operations into modules, {cleanepi} offers users a systematic and adaptable framework to address diverse data cleaning needs, especially within the realm of epidemiological datasets.
+By compartmentalizing these operations into modules, {cleanepi} offers users a systematic and adaptable framework to address diverse data cleaning needs, especially within the realm of epidemiological datasets. 
+
+ 
+
+## Input
+
+The primary functions of the modules, as well as the core function `clean_data`, accept input in the form of a `data.frame` or `linelist`. This offers flexibility for users regarding where they want to position {ceanepi} within the R package ecosystem for epidemic analysis pipelines, either to clean data before or after converting it to a `linelist`.
+
+In addition to the target dataset, the core function `clean_data()` accepts a `list` of operations to be executed on the dataset. It subsequently invokes the primary functions specified for each module. 
+
 
 ## Output
 
-The main functions in {cleanepi} return an object of type `data.frame` or `linelist`. The report made from all cleaning tasks is attached to this `data.frame` as an attribute and can be accessed using the `attr()` function in base R.
+Both the primary functions of the modules and the core function `clean_data` return an object of type `data.frame` or `linelist`. The report generated from all cleaning tasks is appended to this `data.frame` as an attribute, which can be accessed using the `attr()` function in base R.
 
 
 ### Modules in {cleanepi}
