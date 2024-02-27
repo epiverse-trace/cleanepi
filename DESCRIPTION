@@ -47,8 +47,7 @@ Suggests:
 VignetteBuilder: 
     knitr
 Remotes:
-    epiverse-trace/numberize,
-    epiverse-trace/linelist
+    epiverse-trace/numberize
 Config/Needs/website: epiverse-trace/epiversetheme
 Config/testthat/edition: 3
 Encoding: UTF-8
