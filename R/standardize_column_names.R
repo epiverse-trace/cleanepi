@@ -1,6 +1,6 @@
 #' Standardize column names of a data frame or linelist
 #'
-#' @param data A data frame or linelist.
+#' @param data The input data frame or linelist.
 #' @param keep A vector of column names to maintain. The Default
 #' is `NULL`.
 #'
@@ -10,14 +10,15 @@
 #' @examples
 #' cleaned_data <- standardize_column_names(
 #'   data = readRDS(system.file("extdata", "test_df.RDS",
-#'     package = "cleanepi"
-#'   )),
+#'                              package = "cleanepi")),
 #'   keep = c("Sex", "Country")
 #' )
 #'
 standardize_column_names <- function(data, keep = NULL) {
-  # checkmate::assert data
-  # checkmate::assert keep
+  checkmate::assert_vector(keep, min.len = 1L, null.ok = TRUE,
+                           any.missing = FALSE)
+  checkmate::assert_choice(keep, choices = colnames(data), null.ok = TRUE)
+
   # if they're anything apart from ASCII e.g. arabic, throw error
   before <- colnames(data)
   # TODO replace snakecase with fixed list of diacritics swapable to English
@@ -26,12 +27,12 @@ standardize_column_names <- function(data, keep = NULL) {
     snakecase::to_snake_case(before, transliterations = "Latin-ASCII"),
     sep = "_"
   )
-  kept <- which(before %in% keep)
-  after[kept] <- before[kept]
+  kept           <- which(before %in% keep)
+  after[kept]    <- before[kept]
   colnames(data) <- after
 
   colnames_info <- data.frame(before, after)
-  data <- add_to_report(data, "colnames", colnames_info)
+  data          <- add_to_report(data, "colnames", colnames_info)
   print(colnames_info)
-  data
+  return(data)
 }

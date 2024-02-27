@@ -7,7 +7,7 @@
 standardize_column_names(data, keep = NULL)
 }
 \arguments{
-\item{data}{A data frame or linelist.}
+\item{data}{The input data frame or linelist.}
 
 \item{keep}{A vector of column names to maintain. The Default
 is \code{NULL}.}
@@ -21,8 +21,7 @@ Standardize column names of a data frame or linelist
 \examples{
 cleaned_data <- standardize_column_names(
   data = readRDS(system.file("extdata", "test_df.RDS",
-    package = "cleanepi"
-  )),
+                             package = "cleanepi")),
   keep = c("Sex", "Country")
 )
 
