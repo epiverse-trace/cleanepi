@@ -1,0 +1,195 @@
+---
+title: "Print data cleaning report"
+output: html_document
+params:
+    standardized_column_names: NULL
+    missing_values_replaced_at: NULL
+    empty_columns: "none"
+    constant_columns: "none"
+    duplicated_rows: NULL
+    removed_duplicates: NULL
+    duplicates_checked_from: NULL
+    out_of_range_dates: NULL
+    incorrect_subject_id: NULL
+    missing_ids: NULL
+    duplicated_ids: NULL
+    converted_into_numeric: NULL
+    misspelled_values: NULL
+    incorrect_date_sequence: NULL
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library("kableExtra")
+library("magrittr")
+```
+
+---
+    date: `r format(Sys.Date(), "%d/%m/%Y")`
+---
+
+```{r echo=FALSE, eval=TRUE, include=FALSE}
+# GET THE USER PARAMETERS
+standardized_column_names  <- params[["standardized_column_names"]]
+missing_values_replaced_at <- params[["missing_values_replaced_at"]]
+empty_columns              <- params[["empty_columns"]]
+constant_columns           <- params[["constant_columns"]]
+duplicated_rows            <- params[["duplicated_rows"]]
+removed_duplicates         <- params[["removed_duplicates"]]
+duplicates_checked_from    <- params[["duplicates_checked_from"]]
+out_of_range_dates         <- params[["out_of_range_dates"]]
+incorrect_subject_id       <- params[["incorrect_subject_id"]]
+missing_ids                <- params[["missing_ids"]]
+duplicated_ids             <- params[["duplicated_ids"]]
+converted_into_numeric     <- params[["converted_into_numeric"]]
+misspelled_values          <- params[["misspelled_values"]]
+incorrect_date_sequence    <- params[["incorrect_date_sequence"]]
+```
+
+```{r echo=FALSE}
+# SET LOGICALS FOR THE CODE CHUNCKS BELOW
+are_column_standardised <- ifelse(is.null(standardized_column_names), FALSE, # nolint: redundant_ifelse_linter
+                                  TRUE) # nolint: redundant_ifelse_linter
+are_missing_values_replaced <- ifelse(is.null(missing_values_replaced_at), # nolint: redundant_ifelse_linter
+                                      FALSE, # nolint: redundant_ifelse_linter
+                                      TRUE) # nolint: redundant_ifelse_linter
+are_empty_columns_found <- ifelse(empty_columns == "none", FALSE, TRUE) # nolint: redundant_ifelse_linter
+are_constant_columns_found <- ifelse(constant_columns == "none", FALSE, TRUE) # nolint: redundant_ifelse_linter
+are_duplicates_found <- ifelse(is.null(duplicated_rows), FALSE, TRUE) # nolint: redundant_ifelse_linter
+are_duplicates_removed <- ifelse(is.null(removed_duplicates), FALSE, TRUE) # nolint: redundant_ifelse_linter
+are_duplicates_checked <- ifelse(is.null(duplicates_checked_from), FALSE, TRUE) # nolint: redundant_ifelse_linter
+are_out_of_range_dates_found <- ifelse(is.null(out_of_range_dates), FALSE, TRUE) # nolint: redundant_ifelse_linter
+are_incorrect_subject_id <- ifelse(is.null(incorrect_subject_id), FALSE, TRUE) # nolint: redundant_ifelse_linter
+are_missing_ids_found <- ifelse(is.null(missing_ids), FALSE, TRUE) # nolint: redundant_ifelse_linter
+are_duplicated_ids_found <- ifelse(is.null(duplicated_ids), FALSE, TRUE) # nolint: redundant_ifelse_linter
+are_converted_to_numeric <- ifelse(is.null(converted_into_numeric), FALSE, TRUE) # nolint: redundant_ifelse_linter
+are_misspelled_values_found <- ifelse(is.null(misspelled_values), FALSE, TRUE) # nolint: redundant_ifelse_linter
+are_incorrect_date_seq_found <- ifelse(is.null(incorrect_date_sequence), # nolint: redundant_ifelse_linter
+                                            FALSE, TRUE) # nolint: redundant_ifelse_linter
+```
+
+```{r eval=are_column_standardised, echo=FALSE, comment=""}
+message("\nStandardised column names:\n")
+standardized_column_names %>%
+  rlang::set_names(toupper) %>%
+  kbl() %>%
+  kableExtra::kable_paper("striped", font_size = 18, full_width = FALSE) %>%
+  kableExtra::scroll_box(height = "200px", width = "100%",
+                         box_css = "border: 1px solid #ddd; padding: 5px; ",
+                         extra_css = NULL,
+                         fixed_thead = TRUE)
+```
+
+```{r eval=are_missing_values_replaced, echo=FALSE, comment=""}
+cat("\nMissing values were replaced in the following columns:\n")
+print(missing_values_replaced_at)
+```
+
+```{r eval=are_empty_columns_found, echo=FALSE, comment=""}
+cat("\nThe following columns are empty:\n")
+print(empty_columns)
+```
+
+```{r eval=are_constant_columns_found, echo=FALSE, comment=""}
+cat("\nThe following columns are constant:\n")
+print(constant_columns)
+```
+
+```{r eval=are_duplicates_found, echo=FALSE, comment=""}
+cat("\nFound the following duplicates:\n")
+duplicated_rows %>%
+  rlang::set_names(toupper) %>%
+  kbl() %>%
+  kableExtra::kable_paper("striped", font_size = 18, full_width = TRUE) %>%
+  kableExtra::scroll_box(height = "200px", width = "100%",
+                         box_css = "border: 1px solid #ddd; padding: 5px; ",
+                         extra_css = NULL,
+                         fixed_thead = TRUE)
+```
+
+```{r eval=are_duplicates_removed, echo=FALSE, comment=""}
+cat("\nBelow are the removed duplicates:\n")
+removed_duplicates %>%
+  rlang::set_names(toupper) %>%
+  kbl() %>%
+  kableExtra::kable_paper("striped", font_size = 18, full_width = TRUE) %>%
+  kableExtra::scroll_box(height = "200px", width = "100%",
+                         box_css = "border: 1px solid #ddd; padding: 5px; ",
+                         extra_css = NULL,
+                         fixed_thead = TRUE)
+```
+
+```{r eval=are_duplicates_checked, echo=FALSE, comment=""}
+cat("\nDuplicates were detected from the columns below:\n")
+print(duplicates_checked_from)
+```
+
+```{r eval=are_out_of_range_dates_found, echo=FALSE, comment=""}
+cat("\nOut of range dates found at the following lines:\n")
+out_of_range_dates %>%
+  rlang::set_names(toupper) %>%
+  kbl() %>%
+  kableExtra::kable_paper("striped", font_size = 18, full_width = TRUE) %>%
+  kableExtra::scroll_box(height = "200px", width = "100%",
+                         box_css = "border: 1px solid #ddd; padding: 5px; ",
+                         extra_css = NULL,
+                         fixed_thead = TRUE)
+```
+
+```{r eval=are_incorrect_subject_id, echo=FALSE, comment=""}
+cat("\nDetected the following incorrect subject IDs:\n")
+incorrect_subject_id %>%
+  rlang::set_names(toupper) %>%
+  kbl() %>%
+  kableExtra::kable_paper("striped", font_size = 18, full_width = TRUE) %>%
+  kableExtra::scroll_box(height = "200px", width = "100%",
+                         box_css = "border: 1px solid #ddd; padding: 5px; ",
+                         extra_css = NULL,
+                         fixed_thead = TRUE)
+```
+
+```{r eval=are_duplicated_ids_found, echo=FALSE, comment=""}
+cat("\nDetected the following duplicated subject IDs:\n")
+duplicated_ids %>%
+  rlang::set_names(toupper) %>%
+  kbl() %>%
+  kableExtra::kable_paper("striped", font_size = 18, full_width = TRUE) %>%
+  kableExtra::scroll_box(height = "200px", width = "100%",
+                         box_css = "border: 1px solid #ddd; padding: 5px; ",
+                         extra_css = NULL,
+                         fixed_thead = TRUE)
+```
+
+```{r eval=are_missing_ids_found, echo=FALSE, comment=""}
+cat("\nIDs are missing from the following rows:\n")
+print(missing_ids)
+```
+
+```{r eval=are_converted_to_numeric, echo=FALSE, comment=""}
+cat("\nThe following columns were converted into numeric:\n")
+print(converted_into_numeric)
+```
+
+```{r eval=are_misspelled_values_found, echo=FALSE, comment=""}
+cat("\nDetected the following misspelled values:\n")
+misspelled_values %>%
+  rlang::set_names(toupper) %>%
+  kbl() %>%
+  kableExtra::kable_paper("striped", font_size = 18, full_width = TRUE) %>%
+  kableExtra::scroll_box(height = "200px", width = "100%",
+                         box_css = "border: 1px solid #ddd; padding: 5px; ",
+                         extra_css = NULL,
+                         fixed_thead = TRUE)
+```
+
+```{r eval=are_incorrect_date_seq_found, echo=FALSE, comment=""}
+cat("\nDetected the following incorrect date sequences:\n")
+incorrect_date_sequence %>%
+  rlang::set_names(toupper) %>%
+  kbl() %>%
+  kableExtra::kable_paper("striped", font_size = 18, full_width = TRUE) %>%
+  kableExtra::scroll_box(height = "200px", width = "100%",
+                         box_css = "border: 1px solid #ddd; padding: 5px; ",
+                         extra_css = NULL,
+                         fixed_thead = TRUE)
+```

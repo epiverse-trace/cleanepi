@@ -5,8 +5,6 @@ editor_options:
     wrap: 72
 ---
 
-<!-- README.md is generated from README.Rmd. Please edit that file. -->
-
 <!-- The code to render this README is stored in .github/workflows/render-readme.yaml -->
 
 <!-- Variables marked with double curly braces will be transformed beforehand: -->
@@ -39,13 +37,24 @@ coverage](https://codecov.io/gh/epiverse-trace/cleanepi/branch/main/graph/badge.
 
 <!-- badges: end -->
 
-**{{ packagename }}** is an R package to clean, curate, and standardize epidemiological data. 
+**{{ packagename }}** is an  R package designed for cleaning, curating, and standardizing  epidemiological data. It streamlines various data cleaning tasks that are typically expected when working with  datasets in epidemiology.
 
-**{{ packagename }}**  performs several data cleaning tasks that an end-user would anticipate to be performed on a cluttered dataset. These include standard tasks such as: removing duplicated and empty rows and columns, removing columns with constant values, replacing missing value strings with `NA`, ensuring uniqueness of uniquely identified columns, converting `character` columns to `Date` under certain conditions, etc.    
+Key functionalities of **{{ packagename }}** include:
 
-**{{ packagename }}** can also standardize column entries into specified formats, calculates age (in years, months, weeks, or days) from a given `Date` column and a reference date.  
+1. **Removing irregularities**: It efficiently removes duplicated and empty rows and columns, as well as columns with constant values.
 
-**{{ packagename }}** expects input data in  a form of  data frame-like structure (`data.frame`, `tibble`, etc) or a `linelist` object and returns a processed data of the same type. It also returns an object of type `list` that reports the outcomes from every cleaning task.  
+2. **Handling missing values**: It replaces missing values with the standard `NA` format, ensuring consistency and ease of analysis.
+
+3. **Ensuring data integrity**: It ensures the uniqueness of uniquely identified columns, thus maintaining data integrity and preventing duplicates.
+
+4. **Date conversion**: It offers functionality to convert character columns to Date format under specified conditions, enhancing data uniformity and facilitating temporal analysis.
+
+5. **Standardizing entries**: It can standardize column entries into specified formats, promoting consistency across the dataset.
+
+6. **Age calculation**: It calculates age from a given `Date` column and a reference date, providing valuable demographic insights for epidemiological analysis.
+
+**{{ packagename }}** operates on data frames or similar structures like tibbles, as well as linelist objects commonly used in epidemiological research. It returns the processed data in the same format, ensuring seamless integration into existing workflows. Additionally, it generates a comprehensive report detailing the outcomes of each cleaning task.
+
 
 **{{ packagename }}** is developed by  the [Epiverse-TRACE](https://data.org/initiatives/epiverse/) team at the [Medical Research Council The Gambia unit at the London School of Hygiene and Tropical Medicine](https://www.lshtm.ac.uk/research/units/mrc-gambia).
 
@@ -69,46 +78,92 @@ The main function in **{{ packagename }}** is `clean_data(),` which internally m
 # READING IN THE TEST DATASET
 test_data       <- readRDS(system.file("extdata", "test_df.RDS",
                                        package = "cleanepi"))
-print(test_data)
+```
+
+```{r echo=FALSE, eval=TRUE}
+test_data |>
+  rlang::set_names(toupper) |>
+  kableExtra::kbl() |>
+  kableExtra::kable_paper("striped", font_size = 18, full_width = TRUE) |>
+  kableExtra::scroll_box(height = "200px", width = "100%",
+                         box_css = "border: 1px solid #ddd; padding: 5px; ",
+                         extra_css = NULL,
+                         fixed_thead = TRUE)
 ```
 
 ```{r eval=TRUE}
 # READING IN THE DATA DICTIONARY
 test_dictionary <- readRDS(system.file("extdata", "test_dictionary.RDS",
                                        package = "cleanepi"))
-print(test_dictionary)
+```
+
+```{r echo=FALSE, eval=TRUE}
+test_dictionary |>
+  rlang::set_names(toupper) |>
+  kableExtra::kbl() |>
+  kableExtra::kable_paper("striped", font_size = 18, full_width = TRUE) |>
+  kableExtra::scroll_box(height = "200px", width = "100%",
+                         box_css = "border: 1px solid #ddd; padding: 5px; ",
+                         extra_css = NULL,
+                         fixed_thead = TRUE)
 ```
 
 ```{r eval=TRUE}
 # DEFINING THE CLEANING PARAMETERS
+use_na                  <- list(target_columns = NULL, na_strings = "-99")
+remove_duplicates       <- list(target_columns   = NULL,
+                                rm_empty_rows    = TRUE,
+                                rm_empty_cols    = TRUE,
+                                rm_constant_cols = TRUE)
+standardize_date        <- list(target_columns  = NULL,
+                                error_tolerance = 0.5,
+                                format          = NULL,
+                                timeframe       = as.Date(c("1973-05-29",
+                                                            "2023-05-29")))
+standardize_subject_ids <- list(id_col_name = "study_id",
+                                format      = NULL,
+                                prefix      = "PS",
+                                suffix      = "P2",
+                                range       = c(1, 100))
 params <- list(
-  remove_duplicates   = TRUE,
-  target_columns      = NULL, 
-  replace_missing     = TRUE,
-  na_comes_as         = "-99",
-  check_timeframe     = TRUE,
-  timeframe           = as.Date(c("1973-05-29", "2023-05-29")),
-  error_tolerance     = 0.5,
-  subject_id_col_name = "study_id",
-  subject_id_format   = "PS000P2",
-  prefix              = "PS",
-  suffix              = "P2",
-  range               = c(1, 100),
-  keep                = "date.of.admission",
-  dictionary          = test_dictionary
+  keep                    = NULL,
+  replace_missing_values  = use_na, 
+  remove_duplicates       = remove_duplicates,
+  standardize_date        = standardize_date,
+  standardize_subject_ids = standardize_subject_ids,
+  to_numeric              = "sex",
+  dictionary              = test_dictionary
 )
+```
 
+```{r eval=TRUE}
 # PERFORMING THE DATA CLEANING
-res <- clean_data(
+cleaned_data <- clean_data(
   data   = test_data,
   params = params
 )
+```
 
-cleaned_data    <- res$data
-cleaning_report <- res$report
-
+```{r echo=FALSE, eval=TRUE}
 # VISUALISE THE CLEANED DATASET
-print(cleaned_data)
+cleaned_data |>
+  rlang::set_names(toupper) |>
+  kableExtra::kbl() |>
+  kableExtra::kable_paper("striped", font_size = 18, full_width = TRUE) |>
+  kableExtra::scroll_box(height = "200px", width = "100%",
+                         box_css = "border: 1px solid #ddd; padding: 5px; ",
+                         extra_css = NULL,
+                         fixed_thead = TRUE)
+```
+
+```{r eval=TRUE}
+# EXTRACT THE DATA CLEANING REPORT
+report <- attr(cleaned_data, "report")
+```
+
+```{r eval=FALSE}
+# DISPLAY THE DATA CLEANING REPORT
+print_report(report)
 ```
 
 ## Vignette
@@ -119,7 +174,6 @@ browseVignettes("cleanepi")
 ## Next steps
 
 :white_check_mark: update and create test files    
-:white_check_mark: build function to display the cleaning report    
 
 
 ### Lifecycle
