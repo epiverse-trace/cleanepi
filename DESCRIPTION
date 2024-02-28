@@ -17,7 +17,7 @@ Authors@R: c(
 Maintainer: Karim Mané <karim.mane@lshtm.ac.uk>
 Description: cleanepi provides functions for cleaning and standardizing tabular data, tailored specifically for curating epidemiological data.
 License: MIT + file LICENSE
-URL: https://epiverse-trace.github.io/cleanepi, https://github.com/epiverse-trace/cleanepi
+URL: https://github.com/epiverse-trace/cleanepi, https://epiverse-trace.github.io/cleanepi
 BugReports: https://github.com/epiverse-trace/cleanepi/issues
 Imports:
     arsenal,
