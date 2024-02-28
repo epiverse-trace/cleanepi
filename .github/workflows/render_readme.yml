@@ -9,8 +9,7 @@ name: render-readme
 on:
   workflow_dispatch:
   push:
-    branches:
-      "*"
+    branches: [main, fix_readme_issue]
     paths:
       - 'README.Rmd'
 
