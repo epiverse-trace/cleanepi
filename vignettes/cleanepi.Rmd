@@ -34,13 +34,13 @@ library("cleanepi")
 The main function in **{cleanepi}** is `clean_data()` that can perform the following tasks:
 
 1. Scan the input data to determine the percent of missing, numeric, character, logical and date values in every column of the input data frame.   
-2. Clean up column names and convert them to more sensible formats. This includes many sub-tasks such as changing a space, dot, or hyphen between two words with underscore; converting camel-cases to snake-cases; substituting foreign characters with their corresponding English characters; and splitting a long word into multiple short words by capital characters within, if any, and connecting them with underscores.   
+2. Clean up column names and convert them to more intuitive formats. This includes many sub-tasks such as replacing a space, dot, or hyphen between two words with underscore; converting camel-cases to snake-cases; substituting foreign characters with their corresponding English characters; and splitting a long word into multiple short words by capital characters within, if any, and connecting them with underscores.   
 3. Remove duplicated rows across all columns or some specific columns. This also includes the removal of empty rows and columns as well as constant columns, i.e. columns with the same value across all rows.   
 4. Replace missing entries with `NA`. 
-5. Check whether the the sequence of date events are correct in all rows of the input data.
+5. Check whether the sequence of date events are correct in all rows of the input data.
 6. Convert `character` columns into `Date` if the column actually contains values of type `Date` to some extent (default is 50% of the values are `Date`).
 7. Detect and remove rows with subject IDs that do not comply with the expected format.
-8. Perform dictionary-based cleaning: replace keys in specific columns with their corresponding values stored in a data dictionary file, replace misspelled values with their correct ones.
+8. Perform dictionary-based cleaning: replace keys in specific columns with their corresponding values stored in a data dictionary file, and replace misspelled values with their correct ones.
 9. Convert numbers written in characters into numeric.
 
 
@@ -118,7 +118,7 @@ params <- list(
 )
 ```
 
-The `clean_data()` requires 2 arguments:
+The `clean_data()` function, as shown below, requires 2 arguments:
 
 1. **data**: A `data.frame` or `linelist`.
 2. **params**: A list of parameters that define the cleaning operations to
@@ -132,7 +132,7 @@ cleaned_data <- clean_data(
 )
 ```
 
-It returns the cleaned dataset. The report generated from the data cleaning operations is a `list object` that is attached to the cleaned data and can be accessed using the `attr()` function, as shown below. The report is automatically printed out, and it contains details of each cleaning operation that was performed successfully. However, users can access the report using the code below:
+It returns the cleaned dataset. The report generated from the data cleaning operations is a `list object` that is attached to the cleaned data and can be accessed using the `attr()` function. The report is automatically printed out, and it contains details of each cleaning operation that was performed successfully. However, users can access the report using the code below:
 
 ```{r eval=TRUE}
 # ACCESS THE DATA CLEANING REPORT
