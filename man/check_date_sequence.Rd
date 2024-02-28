@@ -2,38 +2,35 @@
 % Please edit documentation in R/check_date_sequence.R
 \name{check_date_sequence}
 \alias{check_date_sequence}
-\title{Check the sequence of event dates}
+\title{Check whether the order of the sequence of date-events is valid}
 \usage{
-check_date_sequence(data, event_cols, remove_bad_seq = FALSE, report = list())
+check_date_sequence(data, target_columns, remove_bad_seq = FALSE)
 }
 \arguments{
-\item{data}{the input data frame}
+\item{data}{A data frame}
 
-\item{event_cols}{a vector or a comma-separated list of the event columns
-names. Users should specify at least 2 column names in the expected order.
-For example: event_cols = c("DS", "DH", "DD") where DS=date of the
-symptoms onset, DH=date of hospitalization, DD=date of death}
+\item{target_columns}{A vector of event column names.
+Users should specify at least 2 column names in the expected order.
+For example: target_columns = c("date_symptoms_onset",
+"date_hospitalization", "date_death").}
 
-\item{remove_bad_seq}{a Boolean to specify if rows with incorrect order
-should be filtered out or not. default is FALSE}
-
-\item{report}{the object that will contains details about the result from the
-date columns standardization}
+\item{remove_bad_seq}{A Boolean to specify if rows with incorrect order
+should be filtered out or not. The default is FALSE}
 }
 \value{
-rows of the input data frame with incorrect date sequence
+Rows of the input data frame with incorrect date sequence
 if \code{remove_bad_seq = FALSE}, the input data frame without those
-rows if not
+rows if not.
 }
 \description{
-This function is used to check whether date sequence in
-the specified columns is correct or not.
+Checks whether a date sequence in
+a vector of  specified columns is in order or not.
 }
 \examples{
 good_date_sequence <- check_date_sequence(
-data = readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi")),
-event_cols = c("date_first_pcr_positive_test", "date.of.admission"),
-remove_bad_seq = FALSE,
-report = list()
+  data           = readRDS(system.file("extdata", "test_df.RDS",
+                                       package = "cleanepi")),
+  target_columns = c("date_first_pcr_positive_test", "date.of.admission"),
+  remove_bad_seq = FALSE
 )
 }

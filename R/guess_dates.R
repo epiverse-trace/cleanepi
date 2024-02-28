@@ -14,18 +14,12 @@
 #' @author Thibaut Jombart, Zhian N. Kamvar
 #'
 #'
-#' @param x a `character` vector or a `factor`
+#' @param x A `character` vector or a `factor`
 #'
 #' @param error_tolerance a number between 0 and 1 indicating the proportion of
 #'     entries which cannot be identified as dates to be tolerated; if this
 #'     proportion is exceeded, the original vector is returned, and a message is
 #'     issued; defaults to 0.1 (10 percent)
-#'
-#' @param first_date a Date object specifying the first valid date. Defaults to
-#'   fifty years before the `last_date`.
-#'
-#' @param last_date a Date object specifying the last valid date. Defaults to
-#'   the current date.
 #'
 #' @param orders date codes for fine-grained parsing of dates. This allows for
 #'   parsing of mixed dates. If a list is supplied, that list will be used for
@@ -135,17 +129,16 @@
 #' guess_dates(x, error_tolerance = 0.15) # only 15% errors allowed
 #' }
 #' @keywords internal
-#' @noRd
 #'
-guess_dates <- function(x, check_timeframe,
-                        error_tolerance = 0.5,
-                        first_date      = NULL,
-                        last_date       = Sys.Date(),
-                        orders = list(world_named_months = c("Ybd", "dby"),
-                                      world_digit_months = c("dmy", "Ymd"),
-                                      US_formats         = c("Omdy", "YOmd")),
-                        quiet           = TRUE,
-                        modern_excel    = TRUE) {
+date_guess <- function(x,
+                       error_tolerance = 0.5,
+                       quiet           = TRUE,
+                       modern_excel    = TRUE,
+                       orders          = list(
+                         world_named_months = c("Ybd", "dby"),
+                         world_digit_months = c("dmy", "Ymd"),
+                         US_formats         = c("Omdy", "YOmd")
+                        )) {
 
   ## This function tries converting a single character string into a
   ## well-formatted date, but still returning a character. If it can't convert
@@ -172,15 +165,8 @@ guess_dates <- function(x, check_timeframe,
   ## [1] "Omdy" "YOmd"
   ##
 
-  # Process first and last dates -----------------------------------------------
-  timeframe  <- check_first_and_last_date(first_date, last_date)
-  first_date <- timeframe[[1L]]
-  last_date  <- timeframe[[2L]]
-
   # Process dates --------------------------------------------------------------
-  # save the original x for later if nothing is converted
-  ox <- x
-  x <- process_dates(x, first_date, last_date, check_timeframe)
+  x  <- date_process(x)
 
   # Process lubridate order list -----------------------------------------------
   if (!is.list(orders) && is.character(orders)) {
@@ -193,9 +179,6 @@ guess_dates <- function(x, check_timeframe,
 
   # Guess dates ----------------------------------------------------------------
 
-  # create a new environment for the out of bounds dates to live
-  baddies <- new.env()
-
   # create output data frame for dates
   res        <- list(rep(as.Date(NA_character_), length(x)))
   res        <- rep(res, length(orders))
@@ -205,156 +188,60 @@ guess_dates <- function(x, check_timeframe,
   for (i in seq_along(orders)) {
     # only test the dates if the previous run wasn't successful or the user
     # doesn't want to
-    res[[i]] <- find_and_constrain_date(x, check_timeframe,
-                                        first_date, last_date, baddies,
-                                        orders[[i]], keep = TRUE)
+    # create an empty date vector
+    tmp_res  <- rep(as.Date(NA_character_), length(x))
+    keep     <- TRUE
+
+    # guess at only the subset of dates
+    res[[i]] <- suppressWarnings(tmp_res[keep] <- as.Date(lubridate::parse_date_time(x[keep], # nolint
+                                                                     orders = orders[[i]]))) # nolint: line_length_linter
   }
 
   ## if lubridate fails to do the job, then we should use thibaut's parser.
-  x_rescued <- rescue_lubridate_failures(data.frame(res),
-                                         original_dates = x,
-                                         dmin           = first_date,
-                                         dmax           = last_date,
-                                         baddies        = baddies,
-                                         mxl            = modern_excel)
-
-  # process dates that were not parsed -----------------------------------------
-
-  bd <- as.list(baddies) # convert the environment to a list
-
-  outliers <- NULL
-  if (length(bd) > 0L) {
-    bd     <- utils::stack(bd)     # make a data frame with ind and values
-    bd[["ind"]] <- as.character(bd[["ind"]]) # convert ind to char
-    bd     <- unique(bd)           # only consider unique values
-    bd     <- bd[!is.na(bd[[1L]]) | !is.na(bd[[2L]]), ] # remove NA rows
-    bd     <- bd[order(bd[[1L]]), ] # sort by value
-    outliers <- data.frame(cbind(bd[["values"]], bd[["ind"]]))
-    names(outliers) <- c("original", "parsed")
-  }
+  x_rescued  <- date_rescue_lubridate_failures(data.frame(res),
+                                               original_dates = x,
+                                               mxl            = modern_excel)
 
   # Select the correct dates and test if we were successful --------------------
-
-  new_x           <- choose_first_good_date(x_rescued)
-  na_before       <- sum(is.na(x))
-  na_after        <- sum(is.na(new_x))
-  prop_successful <- (length(x) - na_after) / (length(x) - na_before)
-
-  ## shape result depending on whether conversion was successful
-  if (prop_successful < (1L - error_tolerance)) {
-    return(list(ox, outliers))
-  } else {
-    return(list(as.Date(new_x), outliers))
-  }
+  # this section needs to be out of here and use it to correct for the error
+  # tolerance
+  new_x     <- date_choose_first_good(x_rescued)
+  return(new_x)
 }
-
-#' Finds dates with lubridate and constrains them to a date range
-#'
-#' This takes a character vector and returns a vector of successfully translated
-#' dates within the specified range.
-#'
-#' It will also have the side-effect of populating an environment of bad dates
-#' that can be used for warning the user
-#'
-#' @param x a character vector that can be converted to dates
-#' @param check_timeframe a logical to check whether dates fall within timeframe
-#' @param dmin the minimum dates
-#' @param dmax the maximum dates
-#' @param baddies an environment that will act as a list of bad dates.
-#' @param orders a vector of lubridate orders to consider
-#' @param keep a logical vector indicating the dates to test from `x`
-#' @keywords internal
-#' @noRd
-#'
-find_and_constrain_date <- function(x, check_timeframe, dmin, dmax, baddies,
-                                    orders = NULL, keep = TRUE) {
-
-  # create an empty date vector
-  res <- rep(as.Date(NA_character_), length(x))
-
-  # guess at only the subset of dates
-  suppressWarnings(res[keep] <- as.Date(lubridate::parse_date_time(x[keep], # nolint
-                                                                   orders = orders))) # nolint: line_length_linter
-
-  if (check_timeframe) {
-    res[keep] <- constrain_dates(res[keep], x[keep], dmin, dmax, baddies)
-  }
-  res
-}
-
-
-#' Trim dates outside of the defined boundaries
-#'
-#' @noRd
-#' @param date_a_frame a data frame where each column represents several
-#'   different parsings of the original date vector.
-#' @param dmin the minimum date
-#' @param dmax the maximum date
-#' @param original_dates the vector of original dates (to be collected
-#'    for errors)
-#' @keywords internal
-#' @noRd
-#'
-constrain_dates <- function(new_dates, original_dates, dmin, dmax, baddies) {
-
-  # filter out the dates that are below the threshold
-  outsiders <- new_dates < dmin | new_dates > dmax
-  outsiders[is.na(outsiders)] <- FALSE
-
-  # record the bad dates in the environment
-  if (any(outsiders)) {
-    for (i in which(outsiders)) {
-      bad <- as.character(new_dates[i])
-      baddies[[bad]] <- c(baddies[[bad]], original_dates[i])
-    }
-  }
-  # mark the bad dates as NA
-  new_dates[outsiders] <- as.Date(NA_character_)
-
-  new_dates
-
-}
-
 
 
 #' Choose the first non-missing date from a data frame of dates
 #'
-#' @noRd
 #' @param date_a_frame a data frame where each column contains a different
 #'   parsing of the same date vector
+#'
 #' @keywords internal
 #'
-choose_first_good_date <- function(date_a_frame) {
-  n   <- nrow(date_a_frame)
+date_choose_first_good <- function(date_a_frame) {
+  n            <- nrow(date_a_frame)
   date_a_frame <- as.matrix(date_a_frame)
-  res <- rep_len(as.Date(NA), length.out = n)
+  res          <- rep_len(as.Date(NA), length.out = n)
   for (i in seq_len(n)) {
-    tmp    <- date_a_frame[i, , drop = TRUE]
-    idx <- which(!is.na(tmp))
+    tmp        <- date_a_frame[i, , drop = TRUE]
+    idx        <- which(!is.na(tmp))
     if (length(idx) > 0L) {
-      res[i] <- as.Date(tmp[idx][[1L]])
+      res[i]   <- as.Date(tmp[idx][[1L]])
     }
   }
-  res
+  return(res)
 }
-
 
 #' Find the dates that lubridate couldn't
 #'
-#' @noRd
-#' @param date_a_frame a data frame where each column contains a different
-#'   parsing of the same date vector
-#' @param original_dates the vector of original dates.
-#' @param dmin the minimum dates
-#' @param dmax the maximum dates
-#' @param baddies an environment that will act as a list of bad dates.
+#' @param date_a_frame A data frame where each column contains a different
+#'    parsing of the same date vector
+#' @param original_dates The vector of original dates.
 #' @param mxl "modern excel" if TRUE, then it uses 1900 as the origin, otherwise
 #'    1904 is used as the origin.
 #'
 #' @keywords internal
-rescue_lubridate_failures <- function(date_a_frame, original_dates,
-                                      dmin, dmax, baddies,
-                                      mxl = TRUE) {
+date_rescue_lubridate_failures <- function(date_a_frame, original_dates,
+                                           mxl = TRUE) {
   # Find places where all rows are missing
   nas     <- is.na(date_a_frame)
   all_nas <- apply(nas, 1L, all)
@@ -365,9 +252,7 @@ rescue_lubridate_failures <- function(date_a_frame, original_dates,
   # Use Thibaut's guesser
   tmpbo   <- rep(as.Date(NA_character_), length(go_tibo))
   for (i in go_tibo) {
-    tmpbo[go_tibo == i] <- i_extract_date_string(original_dates[i])
-    tmpbo <- constrain_dates(tmpbo, original_dates[go_tibo], dmin,
-                             dmax, baddies)
+    tmpbo[go_tibo == i] <- date_i_extract_string(original_dates[i])
   }
   date_a_frame[[1L]][go_tibo] <- tmpbo
 
@@ -375,59 +260,53 @@ rescue_lubridate_failures <- function(date_a_frame, original_dates,
   if (sum(go_exel)) {
     origin <- if (mxl) as.Date("1899-12-30") else as.Date("1904-01-01")
     tmpxl  <- as.Date(o_num[go_exel], origin = origin)
-    date_a_frame[[1L]][go_exel] <- constrain_dates(tmpxl,
-                                                   original_dates[go_exel],
-                                                   dmin, dmax, baddies)
+    date_a_frame[[1L]][go_exel] <- tmpxl
   }
 
-  date_a_frame
+  return(date_a_frame)
 }
 
-## Extract date fron a character string
-##
-## Internal function. This function looks for a well-formatted date character
-## string inside a single character string, and returns the matching date using
-## the `%Y-%m-%d` format (e.g. `2018-01-23`).
-##
-##
-## @author Thibaut Jombart
-##
-## @return
-## Either `NA_character_` or a date, as a standardised character string.
+
+#' Extract date from a character string
+#'
+#' This function looks for a well-formatted date character string inside a
+#' single character string, and returns the matching date using the `%Y-%m-%d`
+#' format (e.g. `2018-01-23`).
+#'
+#' @author Thibaut Jombart
+#' @return Either `NA_character_` or a date, as a standardized character string.
 #' @keywords internal
-#' @noRd
-i_extract_date_string <- function(x) {
+date_i_extract_string <- function(x) {
 
   ## This function tries converting a single character string into a
   ## well-formatted date, but still returning a character. If it can't convert
   ## it, it returns NA.
 
-  date_info <- i_find_date_format(x)
+  date_info <- date_i_find_format(x)
   if (is.null(date_info)) {
     return(NA_character_)
   }
 
-  as.character(as.Date(date_info[["date"]], format = date_info[["format"]]))
-
+  return(as.character(as.Date(date_info[["date"]],
+                              format = date_info[["format"]])))
 }
 
-## Guess date format of a character string
-##
-## Internal function. The motivation behing this is that `as.Date` does not
-## handle correctly its `format` argument,
-## e.g. `as.Date("01-12-2001", format = "%Y-%m-%d")` returns `1-12-20`. Tries to
-## match a single character string against regular expressions representing
-## potential date formats. Returns the format as something that can be processed
-## by `as.Date` if a match is found, and `NULL` otherwise.
-##
-## @author Thibaut Jombart
-##
-## @return If no matching format can be found, the function returns NULL; if a
-##   matching format is found, the function returned the matched regular
-##   expression (clean date) and its format compatible with `as.Date`.
+#' Guess date format of a character string
+#'
+#' The motivation behind this is that `as.Date` does not handle correctly its
+#' `format` argument, e.g. `as.Date("01-12-2001", format = "%Y-%m-%d")` returns
+#' `1-12-20`. Tries to match a single character string against regular
+#' expressions representing potential date formats. Returns the format as
+#' something that can be processed by `as.Date` if a match is found, and `NULL`
+#' otherwise.
+#'
+#' @author Thibaut Jombart
+#'
+#' @return If no matching format can be found, the function returns NULL; if a
+#'    matching format is found, the function returned the matched regular
+#'    expression (clean date) and its format compatible with `as.Date`.
 #' @keywords internal
-#' @noRd
-i_find_date_format <- function(x) {
+date_i_find_format <- function(x) {
   x <- as.character(x[[1L]])
 
   ## define the regular expressions used to find dates
@@ -476,9 +355,9 @@ i_find_date_format <- function(x) {
   ## garbage), and return a named character vector of length 2, containing the
   ## as.Date compatible 'format', and the clean date itself, as a character.
 
-  expression <- formats[[format]]
+  expression    <- formats[[format]]
   cleaning_expr <- paste0("^.*(", expression, ").*$")
-  clean_date <- gsub(cleaning_expr, "\\1", x)
-  out <- c("format" = format, "date" = clean_date) # nolint: keyword_quote_linter
-  out
+  clean_date    <- gsub(cleaning_expr, "\\1", x)
+  out           <- c("format" = format, "date" = clean_date) # nolint: keyword_quote_linter
+  return(out)
 }

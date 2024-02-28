@@ -1,88 +1,148 @@
-#' Remove duplicates based on selected columns from a data frame
-#' or linelist object.
+#' Remove duplicates and constant rows and columns
 #'
-#' @param data The input data frame.
+#' @description
+#' Removes duplicates and noise such as  empty rows and
+#' columns, and constant columns. These operations are
+#' automatically performed by default unless specified otherwise.
+#' Users can specify a set columns to consider when removing
+#' duplicates with the 'target_columns' argument.
+#'
+#' @param data A input data frame or linelist.
 #' @param target_columns A vector of column names to use when looking for
 #'    duplicates. When the input data is a `linelist` object, this
 #'    parameter can be set to `tags` if you wish to look for duplicates on
-#'    tagged columns.
-#' @param remove A vector of duplicate indices to be removed.
-#'    Duplicate indices are unique identifiers for all rows in the original
-#'    data frame or linelist that are duplicates of each other based on the
-#'    `target_columns`.
-#'    If remove = NULL (default value), the first duplicate is kept and
+#'    tagged columns only. Default is `NULL`.
+#' @param remove A vector of duplicate indices to be removed. Duplicate indices
+#'    are unique identifiers for all rows in the original data frame or linelist
+#'    that are duplicates of each other based on the `target_columns`.
+#'    If remove = `NULL` (default value), the first duplicate is kept and
 #'    the rest of the duplicates in the group are removed.
-#' @param report A list with the information about the effects of the
-#'    cleaning steps.
+#' @param rm_empty_rows A logical variable that is used to specify whether to
+#'    remove empty rows or not. The default  value is `TRUE`.
+#' @param rm_empty_cols A logical variable that is used to specify whether to
+#'    remove empty columns or not. The default value is `TRUE`.
+#' @param rm_constant_cols A logical variable that is used to specify whether to
+#'    remove constant columns or not. The default value is `TRUE`.
 #'
-#' @return A `list` with elements data (the filtered dataset) and report.
+#' @return A  data frame or linelist  without the duplicates values and nor
+#'    constant columns.
 #' @export
 #'
 #' @examples
 #' no_dups <- remove_duplicates(
-#'   data           = readRDS(system.file("extdata", "test_linelist.RDS",
-#'                              package = "cleanepi")),
-#'   target_columns = "tags",
-#'   remove         = NULL,
-#'   report         = list()
+#'   data             = readRDS(system.file("extdata", "test_linelist.RDS",
+#'                                          package = "cleanepi")),
+#'   target_columns   = "tags",
+#'   remove           = NULL,
+#'   rm_empty_rows    = TRUE,
+#'   rm_empty_cols    = TRUE,
+#'   rm_constant_cols = TRUE
 #' )
 #'
-remove_duplicates <- function(data, target_columns,
-                              remove = NULL, report = list()) {
-  # get the target column names
-  target_columns   <- get_target_column_names(data, target_columns)
+remove_duplicates <- function(data,
+                              target_columns   = NULL,
+                              remove           = NULL,
+                              rm_empty_rows    = TRUE,
+                              rm_empty_cols    = TRUE,
+                              rm_constant_cols = TRUE) {
 
-  # extract column names if target_columns is a vector of column indexes
-  if (is.numeric(target_columns)) {
-    target_columns <- names(data)[target_columns]
+  # setting up the variables below to NULL to avoid linters
+  row_id <- NULL # nolint: object_usage_linter
+
+  # remove the empty rows and columns
+  report <- attr(data, "report")
+  dat    <- data %>%
+    janitor::remove_empty(c("rows", "cols"))
+  cols     <- rows <- NULL
+  add_this <- "none"
+  idx      <- which(!(names(data) %in% names(dat)))
+  if (length(idx) > 0L) {
+    cols <- names(data)[idx]
+    if (!is.null(cols)) {
+      add_this <- glue::glue_collapse(cols, sep = ", ")
+    }
+  }
+  dat      <- add_to_report(x     = dat,
+                            key   = "empty_columns",
+                            value = add_this)
+  if (nrow(summary(arsenal::comparedf(data, dat))[["obs.table"]]) > 0L) {
+    rows   <- summary(arsenal::comparedf(data,
+                                         dat))[["obs.table"]][["observation"]]
+    if (!is.null(rows)) {
+      add_this <- rows
+    }
   }
 
+  # remove constant columns
+  add_this <- "none"
+  data     <- dat
+  dat      <- data %>% janitor::remove_constant()
+  idx      <- which(!(names(data) %in% names(dat)))
+  if (length(idx) > 0L) {
+    add_this <- glue::glue_collapse(names(data)[idx], sep = ", ")
+    cols     <- c(cols, names(data)[idx])
+  }
+  dat        <- add_to_report(x     = dat,
+                              key   = "constant_columns",
+                              value = add_this)
+
+  # get the target column names
+  if (is.null(target_columns)) {
+    target_columns <- names(dat)
+  }
+  target_columns   <- get_target_column_names(dat, target_columns, cols)
+
   # find duplicates
-  dups             <- find_duplicates(data, target_columns)
-  data[["row_id"]] <- seq_len(nrow(data))
+  add_this   <- "none"
+  dups       <- find_duplicates(dat, target_columns)
+  tmp_report <- attr(dups, "report")
+  if ("duplicated_rows" %in% names(tmp_report) &&
+      nrow(tmp_report[["duplicated_rows"]]) > 0L) {
+    dups   <- tmp_report[["duplicated_rows"]]
+    report <- c(report, tmp_report)
+    dat    <- dat %>%
+      dplyr::mutate(row_id = seq_len(nrow(dat)))
+  } else {
+    message("\nNo duplicates found from the specified columns.")
+  }
+
 
   # remove duplicates
   if (is.null(remove)) {
-    # remove duplicates by keeping the first instance of the duplicate in each
+    # remove duplicates and keep the first instance of the duplicate in each
     # duplicate group
-    data <- data %>%
+    dat <- dat %>%
       dplyr::distinct_at({{ target_columns }}, .keep_all = TRUE)
   } else {
     # remove duplicates from user specified rows
-    data <- data[-remove, ]
+    dat <- dat[-remove, ]
   }
 
-  if (nrow(dups) > 0L) {
-    report[["remove_duplicates"]]               <- list()
-    report[["remove_duplicates"]][["all_dups"]] <- dups
-    idx <- which(!(dups[["row_id"]] %in% data[["row_id"]]))
-    report[["remove_duplicates"]][["removed_dups"]] <- dups[idx, ]
-    report[["remove_duplicates"]][["duplicates_checked_from"]] <-
-      glue::glue_collapse(target_columns, sep = ", ")
+
+  if ("duplicated_rows" %in% names(tmp_report) &&
+      nrow(tmp_report[["duplicated_rows"]]) > 0L) {
+    tmp_target_columns <- c("row_id", target_columns)
+    to_be_removed      <- suppressMessages(dplyr::anti_join(dups, dat) %>%
+        dplyr::select({{ tmp_target_columns }}))
+    report[["removed_duplicates"]] <- to_be_removed
   }
 
-  if ("row_id" %in% names(data)) {
-    row_id <- NULL
-    data   <- data %>% dplyr::select(-c(row_id))
-  }
-
-  list(
-    data = data,
-    report = report
-  )
+  attr(dat, which = "report") <- report
+  return(dat)
 }
 
 
 
 #' Identify and return duplicated rows in a data frame or linelist.
 #'
-#' @param data The input data frame or linelist.
+#' @param data A data frame or linelist.
 #' @param target_columns A vector of columns names or indices to consider when
-#'    looking for duplicates. When the input data is a `linelist` object,
-#'    this parameter can be set to `tags` if you wish to look for
-#'    duplicates across the tagged variables only.
+#'    looking for duplicates. When the input data is a `linelist` object, this
+#'    parameter can be set to `tags`from which duplicates to be removed.
+#'    Its default value is `NULL`, which considers duplicates across all
+#'    columns.
 #'
-#' @return Data frame or linelist of all duplicated rows with following 2
+#' @return A data frame or linelist of all duplicated rows with following 2
 #'    additional columns:
 #'    \enumerate{
 #'      \item `row_id`: the indices of the duplicated rows from the input data.
@@ -96,46 +156,67 @@ remove_duplicates <- function(data, target_columns,
 #'
 #' @examples
 #' dups <- find_duplicates(
-#'   data = readRDS(system.file("extdata", "test_linelist.RDS",
-#'     package = "cleanepi")),
+#'   data           = readRDS(system.file("extdata", "test_linelist.RDS",
+#'                                        package = "cleanepi")),
 #'   target_columns = c("dt_onset", "dt_report", "sex", "outcome")
 #' )
 #'
-find_duplicates <- function(data, target_columns) {
+find_duplicates <- function(data, target_columns = NULL) {
   # get the target column names
-  target_columns <- get_target_column_names(data, target_columns)
+  if (is.null(target_columns)) {
+    target_columns <- names(data)
+  }
+  target_columns   <- get_target_column_names(data, target_columns, cols = NULL)
 
   # find duplicates
   num_dups <- row_id <- group_id <- NULL
   dups <- data %>%
-    dplyr::group_by(dplyr::pick({{ target_columns }})) %>%
+    dplyr::group_by_at(dplyr::vars(target_columns)) %>%
     dplyr::mutate(num_dups = dplyr::n()) %>%
     dplyr::ungroup() %>%
     dplyr::mutate(row_id = seq_len(nrow(data))) %>%
-    dplyr::arrange(dplyr::pick({{ target_columns }})) %>%
+    dplyr::arrange(dplyr::pick(target_columns)) %>%
     dplyr::filter(num_dups > 1L) %>%
     dplyr::select(-c(num_dups)) %>%
-    dplyr::group_by(dplyr::pick({{ target_columns }})) %>%
+    dplyr::group_by_at(dplyr::vars(target_columns)) %>%
     dplyr::mutate(group_id = dplyr::cur_group_id()) %>%
     dplyr::select(row_id, group_id, dplyr::everything())
 
-  dups
+  if (nrow(dups) > 0L) {
+    message("Found ", nrow(dups), " duplicated rows. Please consult the report",
+            " for more details.")
+    to_be_shown <- dups %>%
+      dplyr::select(c(row_id, group_id, {{ target_columns }}))
+    data <- add_to_report(x     = data,
+                          key   = "duplicated_rows",
+                          value = to_be_shown)
+    data <- add_to_report(x     = data,
+                          key   = "duplicates_checked_from",
+                          value = glue::glue_collapse(target_columns,
+                                                      sep = ", "))
+  }
+  return(data)
 }
 
 
 #' Get the names of the columns from which duplicates will be found
 #'
-#' @param data the input dataset
-#' @param target_columns the user specified target column name
+#' @param data A dataframe or linelist
+#' @param target_columns A vector of column names
+#' @param cols A vector of empty and constant columns
 #'
-#' @return a `vector` with the target column names or indexes
+#' @return A vector with the target column names or indexes
 #'
 #' @keywords internal
-#' @noRd
 #'
-get_target_column_names <- function(data, target_columns) {
+get_target_column_names <- function(data, target_columns, cols) {
   if (is.null(target_columns)) {
     return(names(data))
+  }
+
+  # extract column names if target_columns is a vector of column indexes
+  if (is.numeric(target_columns)) {
+    target_columns <- names(data)[target_columns]
   }
 
   # check for linelist object if target_columns='tags'
@@ -149,5 +230,15 @@ get_target_column_names <- function(data, target_columns) {
     target_columns <- as.character(original_tags)
   }
 
-  target_columns
+  # check whether target columns are part of the empty or constant columns
+  if (!is.null(cols)) {
+    idx <- which(cols %in% target_columns)
+    if (length(idx) > 0L) {
+      target_columns <- target_columns[-idx]
+      stopifnot("All specified columns are either constant or empty." =
+                  length(target_columns) > 0L)
+    }
+  }
+
+  return(target_columns)
 }

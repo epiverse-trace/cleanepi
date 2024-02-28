@@ -2,104 +2,104 @@
 % Please edit documentation in R/clean_data.R
 \name{clean_data}
 \alias{clean_data}
-\title{Clean data}
+\title{Clean and standardize data}
 \usage{
 clean_data(
   data,
-  params = list(keep = NULL, remove_duplicates = FALSE, target_columns = NULL,
-    replace_missing = TRUE, na_comes_as = NULL, check_timeframe = FALSE, timeframe =
-    NULL, error_tolerance = 0.5, subject_id_col_name = NULL, subject_id_format = NULL,
-    prefix = NULL, suffix = NULL, range = NULL, dictionary = NULL)
+  params = list(keep = NULL, replace_missing_values = list(target_columns = NULL,
+    na_strings = cleanepi::common_na_strings), remove_duplicates = list(target_columns =
+    NULL, rm_empty_rows = TRUE, rm_empty_cols = TRUE, rm_constant_cols = TRUE),
+    standardize_dates = list(target_columns = NULL, error_tolerance = 0.5, format = NULL,
+    timeframe = NULL), standardize_subject_ids = list(id_col_name = "id", format = NULL,
+    prefix = NULL, suffix = NULL, range = NULL), dictionary = NULL, to_numeric = NULL)
 )
 }
 \arguments{
-\item{data}{the input data frame}
+\item{data}{The input data frame or linelist}
 
-\item{params}{a list of parameters that define what cleaning operations will
-be applied on the input data. Possible parameters are:
+\item{params}{A list of parameters that define what cleaning operations will
+be applied on the input data. Possible values are:
 \enumerate{
-\item \code{remove_duplicates}: whether to remove duplicated records or not. If
-\code{TRUE}, the \code{remove} argument of the \code{remove_duplicate()} function
-will automatically be set to \code{-1} i.e. to keep only the first instance
-of duplicated rows.
-When the user only needs to detect duplicated rows in the dataset, use
-the \code{find_duplicates()} function.
-\item \code{target_columns}: a vector of columns names or indices to consider
-when looking for duplicates. When the input data is a \code{linelist}
-object, this parameter can be set to \code{tags} if you wish to look for
-duplicates across the tagged variables only. Only used when
-\code{remove_duplicates=TRUE}
-\item \code{replace_missing}: whether to replace the missing value characters
-with NA or not. default is FALSE
-\item \code{na_comes_as}: the characters that represent the missing values in
-the data frame. Only used when \code{replace_missing=TRUE}
-\item \code{check_timeframe}: a logical to determine whether to check if the
-dates fall under the given time frame of not. default: FALSE
-\item \code{timeframe}: a vector of 2 elements of Date class that specifies the
-first and last date. If provided, all Dates in the data frame must be
-within this range or set to NA during the cleaning.
-\item \code{error_tolerance}: a number between 0 and 1 indicating the proportion
-of entries which cannot be identified as dates to be tolerated; if
-this proportion is exceeded, the original vector is returned, and a
-message is issued; defaults to 0.1 (10 percent)
-\item \code{subject_id_col_name}: the name of the column in the data frame with
-the subject IDs
-\item \code{subject_id_format}: the expected subject format
-\item \code{prefix}: the prefix used in the subject IDs
-\item \code{suffix}: the prefix used in the subject IDs
-\item \code{range}: a vector with the range of numbers in the subject IDs
-\item \code{dictionary}: an object of type data frame. This is the data
-dictionary that will be used to clean the specified columns. Use
-\code{?clean_using_dictionary} for more details.
-\item \code{range}: a vector with the range of numbers in the sample IDs
-\item \code{keep}: a vector of column names to be kept as they appear
-in the original data. default is \code{NULL}
+\item \code{keep}: A vector of column names to be kept as they appear in the
+original data. All column names will be standardized if this is \code{NULL}
+(the default value).
+\item \code{replace_missing_values}: A list of parameters to be used when
+replacing the missing values by \code{NA}. These parameters are the inputs
+for the \code{replace_missing_values()} function.
+\item \code{remove_duplicates}: A list of arguments that defines the list of
+columns to be considered when looking for duplicates. It also contains
+arguments that determine how constant rows and columns will be handled.
+They are the input values for the \code{remove_duplicates()} function.
+\item \code{standardize_date}: A list of parameters that will be used to
+standardize the date values from the input data. They represent the
+input values for the \code{standardize_dates()} function.
+\item \code{standardize_subject_ids}: A list of parameters that are needed to
+check the IDs that comply with the expect format. These arguments are
+the input values of the \code{check_subject_ids()}.
+\item \code{to_numeric}: a vector of column names. When provided, the values in
+these columns will be converted into numeric.
+\item \code{dictionary}: A data frame that will be used to substitute the
+current values in the specified columns the those in the dictionary. It
+is the main argument for the \code{clean_using_dictionary()} function.
 }}
 }
 \value{
-a list of the following 2 elements:
-\enumerate{
-\item \code{data}: the cleaned data frame according to the user-specified
-parameters
-\item \code{report}: an object of type list with the details from every
-cleaning operation.
-}
+The cleaned input date according to the user-specified parameters.
+This is associated with a data cleaning report that can be accessed using
+\code{attr(cleaned_data, "report")}
 }
 \description{
-this function is used to clean up messy data frames. This
-include the cleaning of column names, detecting and removing of
+Cleans up messy data frames by performing several operations.
+These Include cleaning of column names, detecting and removing
 duplicates, empty records and columns, constant columns, replacing missing
-values by NA, converting character columns into Date when they contain a
-certain number of Date values, detecting subject IDs with wrong format
-}
-\details{
-If \code{check_timeframe = TRUE} and \code{timeframe = NULL}, the timeframe will be
-today's date and the same date 50 years before.
-
-in \code{clean_data()}, duplicated rows will be identified across the
-user-specified or all columns. Once detected, all occurrences of the
-duplicated rows will be removed except the first. If you only need to find
-and remove specific duplicates, use the \code{find_duplicates()} then
-\code{remove_duplicates()} functions.
+values by NA, converting character columns into dates when they contain a
+certain number of date values, and detecting subject IDs with wrong
+formats.
 }
 \examples{
+keep <- NULL # column names standardization will be performed across
+# all columns
+
+# Parameters for substituting missing values with NA:
+replace_missing_values <- list(target_columns = NULL, na_strings = "-99")
+
+# Parameters for duplicates removal across all columns
+# (target_columns = NULL)
+remove_duplicates <- list(target_columns   = NULL,
+                          rm_empty_rows    = TRUE,
+                          rm_empty_cols    = TRUE,
+                          rm_constant_cols = TRUE)
+
+# Parameters for dates standardization
+standardize_date <- list(target_columns  = NULL,
+                         error_tolerance = 0.5,
+                         format          = NULL,
+                         timeframe       = as.Date(c("1973-05-29",
+                                                     "2023-05-29")))
+
+# Parameters for subject IDs standardization
+standardize_subject_ids <- list(id_col_name = "study_id",
+                                format      = NULL,
+                                prefix      = "PS",
+                                suffix      = "P2",
+                                range       = c(1, 100))
+
+# to_numeric = "sex" the 'sex' column will be converted into numeric
+
+# dictionary = NULL the dictionary-based cleaning will not be performed here
+
 cleaned_data <- clean_data(
   data   = readRDS(system.file("extdata", "test_df.RDS",
                                package = "cleanepi")),
   params = list(
-    keep                = NULL,
-    remove_duplicates   = TRUE,
-    target_columns      = NULL,
-    replace_missing     = TRUE,
-    na_comes_as         = "-99",
-    check_timeframe     = TRUE,
-    timeframe           = as.Date(c("1973-05-29", "2023-05-29")),
-    error_tolerance     = 0.5,
-    subject_id_col_name = "study_id",
-    subject_id_format   = "PS000P2",
-    prefix              = "PS",
-    suffix              = "P2",
-    range               = c(1, 100),
-    dictionary          = NULL))
+    keep                    = NULL,
+    replace_missing_values  = replace_missing_values,
+    remove_duplicates       = remove_duplicates,
+    standardize_date        = standardize_date,
+    standardize_subject_ids = standardize_subject_ids,
+    to_numeric              = "sex",
+    dictionary              = NULL
+  )
+)
 
 }

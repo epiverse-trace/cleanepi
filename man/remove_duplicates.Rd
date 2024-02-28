@@ -2,43 +2,60 @@
 % Please edit documentation in R/find_and_remove_duplicates.R
 \name{remove_duplicates}
 \alias{remove_duplicates}
-\title{Remove duplicates based on selected columns from a data frame
-or linelist object.}
+\title{Remove duplicates and constant rows and columns}
 \usage{
-remove_duplicates(data, target_columns, remove = NULL, report = list())
+remove_duplicates(
+  data,
+  target_columns = NULL,
+  remove = NULL,
+  rm_empty_rows = TRUE,
+  rm_empty_cols = TRUE,
+  rm_constant_cols = TRUE
+)
 }
 \arguments{
-\item{data}{The input data frame.}
+\item{data}{A input data frame or linelist.}
 
 \item{target_columns}{A vector of column names to use when looking for
 duplicates. When the input data is a \code{linelist} object, this
 parameter can be set to \code{tags} if you wish to look for duplicates on
-tagged columns.}
+tagged columns only. Default is \code{NULL}.}
 
-\item{remove}{A vector of duplicate indices to be removed.
-Duplicate indices are unique identifiers for all rows in the original
-data frame or linelist that are duplicates of each other based on the
-\code{target_columns}.
-If remove = NULL (default value), the first duplicate is kept and
+\item{remove}{A vector of duplicate indices to be removed. Duplicate indices
+are unique identifiers for all rows in the original data frame or linelist
+that are duplicates of each other based on the \code{target_columns}.
+If remove = \code{NULL} (default value), the first duplicate is kept and
 the rest of the duplicates in the group are removed.}
 
-\item{report}{A list with the information about the effects of the
-cleaning steps.}
+\item{rm_empty_rows}{A logical variable that is used to specify whether to
+remove empty rows or not. The default  value is \code{TRUE}.}
+
+\item{rm_empty_cols}{A logical variable that is used to specify whether to
+remove empty columns or not. The default value is \code{TRUE}.}
+
+\item{rm_constant_cols}{A logical variable that is used to specify whether to
+remove constant columns or not. The default value is \code{TRUE}.}
 }
 \value{
-A \code{list} with elements data (the filtered dataset) and report.
+A  data frame or linelist  without the duplicates values and nor
+constant columns.
 }
 \description{
-Remove duplicates based on selected columns from a data frame
-or linelist object.
+Removes duplicates and noise such as  empty rows and
+columns, and constant columns. These operations are
+automatically performed by default unless specified otherwise.
+Users can specify a set columns to consider when removing
+duplicates with the 'target_columns' argument.
 }
 \examples{
 no_dups <- remove_duplicates(
-  data           = readRDS(system.file("extdata", "test_linelist.RDS",
-                             package = "cleanepi")),
-  target_columns = "tags",
-  remove         = NULL,
-  report         = list()
+  data             = readRDS(system.file("extdata", "test_linelist.RDS",
+                                         package = "cleanepi")),
+  target_columns   = "tags",
+  remove           = NULL,
+  rm_empty_rows    = TRUE,
+  rm_empty_cols    = TRUE,
+  rm_constant_cols = TRUE
 )
 
 }
