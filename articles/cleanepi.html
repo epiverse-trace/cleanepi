@@ -82,7 +82,7 @@
 
 
 
-
+<script src="cleanepi_files/kePrint-0.0.1/kePrint.js"></script><link href="cleanepi_files/lightable-0.0.1/lightable.css" rel="stylesheet">
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>cleanepi</h1>
@@ -97,23 +97,26 @@
 <div class="section level2">
 <h2 id="an-overview">An overview<a class="anchor" aria-label="anchor" href="#an-overview"></a>
 </h2>
-<p>No matter how many measures are taken, one must always expect messy
-data from the real-world, with duplicates, errors, incomplete, or
-irrelevant formats. Data cleaning is an essential step in data analysis.
-It allows to produce accurate, reliable and reproducible results.
-However, data cleaning is a significant barrier in data analysis because
-it takes a long time to complete.</p>
-<p><strong>{cleanepi}</strong> is an R package to clean, curate, and
-standardize epidemiological data. It contains functions to perform
-several data cleaning tasks that an end-user would anticipate to be
-performed on a cluttered dataset.</p>
-<p><strong>{cleanepi}</strong> is specifically designed for
-epidemiological data, and works with data frame-like data structure.
-This vignette provides a detailed description of the functions included
-in the package and how to use them.</p>
+<p>Data cleaning is a critical step of data analysis, especially
+considering the messy nature of real-world data, which often includes
+duplicates, errors, incomplete entries, and irrelevant formats.
+Addressing these issues is essential for producing accurate, reliable,
+and reproducible results. However, data cleaning can pose a substantial
+barrier in data analysis due to the time-consuming nature of the
+process.</p>
+<p><strong>{cleanepi}</strong> is an R package designed specifically to
+address this challenge by offering tools to clean, curate, and
+standardize datasets. Tailored specifically for epidemiological data and
+compatible with data frame-like structures, <strong>{cleanepi}</strong>
+offers a suite of functions designed to streamline common data cleaning
+tasks.</p>
+<p>This vignette provides a comprehensive guide to the functionalities
+encapsulated within <strong>{cleanepi}</strong>. It provides users with
+detailed insights into each function’s purpose and practical usage,
+equipping them with the tools necessary to navigate and manipulate
+cluttered datasets effectively.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://epiverse-trace.github.io/cleanepi">"cleanepi"</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://magrittr.tidyverse.org" class="external-link">"magrittr"</a></span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://epiverse-trace.github.io/cleanepi">"cleanepi"</a></span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="general-data-cleaning-tasks">General data cleaning tasks<a class="anchor" aria-label="anchor" href="#general-data-cleaning-tasks"></a>
@@ -122,7 +125,8 @@ in the package and how to use them.</p>
 <code><a href="../reference/clean_data.html">clean_data()</a></code> that can perform the following tasks:</p>
 <ol style="list-style-type: decimal">
 <li>Scan the input data to determine the percent of missing, numeric,
-character and date values in every column of the input data frame.<br>
+character, logical and date values in every column of the input data
+frame.<br>
 </li>
 <li>Clean up column names and convert them to more sensible formats.
 This includes many sub-tasks such as changing a space, dot, or hyphen
@@ -132,16 +136,14 @@ English characters; and splitting a long word into multiple short words
 by capital characters within, if any, and connecting them with
 underscores.<br>
 </li>
-<li>Remove empty rows and columns.<br>
-</li>
-<li>Remove constant columns, i.e. columns with the same value across all
+<li>Remove duplicated rows across all columns or some specific columns.
+This also includes the removal of empty rows and columns as well as
+constant columns, i.e. columns with the same value across all
 rows.<br>
 </li>
 <li>Replace missing entries with <code>NA</code>.</li>
-<li>Checking for the uniqueness of the subject IDs.</li>
-<li>Remove duplicated rows (across all columns or some specific
-columns).<br>
-</li>
+<li>Check whether the the sequence of date events are correct in all
+rows of the input data.</li>
 <li>Convert <code>character</code> columns into <code>Date</code> if the
 column actually contains values of type <code>Date</code> to some extent
 (default is 50% of the values are <code>Date</code>).</li>
@@ -149,679 +151,3296 @@ column actually contains values of type <code>Date</code> to some extent
 expected format.</li>
 <li>Perform dictionary-based cleaning: replace keys in specific columns
 with their corresponding values stored in a data dictionary file,
-replace misspelled values with their most closest values from the
-dictionary.</li>
+replace misspelled values with their correct ones.</li>
+<li>Convert numbers written in characters into numeric.</li>
 </ol>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># IMPORTING THE </span><span class="al">TEST</span><span class="co"> DATASET</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>test_data       <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="fu">system.file</span>(<span class="st">"extdata"</span>, <span class="st">"test_df.RDS"</span>,</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>                                       <span class="at">package =</span> <span class="st">"cleanepi"</span>))</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(test_data)</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>read_input    study_id event_name country_code country_name date.of.admission dateOfBirth</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>read_input <span class="dv">1</span>   PS001P2      day <span class="dv">0</span>            <span class="dv">2</span>       Gambia        <span class="dv">01</span><span class="sc">/</span><span class="dv">12</span><span class="sc">/</span><span class="dv">2020</span>  <span class="dv">06</span><span class="sc">/</span><span class="dv">01</span><span class="sc">/</span><span class="dv">1972</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>read_input <span class="dv">2</span>   PS002P2      day <span class="dv">0</span>            <span class="dv">2</span>       Gambia        <span class="dv">28</span><span class="sc">/</span><span class="dv">01</span><span class="sc">/</span><span class="dv">2021</span>  <span class="dv">02</span><span class="sc">/</span><span class="dv">20</span><span class="sc">/</span><span class="dv">1952</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>read_input <span class="dv">3</span> PS004P2<span class="dv">-1</span>      day <span class="dv">0</span>            <span class="dv">2</span>       Gambia        <span class="dv">15</span><span class="sc">/</span><span class="dv">02</span><span class="sc">/</span><span class="dv">2021</span>  <span class="dv">06</span><span class="sc">/</span><span class="dv">15</span><span class="sc">/</span><span class="dv">1961</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>read_input <span class="dv">4</span>   PS003P2      day <span class="dv">0</span>            <span class="dv">2</span>       Gambia        <span class="dv">11</span><span class="sc">/</span><span class="dv">02</span><span class="sc">/</span><span class="dv">2021</span>  <span class="dv">11</span><span class="sc">/</span><span class="dv">11</span><span class="sc">/</span><span class="dv">1947</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>read_input <span class="dv">5</span>   P0005P2      day <span class="dv">0</span>            <span class="dv">2</span>       Gambia        <span class="dv">17</span><span class="sc">/</span><span class="dv">02</span><span class="sc">/</span><span class="dv">2021</span>  <span class="dv">09</span><span class="sc">/</span><span class="dv">26</span><span class="sc">/</span><span class="dv">2000</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>read_input <span class="dv">6</span>   PS006P2      day <span class="dv">0</span>            <span class="dv">2</span>       Gambia        <span class="dv">17</span><span class="sc">/</span><span class="dv">02</span><span class="sc">/</span><span class="dv">2021</span>         <span class="sc">-</span><span class="dv">99</span></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>read_input   date_first_pcr_positive_test sex</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>read_input <span class="dv">1</span>                 Dec <span class="dv">01</span>, <span class="dv">2020</span>   <span class="dv">1</span></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>read_input <span class="dv">2</span>                 Jan <span class="dv">01</span>, <span class="dv">2021</span>   <span class="dv">1</span></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>read_input <span class="dv">3</span>                 Feb <span class="dv">11</span>, <span class="dv">2021</span> <span class="sc">-</span><span class="dv">99</span></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>read_input <span class="dv">4</span>                 Feb <span class="dv">01</span>, <span class="dv">2021</span>   <span class="dv">1</span></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>read_input <span class="dv">5</span>                 Feb <span class="dv">16</span>, <span class="dv">2021</span>   <span class="dv">2</span></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>read_input <span class="dv">6</span>                 May <span class="dv">02</span>, <span class="dv">2021</span>   <span class="dv">2</span></span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="co"># IMPORTING THE DATA DICTIONARY</span></span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>test_dictionary <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="fu">system.file</span>(<span class="st">"extdata"</span>, <span class="st">"test_dictionary.RDS"</span>,</span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>                                       <span class="at">package =</span> <span class="st">"cleanepi"</span>))</span></code></pre></div>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># SCAN THE DATA</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>scan_result     <span class="ot">&lt;-</span> <span class="fu">scan_data</span>(test_data)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>scan_result</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>scan_data   data_type study_id event_name country_code country_name date.of.admission</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>scan_data <span class="dv">1</span>   missing        <span class="dv">0</span>          <span class="dv">0</span>            <span class="dv">0</span>            <span class="dv">0</span>                 <span class="dv">0</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>scan_data <span class="dv">2</span>   numeric        <span class="dv">0</span>          <span class="dv">0</span>            <span class="dv">1</span>            <span class="dv">0</span>                 <span class="dv">0</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>scan_data <span class="dv">3</span>      date        <span class="dv">0</span>          <span class="dv">0</span>            <span class="dv">0</span>            <span class="dv">0</span>                 <span class="dv">1</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>scan_data <span class="dv">4</span> character        <span class="dv">1</span>          <span class="dv">1</span>            <span class="dv">0</span>            <span class="dv">1</span>                 <span class="dv">0</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>scan_data <span class="dv">5</span>   logical        <span class="dv">0</span>          <span class="dv">0</span>            <span class="dv">0</span>            <span class="dv">0</span>                 <span class="dv">0</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>scan_data   dateOfBirth date_first_pcr_positive_test sex</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>scan_data <span class="dv">1</span>         <span class="fl">0.0</span>                            <span class="dv">0</span>   <span class="dv">0</span></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>scan_data <span class="dv">2</span>         <span class="fl">0.1</span>                            <span class="dv">0</span>   <span class="dv">1</span></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>scan_data <span class="dv">3</span>         <span class="fl">0.9</span>                            <span class="dv">1</span>   <span class="dv">0</span></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>scan_data <span class="dv">4</span>         <span class="fl">0.0</span>                            <span class="dv">0</span>   <span class="dv">0</span></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>scan_data <span class="dv">5</span>         <span class="fl">0.0</span>                            <span class="dv">0</span>   <span class="dv">0</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># IMPORTING THE TEST DATASET</span></span>
+<span><span class="va">test_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"test_df.RDS"</span>,</span>
+<span>                                 package <span class="op">=</span> <span class="st">"cleanepi"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:200px; overflow-x: scroll; width:100%; ">
+<table class="table  lightable-paper lightable-striped" style='font-size: 18px; font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'>
+<thead><tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+STUDY_ID
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+EVENT_NAME
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+COUNTRY_CODE
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+COUNTRY_NAME
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+DATE.OF.ADMISSION
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+DATEOFBIRTH
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+DATE_FIRST_PCR_POSITIVE_TEST
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+SEX
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+PS001P2
+</td>
+<td style="text-align:left;">
+day 0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Gambia
+</td>
+<td style="text-align:left;">
+01/12/2020
+</td>
+<td style="text-align:left;">
+06/01/1972
+</td>
+<td style="text-align:left;">
+Dec 01, 2020
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PS002P2
+</td>
+<td style="text-align:left;">
+day 0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Gambia
+</td>
+<td style="text-align:left;">
+28/01/2021
+</td>
+<td style="text-align:left;">
+02/20/1952
+</td>
+<td style="text-align:left;">
+Jan 01, 2021
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PS004P2-1
+</td>
+<td style="text-align:left;">
+day 0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Gambia
+</td>
+<td style="text-align:left;">
+15/02/2021
+</td>
+<td style="text-align:left;">
+06/15/1961
+</td>
+<td style="text-align:left;">
+Feb 11, 2021
+</td>
+<td style="text-align:right;">
+-99
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PS003P2
+</td>
+<td style="text-align:left;">
+day 0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Gambia
+</td>
+<td style="text-align:left;">
+11/02/2021
+</td>
+<td style="text-align:left;">
+11/11/1947
+</td>
+<td style="text-align:left;">
+Feb 01, 2021
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+P0005P2
+</td>
+<td style="text-align:left;">
+day 0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Gambia
+</td>
+<td style="text-align:left;">
+17/02/2021
+</td>
+<td style="text-align:left;">
+09/26/2000
+</td>
+<td style="text-align:left;">
+Feb 16, 2021
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PS006P2
+</td>
+<td style="text-align:left;">
+day 0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Gambia
+</td>
+<td style="text-align:left;">
+17/02/2021
+</td>
+<td style="text-align:left;">
+-99
+</td>
+<td style="text-align:left;">
+May 02, 2021
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PB500P2
+</td>
+<td style="text-align:left;">
+day 0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Gambia
+</td>
+<td style="text-align:left;">
+28/02/2021
+</td>
+<td style="text-align:left;">
+11/03/1989
+</td>
+<td style="text-align:left;">
+Feb 19, 2021
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PS008P2
+</td>
+<td style="text-align:left;">
+day 0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Gambia
+</td>
+<td style="text-align:left;">
+22/02/2021
+</td>
+<td style="text-align:left;">
+10/05/1976
+</td>
+<td style="text-align:left;">
+Sep 20, 2021
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PS010P2
+</td>
+<td style="text-align:left;">
+day 0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Gambia
+</td>
+<td style="text-align:left;">
+02/03/2021
+</td>
+<td style="text-align:left;">
+09/23/1991
+</td>
+<td style="text-align:left;">
+Feb 26, 2021
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PS011P2
+</td>
+<td style="text-align:left;">
+day 0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Gambia
+</td>
+<td style="text-align:left;">
+05/03/2021
+</td>
+<td style="text-align:left;">
+02/08/1991
+</td>
+<td style="text-align:left;">
+Mar 03, 2021
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># SCAN THE DATA</span></span>
+<span><span class="va">scan_result</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/scan_data.html">scan_data</a></span><span class="op">(</span><span class="va">test_data</span><span class="op">)</span></span></code></pre></div>
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:200px; overflow-x: scroll; width:100%; ">
+<table class="table  lightable-paper lightable-striped" style='font-size: 18px; font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'>
+<thead><tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+FIELD_NAMES
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+MISSING
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+NUMERIC
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+DATE
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+CHARACTER
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+LOGICAL
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+study_id
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+event_name
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+country_code
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1.0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+country_name
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+date.of.admission
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+1.0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+dateOfBirth
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.1
+</td>
+<td style="text-align:right;">
+0.9
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+date_first_pcr_positive_test
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+1.0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+sex
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1.0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>In <strong>{cleanepi}</strong>, every cleaning operation is
+encapsulated within a module, with detailed descriptions provided in the
+package design vignette. Each module also specifies the parameters
+required for its main function, outlined in the sections below.</p>
+<p>In the following chunk, we define a list of cleaning operations that
+we want to perform on the input data.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># DEFINING THE DATA CLEANING PARAMETERS</span></span>
+<code class="sourceCode R"><span><span class="co"># PARAMETERS FOR REPLACING MISSING VALUES WITH NA</span></span>
+<span><span class="va">rm_na</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>target_columns <span class="op">=</span> <span class="cn">NULL</span>, na_strings <span class="op">=</span> <span class="st">"-99"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># PARAMETERS FOR DUBLICATES DETECTION AND REMOVAL</span></span>
+<span><span class="va">rm_dup</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>target_columns   <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>               rm_empty_rows    <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>               rm_empty_cols    <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>               rm_constant_cols <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># PARAMETERS FOR STANDARDING DATES</span></span>
+<span><span class="va">stdn_date</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>target_columns  <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>                  error_tolerance <span class="op">=</span> <span class="fl">0.5</span>,</span>
+<span>                  format          <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>                  timeframe       <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"1973-05-29"</span>, <span class="st">"2023-05-29"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># PARAMETERS FOR STANDARDING SUBJECT IDs</span></span>
+<span><span class="va">stdn_ids</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>id_col_name <span class="op">=</span> <span class="st">"study_id"</span>,</span>
+<span>                 format      <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>                 prefix      <span class="op">=</span> <span class="st">"PS"</span>,</span>
+<span>                 suffix      <span class="op">=</span> <span class="st">"P2"</span>,</span>
+<span>                 range       <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">100</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># LAOD THE DATA DICTIONARY</span></span>
+<span><span class="va">test_dictionary</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"test_dictionary.RDS"</span>,</span>
+<span>                                       package <span class="op">=</span> <span class="st">"cleanepi"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># DEFINE THE LIST OF PARAMETERS</span></span>
 <span><span class="va">params</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span>  keep                <span class="op">=</span> <span class="st">"date.of.admission"</span>,</span>
-<span>  remove_duplicates   <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  target_columns      <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  replace_missing     <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  na_comes_as         <span class="op">=</span> <span class="st">"-99"</span>,</span>
-<span>  check_timeframe     <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  timeframe           <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"1973-05-29"</span>, <span class="st">"2023-05-29"</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>  error_tolerance     <span class="op">=</span> <span class="fl">0.5</span>,</span>
-<span>  subject_id_col_name <span class="op">=</span> <span class="st">"study_id"</span>,</span>
-<span>  subject_id_format   <span class="op">=</span> <span class="st">"PS000P2"</span>,</span>
-<span>  prefix              <span class="op">=</span> <span class="st">"PS"</span>,</span>
-<span>  suffix              <span class="op">=</span> <span class="st">"P2"</span>,</span>
-<span>  range               <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1L</span>, <span class="fl">100L</span><span class="op">)</span>,</span>
-<span>  dictionary          <span class="op">=</span> <span class="va">test_dictionary</span></span>
+<span>  replace_missing_values  <span class="op">=</span> <span class="va">rm_na</span>,</span>
+<span>  remove_duplicates       <span class="op">=</span> <span class="va">rm_dup</span>,</span>
+<span>  standardize_date        <span class="op">=</span> <span class="va">stdn_date</span>,</span>
+<span>  standardize_subject_ids <span class="op">=</span> <span class="va">stdn_ids</span>,</span>
+<span>  dictionary              <span class="op">=</span> <span class="va">test_dictionary</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># CLEAN THE INPUT DATA FRAME</span></span>
-<span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/clean_data.html">clean_data</a></span><span class="op">(</span></span>
-<span>  data   <span class="op">=</span> <span class="va">test_data</span>,</span>
-<span>  params <span class="op">=</span> <span class="va">params</span></span>
-<span><span class="op">)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; cleaning column names</span></span>
-<span><span class="co">#&gt; replacing missing values with NA</span></span>
-<span><span class="co">#&gt; removing empty rows and columns</span></span>
-<span><span class="co">#&gt; removing constant columns</span></span>
-<span><span class="co">#&gt; standardising date columns</span></span>
-<span><span class="co">#&gt; checking for subject IDs uniqueness</span></span>
-<span><span class="co">#&gt; removing duplicated rows</span></span>
-<span><span class="co">#&gt; checking subject IDs format</span></span></code></pre></div>
-<p>The function <code><a href="../reference/clean_data.html">clean_data()</a></code> returns a <code>list</code> of
-2 objects:</p>
+<p>The <code><a href="../reference/clean_data.html">clean_data()</a></code> requires 2 arguments:</p>
 <ol style="list-style-type: decimal">
 <li>
-<strong>data</strong>: a <code>data.frame</code> or
-<code>linelist</code> object with the cleaned data.</li>
+<strong>data</strong>: A <code>data.frame</code> or
+<code>linelist</code>.</li>
 <li>
-<strong>report</strong>: a <code>list</code> of reports from all the
-actions performed on the given dataset.</li>
+<strong>params</strong>: A list of parameters that define the
+cleaning operations to be performed.</li>
 </ol>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co"># CLEAN THE INPUT DATA FRAME</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>cleaned_data <span class="ot">&lt;-</span> <span class="fu">clean_data</span>(</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>  <span class="at">data   =</span> test_data,</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>  <span class="at">params =</span> params</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>)</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>cleaning column names                        before                        after</span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="dv">1</span>                     study_id                     study_id</span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="dv">2</span>                   event_name                   event_name</span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="dv">3</span>                 country_code                 country_code</span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="dv">4</span>                 country_name                 country_name</span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="dv">5</span>            date.of.admission            date_of_admission</span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="dv">6</span>                  dateOfBirth                date_of_birth</span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a><span class="dv">7</span> date_first_pcr_positive_test date_first_pcr_positive_test</span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a><span class="dv">8</span>                          sex                          sex</span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a></span>
+<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a>replacing missing values with <span class="cn">NA</span></span>
+<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a>removing duplicated rows</span>
+<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a></span>
+<span id="cb5-20"><a href="#cb5-20" tabindex="-1"></a>No duplicates found from the specified columns.</span>
+<span id="cb5-21"><a href="#cb5-21" tabindex="-1"></a></span>
+<span id="cb5-22"><a href="#cb5-22" tabindex="-1"></a>standardising date columns</span>
+<span id="cb5-23"><a href="#cb5-23" tabindex="-1"></a>checking subject IDs format</span>
+<span id="cb5-24"><a href="#cb5-24" tabindex="-1"></a>performing dictionary<span class="sc">-</span>based cleaning</span></code></pre></div>
+<p>It returns the cleaned dataset. The report generated from the data
+cleaning operations is a <code>list object</code> that is attached to
+the cleaned data and can be accessed using the <code><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr()</a></code>
+function, as shown below. The report is automatically printed out, and
+it contains details of each cleaning operation that was performed
+successfully. However, users can access the report using the code
+below:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># PRINT TOP 6 ROWS OF THE CLEANED DATA</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">res</span><span class="op">[[</span><span class="st">"data"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
-<span><span class="co">#&gt;   study_id date.of.admission date_of_birth date_first_pcr_positive_test    sex</span></span>
-<span><span class="co">#&gt; 1  PS001P2        2020-12-01          &lt;NA&gt;                   2020-12-01   male</span></span>
-<span><span class="co">#&gt; 2  PS002P2        2021-01-28          &lt;NA&gt;                   2021-01-01   male</span></span>
-<span><span class="co">#&gt; 4  PS003P2        2021-02-11          &lt;NA&gt;                   2021-02-01   male</span></span>
-<span><span class="co">#&gt; 6  PS006P2        2021-02-17          &lt;NA&gt;                   2021-05-02 female</span></span>
-<span><span class="co">#&gt; 8  PS008P2        2021-02-22    1976-05-10                   2021-09-20 female</span></span>
-<span><span class="co">#&gt; 9  PS010P2        2021-03-02    1991-09-23                   2021-02-26   male</span></span>
+<code class="sourceCode R"><span><span class="co"># ACCESS THE DATA CLEANING REPORT</span></span>
+<span><span class="va">report</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">cleaned_data</span>, <span class="st">"report"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># SUMMARIZE THE REPORT OBJECT</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">res</span><span class="op">[[</span><span class="st">"report"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
-<span><span class="co">#&gt;                        Length Class      Mode     </span></span>
-<span><span class="co">#&gt; modified_column_names   2     data.frame list     </span></span>
-<span><span class="co">#&gt; remove_constant         1     -none-     list     </span></span>
-<span><span class="co">#&gt; standardize_date        2     -none-     list     </span></span>
-<span><span class="co">#&gt; incorrect_subject_id    5     data.table list     </span></span>
-<span><span class="co">#&gt; converted_into_numeric  1     glue       character</span></span>
-<span><span class="co">#&gt; params                 14     -none-     list</span></span></code></pre></div>
-<p><strong>Note:</strong> a function to visualize this report object
-will be built in the next release of the package.</p>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">report</span><span class="op">)</span></span>
+<span><span class="co">#&gt;                            Length Class      Mode     </span></span>
+<span><span class="co">#&gt; colnames                   2      data.frame list     </span></span>
+<span><span class="co">#&gt; missing_values_replaced_at 1      -none-     character</span></span>
+<span><span class="co">#&gt; out_of_range_dates         3      data.frame list     </span></span>
+<span><span class="co">#&gt; incorrect_subject_id       2      data.frame list</span></span></code></pre></div>
+<p>The report can also be displayed in an HTML format using the
+<code><a href="../reference/print_report.html">print_report()</a></code> function as shown below:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/print_report.html">print_report</a></span><span class="op">(</span><span class="va">report</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="specific-data-cleaning-tasks">Specific data cleaning tasks<a class="anchor" aria-label="anchor" href="#specific-data-cleaning-tasks"></a>
 </h2>
-<p>Data cleaning operations such as renaming columns, removing empty
-rows, columns, removing columns with a same values across all rows, and
-standardization of date columns are automatically applied to the input
-data. We consider them as the <code>implicit data cleaning steps</code>
-and will be executed by default. However, users can call the specific
-functions of these data cleaning steps separately to perform a specific
-task. So as they can also call the other data cleaning functions
-individually on their own.</p>
+<p>Certain data cleaning operations are automatically applied to input
+data. These operations include renaming columns, removing empty rows and
+columns, removing columns with the same values across all rows, and
+standardizing date columns. We refer to these operation as the
+<code>implicit data cleaning steps</code>, which are executed by
+default.</p>
+<p>However, we also provide users with the flexibility to call a
+specific function if they wish to perform that particular task
+individually. This approach allows users to have more control over the
+data cleaning process and to apply additional data cleaning functions as
+needed.</p>
+<p>This setup offers users both convenience and flexibility, as they can
+benefit from default data cleaning operations while also having the
+option to customize their data cleaning process according to their
+specific needs.</p>
 <div class="section level3">
-<h3 id="standardise-columns-of-type-date">Standardise columns of type <code>Date</code><a class="anchor" aria-label="anchor" href="#standardise-columns-of-type-date"></a>
+<h3 id="standardizing-dates">Standardizing Dates<a class="anchor" aria-label="anchor" href="#standardizing-dates"></a>
 </h3>
-<p>The default date format in R is <code>%Y-%m-%d</code>. However, it is
-very common to encounter date values recoded differently from this.
-Also, there are cases where a column in a data frame contains both
-values of type <code>Date</code>, <code>character</code> or
-others.<br>
-The <code><a href="../reference/standardize_date.html">standardize_date()</a></code> function offers the possibility to
-convert date columns into <code>%Y-%m-%d</code> format and convert
+<p>The <code><a href="../reference/standardize_dates.html">standardize_dates()</a></code> function provides a
+comprehensive set of options for converting date columns into a
+specified format and handling various scenarios, such as different date
+formats and mixed data types in a column.</p>
+<p>The default date format in R is <code>%Y-%m-%d</code> (the ISO
+format). However, it is very common to encounter date values that are
+written differently from this. Also, there are cases where a column in a
+data frame contains both values of type <code>Date</code>,
+<code>character</code> or others.</p>
+<p>The <code><a href="../reference/standardize_dates.html">standardize_dates()</a></code> function offers the possibility
+to convert date columns into <code>%Y-%m-%d</code> format and convert
 <code>character</code> columns into <code>Date</code> if the percentage
 of date values reach a specified threshold. The function needs the
 following arguments:</p>
 <ol style="list-style-type: decimal">
 <li>
-<code>data</code>: the input dataset (required)<br>
+<strong>data</strong>: A data frame or linelist (required).<br>
 </li>
 <li>
-<code>date_column_name</code>: a vector of the name of the column to
-be converted (required)<br>
-</li>
+<strong>target_columns</strong>: A vector of the names of the
+columns to be converted (optional). When not provided, the function will
+attempt to detect date columns and perform the conversion if
+needed.</li>
 <li>
-<code>format</code>: the current format of the values in that
-column. Default is <code>NULL</code> (optional)</li>
+<strong>format</strong>: A format of the values in the specified
+columns (optional). If not provided, the function will attempt to infer
+the format.</li>
 <li>
-<code>timeframe</code>: the expected time frame within which the
-date values should fall under. Any value outside of this range will be
-set to <code>NA</code>. Default is NULL (optional)</li>
+<strong>timeframe</strong>: The expected time frame within which the
+date values should fall. Values outside of this range will be set to
+<code>NA</code> (optional).</li>
 <li>
-<code>check_timeframe</code>: a logical that determines whether to
-check if the date values are within the given time frame. Default is
-<code>FALSE</code> (optional)</li>
-<li>
-<code>report</code>: a <code>list</code> that will contains details
-about the date columns standardization process. This can be the output
-<code>report object</code> from another function in
-<strong>cleanepi</strong> (optional).</li>
-<li>
-<code>error_tolerance</code>: the minimum percentage of values of
-type <code>Date</code> in a <code>character</code> column of interest
-needed to convert it into a <code>Date</code> column. Default is 50%
-i.e. <code>0.5</code>.</li>
+<strong>error_tolerance</strong>: The minimum percentage of values
+of type Date in a character column needed to convert it into a Date
+column. Default is 50% i.e. <code>0.5</code>.</li>
 </ol>
 <p>⚠️ The <code>error_tolerance</code> must be used with caution. When
 it is set, and the percentage of date values in a character column is
 less than this threshold, the column will be returned as it is.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/standardize_date.html">standardize_date</a></span><span class="op">(</span></span>
-<span>  data             <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"test_df.RDS"</span>,</span>
-<span>                                         package <span class="op">=</span> <span class="st">"cleanepi"</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>  date_column_name <span class="op">=</span> <span class="st">"date_first_pcr_positive_test"</span>,</span>
-<span>  format           <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  timeframe        <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  check_timeframe  <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  report           <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  error_tolerance  <span class="op">=</span> <span class="fl">0.5</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<p>This function returns a <code>list</code> of 2 elements named as:</p>
-<ul>
-<li>
-<strong>data</strong>: the input dataset where the (specified)
-columns are converted into date if the condition is met.</li>
-<li>
-<strong>report</strong>: a <code>list</code>, or augmented report
-<code>list</code> with an element named as
-<strong>standardize_date</strong> that contains a <code>vector</code> of
-the transformed column names.</li>
-</ul>
+<p>This function provides users with the flexibility to standardize date
+columns in their dataset according to specified requirements, including
+format, timeframe, and error tolerance for conversion from character to
+date columns.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="co"># STANDARDISE VALUES IN THE 'date_first_pcr_positive_test' COLUMN</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>test_data <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="fu">system.file</span>(<span class="st">"extdata"</span>, <span class="st">"test_df.RDS"</span>,</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>                                 <span class="at">package =</span> <span class="st">"cleanepi"</span>))</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="fu">head</span>(test_data<span class="sc">$</span>date_first_pcr_positive_test)</span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>date_standardisation [<span class="dv">1</span>] <span class="st">"Dec 01, 2020"</span> <span class="st">"Jan 01, 2021"</span> <span class="st">"Feb 11, 2021"</span> <span class="st">"Feb 01, 2021"</span> <span class="st">"Feb 16, 2021"</span></span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>date_standardisation [<span class="dv">6</span>] <span class="st">"May 02, 2021"</span></span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">standardize_dates</span>(</span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a>  <span class="at">data            =</span> test_data,</span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a>  <span class="at">target_columns  =</span> <span class="st">"date_first_pcr_positive_test"</span>,</span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a>  <span class="at">format          =</span> <span class="cn">NULL</span>,</span>
+<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a>  <span class="at">timeframe       =</span> <span class="cn">NULL</span>,</span>
+<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a>  <span class="at">error_tolerance =</span> <span class="fl">0.5</span></span>
+<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a>)</span></code></pre></div>
+<p>This function returns a the input dataset where the (specified)
+columns are converted into date if the condition is met.</p>
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:200px; overflow-x: scroll; width:100%; ">
+<table class="table  lightable-paper lightable-striped" style='font-size: 18px; font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'>
+<thead><tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+STUDY_ID
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+EVENT_NAME
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+COUNTRY_CODE
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+COUNTRY_NAME
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+DATE.OF.ADMISSION
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+DATEOFBIRTH
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+DATE_FIRST_PCR_POSITIVE_TEST
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+SEX
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+PS001P2
+</td>
+<td style="text-align:left;">
+day 0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Gambia
+</td>
+<td style="text-align:left;">
+01/12/2020
+</td>
+<td style="text-align:left;">
+06/01/1972
+</td>
+<td style="text-align:left;">
+2020-12-01
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PS002P2
+</td>
+<td style="text-align:left;">
+day 0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Gambia
+</td>
+<td style="text-align:left;">
+28/01/2021
+</td>
+<td style="text-align:left;">
+02/20/1952
+</td>
+<td style="text-align:left;">
+2021-01-01
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PS004P2-1
+</td>
+<td style="text-align:left;">
+day 0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Gambia
+</td>
+<td style="text-align:left;">
+15/02/2021
+</td>
+<td style="text-align:left;">
+06/15/1961
+</td>
+<td style="text-align:left;">
+2021-02-11
+</td>
+<td style="text-align:right;">
+-99
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PS003P2
+</td>
+<td style="text-align:left;">
+day 0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Gambia
+</td>
+<td style="text-align:left;">
+11/02/2021
+</td>
+<td style="text-align:left;">
+11/11/1947
+</td>
+<td style="text-align:left;">
+2021-02-01
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+P0005P2
+</td>
+<td style="text-align:left;">
+day 0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Gambia
+</td>
+<td style="text-align:left;">
+17/02/2021
+</td>
+<td style="text-align:left;">
+09/26/2000
+</td>
+<td style="text-align:left;">
+2021-02-16
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PS006P2
+</td>
+<td style="text-align:left;">
+day 0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Gambia
+</td>
+<td style="text-align:left;">
+17/02/2021
+</td>
+<td style="text-align:left;">
+-99
+</td>
+<td style="text-align:left;">
+2021-05-02
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PB500P2
+</td>
+<td style="text-align:left;">
+day 0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Gambia
+</td>
+<td style="text-align:left;">
+28/02/2021
+</td>
+<td style="text-align:left;">
+11/03/1989
+</td>
+<td style="text-align:left;">
+2021-02-19
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PS008P2
+</td>
+<td style="text-align:left;">
+day 0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Gambia
+</td>
+<td style="text-align:left;">
+22/02/2021
+</td>
+<td style="text-align:left;">
+10/05/1976
+</td>
+<td style="text-align:left;">
+2021-09-20
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PS010P2
+</td>
+<td style="text-align:left;">
+day 0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Gambia
+</td>
+<td style="text-align:left;">
+02/03/2021
+</td>
+<td style="text-align:left;">
+09/23/1991
+</td>
+<td style="text-align:left;">
+2021-02-26
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PS011P2
+</td>
+<td style="text-align:left;">
+day 0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Gambia
+</td>
+<td style="text-align:left;">
+05/03/2021
+</td>
+<td style="text-align:left;">
+02/08/1991
+</td>
+<td style="text-align:left;">
+2021-03-03
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 <div class="section level3">
-<h3 id="detect-and-remove-incorrect-subject-ids">Detect and remove incorrect subject IDs<a class="anchor" aria-label="anchor" href="#detect-and-remove-incorrect-subject-ids"></a>
+<h3 id="standardizing-subject-ids">Standardizing subject IDs<a class="anchor" aria-label="anchor" href="#standardizing-subject-ids"></a>
 </h3>
-<p>The <code><a href="../reference/check_subject_ids.html">check_subject_ids()</a></code> function detects and removes
-rows of the input dataset where the subject ID does not match the
-expected format. The function requires the following parameters:</p>
+<p>The <code><a href="../reference/check_subject_ids.html">check_subject_ids()</a></code> function is designed to identify
+and eliminate rows from the input dataset that don’t comply with the
+expected format for subject IDs. It requires the following
+parameters:</p>
 <ol style="list-style-type: decimal">
 <li>
-<code>data</code>: the input dataset (required)<br>
-</li>
+<strong>data</strong>: A data frame or linelist (required).</li>
 <li>
-<code>id_column_name</code>: the name of the column with the subject
-IDs (required)<br>
-</li>
+<strong>id_column_name</strong>: The name of the column containing
+the subject IDs in the dataset (required).</li>
 <li>
-<code>format</code>: the expected subject IDs format
-(required)<br>
-</li>
+<strong>format</strong>: The expected format for the subject IDs.
+The function will use this format to validate the IDs (optional).</li>
 <li>
-<code>prefix</code>: the expected prefix in the subject IDs
-(optional)<br>
-</li>
+<strong>prefix</strong>: A string. If subject IDs have a specified
+prefix, it is used as a value for this argument. This is optional and
+can be omitted if there is no prefix.</li>
 <li>
-<code>suffix</code>: the expected suffix in the subject IDs
-(optional)<br>
-</li>
+<strong>suffix</strong>: A string. If subject IDs have a specified
+suffix, it is used as a value for this argument. It can be ignored
+otherwise.</li>
 <li>
-<code>range</code>: the expected range of numbers in the subject IDs
-(optional)<br>
-</li>
-<li>
-<code>remove</code>: a Boolean variable and default is
-<code>FALSE</code>. If <code>TRUE</code>, rows with incorrect subject
-IDs will be removed.<br>
-</li>
-<li>
-<code>verbose</code>: a Boolean variable and default is
-<code>FALSE</code>. If <code>TRUE</code>, a message will be printed
-along the execution of the function.</li>
-<li>
-<code>report</code>: a <code>list</code> that will contains details
-about the detected wrong IDs. This can be the output
-<code>report object</code> from another function in
-<strong>cleanepi</strong> (optional).</li>
+<strong>range</strong>: A vector of two elements. If there is an
+expected range of numbers within the subject IDs, define it using this
+parameter. It is optional and can be omitted if there is no specific
+range.</li>
 </ol>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># DETECT INCORRECT SUBJECT IDs</span></span>
-<span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/check_subject_ids.html">check_subject_ids</a></span><span class="op">(</span></span>
-<span>  data           <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"test_df.RDS"</span>,</span>
-<span>                                       package <span class="op">=</span> <span class="st">"cleanepi"</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>  id_column_name <span class="op">=</span> <span class="st">"study_id"</span>,</span>
-<span>  format         <span class="op">=</span> <span class="st">"PS000P2"</span>,</span>
-<span>  prefix         <span class="op">=</span> <span class="st">"PS"</span>,</span>
-<span>  suffix         <span class="op">=</span> <span class="st">"P2"</span>,</span>
-<span>  range          <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1L</span>, <span class="fl">100L</span><span class="op">)</span>,</span>
-<span>  remove         <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  verbose        <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  report         <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="op">)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Sample IDs with wrong prefix:</span></span>
-<span><span class="co">#&gt; [1] "P0005P2" "PB500P2"</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Sample IDs with wrong suffix:</span></span>
-<span><span class="co">#&gt; [1] "PS004P2-1"</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Sample IDs with wrong incorrect length:</span></span>
-<span><span class="co">#&gt; [1] "PS004P2-1"</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Sample IDs with wrong numbers:</span></span>
-<span><span class="co">#&gt; [1] "PB500P2"</span></span></code></pre></div>
-<p>This function returns a <code>list</code> of 2 elements named as:</p>
-<ul>
-<li>
-<strong>data</strong>: the input dataset or a subset from it where
-rows with bad IDs have been removed
-(<code>if remove = TRUE</code>).</li>
-<li>
-<strong>report</strong>: a <code>list</code>, or augmented report
-<code>list</code> with an element named as
-<strong>incorrect_subject_id</strong> that contains a
-<code>data.frame</code> of the detected rows with the incorrect subject
-IDs.</li>
-</ul>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># DISPLAY ROWS WITH THE INCORRECT SUBJECT IDs</span></span>
-<span><span class="va">res</span><span class="op">[[</span><span class="st">"report"</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"incorrect_subject_id"</span><span class="op">]</span><span class="op">]</span></span>
-<span><span class="co">#&gt;    study_id event_name country_code country_name date.of.admission dateOfBirth</span></span>
-<span><span class="co">#&gt; 5   P0005P2      day 0            2       Gambia        17/02/2021  09/26/2000</span></span>
-<span><span class="co">#&gt; 7   PB500P2      day 0            2       Gambia        28/02/2021  11/03/1989</span></span>
-<span><span class="co">#&gt; 3 PS004P2-1      day 0            2       Gambia        15/02/2021  06/15/1961</span></span>
-<span><span class="co">#&gt;   date_first_pcr_positive_test sex</span></span>
-<span><span class="co">#&gt; 5                 Feb 16, 2021   2</span></span>
-<span><span class="co">#&gt; 7                 Feb 19, 2021   1</span></span>
-<span><span class="co">#&gt; 3                 Feb 11, 2021 -99</span></span></code></pre></div>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># DETECT AND REMOVE INCORRECT SUBJECT IDs</span></span>
-<span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/check_subject_ids.html">check_subject_ids</a></span><span class="op">(</span></span>
-<span>  data           <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"test_df.RDS"</span>,</span>
-<span>                                       package <span class="op">=</span> <span class="st">"cleanepi"</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>  id_column_name <span class="op">=</span> <span class="st">"study_id"</span>,</span>
-<span>  format         <span class="op">=</span> <span class="st">"PS000P2"</span>,</span>
-<span>  prefix         <span class="op">=</span> <span class="st">"PS"</span>,</span>
-<span>  suffix         <span class="op">=</span> <span class="st">"P2"</span>,</span>
-<span>  range          <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1L</span>, <span class="fl">100L</span><span class="op">)</span>,</span>
-<span>  remove         <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  verbose        <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  report         <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<p>By providing these parameters, the function becomes a versatile tool
+for data cleaning, ensuring that only rows with subject IDs adhering to
+the expected format are retained in the dataset. When using the
+function, make sure to tailor the parameters according to the specific
+requirements of your dataset and the expected characteristics of the
+subject IDs.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="co"># DETECT AND REMOVE INCORRECT SUBJECT IDs</span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">check_subject_ids</span>(</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>  <span class="at">data           =</span> <span class="fu">readRDS</span>(<span class="fu">system.file</span>(<span class="st">"extdata"</span>, <span class="st">"test_df.RDS"</span>,</span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>                                       <span class="at">package =</span> <span class="st">"cleanepi"</span>)),</span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>  <span class="at">id_column_name =</span> <span class="st">"study_id"</span>,</span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>  <span class="at">format         =</span> <span class="st">"PS000P2"</span>,</span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>  <span class="at">prefix         =</span> <span class="st">"PS"</span>,</span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a>  <span class="at">suffix         =</span> <span class="st">"P2"</span>,</span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a>  <span class="at">range          =</span> <span class="fu">c</span>(<span class="dv">1</span><span class="dt">L</span>, <span class="dv">100</span><span class="dt">L</span>)</span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a>)</span>
+<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a></span>
+<span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a><span class="co"># EXTRACT REPORT</span></span>
+<span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a>report <span class="ot">&lt;-</span> <span class="fu">attr</span>(res, <span class="st">"report"</span>)</span>
+<span id="cb9-14"><a href="#cb9-14" tabindex="-1"></a></span>
+<span id="cb9-15"><a href="#cb9-15" tabindex="-1"></a><span class="co"># SUMMARIZE THE REPORT OBJECT</span></span>
+<span id="cb9-16"><a href="#cb9-16" tabindex="-1"></a><span class="fu">summary</span>(report)</span>
+<span id="cb9-17"><a href="#cb9-17" tabindex="-1"></a>subject_ids_standaedisation                      Length Class      Mode</span>
+<span id="cb9-18"><a href="#cb9-18" tabindex="-1"></a>subject_ids_standaedisation incorrect_subject_id <span class="dv">2</span>      data.frame list</span></code></pre></div>
+<p>The <code><a href="../reference/check_subject_ids.html">check_subject_ids()</a></code> function returns the input
+dataset or a subset of a subset of the input data where rows with
+incorrect IDs have been removed.</p>
+<p>In addition to detecting wrong subject IDs, the function will also
+look for missing and duplicated IDs. As the result of this, the report
+made from this operation might contain two extra elements:
+<strong>missing_ids</strong> (a vector of row indexes where there is a
+missing IDs) and <strong>duplicated_ids</strong> (a data frame of rows
+with the duplicated IDs). Use the <code><a href="../reference/print_report.html">print_report()</a></code> function
+to display the report made from this operation.</p>
 </div>
 <div class="section level3">
-<h3 id="calculate-age">Calculate age<a class="anchor" aria-label="anchor" href="#calculate-age"></a>
+<h3 id="checking-date-sequence">Checking date sequence<a class="anchor" aria-label="anchor" href="#checking-date-sequence"></a>
 </h3>
-<p>The <code><a href="../reference/calculate_age.html">calculate_age()</a></code> function calculates ages of
-individuals (in either years, or months, or weeks, or days) for a given
-date column and reference date. It takes the following arguments:</p>
+<p>The <code><a href="../reference/check_date_sequence.html">check_date_sequence()</a></code> function verifies the order of
+sequences in date event columns within a dataset. It ensures that the
+values in specified date columns follow the desired chronological order.
+Here are the arguments accepted by the function:</p>
 <ol style="list-style-type: decimal">
 <li>
-<code>data</code>: the input dataset (required)</li>
+<strong>data</strong>: A data frame or linelist (required).</li>
 <li>
-<code>date_column_name</code>: the name of the column to which the
-age is calculated for (required)</li>
+<strong>target_columns</strong>: A vector containing the names of
+date columns of interest. These columns should be listed in the expected
+order of occurrence, reflecting the chronological sequence of events.
+For example,
+<code>target_columns = c("date_of_infection", "date_of_admission", "date_of_death")</code>.</li>
 <li>
-<code>end_date</code>: the reference date to which the age is
-calculated from</li>
-<li>
-<code>age_in</code>: the age unit (years, months, weeks, or days)
-and default is years (optional)</li>
+<strong>remove_bad_seq</strong>: A Boolean variable with a default
+value of <code>FALSE</code>. If set to <code>TRUE</code>, rows with
+incorrect date sequences will be removed from the output object.
+Otherwise, they will be flagged as erroneous and stored in the report
+object.</li>
 </ol>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># CALCULATE INDIVIDUAL AGE FROM THE `dateOfBirth` COLUMN</span></span>
-<span><span class="va">age</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calculate_age.html">calculate_age</a></span><span class="op">(</span></span>
-<span>  data             <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"test_df.RDS"</span>,</span>
-<span>                                         package <span class="op">=</span> <span class="st">"cleanepi"</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>  date_column_name <span class="op">=</span> <span class="st">"dateOfBirth"</span>,</span>
-<span>  end_date         <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  age_in           <span class="op">=</span> <span class="st">"months"</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<p>This function returns the input dataset with 1 or 2 extra columns
-that contains, respectively: the calculated age in the specified unit
-and the remaining number of days.</p>
+<p>By utilizing these arguments, the <code><a href="../reference/check_date_sequence.html">check_date_sequence()</a></code>
+function facilitates the validation of date sequences within a dataset,
+ensuring data integrity and accuracy for further analysis. Additionally,
+it offers flexibility by allowing users to choose whether to remove rows
+with incorrect sequences or store them for further examination in the
+report object.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="co"># DETECT ROWS WITH INCORRECT DATE SEQUENCE</span></span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">check_date_sequence</span>(</span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>  <span class="at">data           =</span> <span class="fu">readRDS</span>(<span class="fu">system.file</span>(<span class="st">"extdata"</span>, <span class="st">"test_df.RDS"</span>,</span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>                                       <span class="at">package =</span> <span class="st">"cleanepi"</span>)),</span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>  <span class="at">target_columns =</span> <span class="fu">c</span>(<span class="st">"date_first_pcr_positive_test"</span>, <span class="st">"date.of.admission"</span>),</span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>  <span class="at">remove_bad_seq =</span> <span class="cn">FALSE</span></span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a>)</span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a>check_date_order Warning<span class="sc">:</span> Detected <span class="dv">2</span> incorrect date sequences at <span class="fu">line</span>(s)<span class="sc">:</span> <span class="dv">6</span>, <span class="dv">8</span></span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a></span>
+<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a><span class="co"># EXTRACT THE REPORT</span></span>
+<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a>report <span class="ot">&lt;-</span> <span class="fu">attr</span>(res, <span class="st">"report"</span>)</span>
+<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a></span>
+<span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a><span class="co"># SUMMARIZE THE REPORT OBJECT</span></span>
+<span id="cb10-14"><a href="#cb10-14" tabindex="-1"></a><span class="fu">summary</span>(report)</span>
+<span id="cb10-15"><a href="#cb10-15" tabindex="-1"></a>check_date_order                         Length Class      Mode</span>
+<span id="cb10-16"><a href="#cb10-16" tabindex="-1"></a>check_date_order incorrect_date_sequence <span class="dv">2</span>      data.table list</span></code></pre></div>
+<p>The <code><a href="../reference/check_date_sequence.html">check_date_sequence()</a></code> function returns the input
+dataset or a subset of it without the rows that have incorrect date
+sequences, depending on whether the <code>remove_bad_seq</code>
+parameter is set to <code>TRUE</code>. It also provides a detailed
+report highlighting any discrepancies found in the date sequences,
+enabling users to take appropriate actions. Use the
+<code><a href="../reference/print_report.html">print_report()</a></code> function to display the report made from
+this operation.</p>
+</div>
+<div class="section level3">
+<h3 id="finding-duplicated-rows">Finding duplicated rows<a class="anchor" aria-label="anchor" href="#finding-duplicated-rows"></a>
+</h3>
+<p>The <code><a href="../reference/find_duplicates.html">find_duplicates()</a></code> function serves the purpose of
+identifying duplicated rows within a given dataset. It accepts the
+following parameters:</p>
+<ol style="list-style-type: decimal">
+<li>
+<strong>data</strong>: The input data frame or linelist.</li>
+<li>
+<strong>target_columns</strong>: A vector containing either column
+names or indexes from which duplicated rows will be identified. If
+<code>NULL</code> is passed, duplicates will be detected across all
+columns of the dataset. Notably, if the input dataset is a
+<code>linelist</code> object, <code>target_columns</code> can be set to
+<code>tags</code> specifically to identify duplicates across the tagged
+variables only.</li>
+</ol>
+<p>By leveraging the <code><a href="../reference/find_duplicates.html">find_duplicates()</a></code> function with
+appropriate parameters, users can efficiently pinpoint duplicated rows
+within their datasets, either across all columns or selectively across
+tagged variables in a <code>linelist</code> object.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="co"># IMPORT A `linelist` DATA</span></span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="fu">system.file</span>(<span class="st">"extdata"</span>, <span class="st">"test_linelist.RDS"</span>,</span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>                            <span class="at">package =</span> <span class="st">"cleanepi"</span>))</span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a><span class="co"># SHOW THE TAGGED VARIABLES</span></span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a>linelist<span class="sc">::</span><span class="fu">tags</span>(data)</span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a><span class="sc">$</span>date_onset</span>
+<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"dt_onset"</span></span>
+<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a></span>
+<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a><span class="sc">$</span>date_reporting</span>
+<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"dt_report"</span></span>
+<span id="cb11-12"><a href="#cb11-12" tabindex="-1"></a></span>
+<span id="cb11-13"><a href="#cb11-13" tabindex="-1"></a><span class="sc">$</span>gender</span>
+<span id="cb11-14"><a href="#cb11-14" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"sex"</span></span>
+<span id="cb11-15"><a href="#cb11-15" tabindex="-1"></a></span>
+<span id="cb11-16"><a href="#cb11-16" tabindex="-1"></a><span class="sc">$</span>outcome</span>
+<span id="cb11-17"><a href="#cb11-17" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"outcome"</span></span>
+<span id="cb11-18"><a href="#cb11-18" tabindex="-1"></a></span>
+<span id="cb11-19"><a href="#cb11-19" tabindex="-1"></a><span class="co"># FIND DUPLICATES ACROSS ALL COLUMNS EXCEPT THE SUBJECT IDs COLUMN</span></span>
+<span id="cb11-20"><a href="#cb11-20" tabindex="-1"></a>all_columns    <span class="ot">&lt;-</span> <span class="fu">names</span>(data)</span>
+<span id="cb11-21"><a href="#cb11-21" tabindex="-1"></a>target_columns <span class="ot">&lt;-</span> all_columns[all_columns <span class="sc">!=</span> <span class="st">"id"</span>]</span>
+<span id="cb11-22"><a href="#cb11-22" tabindex="-1"></a>dups           <span class="ot">&lt;-</span> <span class="fu">find_duplicates</span>(<span class="at">data           =</span> data,</span>
+<span id="cb11-23"><a href="#cb11-23" tabindex="-1"></a>                                  <span class="at">target_columns =</span> target_columns)</span>
+<span id="cb11-24"><a href="#cb11-24" tabindex="-1"></a></span>
+<span id="cb11-25"><a href="#cb11-25" tabindex="-1"></a><span class="co"># FIND DUPLICATES ACROSS TAGGED VARIABLES</span></span>
+<span id="cb11-26"><a href="#cb11-26" tabindex="-1"></a>dups <span class="ot">&lt;-</span> <span class="fu">find_duplicates</span>(</span>
+<span id="cb11-27"><a href="#cb11-27" tabindex="-1"></a>  <span class="at">data           =</span> data,</span>
+<span id="cb11-28"><a href="#cb11-28" tabindex="-1"></a>  <span class="at">target_columns =</span> <span class="st">"tags"</span></span>
+<span id="cb11-29"><a href="#cb11-29" tabindex="-1"></a>)</span>
+<span id="cb11-30"><a href="#cb11-30" tabindex="-1"></a>Found <span class="dv">57</span> duplicated rows. Please consult the report <span class="cf">for</span> more details.</span></code></pre></div>
+<p>Upon execution, the <code><a href="../reference/find_duplicates.html">find_duplicates()</a></code> function
+identifies all duplicated rows either based on all columns or those
+specified, and stores them in the report. In addition to the existing
+columns, it appends two extra columns to the dataset:</p>
+<ol style="list-style-type: decimal">
+<li><p><code>row_id</code>: Contains indexes of the duplicated rows from
+the original input dataset.</p></li>
+<li><p><code>group_id</code>: Contains unique identifiers assigned to
+each duplicated group, which is defined as a set of rows sharing
+identical values in the designated columns of interest.</p></li>
+</ol>
+<p>By including these extra columns, users gain insights into the
+specific rows identified as duplicates and their corresponding group
+identifiers, enabling efficient analysis and management of duplicated
+data within the dataset.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># DISPLAY THE OUTPUT OBJECT</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">age</span><span class="op">)</span>  <span class="co"># note the last 2 columns</span></span>
-<span><span class="co">#&gt;    study_id event_name country_code country_name date.of.admission dateOfBirth</span></span>
-<span><span class="co">#&gt; 1   PS001P2      day 0            2       Gambia        01/12/2020  1972-06-01</span></span>
-<span><span class="co">#&gt; 2   PS002P2      day 0            2       Gambia        28/01/2021  1952-02-20</span></span>
-<span><span class="co">#&gt; 3 PS004P2-1      day 0            2       Gambia        15/02/2021  1961-06-15</span></span>
-<span><span class="co">#&gt; 4   PS003P2      day 0            2       Gambia        11/02/2021  1947-11-11</span></span>
-<span><span class="co">#&gt; 5   P0005P2      day 0            2       Gambia        17/02/2021  2000-09-26</span></span>
-<span><span class="co">#&gt; 6   PS006P2      day 0            2       Gambia        17/02/2021        &lt;NA&gt;</span></span>
-<span><span class="co">#&gt;   date_first_pcr_positive_test sex age_months remainder_days</span></span>
-<span><span class="co">#&gt; 1                 Dec 01, 2020   1        619             30</span></span>
-<span><span class="co">#&gt; 2                 Jan 01, 2021   1        863             10</span></span>
-<span><span class="co">#&gt; 3                 Feb 11, 2021 -99        751             16</span></span>
-<span><span class="co">#&gt; 4                 Feb 01, 2021   1        914             20</span></span>
-<span><span class="co">#&gt; 5                 Feb 16, 2021   2        280              4</span></span>
-<span><span class="co">#&gt; 6                 May 02, 2021   2         NA             NA</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># VISUALIZE THE DUPLICATES</span></span>
+<span><span class="va">report</span>     <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">dups</span>, <span class="st">"report"</span><span class="op">)</span></span>
+<span><span class="va">duplicates</span> <span class="op">&lt;-</span> <span class="va">report</span><span class="op">$</span><span class="va">duplicated_rows</span></span>
+<span><span class="va">duplicates</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/set_names.html" class="external-link">set_names</a></span><span class="op">(</span><span class="va">toupper</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">kableExtra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/kbl.html" class="external-link">kbl</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">kableExtra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/kable_classic.html" class="external-link">kable_paper</a></span><span class="op">(</span><span class="st">"striped"</span>, font_size <span class="op">=</span> <span class="fl">18</span>, full_width <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">kableExtra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/scroll_box.html" class="external-link">scroll_box</a></span><span class="op">(</span>height <span class="op">=</span> <span class="st">"200px"</span>, width <span class="op">=</span> <span class="st">"100%"</span>,</span>
+<span>                         box_css <span class="op">=</span> <span class="st">"border: 1px solid #ddd; padding: 5px; "</span>,</span>
+<span>                         extra_css <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>                         fixed_thead <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:200px; overflow-x: scroll; width:100%; ">
+<table class="table  lightable-paper lightable-striped" style='font-size: 18px; font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'>
+<thead><tr>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+ROW_ID
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+GROUP_ID
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+DT_ONSET
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+DT_REPORT
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+SEX
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+OUTCOME
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+26
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+2015-05-21
+</td>
+<td style="text-align:left;">
+2015-06-03
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+Alive
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+33
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+2015-05-21
+</td>
+<td style="text-align:left;">
+2015-06-03
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+Alive
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+55
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+2015-05-30
+</td>
+<td style="text-align:left;">
+2015-06-06
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+Alive
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+62
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+2015-05-30
+</td>
+<td style="text-align:left;">
+2015-06-06
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+Alive
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+23
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+2015-05-31
+</td>
+<td style="text-align:left;">
+2015-06-02
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+Dead
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+24
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+2015-05-31
+</td>
+<td style="text-align:left;">
+2015-06-02
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+Dead
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+99
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:left;">
+2015-05-31
+</td>
+<td style="text-align:left;">
+2015-06-09
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+Alive
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+105
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:left;">
+2015-05-31
+</td>
+<td style="text-align:left;">
+2015-06-09
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+Alive
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+27
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:left;">
+2015-06-01
+</td>
+<td style="text-align:left;">
+2015-06-03
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+Alive
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+31
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:left;">
+2015-06-01
+</td>
+<td style="text-align:left;">
+2015-06-03
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+Alive
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+44
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:left;">
+2015-06-01
+</td>
+<td style="text-align:left;">
+2015-06-06
+</td>
+<td style="text-align:left;">
+F
+</td>
+<td style="text-align:left;">
+Alive
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+60
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:left;">
+2015-06-01
+</td>
+<td style="text-align:left;">
+2015-06-06
+</td>
+<td style="text-align:left;">
+F
+</td>
+<td style="text-align:left;">
+Alive
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+65
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:left;">
+2015-06-01
+</td>
+<td style="text-align:left;">
+2015-06-07
+</td>
+<td style="text-align:left;">
+F
+</td>
+<td style="text-align:left;">
+Alive
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+73
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:left;">
+2015-06-01
+</td>
+<td style="text-align:left;">
+2015-06-07
+</td>
+<td style="text-align:left;">
+F
+</td>
+<td style="text-align:left;">
+Alive
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+78
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:left;">
+2015-06-01
+</td>
+<td style="text-align:left;">
+2015-06-07
+</td>
+<td style="text-align:left;">
+F
+</td>
+<td style="text-align:left;">
+Alive
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+82
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:left;">
+2015-06-01
+</td>
+<td style="text-align:left;">
+2015-06-07
+</td>
+<td style="text-align:left;">
+F
+</td>
+<td style="text-align:left;">
+Alive
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+85
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:left;">
+2015-06-01
+</td>
+<td style="text-align:left;">
+2015-06-07
+</td>
+<td style="text-align:left;">
+F
+</td>
+<td style="text-align:left;">
+Alive
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+47
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:left;">
+2015-06-02
+</td>
+<td style="text-align:left;">
+2015-06-06
+</td>
+<td style="text-align:left;">
+F
+</td>
+<td style="text-align:left;">
+Dead
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+51
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:left;">
+2015-06-02
+</td>
+<td style="text-align:left;">
+2015-06-06
+</td>
+<td style="text-align:left;">
+F
+</td>
+<td style="text-align:left;">
+Dead
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+56
+</td>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:left;">
+2015-06-02
+</td>
+<td style="text-align:left;">
+2015-06-06
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+Alive
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+58
+</td>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:left;">
+2015-06-02
+</td>
+<td style="text-align:left;">
+2015-06-06
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+Alive
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+61
+</td>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:left;">
+2015-06-02
+</td>
+<td style="text-align:left;">
+2015-06-06
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+Alive
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+110
+</td>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:left;">
+2015-06-02
+</td>
+<td style="text-align:left;">
+2015-06-10
+</td>
+<td style="text-align:left;">
+F
+</td>
+<td style="text-align:left;">
+Alive
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+122
+</td>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:left;">
+2015-06-02
+</td>
+<td style="text-align:left;">
+2015-06-10
+</td>
+<td style="text-align:left;">
+F
+</td>
+<td style="text-align:left;">
+Alive
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+54
+</td>
+<td style="text-align:right;">
+11
+</td>
+<td style="text-align:left;">
+2015-06-03
+</td>
+<td style="text-align:left;">
+2015-06-06
+</td>
+<td style="text-align:left;">
+F
+</td>
+<td style="text-align:left;">
+Alive
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+63
+</td>
+<td style="text-align:right;">
+11
+</td>
+<td style="text-align:left;">
+2015-06-03
+</td>
+<td style="text-align:left;">
+2015-06-06
+</td>
+<td style="text-align:left;">
+F
+</td>
+<td style="text-align:left;">
+Alive
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+68
+</td>
+<td style="text-align:right;">
+12
+</td>
+<td style="text-align:left;">
+2015-06-04
+</td>
+<td style="text-align:left;">
+2015-06-07
+</td>
+<td style="text-align:left;">
+F
+</td>
+<td style="text-align:left;">
+Alive
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+71
+</td>
+<td style="text-align:right;">
+12
+</td>
+<td style="text-align:left;">
+2015-06-04
+</td>
+<td style="text-align:left;">
+2015-06-07
+</td>
+<td style="text-align:left;">
+F
+</td>
+<td style="text-align:left;">
+Alive
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+79
+</td>
+<td style="text-align:right;">
+12
+</td>
+<td style="text-align:left;">
+2015-06-04
+</td>
+<td style="text-align:left;">
+2015-06-07
+</td>
+<td style="text-align:left;">
+F
+</td>
+<td style="text-align:left;">
+Alive
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+87
+</td>
+<td style="text-align:right;">
+12
+</td>
+<td style="text-align:left;">
+2015-06-04
+</td>
+<td style="text-align:left;">
+2015-06-07
+</td>
+<td style="text-align:left;">
+F
+</td>
+<td style="text-align:left;">
+Alive
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+102
+</td>
+<td style="text-align:right;">
+13
+</td>
+<td style="text-align:left;">
+2015-06-04
+</td>
+<td style="text-align:left;">
+2015-06-09
+</td>
+<td style="text-align:left;">
+F
+</td>
+<td style="text-align:left;">
+Alive
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+108
+</td>
+<td style="text-align:right;">
+13
+</td>
+<td style="text-align:left;">
+2015-06-04
+</td>
+<td style="text-align:left;">
+2015-06-09
+</td>
+<td style="text-align:left;">
+F
+</td>
+<td style="text-align:left;">
+Alive
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+96
+</td>
+<td style="text-align:right;">
+14
+</td>
+<td style="text-align:left;">
+2015-06-06
+</td>
+<td style="text-align:left;">
+2015-06-09
+</td>
+<td style="text-align:left;">
+F
+</td>
+<td style="text-align:left;">
+Alive
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+107
+</td>
+<td style="text-align:right;">
+14
+</td>
+<td style="text-align:left;">
+2015-06-06
+</td>
+<td style="text-align:left;">
+2015-06-09
+</td>
+<td style="text-align:left;">
+F
+</td>
+<td style="text-align:left;">
+Alive
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+103
+</td>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:left;">
+2015-06-06
+</td>
+<td style="text-align:left;">
+2015-06-09
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+Alive
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+104
+</td>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:left;">
+2015-06-06
+</td>
+<td style="text-align:left;">
+2015-06-09
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+Alive
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+132
+</td>
+<td style="text-align:right;">
+16
+</td>
+<td style="text-align:left;">
+2015-06-08
+</td>
+<td style="text-align:left;">
+2015-06-12
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+Alive
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+133
+</td>
+<td style="text-align:right;">
+16
+</td>
+<td style="text-align:left;">
+2015-06-08
+</td>
+<td style="text-align:left;">
+2015-06-12
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+Alive
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+135
+</td>
+<td style="text-align:right;">
+16
+</td>
+<td style="text-align:left;">
+2015-06-08
+</td>
+<td style="text-align:left;">
+2015-06-12
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+Alive
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+129
+</td>
+<td style="text-align:right;">
+17
+</td>
+<td style="text-align:left;">
+2015-06-10
+</td>
+<td style="text-align:left;">
+2015-06-12
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+Alive
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+138
+</td>
+<td style="text-align:right;">
+17
+</td>
+<td style="text-align:left;">
+2015-06-10
+</td>
+<td style="text-align:left;">
+2015-06-12
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+Alive
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+46
+</td>
+<td style="text-align:right;">
+18
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+2015-06-06
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+Alive
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+49
+</td>
+<td style="text-align:right;">
+18
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+2015-06-06
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+Alive
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+69
+</td>
+<td style="text-align:right;">
+19
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+2015-06-07
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+Alive
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+80
+</td>
+<td style="text-align:right;">
+19
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+2015-06-07
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+Alive
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+91
+</td>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+2015-06-08
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+Alive
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+95
+</td>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+2015-06-08
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+Alive
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+119
+</td>
+<td style="text-align:right;">
+21
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+2015-06-10
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+Alive
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+121
+</td>
+<td style="text-align:right;">
+21
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+2015-06-10
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+Alive
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+155
+</td>
+<td style="text-align:right;">
+22
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+2015-06-16
+</td>
+<td style="text-align:left;">
+F
+</td>
+<td style="text-align:left;">
+Alive
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+161
+</td>
+<td style="text-align:right;">
+22
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+2015-06-16
+</td>
+<td style="text-align:left;">
+F
+</td>
+<td style="text-align:left;">
+Alive
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+156
+</td>
+<td style="text-align:right;">
+23
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+2015-06-16
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+Alive
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+157
+</td>
+<td style="text-align:right;">
+23
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+2015-06-16
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+Alive
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+158
+</td>
+<td style="text-align:right;">
+23
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+2015-06-16
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+Alive
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+159
+</td>
+<td style="text-align:right;">
+23
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+2015-06-16
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+Alive
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+160
+</td>
+<td style="text-align:right;">
+23
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+2015-06-16
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+Alive
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+162
+</td>
+<td style="text-align:right;">
+23
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+2015-06-16
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+Alive
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 <div class="section level3">
-<h3 id="check-date-sequence">Check date sequence<a class="anchor" aria-label="anchor" href="#check-date-sequence"></a>
+<h3 id="removing-duplicates">Removing duplicates<a class="anchor" aria-label="anchor" href="#removing-duplicates"></a>
 </h3>
-<p>The <code><a href="../reference/check_date_sequence.html">check_date_sequence()</a></code> function checks the order of
-sequences in date event columns and makes sure that the values in all
-rows in those columns comply with the desired order. For example, the
-values in <code>date_of_infection</code>,
-<code>date_of_admission</code>, and <code>date_of_death</code> columns
-should be in the order they are listed here. Any row where the values
-are not in this order will be considered as wrong and eventually be
-removed by the <code><a href="../reference/check_date_sequence.html">check_date_sequence()</a></code> function. The function
-takes the following arguments:</p>
+<p>To eliminate duplicated rows from a dataset, the
+<code><a href="../reference/remove_duplicates.html">remove_duplicates()</a></code> function can be employed. This function
+internally utilizes the <code><a href="../reference/find_duplicates.html">find_duplicates()</a></code> function and
+expects the following parameters:</p>
 <ol style="list-style-type: decimal">
 <li>
-<code>data</code>: the input dataset</li>
+<strong>data</strong>: A data frame of the input dataset from which
+duplicated rows will be removed.</li>
 <li>
-<code>event_cols</code>: a <code>vector</code> with the names of
-date columns of interest. These should be listed in the expected order
-of occurrence, and would look like this for the mentioned example above:
-<code>event_cols = c("date_of_infection", "date_of_admission", "date_of_death"</code>
+<strong>target_columns</strong>: A vector containing either column
+names or indexes specifying the columns from which duplicated rows will
+be identified. If set to <code>NULL</code>, the function will detect
+duplicates across all columns. If the input dataset is a
+<code>linelist</code> object, setting this parameter to
+<code>tags</code> will identify duplicates across the tagged variables
+only.</li>
+<li>
+<strong>remove</strong>: A numeric vector of the indices of the
+duplicated rows to be removed. If set to <code>NULL</code>, the function
+removes duplicates and retains only the first occurrence of the
+duplicated rows.</li>
+<li>
+<strong>rm_empty_rows</strong>: A Boolean to indicate whether to
+remove empty rows or not. The default is <code>TRUE</code>
 </li>
 <li>
-<code>remove_bad_seq</code>: a Boolean variable and the default
-value is <code>false</code>. If <code>TRUE</code>, rows with incorrect
-date sequence will be deleted from the output object. Otherwise, they
-will be detected and stored in the report object.<br>
+<strong>rm_empty_cols</strong>: A Boolean to indicate whether to
+remove empty columns or not. The default is <code>TRUE</code>
 </li>
 <li>
-<code>report</code>: a <code>list</code> that will contains details
-about the detected wrong date sequences. This can be the output
-<code>report object</code> from another function in
-<strong>cleanepi</strong>. (optional)</li>
+<strong>rm_constant_cols</strong>: A Boolean to indicate whether to
+remove constant columns or not. The default is <code>TRUE</code>
+</li>
 </ol>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># DETECT ROWS WITH INCORRECT DATE SEQUENCE</span></span>
-<span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/check_date_sequence.html">check_date_sequence</a></span><span class="op">(</span></span>
-<span>  data           <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"test_df.RDS"</span>,</span>
-<span>                                       package <span class="op">=</span> <span class="st">"cleanepi"</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>  event_cols     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"date_first_pcr_positive_test"</span>, <span class="st">"date.of.admission"</span><span class="op">)</span>,</span>
-<span>  remove_bad_seq <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  report         <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<p>The <code><a href="../reference/check_date_sequence.html">check_date_sequence()</a></code> function returns a
-<code>list</code> of 2 elements:</p>
-<ul>
-<li>
-<strong>data</strong>: the input dataset or a subset from it without
-the incorrect rows (if <code>remove_bad_seq = TRUE</code>)</li>
-<li>
-<strong>report</strong>: a <code>list</code>, or augmented report
-<code>list</code> with an element named as
-<strong>incorrect_date_sequence</strong>. This in turn is a
-<code>list</code> of 2 elements named as: <strong>date_sequence</strong>
-(the expected order of the date events) and
-<strong>bad_sequence</strong> (a <code>data.frame</code> of the rows
-with the incorrect date sequences).</li>
-</ul>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># PRINT ROWS WITH INCORRECT DATE SEQUENCE</span></span>
-<span><span class="va">res</span><span class="op">[[</span><span class="st">"report"</span><span class="op">]</span><span class="op">]</span></span>
-<span><span class="co">#&gt; $incorrect_date_sequence</span></span>
-<span><span class="co">#&gt; $incorrect_date_sequence$date_sequence</span></span>
-<span><span class="co">#&gt; date_first_pcr_positive_test &lt; date.of.admission</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $incorrect_date_sequence$bad_sequence</span></span>
-<span><span class="co">#&gt;   study_id event_name country_code country_name date.of.admission dateOfBirth</span></span>
-<span><span class="co">#&gt; 6  PS006P2      day 0            2       Gambia        2021-02-17         -99</span></span>
-<span><span class="co">#&gt; 8  PS008P2      day 0            2       Gambia        2021-02-22  10/05/1976</span></span>
-<span><span class="co">#&gt;   date_first_pcr_positive_test sex</span></span>
-<span><span class="co">#&gt; 6                   2021-05-02   2</span></span>
-<span><span class="co">#&gt; 8                   2021-09-20   2</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="find-duplicated-rows">Find duplicated rows<a class="anchor" aria-label="anchor" href="#find-duplicated-rows"></a>
-</h3>
-<p>The <code><a href="../reference/find_duplicates.html">find_duplicates()</a></code> function can be used to identify
-duplicated rows from an input dataset. The function takes the following
-arguments:</p>
-<ol style="list-style-type: decimal">
-<li>
-<code>data</code>: the input dataset</li>
-<li>
-<code>target_columns</code>: a <code>vector</code> of column names
-or indexes from which duplicated rows will be identified. If
-<code>NULL</code>, duplicates will be detected across all columns. If
-the input dataset is a <code>linelist</code> object, this can be set to
-<code>tags</code> to identify duplicates across the <strong>tagged
-variables</strong> only.</li>
-</ol>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># IMPORT A `linelist` DATA</span></span>
-<span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"test_linelist.RDS"</span>,</span>
-<span>                            package <span class="op">=</span> <span class="st">"cleanepi"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 15</span></span></span>
-<span><span class="co">#&gt;   id      age age_class sex   place_infect    reporting_ctry loc_hosp dt_onset  </span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> SK_1     68 60-69     M     Middle East     South Korea    Pyeongt… 2015-05-11</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> SK_2     63 60-69     F     Outside Middle… South Korea    Pyeongt… 2015-05-18</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> SK_3     76 70-79     M     Outside Middle… South Korea    Pyeongt… 2015-05-20</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> SK_4     46 40-49     F     Outside Middle… South Korea    Pyeongt… 2015-05-25</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> SK_5     50 50-59     M     Outside Middle… South Korea    365 Yeo… 2015-05-25</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> SK_6     71 70-79     M     Outside Middle… South Korea    Pyeongt… 2015-05-24</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 7 more variables: dt_report &lt;date&gt;, week_report &lt;fct&gt;, dt_start_exp &lt;date&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   dt_end_exp &lt;date&gt;, dt_diag &lt;date&gt;, outcome &lt;fct&gt;, dt_death &lt;date&gt;</span></span></span></code></pre></div>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># SHOW THE TAGGED VARIABLES</span></span>
-<span><span class="fu">linelist</span><span class="fu">::</span><span class="fu"><a href="https://epiverse-trace.github.io/linelist/reference/tags.html" class="external-link">tags</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span></span>
-<span><span class="co">#&gt; $date_onset</span></span>
-<span><span class="co">#&gt; [1] "dt_onset"</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $date_reporting</span></span>
-<span><span class="co">#&gt; [1] "dt_report"</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $gender</span></span>
-<span><span class="co">#&gt; [1] "sex"</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $outcome</span></span>
-<span><span class="co">#&gt; [1] "outcome"</span></span></code></pre></div>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># FIND DUPLICATES ACROSS TAGGED VARIABLES</span></span>
-<span><span class="va">dups</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/find_duplicates.html">find_duplicates</a></span><span class="op">(</span></span>
-<span>  data           <span class="op">=</span> <span class="va">data</span>,</span>
-<span>  target_columns <span class="op">=</span> <span class="st">"tags"</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<p>The function returns all duplicated rows in the dataset based on all
-or the specified columns. Two extra columns: <code>row_id</code> and
-<code>group_id</code> will be added to the dataset, to represent,
-respectively, the row numbers of the duplicated rows from the input
-dataset and the duplicated group ID assigned to them, every group being
-the same set of values in the columns of interest.</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># VISUALIZE THE DUPLICATES</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">dups</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">row_id</span>, <span class="va">group_id</span>,</span>
-<span>                              <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="fu">linelist</span><span class="fu">::</span><span class="fu"><a href="https://epiverse-trace.github.io/linelist/reference/tags.html" class="external-link">tags</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 6</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># Groups:   dt_onset, dt_report, sex, outcome [3]</span></span></span>
-<span><span class="co">#&gt;   row_id group_id dt_onset   dt_report  sex   outcome</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     26        1 2015-05-21 2015-06-03 M     Alive  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     33        1 2015-05-21 2015-06-03 M     Alive  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     55        2 2015-05-30 2015-06-06 M     Alive  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     62        2 2015-05-30 2015-06-06 M     Alive  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>     23        3 2015-05-31 2015-06-02 M     Dead   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>     24        3 2015-05-31 2015-06-02 M     Dead</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="remove-duplicates">Remove duplicates<a class="anchor" aria-label="anchor" href="#remove-duplicates"></a>
-</h3>
-<p>To remove duplicated rows, use the <code><a href="../reference/remove_duplicates.html">remove_duplicates()</a></code>
-function. It internally calls the <code><a href="../reference/find_duplicates.html">find_duplicates()</a></code>
-function and it expects the following parameters:</p>
-<ol style="list-style-type: decimal">
-<li>
-<code>data</code>: the input dataset</li>
-<li>
-<code>target_columns</code>: a <code>vector</code> of column names
-or indexes from which duplicated rows will be identified. If
-<code>NULL</code>, duplicates will be detected across all columns. f the
-input dataset is a <code>linelist</code> object, this can be set to
-<code>tags</code> to identify duplicates across the <strong>tagged
-variables</strong> only.</li>
-<li>
-<code>remove</code>: a <code>numeric vector</code> of the indices of
-the duplicated rows to be removed. If <code>NULL</code>, duplicates will
-be removed and only the first occurrence of the duplicated rows will be
-kept.</li>
-<li>
-<code>report</code>: a <code>list</code> that will contains details
-about the duplicates removal process. This can be the output
-<code>report object</code> from another function in
-<strong>cleanepi</strong> (optional).</li>
-</ol>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># IMPORT A `linelist` DATA</span></span>
-<span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"test_linelist.RDS"</span>,</span>
-<span>                            package <span class="op">=</span> <span class="st">"cleanepi"</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># REMOVE DUPLICATES ACROSS TAGGED VARIABLES (KEEP ONLY THE FIRST OCCURENCE OF</span></span>
-<span><span class="co"># THE DUPLICATED ROWS)</span></span>
+<code class="sourceCode R"><span><span class="co"># REMOVE DUPLICATE ACROSS TAGGED COLUMNS ONLY.</span></span>
 <span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/remove_duplicates.html">remove_duplicates</a></span><span class="op">(</span></span>
-<span>  data           <span class="op">=</span> <span class="va">data</span>,</span>
-<span>  target_columns <span class="op">=</span> <span class="st">"tags"</span>,</span>
-<span>  remove         <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  report         <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<p>The function returns the inputs dataset without the duplicated rows
-and a <code>list</code> with the outcomes from the duplicates removal
-operation. This is in turn a list named as remove_duplicates with 3
-elements:</p>
+<span>  data           <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"test_linelist.RDS"</span>,</span>
+<span>                                       package <span class="op">=</span> <span class="st">"cleanepi"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  target_columns <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  remove         <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; No duplicates found from the specified columns.</span></span></code></pre></div>
+<p>Upon execution, the <code><a href="../reference/remove_duplicates.html">remove_duplicates()</a></code> function returns
+the input dataset with duplicated rows removed (if found). The details
+about the duplicates removal operation are reported as a list attached
+to the output object. When duplicates are found, this report will
+contain the following elements:</p>
 <ul>
 <li>
-<strong>all_dups</strong>: this is a subset of the input dataset
-with all the duplicated rows detected using the
-<code><a href="../reference/find_duplicates.html">find_duplicates()</a></code> function.<br>
-</li>
+<strong>empty_columns</strong>: A vector of empty columns (if
+found).</li>
 <li>
-<strong>removed_dups</strong>: a subset of the input dataset that
-was removed.</li>
+<strong>constant_columns</strong>: A vector of constant columns (if
+found).</li>
 <li>
-<strong>duplicates_checked_from</strong>: a comma-separated string
-of column names that were used to identify the duplicated rows.</li>
+<strong>duplicated_rows</strong>: A data frame with the detected
+duplicates.</li>
+<li>
+<strong>removed_duplicates</strong>: A data frame with the
+duplicated rows that have been removed.</li>
+<li>
+<strong>duplicates_checked_from</strong>: A vector of the names of
+the columns from which duplicates were identified.</li>
 </ul>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># STORE THE DUPLICATES REMOVAL PROCESS REPORT IN A VARIABLE</span></span>
-<span><span class="va">dups_removal_report</span> <span class="op">&lt;-</span> <span class="va">res</span><span class="op">[[</span><span class="st">"report"</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"remove_duplicates"</span><span class="op">]</span><span class="op">]</span></span>
-<span></span>
-<span><span class="co"># DISPLAY ALL DUPLICATES FOUND</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">dups_removal_report</span><span class="op">[[</span><span class="st">"all_dups"</span><span class="op">]</span><span class="op">]</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>       <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">row_id</span>, <span class="va">group_id</span>, <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="fu">linelist</span><span class="fu">::</span><span class="fu"><a href="https://epiverse-trace.github.io/linelist/reference/tags.html" class="external-link">tags</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 6</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># Groups:   dt_onset, dt_report, sex, outcome [3]</span></span></span>
-<span><span class="co">#&gt;   row_id group_id dt_onset   dt_report  sex   outcome</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     26        1 2015-05-21 2015-06-03 M     Alive  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     33        1 2015-05-21 2015-06-03 M     Alive  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     55        2 2015-05-30 2015-06-06 M     Alive  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     62        2 2015-05-30 2015-06-06 M     Alive  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>     23        3 2015-05-31 2015-06-02 M     Dead   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>     24        3 2015-05-31 2015-06-02 M     Dead</span></span>
-<span></span>
-<span><span class="co"># DISPLAY THE DUPLICATED LINES THAT WAS REMOVED</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">dups_removal_report</span><span class="op">[[</span><span class="st">"removed_dups"</span><span class="op">]</span><span class="op">]</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>       <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">row_id</span>, <span class="va">group_id</span>, <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="fu">linelist</span><span class="fu">::</span><span class="fu"><a href="https://epiverse-trace.github.io/linelist/reference/tags.html" class="external-link">tags</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 6</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># Groups:   dt_onset, dt_report, sex, outcome [6]</span></span></span>
-<span><span class="co">#&gt;   row_id group_id dt_onset   dt_report  sex   outcome</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     33        1 2015-05-21 2015-06-03 M     Alive  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     62        2 2015-05-30 2015-06-06 M     Alive  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     24        3 2015-05-31 2015-06-02 M     Dead   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>    105        4 2015-05-31 2015-06-09 M     Alive  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>     31        5 2015-06-01 2015-06-03 M     Alive  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>     60        6 2015-06-01 2015-06-06 F     Alive</span></span>
-<span></span>
-<span><span class="co"># DISPLAY COLUMN NAMES USED TO DETECT DUPLICATES</span></span>
-<span><span class="va">dups_removal_report</span><span class="op">[[</span><span class="st">"duplicates_checked_from"</span><span class="op">]</span><span class="op">]</span></span>
-<span><span class="co">#&gt; dt_onset, dt_report, sex, outcome</span></span></code></pre></div>
+<p>By examining these elements within the report, users gain insights
+into the specific duplicated rows, those that were removed, and the
+columns used to identify the duplicated, thus facilitating transparency
+and documentation of the duplicates removal process.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="co"># ACCESS THE REPORT</span></span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>report <span class="ot">&lt;-</span> <span class="fu">attr</span>(res, <span class="st">"report"</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a><span class="co"># SUMMARIZE THE REPORT OBJECT</span></span>
+<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a><span class="fu">summary</span>(report)</span>
+<span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a>Length  Class   Mode </span>
+<span id="cb14-7"><a href="#cb14-7" tabindex="-1"></a>     <span class="dv">0</span>   <span class="cn">NULL</span>   <span class="cn">NULL</span> </span></code></pre></div>
+<p>Use the <code><a href="../reference/print_report.html">print_report()</a></code> function to display the report
+made from this operation</p>
 <p>The output from <code><a href="../reference/find_duplicates.html">find_duplicates()</a></code> function can also be
 passed to <code><a href="../reference/remove_duplicates.html">remove_duplicates()</a></code> function to specify which
 duplicated rows to be removed.</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># DETECT DUPLICATES FROM TAGGED COLUMNS</span></span>
-<span><span class="va">dups</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/find_duplicates.html">find_duplicates</a></span><span class="op">(</span></span>
-<span>  data           <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"test_linelist.RDS"</span>,</span>
-<span>                                       package <span class="op">=</span> <span class="st">"cleanepi"</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>  target_columns <span class="op">=</span> <span class="st">"tags"</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># REMOVE FIRST OCCURRENCE OF DUPLICATED ROWS</span></span>
-<span><span class="va">dups_index_to_remove</span> <span class="op">&lt;-</span> <span class="va">dups</span><span class="op">[[</span><span class="st">"row_id"</span><span class="op">]</span><span class="op">]</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">1L</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">dups</span><span class="op">)</span>, <span class="fl">2L</span><span class="op">)</span><span class="op">]</span></span>
-<span><span class="va">no_dups</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/remove_duplicates.html">remove_duplicates</a></span><span class="op">(</span></span>
-<span>  data           <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"test_linelist.RDS"</span>,</span>
-<span>                                       package <span class="op">=</span> <span class="st">"cleanepi"</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>  target_columns <span class="op">=</span> <span class="st">"tags"</span>,</span>
-<span>  remove         <span class="op">=</span> <span class="va">dups_index_to_remove</span>,</span>
-<span>  report         <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="co"># DETECT DUPLICATES FROM TAGGED COLUMNS</span></span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>dups <span class="ot">&lt;-</span> <span class="fu">find_duplicates</span>(</span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>  <span class="at">data           =</span> <span class="fu">readRDS</span>(<span class="fu">system.file</span>(<span class="st">"extdata"</span>, <span class="st">"test_linelist.RDS"</span>,</span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a>                                       <span class="at">package =</span> <span class="st">"cleanepi"</span>)),</span>
+<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a>  <span class="at">target_columns =</span> <span class="st">"tags"</span></span>
+<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a>)</span>
+<span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a>find_and_remove_dups Found <span class="dv">57</span> duplicated rows. Please consult the report <span class="cf">for</span> more details.</span>
+<span id="cb15-8"><a href="#cb15-8" tabindex="-1"></a></span>
+<span id="cb15-9"><a href="#cb15-9" tabindex="-1"></a><span class="co"># EXTRACT THE DUPLICATES</span></span>
+<span id="cb15-10"><a href="#cb15-10" tabindex="-1"></a>report     <span class="ot">&lt;-</span> <span class="fu">attr</span>(dups, <span class="st">"report"</span>)</span>
+<span id="cb15-11"><a href="#cb15-11" tabindex="-1"></a>duplicates <span class="ot">&lt;-</span> report<span class="sc">$</span>duplicated_rows</span>
+<span id="cb15-12"><a href="#cb15-12" tabindex="-1"></a></span>
+<span id="cb15-13"><a href="#cb15-13" tabindex="-1"></a><span class="co"># REMOVE FIRST OCCURRENCE OF DUPLICATED ROWS</span></span>
+<span id="cb15-14"><a href="#cb15-14" tabindex="-1"></a>dups_index_to_remove <span class="ot">&lt;-</span> duplicates[[<span class="st">"row_id"</span>]][<span class="fu">seq</span>(<span class="dv">1</span><span class="dt">L</span>, <span class="fu">nrow</span>(dups), <span class="dv">2</span><span class="dt">L</span>)]</span>
+<span id="cb15-15"><a href="#cb15-15" tabindex="-1"></a>dups_index_to_remove <span class="ot">&lt;-</span> dups_index_to_remove[<span class="sc">!</span><span class="fu">is.na</span>(dups_index_to_remove)]</span>
+<span id="cb15-16"><a href="#cb15-16" tabindex="-1"></a>no_dups <span class="ot">&lt;-</span> <span class="fu">remove_duplicates</span>(</span>
+<span id="cb15-17"><a href="#cb15-17" tabindex="-1"></a>  <span class="at">data           =</span> <span class="fu">readRDS</span>(<span class="fu">system.file</span>(<span class="st">"extdata"</span>, <span class="st">"test_linelist.RDS"</span>,</span>
+<span id="cb15-18"><a href="#cb15-18" tabindex="-1"></a>                                       <span class="at">package =</span> <span class="st">"cleanepi"</span>)),</span>
+<span id="cb15-19"><a href="#cb15-19" tabindex="-1"></a>  <span class="at">target_columns =</span> <span class="st">"tags"</span>,</span>
+<span id="cb15-20"><a href="#cb15-20" tabindex="-1"></a>  <span class="at">remove         =</span> dups_index_to_remove</span>
+<span id="cb15-21"><a href="#cb15-21" tabindex="-1"></a>)</span>
+<span id="cb15-22"><a href="#cb15-22" tabindex="-1"></a>find_and_remove_dups Found <span class="dv">57</span> duplicated rows. Please consult the report <span class="cf">for</span> more details.</span>
+<span id="cb15-23"><a href="#cb15-23" tabindex="-1"></a></span>
+<span id="cb15-24"><a href="#cb15-24" tabindex="-1"></a><span class="co"># KEEP SPECIFIC DUPLICATED ROWS</span></span>
+<span id="cb15-25"><a href="#cb15-25" tabindex="-1"></a>no_dups <span class="ot">&lt;-</span> <span class="fu">remove_duplicates</span>(</span>
+<span id="cb15-26"><a href="#cb15-26" tabindex="-1"></a>  <span class="at">data           =</span> <span class="fu">readRDS</span>(<span class="fu">system.file</span>(<span class="st">"extdata"</span>, <span class="st">"test_linelist.RDS"</span>,</span>
+<span id="cb15-27"><a href="#cb15-27" tabindex="-1"></a>                                       <span class="at">package =</span> <span class="st">"cleanepi"</span>)),</span>
+<span id="cb15-28"><a href="#cb15-28" tabindex="-1"></a>  <span class="at">target_columns =</span> <span class="st">"tags"</span>,</span>
+<span id="cb15-29"><a href="#cb15-29" tabindex="-1"></a>  <span class="at">remove         =</span> <span class="sc">-</span><span class="fu">c</span>(<span class="dv">33</span>, <span class="dv">55</span>)</span>
+<span id="cb15-30"><a href="#cb15-30" tabindex="-1"></a>)</span>
+<span id="cb15-31"><a href="#cb15-31" tabindex="-1"></a>find_and_remove_dups Found <span class="dv">57</span> duplicated rows. Please consult the report <span class="cf">for</span> more details.</span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="clean-data-based-on-dictionary">Clean data based on dictionary<a class="anchor" aria-label="anchor" href="#clean-data-based-on-dictionary"></a>
+<h3 id="dictionary-based-data-substituting">Dictionary based data substituting<a class="anchor" aria-label="anchor" href="#dictionary-based-data-substituting"></a>
 </h3>
-<p>Some columns in a data frame or linelist contain values that
-represents the different options proposed to the study participants. The
-complete labels for those options are generally stored in so called data
-dictionary file. Note that such dictionary files usually contain other
-information needed for the understanding of the input dataset.</p>
-<p>The <code><a href="../reference/clean_using_dictionary.html">clean_using_dictionary()</a></code> function can be used to
-replace the options with their corresponding values that are stored in
-the data dictionary. It takes the input data frame and its correspondent
-dictionary as inputs. The structure of this data dictionary should be
-the same as expected by the <a href="https://www.repidemicsconsortium.org/matchmaker/" class="external-link">matchmaker</a>
-package. Note that any dictionary that is fit for {matchmaker} is for
-<code><a href="../reference/clean_using_dictionary.html">clean_using_dictionary()</a></code> as it makes call of functions from
-this package.</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>test_dictionary</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>display_dictionary   options values grp orders</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>display_dictionary <span class="dv">1</span>       <span class="dv">1</span>   male sex      <span class="dv">1</span></span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>display_dictionary <span class="dv">2</span>       <span class="dv">2</span> female sex      <span class="dv">2</span></span></code></pre></div>
-<p>It is common to have some options in the input data that are not
-defined in the dictionary. Use the <code><a href="../reference/add_to_dictionnary.html">add_to_dictionnary()</a></code>
-function to define them in the data dictionary. In the example below,
-<code>-99</code> is not defined in the data dictionary ABOVE.</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">## READING IN THE DATA</span></span>
+<p>The <code><a href="../reference/clean_using_dictionary.html">clean_using_dictionary()</a></code> function offers a
+convenient way to replace the options in a data frame or linelist with
+their corresponding values stored in a data dictionary file. The
+function expects the following arguments:</p>
+<ol style="list-style-type: decimal">
+<li>
+<strong>data</strong>: The input data frame or linelist that
+contains the options to be replaced.</li>
+<li>
+<strong>dictionary</strong>: The data frame with the data dictionary
+that contains the complete labels for these options. The structure of
+this data dictionary file should adhere to the standards expected by the
+<a href="https://www.repidemicsconsortium.org/matchmaker/" class="external-link">matchmaker</a>
+package, as the <code><a href="../reference/clean_using_dictionary.html">clean_using_dictionary()</a></code> function relies on
+functions from this package.</li>
+</ol>
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:200px; overflow-x: scroll; width:100%; ">
+<table class="table  lightable-paper lightable-striped" style='font-size: 18px; font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'>
+<thead><tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+OPTIONS
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+VALUES
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+GRP
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+ORDERS
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+male
+</td>
+<td style="text-align:left;">
+sex
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+female
+</td>
+<td style="text-align:left;">
+sex
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The <code><a href="../reference/add_to_dictionary.html">add_to_dictionary()</a></code> function is a useful tool for
+expanding the coverage of a data dictionary by defining options that are
+present in the input data but not originally included in the dictionary.
+This function enables users to dynamically update the dictionary to
+accommodate new values encountered in the dataset. In addition to the
+current data dictionary the function takes the arguments defined
+below:</p>
+<p><strong>option, value, grp, order</strong>: the values for the
+options to be added in the data dictionary. The example below shows how
+this function is used.</p>
+<p>By employing the <code><a href="../reference/add_to_dictionary.html">add_to_dictionary()</a></code> function, users can
+ensure that the data dictionary remains comprehensive and aligned with
+the evolving nature of the input dataset, thereby enhancing the accuracy
+and completeness of data interpretation and analysis. In the example
+below, we add <code>-99</code> to our test data dictionary,
+<code>test_dictionary</code>.</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># READING IN THE DATA</span></span>
 <span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"test_df.RDS"</span>,</span>
 <span>                            package <span class="op">=</span> <span class="st">"cleanepi"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co">## ADD THE EXTRA OPTION TO THE DICTIONARY</span></span>
-<span><span class="va">test_dictionary</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/add_to_dictionnary.html">add_to_dictionnary</a></span><span class="op">(</span><span class="va">test_dictionary</span>,</span>
+<span><span class="co"># ADD THE EXTRA OPTION TO THE DICTIONARY</span></span>
+<span><span class="va">test_dictionary</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/add_to_dictionary.html">add_to_dictionary</a></span><span class="op">(</span><span class="va">test_dictionary</span>,</span>
 <span>                                      option <span class="op">=</span> <span class="st">"-99"</span>,</span>
 <span>                                      value  <span class="op">=</span> <span class="st">"unknow"</span>,</span>
 <span>                                      grp    <span class="op">=</span> <span class="st">"sex"</span>,</span>
-<span>                                      order  <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
-<span><span class="va">test_dictionary</span></span>
-<span><span class="co">#&gt;   options values grp orders</span></span>
-<span><span class="co">#&gt; 1       1   male sex      1</span></span>
-<span><span class="co">#&gt; 2       2 female sex      2</span></span>
-<span><span class="co">#&gt; 3     -99 unknow sex      3</span></span></code></pre></div>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>cleaned_df <span class="ot">&lt;-</span> <span class="fu">clean_using_dictionary</span>(</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data       =</span> data,</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">dictionary =</span> test_dictionary</span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>cleaned_df</span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>dictionary<span class="sc">-</span>base_cleaning     study_id event_name country_code country_name date.of.admission dateOfBirth</span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>dictionary<span class="sc">-</span>base_cleaning <span class="dv">1</span>    PS001P2      day <span class="dv">0</span>            <span class="dv">2</span>       Gambia        <span class="dv">01</span><span class="sc">/</span><span class="dv">12</span><span class="sc">/</span><span class="dv">2020</span>  <span class="dv">06</span><span class="sc">/</span><span class="dv">01</span><span class="sc">/</span><span class="dv">1972</span></span>
-<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>dictionary<span class="sc">-</span>base_cleaning <span class="dv">2</span>    PS002P2      day <span class="dv">0</span>            <span class="dv">2</span>       Gambia        <span class="dv">28</span><span class="sc">/</span><span class="dv">01</span><span class="sc">/</span><span class="dv">2021</span>  <span class="dv">02</span><span class="sc">/</span><span class="dv">20</span><span class="sc">/</span><span class="dv">1952</span></span>
-<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>dictionary<span class="sc">-</span>base_cleaning <span class="dv">3</span>  PS004P2<span class="dv">-1</span>      day <span class="dv">0</span>            <span class="dv">2</span>       Gambia        <span class="dv">15</span><span class="sc">/</span><span class="dv">02</span><span class="sc">/</span><span class="dv">2021</span>  <span class="dv">06</span><span class="sc">/</span><span class="dv">15</span><span class="sc">/</span><span class="dv">1961</span></span>
-<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>dictionary<span class="sc">-</span>base_cleaning <span class="dv">4</span>    PS003P2      day <span class="dv">0</span>            <span class="dv">2</span>       Gambia        <span class="dv">11</span><span class="sc">/</span><span class="dv">02</span><span class="sc">/</span><span class="dv">2021</span>  <span class="dv">11</span><span class="sc">/</span><span class="dv">11</span><span class="sc">/</span><span class="dv">1947</span></span>
-<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>dictionary<span class="sc">-</span>base_cleaning <span class="dv">5</span>    P0005P2      day <span class="dv">0</span>            <span class="dv">2</span>       Gambia        <span class="dv">17</span><span class="sc">/</span><span class="dv">02</span><span class="sc">/</span><span class="dv">2021</span>  <span class="dv">09</span><span class="sc">/</span><span class="dv">26</span><span class="sc">/</span><span class="dv">2000</span></span>
-<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>dictionary<span class="sc">-</span>base_cleaning <span class="dv">6</span>    PS006P2      day <span class="dv">0</span>            <span class="dv">2</span>       Gambia        <span class="dv">17</span><span class="sc">/</span><span class="dv">02</span><span class="sc">/</span><span class="dv">2021</span>         <span class="sc">-</span><span class="dv">99</span></span>
-<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>dictionary<span class="sc">-</span>base_cleaning <span class="dv">7</span>    PB500P2      day <span class="dv">0</span>            <span class="dv">2</span>       Gambia        <span class="dv">28</span><span class="sc">/</span><span class="dv">02</span><span class="sc">/</span><span class="dv">2021</span>  <span class="dv">11</span><span class="sc">/</span><span class="dv">03</span><span class="sc">/</span><span class="dv">1989</span></span>
-<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>dictionary<span class="sc">-</span>base_cleaning <span class="dv">8</span>    PS008P2      day <span class="dv">0</span>            <span class="dv">2</span>       Gambia        <span class="dv">22</span><span class="sc">/</span><span class="dv">02</span><span class="sc">/</span><span class="dv">2021</span>  <span class="dv">10</span><span class="sc">/</span><span class="dv">05</span><span class="sc">/</span><span class="dv">1976</span></span>
-<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>dictionary<span class="sc">-</span>base_cleaning <span class="dv">9</span>    PS010P2      day <span class="dv">0</span>            <span class="dv">2</span>       Gambia        <span class="dv">02</span><span class="sc">/</span><span class="dv">03</span><span class="sc">/</span><span class="dv">2021</span>  <span class="dv">09</span><span class="sc">/</span><span class="dv">23</span><span class="sc">/</span><span class="dv">1991</span></span>
-<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>dictionary<span class="sc">-</span>base_cleaning <span class="dv">10</span>   PS011P2      day <span class="dv">0</span>            <span class="dv">2</span>       Gambia        <span class="dv">05</span><span class="sc">/</span><span class="dv">03</span><span class="sc">/</span><span class="dv">2021</span>  <span class="dv">02</span><span class="sc">/</span><span class="dv">08</span><span class="sc">/</span><span class="dv">1991</span></span>
-<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>dictionary<span class="sc">-</span>base_cleaning    date_first_pcr_positive_test    sex</span>
-<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a>dictionary<span class="sc">-</span>base_cleaning <span class="dv">1</span>                  Dec <span class="dv">01</span>, <span class="dv">2020</span>   male</span>
-<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a>dictionary<span class="sc">-</span>base_cleaning <span class="dv">2</span>                  Jan <span class="dv">01</span>, <span class="dv">2021</span>   male</span>
-<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a>dictionary<span class="sc">-</span>base_cleaning <span class="dv">3</span>                  Feb <span class="dv">11</span>, <span class="dv">2021</span> unknow</span>
-<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a>dictionary<span class="sc">-</span>base_cleaning <span class="dv">4</span>                  Feb <span class="dv">01</span>, <span class="dv">2021</span>   male</span>
-<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a>dictionary<span class="sc">-</span>base_cleaning <span class="dv">5</span>                  Feb <span class="dv">16</span>, <span class="dv">2021</span> female</span>
-<span id="cb24-24"><a href="#cb24-24" aria-hidden="true" tabindex="-1"></a>dictionary<span class="sc">-</span>base_cleaning <span class="dv">6</span>                  May <span class="dv">02</span>, <span class="dv">2021</span> female</span>
-<span id="cb24-25"><a href="#cb24-25" aria-hidden="true" tabindex="-1"></a>dictionary<span class="sc">-</span>base_cleaning <span class="dv">7</span>                  Feb <span class="dv">19</span>, <span class="dv">2021</span>   male</span>
-<span id="cb24-26"><a href="#cb24-26" aria-hidden="true" tabindex="-1"></a>dictionary<span class="sc">-</span>base_cleaning <span class="dv">8</span>                  Sep <span class="dv">20</span>, <span class="dv">2021</span> female</span>
-<span id="cb24-27"><a href="#cb24-27" aria-hidden="true" tabindex="-1"></a>dictionary<span class="sc">-</span>base_cleaning <span class="dv">9</span>                  Feb <span class="dv">26</span>, <span class="dv">2021</span>   male</span>
-<span id="cb24-28"><a href="#cb24-28" aria-hidden="true" tabindex="-1"></a>dictionary<span class="sc">-</span>base_cleaning <span class="dv">10</span>                 Mar <span class="dv">03</span>, <span class="dv">2021</span> female</span></code></pre></div>
+<span>                                      order  <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:200px; overflow-x: scroll; width:100%; ">
+<table class="table  lightable-paper lightable-striped" style='font-size: 18px; font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'>
+<thead><tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+OPTIONS
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+VALUES
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+GRP
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+ORDERS
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+male
+</td>
+<td style="text-align:left;">
+sex
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+female
+</td>
+<td style="text-align:left;">
+sex
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+-99
+</td>
+<td style="text-align:left;">
+unknow
+</td>
+<td style="text-align:left;">
+sex
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+</tbody>
+</table>
 </div>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">cleaned_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/clean_using_dictionary.html">clean_using_dictionary</a></span><span class="op">(</span></span>
+<span>  data       <span class="op">=</span> <span class="va">data</span>,</span>
+<span>  dictionary <span class="op">=</span> <span class="va">test_dictionary</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:200px; overflow-x: scroll; width:100%; ">
+<table class="table  lightable-paper lightable-striped" style='font-size: 18px; font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'>
+<thead><tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+STUDY_ID
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+EVENT_NAME
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+COUNTRY_CODE
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+COUNTRY_NAME
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+DATE.OF.ADMISSION
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+DATEOFBIRTH
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+DATE_FIRST_PCR_POSITIVE_TEST
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+SEX
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+PS001P2
+</td>
+<td style="text-align:left;">
+day 0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Gambia
+</td>
+<td style="text-align:left;">
+01/12/2020
+</td>
+<td style="text-align:left;">
+06/01/1972
+</td>
+<td style="text-align:left;">
+Dec 01, 2020
+</td>
+<td style="text-align:left;">
+male
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PS002P2
+</td>
+<td style="text-align:left;">
+day 0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Gambia
+</td>
+<td style="text-align:left;">
+28/01/2021
+</td>
+<td style="text-align:left;">
+02/20/1952
+</td>
+<td style="text-align:left;">
+Jan 01, 2021
+</td>
+<td style="text-align:left;">
+male
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PS004P2-1
+</td>
+<td style="text-align:left;">
+day 0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Gambia
+</td>
+<td style="text-align:left;">
+15/02/2021
+</td>
+<td style="text-align:left;">
+06/15/1961
+</td>
+<td style="text-align:left;">
+Feb 11, 2021
+</td>
+<td style="text-align:left;">
+unknow
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PS003P2
+</td>
+<td style="text-align:left;">
+day 0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Gambia
+</td>
+<td style="text-align:left;">
+11/02/2021
+</td>
+<td style="text-align:left;">
+11/11/1947
+</td>
+<td style="text-align:left;">
+Feb 01, 2021
+</td>
+<td style="text-align:left;">
+male
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+P0005P2
+</td>
+<td style="text-align:left;">
+day 0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Gambia
+</td>
+<td style="text-align:left;">
+17/02/2021
+</td>
+<td style="text-align:left;">
+09/26/2000
+</td>
+<td style="text-align:left;">
+Feb 16, 2021
+</td>
+<td style="text-align:left;">
+female
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PS006P2
+</td>
+<td style="text-align:left;">
+day 0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Gambia
+</td>
+<td style="text-align:left;">
+17/02/2021
+</td>
+<td style="text-align:left;">
+-99
+</td>
+<td style="text-align:left;">
+May 02, 2021
+</td>
+<td style="text-align:left;">
+female
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PB500P2
+</td>
+<td style="text-align:left;">
+day 0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Gambia
+</td>
+<td style="text-align:left;">
+28/02/2021
+</td>
+<td style="text-align:left;">
+11/03/1989
+</td>
+<td style="text-align:left;">
+Feb 19, 2021
+</td>
+<td style="text-align:left;">
+male
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PS008P2
+</td>
+<td style="text-align:left;">
+day 0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Gambia
+</td>
+<td style="text-align:left;">
+22/02/2021
+</td>
+<td style="text-align:left;">
+10/05/1976
+</td>
+<td style="text-align:left;">
+Sep 20, 2021
+</td>
+<td style="text-align:left;">
+female
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PS010P2
+</td>
+<td style="text-align:left;">
+day 0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Gambia
+</td>
+<td style="text-align:left;">
+02/03/2021
+</td>
+<td style="text-align:left;">
+09/23/1991
+</td>
+<td style="text-align:left;">
+Feb 26, 2021
+</td>
+<td style="text-align:left;">
+male
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PS011P2
+</td>
+<td style="text-align:left;">
+day 0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Gambia
+</td>
+<td style="text-align:left;">
+05/03/2021
+</td>
+<td style="text-align:left;">
+02/08/1991
+</td>
+<td style="text-align:left;">
+Mar 03, 2021
+</td>
+<td style="text-align:left;">
+female
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section level3">
+<h3 id="calculating-age-in-different-time-scales">Calculating age in different time scales<a class="anchor" aria-label="anchor" href="#calculating-age-in-different-time-scales"></a>
+</h3>
+<p>The <code><a href="../reference/calculate_age.html">calculate_age()</a></code> function computes the ages of
+individuals, expressed in years, months, weeks, or days, based on a
+given date column and a reference date. It requires the following
+arguments:</p>
+<ol style="list-style-type: decimal">
+<li>
+<strong>data</strong>: The input dataset (required).</li>
+<li>
+<strong>target_column</strong>: A vector of the name of the column
+containing the birth or relevant dates for which the age is being
+calculated (required).</li>
+<li>
+<strong>end_date</strong>: This is the reference date used to
+calculate the age of individuals (required). The function computes the
+age relative to this date.</li>
+<li>
+<strong>age_in</strong>: This parameter determines the unit in which
+the age is expressed (required). It can be specified as “years”,
+“months”, “weeks”, or “days”. By default, the age is calculated in years
+if this parameter is not provided.</li>
+<li>
+<strong>na_strings</strong>: This is an extra parameters that is
+only needed when there are missing values in the date column of
+interest. It will be used to replace those missing values into
+<code>NA</code> prior to the age calculation.</li>
+</ol>
+<p>With these arguments, the function offers flexibility in determining
+the age of individuals based on different units and reference dates. It
+facilitates various analytics tasks where age computation is a necessary
+component, providing users with the ability to customize the output
+according to their specific requirements.</p>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># CALCULATE INDIVIDUAL AGE FROM THE 'dateOfBirth' COLUMN</span></span>
+<span><span class="va">age</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calculate_age.html">calculate_age</a></span><span class="op">(</span></span>
+<span>  data          <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"test_df.RDS"</span>,</span>
+<span>                                      package <span class="op">=</span> <span class="st">"cleanepi"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  target_column <span class="op">=</span> <span class="st">"dateOfBirth"</span>,</span>
+<span>  age_in        <span class="op">=</span> <span class="st">"days"</span>,</span>
+<span>  na_strings    <span class="op">=</span> <span class="st">"-99"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>The <code><a href="../reference/calculate_age.html">calculate_age()</a></code> function augments the input dataset
+by adding one or two extra columns containing age-related information.
+These additional columns are as follows:</p>
+<ol style="list-style-type: decimal">
+<li><p><strong>Calculated age in specified scale</strong>: Contains the
+calculated age of individuals expressed in the specified unit (years,
+months, weeks, or days).</p></li>
+<li><p><strong>Remaining number of days</strong>: Indicates the
+remaining number of days after calculating the age, representing the
+fractional part of the age calculation. This column is included if
+needed, and provides additional granularity in age
+representation.</p></li>
+</ol>
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:200px; overflow-x: scroll; width:100%; ">
+<table class="table  lightable-paper lightable-striped" style='font-size: 18px; font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'>
+<thead><tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+STUDY_ID
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+EVENT_NAME
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+COUNTRY_CODE
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+COUNTRY_NAME
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+DATE.OF.ADMISSION
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+DATEOFBIRTH
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+DATE_FIRST_PCR_POSITIVE_TEST
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+SEX
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+AGE_DAYS
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+PS001P2
+</td>
+<td style="text-align:left;">
+day 0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Gambia
+</td>
+<td style="text-align:left;">
+01/12/2020
+</td>
+<td style="text-align:left;">
+1972-01-06
+</td>
+<td style="text-align:left;">
+Dec 01, 2020
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+19046
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PS002P2
+</td>
+<td style="text-align:left;">
+day 0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Gambia
+</td>
+<td style="text-align:left;">
+28/01/2021
+</td>
+<td style="text-align:left;">
+1952-02-20
+</td>
+<td style="text-align:left;">
+Jan 01, 2021
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+26306
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PS004P2-1
+</td>
+<td style="text-align:left;">
+day 0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Gambia
+</td>
+<td style="text-align:left;">
+15/02/2021
+</td>
+<td style="text-align:left;">
+1961-06-15
+</td>
+<td style="text-align:left;">
+Feb 11, 2021
+</td>
+<td style="text-align:right;">
+-99
+</td>
+<td style="text-align:right;">
+22903
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PS003P2
+</td>
+<td style="text-align:left;">
+day 0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Gambia
+</td>
+<td style="text-align:left;">
+11/02/2021
+</td>
+<td style="text-align:left;">
+1947-11-11
+</td>
+<td style="text-align:left;">
+Feb 01, 2021
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+27868
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+P0005P2
+</td>
+<td style="text-align:left;">
+day 0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Gambia
+</td>
+<td style="text-align:left;">
+17/02/2021
+</td>
+<td style="text-align:left;">
+2000-09-26
+</td>
+<td style="text-align:left;">
+Feb 16, 2021
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+8555
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PS006P2
+</td>
+<td style="text-align:left;">
+day 0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Gambia
+</td>
+<td style="text-align:left;">
+17/02/2021
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+May 02, 2021
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PB500P2
+</td>
+<td style="text-align:left;">
+day 0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Gambia
+</td>
+<td style="text-align:left;">
+28/02/2021
+</td>
+<td style="text-align:left;">
+1989-03-11
+</td>
+<td style="text-align:left;">
+Feb 19, 2021
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+12772
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PS008P2
+</td>
+<td style="text-align:left;">
+day 0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Gambia
+</td>
+<td style="text-align:left;">
+22/02/2021
+</td>
+<td style="text-align:left;">
+1976-05-10
+</td>
+<td style="text-align:left;">
+Sep 20, 2021
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+17460
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PS010P2
+</td>
+<td style="text-align:left;">
+day 0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Gambia
+</td>
+<td style="text-align:left;">
+02/03/2021
+</td>
+<td style="text-align:left;">
+1991-09-23
+</td>
+<td style="text-align:left;">
+Feb 26, 2021
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+11846
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PS011P2
+</td>
+<td style="text-align:left;">
+day 0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Gambia
+</td>
+<td style="text-align:left;">
+05/03/2021
+</td>
+<td style="text-align:left;">
+1991-08-02
+</td>
+<td style="text-align:left;">
+Mar 03, 2021
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+11898
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="section level2">
+<h2 id="printing-the-report">Printing the report<a class="anchor" aria-label="anchor" href="#printing-the-report"></a>
+</h2>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/print_report.html">print_report</a></span><span class="op">(</span></span>
+<span>  data             <span class="op">=</span> <span class="va">data</span>,</span>
+<span>  report_title     <span class="op">=</span> <span class="st">"{cleanepi} data cleaning report"</span>,</span>
+<span>  output_directory <span class="op">=</span> <span class="st">"."</span>,</span>
+<span>  output_filename  <span class="op">=</span> <span class="st">"template_data_report"</span>,</span>
+<span>  format           <span class="op">=</span> <span class="st">"html"</span>,</span>
+<span>  print            <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>

@@ -54,7 +54,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>Check whether the subject IDs comply with the expected format</h1>
-      <small class="dont-index">Source: <a href="https://github.com/epiverse-trace/cleanepi/blob/HEAD/R/check_subject_ids.R" class="external-link"><code>R/check_subject_ids.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/epiverse-trace/cleanepi/blob/HEAD/R/standardize_subject_ids.R" class="external-link"><code>R/standardize_subject_ids.R</code></a></small>
       <div class="d-none name"><code>check_subject_ids.Rd</code></div>
     </div>
 
@@ -66,64 +66,47 @@
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">check_subject_ids</span><span class="op">(</span></span>
 <span>  <span class="va">data</span>,</span>
-<span>  <span class="va">format</span>,</span>
-<span>  id_column_name <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">id_column_name</span>,</span>
+<span>  format <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  prefix <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  suffix <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  range <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  remove <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  report <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>  range <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>data</dt>
-<dd><p>the data frame of interest</p></dd>
-
-
-<dt>format</dt>
-<dd><p>the expected subject IDs format</p></dd>
+<dd><p>A data frame</p></dd>
 
 
 <dt>id_column_name</dt>
-<dd><p>the name of the column with the subject IDs. If not
-specified, the first column will be considered by default</p></dd>
+<dd><p>A column name of  the subject IDs. If not
+specified, the first column will be considered by default.</p></dd>
+
+
+<dt>format</dt>
+<dd><p>A  format of the subject IDs</p></dd>
 
 
 <dt>prefix</dt>
-<dd><p>the prefix used in the subject IDs</p></dd>
+<dd><p>A prefix used in the subject IDs</p></dd>
 
 
 <dt>suffix</dt>
-<dd><p>the prefix used in the subject IDs</p></dd>
+<dd><p>A suffix used in the subject IDs</p></dd>
 
 
 <dt>range</dt>
-<dd><p>a vector with the range of numbers in the sample IDs</p></dd>
-
-
-<dt>remove</dt>
-<dd><p>a Boolean to specify whether to remove rows with incorrect</p></dd>
-
-
-<dt>verbose</dt>
-<dd><p>a Boolean to specify whether print the detected incorrect
-subject IDs</p></dd>
-
-
-<dt>report</dt>
-<dd><p>the report object</p></dd>
+<dd><p>A vector with the range of numbers in the sample IDs</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>if found, the function return a list with 2 elements: the cleaned
-data frame with correct subject IDs and a report containing the rows of
-the input data frame with incorrect subject IDs</p>
+<p>A cleaned data frame with correct subject IDs. The incorrect
+subject ids will be stored in the report object.</p>
     </div>
 
     <div class="section level2">
@@ -132,26 +115,11 @@ the input data frame with incorrect subject IDs</p>
 <span class="r-in"><span>  data           <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"test_df.RDS"</span>,</span></span>
 <span class="r-in"><span>                                       package <span class="op">=</span> <span class="st">"cleanepi"</span><span class="op">)</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  id_column_name <span class="op">=</span> <span class="st">"study_id"</span>,</span></span>
-<span class="r-in"><span>  format         <span class="op">=</span> <span class="st">"PS000P2"</span>,</span></span>
+<span class="r-in"><span>  format         <span class="op">=</span> <span class="cn">NULL</span>,</span></span>
 <span class="r-in"><span>  prefix         <span class="op">=</span> <span class="st">"PS"</span>,</span></span>
 <span class="r-in"><span>  suffix         <span class="op">=</span> <span class="st">"P2"</span>,</span></span>
-<span class="r-in"><span>  range          <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">100</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  remove         <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
-<span class="r-in"><span>  verbose        <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
-<span class="r-in"><span>  report         <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  range          <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">100</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Sample IDs with wrong prefix:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "P0005P2" "PB500P2"</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Sample IDs with wrong suffix:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "PS004P2-1"</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Sample IDs with wrong incorrect length:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "PS004P2-1"</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Sample IDs with wrong numbers:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "PB500P2"</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
