@@ -1,0 +1,405 @@
+---
+title: "`r params$report_title`"
+output: 
+  html_document:
+    df_print: paged
+params:
+  scanning_result: NULL
+  standardized_column_names: NULL
+  missing_values_replaced_at: NULL
+  empty_columns: "none"
+  constant_columns: "none"
+  duplicated_rows: NULL
+  removed_duplicates: NULL
+  duplicates_checked_from: NULL
+  out_of_range_dates: NULL
+  incorrect_subject_id: NULL
+  missing_ids: NULL
+  duplicated_ids: NULL
+  converted_into_numeric: NULL
+  misspelled_values: NULL
+  incorrect_date_sequence: NULL
+  report_title: "cleanepi report"
+---
+
+
+```{r cleanepi-setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, comment = NA, rownames.print = FALSE)
+```
+
+```{css daiquiri-styles, echo=FALSE}
+h1.title {
+	font-size: 28px;
+	}
+p.compact {
+	margin-bottom: 0px;
+	margin-top: 0px;
+	}
+```
+
+<script>
+   $(document).ready(function() {
+     $head = $('#header');
+     $head.prepend('<img src="`r xfun::base64_uri("/Users/karimmane/Documents/Karim/LSHTM/TRACE_dev/Packages/On_trace_github/cleanepi/man/figures/logo.svg")`" style="float: right; width: 100px;"/>')
+   });
+</script>
+
+<p class="compact">
+    Report created on: `r Sys.time()` ; cleanepi version `r utils::packageVersion("cleanepi")` ; `r R.Version()$version.string`
+</p>
+
+# {.tabset .tabset-pills}
+
+## Source data {.tabset}
+
+
+```{r cleanepi-source-data, eval=TRUE, echo=FALSE}
+# EXTRACT THE REPORT SECTIONS
+is_data_scanned <- are_column_standardised <- are_missing_values_replaced <-
+  are_empty_columns_found <- are_constant_columns_found <-
+  are_duplicates_found <- are_duplicates_removed <- are_duplicates_checked <-
+  are_out_of_range_dates_found <- are_incorrect_subject_id <-
+  are_missing_ids_found <- are_duplicated_ids_found <-
+  are_converted_to_numeric <- are_misspelled_values_found <-
+  are_incorrect_date_seq_found <- FALSE
+scanning_result <- params[["scanning_result"]]
+if (!is.null(scanning_result)) {
+  is_data_scanned            <- TRUE
+}
+standardized_column_names <- params[["standardized_column_names"]]
+if (!is.null(standardized_column_names)) {
+  are_column_standardised <- TRUE
+}
+out_of_range_dates        <- params[["out_of_range_dates"]]
+if (!is.null(out_of_range_dates)) {
+  are_out_of_range_dates_found <- TRUE
+}
+incorrect_date_sequence <- params[["incorrect_date_sequence"]]
+if ("incorrect_date_sequence" %in% names(report)) {
+  are_incorrect_date_seq_found <- TRUE
+}
+empty_columns           <- params[["empty_columns"]]
+if (empty_columns != "none") {
+  are_empty_columns_found <- TRUE
+}
+constant_columns        <- params[["constant_columns"]]
+if (constant_columns != "none") {
+  are_constant_columns_found <- TRUE
+}
+duplicated_rows         <- params[["duplicated_rows"]]
+if (!is.null(duplicated_rows)) {
+  are_duplicates_found  <- TRUE
+}
+removed_duplicates      <- params[["removed_duplicates"]]
+if (!is.null(removed_duplicates)) {
+  are_duplicates_removed <- TRUE
+}
+misspelled_values       <- params[["misspelled_values"]]
+if (!is.null(misspelled_values)) {
+  are_misspelled_values_found <- TRUE
+}
+missing_values_replaced_at <- params[["missing_values_replaced_at"]]
+if (!is.null(missing_values_replaced_at)) {
+  are_missing_values_replaced <- TRUE
+}
+```
+
+### Data structure
+
+```{r scan_data, eval=is_data_scanned}
+reactable::reactable( # nolint: cyclocomp_linter
+  scanning_result,
+  sortable   = TRUE,
+  filterable = FALSE,
+  searchable = FALSE,
+  rownames   = FALSE,
+  pagination = FALSE,
+  striped    = TRUE,
+  highlight  = TRUE,
+  columns    = list(
+    Field_names = reactable::colDef(name  = "field_names",
+                                    style = list(fontWeight = "bold",
+                                                 fontSize = 15)),
+    missing     = reactable::colDef(name  = "missing",
+                                    style = function(value) {
+                                      color      <- "black"
+                                      fontWeight <- "normal"
+                                      if (value > 0 && value < 1) {
+                                        color      <- "orange"
+                                        fontWeight <- "bold"
+                                      }
+                                      return(list(color = color,
+                                                  fontWeight = fontWeight))
+                                    }),
+    numeric     = reactable::colDef(name  = "numeric",
+                                    style = function(value) {
+                                      color      <- "black"
+                                      fontWeight <- "normal"
+                                      if (value > 0 && value < 1) {
+                                        color      <- "orange"
+                                        fontWeight <- "bold"
+                                      }
+                                      return(list(color      = color,
+                                             fontWeight = fontWeight))
+                                    }),
+    date        = reactable::colDef(name  = "date",
+                                    style = function(value) {
+                                      color      <- "black"
+                                      fontWeight <- "normal"
+                                      if (value > 0 && value < 1) {
+                                        color      <- "orange"
+                                        fontWeight <- "bold"
+                                      }
+                                      return(list(color      = color,
+                                             fontWeight = fontWeight))
+                                    }),
+    character   = reactable::colDef(name  = "character",
+                                    style = function(value) {
+                                      color      <- "black"
+                                      fontWeight <- "normal"
+                                      if (value > 0 && value < 1) {
+                                        color      <- "orange"
+                                        fontWeight <- "bold"
+                                      }
+                                      return(list(color      = color,
+                                             fontWeight = fontWeight))
+                                    }),
+    logical     = reactable::colDef(name  = "logical",
+                                    style = function(value) {
+                                      color      <- "black"
+                                      fontWeight <- "normal"
+                                      if (value > 0 && value < 1) {
+                                        color      <- "orange"
+                                        fontWeight <- "bold"
+                                      }
+                                      return(list(color = color,
+                                             fontWeight = fontWeight))
+                                    })
+  )
+)
+```
+
+
+### Standardised column names
+
+```{r column_renamed, eval=are_column_standardised}
+reactable::reactable(
+  standardized_column_names,
+  sortable   = TRUE,
+  filterable = FALSE,
+  searchable = FALSE,
+  pagination = FALSE,
+  rownames   = FALSE,
+  compact    = TRUE,
+  fullWidth  = TRUE,
+  striped    = TRUE,
+  highlight  = TRUE,
+  columns    = list(
+    original_name = reactable::colDef(name     = "original name",
+                                      minWidth = 200),
+    new_name      = reactable::colDef(name     = "new name",
+                                      minWidth = 200,
+                                      style = list(fontWeight = "bold",
+                                                   color      = "#008000"))
+  )
+)
+```
+
+
+### Standardised dates
+
+```{r out_of_range_dates, eval=are_out_of_range_dates_found}
+reactable::reactable(
+  out_of_range_dates,
+  sortable   = TRUE,
+  filterable = FALSE,
+  searchable = FALSE,
+  rownames   = FALSE,
+  pagination = TRUE,
+  striped    = TRUE,
+  highlight  = TRUE,
+  compact    = TRUE,
+  fullWidth  = TRUE,
+  columns    = list(
+    idx = reactable::colDef(name  = "row index",
+                            style = list(fontWeight = "normal")),
+    column = reactable::colDef(name = "column name"),
+    original_value = reactable::colDef(name  = "out of range values",
+                                       style = list(fontWeight = "bold",
+                                                    color      = "#e00000"))
+  )
+)
+```
+
+### Incorrect date sequence
+
+```{r incorrect_date_seq, eval=are_incorrect_date_seq_found}
+reactable::reactable(
+  incorrect_date_sequence,
+  sortable   = FALSE,
+  filterable = FALSE,
+  searchable = FALSE,
+  pagination = TRUE,
+  rownames   = FALSE,
+  striped    = TRUE,
+  compact    = TRUE,
+  fullWidth  = TRUE
+)
+```
+
+### Duplicates {.tabset}
+
+#### Constant columns
+
+```{r constant_columns, eval=are_constant_columns_found}
+constant_columns <- glue::glue_collapse(constant_columns, sep = ", ")
+constant_columns <- data.frame(constant_columns)
+row.names(constant_columns) <- "empty columns"
+reactable::reactable(
+  constant_columns,
+  sortable   = FALSE,
+  filterable = FALSE,
+  searchable = FALSE,
+  pagination = FALSE,
+  rownames   = TRUE,
+  striped    = TRUE,
+  compact    = TRUE,
+  fullWidth  = TRUE
+)
+```
+
+#### Empty columns
+
+```{r empty_columns, eval=are_empty_columns_found}
+empty_columns <- glue::glue_collapse(empty_columns, sep = ", ")
+empty_columns <- data.frame(empty_columns)
+row.names(empty_columns) <- "empty columns"
+reactable::reactable(
+  empty_columns,
+  sortable   = FALSE,
+  filterable = FALSE,
+  searchable = FALSE,
+  pagination = FALSE,
+  rownames   = TRUE,
+  striped    = TRUE,
+  compact    = TRUE,
+  fullWidth  = TRUE
+)
+```
+
+#### Duplicated rows
+
+```{r duplicates, eval=are_duplicates_found}
+reactable::reactable(
+  duplicated_rows,
+  sortable   = TRUE,
+  filterable = FALSE,
+  searchable = FALSE,
+  rownames   = FALSE,
+  pagination = TRUE,
+  striped    = TRUE,
+  highlight  = TRUE,
+  compact    = TRUE,
+  fullWidth  = TRUE,
+  bordered   = TRUE,
+  resizable  = TRUE,
+  columns    = list(
+    row_id = reactable::colDef(name   = "row index",
+                               style  = list(backgroundColor = "#f7f7e7"),
+                               sticky = "left"),
+    group_id = reactable::colDef(name   = "group id",
+                                 style  = list(backgroundColor = "#f7f7e7"),
+                                 sticky = "left")
+  ),
+  theme = reactable::reactableTheme(
+    borderColor = "#dfe2e5",
+    stripedColor = "#f6f8fa",
+    highlightColor = "#f0f5f9",
+    cellPadding = "8px 12px",
+    style = list(
+      fontFamily = "-apple-system, BlinkMacSystemFont, Segoe UI,Helvetica, Arial, sans-serif" # nolint: line_length_linter
+    ),
+    searchInputStyle = list(width = "20%")
+  )
+)
+```
+
+#### Removed duplicates
+
+```{r removed_dups, eval=are_duplicates_removed}
+reactable::reactable(
+  removed_duplicates,
+  sortable   = TRUE,
+  filterable = FALSE,
+  searchable = FALSE,
+  rownames   = FALSE,
+  pagination = TRUE,
+  striped    = TRUE,
+  highlight  = TRUE,
+  compact    = TRUE,
+  fullWidth  = TRUE,
+  bordered   = TRUE,
+  resizable  = TRUE,
+  columns    = list(
+    row_id = reactable::colDef(name   = "row index",
+                               style  = list(backgroundColor = "#f7f7e7"),
+                               sticky = "left")
+  ),
+  theme = reactable::reactableTheme(
+    borderColor = "#dfe2e5",
+    stripedColor = "#f6f8fa",
+    highlightColor = "#f0f5f9",
+    cellPadding = "8px 12px",
+    style = list(
+      fontFamily = "-apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif" # nolint: line_length_linter
+    ),
+    searchInputStyle = list(width = "20%")
+  )
+)
+```
+
+### Dictionary cleaning
+
+```{r misspelled_values, eval=are_misspelled_values_found}
+reactable::reactable(
+  misspelled_values,
+  sortable   = TRUE,
+  filterable = FALSE,
+  searchable = FALSE,
+  rownames   = FALSE,
+  pagination = TRUE,
+  striped    = TRUE,
+  highlight  = TRUE,
+  compact    = TRUE,
+  fullWidth  = TRUE,
+  bordered   = TRUE,
+  resizable  = TRUE,
+  columns    = list(
+    idx = reactable::colDef(name = "row index"),
+    column = reactable::colDef(name = "column name"),
+    value = reactable::colDef(name = "misspelled value")
+  )
+)
+```
+
+### Missing value replaced with NA
+
+```{r use_na, eval=are_missing_values_replaced}
+missing_values_replaced_at <- glue::glue_collapse(missing_values_replaced_at,
+                                                  sep = ", ")
+missing_values_replaced_at <- data.frame(missing_values_replaced_at)
+reactable::reactable(
+  missing_values_replaced_at,
+  sortable   = FALSE,
+  filterable = FALSE,
+  searchable = FALSE,
+  pagination = FALSE,
+  rownames   = FALSE,
+  striped    = TRUE,
+  compact    = TRUE,
+  fullWidth  = TRUE
+)
+```
+
+
+## Aggregated data {.tabset}
