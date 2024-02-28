@@ -1,5 +1,6 @@
 ---
 output: github_document
+always_allow_html: true
 editor_options: 
   markdown: 
     wrap: 72
