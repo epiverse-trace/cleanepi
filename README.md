@@ -18,24 +18,39 @@ coverage](https://codecov.io/gh/epiverse-trace/cleanepi/branch/main/graph/badge.
 
 <!-- badges: end -->
 
-**cleanepi** is an R package to clean, curate, and standardize
-tabular-data, specifically designed for epidemiological data
+**cleanepi** is an R package designed for cleaning, curating, and
+standardizing epidemiological data. It streamlines various data cleaning
+tasks that are typically expected when working with datasets in
+epidemiology.
 
-**cleanepi** performs several data cleaning tasks that an end-user would
-anticipate to be performed on a cluttered dataset. These include
-standard tasks such as: removing duplicated and empty rows and columns,
-removing columns with constant values, replacing missing value strings
-with `NA`, ensuring uniqueness of uniquely identified columns,
-converting `character` columns to `Date` under certain conditions, etc.
+Key functionalities of **cleanepi** include:
 
-**cleanepi** can also standardize column entries into specified formats,
-calculates age (in years, months, weeks, or days) from a given `Date`
-column and a reference date.
+1.  **Removing irregularities**: It efficiently removes duplicated and
+    empty rows and columns, as well as columns with constant values.
 
-**cleanepi** expects input data in a form of data frame-like structure
-(`data.frame`, `tibble`, etc) or a `linelist` object and returns a
-processed data of the same type. It also returns an object of type
-`list` that reports the outcomes from every cleaning task.
+2.  **Handling missing values**: It replaces missing values with the
+    standard `NA` format, ensuring consistency and ease of analysis.
+
+3.  **Ensuring data integrity**: It ensures the uniqueness of uniquely
+    identified columns, thus maintaining data integrity and preventing
+    duplicates.
+
+4.  **Date conversion**: It offers functionality to convert character
+    columns to Date format under specified conditions, enhancing data
+    uniformity and facilitating temporal analysis.
+
+5.  **Standardizing entries**: It can standardize column entries into
+    specified formats, promoting consistency across the dataset.
+
+6.  **Age calculation**: It calculates age from a given `Date` column
+    and a reference date, providing valuable demographic insights for
+    epidemiological analysis.
+
+**cleanepi** operates on data frames or similar structures like tibbles,
+as well as linelist objects commonly used in epidemiological research.
+It returns the processed data in the same format, ensuring seamless
+integration into existing workflows. Additionally, it generates a
+comprehensive report detailing the outcomes of each cleaning task.
 
 **cleanepi** is developed by the
 [Epiverse-TRACE](https://data.org/initiatives/epiverse/) team at the
@@ -68,88 +83,598 @@ function.
 # READING IN THE TEST DATASET
 test_data       <- readRDS(system.file("extdata", "test_df.RDS",
                                        package = "cleanepi"))
-print(test_data)
-#>     study_id event_name country_code country_name date.of.admission dateOfBirth
-#> 1    PS001P2      day 0            2       Gambia        01/12/2020  06/01/1972
-#> 2    PS002P2      day 0            2       Gambia        28/01/2021  02/20/1952
-#> 3  PS004P2-1      day 0            2       Gambia        15/02/2021  06/15/1961
-#> 4    PS003P2      day 0            2       Gambia        11/02/2021  11/11/1947
-#> 5    P0005P2      day 0            2       Gambia        17/02/2021  09/26/2000
-#> 6    PS006P2      day 0            2       Gambia        17/02/2021         -99
-#> 7    PB500P2      day 0            2       Gambia        28/02/2021  11/03/1989
-#> 8    PS008P2      day 0            2       Gambia        22/02/2021  10/05/1976
-#> 9    PS010P2      day 0            2       Gambia        02/03/2021  09/23/1991
-#> 10   PS011P2      day 0            2       Gambia        05/03/2021  02/08/1991
-#>    date_first_pcr_positive_test sex
-#> 1                  Dec 01, 2020   1
-#> 2                  Jan 01, 2021   1
-#> 3                  Feb 11, 2021 -99
-#> 4                  Feb 01, 2021   1
-#> 5                  Feb 16, 2021   2
-#> 6                  May 02, 2021   2
-#> 7                  Feb 19, 2021   1
-#> 8                  Sep 20, 2021   2
-#> 9                  Feb 26, 2021   1
-#> 10                 Mar 03, 2021   2
 ```
+
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:200px; overflow-x: scroll; width:100%; ">
+
+<table class=" lightable-paper lightable-striped" style="font-size: 18px; font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+STUDY_ID
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+EVENT_NAME
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+COUNTRY_CODE
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+COUNTRY_NAME
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+DATE.OF.ADMISSION
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+DATEOFBIRTH
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+DATE_FIRST_PCR_POSITIVE_TEST
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+SEX
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+PS001P2
+</td>
+<td style="text-align:left;">
+day 0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Gambia
+</td>
+<td style="text-align:left;">
+01/12/2020
+</td>
+<td style="text-align:left;">
+06/01/1972
+</td>
+<td style="text-align:left;">
+Dec 01, 2020
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PS002P2
+</td>
+<td style="text-align:left;">
+day 0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Gambia
+</td>
+<td style="text-align:left;">
+28/01/2021
+</td>
+<td style="text-align:left;">
+02/20/1952
+</td>
+<td style="text-align:left;">
+Jan 01, 2021
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PS004P2-1
+</td>
+<td style="text-align:left;">
+day 0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Gambia
+</td>
+<td style="text-align:left;">
+15/02/2021
+</td>
+<td style="text-align:left;">
+06/15/1961
+</td>
+<td style="text-align:left;">
+Feb 11, 2021
+</td>
+<td style="text-align:right;">
+-99
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PS003P2
+</td>
+<td style="text-align:left;">
+day 0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Gambia
+</td>
+<td style="text-align:left;">
+11/02/2021
+</td>
+<td style="text-align:left;">
+11/11/1947
+</td>
+<td style="text-align:left;">
+Feb 01, 2021
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+P0005P2
+</td>
+<td style="text-align:left;">
+day 0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Gambia
+</td>
+<td style="text-align:left;">
+17/02/2021
+</td>
+<td style="text-align:left;">
+09/26/2000
+</td>
+<td style="text-align:left;">
+Feb 16, 2021
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PS006P2
+</td>
+<td style="text-align:left;">
+day 0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Gambia
+</td>
+<td style="text-align:left;">
+17/02/2021
+</td>
+<td style="text-align:left;">
+-99
+</td>
+<td style="text-align:left;">
+May 02, 2021
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PB500P2
+</td>
+<td style="text-align:left;">
+day 0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Gambia
+</td>
+<td style="text-align:left;">
+28/02/2021
+</td>
+<td style="text-align:left;">
+11/03/1989
+</td>
+<td style="text-align:left;">
+Feb 19, 2021
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PS008P2
+</td>
+<td style="text-align:left;">
+day 0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Gambia
+</td>
+<td style="text-align:left;">
+22/02/2021
+</td>
+<td style="text-align:left;">
+10/05/1976
+</td>
+<td style="text-align:left;">
+Sep 20, 2021
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PS010P2
+</td>
+<td style="text-align:left;">
+day 0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Gambia
+</td>
+<td style="text-align:left;">
+02/03/2021
+</td>
+<td style="text-align:left;">
+09/23/1991
+</td>
+<td style="text-align:left;">
+Feb 26, 2021
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PS011P2
+</td>
+<td style="text-align:left;">
+day 0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Gambia
+</td>
+<td style="text-align:left;">
+05/03/2021
+</td>
+<td style="text-align:left;">
+02/08/1991
+</td>
+<td style="text-align:left;">
+Mar 03, 2021
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+</tbody>
+</table>
+
+</div>
 
 ``` r
 # READING IN THE DATA DICTIONARY
 test_dictionary <- readRDS(system.file("extdata", "test_dictionary.RDS",
                                        package = "cleanepi"))
-print(test_dictionary)
-#>   options values grp orders
-#> 1       1   male sex      1
-#> 2       2 female sex      2
 ```
+
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:200px; overflow-x: scroll; width:100%; ">
+
+<table class=" lightable-paper lightable-striped" style="font-size: 18px; font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+OPTIONS
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+VALUES
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+GRP
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+ORDERS
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+male
+</td>
+<td style="text-align:left;">
+sex
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+female
+</td>
+<td style="text-align:left;">
+sex
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+</tbody>
+</table>
+
+</div>
 
 ``` r
 # DEFINING THE CLEANING PARAMETERS
+use_na                  <- list(target_columns = NULL, na_strings = "-99")
+remove_duplicates       <- list(target_columns   = NULL,
+                                rm_empty_rows    = TRUE,
+                                rm_empty_cols    = TRUE,
+                                rm_constant_cols = TRUE)
+standardize_date        <- list(target_columns  = NULL,
+                                error_tolerance = 0.5,
+                                format          = NULL,
+                                timeframe       = as.Date(c("1973-05-29",
+                                                            "2023-05-29")))
+standardize_subject_ids <- list(id_col_name = "study_id",
+                                format      = NULL,
+                                prefix      = "PS",
+                                suffix      = "P2",
+                                range       = c(1, 100))
 params <- list(
-  remove_duplicates   = TRUE,
-  target_columns      = NULL, 
-  replace_missing     = TRUE,
-  na_comes_as         = "-99",
-  check_timeframe     = TRUE,
-  timeframe           = as.Date(c("1973-05-29", "2023-05-29")),
-  error_tolerance     = 0.5,
-  subject_id_col_name = "study_id",
-  subject_id_format   = "PS000P2",
-  prefix              = "PS",
-  suffix              = "P2",
-  range               = c(1, 100),
-  keep                = "date.of.admission",
-  dictionary          = test_dictionary
+  keep                    = NULL,
+  replace_missing_values  = use_na, 
+  remove_duplicates       = remove_duplicates,
+  standardize_date        = standardize_date,
+  standardize_subject_ids = standardize_subject_ids,
+  to_numeric              = "sex",
+  dictionary              = test_dictionary
 )
+```
 
+``` r
 # PERFORMING THE DATA CLEANING
-res <- clean_data(
+cleaned_data <- clean_data(
   data   = test_data,
   params = params
 )
 #> 
-#> cleaning column names
+#> cleaning column names                        before                        after
+#> 1                     study_id                     study_id
+#> 2                   event_name                   event_name
+#> 3                 country_code                 country_code
+#> 4                 country_name                 country_name
+#> 5            date.of.admission            date_of_admission
+#> 6                  dateOfBirth                date_of_birth
+#> 7 date_first_pcr_positive_test date_first_pcr_positive_test
+#> 8                          sex                          sex
+#> 
 #> replacing missing values with NA
-#> removing empty rows and columns
-#> removing constant columns
-#> standardising date columns
-#> checking for subject IDs uniqueness
 #> removing duplicated rows
+#> 
+#> No duplicates found from the specified columns.
+#> 
+#> standardising date columns
 #> checking subject IDs format
+#> converting sex into numeric
+#> performing dictionary-based cleaning
+```
 
-cleaned_data    <- res$data
-cleaning_report <- res$report
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:200px; overflow-x: scroll; width:100%; ">
 
-# VISUALISE THE CLEANED DATASET
-print(cleaned_data)
-#>    study_id date.of.admission date_of_birth date_first_pcr_positive_test    sex
-#> 1   PS001P2        2020-12-01          <NA>                   2020-12-01   male
-#> 2   PS002P2        2021-01-28          <NA>                   2021-01-01   male
-#> 4   PS003P2        2021-02-11          <NA>                   2021-02-01   male
-#> 6   PS006P2        2021-02-17          <NA>                   2021-05-02 female
-#> 8   PS008P2        2021-02-22    1976-05-10                   2021-09-20 female
-#> 9   PS010P2        2021-03-02    1991-09-23                   2021-02-26   male
-#> 10  PS011P2        2021-03-05    1991-08-02                   2021-03-03 female
+<table class=" lightable-paper lightable-striped" style="font-size: 18px; font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+STUDY_ID
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+DATE_OF_ADMISSION
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+DATE_OF_BIRTH
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+DATE_FIRST_PCR_POSITIVE_TEST
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+SEX
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+PS001P2
+</td>
+<td style="text-align:left;">
+2020-12-01
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+2020-12-01
+</td>
+<td style="text-align:left;">
+male
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+PS002P2
+</td>
+<td style="text-align:left;">
+2021-01-28
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+2021-01-01
+</td>
+<td style="text-align:left;">
+male
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+4
+</td>
+<td style="text-align:left;">
+PS003P2
+</td>
+<td style="text-align:left;">
+2021-02-11
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+2021-02-01
+</td>
+<td style="text-align:left;">
+male
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6
+</td>
+<td style="text-align:left;">
+PS006P2
+</td>
+<td style="text-align:left;">
+2021-02-17
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+2021-05-02
+</td>
+<td style="text-align:left;">
+female
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+8
+</td>
+<td style="text-align:left;">
+PS008P2
+</td>
+<td style="text-align:left;">
+2021-02-22
+</td>
+<td style="text-align:left;">
+1976-05-10
+</td>
+<td style="text-align:left;">
+2021-09-20
+</td>
+<td style="text-align:left;">
+female
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+9
+</td>
+<td style="text-align:left;">
+PS010P2
+</td>
+<td style="text-align:left;">
+2021-03-02
+</td>
+<td style="text-align:left;">
+1991-09-23
+</td>
+<td style="text-align:left;">
+2021-02-26
+</td>
+<td style="text-align:left;">
+male
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+10
+</td>
+<td style="text-align:left;">
+PS011P2
+</td>
+<td style="text-align:left;">
+2021-03-05
+</td>
+<td style="text-align:left;">
+1991-08-02
+</td>
+<td style="text-align:left;">
+2021-03-03
+</td>
+<td style="text-align:left;">
+female
+</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+
+``` r
+# EXTRACT THE DATA CLEANING REPORT
+report <- attr(cleaned_data, "report")
+```
+
+``` r
+# DISPLAY THE DATA CLEANING REPORT
+print_report(report)
 ```
 
 ## Vignette
@@ -160,8 +685,7 @@ browseVignettes("cleanepi")
 
 ## Next steps
 
-:white_check_mark: update and create test files  
-:white_check_mark: build function to display the cleaning report
+:white_check_mark: update and create test files
 
 ### Lifecycle
 

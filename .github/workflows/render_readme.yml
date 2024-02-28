@@ -2,14 +2,14 @@
 name: render-readme
 
 # Controls when the action will run. Triggers include:
-# 
+#
 # - button trigger from github action page
 # - on changes to readme.Rmd
 
 on:
   workflow_dispatch:
   push:
-    branches: [main, modularize_cleanepi]
+    branches: [main, fix_readme_issue]
     paths:
       - 'README.Rmd'
 
@@ -30,26 +30,26 @@ jobs:
 
       - name: Setup pandoc
         uses: r-lib/actions/setup-pandoc@v2
-    
+
       - name: Install dependencies
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
           extra-packages: any::rmarkdown, local::.
- 
+
       - name: Compile the readme
         run: |
           tf <- tempfile(fileext = ".Rmd")
           writeLines(
             knitr::knit_expand(
-              "README.Rmd", 
-              packagename = read.dcf("DESCRIPTION", "Package"), 
+              "README.Rmd",
+              packagename = read.dcf("DESCRIPTION", "Package"),
               gh_repo = Sys.getenv("GITHUB_REPOSITORY")
-            ), 
+            ),
             tf
           )
           rmarkdown::render(tf, output_file = "README.md", output_dir = ".")
         shell: Rscript {0}
-        
+
       - name: Commit files
         run: |
           git config --local user.email "action@github.com"
