@@ -63,10 +63,9 @@ calculate_age <- function(data,
   # check age column name
   checkmate::assert_string(age_column_name)
 
-  # check age remainder unit string and match to options
+  # check age remainder and match to options
   # NOTE: "year" is not an option, but a remainder in "weeks" could be specified
   # for `age_in = "weeks"` - expect user will make common sense decisions
-  checkmate::assert_string(age_remainder_unit)
   age_remainder_unit <- match.arg(age_remainder_unit)
   # get age remainder column name
   age_remainder_colname <- sprintf("remainder_%s", age_remainder_unit)
