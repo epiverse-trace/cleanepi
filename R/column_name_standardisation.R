@@ -32,6 +32,6 @@ standardize_column_names <- function(data, keep = NULL) {
 
   colnames_info <- data.frame(before, after)
   data          <- add_to_report(data, "colnames", colnames_info)
-  print(colnames_info)
+  #print(colnames_info)
   return(data)
 }
