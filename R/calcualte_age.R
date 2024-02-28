@@ -9,6 +9,11 @@
 #' @param na_strings A string that represents the missing values in the
 #'    date column of interest. This is only needed when the date column
 #'    contains missing values.
+#' @param age_column_name A string for the name of the age column added to
+#' `data`.
+#' @param age_remainder_unit A string for the unit in which the remainder of the
+#' age should be calculated. May be one of "months", "weeks", and "days".
+#' Remainders requested in the same unit as the age will return values of 0.
 #'
 #' @return The input data frame with 2 additional columns:
 #' \enumerate{
@@ -21,78 +26,89 @@
 #'
 #' @examples
 #' age <- calculate_age(
-#'   data          = readRDS(system.file("extdata", "test_df.RDS",
-#'                                       package = "cleanepi")),
+#'   data = readRDS(system.file("extdata", "test_df.RDS",
+#'     package = "cleanepi"
+#'   )),
 #'   target_column = "dateOfBirth",
-#'   end_date      = Sys.Date(),
-#'   age_in        = "months",
-#'   na_strings    = "-99"
+#'   end_date = Sys.Date(),
+#'   age_in = "months",
+#'   age_remainder_unit = "days",
+#'   na_strings = "-99"
 #' )
 calculate_age <- function(data,
                           target_column = NULL,
-                          end_date      = Sys.Date(),
-                          age_in        = "years",
-                          na_strings    = cleanepi::common_na_strings) {
+                          end_date = Sys.Date(),
+                          age_in = "years",
+                          na_strings = common_na_strings,
+                          age_column_name = sprintf("age_%s", age_in),
+                          age_remainder_unit = c("days", "weeks", "months")) {
   checkmate::assert_data_frame(data, null.ok = FALSE)
-  checkmate::assert_vector(na_strings, null.ok = FALSE,
-                           any.missing = FALSE, min.len = 1L)
+  checkmate::assert_vector(na_strings,
+    null.ok = FALSE,
+    any.missing = FALSE, min.len = 1L
+  )
   checkmate::assert_choice(age_in,
-                           choices = c("years", "months", "weeks", "days"),
-                           null.ok = FALSE)
-  checkmate::assert_choice(target_column, choices = colnames(data),
-                           null.ok = TRUE)
-  end_date <- checkmate::assert_date(as.Date(end_date),
-                                     any.missing = FALSE, len = 1L,
-                                     null.ok = TRUE)
-  tmp_age <- remainder_days <- NULL
+    choices = c("years", "months", "weeks", "days"),
+    null.ok = FALSE
+  )
+  checkmate::assert_choice(target_column,
+    choices = colnames(data),
+    null.ok = TRUE
+  )
+  end_date <- checkmate::assert_date(
+    as.Date(end_date),
+    any.missing = FALSE, len = 1L, null.ok = TRUE
+  )
+
+  # check age column name
+  checkmate::assert_string(age_column_name)
+
+  # check age remainder unit string and match to options
+  # NOTE: "year" is not an option, but a remainder in "weeks" could be specified
+  # for `age_in = "weeks"` - expect user will make common sense decisions
+  checkmate::assert_string(age_remainder_unit)
+  age_remainder_unit <- match.arg(age_remainder_unit)
+  # get age remainder column name
+  age_remainder_colname <- sprintf("remainder_%s", age_remainder_unit)
 
   # replace missing data characters with NA
   data <- replace_missing_values(data, target_column,
-                                 na_strings = na_strings)
+    na_strings = na_strings
+  )
 
   # standardize the input data if required
+  # NOTE: define `else` case or check that target column is a `Date`
   if (!lubridate::is.Date(data[[target_column]])) {
     # the error_tolerance = 0.0 because target_column is explicit
     data <- standardize_dates(data, target_column,
-                              format          = NULL,
-                              timeframe       = NULL,
-                              error_tolerance = 0.0)
+      format          = NULL,
+      timeframe       = NULL,
+      error_tolerance = 0.0
+    )
   }
 
-  # calculate the age
-  res <- switch(age_in,
-    years = data %>%
-      dplyr::mutate(age_years = round((data[[target_column]] %--% end_date)
-      %/% lubridate::years(1L))),
-    months = data %>%
-      dplyr::mutate(tmp_age = lubridate::as.period(end_date -
-                                                     data[[target_column]])) %>%
-      dplyr::mutate(
-        age_months = tmp_age %/% months(1L, abbreviate = FALSE),
-        remainder_days = (tmp_age %% months(1L, abbreviate = FALSE)) %/%
-          lubridate::days(1L)
-      ) %>%
-      dplyr::select(-tmp_age),
-    days = data %>%
-      dplyr::mutate(tmp_age = lubridate::as.period(end_date -
-                                                     data[[target_column]])) %>%
-      dplyr::mutate(
-        age_days = tmp_age %/% lubridate::days(1L)
-      ) %>%
-      dplyr::select(-tmp_age),
-    weeks = data %>%
-      dplyr::mutate(tmp_age = lubridate::as.period(end_date -
-                                                     data[[target_column]])) %>%
-      dplyr::mutate(
-        age_weeks = tmp_age %/% lubridate::weeks(1L),
-        remainder_days = (tmp_age %% lubridate::weeks(1L))
-        %/% lubridate::days(1L)
-      ) %>%
-      dplyr::select(-tmp_age)
+  # switch divisor based on requested unit
+  # NOTE: no default case defined, add a default case?
+  divisor_age <- switch(age_in,
+    years = lubridate::years(1L),
+    months = months(1L), # from base
+    weeks = lubridate::weeks(1L),
+    days = lubridate::days(1) # not really necessary as difftime will be in days
   )
-  if (age_in %in% c("months", "weeks") && all(res[["remainder_days"]] == 0L)) {
-    res <- res %>% dplyr::select(-remainder_days)
-  }
 
-  return(res)
+  # switch divisor for remainder based on requested unit
+  divisor_remainder <- switch(age_remainder_unit,
+    months = months(1L), # from base
+    weeks = lubridate::weeks(1L),
+    days = lubridate::days(1)
+  )
+
+  # calculate the time difference, convert to a period, and get the quotient
+  # and remainder
+  time_diff <- lubridate::as.period(end_date - data[[target_column]])
+  data[, age_column_name] <- time_diff %/% divisor_age
+  data[, age_remainder_colname] <- (time_diff %% divisor_age) %/%
+    divisor_remainder
+
+  return(data)
 }

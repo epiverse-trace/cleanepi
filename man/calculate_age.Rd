@@ -9,7 +9,9 @@ calculate_age(
   target_column = NULL,
   end_date = Sys.Date(),
   age_in = "years",
-  na_strings = cleanepi::common_na_strings
+  na_strings = common_na_strings,
+  age_column_name = sprintf("age_\%s", age_in),
+  age_remainder_unit = c("days", "weeks", "months")
 )
 }
 \arguments{
@@ -26,6 +28,13 @@ interest.}
 \item{na_strings}{A string that represents the missing values in the
 date column of interest. This is only needed when the date column
 contains missing values.}
+
+\item{age_column_name}{A string for the name of the age column added to
+\code{data}.}
+
+\item{age_remainder_unit}{A string for the unit in which the remainder of the
+age should be calculated. May be one of "months", "weeks", and "days".
+Remainders requested in the same unit as the age will return values of 0.}
 }
 \value{
 The input data frame with 2 additional columns:
@@ -41,11 +50,13 @@ Calculate age from a specified date column
 }
 \examples{
 age <- calculate_age(
-  data          = readRDS(system.file("extdata", "test_df.RDS",
-                                      package = "cleanepi")),
+  data = readRDS(system.file("extdata", "test_df.RDS",
+    package = "cleanepi"
+  )),
   target_column = "dateOfBirth",
-  end_date      = Sys.Date(),
-  age_in        = "months",
-  na_strings    = "-99"
+  end_date = Sys.Date(),
+  age_in = "months",
+  age_remainder_unit = "days",
+  na_strings = "-99"
 )
 }
