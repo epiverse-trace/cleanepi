@@ -23,12 +23,15 @@
 #'   data   = readRDS(system.file("extdata", "test_df.RDS",
 #'                                package = "cleanepi")),
 #'   keep   = "date.of.admission",
-#'   rename = c("dateOfBirth = DOB, sex=gender")
+#'   rename = "dateOfBirth = DOB, sex=gender"
 #' )
 #'
 standardize_column_names <- function(data, keep = NULL, rename = NULL) {
-  checkmate::assert_vector(keep, min.len = 0L, null.ok = TRUE,
-                           any.missing = FALSE)
+  if (!checkmate::check_vector(keep, min.len = 0L, null.ok = TRUE,
+                               any.missing = FALSE)) {
+    checkmate::assert_character(keep, fixed = TRUE, any.missing = FALSE,
+                                null.ok = TRUE)
+  }
   checkmate::assert_character(rename, min.len = 0L, null.ok = TRUE,
                               any.missing = FALSE)
   before <- colnames(data)

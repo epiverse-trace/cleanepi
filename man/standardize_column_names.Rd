@@ -35,7 +35,7 @@ cleaned_data <- standardize_column_names(
   data   = readRDS(system.file("extdata", "test_df.RDS",
                                package = "cleanepi")),
   keep   = "date.of.admission",
-  rename = c("dateOfBirth = DOB, sex=gender")
+  rename = "dateOfBirth = DOB, sex=gender"
 )
 
 }
