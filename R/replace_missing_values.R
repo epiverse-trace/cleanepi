@@ -25,11 +25,7 @@ replace_missing_values <- function(data,
                                    target_columns = NULL,
                                    na_strings = cleanepi::common_na_strings) {
   # get the target columns
-  index        <- seq_len(ncol(data))
-  if (!is.null(target_columns)) {
-    index      <- which(names(data) == target_columns)
-  }
-  cols         <- names(data)[index]
+  cols         <- get_target_column_names(data, target_columns, cols = NULL)
 
   # replace missing values with NA
   res     <- 0L
@@ -47,8 +43,8 @@ replace_missing_values <- function(data,
     names(data)[index] <- col
   }
   stopifnot("Could not detect missing value character! Please use the
-                appropriate strings that represents the missing values from
-                your data." = res < ncol(data))
+  appropriate strings that represents the missing values from your data." =
+              res < length(cols))
 
   # make report
   xx   <- ifelse(length(indexes) == ncol(data),

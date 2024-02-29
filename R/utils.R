@@ -148,12 +148,24 @@ add_to_report <- function(x, key, value = NULL) {
 #' @keywords internal
 #'
 get_target_column_names <- function(data, target_columns, cols) {
+  # extract column names if target_columns is a vector of column names
+  if (length(target_columns) == 1L && target_columns != "linelist_tags") {
+    idx            <- match(target_columns, names(data))
+    stopifnot("Could not find some specified target column names" =
+                !anyNA(idx))
+    target_columns <- names(data)[idx]
+  }
+
+  # if NULL return all column names
   if (is.null(target_columns)) {
-    return(names(data))
+    target_columns <- names(data)
   }
 
   # extract column names if target_columns is a vector of column indexes
   if (is.numeric(target_columns)) {
+    index          <- seq_along(data)
+    stopifnot("Incorrect vector of column name indices provided!" =
+                all(target_columns %in% index))
     target_columns <- names(data)[target_columns]
   }
 
@@ -170,7 +182,7 @@ get_target_column_names <- function(data, target_columns, cols) {
 
   # check whether target columns are part of the empty or constant columns
   if (!is.null(cols)) {
-    idx <- match(cols, target_columns)
+    idx              <- match(cols, target_columns)
     if (length(idx) > 0L) {
       target_columns <- target_columns[-idx]
       stopifnot("All specified columns are either constant or empty." =
