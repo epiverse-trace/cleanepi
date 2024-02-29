@@ -10,7 +10,7 @@ calculate_age(
   end_date = Sys.Date(),
   age_in = "years",
   na_strings = common_na_strings,
-  age_column_name = sprintf("age_\%s", age_in),
+  age_column_name = sprintf("age_in_\%s", age_in),
   age_remainder_unit = c("days", "weeks", "months")
 )
 }
