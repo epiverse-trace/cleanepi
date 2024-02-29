@@ -10,7 +10,7 @@
 #' @param data A input data frame or linelist.
 #' @param target_columns A vector of column names to use when looking for
 #'    duplicates. When the input data is a `linelist` object, this
-#'    parameter can be set to `tags` if you wish to look for duplicates on
+#'    parameter can be set to `linelist_tags` if you wish to look for duplicates on
 #'    tagged columns only. Default is `NULL`.
 #' @param remove A vector of duplicate indices to be removed. Duplicate indices
 #'    are unique identifiers for all rows in the original data frame or linelist
@@ -32,7 +32,7 @@
 #' no_dups <- remove_duplicates(
 #'   data             = readRDS(system.file("extdata", "test_linelist.RDS",
 #'                                          package = "cleanepi")),
-#'   target_columns   = "tags",
+#'   target_columns   = "linelist_tags",
 #'   remove           = NULL,
 #'   rm_empty_rows    = TRUE,
 #'   rm_empty_cols    = TRUE,
@@ -196,49 +196,4 @@ find_duplicates <- function(data, target_columns = NULL) {
                                                       sep = ", "))
   }
   return(data)
-}
-
-
-#' Get the names of the columns from which duplicates will be found
-#'
-#' @param data A dataframe or linelist
-#' @param target_columns A vector of column names
-#' @param cols A vector of empty and constant columns
-#'
-#' @return A vector with the target column names or indexes
-#'
-#' @keywords internal
-#'
-get_target_column_names <- function(data, target_columns, cols) {
-  if (is.null(target_columns)) {
-    return(names(data))
-  }
-
-  # extract column names if target_columns is a vector of column indexes
-  if (is.numeric(target_columns)) {
-    target_columns <- names(data)[target_columns]
-  }
-
-  # check for linelist object if target_columns='tags'
-  if (all(length(target_columns) == 1L && target_columns == "tags")) {
-    stopifnot(
-      "'tags' only works on linelist object. Please provide a vector of
-              column names if you are dealing with a data frame" =
-        inherits(data, "linelist")
-    )
-    original_tags  <- linelist::tags(data)
-    target_columns <- as.character(original_tags)
-  }
-
-  # check whether target columns are part of the empty or constant columns
-  if (!is.null(cols)) {
-    idx <- which(cols %in% target_columns)
-    if (length(idx) > 0L) {
-      target_columns <- target_columns[-idx]
-      stopifnot("All specified columns are either constant or empty." =
-                  length(target_columns) > 0L)
-    }
-  }
-
-  return(target_columns)
 }
