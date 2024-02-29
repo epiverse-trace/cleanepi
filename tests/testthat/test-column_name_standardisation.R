@@ -69,3 +69,29 @@ test_that("standardize_column_names fails when wrong column names are
                            kept.")
             )
           })
+
+test_that("get_new_names works as expected", {
+  rename_idx <- get_new_names(original_names = c("study_id", "event_name",
+                                                 "country_code", "country_name",
+                                                 "date.of.admission",
+                                                 "dateOfBirth",
+                                                 "date_first_pcr_positive_test",
+                                                 "sex"),
+                              target_columns = "dateOfBirth = DOB, sex=gender")
+  expect_type(rename_idx, "integer")
+  expect_named(rename_idx, expected = c("DOB", "gender"))
+  expect_length(rename_idx, n = 2L)
+})
+
+test_that("get_new_names fails as expected", {
+  expect_error(
+    get_new_names(
+      original_names = c("study_id", "event_name", "country_code",
+                         "country_name", "date.of.admission", "dateOfBirth",
+                         "date_first_pcr_positive_test", "sex"),
+      target_columns = "date of birth = DOB, sex=gender"
+    ),
+    regexp = cat("Assertion on',rename,'failed: Only the column names from the
+                 input data can be renamed")
+  )
+})
