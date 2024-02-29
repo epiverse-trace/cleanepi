@@ -1,5 +1,4 @@
 data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi"))
-
 test_that("replace_missing_values works", {
   cleaned_data <- replace_missing_values(
     data           = data,
