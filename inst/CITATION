@@ -2,7 +2,7 @@ citHeader("To cite cleanepi in publications use:")
 
 bibentry(
   bibtype  = "Manual",
-  title    = "cleanepi: R Package to Cleaning and Standardizing Epidemiological Data",
+  title    = "cleanepi: R Package for Cleaning and Standardizing Epidemiological Data",
   author   = c(
             person(given = "Karim",family = "Mané"),
             person(given = "Thibaut", family = "Jombart"),
