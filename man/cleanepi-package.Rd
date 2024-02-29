@@ -6,7 +6,7 @@
 \alias{cleanepi-package}
 \title{cleanepi: Clean and Standardize Epidemiological Data}
 \description{
-cleanepi provides functions for cleaning and standardizing tabular data, tailored specifically for curating epidemiological data.
+Provides functions for cleaning and standardizing tabular data, tailored specifically for curating epidemiological data.
 }
 \seealso{
 Useful links:
