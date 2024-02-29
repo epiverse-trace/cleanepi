@@ -5,7 +5,7 @@
 <!-- `gh_repo` is extracted via a special environment variable in GitHub Actions -->
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# cleanepi: Clean and standardize epidemiological data <img src="man/figures/logo.svg" align="right" width="130"/>
+# {{ packagename }}: Clean and standardize epidemiological data <img src="man/figures/logo.svg" align="right" width="130"/>
 
 <!-- badges: start -->
 
@@ -18,12 +18,12 @@ coverage](https://codecov.io/gh/epiverse-trace/cleanepi/branch/main/graph/badge.
 
 <!-- badges: end -->
 
-**cleanepi** is an R package designed for cleaning, curating, and
-standardizing epidemiological data. It streamlines various data cleaning
-tasks that are typically expected when working with datasets in
+**{{ packagename }}** is an R package designed for cleaning, curating,
+and standardizing epidemiological data. It streamlines various data
+cleaning tasks that are typically expected when working with datasets in
 epidemiology.
 
-Key functionalities of **cleanepi** include:
+Key functionalities of **{{ packagename }}** include:
 
 1.  **Removing irregularities**: It efficiently removes duplicated and
     empty rows and columns, as well as columns with constant values.
@@ -46,13 +46,13 @@ Key functionalities of **cleanepi** include:
     and a reference date, providing valuable demographic insights for
     epidemiological analysis.
 
-**cleanepi** operates on data frames or similar structures like tibbles,
-as well as linelist objects commonly used in epidemiological research.
-It returns the processed data in the same format, ensuring seamless
-integration into existing workflows. Additionally, it generates a
-comprehensive report detailing the outcomes of each cleaning task.
+**{{ packagename }}** operates on data frames or similar structures like
+tibbles, as well as linelist objects commonly used in epidemiological
+research. It returns the processed data in the same format, ensuring
+seamless integration into existing workflows. Additionally, it generates
+a comprehensive report detailing the outcomes of each cleaning task.
 
-**cleanepi** is developed by the
+**{{ packagename }}** is developed by the
 [Epiverse-TRACE](https://data.org/initiatives/epiverse/) team at the
 [Medical Research Council The Gambia unit at the London School of
 Hygiene and Tropical
@@ -60,24 +60,24 @@ Medicine](https://www.lshtm.ac.uk/research/units/mrc-gambia).
 
 ## Installation
 
-The latest development version of **cleanepi** can be installed from
-[GitHub](https://epiverse-trace.github.io/cleanepi).
+The latest development version of **{{ packagename }}** can be installed
+from [GitHub](https://epiverse-trace.github.io/cleanepi).
 
 ``` r
 if (!require("pak")) install.packages("pak")
-pak::pak("epiverse-trace/cleanepi")
+#pak::pak("{{ gh_repo }}")
 library(cleanepi)
 ```
 
 ## Quick start
 
-The main function in **cleanepi** is `clean_data(),` which internally
-makes call of almost all standard data cleaning functions, such as
-removal of empty and duplicated rows and columns, replacement of missing
-values, etc. However, each function can also be called independently to
-perform a specific task. This mechanism is explained in details in the
-**vignette**. Below is typical example of how to use the `clean_data()`
-function.
+The main function in **{{ packagename }}** is `clean_data(),` which
+internally makes call of almost all standard data cleaning functions,
+such as removal of empty and duplicated rows and columns, replacement of
+missing values, etc. However, each function can also be called
+independently to perform a specific task. This mechanism is explained in
+details in the **vignette**. Below is typical example of how to use the
+`clean_data()` function.
 
 ``` r
 # READING IN THE TEST DATASET
@@ -476,16 +476,7 @@ cleaned_data <- clean_data(
   params = params
 )
 #> 
-#> cleaning column names                        before                        after
-#> 1                     study_id                     study_id
-#> 2                   event_name                   event_name
-#> 3                 country_code                 country_code
-#> 4                 country_name                 country_name
-#> 5            date.of.admission            date_of_admission
-#> 6                  dateOfBirth                date_of_birth
-#> 7 date_first_pcr_positive_test date_first_pcr_positive_test
-#> 8                          sex                          sex
-#> 
+#> cleaning column names
 #> replacing missing values with NA
 #> removing duplicated rows
 #> 
@@ -701,8 +692,8 @@ requests](https://github.com/%7B%7B%20gh_repo%20%7D%7D/pulls).
 
 ### Code of Conduct
 
-Please note that the cleanepi project is released with a [Contributor
-Code of
+Please note that the {{ packagename }} project is released with a
+[Contributor Code of
 Conduct](https://github.com/epiverse-trace/.github/blob/main/CODE_OF_CONDUCT.md).
 By contributing to this project, you agree to abide by its terms.
 
@@ -712,7 +703,7 @@ By contributing to this project, you agree to abide by its terms.
 citation("cleanepi")
 #> To cite package 'cleanepi' in publications use:
 #> 
-#>   Mané K (2024). _cleanepi: Clean and standardize epidemiological
+#>   Mané K (????). _cleanepi: Clean and standardize epidemiological
 #>   data_. R package version 0.0.2,
 #>   https://github.com/epiverse-trace/cleanepi,
 #>   <https://epiverse-trace.github.io/cleanepi>.
@@ -722,9 +713,7 @@ citation("cleanepi")
 #>   @Manual{,
 #>     title = {cleanepi: Clean and standardize epidemiological data},
 #>     author = {Karim Mané},
-#>     year = {2024},
-#>     note = {R package version 0.0.2, 
-#> https://github.com/epiverse-trace/cleanepi},
+#>     note = {R package version 0.0.2, https://github.com/epiverse-trace/cleanepi},
 #>     url = {https://epiverse-trace.github.io/cleanepi},
 #>   }
 ```
