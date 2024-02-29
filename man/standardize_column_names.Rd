@@ -4,13 +4,16 @@
 \alias{standardize_column_names}
 \title{Standardize column names of a data frame or linelist}
 \usage{
-standardize_column_names(data, keep = NULL)
+standardize_column_names(data, keep = NULL, rename = NULL)
 }
 \arguments{
 \item{data}{The input data frame or linelist.}
 
-\item{keep}{A vector of column names to maintain. The Default
-is \code{NULL}.}
+\item{keep}{A vector of column names to maintain as they are. When dealing
+with a linelist, this can be set to \code{linelist_tags}, to maintain the
+tagged column names. The Default is \code{NULL}.}
+
+\item{rename}{an expression used to specify how to rename some columns.}
 }
 \value{
 A data frame with easy to work with column names.
@@ -19,10 +22,20 @@ A data frame with easy to work with column names.
 Standardize column names of a data frame or linelist
 }
 \examples{
+# do not rename 'date.of.admission'
 cleaned_data <- standardize_column_names(
   data = readRDS(system.file("extdata", "test_df.RDS",
                              package = "cleanepi")),
-  keep = c("Sex", "Country")
+  keep = "date.of.admission"
+)
+
+# do not rename 'date.of.admission', but rename 'dateOfBirth' and 'sex' to
+# 'DOB' and 'gender' respectively
+cleaned_data <- standardize_column_names(
+  data   = readRDS(system.file("extdata", "test_df.RDS",
+                               package = "cleanepi")),
+  keep   = "date.of.admission",
+  rename = c("dateOfBirth = DOB, sex=gender")
 )
 
 }
