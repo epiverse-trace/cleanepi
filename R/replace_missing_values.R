@@ -3,12 +3,15 @@
 #'
 #' @param data A data frame or linelist
 #' @param target_columns A vector of column names. If provided, the substitution
-#'  of missing values will only be executed in those specified columns
+#'    of missing values will only be executed in those specified columns.
+#'    When the input data is a `linelist` object, this parameter can be set to
+#'    `linelist_tags` if you wish to replace missing values across tagged
+#'    columns only.
 #' @param na_strings This is a vector of strings that represents the missing
-#' values in the columns of interest. By default, it utilizes
-#' `cleanepi::common_na_strings`. However, if the missing values string in the
-#' columns of interest is not included in this predefined vector,
-#' it can be used as the value for this argument.
+#'    values in the columns of interest. By default, it utilizes
+#'    `cleanepi::common_na_strings`. However, if the missing values string in
+#'    the columns of interest is not included in this predefined vector,
+#'    it can be used as the value for this argument.
 #'
 #' @return The input data where missing values are replaced by `NA`.
 #' @export
@@ -25,7 +28,7 @@ replace_missing_values <- function(data,
                                    target_columns = NULL,
                                    na_strings = cleanepi::common_na_strings) {
   # get the target columns
-  cols         <- get_target_column_names(data, target_columns, cols = NULL)
+  cols    <- get_target_column_names(data, target_columns, cols = NULL)
 
   # replace missing values with NA
   res     <- 0L
@@ -33,12 +36,15 @@ replace_missing_values <- function(data,
   for (col in cols) {
     index              <- match(col, names(data))
     names(data)[index] <- "x"
-    idx    <- which(na_strings %in% data[["x"]])
+    idx                <- which(na_strings %in% data[["x"]])
     if (length(idx) > 0L) {
-      data <- naniar::replace_with_na(data, replace = list(x = na_strings[idx]))
-      indexes <- c(indexes, col)
+      data             <- naniar::replace_with_na(
+        data,
+        replace = list(x = na_strings[idx])
+      )
+      indexes          <- c(indexes, col)
     } else {
-      res  <- res + 1L
+      res              <- res + 1L
     }
     names(data)[index] <- col
   }
