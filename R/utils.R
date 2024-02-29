@@ -160,7 +160,7 @@ get_target_column_names <- function(data, target_columns, cols) {
   # check for linelist object if target_columns='tags'
   if (all(length(target_columns) == 1L && target_columns == "linelist_tags")) {
     stopifnot(
-      "'tags' only works on linelist object. Please provide a vector of
+      "'linelist_tags' only works on linelist object. Please provide a vector of
               column names if you are dealing with a data frame" =
         inherits(data, "linelist")
     )
@@ -170,7 +170,7 @@ get_target_column_names <- function(data, target_columns, cols) {
 
   # check whether target columns are part of the empty or constant columns
   if (!is.null(cols)) {
-    idx <- which(cols %in% target_columns)
+    idx <- match(cols, target_columns)
     if (length(idx) > 0L) {
       target_columns <- target_columns[-idx]
       stopifnot("All specified columns are either constant or empty." =
