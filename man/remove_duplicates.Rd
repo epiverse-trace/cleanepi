@@ -18,7 +18,7 @@ remove_duplicates(
 
 \item{target_columns}{A vector of column names to use when looking for
 duplicates. When the input data is a \code{linelist} object, this
-parameter can be set to \code{tags} if you wish to look for duplicates on
+parameter can be set to \code{linelist_tags} if you wish to look for duplicates on
 tagged columns only. Default is \code{NULL}.}
 
 \item{remove}{A vector of duplicate indices to be removed. Duplicate indices
@@ -51,7 +51,7 @@ duplicates with the 'target_columns' argument.
 no_dups <- remove_duplicates(
   data             = readRDS(system.file("extdata", "test_linelist.RDS",
                                          package = "cleanepi")),
-  target_columns   = "tags",
+  target_columns   = "linelist_tags",
   remove           = NULL,
   rm_empty_rows    = TRUE,
   rm_empty_cols    = TRUE,

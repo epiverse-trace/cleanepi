@@ -295,7 +295,7 @@ dups           <- find_duplicates(data           = data,
 # FIND DUPLICATES ACROSS TAGGED VARIABLES
 dups <- find_duplicates(
   data           = data,
-  target_columns = "tags"
+  target_columns = "linelist_tags"
 )
 ```
 
@@ -371,7 +371,7 @@ The output from `find_duplicates()` function can also be passed to `remove_dupli
 dups <- find_duplicates(
   data           = readRDS(system.file("extdata", "test_linelist.RDS",
                                        package = "cleanepi")),
-  target_columns = "tags"
+  target_columns = "linelist_tags"
 )
 
 # EXTRACT THE DUPLICATES
@@ -384,7 +384,7 @@ dups_index_to_remove <- dups_index_to_remove[!is.na(dups_index_to_remove)]
 no_dups <- remove_duplicates(
   data           = readRDS(system.file("extdata", "test_linelist.RDS",
                                        package = "cleanepi")),
-  target_columns = "tags",
+  target_columns = "linelist_tags",
   remove         = dups_index_to_remove
 )
 
@@ -392,7 +392,7 @@ no_dups <- remove_duplicates(
 no_dups <- remove_duplicates(
   data           = readRDS(system.file("extdata", "test_linelist.RDS",
                                        package = "cleanepi")),
-  target_columns = "tags",
+  target_columns = "linelist_tags",
   remove         = -c(33, 55)
 )
 ```
