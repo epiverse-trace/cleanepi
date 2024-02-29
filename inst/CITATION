@@ -1,0 +1,23 @@
+citHeader("To cite cleanepi in publications use:")
+
+bibentry(
+  bibtype  = "Manual",
+  title    = "cleanepi: R Package to Cleaning and Standardizing Epidemiological Data",
+  author   = c(
+            person(given = "Karim",family = "Mané"),
+            person(given = "Thibaut", family = "Jombart"),
+            person(given = "Nuredin", family = "Mohammed"),
+            person(given = "Hugo", family = "Gruson"),
+            person(given = "Bankolé", family = "Ahadzie"),
+            person(given = "Abdoelnaser", family= "Degoot"),
+            person(given = "Bubacarr", family = "Bah")
+              ),
+ year     = "2024",
+ url = "https://github.com/epiverse-trace/cleanepi",
+textVersion =
+  sprintf("%s %s %s",
+  "Karim Mané et al. (2024).",
+  "cleanepi: R Package to Cleaning and Standardizing Epidemiological Data",
+  "website: https://github.com/epiverse-trace/cleanepi/"
+  )
+)
