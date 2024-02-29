@@ -3,10 +3,16 @@
 #'
 #' @param data A data frame or linelist
 #' @param target_columns A vector of column names. If provided, the substitution
+<<<<<<< HEAD
 #'    of missing values will only be executed in those specified columns.
 #'    When the input data is a `linelist` object, this parameter can be set to
 #'    `linelist_tags` if you wish to replace missing values across tagged
 #'    columns only.
+=======
+#'    of missing values will only be executed in those specified columns. When
+#'    the input data is a `linelist` object, this parameter can be set to `tags`
+#'    if you wish to replace missing values with NA on tagged columns only.
+>>>>>>> aa32a41 (allow for target_columns = "linelist_tags")
 #' @param na_strings This is a vector of strings that represents the missing
 #'    values in the columns of interest. By default, it utilizes
 #'    `cleanepi::common_na_strings`. However, if the missing values string in
