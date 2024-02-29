@@ -15,7 +15,7 @@ Authors@R: c(
            comment = c(ORCID = "0000-0002-4094-1476"))
   )
 Maintainer: Karim Mané <karim.mane@lshtm.ac.uk>
-Description: cleanepi provides functions for cleaning and standardizing
+Description: Provides functions for cleaning and standardizing
     tabular data, tailored specifically for curating epidemiological data.
 License: MIT + file LICENSE
 URL: https://epiverse-trace.github.io/cleanepi,
