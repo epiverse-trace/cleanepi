@@ -473,18 +473,22 @@ The `calculate_age()` function computes the ages of individuals, expressed in ye
 2. **target_column**: A vector of the name of the column containing the birth or relevant  dates for which the age is being calculated (required).
 3. **end_date**: This is the reference date used to calculate the age of individuals (required). The function computes the age relative to this date.
 4. **age_in**: This parameter determines the unit in which the age is expressed (required). It  can be specified as "years", "months", "weeks", or "days". By default, the age is calculated in years if this parameter is not provided.
-5. **na_strings**: This is an extra parameters that is only needed when there are missing values in the date column of interest. It will be used to replace those missing values into `NA` prior to the age calculation.
+5. **na_strings**: This argument is only needed when there are missing values in the date column of interest. It will be used to replace those missing values into `NA` prior to the age calculation.
+6. **age_column_name**: A string for the name of the age column added to the input data. The default is `age_in_*` where `*` represents the unit specified in the 'age_in' argument.
+7. **age_remainder_unit**: A parameter used to determine the number of the remaining days (remainder_days) or weeks (remainder_weeks) or months (remainder_months), depending on the value of the 'age_remainder_unit' parameter, after calculating the age.
 
 With these arguments, the function offers flexibility in determining the age of individuals based on different units and reference dates. It facilitates various analytics tasks where age computation is a necessary component, providing users with the ability to customize the output according to their specific requirements.
 
 ```{r eval=TRUE}
 # CALCULATE INDIVIDUAL AGE FROM THE 'dateOfBirth' COLUMN
 age <- calculate_age(
-  data          = readRDS(system.file("extdata", "test_df.RDS",
-                                      package = "cleanepi")),
-  target_column = "dateOfBirth",
-  age_in        = "days",
-  na_strings    = "-99"
+  data               = readRDS(system.file("extdata", "test_df.RDS",
+                                           package = "cleanepi")),
+  target_column      = "dateOfBirth",
+  end_date           = Sys.Date(),
+  age_in             = "months",
+  age_remainder_unit = "weeks",
+  na_strings         = "-99"
 )
 ```
 
