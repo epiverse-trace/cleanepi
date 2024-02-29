@@ -40,7 +40,7 @@ calculate_age <- function(data,
                           end_date = Sys.Date(),
                           age_in = "years",
                           na_strings = common_na_strings,
-                          age_column_name = sprintf("age_%s", age_in),
+                          age_column_name = sprintf("age_in_%s", age_in),
                           age_remainder_unit = c("days", "weeks", "months")) {
   checkmate::assert_data_frame(data, null.ok = FALSE)
   checkmate::assert_vector(na_strings,
@@ -108,6 +108,11 @@ calculate_age <- function(data,
   data[, age_column_name] <- time_diff %/% divisor_age
   data[, age_remainder_colname] <- (time_diff %% divisor_age) %/%
     divisor_remainder
+
+  # when the age is requested in days, remove remainder
+  if (age_in == "days") {
+    data[, age_remainder_colname] <- NULL
+  }
 
   return(data)
 }
