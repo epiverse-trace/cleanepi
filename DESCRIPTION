@@ -10,13 +10,20 @@ Authors@R: c(
            comment = c(ORCID = "0000-0003-3318-6668")),
     person("Bankolé", "Ahadzie", , "Bankole.Ahadzie@lshtm.ac.uk", role = "ctb"),
     person("Nuredin", "Mohammed", , "Nuredin.Mohammed@lshtm.ac.uk", role = "ctb"),
-    person("Abdoelnaser", "Degoot", , "abdoelnaser-mahmood.degoot@lshtm.ac.uk", role = "ctb", comment = c(ORCID = "0000-0001-8788-2496")),
-    person("Hugo", "Gruson", , "hugo@data.org", role = "rev", comment = c(ORCID = "0000-0002-4094-1476"))
-    
+    person("Abdoelnaser", "Degoot", , "abdoelnaser-mahmood.degoot@lshtm.ac.uk", role = "ctb", 
+          comment = c(ORCID = "0000-0001-8788-2496")),
+    person("Hugo", "Gruson", , "hugo@data.org", role = "rev", 
+          comment = c(ORCID = "0000-0002-4094-1476")),
+    person("Pratik R.", "Gupte", , "pratik.gupte@lshtm.ac.uk", role ="rev",
+           comment = c(ORCID = "0000-0001-5294-7819")),
+    person("James M.", "Azam", , "james.azam@lshtm.ac.uk", role = "rev",
+           comment = c(ORCID = "0000-0001-5782-7330")),  
+    person("Joshua W.", "Lambert", , "joshua.lambert@lshtm.ac.uk", role = "rev",
+           comment = c(ORCID = "0000-0001-5218-3046"))
   )
 Maintainer: Karim Mané <karim.mane@lshtm.ac.uk>
-Description: Provides functions for cleaning and standardizing
-    tabular data, tailored specifically for curating epidemiological data.
+Description: cleanepi provides functions for cleaning and standardizing tabular data,
+    tailored specifically for curating epidemiological data.
 License: MIT + file LICENSE
 URL: https://epiverse-trace.github.io/cleanepi,
     https://github.com/epiverse-trace/cleanepi

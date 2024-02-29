@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 ^LICENSE\.md$
 ^\.github$
 ^README\.Rmd$
@@ -9,8 +8,6 @@
 ^\.lintr$
 ^.*\.Rproj$
 ^\.Rproj\.user$
-=======
->>>>>>> 7cd62df02662e2cd55da7f796ed13301699ba3ff
 ^doc$
 ^Meta$
 ^CITATION\.cff$
