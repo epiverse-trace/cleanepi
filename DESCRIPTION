@@ -1,6 +1,6 @@
 Type: Package
 Package: cleanepi
-Title: Clean and standardize epidemiological data
+Title: Clean and Standardize Epidemiological Data
 Version: 0.0.2
 Authors@R: c(
     person("Karim", "Mané", , "karim.mane@lshtm.ac.uk", role = c("aut", "cre"),
@@ -15,9 +15,11 @@ Authors@R: c(
            comment = c(ORCID = "0000-0002-4094-1476"))
   )
 Maintainer: Karim Mané <karim.mane@lshtm.ac.uk>
-Description: cleanepi provides functions for cleaning and standardizing tabular data, tailored specifically for curating epidemiological data.
+Description: Provides functions for cleaning and standardizing
+    tabular data, tailored specifically for curating epidemiological data.
 License: MIT + file LICENSE
-URL: https://epiverse-trace.github.io/cleanepi, https://github.com/epiverse-trace/cleanepi
+URL: https://epiverse-trace.github.io/cleanepi,
+    https://github.com/epiverse-trace/cleanepi
 BugReports: https://github.com/epiverse-trace/cleanepi/issues
 Imports:
     arsenal,
@@ -27,8 +29,8 @@ Imports:
     janitor,
     linelist (>= 1.0.0),
     lubridate,
-    matchmaker,
     magrittr,
+    matchmaker,
     naniar,
     numberize,
     R.utils,
