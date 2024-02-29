@@ -9,7 +9,7 @@ calculate_age(
   target_column = NULL,
   end_date = Sys.Date(),
   age_in = "years",
-  na_strings = common_na_strings,
+  na_strings = cleanepi::common_na_strings,
   age_column_name = sprintf("age_in_\%s", age_in),
   age_remainder_unit = c("days", "weeks", "months")
 )
@@ -30,7 +30,7 @@ date column of interest. This is only needed when the date column
 contains missing values.}
 
 \item{age_column_name}{A string for the name of the age column added to
-\code{data}.}
+the input data.}
 
 \item{age_remainder_unit}{A string for the unit in which the remainder of the
 age should be calculated. May be one of "months", "weeks", and "days".
@@ -41,8 +41,10 @@ The input data frame with 2 additional columns:
 \enumerate{
 \item "age_in_years",  "age_in_months",  "age_in_weeks", or
 "age_in_days" depending on the value of the 'age_in' parameter.
-\item "remainder_days": A column with the number of remaining days after
-the age is calculated in years, weeks or months.
+\item "remainder_*": A column with the number of the remaining
+days (remainder_days) or weeks (remainder_weeks) or months
+(remainder_months) depending on the value of the 'age_remainder_unit'
+parameter.
 }
 }
 \description{
@@ -50,13 +52,12 @@ Calculate age from a specified date column
 }
 \examples{
 age <- calculate_age(
-  data = readRDS(system.file("extdata", "test_df.RDS",
-    package = "cleanepi"
-  )),
-  target_column = "dateOfBirth",
-  end_date = Sys.Date(),
-  age_in = "months",
+  data               = readRDS(system.file("extdata", "test_df.RDS",
+                                           package = "cleanepi")),
+  target_column      = "dateOfBirth",
+  end_date           = Sys.Date(),
+  age_in             = "months",
   age_remainder_unit = "days",
-  na_strings = "-99"
+  na_strings         = "-99"
 )
 }
