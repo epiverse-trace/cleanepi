@@ -28,6 +28,9 @@ Other contributors:
   \item Nuredin Mohammed \email{Nuredin.Mohammed@lshtm.ac.uk} [contributor]
   \item Abdoelnaser Degoot \email{abdoelnaser-mahmood.degoot@lshtm.ac.uk} (\href{https://orcid.org/0000-0001-8788-2496}{ORCID}) [contributor]
   \item Hugo Gruson \email{hugo@data.org} (\href{https://orcid.org/0000-0002-4094-1476}{ORCID}) [reviewer]
+  \item Pratik R. Gupte \email{pratik.gupte@lshtm.ac.uk} (\href{https://orcid.org/0000-0001-5294-7819}{ORCID}) [reviewer]
+  \item James M. Azam \email{james.azam@lshtm.ac.uk} (\href{https://orcid.org/0000-0001-5782-7330}{ORCID}) [reviewer]
+  \item Joshua W. Lambert \email{joshua.lambert@lshtm.ac.uk} (\href{https://orcid.org/0000-0001-5218-3046}{ORCID}) [reviewer]
 }
 
 }

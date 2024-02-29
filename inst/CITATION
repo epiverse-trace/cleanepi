@@ -1,23 +1,23 @@
-citHeader("To cite cleanepi in publications use:")
+# Code copied from citation()
+author <- meta$`Authors@R`
+if (length(author)) {
+    aar <- .read_authors_at_R_field(author)
+    author <- Filter(function(e) {
+        !(is.null(e$given) && is.null(e$family)) && !is.na(match("aut",
+            e$role))
+    }, aar)
+}
+
+if (is.null(meta$Date)) {
+  date <- format(Sys.Date(), "%Y")
+} else {
+  date <- format(meta$Date, "%Y")
+}
 
 bibentry(
-  bibtype  = "Manual",
-  title    = "cleanepi: R Package for Cleaning and Standardizing Epidemiological Data",
-  author   = c(
-            person(given = "Karim",family = "Mané"),
-            person(given = "Thibaut", family = "Jombart"),
-            person(given = "Nuredin", family = "Mohammed"),
-            person(given = "Hugo", family = "Gruson"),
-            person(given = "Bankolé", family = "Ahadzie"),
-            person(given = "Abdoelnaser", family= "Degoot"),
-            person(given = "Bubacarr", family = "Bah")
-              ),
- year     = "2024",
- url = "https://github.com/epiverse-trace/cleanepi",
-textVersion =
-  sprintf("%s %s %s",
-  "Karim Mané et al. (2024).",
-  "cleanepi: R Package to Cleaning and Standardizing Epidemiological Data",
-  "website: https://github.com/epiverse-trace/cleanepi/"
-  )
+  bibtype = "Manual",
+  title   = paste0(meta$Package, ": ", gsub("[[:space:]]+", " ", meta$Title)),
+  author  = author,
+  year    = date,
+  url     = meta$URL
 )
