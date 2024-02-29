@@ -135,3 +135,48 @@ add_to_report <- function(x, key, value = NULL) {
   attr(x, which = "report") <- report
   return(x)
 }
+
+#' Get the names of the columns from which duplicates will be found
+#'
+#' @param data A data frame or linelist
+#' @param target_columns A vector of column names. For linelist data, this can
+#'    be 'linelist_tags'
+#' @param cols A vector of empty and constant columns
+#'
+#' @return A vector with the target column names or indexes
+#'
+#' @keywords internal
+#'
+get_target_column_names <- function(data, target_columns, cols) {
+  if (is.null(target_columns)) {
+    return(names(data))
+  }
+
+  # extract column names if target_columns is a vector of column indexes
+  if (is.numeric(target_columns)) {
+    target_columns <- names(data)[target_columns]
+  }
+
+  # check for linelist object if target_columns='tags'
+  if (all(length(target_columns) == 1L && target_columns == "linelist_tags")) {
+    stopifnot(
+      "'tags' only works on linelist object. Please provide a vector of
+              column names if you are dealing with a data frame" =
+        inherits(data, "linelist")
+    )
+    original_tags  <- linelist::tags(data)
+    target_columns <- as.character(original_tags)
+  }
+
+  # check whether target columns are part of the empty or constant columns
+  if (!is.null(cols)) {
+    idx <- which(cols %in% target_columns)
+    if (length(idx) > 0L) {
+      target_columns <- target_columns[-idx]
+      stopifnot("All specified columns are either constant or empty." =
+                  length(target_columns) > 0L)
+    }
+  }
+
+  return(target_columns)
+}
