@@ -18,8 +18,8 @@ remove_duplicates(
 
 \item{target_columns}{A vector of column names to use when looking for
 duplicates. When the input data is a \code{linelist} object, this
-parameter can be set to \code{linelist_tags} if you wish to look for duplicates on
-tagged columns only. Default is \code{NULL}.}
+parameter can be set to \code{linelist_tags} if you wish to look for duplicates
+on tagged columns only. Default is \code{NULL}.}
 
 \item{remove}{A vector of duplicate indices to be removed. Duplicate indices
 are unique identifiers for all rows in the original data frame or linelist
