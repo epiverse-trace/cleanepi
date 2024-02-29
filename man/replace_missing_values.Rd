@@ -33,8 +33,8 @@ Replace missing values with \code{NA}
 }
 \examples{
 cleaned_data <- replace_missing_values(
-  data        = readRDS(system.file("extdata", "test_df.RDS",
-                                    package = "cleanepi")),
+  data           = readRDS(system.file("extdata", "test_df.RDS",
+                                       package = "cleanepi")),
   target_columns = "sex",
   na_strings     = "-99"
 )

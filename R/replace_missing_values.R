@@ -18,8 +18,8 @@
 #'
 #' @examples
 #' cleaned_data <- replace_missing_values(
-#'   data        = readRDS(system.file("extdata", "test_df.RDS",
-#'                                     package = "cleanepi")),
+#'   data           = readRDS(system.file("extdata", "test_df.RDS",
+#'                                        package = "cleanepi")),
 #'   target_columns = "sex",
 #'   na_strings     = "-99"
 #' )
@@ -31,23 +31,24 @@ replace_missing_values <- function(data,
   cols    <- get_target_column_names(data, target_columns, cols = NULL)
 
   # replace missing values with NA
-  res     <- 0L
   indexes <- NULL
+  res     <- 0L
   for (col in cols) {
     index              <- match(col, names(data))
     names(data)[index] <- "x"
-    idx                <- which(na_strings %in% data[["x"]])
-    if (length(idx) > 0L) {
-      data             <- naniar::replace_with_na(
-        data,
-        replace = list(x = na_strings[idx])
-      )
-      indexes          <- c(indexes, col)
-    } else {
-      res              <- res + 1L
+    idx                <- match(na_strings, data[["x"]])
+    if (all(is.na(idx))) {
+      res                <- res + 1L
+      names(data)[index] <- col
+      next
     }
+    idx     <- which(na_strings %in% data[["x"]])
+    data    <- naniar::replace_with_na(data,
+                                       replace = list(x = na_strings[idx]))
+    indexes <- c(indexes, col)
     names(data)[index] <- col
   }
+
   stopifnot("Could not detect missing value character! Please use the
   appropriate strings that represents the missing values from your data." =
               res < length(cols))
