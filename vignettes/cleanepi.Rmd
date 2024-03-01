@@ -471,7 +471,9 @@ The `calculate_age()` function computes the ages of individuals, expressed in ye
 
 1. **data**: The input dataset (required).
 2. **target_column**: A vector of the name of the column containing the birth or relevant  dates for which the age is being calculated (required).
-3. **end_date**: This is the reference date used to calculate the age of individuals (required). The function computes the age relative to this date.
+3. **end_date**: This is the reference date used to calculate the age of individuals (required). The function computes the age relative to this date. The default value is today's date (`Sys.Date()`)
+> The format required for this argument is `%Y-%m-%d` ("2024-12-31" for 31st of December 2024).
+
 4. **age_in**: This parameter determines the unit in which the age is expressed (required). It  can be specified as "years", "months", "weeks", or "days". By default, the age is calculated in years if this parameter is not provided.
 5. **age_column_name**: A string for the name of the age column added to the input data. The default is `age_in_*` where `*` represents the unit specified in the 'age_in' argument.
 6. **age_remainder_unit**: A parameter used to determine the number of the remaining days (remainder_days) or weeks (remainder_weeks) or months (remainder_months), depending on the value of the 'age_remainder_unit' parameter, after calculating the age.
