@@ -34,8 +34,7 @@
 #'
 #' # calculate the age 'years' and return the remainder in 'months'
 #' age <- calculate_age(
-#'   data               = readRDS(system.file("extdata", "test_df.RDS",
-#'                                            package = "cleanepi")),
+#'   data               = data,
 #'   target_column      = "dateOfBirth",
 #'   end_date           = Sys.Date(),
 #'   age_in             = "years",
@@ -44,8 +43,7 @@
 #'
 #' # calculate the age in 'months' and return the remainder in 'days'
 #' age <- calculate_age(
-#'   data               = readRDS(system.file("extdata", "test_df.RDS",
-#'                                            package = "cleanepi")),
+#'   data               = data,
 #'   target_column      = "dateOfBirth",
 #'   end_date           = Sys.Date(),
 #'   age_in             = "months",
