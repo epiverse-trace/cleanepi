@@ -54,7 +54,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>Get the names of the columns from which duplicates will be found</h1>
-      <small class="dont-index">Source: <a href="https://github.com/epiverse-trace/cleanepi/blob/HEAD/R/find_and_remove_duplicates.R" class="external-link"><code>R/find_and_remove_duplicates.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/epiverse-trace/cleanepi/blob/HEAD/R/utils.R" class="external-link"><code>R/utils.R</code></a></small>
       <div class="d-none name"><code>get_target_column_names.Rd</code></div>
     </div>
 
@@ -70,11 +70,12 @@
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>data</dt>
-<dd><p>A dataframe or linelist</p></dd>
+<dd><p>A data frame or linelist</p></dd>
 
 
 <dt>target_columns</dt>
-<dd><p>A vector of column names</p></dd>
+<dd><p>A vector of column names. For linelist data, this can
+be 'linelist_tags'</p></dd>
 
 
 <dt>cols</dt>

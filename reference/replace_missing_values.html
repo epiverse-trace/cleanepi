@@ -79,14 +79,17 @@
 
 <dt>target_columns</dt>
 <dd><p>A vector of column names. If provided, the substitution
-of missing values will only be executed in those specified columns</p></dd>
+of missing values will only be executed in those specified columns.
+When the input data is a <code>linelist</code> object, this parameter can be set to
+<code>linelist_tags</code> if you wish to replace missing values across tagged
+columns only.</p></dd>
 
 
 <dt>na_strings</dt>
 <dd><p>This is a vector of strings that represents the missing
 values in the columns of interest. By default, it utilizes
-<code><a href="common_na_strings.html">cleanepi::common_na_strings</a></code>. However, if the missing values string in the
-columns of interest is not included in this predefined vector,
+<code><a href="common_na_strings.html">cleanepi::common_na_strings</a></code>. However, if the missing values string in
+the columns of interest is not included in this predefined vector,
 it can be used as the value for this argument.</p></dd>
 
 </dl></div>

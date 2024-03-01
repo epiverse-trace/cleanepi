@@ -695,24 +695,15 @@ cleaning operations to be performed.</li>
 <span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>  <span class="at">params =</span> params</span>
 <span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>)</span>
 <span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a></span>
-<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>cleaning column names                        before                        after</span>
-<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="dv">1</span>                     study_id                     study_id</span>
-<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="dv">2</span>                   event_name                   event_name</span>
-<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="dv">3</span>                 country_code                 country_code</span>
-<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="dv">4</span>                 country_name                 country_name</span>
-<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="dv">5</span>            date.of.admission            date_of_admission</span>
-<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="dv">6</span>                  dateOfBirth                date_of_birth</span>
-<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a><span class="dv">7</span> date_first_pcr_positive_test date_first_pcr_positive_test</span>
-<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a><span class="dv">8</span>                          sex                          sex</span>
-<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a></span>
-<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a>replacing missing values with <span class="cn">NA</span></span>
-<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a>removing duplicated rows</span>
-<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a></span>
-<span id="cb5-20"><a href="#cb5-20" tabindex="-1"></a>No duplicates found from the specified columns.</span>
-<span id="cb5-21"><a href="#cb5-21" tabindex="-1"></a></span>
-<span id="cb5-22"><a href="#cb5-22" tabindex="-1"></a>standardising date columns</span>
-<span id="cb5-23"><a href="#cb5-23" tabindex="-1"></a>checking subject IDs format</span>
-<span id="cb5-24"><a href="#cb5-24" tabindex="-1"></a>performing dictionary<span class="sc">-</span>based cleaning</span></code></pre></div>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>cleaning column names</span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>replacing missing values with <span class="cn">NA</span></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>removing duplicated rows</span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>No duplicates found from the specified columns.</span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a>standardising date columns</span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a>checking subject IDs format</span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a>performing dictionary<span class="sc">-</span>based cleaning</span></code></pre></div>
 <p>It returns the cleaned dataset. The report generated from the data
 cleaning operations is a <code>list object</code> that is attached to
 the cleaned data and can be accessed using the <code><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr()</a></code>
@@ -1278,7 +1269,7 @@ tagged variables in a <code>linelist</code> object.</p>
 <span id="cb11-25"><a href="#cb11-25" tabindex="-1"></a><span class="co"># FIND DUPLICATES ACROSS TAGGED VARIABLES</span></span>
 <span id="cb11-26"><a href="#cb11-26" tabindex="-1"></a>dups <span class="ot">&lt;-</span> <span class="fu">find_duplicates</span>(</span>
 <span id="cb11-27"><a href="#cb11-27" tabindex="-1"></a>  <span class="at">data           =</span> data,</span>
-<span id="cb11-28"><a href="#cb11-28" tabindex="-1"></a>  <span class="at">target_columns =</span> <span class="st">"tags"</span></span>
+<span id="cb11-28"><a href="#cb11-28" tabindex="-1"></a>  <span class="at">target_columns =</span> <span class="st">"linelist_tags"</span></span>
 <span id="cb11-29"><a href="#cb11-29" tabindex="-1"></a>)</span>
 <span id="cb11-30"><a href="#cb11-30" tabindex="-1"></a>Found <span class="dv">57</span> duplicated rows. Please consult the report <span class="cf">for</span> more details.</span></code></pre></div>
 <p>Upon execution, the <code><a href="../reference/find_duplicates.html">find_duplicates()</a></code> function
@@ -2564,7 +2555,7 @@ duplicated rows to be removed.</p>
 <span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>dups <span class="ot">&lt;-</span> <span class="fu">find_duplicates</span>(</span>
 <span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>  <span class="at">data           =</span> <span class="fu">readRDS</span>(<span class="fu">system.file</span>(<span class="st">"extdata"</span>, <span class="st">"test_linelist.RDS"</span>,</span>
 <span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a>                                       <span class="at">package =</span> <span class="st">"cleanepi"</span>)),</span>
-<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a>  <span class="at">target_columns =</span> <span class="st">"tags"</span></span>
+<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a>  <span class="at">target_columns =</span> <span class="st">"linelist_tags"</span></span>
 <span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a>)</span>
 <span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a>find_and_remove_dups Found <span class="dv">57</span> duplicated rows. Please consult the report <span class="cf">for</span> more details.</span>
 <span id="cb15-8"><a href="#cb15-8" tabindex="-1"></a></span>
@@ -2578,7 +2569,7 @@ duplicated rows to be removed.</p>
 <span id="cb15-16"><a href="#cb15-16" tabindex="-1"></a>no_dups <span class="ot">&lt;-</span> <span class="fu">remove_duplicates</span>(</span>
 <span id="cb15-17"><a href="#cb15-17" tabindex="-1"></a>  <span class="at">data           =</span> <span class="fu">readRDS</span>(<span class="fu">system.file</span>(<span class="st">"extdata"</span>, <span class="st">"test_linelist.RDS"</span>,</span>
 <span id="cb15-18"><a href="#cb15-18" tabindex="-1"></a>                                       <span class="at">package =</span> <span class="st">"cleanepi"</span>)),</span>
-<span id="cb15-19"><a href="#cb15-19" tabindex="-1"></a>  <span class="at">target_columns =</span> <span class="st">"tags"</span>,</span>
+<span id="cb15-19"><a href="#cb15-19" tabindex="-1"></a>  <span class="at">target_columns =</span> <span class="st">"linelist_tags"</span>,</span>
 <span id="cb15-20"><a href="#cb15-20" tabindex="-1"></a>  <span class="at">remove         =</span> dups_index_to_remove</span>
 <span id="cb15-21"><a href="#cb15-21" tabindex="-1"></a>)</span>
 <span id="cb15-22"><a href="#cb15-22" tabindex="-1"></a>find_and_remove_dups Found <span class="dv">57</span> duplicated rows. Please consult the report <span class="cf">for</span> more details.</span>
@@ -2587,7 +2578,7 @@ duplicated rows to be removed.</p>
 <span id="cb15-25"><a href="#cb15-25" tabindex="-1"></a>no_dups <span class="ot">&lt;-</span> <span class="fu">remove_duplicates</span>(</span>
 <span id="cb15-26"><a href="#cb15-26" tabindex="-1"></a>  <span class="at">data           =</span> <span class="fu">readRDS</span>(<span class="fu">system.file</span>(<span class="st">"extdata"</span>, <span class="st">"test_linelist.RDS"</span>,</span>
 <span id="cb15-27"><a href="#cb15-27" tabindex="-1"></a>                                       <span class="at">package =</span> <span class="st">"cleanepi"</span>)),</span>
-<span id="cb15-28"><a href="#cb15-28" tabindex="-1"></a>  <span class="at">target_columns =</span> <span class="st">"tags"</span>,</span>
+<span id="cb15-28"><a href="#cb15-28" tabindex="-1"></a>  <span class="at">target_columns =</span> <span class="st">"linelist_tags"</span>,</span>
 <span id="cb15-29"><a href="#cb15-29" tabindex="-1"></a>  <span class="at">remove         =</span> <span class="sc">-</span><span class="fu">c</span>(<span class="dv">33</span>, <span class="dv">55</span>)</span>
 <span id="cb15-30"><a href="#cb15-30" tabindex="-1"></a>)</span>
 <span id="cb15-31"><a href="#cb15-31" tabindex="-1"></a>find_and_remove_dups Found <span class="dv">57</span> duplicated rows. Please consult the report <span class="cf">for</span> more details.</span></code></pre></div>
@@ -3160,7 +3151,7 @@ Dec 01, 2020
 1
 </td>
 <td style="text-align:right;">
-19047
+19048
 </td>
 </tr>
 <tr>
@@ -3189,7 +3180,7 @@ Jan 01, 2021
 1
 </td>
 <td style="text-align:right;">
-26307
+26308
 </td>
 </tr>
 <tr>
@@ -3218,7 +3209,7 @@ Feb 11, 2021
 -99
 </td>
 <td style="text-align:right;">
-22904
+22905
 </td>
 </tr>
 <tr>
@@ -3247,7 +3238,7 @@ Feb 01, 2021
 1
 </td>
 <td style="text-align:right;">
-27869
+27870
 </td>
 </tr>
 <tr>
@@ -3276,7 +3267,7 @@ Feb 16, 2021
 2
 </td>
 <td style="text-align:right;">
-8556
+8557
 </td>
 </tr>
 <tr>
@@ -3334,7 +3325,7 @@ Feb 19, 2021
 1
 </td>
 <td style="text-align:right;">
-12773
+12774
 </td>
 </tr>
 <tr>
@@ -3363,7 +3354,7 @@ Sep 20, 2021
 2
 </td>
 <td style="text-align:right;">
-17461
+17462
 </td>
 </tr>
 <tr>
@@ -3392,7 +3383,7 @@ Feb 26, 2021
 1
 </td>
 <td style="text-align:right;">
-11847
+11848
 </td>
 </tr>
 <tr>
@@ -3421,7 +3412,7 @@ Mar 03, 2021
 2
 </td>
 <td style="text-align:right;">
-11899
+11900
 </td>
 </tr>
 </tbody>
