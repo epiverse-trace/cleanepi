@@ -486,7 +486,7 @@ data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi"))
 data <- replace_missing_values(data           = data,
                                target_columns = "dateOfBirth",
                                na_strings     = "-99")
-                                           
+
 # CALCULATE INDIVIDUAL AGE IN YEARS FROM THE 'dateOfBirth' COLUMN AND SEND THE
 # REMAINDER IN MONTHS
 age <- calculate_age(
