@@ -19,7 +19,10 @@ calculate_age(
 \item{target_column}{A string specifying the name of the date column of
 interest.}
 
-\item{end_date}{An end date, the default is today's date.}
+\item{end_date}{An end date. This should be in the format
+\verb{\%Y-\%m-\%d} ("2024-12-31" for 31st of December 2024). Otherwise, use the
+\code{as.Date()} function and specify the format of the end date. The default
+is today's date \code{Sys.Date()}.}
 
 \item{age_in}{A string that specifies whether to return the age in 'years',
 'months', 'weeks' or 'days'. The default is in 'years'.}
