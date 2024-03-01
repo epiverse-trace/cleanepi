@@ -37,10 +37,11 @@ standardize_column_names <- function(data, keep = NULL, rename = NULL) {
   before <- colnames(data)
 
   # when rename is not NULL, get the new column names
-  rename <- get_new_names(original_names = before,
-                         target_columns = rename)
+  rename <- get_new_names(original_names = before, target_columns = rename)
 
   # when keep is 'linelist_tags', keep the tagged variables
+  # also account for when target columns are provided as a vector or column
+  # name or column indices or NULL
   keep   <- get_target_column_names(data,
                                     target_columns = keep,
                                     cols           = NULL)
