@@ -57,6 +57,12 @@ data <- replace_missing_values(data           = data,
                                target_columns = "dateOfBirth",
                                na_strings     = "-99")
 
+# the calculate_age() function expects the date values to be given in ISO.
+# Let's convert the 'dateOfBirth' column into ISO date
+data <- standardize_dates(data            = data,
+                          target_columns  = "dateOfBirth",
+                          error_tolerance = 0.0)
+
 # calculate the age 'years' and return the remainder in 'months'
 age <- calculate_age(
   data               = data,
@@ -66,12 +72,16 @@ age <- calculate_age(
   age_remainder_unit = "months"
 )
 
-# calculate the age in 'months' and return the remainder in 'days'
-age <- calculate_age(
-  data               = data,
-  target_column      = "dateOfBirth",
-  end_date           = Sys.Date(),
-  age_in             = "months",
-  age_remainder_unit = "days"
-)
+# The operations above can be written in a pipe-formatted way:
+data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi"))
+age  <- data |>
+  replace_missing_values(target_columns = "dateOfBirth",
+                         na_strings     = "-99") |>
+  standardize_dates(target_columns  = "dateOfBirth",
+                    error_tolerance = 0.0) |>
+  calculate_age(target_column      = "dateOfBirth",
+                end_date           = Sys.Date(),
+                age_in             = "years",
+                age_remainder_unit = "months")
+
 }

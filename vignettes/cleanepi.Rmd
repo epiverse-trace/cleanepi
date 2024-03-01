@@ -489,6 +489,11 @@ data <- replace_missing_values(data           = data,
                                target_columns = "dateOfBirth",
                                na_strings     = "-99")
 
+# calculate_age() EXPECTS DATE VALUES IN ISO FORMAT. 
+data <- standardize_dates(data            = data,
+                          target_columns  = "dateOfBirth",
+                          error_tolerance = 0.0)
+
 # CALCULATE INDIVIDUAL AGE IN YEARS FROM THE 'dateOfBirth' COLUMN AND SEND THE
 # REMAINDER IN MONTHS
 age <- calculate_age(
@@ -504,6 +509,7 @@ data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi"))
 age  <- data |>
   replace_missing_values(target_columns = "dateOfBirth",
                          na_strings     = "-99") |>
+  standardize_dates(target_columns  = "dateOfBirth", error_tolerance = 0.0) |>
   calculate_age(target_column      = "dateOfBirth",
                 end_date           = Sys.Date(),
                 age_in             = "years",

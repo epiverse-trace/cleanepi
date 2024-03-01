@@ -1,4 +1,8 @@
-data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi"))
+data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi")) |>
+  replace_missing_values(target_columns = "dateOfBirth",
+                         na_strings     = "-99") |>
+  standardize_dates(target_columns  = "dateOfBirth",
+                    error_tolerance = 0.0)
 
 test_that("calculate_age works when age is calculated in months and
           age_remainder_unit is days", {
