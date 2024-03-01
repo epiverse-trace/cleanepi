@@ -8,10 +8,10 @@ calculate_age(
   data,
   target_column = NULL,
   end_date = Sys.Date(),
-  age_in = "years",
+  age_in = c("years", "months", "weeks", "days"),
   na_strings = cleanepi::common_na_strings,
   age_column_name = sprintf("age_in_\%s", age_in),
-  age_remainder_unit = c("days", "weeks", "months")
+  age_remainder_unit = c("months", "weeks", "days")
 )
 }
 \arguments{
