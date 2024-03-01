@@ -13,7 +13,7 @@ test_that("standardize_column_names works with rename argument", {
 })
 
 test_that("standardize_column_names works with keep argument", {
-  # TODO update this after Banky's implementation as 'dateOfBirth' might change
+  # TODO update this after Banky's suggestion as 'dateOfBirth' might change
   cleaned_data <- standardize_column_names(
     data = readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi")),
     keep = "date.of.admission"
