@@ -7,8 +7,7 @@ test_that("calculate_age works when age is calculated in months and
               target_column      = "dateOfBirth",
               end_date           = Sys.Date(),
               age_in             = "months",
-              age_remainder_unit = "days",
-              na_strings         = "-99"
+              age_remainder_unit = "days"
             )
             expect_s3_class(age, "data.frame")
             expect_identical(ncol(age), 10L)
@@ -23,8 +22,7 @@ test_that("calculate_age works when age is calculated in months and
               target_column      = "dateOfBirth",
               end_date           = Sys.Date(),
               age_in             = "months",
-              age_remainder_unit = "weeks",
-              na_strings         = "-99"
+              age_remainder_unit = "weeks"
             )
             expect_s3_class(age, "data.frame")
             expect_identical(ncol(age), 10L)
@@ -39,8 +37,7 @@ test_that("calculate_age works when age is calculated in years and
               target_column      = "dateOfBirth",
               end_date           = Sys.Date(),
               age_in             = "years",
-              age_remainder_unit = "months",
-              na_strings         = "-99"
+              age_remainder_unit = "months"
             )
             expect_s3_class(age, "data.frame")
             expect_identical(ncol(age), 10L)
@@ -55,8 +52,7 @@ test_that("calculate_age works when age is calculated in years and
               target_column      = "dateOfBirth",
               end_date           = Sys.Date(),
               age_in             = "years",
-              age_remainder_unit = "weeks",
-              na_strings         = "-99"
+              age_remainder_unit = "weeks"
             )
             expect_s3_class(age, "data.frame")
             expect_identical(ncol(age), 10L)
@@ -71,8 +67,7 @@ test_that("calculate_age works when age is calculated in years and
               target_column      = "dateOfBirth",
               end_date           = Sys.Date(),
               age_in             = "years",
-              age_remainder_unit = "days",
-              na_strings         = "-99"
+              age_remainder_unit = "days"
             )
             expect_s3_class(age, "data.frame")
             expect_identical(ncol(age), 10L)
@@ -85,8 +80,7 @@ test_that("calculate_age works when age is calculated in days", {
     data               = data,
     target_column      = "dateOfBirth",
     end_date           = Sys.Date(),
-    age_in             = "days",
-    na_strings         = "-99"
+    age_in             = "days"
   )
   expect_s3_class(age, "data.frame")
   expect_identical(ncol(age), 9L)

@@ -9,7 +9,6 @@ calculate_age(
   target_column = NULL,
   end_date = Sys.Date(),
   age_in = c("years", "months", "weeks", "days"),
-  na_strings = cleanepi::common_na_strings,
   age_column_name = sprintf("age_in_\%s", age_in),
   age_remainder_unit = c("months", "weeks", "days")
 )
@@ -25,12 +24,8 @@ interest.}
 \item{age_in}{A string that specifies whether to return the age in 'years',
 'months', 'weeks' or 'days'. The default is in 'years'.}
 
-\item{na_strings}{A string that represents the missing values in the
-date column of interest. This is only needed when the date column
-contains missing values.}
-
-\item{age_column_name}{A string for the name of the age column added to
-the input data.}
+\item{age_column_name}{A string for the name of the new column to be used to
+store the calculated age in the input data.frame.}
 
 \item{age_remainder_unit}{A string for the unit in which the remainder of the
 age should be calculated. May be one of "months", "weeks", and "days".
@@ -51,13 +46,31 @@ parameter.
 Calculate age from a specified date column
 }
 \examples{
+data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi"))
+
+# The 'dateOfBirth' column contains missing values recoded as "-99". let's
+# replace them with NA
+data <- replace_missing_values(data           = data,
+                               target_columns = "dateOfBirth",
+                               na_strings     = "-99")
+
+# calculate the age 'years' and return the remainder in 'months'
+age <- calculate_age(
+  data               = readRDS(system.file("extdata", "test_df.RDS",
+                                           package = "cleanepi")),
+  target_column      = "dateOfBirth",
+  end_date           = Sys.Date(),
+  age_in             = "years",
+  age_remainder_unit = "months"
+)
+
+# calculate the age in 'months' and return the remainder in 'days'
 age <- calculate_age(
   data               = readRDS(system.file("extdata", "test_df.RDS",
                                            package = "cleanepi")),
   target_column      = "dateOfBirth",
   end_date           = Sys.Date(),
   age_in             = "months",
-  age_remainder_unit = "days",
-  na_strings         = "-99"
+  age_remainder_unit = "days"
 )
 }

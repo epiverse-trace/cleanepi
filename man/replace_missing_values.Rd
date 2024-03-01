@@ -14,9 +14,9 @@ replace_missing_values(
 \item{data}{A data frame or linelist}
 
 \item{target_columns}{A vector of column names. If provided, the substitution
-of missing values will only be executed in those specified columns.
-When the input data is a \code{linelist} object, this parameter can be set to
-\code{linelist_tags} if you wish to replace missing values across tagged
+of missing values will only be executed in those specified columns. When
+the input data is a \code{linelist} object, this parameter can be set to
+\code{linelist_tags} if you wish to replace missing values with NA on tagged
 columns only.}
 
 \item{na_strings}{This is a vector of strings that represents the missing
