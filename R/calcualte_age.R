@@ -6,9 +6,6 @@
 #' @param end_date An end date, the default is today's date.
 #' @param age_in A string that specifies whether to return the age in 'years',
 #'    'months', 'weeks' or 'days'. The default is in 'years'.
-#' @param na_strings A string that represents the missing values in the
-#'    date column of interest. This is only needed when the date column
-#'    contains missing values.
 #' @param age_column_name A string for the name of the new column to be used to
 #'    store the calculated age in the input data.frame.
 #' @param age_remainder_unit A string for the unit in which the remainder of the
@@ -27,6 +24,14 @@
 #' @export
 #'
 #' @examples
+#' data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi"))
+#'
+#' # The 'dateOfBirth' column contains missing values recoded as "-99". let's
+#' # replace them with NA
+#' data <- replace_missing_values(data           = data,
+#'                                target_columns = "dateOfBirth",
+#'                                na_strings     = "-99")
+#'
 #' # calculate the age 'years' and return the remainder in 'months'
 #' age <- calculate_age(
 #'   data               = readRDS(system.file("extdata", "test_df.RDS",
@@ -34,8 +39,7 @@
 #'   target_column      = "dateOfBirth",
 #'   end_date           = Sys.Date(),
 #'   age_in             = "years",
-#'   age_remainder_unit = "months",
-#'   na_strings         = "-99"
+#'   age_remainder_unit = "months"
 #' )
 #'
 #' # calculate the age in 'months' and return the remainder in 'days'
@@ -45,23 +49,16 @@
 #'   target_column      = "dateOfBirth",
 #'   end_date           = Sys.Date(),
 #'   age_in             = "months",
-#'   age_remainder_unit = "days",
-#'   na_strings         = "-99"
+#'   age_remainder_unit = "days"
 #' )
 calculate_age <- function(data,
                           target_column      = NULL,
                           end_date           = Sys.Date(),
-                          age_in             = c(
-                            "years", "months", "weeks", "days"
-                          ),
-                          na_strings         = cleanepi::common_na_strings,
+                          age_in             = c("years", "months",
+                                                 "weeks", "days"),
                           age_column_name    = sprintf("age_in_%s", age_in),
                           age_remainder_unit = c("months", "weeks", "days")) {
   checkmate::assert_data_frame(data, null.ok = FALSE)
-  checkmate::assert_vector(na_strings,
-    null.ok = FALSE,
-    any.missing = FALSE, min.len = 1L
-  )
 
   # check age_in, multiple choices not allowed by default
   # changed to give visibility of choices in function call in docs
@@ -83,11 +80,6 @@ calculate_age <- function(data,
   age_remainder_unit <- match.arg(age_remainder_unit)
   # get age remainder column name
   age_remainder_colname <- sprintf("remainder_%s", age_remainder_unit)
-
-  # replace missing data characters with NA
-  data <- replace_missing_values(data,
-                                 target_column,
-                                 na_strings = na_strings)
 
   # standardize the input data if required
   # NOTE: define `else` case or check that target column is a `Date`

@@ -3,9 +3,9 @@
 #'
 #' @param data A data frame or linelist
 #' @param target_columns A vector of column names. If provided, the substitution
-#'    of missing values will only be executed in those specified columns.
-#'    When the input data is a `linelist` object, this parameter can be set to
-#'    `linelist_tags` if you wish to replace missing values across tagged
+#'    of missing values will only be executed in those specified columns. When
+#'    the input data is a `linelist` object, this parameter can be set to
+#'    `linelist_tags` if you wish to replace missing values with NA on tagged
 #'    columns only.
 #' @param na_strings This is a vector of strings that represents the missing
 #'    values in the columns of interest. By default, it utilizes
