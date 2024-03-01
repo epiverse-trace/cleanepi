@@ -9,8 +9,8 @@
 #' @param na_strings A string that represents the missing values in the
 #'    date column of interest. This is only needed when the date column
 #'    contains missing values.
-#' @param age_column_name A string for the name of the age column added to
-#'    the input data.
+#' @param age_column_name A string for the name of the new column to be used to
+#'    store the calculated age in the input data.frame.
 #' @param age_remainder_unit A string for the unit in which the remainder of the
 #'    age should be calculated. May be one of "months", "weeks", and "days".
 #'    Remainders requested in the same unit as the age will return values of 0.
@@ -27,6 +27,18 @@
 #' @export
 #'
 #' @examples
+#' # calculate the age 'years' and return the remainder in 'months'
+#' age <- calculate_age(
+#'   data               = readRDS(system.file("extdata", "test_df.RDS",
+#'                                            package = "cleanepi")),
+#'   target_column      = "dateOfBirth",
+#'   end_date           = Sys.Date(),
+#'   age_in             = "years",
+#'   age_remainder_unit = "months",
+#'   na_strings         = "-99"
+#' )
+#'
+#' # calculate the age in 'months' and return the remainder in 'days'
 #' age <- calculate_age(
 #'   data               = readRDS(system.file("extdata", "test_df.RDS",
 #'                                            package = "cleanepi")),
