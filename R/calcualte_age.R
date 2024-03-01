@@ -39,25 +39,28 @@
 calculate_age <- function(data,
                           target_column      = NULL,
                           end_date           = Sys.Date(),
-                          age_in             = "years",
+                          age_in             = c(
+                            "years", "months", "weeks", "days"
+                          ),
                           na_strings         = cleanepi::common_na_strings,
                           age_column_name    = sprintf("age_in_%s", age_in),
-                          age_remainder_unit = c("days", "weeks", "months")) {
+                          age_remainder_unit = c("months", "weeks", "days")) {
   checkmate::assert_data_frame(data, null.ok = FALSE)
   checkmate::assert_vector(na_strings,
     null.ok = FALSE,
     any.missing = FALSE, min.len = 1L
   )
-  checkmate::assert_choice(age_in,
-    choices = c("years", "months", "weeks", "days"),
-    null.ok = FALSE
-  )
+
+  # check age_in, multiple choices not allowed by default
+  # changed to give visibility of choices in function call in docs
+  age_in <- match.arg(age_in)
+
   checkmate::assert_choice(target_column,
     choices = colnames(data),
     null.ok = TRUE
   )
   end_date <- checkmate::assert_date(
-    as.Date(end_date),
+    end_date,
     any.missing = FALSE, len = 1L, null.ok = TRUE
   )
   checkmate::assert_string(age_column_name)
@@ -89,14 +92,14 @@ calculate_age <- function(data,
   # NOTE: no default case defined, add a default case?
   divisor_age <- switch(age_in,
     years  = lubridate::years(1L),
-    months = months(1L), # from base
+    months = months(1L), # from base, lubridate provides method returning period
     weeks  = lubridate::weeks(1L),
     days   = lubridate::days(1) # not really necessary(difftime will be in days)
   )
 
   # switch divisor for remainder based on requested unit
   divisor_remainder <- switch(age_remainder_unit,
-    months = months(1L), # from base
+    months = months(1L), # from base as above
     weeks  = lubridate::weeks(1L),
     days   = lubridate::days(1)
   )
