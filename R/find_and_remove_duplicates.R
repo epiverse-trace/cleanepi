@@ -100,9 +100,10 @@ remove_duplicates <- function(data,
     report <- c(report, tmp_report)
     dat    <- dat %>%
       dplyr::mutate(row_id = seq_len(nrow(dat)))
-  } else {
-    message("\nNo duplicates found from the specified columns.")
   }
+  #else {
+    #message("\nNo duplicates found from the specified columns.")
+  #}
 
 
   # remove duplicates
