@@ -4,7 +4,7 @@ pkgdown_sha: ~
 articles:
   cleanepi: cleanepi.html
   design_principle: design_principle.html
-last_built: 2024-03-01T12:38Z
+last_built: 2024-03-07T12:35Z
 urls:
   reference: https://epiverse-trace.github.io/cleanepi/reference
   article: https://epiverse-trace.github.io/cleanepi/articles
