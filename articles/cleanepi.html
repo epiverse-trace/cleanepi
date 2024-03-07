@@ -698,12 +698,9 @@ cleaning operations to be performed.</li>
 <span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>cleaning column names</span>
 <span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>replacing missing values with <span class="cn">NA</span></span>
 <span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>removing duplicated rows</span>
-<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a></span>
-<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>No duplicates found from the specified columns.</span>
-<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a></span>
-<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a>standardising date columns</span>
-<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a>checking subject IDs format</span>
-<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a>performing dictionary<span class="sc">-</span>based cleaning</span></code></pre></div>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>standardising date columns</span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>checking subject IDs format</span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a>performing dictionary<span class="sc">-</span>based cleaning</span></code></pre></div>
 <p>It returns the cleaned dataset. The report generated from the data
 cleaning operations is a <code>list object</code> that is attached to
 the cleaned data and can be accessed using the <code><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr()</a></code>
@@ -2510,9 +2507,7 @@ remove constant columns or not. The default is <code>TRUE</code>
 <span>                                       package <span class="op">=</span> <span class="st">"cleanepi"</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  target_columns <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  remove         <span class="op">=</span> <span class="cn">NULL</span></span>
-<span><span class="op">)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; No duplicates found from the specified columns.</span></span></code></pre></div>
+<span><span class="op">)</span></span></code></pre></div>
 <p>Upon execution, the <code><a href="../reference/remove_duplicates.html">remove_duplicates()</a></code> function returns
 the input dataset with duplicated rows removed (if found). The details
 about the duplicates removal operation are reported as a list attached
