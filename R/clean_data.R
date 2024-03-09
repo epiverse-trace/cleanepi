@@ -124,8 +124,10 @@ clean_data <- function(
   ## | are cleaned based using {base r} and {epitrix} packages.
   ## | Column names in 'keep' will not be modified.
   ## -----
-  R.utils::cat("\ncleaning column names")
-  data <- standardize_column_names(data = data, keep = params[["keep"]])
+  if (!is.null(params[["keep"]])) {
+    R.utils::cat("\ncleaning column names")
+    data <- standardize_column_names(data = data, keep = params[["keep"]])
+  }
 
   ## -----
   ## | we choose to standardize on the value for the missing data.
@@ -168,14 +170,16 @@ clean_data <- function(
   ## | detect and convert columns with Date values. This conversion will make it
   ## | easy to apply the functions that operate on variables of type Date.
   ## -----
-  R.utils::cat("\nstandardising date columns")
-  data <- standardize_dates(
-    data            = data,
-    target_columns  = params[["standardize_date"]][["target_columns"]],
-    format          = params[["standardize_date"]][["format"]],
-    timeframe       = params[["standardize_date"]][["timeframe"]],
-    error_tolerance = params[["standardize_date"]][["error_tolerance"]]
-  )
+  if (!is.null(params[["standardize_date"]])) {
+    R.utils::cat("\nstandardising date columns")
+    data <- standardize_dates(
+      data            = data,
+      target_columns  = params[["standardize_date"]][["target_columns"]],
+      format          = params[["standardize_date"]][["format"]],
+      timeframe       = params[["standardize_date"]][["timeframe"]],
+      error_tolerance = params[["standardize_date"]][["error_tolerance"]]
+    )
+  }
 
   ## -----
   ## | We check whether the format of the subject IDs complies with the expected
