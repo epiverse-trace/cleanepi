@@ -84,14 +84,14 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level1">
 <div class="page-header">
-<img src="logo.svg" class="logo" alt=""><h1 id="id_-packagename--clean-and-standardize-epidemiological-data-">{{ packagename }}: Clean and standardize epidemiological data <a class="anchor" aria-label="anchor" href="#id_-packagename--clean-and-standardize-epidemiological-data-"></a>
+<img src="logo.svg" class="logo" alt=""><h1 id="cleanepi-clean-and-standardize-epidemiological-data-">cleanepi: Clean and standardize epidemiological data <a class="anchor" aria-label="anchor" href="#cleanepi-clean-and-standardize-epidemiological-data-"></a>
 </h1>
 </div>
 <!-- badges: start -->
 
 <!-- badges: end -->
-<p><strong>{{ packagename }}</strong> is an R package designed for cleaning, curating, and standardizing epidemiological data. It streamlines various data cleaning tasks that are typically expected when working with datasets in epidemiology.</p>
-<p>Key functionalities of <strong>{{ packagename }}</strong> include:</p>
+<p><strong>cleanepi</strong> is an R package designed for cleaning, curating, and standardizing epidemiological data. It streamlines various data cleaning tasks that are typically expected when working with datasets in epidemiology.</p>
+<p>Key functionalities of <strong>cleanepi</strong> include:</p>
 <ol style="list-style-type: decimal">
 <li><p><strong>Removing irregularities</strong>: It efficiently removes duplicated and empty rows and columns, as well as columns with constant values.</p></li>
 <li><p><strong>Handling missing values</strong>: It replaces missing values with the standard <code>NA</code> format, ensuring consistency and ease of analysis.</p></li>
@@ -100,21 +100,21 @@
 <li><p><strong>Standardizing entries</strong>: It can standardize column entries into specified formats, promoting consistency across the dataset.</p></li>
 <li><p><strong>Age calculation</strong>: It calculates age from a given <code>Date</code> column and a reference date, providing valuable demographic insights for epidemiological analysis.</p></li>
 </ol>
-<p><strong>{{ packagename }}</strong> operates on data frames or similar structures like tibbles, as well as linelist objects commonly used in epidemiological research. It returns the processed data in the same format, ensuring seamless integration into existing workflows. Additionally, it generates a comprehensive report detailing the outcomes of each cleaning task.</p>
-<p><strong>{{ packagename }}</strong> is developed by the <a href="https://data.org/initiatives/epiverse/" class="external-link">Epiverse-TRACE</a> team at the <a href="https://www.lshtm.ac.uk/research/units/mrc-gambia" class="external-link">Medical Research Council The Gambia unit at the London School of Hygiene and Tropical Medicine</a>.</p>
+<p><strong>cleanepi</strong> operates on data frames or similar structures like tibbles, as well as linelist objects commonly used in epidemiological research. It returns the processed data in the same format, ensuring seamless integration into existing workflows. Additionally, it generates a comprehensive report detailing the outcomes of each cleaning task.</p>
+<p><strong>cleanepi</strong> is developed by the <a href="https://data.org/initiatives/epiverse/" class="external-link">Epiverse-TRACE</a> team at the <a href="https://www.lshtm.ac.uk/research/units/mrc-gambia" class="external-link">Medical Research Council The Gambia unit at the London School of Hygiene and Tropical Medicine</a>.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>The latest development version of <strong>{{ packagename }}</strong> can be installed from <a href="https://epiverse-trace.github.io/cleanepi">GitHub</a>.</p>
+<p>The latest development version of <strong>cleanepi</strong> can be installed from <a href="https://epiverse-trace.github.io/cleanepi">GitHub</a>.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://pak.r-lib.org/" class="external-link">"pak"</a></span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"pak"</span><span class="op">)</span></span>
-<span><span class="co">#pak::pak("{{ gh_repo }}")</span></span>
+<span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"epiverse-trace/cleanepi"</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://epiverse-trace.github.io/cleanepi">cleanepi</a></span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="quick-start">Quick start<a class="anchor" aria-label="anchor" href="#quick-start"></a>
 </h2>
-<p>The main function in <strong>{{ packagename }}</strong> is <code>clean_data(),</code> which internally makes call of almost all standard data cleaning functions, such as removal of empty and duplicated rows and columns, replacement of missing values, etc. However, each function can also be called independently to perform a specific task. This mechanism is explained in details in the <strong>vignette</strong>. Below is typical example of how to use the <code><a href="reference/clean_data.html">clean_data()</a></code> function.</p>
+<p>The main function in <strong>cleanepi</strong> is <code>clean_data(),</code> which internally makes call of almost all standard data cleaning functions, such as removal of empty and duplicated rows and columns, replacement of missing values, etc. However, each function can also be called independently to perform a specific task. This mechanism is explained in details in the <strong>vignette</strong>. Below is typical example of how to use the <code><a href="reference/clean_data.html">clean_data()</a></code> function.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># READING IN THE TEST DATASET</span></span>
 <span><span class="va">test_data</span>       <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"test_df.RDS"</span>,</span>
@@ -499,9 +499,6 @@ sex
 <span><span class="co">#&gt; cleaning column names</span></span>
 <span><span class="co">#&gt; replacing missing values with NA</span></span>
 <span><span class="co">#&gt; removing duplicated rows</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; No duplicates found from the specified columns.</span></span>
-<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; standardising date columns</span></span>
 <span><span class="co">#&gt; checking subject IDs format</span></span>
 <span><span class="co">#&gt; converting sex into numeric</span></span>
@@ -515,10 +512,10 @@ sex
 STUDY_ID
 </th>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-DATE_OF_ADMISSION
+DATE.OF.ADMISSION
 </th>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-DATE_OF_BIRTH
+DATEOFBIRTH
 </th>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
 DATE_FIRST_PCR_POSITIVE_TEST
@@ -701,7 +698,7 @@ female
 <div class="section level3">
 <h3 id="code-of-conduct">Code of Conduct<a class="anchor" aria-label="anchor" href="#code-of-conduct"></a>
 </h3>
-<p>Please note that the {{ packagename }} project is released with a <a href="https://github.com/epiverse-trace/.github/blob/main/CODE_OF_CONDUCT.md" class="external-link">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
+<p>Please note that the cleanepi project is released with a <a href="https://github.com/epiverse-trace/.github/blob/main/CODE_OF_CONDUCT.md" class="external-link">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
 </div>
 </div>
 <div class="section level2">
@@ -711,18 +708,18 @@ female
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/citation.html" class="external-link">citation</a></span><span class="op">(</span><span class="st">"cleanepi"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; To cite package 'cleanepi' in publications use:</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;   Mané K (????). _cleanepi: Clean and standardize epidemiological</span></span>
-<span><span class="co">#&gt;   data_. R package version 0.0.2,</span></span>
-<span><span class="co">#&gt;   https://github.com/epiverse-trace/cleanepi,</span></span>
-<span><span class="co">#&gt;   &lt;https://epiverse-trace.github.io/cleanepi&gt;.</span></span>
+<span><span class="co">#&gt;   Mané K (2024). _cleanepi: Clean and Standardize Epidemiological</span></span>
+<span><span class="co">#&gt;   Data_.</span></span>
+<span><span class="co">#&gt;   &lt;https://epiverse-trace.github.io/cleanepi,https://github.com/epiverse-trace/cleanepi&gt;.</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; A BibTeX entry for LaTeX users is</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;   @Manual{,</span></span>
-<span><span class="co">#&gt;     title = {cleanepi: Clean and standardize epidemiological data},</span></span>
+<span><span class="co">#&gt;     title = {cleanepi: Clean and Standardize Epidemiological Data},</span></span>
 <span><span class="co">#&gt;     author = {Karim Mané},</span></span>
-<span><span class="co">#&gt;     note = {R package version 0.0.2, https://github.com/epiverse-trace/cleanepi},</span></span>
-<span><span class="co">#&gt;     url = {https://epiverse-trace.github.io/cleanepi},</span></span>
+<span><span class="co">#&gt;     year = {2024},</span></span>
+<span><span class="co">#&gt;     url = {https://epiverse-trace.github.io/cleanepi,</span></span>
+<span><span class="co">#&gt; https://github.com/epiverse-trace/cleanepi},</span></span>
 <span><span class="co">#&gt;   }</span></span></code></pre></div>
 </div>
 </div>
