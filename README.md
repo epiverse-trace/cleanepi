@@ -476,7 +476,16 @@ cleaned_data <- clean_data(
   params = params
 )
 #> 
-#> cleaning column names
+#> cleaning column names                        before                        after
+#> 1                     study_id                     study_id
+#> 2                   event_name                   event_name
+#> 3                 country_code                 country_code
+#> 4                 country_name                 country_name
+#> 5            date.of.admission            date_of_admission
+#> 6                  dateOfBirth                date_of_birth
+#> 7 date_first_pcr_positive_test date_first_pcr_positive_test
+#> 8                          sex                          sex
+#> 
 #> replacing missing values with NA
 #> removing duplicated rows
 #> 
@@ -701,19 +710,19 @@ By contributing to this project, you agree to abide by its terms.
 
 ``` r
 citation("cleanepi")
+#> 
 #> To cite package 'cleanepi' in publications use:
 #> 
-#>   Mané K (????). _cleanepi: Clean and standardize epidemiological
-#>   data_. R package version 0.0.2,
-#>   https://github.com/epiverse-trace/cleanepi,
-#>   <https://epiverse-trace.github.io/cleanepi>.
+#>   Mané K (????). _cleanepi: Clean and Standardize Epidemiological
+#>   Data_. https://epiverse-trace.github.io/cleanepi,
+#>   https://github.com/epiverse-trace/cleanepi.
 #> 
 #> A BibTeX entry for LaTeX users is
 #> 
 #>   @Manual{,
-#>     title = {cleanepi: Clean and standardize epidemiological data},
+#>     title = {cleanepi: Clean and Standardize Epidemiological Data},
 #>     author = {Karim Mané},
-#>     note = {R package version 0.0.2, https://github.com/epiverse-trace/cleanepi},
-#>     url = {https://epiverse-trace.github.io/cleanepi},
+#>     note = {https://epiverse-trace.github.io/cleanepi,
+#> https://github.com/epiverse-trace/cleanepi},
 #>   }
 ```
