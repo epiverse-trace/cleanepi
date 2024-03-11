@@ -9,10 +9,12 @@ check_date_sequence(data, target_columns, remove_bad_seq = FALSE)
 \arguments{
 \item{data}{A data frame}
 
-\item{target_columns}{A vector of event column names.
-Users should specify at least 2 column names in the expected order.
+\item{target_columns}{A vector of event column names. Users should specify at
+least 2 column names in the expected order.
 For example: target_columns = c("date_symptoms_onset",
-"date_hospitalization", "date_death").}
+"date_hospitalization", "date_death"). When the input data is a \code{linelist}
+object, this parameter can be set to \code{linelist_tags} if you wish to
+the date sequence across tagged columns only.}
 
 \item{remove_bad_seq}{A Boolean to specify if rows with incorrect order
 should be filtered out or not. The default is FALSE}

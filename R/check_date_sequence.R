@@ -4,10 +4,12 @@
 #' a vector of  specified columns is in order or not.
 #'
 #' @param data A data frame
-#' @param target_columns A vector of event column names.
-#'  Users should specify at least 2 column names in the expected order.
+#' @param target_columns A vector of event column names. Users should specify at
+#'    least 2 column names in the expected order.
 #'    For example: target_columns = c("date_symptoms_onset",
-#'    "date_hospitalization", "date_death").
+#'    "date_hospitalization", "date_death"). When the input data is a `linelist`
+#'    object, this parameter can be set to `linelist_tags` if you wish to
+#'    the date sequence across tagged columns only.
 #' @param remove_bad_seq A Boolean to specify if rows with incorrect order
 #'    should be filtered out or not. The default is FALSE
 #'
@@ -39,6 +41,7 @@ check_date_sequence <- function(data, target_columns,
                                                    fixed = TRUE)))
     target_columns <- trimws(target_columns)
   }
+  target_columns <- get_target_column_names(data, target_columns, cols = NULL)
 
   # check if all columns are part of the data frame
   if (!all(target_columns %in% names(data))) {
