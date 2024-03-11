@@ -1,8 +1,10 @@
 #' Standardize date variables
 #'
-#' @param data A data frame
-#' @param target_columns A vector or a comma-separated list of targeted date
-#'    column names.
+#' @param data A data frame or linelist
+#' @param target_columns A vector or a comma-separated list of the target date
+#'    column names. When the input data is a `linelist` object, this parameter
+#'    can be set to `linelist_tags` if you wish to standardize the date columns
+#'    across tagged columns only.
 #' @param format A format of the date values in the date columns
 #' @param timeframe A vector of 2 values of type date. If provided, date values
 #'    that do not fall within this timeframe will be set to `NA`.
@@ -39,7 +41,12 @@ standardize_dates <- function(data,
                             any.missing = FALSE, null.ok = TRUE)
 
   if (!is.null(target_columns)) {
-    target_columns <- date_check_column_existence(data, target_columns)
+    if (is.character(target_columns)) {
+      target_columns <- unlist(strsplit(target_columns, ",", fixed = TRUE))
+      target_columns <- trimws(target_columns)
+    }
+    target_columns <- get_target_column_names(data, target_columns, cols = NULL)
+
     if (!is.null(format)) {
       # we assume that when the format is provided, all values in that column
       # have the same format. Date standardization will be performed considering
