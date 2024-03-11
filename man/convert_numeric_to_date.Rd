@@ -4,13 +4,15 @@
 \alias{convert_numeric_to_date}
 \title{Convert numeric to date}
 \usage{
-convert_numeric_to_date(data, numeric_date_columns, ref_date, forward = TRUE)
+convert_numeric_to_date(data, target_columns, ref_date, forward = TRUE)
 }
 \arguments{
-\item{data}{A data frame}
+\item{data}{The input data frame or linelist}
 
-\item{numeric_date_columns}{A vector or a comma-separated list of  columns
-names to be converted from numeric to date}
+\item{target_columns}{A vector or a comma-separated list of columns names to
+be converted from numeric to date. When the input data is a \code{linelist}
+object, this parameter can be set to \code{linelist_tags} if you wish to only
+convert the tagged columns.}
 
 \item{ref_date}{A reference date}
 
@@ -22,4 +24,13 @@ A data frame where the column of interest are updated
 }
 \description{
 Convert numeric to date
+}
+\examples{
+data <- readRDS(system.file("extdata", "test_df1.RDS", package = "cleanepi"))
+data <- convert_numeric_to_date(
+  data           = data,
+  target_columns = "recruted_on_day",
+  ref_date       = as.Date("2022-10-13"),
+  forward        = TRUE
+)
 }

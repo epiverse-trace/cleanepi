@@ -269,6 +269,22 @@ summary(report)
 The `check_date_sequence()` function returns the input dataset or a subset of it without the rows that have incorrect date sequences, depending on whether the `remove_bad_seq` parameter is set to `TRUE`.
 It also provides a detailed report highlighting any discrepancies found in the date sequences, enabling users to take appropriate actions. Use the `print_report()` function to display the report made from this operation.
 
+### Converting character columns into numeric
+
+In certain scenarios, the input data contains columns where the number are written in letters. For instance, the ages of a study participants can be written in letters. Similarly, a column can contain values written in both numbers and letters (an age column where some values are written in numbers and others in letters). The `convert_to_numeric()` function offers the framework to convert all numbers written in letters from a given column into numeric. It takes the following arguments:
+
+1. **data**: A data frame or linelist (required).
+2. **target_columns**: A vector containing the names of the columns of interest. When dealing with a linelist, this can be set to `linelist_tags` if the tagged columns are the one to be converted into numeric. When `target_columns = NULL`, the function uses the output form the `scan_data()` function to identify the columns where the proportion of numeric values is at least twice as the percentage of character values. Those columns will be the columns of interest interest and the character values in them will be converted into numeric. 
+Note that any string in such column that can not be converted into numeric will be set to `NA` in the resulting data.
+
+```{r eval=TRUE, comment="check_date_order"}
+# CONVERT THE 'age' COLUMN IN THE TEST LINELIST DATA
+dat <- readRDS(system.file("extdata", "messy_data.RDS", package = "cleanepi"))
+head(dat$age, 10L)
+dat <- convert_to_numeric(dat, target_columns = "age")
+head(dat$age, 10L)
+```
+
 ### Finding duplicated rows
 
 The `find_duplicates()` function serves the purpose of identifying duplicated rows within a given dataset. It accepts the following parameters:
@@ -513,7 +529,7 @@ print_report(
   data             = data,
   report_title     = "{cleanepi} data cleaning report",
   output_directory = ".",
-  output_filename  = "template_data_report",
+  output_filename  = "cleaning_report",
   format           = "html",
   print            = TRUE
 )

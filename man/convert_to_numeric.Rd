@@ -4,32 +4,30 @@
 \alias{convert_to_numeric}
 \title{Convert columns into numeric}
 \usage{
-convert_to_numeric(data, to_numeric = NULL, scan_res = NULL)
+convert_to_numeric(data, target_columns = NULL)
 }
 \arguments{
-\item{data}{A data frame}
+\item{data}{The input data frame or linelist}
 
-\item{to_numeric}{A vector of column names}
-
-\item{scan_res}{A data frame obtained from the \code{scan_data()} function}
+\item{target_columns}{A vector of the target column names. When the input
+data is a \code{linelist} object, this parameter can be set to \code{linelist_tags}
+if the tagged columns are those to be converted into numeric.}
 }
 \value{
-A resulting data frame after the conversion process,
-wherein all the specified or detected columns have been transformed into
-numeric format.
+A data frame after the conversion process, wherein all the specified
+or detected columns have been transformed into numeric format.
 }
 \description{
 When the function is invoked without specifying the column names to be
 converted, it automatically scans for columns containing exclusively missing,
 numeric, and character values. Furthermore, it identifies columns where the
 proportion of numeric values is at least twice the percentage of character
-values.
+values and performs the conversion in them.
 }
 \examples{
 dat <- convert_to_numeric(
-  data = readRDS(system.file("extdata", "messy_data.RDS",
-                             package = "cleanepi")),
-  to_numeric = "age",
-  scan_res   = NULL
+  data           = readRDS(system.file("extdata", "messy_data.RDS",
+                                       package = "cleanepi")),
+  target_columns = "age"
 )
 }
