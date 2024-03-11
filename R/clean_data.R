@@ -205,14 +205,6 @@ clean_data <- function(
   }
 
   ## -----
-  ## | knowing the composition of every column of the data will help in deciding
-  ## | about what actions can be taken for a specific column.
-  ## | Note that any modification made to a column will be reported in the
-  ## | report object.
-  ## -----
-  scan_result <- scan_data(data = data)
-
-  ## -----
   ## | We convert the few character values into numeric when they are found in a
   ## | numeric column. This ensures that the values in a numeric column are
   ## | homogeneous.
@@ -223,9 +215,8 @@ clean_data <- function(
       glue::glue_collapse(params[["to_numeric"]], sep = ", "),
       "into numeric"
     )
-    data <- convert_to_numeric(data       = data,
-                               to_numeric = params[["to_numeric"]],
-                               scan_res   = scan_result)
+    data <- convert_to_numeric(data           = data,
+                               target_columns = params[["to_numeric"]])
   }
 
   ## -----
