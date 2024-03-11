@@ -7,7 +7,7 @@
 date_convert(data, cols, error_tolerance, timeframe = NULL)
 }
 \arguments{
-\item{data}{A data frame}
+\item{data}{A data frame or linelist}
 
 \item{cols}{date column name(s)}
 

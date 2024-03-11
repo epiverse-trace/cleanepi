@@ -13,7 +13,7 @@ date_convert_and_update(
 )
 }
 \arguments{
-\item{data}{A data frame}
+\item{data}{A data frame or linelist}
 
 \item{timeframe}{A vector of 2 values of type date. If provided, date values
 that do not fall within this timeframe will be set to \code{NA}.}

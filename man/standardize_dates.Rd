@@ -13,10 +13,12 @@ standardize_dates(
 )
 }
 \arguments{
-\item{data}{A data frame}
+\item{data}{A data frame or linelist}
 
-\item{target_columns}{A vector or a comma-separated list of targeted date
-column names.}
+\item{target_columns}{A vector or a comma-separated list of the target date
+column names. When the input data is a \code{linelist} object, this parameter
+can be set to \code{linelist_tags} if you wish to standardize the date columns
+across tagged columns only.}
 
 \item{format}{A format of the date values in the date columns}
 
