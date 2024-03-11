@@ -5,14 +5,14 @@ test_that("convert_to_numeric works", {
     target_columns = "age"
   )
   expect_s3_class(dat, "data.frame")
-  expect_true(inherits(dat$age, "numeric"))
+  expect_true(inherits(dat[["age"]], "numeric"))
 
   dat <- convert_to_numeric(
     data           = data,
     target_columns = NULL
   )
   expect_s3_class(dat, "data.frame")
-  expect_true(inherits(dat$age, "numeric"))
+  expect_true(inherits(dat[["age"]], "numeric"))
 })
 
 test_that("convert_to_numeric sends a warning when no column is provided and
@@ -57,6 +57,3 @@ test_that("detect_columns_to_convert sends a warning when no column is provided
                            identified from scan_data() function.")
             )
           })
-
-
-
