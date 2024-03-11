@@ -110,7 +110,10 @@ date_trim_outliers <- function(new_dates, dmin, dmax, cols, original_dates) {
 date_convert <- function(data, cols, error_tolerance,
                          timeframe = NULL) {
   # Guess the date using Thibault's parser
-  new_dates <- date_guess(data[[cols]], error_tolerance = error_tolerance)
+  new_dates   <- data[[cols]]
+  if (!inherits(data[[cols]], "Date")) {
+    new_dates <- date_guess(data[[cols]], error_tolerance = error_tolerance)
+  }
 
   # Trim outliers i.e. date values that are out of the range of the provided
   # timeframe

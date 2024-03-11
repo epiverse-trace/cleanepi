@@ -55,6 +55,9 @@ standardize_dates <- function(data,
       for (i in seq_along(target_columns)) {
         data[[target_columns[i]]] <- as.Date(data[[target_columns[i]]],
                                              format = format[i])
+        # check for outliers and set them to NA
+        data <- date_convert(data, target_columns[i], error_tolerance,
+                             timeframe = timeframe)
       }
     } else {
       for (cols in target_columns) {
