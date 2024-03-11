@@ -68,11 +68,10 @@ detect_columns_to_convert <- function(scan_res) {
         "character" %in% names(values)) {
       if (values[["numeric"]] > (2.0 * values[["character"]])) {
         to_numeric <- c(to_numeric, col)
-      }
-      else if (values[["numeric"]] == values[["character"]] ||
-          values[["numeric"]] < (2L * values[["character"]])) {
-        warning(sprintf("In '%s' column, the number of numeric values is same as
-                the number of character values", col), call. = FALSE)
+      } else if (values[["numeric"]] < (2L * values[["character"]])) {
+          warning(sprintf("In '%s' column, the number of numeric values is\n
+                          same as the number of character values", col),
+                  call. = FALSE)
       }
     } else {
       next
