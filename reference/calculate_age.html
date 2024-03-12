@@ -68,8 +68,9 @@
 <span>  <span class="va">data</span>,</span>
 <span>  target_column <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  end_date <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  age_in <span class="op">=</span> <span class="st">"years"</span>,</span>
-<span>  na_strings <span class="op">=</span> <span class="fu">cleanepi</span><span class="fu">::</span><span class="va"><a href="common_na_strings.html">common_na_strings</a></span></span>
+<span>  age_in <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"years"</span>, <span class="st">"months"</span>, <span class="st">"weeks"</span>, <span class="st">"days"</span><span class="op">)</span>,</span>
+<span>  age_column_name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf</a></span><span class="op">(</span><span class="st">"age_in_%s"</span>, <span class="va">age_in</span><span class="op">)</span>,</span>
+<span>  age_remainder_unit <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"months"</span>, <span class="st">"weeks"</span>, <span class="st">"days"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -85,7 +86,10 @@ interest.</p></dd>
 
 
 <dt>end_date</dt>
-<dd><p>An end date, the default is today's date.</p></dd>
+<dd><p>An end date. This should be in the format
+<code>%Y-%m-%d</code> ("2024-12-31" for 31st of December 2024). Otherwise, use the
+<code><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date()</a></code> function and specify the format of the end date. The default
+is today's date <code><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date()</a></code>.</p></dd>
 
 
 <dt>age_in</dt>
@@ -93,10 +97,15 @@ interest.</p></dd>
 'months', 'weeks' or 'days'. The default is in 'years'.</p></dd>
 
 
-<dt>na_strings</dt>
-<dd><p>A string that represents the missing values in the
-date column of interest. This is only needed when the date column
-contains missing values.</p></dd>
+<dt>age_column_name</dt>
+<dd><p>A string for the name of the new column to be used to
+store the calculated age in the input data.frame.</p></dd>
+
+
+<dt>age_remainder_unit</dt>
+<dd><p>A string for the unit in which the remainder of the
+age should be calculated. May be one of "months", "weeks", and "days".
+Remainders requested in the same unit as the age will return values of 0.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -105,20 +114,49 @@ contains missing values.</p></dd>
 
 <p>The input data frame with 2 additional columns:</p><ol><li><p>"age_in_years",  "age_in_months",  "age_in_weeks", or
 "age_in_days" depending on the value of the 'age_in' parameter.</p></li>
-<li><p>"remainder_days": A column with the number of remaining days after
-the age is calculated in years, weeks or months.</p></li>
+<li><p>"remainder_*": A column with the number of the remaining
+days (remainder_days) or weeks (remainder_weeks) or months
+(remainder_months) depending on the value of the 'age_remainder_unit'
+parameter.</p></li>
 </ol></div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">age</span> <span class="op">&lt;-</span> <span class="fu">calculate_age</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  data          <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"test_df.RDS"</span>,</span></span>
-<span class="r-in"><span>                                      package <span class="op">=</span> <span class="st">"cleanepi"</span><span class="op">)</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  target_column <span class="op">=</span> <span class="st">"dateOfBirth"</span>,</span></span>
-<span class="r-in"><span>  end_date      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  age_in        <span class="op">=</span> <span class="st">"months"</span>,</span></span>
-<span class="r-in"><span>  na_strings    <span class="op">=</span> <span class="st">"-99"</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"test_df.RDS"</span>, package <span class="op">=</span> <span class="st">"cleanepi"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># The 'dateOfBirth' column contains missing values recoded as "-99". let's</span></span></span>
+<span class="r-in"><span><span class="co"># replace them with NA</span></span></span>
+<span class="r-in"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="replace_missing_values.html">replace_missing_values</a></span><span class="op">(</span>data           <span class="op">=</span> <span class="va">data</span>,</span></span>
+<span class="r-in"><span>                               target_columns <span class="op">=</span> <span class="st">"dateOfBirth"</span>,</span></span>
+<span class="r-in"><span>                               na_strings     <span class="op">=</span> <span class="st">"-99"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># the calculate_age() function expects the date values to be given in ISO.</span></span></span>
+<span class="r-in"><span><span class="co"># Let's convert the 'dateOfBirth' column into ISO date</span></span></span>
+<span class="r-in"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="standardize_dates.html">standardize_dates</a></span><span class="op">(</span>data            <span class="op">=</span> <span class="va">data</span>,</span></span>
+<span class="r-in"><span>                          target_columns  <span class="op">=</span> <span class="st">"dateOfBirth"</span>,</span></span>
+<span class="r-in"><span>                          error_tolerance <span class="op">=</span> <span class="fl">0.0</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># calculate the age 'years' and return the remainder in 'months'</span></span></span>
+<span class="r-in"><span><span class="va">age</span> <span class="op">&lt;-</span> <span class="fu">calculate_age</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  data               <span class="op">=</span> <span class="va">data</span>,</span></span>
+<span class="r-in"><span>  target_column      <span class="op">=</span> <span class="st">"dateOfBirth"</span>,</span></span>
+<span class="r-in"><span>  end_date           <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  age_in             <span class="op">=</span> <span class="st">"years"</span>,</span></span>
+<span class="r-in"><span>  age_remainder_unit <span class="op">=</span> <span class="st">"months"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># The operations above can be written in a pipe-formatted way:</span></span></span>
+<span class="r-in"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"test_df.RDS"</span>, package <span class="op">=</span> <span class="st">"cleanepi"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">age</span>  <span class="op">&lt;-</span> <span class="va">data</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="replace_missing_values.html">replace_missing_values</a></span><span class="op">(</span>target_columns <span class="op">=</span> <span class="st">"dateOfBirth"</span>,</span></span>
+<span class="r-in"><span>                         na_strings     <span class="op">=</span> <span class="st">"-99"</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="standardize_dates.html">standardize_dates</a></span><span class="op">(</span>target_columns  <span class="op">=</span> <span class="st">"dateOfBirth"</span>,</span></span>
+<span class="r-in"><span>                    error_tolerance <span class="op">=</span> <span class="fl">0.0</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu">calculate_age</span><span class="op">(</span>target_column      <span class="op">=</span> <span class="st">"dateOfBirth"</span>,</span></span>
+<span class="r-in"><span>                end_date           <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                age_in             <span class="op">=</span> <span class="st">"years"</span>,</span></span>
+<span class="r-in"><span>                age_remainder_unit <span class="op">=</span> <span class="st">"months"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

@@ -3040,26 +3040,28 @@ individuals, expressed in years, months, weeks, or days, based on a
 given date column and a reference date. It requires the following
 arguments:</p>
 <ol style="list-style-type: decimal">
-<li>
-<strong>data</strong>: The input dataset (required).</li>
-<li>
-<strong>target_column</strong>: A vector of the name of the column
-containing the birth or relevant dates for which the age is being
-calculated (required).</li>
-<li>
-<strong>end_date</strong>: This is the reference date used to
+<li><p><strong>data</strong>: The input dataset (required).</p></li>
+<li><p><strong>target_column</strong>: A vector of the name of the
+column containing the birth or relevant dates for which the age is being
+calculated (required).</p></li>
+<li><p><strong>end_date</strong>: This is the reference date used to
 calculate the age of individuals (required). The function computes the
-age relative to this date.</li>
-<li>
-<strong>age_in</strong>: This parameter determines the unit in which
-the age is expressed (required). It can be specified as “years”,
+age relative to this date. The default value is today’s date
+(<code><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date()</a></code>) &gt; The format required for this argument is
+<code>%Y-%m-%d</code> (“2024-12-31” for 31st of December 2024).</p></li>
+<li><p><strong>age_in</strong>: This parameter determines the unit in
+which the age is expressed (required). It can be specified as “years”,
 “months”, “weeks”, or “days”. By default, the age is calculated in years
-if this parameter is not provided.</li>
-<li>
-<strong>na_strings</strong>: This is an extra parameters that is
-only needed when there are missing values in the date column of
-interest. It will be used to replace those missing values into
-<code>NA</code> prior to the age calculation.</li>
+if this parameter is not provided.</p></li>
+<li><p><strong>age_column_name</strong>: A string for the name of the
+age column added to the input data. The default is <code>age_in_*</code>
+where <code>*</code> represents the unit specified in the ‘age_in’
+argument.</p></li>
+<li><p><strong>age_remainder_unit</strong>: A parameter used to
+determine the number of the remaining days (remainder_days) or weeks
+(remainder_weeks) or months (remainder_months), depending on the value
+of the ‘age_remainder_unit’ parameter, after calculating the
+age.</p></li>
 </ol>
 <p>With these arguments, the function offers flexibility in determining
 the age of individuals based on different units and reference dates. It
@@ -3067,14 +3069,39 @@ facilitates various analytics tasks where age computation is a necessary
 component, providing users with the ability to customize the output
 according to their specific requirements.</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># CALCULATE INDIVIDUAL AGE FROM THE 'dateOfBirth' COLUMN</span></span>
+<code class="sourceCode R"><span><span class="co"># IMPORT THE INPUT DATA</span></span>
+<span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"test_df.RDS"</span>, package <span class="op">=</span> <span class="st">"cleanepi"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># REPLACE MISSING VALUES IN TARGET COLUMNS WITH `NA`</span></span>
+<span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/replace_missing_values.html">replace_missing_values</a></span><span class="op">(</span>data           <span class="op">=</span> <span class="va">data</span>,</span>
+<span>                               target_columns <span class="op">=</span> <span class="st">"dateOfBirth"</span>,</span>
+<span>                               na_strings     <span class="op">=</span> <span class="st">"-99"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># calculate_age() EXPECTS DATE VALUES IN ISO FORMAT. </span></span>
+<span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/standardize_dates.html">standardize_dates</a></span><span class="op">(</span>data            <span class="op">=</span> <span class="va">data</span>,</span>
+<span>                          target_columns  <span class="op">=</span> <span class="st">"dateOfBirth"</span>,</span>
+<span>                          error_tolerance <span class="op">=</span> <span class="fl">0.0</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># CALCULATE INDIVIDUAL AGE IN YEARS FROM THE 'dateOfBirth' COLUMN AND SEND THE</span></span>
+<span><span class="co"># REMAINDER IN MONTHS</span></span>
 <span><span class="va">age</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calculate_age.html">calculate_age</a></span><span class="op">(</span></span>
-<span>  data          <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"test_df.RDS"</span>,</span>
-<span>                                      package <span class="op">=</span> <span class="st">"cleanepi"</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>  target_column <span class="op">=</span> <span class="st">"dateOfBirth"</span>,</span>
-<span>  age_in        <span class="op">=</span> <span class="st">"days"</span>,</span>
-<span>  na_strings    <span class="op">=</span> <span class="st">"-99"</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<span>  data               <span class="op">=</span> <span class="va">data</span>,</span>
+<span>  target_column      <span class="op">=</span> <span class="st">"dateOfBirth"</span>,</span>
+<span>  end_date           <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  age_in             <span class="op">=</span> <span class="st">"years"</span>,</span>
+<span>  age_remainder_unit <span class="op">=</span> <span class="st">"months"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># USING THE dplyr SYNTHAX</span></span>
+<span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"test_df.RDS"</span>, package <span class="op">=</span> <span class="st">"cleanepi"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">age</span>  <span class="op">&lt;-</span> <span class="va">data</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/replace_missing_values.html">replace_missing_values</a></span><span class="op">(</span>target_columns <span class="op">=</span> <span class="st">"dateOfBirth"</span>,</span>
+<span>                         na_strings     <span class="op">=</span> <span class="st">"-99"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/standardize_dates.html">standardize_dates</a></span><span class="op">(</span>target_columns  <span class="op">=</span> <span class="st">"dateOfBirth"</span>, error_tolerance <span class="op">=</span> <span class="fl">0.0</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/calculate_age.html">calculate_age</a></span><span class="op">(</span>target_column      <span class="op">=</span> <span class="st">"dateOfBirth"</span>,</span>
+<span>                end_date           <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>                age_in             <span class="op">=</span> <span class="st">"years"</span>,</span>
+<span>                age_remainder_unit <span class="op">=</span> <span class="st">"months"</span><span class="op">)</span></span></code></pre></div>
 <p>The <code><a href="../reference/calculate_age.html">calculate_age()</a></code> function augments the input dataset
 by adding one or two extra columns containing age-related information.
 These additional columns are as follows:</p>
@@ -3116,7 +3143,10 @@ DATE_FIRST_PCR_POSITIVE_TEST
 SEX
 </th>
 <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
-AGE_DAYS
+AGE_IN_YEARS
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+REMAINDER_MONTHS
 </th>
 </tr></thead>
 <tbody>
@@ -3146,7 +3176,10 @@ Dec 01, 2020
 1
 </td>
 <td style="text-align:right;">
-19056
+52
+</td>
+<td style="text-align:right;">
+2
 </td>
 </tr>
 <tr>
@@ -3175,7 +3208,10 @@ Jan 01, 2021
 1
 </td>
 <td style="text-align:right;">
-26316
+72
+</td>
+<td style="text-align:right;">
+0
 </td>
 </tr>
 <tr>
@@ -3204,7 +3240,10 @@ Feb 11, 2021
 -99
 </td>
 <td style="text-align:right;">
-22913
+62
+</td>
+<td style="text-align:right;">
+8
 </td>
 </tr>
 <tr>
@@ -3233,7 +3272,10 @@ Feb 01, 2021
 1
 </td>
 <td style="text-align:right;">
-27878
+76
+</td>
+<td style="text-align:right;">
+4
 </td>
 </tr>
 <tr>
@@ -3262,7 +3304,10 @@ Feb 16, 2021
 2
 </td>
 <td style="text-align:right;">
-8565
+23
+</td>
+<td style="text-align:right;">
+5
 </td>
 </tr>
 <tr>
@@ -3289,6 +3334,9 @@ May 02, 2021
 </td>
 <td style="text-align:right;">
 2
+</td>
+<td style="text-align:right;">
+NA
 </td>
 <td style="text-align:right;">
 NA
@@ -3320,7 +3368,10 @@ Feb 19, 2021
 1
 </td>
 <td style="text-align:right;">
-12782
+35
+</td>
+<td style="text-align:right;">
+0
 </td>
 </tr>
 <tr>
@@ -3349,7 +3400,10 @@ Sep 20, 2021
 2
 </td>
 <td style="text-align:right;">
-17470
+47
+</td>
+<td style="text-align:right;">
+10
 </td>
 </tr>
 <tr>
@@ -3378,7 +3432,10 @@ Feb 26, 2021
 1
 </td>
 <td style="text-align:right;">
-11856
+32
+</td>
+<td style="text-align:right;">
+5
 </td>
 </tr>
 <tr>
@@ -3407,7 +3464,10 @@ Mar 03, 2021
 2
 </td>
 <td style="text-align:right;">
-11908
+32
+</td>
+<td style="text-align:right;">
+7
 </td>
 </tr>
 </tbody>
