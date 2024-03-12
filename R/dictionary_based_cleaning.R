@@ -72,7 +72,7 @@ construct_misspelled_report <- function(misspelled_options, data) {
 }
 
 
-#' Convert Redcap data dictionary into {matchmaker} dictionary format
+#' Convert Redcap data dictionary into \{matchmaker\} dictionary format
 #'
 #' @param metadata A data frame with the data dictionary associated to a
 #'    Redcap project
@@ -85,7 +85,7 @@ construct_misspelled_report <- function(misspelled_options, data) {
 #'    field type information
 #'
 #' @return a data frame with 4 columns. This is in the format required by the
-#'    {matchmaker} R package for dictionary-based cleaning.
+#'    \{matchmaker\} R package for dictionary-based cleaning.
 #' @keywords internal
 #'
 make_readcap_dictionary <- function(metadata,
@@ -120,7 +120,7 @@ make_readcap_dictionary <- function(metadata,
 #'    choices are made.
 #'
 #' @return A data frame with the dictionary in the format that is accepted by
-#'    the {matchmaker} package.
+#'    the \{matchmaker\} package.
 #' @keywords internal
 #'
 make_metadata <- function(x, field_column) {

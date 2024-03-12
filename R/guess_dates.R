@@ -38,7 +38,6 @@
 #'
 #' @param quiet a logical indicating if messages should be displayed to the
 #'     console (`TRUE`, default); set to `FALSE` to silence messages
-#' @param check_timeframe a logical to check whether dates fall within timeframe
 #'
 #' @details Converting ambiguous character strings to dates is difficult for
 #'     many reasons:
