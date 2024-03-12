@@ -695,12 +695,11 @@ cleaning operations to be performed.</li>
 <span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>  <span class="at">params =</span> params</span>
 <span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>)</span>
 <span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a></span>
-<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>cleaning column names</span>
-<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>replacing missing values with <span class="cn">NA</span></span>
-<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>removing duplicated rows</span>
-<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>standardising date columns</span>
-<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>checking subject IDs format</span>
-<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a>performing dictionary<span class="sc">-</span>based cleaning</span></code></pre></div>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>replacing missing values with <span class="cn">NA</span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>removing duplicated rows</span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>standardising date columns</span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>checking subject IDs format</span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>performing dictionary<span class="sc">-</span>based cleaning</span></code></pre></div>
 <p>It returns the cleaned dataset. The report generated from the data
 cleaning operations is a <code>list object</code> that is attached to
 the cleaned data and can be accessed using the <code><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr()</a></code>
@@ -715,7 +714,6 @@ below:</p>
 <span><span class="co"># SUMMARIZE THE REPORT OBJECT</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">report</span><span class="op">)</span></span>
 <span><span class="co">#&gt;                            Length Class      Mode     </span></span>
-<span><span class="co">#&gt; colnames                   2      data.frame list     </span></span>
 <span><span class="co">#&gt; missing_values_replaced_at 1      -none-     character</span></span>
 <span><span class="co">#&gt; out_of_range_dates         3      data.frame list     </span></span>
 <span><span class="co">#&gt; incorrect_subject_id       2      data.frame list</span></span></code></pre></div>
