@@ -476,7 +476,6 @@ cleaned_data <- clean_data(
   params = params
 )
 #> 
-#> cleaning column names
 #> replacing missing values with NA
 #> removing duplicated rows
 #> standardising date columns
