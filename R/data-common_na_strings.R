@@ -1,7 +1,7 @@
 #' Common strings representing missing values
 #'
 #'This vector contains common values of NA (missing) and is intended for
-#' use within {cleanepi} functions [replace_missing_values()].
+#' use within \{cleanepi\} functions [replace_missing_values()].
 #' The current list of strings used can be found by printing out
 #' `common_na_strings`. It serves as a helpful tool to explore your data
 #' for possible missing values. However, I strongly caution against using

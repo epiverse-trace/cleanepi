@@ -14,7 +14,7 @@ choices are made.}
 }
 \value{
 A data frame with the dictionary in the format that is accepted by
-the {matchmaker} package.
+the \{matchmaker\} package.
 }
 \description{
 Make data dictionary for 1 field

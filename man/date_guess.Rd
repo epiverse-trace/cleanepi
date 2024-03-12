@@ -38,8 +38,6 @@ successive tries in parsing.  This is passed on to
 \code{\link[lubridate:parse_date_time]{lubridate::parse_date_time()}}. Default orders
 (\code{getOption("linelist_guess_orders")}) parse World dmy/dby dates before US
 mdy/bdy dates.}
-
-\item{check_timeframe}{a logical to check whether dates fall within timeframe}
 }
 \description{
 Note that THIS FEATURE IS STILL EXPERIMENTAL: we strongly recommend checking

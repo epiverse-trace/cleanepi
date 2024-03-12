@@ -2,7 +2,7 @@
 % Please edit documentation in R/dictionary_based_cleaning.R
 \name{make_readcap_dictionary}
 \alias{make_readcap_dictionary}
-\title{Convert Redcap data dictionary into {matchmaker} dictionary format}
+\title{Convert Redcap data dictionary into \{matchmaker\} dictionary format}
 \usage{
 make_readcap_dictionary(metadata, field_column, opt_column, field_type)
 }
@@ -22,9 +22,9 @@ field type information}
 }
 \value{
 a data frame with 4 columns. This is in the format required by the
-{matchmaker} R package for dictionary-based cleaning.
+\{matchmaker\} R package for dictionary-based cleaning.
 }
 \description{
-Convert Redcap data dictionary into {matchmaker} dictionary format
+Convert Redcap data dictionary into \{matchmaker\} dictionary format
 }
 \keyword{internal}
