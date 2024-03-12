@@ -76,12 +76,14 @@
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>data</dt>
-<dd><p>A data frame</p></dd>
+<dd><p>A data frame or linelist</p></dd>
 
 
 <dt>target_columns</dt>
-<dd><p>A vector or a comma-separated list of targeted date
-column names.</p></dd>
+<dd><p>A vector or a comma-separated list of the target date
+column names. When the input data is a <code>linelist</code> object, this parameter
+can be set to <code>linelist_tags</code> if you wish to standardize the date columns
+across tagged columns only.</p></dd>
 
 
 <dt>format</dt>

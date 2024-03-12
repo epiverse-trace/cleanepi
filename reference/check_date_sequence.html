@@ -77,10 +77,12 @@ a vector of  specified columns is in order or not.</p>
 
 
 <dt>target_columns</dt>
-<dd><p>A vector of event column names.
-Users should specify at least 2 column names in the expected order.
+<dd><p>A vector of event column names. Users should specify at
+least 2 column names in the expected order.
 For example: target_columns = c("date_symptoms_onset",
-"date_hospitalization", "date_death").</p></dd>
+"date_hospitalization", "date_death"). When the input data is a <code>linelist</code>
+object, this parameter can be set to <code>linelist_tags</code> if you wish to
+the date sequence across tagged columns only.</p></dd>
 
 
 <dt>remove_bad_seq</dt>
