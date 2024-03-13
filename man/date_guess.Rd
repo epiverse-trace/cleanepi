@@ -6,7 +6,6 @@
 \usage{
 date_guess(
   x,
-  error_tolerance = 0.5,
   quiet = TRUE,
   modern_excel = TRUE,
   orders = list(world_named_months = c("Ybd", "dby"), world_digit_months = c("dmy",
@@ -16,12 +15,7 @@ date_guess(
 \arguments{
 \item{x}{A \code{character} vector or a \code{factor}}
 
-\item{error_tolerance}{a number between 0 and 1 indicating the proportion of
-entries which cannot be identified as dates to be tolerated; if this
-proportion is exceeded, the original vector is returned, and a message is
-issued; defaults to 0.1 (10 percent)}
-
-\item{quiet}{a logical indicating if messages should be displayed to the
+\item{quiet}{A logical indicating if messages should be displayed to the
 console (\code{TRUE}, default); set to \code{FALSE} to silence messages}
 
 \item{modern_excel}{When parsing dates from excel, some dates are stored as
@@ -32,12 +26,17 @@ all numeric values represent dates from either a Windows version of Excel
 or a 2011 or later version of Excel for OSX. Set this parameter to \code{FALSE}
 if the data came from an OSX version of Excel before 2011.}
 
-\item{orders}{date codes for fine-grained parsing of dates. This allows for
-parsing of mixed dates. If a list is supplied, that list will be used for
-successive tries in parsing.  This is passed on to
-\code{\link[lubridate:parse_date_time]{lubridate::parse_date_time()}}. Default orders
-(\code{getOption("linelist_guess_orders")}) parse World dmy/dby dates before US
-mdy/bdy dates.}
+\item{orders}{The date codes for fine-grained parsing of dates. This allows
+for parsing of mixed dates. If a list is supplied, that list will be used
+for successive tries in parsing. This is passed on to
+\code{\link[lubridate:parse_date_time]{lubridate::parse_date_time()}}. Default orders are:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{list(
+  world_named_months = c("Ybd", "dby"),
+  world_digit_months = c("dmy", "Ymd"),
+  US_formats         = c("Omdy", "YOmd")
+)
+}\if{html}{\out{</div>}}}
 }
 \description{
 Note that THIS FEATURE IS STILL EXPERIMENTAL: we strongly recommend checking
@@ -50,51 +49,6 @@ error threshold can be used to define the maximum number of resulting \code{NA}
 (i.e. entries without an identified date) that can be tolerated. If this
 threshold is exceeded, the original vector is returned.
 }
-\details{
-Converting ambiguous character strings to dates is difficult for
-many reasons:
-\itemize{
-\item dates may not use the standard Ymd format
-\item within the same variable, dates may follow different formats
-\item dates may be mixed with things that are not dates
-\item the behaviour of \code{as.Date} in the presence of non-date is hard to predict,
-sometimes returning \code{NA}, sometimes issuing an error.
-}
-
-This function tries to address all the above issues. Dates with the following
-format should be automatically detected, irrespective of separators
-(e.g. "-", " ", "/") and surrounding text:
-\itemize{
-\item "19 09 2018"
-\item "2018 09 19"
-\item "19 Sep 2018"
-\item "2018 Sep 19"
-\item "Sep 19 2018"
-}
-
-\subsection{How it works}{
-
-This function relies heavily on \code{\link[lubridate:parse_date_time]{lubridate::parse_date_time()}}, which is an
-extremely flexible date parser that works well for consistent date formats,
-but can quickly become unweildy and may produce spurious results.
-\code{guess_dates()} will use a list of formats in the \code{orders} argument to run
-\code{parse_date_time()} with each format vector separately and take the first
-correctly parsed date from all the trials. By default, the orders are in
-\code{getOption("linelist_guess_orders")}:
-
-\if{html}{\out{<div class="sourceCode">}}\preformatted{list(
-  world_named_months = c("Ybd", "dby"),
-  world_digit_months = c("dmy", "Ymd"),
-  US_formats         = c("Omdy", "YOmd")
-)
-}\if{html}{\out{</div>}}
-
-In this case, the dates 03 Jan 2018, 07/03/1982, and 08/20/85 are correctly
-intepreted as 2018-01-03, 1982-03-07, and 1985-08-20. The examples section
-will show how you can manipulate the \code{orders} to be customised for your
-situation.
-}
-}
 \examples{
 \dontrun{
 # Mixed format date -----------------------------------------
@@ -104,15 +58,17 @@ guess_dates(c("03 Jan 2018", "07/03/1982", "08/20/85")) # default
 # Prioritizing specific date formats ------------------------
 #
 # The default orders prioritize world date ordering over American-style.
-
-print(ord <- getOption("linelist_guess_orders"))
+orders <- list(
+  world_named_months = c("Ybd", "dby"),
+  world_digit_months = c("dmy", "Ymd"),
+  US_formats         = c("Omdy", "YOmd")
+)
 
 # if you want to prioritize American-style dates with numeric months, you
 # can switch the second and third elements of the default orders
 
-print(ord <- getOption("linelist_guess_orders"))
-print(us_ord <- ord[c(1, 3, 2)])
-guess_dates(c("03 Jan 2018", "07/03/1982", "08/20/85"), orders = us_ord)
+print(us_ord <- orders[c(1, 3, 2)])
+date_guess(c("03 Jan 2018", "07/03/1982", "08/20/85"), orders = us_ord)
 
 # Handling dates with time formats --------------------------
 #
@@ -120,22 +76,20 @@ guess_dates(c("03 Jan 2018", "07/03/1982", "08/20/85"), orders = us_ord)
 # to the list of formats. Note, however, that this function will drop levels
 # below day.
 
-print(ord$ymdhms <- c("Ymdhms", "Ymdhm"))
+print(orders$ymdhms <- c("Ymdhms", "Ymdhm"))
 
-guess_dates(c("2014_04_05_23:15:43", "03 Jan 2018",
-"07/03/1982", "08/20/85"), orders = ord)
+date_guess(c("2014_04_05_23:15:43", "03 Jan 2018",
+"07/03/1982", "08/20/85"), orders = orders)
 
 # Handling  missing and nonsense data -----------------------
 #
-# guess_dates can handle messy dates and tolerate missing data
+# date_guess can handle messy dates and tolerate missing data
 
 x <- c("01-12-2001", "male", "female", "2018-10-18", NA, NA, "2018_10_17",
        "43391", "2018 10 19", "// 24/12/1989", "this is 24/12/1989!",
        "RECON NGO: 19 Sep 2018 :)", "6/9/11", "10/10/10")
 
-guess_dates(x, error_tolerance = 1) # forced conversion
-
-guess_dates(x, error_tolerance = 0.15) # only 15\% errors allowed
+date_guess(x)
 }
 }
 \author{

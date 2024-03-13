@@ -25,16 +25,18 @@ Standardize column names of a data frame or linelist
 # do not rename 'date.of.admission'
 cleaned_data <- standardize_column_names(
   data = readRDS(system.file("extdata", "test_df.RDS",
-                             package = "cleanepi")),
+    package = "cleanepi"
+  )),
   keep = "date.of.admission"
 )
 
 # do not rename 'date.of.admission', but rename 'dateOfBirth' and 'sex' to
 # 'DOB' and 'gender' respectively
 cleaned_data <- standardize_column_names(
-  data   = readRDS(system.file("extdata", "test_df.RDS",
-                               package = "cleanepi")),
-  keep   = "date.of.admission",
+  data = readRDS(system.file("extdata", "test_df.RDS",
+    package = "cleanepi"
+  )),
+  keep = "date.of.admission",
   rename = "dateOfBirth = DOB, sex=gender"
 )
 

@@ -13,77 +13,10 @@
 #'
 #' @author Thibaut Jombart, Zhian N. Kamvar
 #'
-#'
 #' @param x A `character` vector or a `factor`
-#'
-#' @param error_tolerance a number between 0 and 1 indicating the proportion of
-#'     entries which cannot be identified as dates to be tolerated; if this
-#'     proportion is exceeded, the original vector is returned, and a message is
-#'     issued; defaults to 0.1 (10 percent)
-#'
-#' @param orders date codes for fine-grained parsing of dates. This allows for
-#'   parsing of mixed dates. If a list is supplied, that list will be used for
-#'   successive tries in parsing.  This is passed on to
-#'   [lubridate::parse_date_time()]. Default orders
-#'   (`getOption("linelist_guess_orders")`) parse World dmy/dby dates before US
-#'   mdy/bdy dates.
-#'
-#' @param modern_excel When parsing dates from excel, some dates are stored as
-#'   integers. Modern versions of Excel represent dates as the number of days
-#'   since 1900-01-01, but pre-2011 Excel for OSX have the origin set at
-#'   1904-01-01. If this parameter is `TRUE` (default), then this assumes that
-#'   all numeric values represent dates from either a Windows version of Excel
-#'   or a 2011 or later version of Excel for OSX. Set this parameter to `FALSE`
-#'   if the data came from an OSX version of Excel before 2011.
-#'
-#' @param quiet a logical indicating if messages should be displayed to the
+#' @param quiet A logical indicating if messages should be displayed to the
 #'     console (`TRUE`, default); set to `FALSE` to silence messages
-#'
-#' @details Converting ambiguous character strings to dates is difficult for
-#'     many reasons:
-#'
-#' - dates may not use the standard Ymd format
-#'
-#' - within the same variable, dates may follow different formats
-#'
-#' - dates may be mixed with things that are not dates
-#'
-#' - the behaviour of `as.Date` in the presence of non-date is hard to predict,
-#'   sometimes returning `NA`, sometimes issuing an error.
-#'
-#' This function tries to address all the above issues. Dates with the following
-#' format should be automatically detected, irrespective of separators
-#' (e.g. "-", " ", "/") and surrounding text:
-#'
-#' - "19 09 2018"
-#' - "2018 09 19"
-#' - "19 Sep 2018"
-#' - "2018 Sep 19"
-#' - "Sep 19 2018"
-#'
-#' \subsection{How it works}{
-#'
-#' This function relies heavily on [lubridate::parse_date_time()], which is an
-#' extremely flexible date parser that works well for consistent date formats,
-#' but can quickly become unweildy and may produce spurious results.
-#' `guess_dates()` will use a list of formats in the `orders` argument to run
-#' `parse_date_time()` with each format vector separately and take the first
-#' correctly parsed date from all the trials. By default, the orders are in
-#' `getOption("linelist_guess_orders")`:
-#'
-#' ```
-#' list(
-#'   world_named_months = c("Ybd", "dby"),
-#'   world_digit_months = c("dmy", "Ymd"),
-#'   US_formats         = c("Omdy", "YOmd")
-#' )
-#' ```
-#'
-#' In this case, the dates 03 Jan 2018, 07/03/1982, and 08/20/85 are correctly
-#' intepreted as 2018-01-03, 1982-03-07, and 1985-08-20. The examples section
-#' will show how you can manipulate the `orders` to be customised for your
-#' situation.
-#' }
+#' @inheritParams standardize_dates
 #'
 #' @examples
 #' \dontrun{
@@ -94,15 +27,17 @@
 #' # Prioritizing specific date formats ------------------------
 #' #
 #' # The default orders prioritize world date ordering over American-style.
-#'
-#' print(ord <- getOption("linelist_guess_orders"))
+#' orders <- list(
+#'   world_named_months = c("Ybd", "dby"),
+#'   world_digit_months = c("dmy", "Ymd"),
+#'   US_formats         = c("Omdy", "YOmd")
+#' )
 #'
 #' # if you want to prioritize American-style dates with numeric months, you
 #' # can switch the second and third elements of the default orders
 #'
-#' print(ord <- getOption("linelist_guess_orders"))
-#' print(us_ord <- ord[c(1, 3, 2)])
-#' guess_dates(c("03 Jan 2018", "07/03/1982", "08/20/85"), orders = us_ord)
+#' print(us_ord <- orders[c(1, 3, 2)])
+#' date_guess(c("03 Jan 2018", "07/03/1982", "08/20/85"), orders = us_ord)
 #'
 #' # Handling dates with time formats --------------------------
 #' #
@@ -110,27 +45,24 @@
 #' # to the list of formats. Note, however, that this function will drop levels
 #' # below day.
 #'
-#' print(ord$ymdhms <- c("Ymdhms", "Ymdhm"))
+#' print(orders$ymdhms <- c("Ymdhms", "Ymdhm"))
 #'
-#' guess_dates(c("2014_04_05_23:15:43", "03 Jan 2018",
-#' "07/03/1982", "08/20/85"), orders = ord)
+#' date_guess(c("2014_04_05_23:15:43", "03 Jan 2018",
+#' "07/03/1982", "08/20/85"), orders = orders)
 #'
 #' # Handling  missing and nonsense data -----------------------
 #' #
-#' # guess_dates can handle messy dates and tolerate missing data
+#' # date_guess can handle messy dates and tolerate missing data
 #'
 #' x <- c("01-12-2001", "male", "female", "2018-10-18", NA, NA, "2018_10_17",
 #'        "43391", "2018 10 19", "// 24/12/1989", "this is 24/12/1989!",
 #'        "RECON NGO: 19 Sep 2018 :)", "6/9/11", "10/10/10")
 #'
-#' guess_dates(x, error_tolerance = 1) # forced conversion
-#'
-#' guess_dates(x, error_tolerance = 0.15) # only 15% errors allowed
+#' date_guess(x)
 #' }
 #' @keywords internal
 #'
 date_guess <- function(x,
-                       error_tolerance = 0.5,
                        quiet           = TRUE,
                        modern_excel    = TRUE,
                        orders          = list(

@@ -4,18 +4,38 @@
 \alias{date_guess_convert}
 \title{Guess if a character vector contains Date values, and convert them to date}
 \usage{
-date_guess_convert(data, error_tolerance, timeframe)
+date_guess_convert(data, error_tolerance, timeframe, orders, modern_excel)
 }
 \arguments{
 \item{data}{A data frame}
 
-\item{error_tolerance}{A numeric value between 0 and 1 that signifies the
-proportion of entries that cannot be recognized as dates and are acceptable.
-For more detailed information, you can refer to the \code{clean_data()}
-helper function.}
+\item{error_tolerance}{A number between 0 and 1 indicating the proportion of
+entries which cannot be identified as dates to be tolerated; if this
+proportion is exceeded, the original vector is returned, and a message is
+issued; defaults to 0.4 (40 percent).}
 
-\item{timeframe}{The expected first and last date. See the \code{clean_data()}
-helper for more details.}
+\item{timeframe}{A vector of 2 values of type date. If provided, date values
+that do not fall within this timeframe will be set to \code{NA}.}
+
+\item{orders}{The date codes for fine-grained parsing of dates. This allows
+for parsing of mixed dates. If a list is supplied, that list will be used
+for successive tries in parsing. This is passed on to
+\code{\link[lubridate:parse_date_time]{lubridate::parse_date_time()}}. Default orders are:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{list(
+  world_named_months = c("Ybd", "dby"),
+  world_digit_months = c("dmy", "Ymd"),
+  US_formats         = c("Omdy", "YOmd")
+)
+}\if{html}{\out{</div>}}}
+
+\item{modern_excel}{When parsing dates from excel, some dates are stored as
+integers. Modern versions of Excel represent dates as the number of days
+since 1900-01-01, but pre-2011 Excel for OSX have the origin set at
+1904-01-01. If this parameter is \code{TRUE} (default), then this assumes that
+all numeric values represent dates from either a Windows version of Excel
+or a 2011 or later version of Excel for OSX. Set this parameter to \code{FALSE}
+if the data came from an OSX version of Excel before 2011.}
 }
 \description{
 Guess if a character vector contains Date values, and convert them to date

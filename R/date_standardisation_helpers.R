@@ -108,11 +108,13 @@ date_trim_outliers <- function(new_dates, dmin, dmax, cols, original_dates) {
 #' @keywords internal
 #'
 date_convert <- function(data, cols, error_tolerance,
-                         timeframe = NULL) {
+                         timeframe = NULL, orders, modern_excel) {
   # Guess the date using Thibault's parser
   new_dates   <- data[[cols]]
   if (!inherits(data[[cols]], "Date")) {
-    new_dates <- date_guess(data[[cols]], error_tolerance = error_tolerance)
+    new_dates <- date_guess(data[[cols]],
+                            orders       = orders,
+                            modern_excel = modern_excel)
   }
 
   # Trim outliers i.e. date values that are out of the range of the provided
@@ -179,16 +181,12 @@ date_convert_and_update <- function(data, timeframe, new_dates, cols,
 #' Guess if a character vector contains Date values, and convert them to date
 #'
 #' @param data A data frame
-#' @param error_tolerance A numeric value between 0 and 1 that signifies the
-#' proportion of entries that cannot be recognized as dates and are acceptable.
-#'  For more detailed information, you can refer to the `clean_data()`
-#'  helper function.
-#' @param timeframe The expected first and last date. See the `clean_data()`
-#'    helper for more details.
+#' @inheritParams standardize_dates
 #'
 #' @keywords internal
 #'
-date_guess_convert <- function(data, error_tolerance, timeframe) {
+date_guess_convert <- function(data, error_tolerance, timeframe,
+                               orders, modern_excel) {
   # guess and convert for column of type character, factor and POSIX
   col_types      <- vapply(data, function(x) class(x)[[1L]],
                            FUN.VALUE = "character")
@@ -206,7 +204,8 @@ date_guess_convert <- function(data, error_tolerance, timeframe) {
   outsiders     <- NULL
   of_interest   <- c(are_characters, are_factors, are_dates, are_posix)
   for (i in names(of_interest)) {
-    new_dates   <- date_guess(data[[i]], error_tolerance = error_tolerance)
+    new_dates   <- date_guess(data[[i]], orders = orders,
+                              modern_excel = modern_excel)
     if (!all(is.na(new_dates)) && is.null(timeframe)) {
       data[[i]] <- new_dates
     }

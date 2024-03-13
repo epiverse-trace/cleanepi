@@ -56,10 +56,16 @@
 #'
 #' # Parameters for dates standardization
 #' standardize_date <- list(target_columns  = NULL,
-#'                          error_tolerance = 0.5,
+#'                          error_tolerance = 0.4,
 #'                          format          = NULL,
 #'                          timeframe       = as.Date(c("1973-05-29",
-#'                                                      "2023-05-29")))
+#'                                                      "2023-05-29")),
+#'                          orders          = list(
+#'                            world_named_months = c("Ybd", "dby"),
+#'                            world_digit_months = c("dmy", "Ymd"),
+#'                            US_formats         = c("Omdy", "YOmd")
+#'                          ),
+#'                          modern_excel    = TRUE)
 #'
 #' # Parameters for subject IDs standardization
 #' standardize_subject_ids <- list(target_columns = "study_id",
@@ -102,9 +108,13 @@ clean_data <- function(
       ),
       standardize_dates = list(
         target_columns  = NULL,
-        error_tolerance = 0.5,
+        error_tolerance = 0.4,
         format          = NULL,
-        timeframe       = NULL
+        timeframe       = NULL,
+        orders          = list(world_named_months = c("Ybd", "dby"),
+                               world_digit_months = c("dmy", "Ymd"),
+                               US_formats         = c("Omdy", "YOmd")),
+        modern_excel    = TRUE
       ),
       standardize_subject_ids = list(
         target_columns = "id",
@@ -177,7 +187,9 @@ clean_data <- function(
       target_columns  = params[["standardize_date"]][["target_columns"]],
       format          = params[["standardize_date"]][["format"]],
       timeframe       = params[["standardize_date"]][["timeframe"]],
-      error_tolerance = params[["standardize_date"]][["error_tolerance"]]
+      error_tolerance = params[["standardize_date"]][["error_tolerance"]],
+      orders          = params[["standardize_date"]][["orders"]],
+      modern_excel    = params[["standardize_date"]][["modern_excel"]]
     )
   }
 
