@@ -22,9 +22,10 @@ that do not fall within this timeframe will be set to \code{NA}.}
 
 \item{cols}{The names of the date column been converted}
 
-\item{error_tolerance}{A numerical value between 0 and 1, indicating the
-proportion of entries which cannot be identified as dates to be tolerated.
-See the \code{clean_data()} helper for more details.}
+\item{error_tolerance}{A number between 0 and 1 indicating the proportion of
+entries which cannot be identified as dates to be tolerated; if this
+proportion is exceeded, the original vector is returned, and a message is
+issued; defaults to 0.4 (40 percent).}
 }
 \value{
 A list of 2 data frames: the updated input data (if some columns were

@@ -5,7 +5,11 @@ test_that("standardize_dates works with a data frame", {
     target_columns  = "date_first_pcr_positive_test",
     format          = NULL,
     timeframe       = NULL,
-    error_tolerance = 0.5
+    error_tolerance = 0.4,
+    orders          = list(world_named_months = c("Ybd", "dby"),
+                           world_digit_months = c("dmy", "Ymd"),
+                           US_formats         = c("Omdy", "YOmd")),
+    modern_excel    = TRUE
   )
   expect_s3_class(dat, "data.frame")
   expect_true(inherits(dat[["date_first_pcr_positive_test"]], "Date"))
@@ -15,7 +19,11 @@ test_that("standardize_dates works with a data frame", {
     target_columns  = c("date_first_pcr_positive_test", "date.of.admission"),
     format          = NULL,
     timeframe       = NULL,
-    error_tolerance = 0.5
+    error_tolerance = 0.4,
+    orders          = list(world_named_months = c("Ybd", "dby"),
+                           world_digit_months = c("dmy", "Ymd"),
+                           US_formats         = c("Omdy", "YOmd")),
+    modern_excel    = TRUE
   )
   expect_s3_class(dat, "data.frame")
   expect_true(inherits(dat[["date_first_pcr_positive_test"]], "Date"))
@@ -26,7 +34,11 @@ test_that("standardize_dates works with a data frame", {
     target_columns  = "date_first_pcr_positive_test, date.of.admission",
     format          = NULL,
     timeframe       = NULL,
-    error_tolerance = 0.5
+    error_tolerance = 0.4,
+    orders          = list(world_named_months = c("Ybd", "dby"),
+                           world_digit_months = c("dmy", "Ymd"),
+                           US_formats         = c("Omdy", "YOmd")),
+    modern_excel    = TRUE
   )
   expect_s3_class(dat, "data.frame")
   expect_true(inherits(dat[["date_first_pcr_positive_test"]], "Date"))
@@ -39,7 +51,11 @@ test_that("standardize_dates works with a data frame", {
     target_columns  = NULL,
     format          = NULL,
     timeframe       = NULL,
-    error_tolerance = 0.5
+    error_tolerance = 0.4,
+    orders          = list(world_named_months = c("Ybd", "dby"),
+                           world_digit_months = c("dmy", "Ymd"),
+                           US_formats         = c("Omdy", "YOmd")),
+    modern_excel    = TRUE
   )
   expect_s3_class(dat, "data.frame")
   expect_true(inherits(dat[["date_first_pcr_positive_test"]], "Date"))
@@ -51,7 +67,11 @@ test_that("standardize_dates works with a data frame", {
     target_columns  = "date.of.admission",
     format          = "%d/%m/%Y",
     timeframe       = NULL,
-    error_tolerance = 0.5
+    error_tolerance = 0.4,
+    orders          = list(world_named_months = c("Ybd", "dby"),
+                           world_digit_months = c("dmy", "Ymd"),
+                           US_formats         = c("Omdy", "YOmd")),
+    modern_excel    = TRUE
   )
   expect_s3_class(dat, "data.frame")
   expect_true(inherits(dat[["date.of.admission"]], "Date"))
@@ -61,7 +81,11 @@ test_that("standardize_dates works with a data frame", {
     target_columns  = "date.of.admission",
     format          = "%d/%m/%Y",
     timeframe       = c(as.Date("2021-01-01"), as.Date("2021-03-01")),
-    error_tolerance = 0.5
+    error_tolerance = 0.4,
+    orders          = list(world_named_months = c("Ybd", "dby"),
+                           world_digit_months = c("dmy", "Ymd"),
+                           US_formats         = c("Omdy", "YOmd")),
+    modern_excel    = TRUE
   )
   expect_s3_class(dat, "data.frame")
   expect_true(inherits(dat[["date.of.admission"]], "Date"))
@@ -78,7 +102,11 @@ test_that("standardize_dates works with a linelist", {
     target_columns  = "linelist_tags",
     format          = NULL,
     timeframe       = NULL,
-    error_tolerance = 0.5
+    error_tolerance = 0.4,
+    orders          = list(world_named_months = c("Ybd", "dby"),
+                           world_digit_months = c("dmy", "Ymd"),
+                           US_formats         = c("Omdy", "YOmd")),
+    modern_excel    = TRUE
   )
   expect_s3_class(dat, "data.frame")
   expect_true(inherits(dat, "linelist"))

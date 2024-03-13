@@ -9,7 +9,10 @@ standardize_dates(
   target_columns = NULL,
   format = NULL,
   timeframe = NULL,
-  error_tolerance = 0.5
+  error_tolerance = 0.5,
+  orders = list(world_named_months = c("Ybd", "dby"), world_digit_months = c("dmy",
+    "Ymd"), US_formats = c("Omdy", "YOmd")),
+  modern_excel = TRUE
 )
 }
 \arguments{
@@ -25,15 +28,75 @@ across tagged columns only.}
 \item{timeframe}{A vector of 2 values of type date. If provided, date values
 that do not fall within this timeframe will be set to \code{NA}.}
 
-\item{error_tolerance}{A numerical value between 0 and 1, indicating the
-proportion of entries which cannot be identified as dates to be tolerated.
-See the \code{clean_data()} helper for more details.}
+\item{error_tolerance}{A number between 0 and 1 indicating the proportion of
+entries which cannot be identified as dates to be tolerated; if this
+proportion is exceeded, the original vector is returned, and a message is
+issued; defaults to 0.4 (40 percent).}
+
+\item{orders}{The date codes for fine-grained parsing of dates. This allows
+for parsing of mixed dates. If a list is supplied, that list will be used
+for successive tries in parsing. This is passed on to
+\code{\link[lubridate:parse_date_time]{lubridate::parse_date_time()}}. Default orders are:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{list(
+  world_named_months = c("Ybd", "dby"),
+  world_digit_months = c("dmy", "Ymd"),
+  US_formats         = c("Omdy", "YOmd")
+)
+}\if{html}{\out{</div>}}}
+
+\item{modern_excel}{When parsing dates from excel, some dates are stored as
+integers. Modern versions of Excel represent dates as the number of days
+since 1900-01-01, but pre-2011 Excel for OSX have the origin set at
+1904-01-01. If this parameter is \code{TRUE} (default), then this assumes that
+all numeric values represent dates from either a Windows version of Excel
+or a 2011 or later version of Excel for OSX. Set this parameter to \code{FALSE}
+if the data came from an OSX version of Excel before 2011.}
 }
 \value{
 The input dataset where the date columns have been standardized
 }
 \description{
-Standardize date variables
+When the format of the values in a column is not provided, we strongly
+recommend checking a few converted dates manually. This function tries to
+extract dates from a \code{character} vector or a \code{factor}.
+}
+\details{
+Converting ambiguous character strings to dates is difficult for
+many reasons:
+\itemize{
+\item dates may not use the standard Ymd format
+\item within the same variable, dates may follow different formats
+\item dates may be mixed with things that are not dates
+\item the behavior of \code{as.Date} in the presence of non-date is hard to predict,
+sometimes returning \code{NA}, sometimes issuing an error.
+}
+
+This function tries to address all the above issues. Dates with the following
+format should be automatically detected, irrespective of separators
+(e.g. "-", " ", "/") and surrounding text:
+\itemize{
+\item "19 09 2018"
+\item "2018 09 19"
+\item "19 Sep 2018"
+\item "2018 Sep 19"
+\item "Sep 19 2018"
+}
+
+\subsection{How it works}{
+
+This function relies heavily on \code{\link[lubridate:parse_date_time]{lubridate::parse_date_time()}}, which is an
+extremely flexible date parser that works well for consistent date formats,
+but can quickly become unwieldy and may produce spurious results.
+\code{standardize_dates()} will use a list of formats in the \code{orders} argument to
+run \code{parse_date_time()} with each format vector separately and take the first
+correctly parsed date from all the trials.
+
+With the default orders shown above, the dates 03 Jan 2018, 07/03/1982, and
+08/20/85 are correctly interpreted as 2018-01-03, 1982-03-07, and 1985-08-20.
+The examples section will show how you can manipulate the \code{orders} to be
+customized for your situation.
+}
 }
 \examples{
 dat <- standardize_dates(
@@ -42,6 +105,10 @@ dat <- standardize_dates(
   target_columns  = "date_first_pcr_positive_test",
   format          = NULL,
   timeframe       = NULL,
-  error_tolerance = 0.5
+  error_tolerance = 0.4,
+  orders          = list(world_named_months = c("Ybd", "dby"),
+                         world_digit_months = c("dmy", "Ymd"),
+                         US_formats         = c("Omdy", "YOmd")),
+  modern_excel    = TRUE
 )
 }
