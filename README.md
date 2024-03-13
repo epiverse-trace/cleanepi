@@ -448,12 +448,28 @@ standardize_date        <- list(target_columns  = NULL,
                                 error_tolerance = 0.4,
                                 format          = NULL,
                                 timeframe       = as.Date(c("1973-05-29",
+<<<<<<< HEAD
                                                             "2023-05-29")))
 standardize_subject_ids <- list(target_columns = "study_id",
                                 prefix         = "PS",
                                 suffix         = "P2",
                                 range          = c(1, 100),
                                 nchar          = 7)
+=======
+                                                            "2023-05-29")),
+                                modern_excel    = TRUE,
+                                orders          = list(
+                                  world_named_months = c("Ybd", "dby"),
+                                  world_digit_months = c("dmy", "Ymd"),
+                                  US_formats         = c("Omdy", "YOmd")
+                                ))
+standardize_subject_ids <- list(id_col_name = "study_id",
+                                format      = NULL,
+                                prefix      = "PS",
+                                suffix      = "P2",
+                                range       = c(1, 100),
+                                remove      = TRUE)
+>>>>>>> a05e245 (Automatic readme update)
 params <- list(
   keep                    = NULL,
   replace_missing_values  = use_na, 
