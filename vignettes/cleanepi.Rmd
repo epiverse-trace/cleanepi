@@ -192,7 +192,9 @@ orders <- list(
 us_ord <- orders[c(1L, 3L, 2L)]
 
 # ADD A FORMAT WITH HOURS TO THE EXISTING orders
-orders$ymdhms <- c("Ymdhms", "Ymdhm") # this will allow for the conversion of values such as "2014_04_05_23:15:43" when they appear in the target columns.
+# THIS WILL ALLOW FOR THE CONVERSION OF VALUES SUCH AS "2014_04_05_23:15:43"
+# WHEN THEY APPEAR IN THE TARGET COLUMNS.
+orders$ymdhms <- c("Ymdhms", "Ymdhm")
 ```
 
 This function provides users with the flexibility to standardize date columns in their dataset according to specified requirements, including format, timeframe, and error tolerance for conversion from character to date columns.
@@ -213,7 +215,7 @@ res <- standardize_dates(
   orders          = list(world_named_months = c("Ybd", "dby"),
                          world_digit_months = c("dmy", "Ymd"),
                          US_formats         = c("Omdy", "YOmd")),
-  modern_excel    = TRUE 
+  modern_excel    = TRUE
 )
 ```
 
@@ -544,6 +546,11 @@ data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi")) |>
                          na_strings     = "-99") |>
   standardize_dates(target_columns  = "dateOfBirth",
                     error_tolerance = 0.0)
+
+# calculate_age() EXPECTS DATE VALUES IN ISO FORMAT
+data <- standardize_dates(data            = data,
+                          target_columns  = "dateOfBirth",
+                          error_tolerance = 0.0)
 
 # CALCULATE INDIVIDUAL AGE IN YEARS FROM THE 'dateOfBirth' COLUMN AND SEND THE
 # REMAINDER IN MONTHS
