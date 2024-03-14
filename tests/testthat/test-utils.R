@@ -68,3 +68,26 @@ test_that("get_target_column_names fails as expected", {
                  is only reserved for 'linelist' type of data.")
   )
 })
+
+data     <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi"))
+scan_res <- scan_data(data)
+
+# Perform data cleaning
+cleaned_data <- data |>
+  replace_missing_values(target_columns = "sex", na_strings = "-99") |>
+  clean_data(params = list(keep       = NULL,
+                           to_numeric = "sex",
+                           dictionary = NULL))
+
+test_that("add_to_report works as expected", {
+  cleaned_data <- add_to_report(x     = cleaned_data,
+                                key   = "scanning_result",
+                                value = scan_res)
+  report <- attr(cleaned_data, "report")
+  expect_type(report, "list")
+  expect_length(report, 3L)
+  expect_named(report, c("missing_values_replaced_at", "converted_into_numeric",
+                         "scanning_result"))
+  expect_identical(report[["missing_values_replaced_at"]], "sex")
+  expect_identical(report[["converted_into_numeric"]], "sex")
+})
