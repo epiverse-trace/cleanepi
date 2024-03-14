@@ -9,12 +9,13 @@ add_to_dictionary(dictionary, option, value, grp, order = NULL)
 \arguments{
 \item{dictionary}{A data frame with the data dictionary}
 
-\item{option}{A character with the new option to add to the dictionary}
+\item{option}{A vector of strings with the new options that need to be added
+to the dictionary.}
 
-\item{value}{A character with the value the new option should be replaced
-with.}
+\item{value}{A vector with the values to be used when replacing the new
+options.}
 
-\item{grp}{A character with the name of the column that contains the option
+\item{grp}{A vector with the name of the column that contains the option
 of interest.}
 
 \item{order}{A numeric with the order of the new option.}
