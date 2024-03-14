@@ -505,7 +505,7 @@ data <- replace_missing_values(data           = data,
                                target_columns = "dateOfBirth",
                                na_strings     = "-99")
 
-# calculate_age() EXPECTS DATE VALUES IN ISO FORMAT. 
+# calculate_age() EXPECTS DATE VALUES IN ISO FORMAT.
 data <- standardize_dates(data            = data,
                           target_columns  = "dateOfBirth",
                           error_tolerance = 0.0)
