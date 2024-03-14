@@ -30,7 +30,7 @@ clean_using_dictionary <- function(data, dictionary) {
   if (length(misspelled_options) > 0L) {
     print_misspelled_values(misspelled_options)
     message("Please add the misspelled options to the data dictionary using",
-            " the add_to_dictionary() function.", call. = FALSE)
+            " the add_to_dictionary() function.")
     misspelled_report <- construct_misspelled_report(misspelled_options, data)
     # add the result to the reporting object
     data <- add_to_report(x     = data,
@@ -139,10 +139,11 @@ make_metadata <- function(x, field_column) {
 #' Add an element to the data dictionary
 #'
 #' @param dictionary A data frame with the data dictionary
-#' @param option A character with the new option to add to the dictionary
-#' @param value A character with the value the new option should be replaced
-#'    with.
-#' @param grp A character with the name of the column that contains the option
+#' @param option A vector of strings with the new options that need to be added
+#'    to the dictionary.
+#' @param value A vector with the values to be used when replacing the new
+#'    options.
+#' @param grp A vector with the name of the column that contains the option
 #'    of interest.
 #' @param order A numeric with the order of the new option.
 #'
@@ -164,17 +165,24 @@ add_to_dictionary <- function(dictionary,
                                value,
                                grp,
                                order = NULL) {
-  checkmate::assert_character(option, len = 1L, any.missing = FALSE,
-                              null.ok = FALSE)
-  checkmate::assert_character(value, len = 1L, any.missing = TRUE,
-                              null.ok = FALSE)
-  checkmate::assert_character(grp, len = 1L, any.missing = FALSE,
-                              null.ok = FALSE)
+  if (!checkmate::check_vector(option, min.len = 1L, null.ok = FALSE)) {
+    checkmate::assert_character(option, len = 1L, any.missing = FALSE,
+                                null.ok = FALSE)
+  }
+  if (!checkmate::check_vector(value, min.len = 1L, null.ok = FALSE)) {
+    checkmate::assert_character(value, len = 1L, any.missing = TRUE,
+                                null.ok = FALSE)
+  }
+  if (!checkmate::check_vector(grp, min.len = 1L, null.ok = FALSE)) {
+    checkmate::assert_character(grp, len = 1L, any.missing = TRUE,
+                                null.ok = FALSE)
+  }
   checkmate::assert_numeric(order, any.missing = TRUE, lower = 1L,
                             null.ok = TRUE)
 
   # select the lines in the data dictionary where the column name is the same as
   # the value of the grp argument
+  max_order      <- max(dictionary[["orders"]])
   tmp_dictionary <- dictionary %>%
     dplyr::filter(grp == grp)
 
@@ -182,11 +190,18 @@ add_to_dictionary <- function(dictionary,
     dplyr::filter(grp != grp)
 
   # make the new order
-  new_order      <- ifelse(is.null(order),
-                           max(tmp_dictionary[["orders"]]) + 1L,
-                           order)
+  new_order      <- order
+  if (is.null(order)) {
+    new_order    <- max_order + seq_along(option)
+  }
 
   # make the data frame with the new option
+  if (length(value) == 1L) {
+    value        <- rep(value, length(option))
+  }
+  if (length(grp) == 1L) {
+    grp          <- rep(grp, length(option))
+  }
   new_option     <- data.frame(options = option,
                                values  = value,
                                grp     = grp,
