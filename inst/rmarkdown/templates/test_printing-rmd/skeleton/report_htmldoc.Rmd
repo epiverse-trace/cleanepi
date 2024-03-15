@@ -201,7 +201,6 @@ reactable::reactable(
                                minWidth = 200,
                                style    = list(fontWeight = "bold",
                                                color      = "#008000"))
-                                                   
   )
 )
 ```
