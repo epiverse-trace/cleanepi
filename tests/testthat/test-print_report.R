@@ -30,6 +30,8 @@ cleaned_data <- add_to_report(x     = cleaned_data,
 
 # perform the test
 test_that("print_report works", {
+  testthat::skip_on_cran()
+  testthat::skip_on_covr()
   expect_snapshot(
     print_report(
       data             = cleaned_data,
