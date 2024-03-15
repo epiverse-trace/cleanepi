@@ -20,6 +20,7 @@ params:
   misspelled_values: NULL
   incorrect_date_sequence: NULL
   report_title: "cleanepi report"
+  logo: NULL
 ---
 
 
@@ -40,7 +41,7 @@ p.compact {
 <script>
    $(document).ready(function() {
      $head = $('#header');
-     $head.prepend('<img src="`r xfun::base64_uri("/Users/karimmane/Documents/Karim/LSHTM/TRACE_dev/Packages/On_trace_github/cleanepi/man/figures/logo.svg")`" style="float: right; width: 100px;"/>')
+     $head.prepend('<img src="`r params$logo`" style="float: right; width: 100px;"/>')
    });
 </script>
 

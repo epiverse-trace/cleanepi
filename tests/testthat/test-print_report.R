@@ -45,6 +45,8 @@ test_that("print_report works", {
 })
 
 test_that("print_report fails when no report is associated to the data", {
+  testthat::skip_on_cran()
+  testthat::skip_on_covr()
   expect_error(
     print_report(
       data             = test_data,
