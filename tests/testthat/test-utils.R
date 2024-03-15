@@ -90,4 +90,16 @@ test_that("add_to_report works as expected", {
                          "scanning_result"))
   expect_identical(report[["missing_values_replaced_at"]], "sex")
   expect_identical(report[["converted_into_numeric"]], "sex")
+
+  data <- add_to_report(x     = data,
+                        key   = "scanning_result",
+                        value = scan_res)
+  report <- attr(data, "report")
+  expect_type(report, "list")
+  expect_length(report, 1L)
+  expect_named(report, "scanning_result")
+  expect_named(report[["scanning_result"]], c("Field_names", "missing",
+                                              "numeric", "date", "character",
+                                              "logical"))
+  expect_identical(nrow(report[["scanning_result"]]), ncol(data))
 })
