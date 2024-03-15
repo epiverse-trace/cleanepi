@@ -5,7 +5,7 @@ output:
     df_print: paged
 params:
   scanning_result: NULL
-  standardized_column_names: NULL
+  colnames: NULL
   missing_values_replaced_at: NULL
   empty_columns: "none"
   constant_columns: "none"
@@ -66,7 +66,7 @@ scanning_result <- params[["scanning_result"]]
 if (!is.null(scanning_result)) {
   is_data_scanned            <- TRUE
 }
-standardized_column_names <- params[["standardized_column_names"]]
+standardized_column_names <- params[["colnames"]]
 if (!is.null(standardized_column_names)) {
   are_column_standardised <- TRUE
 }
@@ -75,7 +75,7 @@ if (!is.null(out_of_range_dates)) {
   are_out_of_range_dates_found <- TRUE
 }
 incorrect_date_sequence <- params[["incorrect_date_sequence"]]
-if ("incorrect_date_sequence" %in% names(report)) {
+if (!is.null(incorrect_date_sequence)) {
   are_incorrect_date_seq_found <- TRUE
 }
 empty_columns           <- params[["empty_columns"]]
@@ -195,12 +195,13 @@ reactable::reactable(
   striped    = TRUE,
   highlight  = TRUE,
   columns    = list(
-    original_name = reactable::colDef(name     = "original name",
-                                      minWidth = 200),
-    new_name      = reactable::colDef(name     = "new name",
-                                      minWidth = 200,
-                                      style = list(fontWeight = "bold",
-                                                   color      = "#008000"))
+    before = reactable::colDef(name     = "original name",
+                               minWidth = 200),
+    after  = reactable::colDef(name     = "new name",
+                               minWidth = 200,
+                               style    = list(fontWeight = "bold",
+                                               color      = "#008000"))
+                                                   
   )
 )
 ```
