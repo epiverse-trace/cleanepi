@@ -42,6 +42,7 @@ Imports:
     naniar,
     numberize,
     R.utils,
+    reactable,
     readr,
     snakecase,
     stringr,
