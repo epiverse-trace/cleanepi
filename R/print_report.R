@@ -114,6 +114,9 @@ print_report <- function(data,
     overwrite = TRUE
   )
   report[["report_title"]] <- report_title
+  man_path                 <- file.path("man", "figures")
+  report[["logo"]]         <- system.file(man_path, "logo.svg",
+                                          package = "cleanepi")
 
   if (format == "html") {
     message("Generating html report...")
