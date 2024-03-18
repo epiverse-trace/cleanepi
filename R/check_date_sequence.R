@@ -10,11 +10,11 @@
 #'    "date_hospitalization", "date_death"). When the input data is a `linelist`
 #'    object, this parameter can be set to `linelist_tags` if you wish to
 #'    the date sequence across tagged columns only.
-#' @param remove_bad_seq A Boolean to specify if rows with incorrect order
+#' @param remove A Boolean to specify if rows with incorrect order
 #'    should be filtered out or not. The default is FALSE
 #'
 #' @returns Rows of the input data frame with incorrect date sequence
-#'    if `remove_bad_seq = FALSE`, the input data frame without those
+#'    if `remove = FALSE`, the input data frame without those
 #'    rows if not.
 #' @export
 #'
@@ -23,16 +23,16 @@
 #'   data           = readRDS(system.file("extdata", "test_df.RDS",
 #'                                        package = "cleanepi")),
 #'   target_columns = c("date_first_pcr_positive_test", "date.of.admission"),
-#'   remove_bad_seq = FALSE
+#'   remove         = FALSE
 #' )
 check_date_sequence <- function(data, target_columns,
-                                remove_bad_seq = FALSE) {
+                                remove = FALSE) {
 
   checkmate::assert_vector(target_columns, any.missing = FALSE, min.len = 1L,
                            max.len = dim(data)[2], null.ok = FALSE,
                            unique = TRUE)
   checkmate::assert_data_frame(data, null.ok = FALSE)
-  checkmate::assert_logical(remove_bad_seq, any.missing = FALSE, len = 1L,
+  checkmate::assert_logical(remove, any.missing = FALSE, len = 1L,
                             null.ok = FALSE)
 
   # check if input is character string
@@ -76,7 +76,7 @@ check_date_sequence <- function(data, target_columns,
             " incorrect date sequences at line(s): ",
             glue::glue_collapse(bad_order, sep = ", "),
             call. = FALSE)
-    if (remove_bad_seq) {
+    if (remove) {
       data  <- data[-bad_order, ]
       warning("The incorrect date sequences have been removed.",
               call. = FALSE)
