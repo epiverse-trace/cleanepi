@@ -371,6 +371,17 @@ references:
     orcid: https://orcid.org/0000-0003-1995-6531
   year: '2024'
 - type: software
+  title: reactable
+  abstract: 'reactable: Interactive Data Tables for R'
+  notes: Suggests
+  url: https://glin.github.io/reactable/
+  repository: https://CRAN.R-project.org/package=reactable
+  authors:
+  - family-names: Lin
+    given-names: Greg
+    email: glin@glin.io
+  year: '2024'
+- type: software
   title: rlang
   abstract: 'rlang: Functions for Base Types and Core R and ''Tidyverse'' Features'
   notes: Suggests
