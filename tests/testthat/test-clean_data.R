@@ -20,7 +20,8 @@ standardize_subject_ids <- list(id_col_name = "study_id",
                                 format      = NULL,
                                 prefix      = "PS",
                                 suffix      = "P2",
-                                range       = c(1, 100))
+                                range       = c(1, 100),
+                                remove      = TRUE)
 params <- list(
   keep                    = NULL,
   replace_missing_values  = use_na,
@@ -56,7 +57,8 @@ test_that("clean_data works in a pipable way", {
                       format         = NULL,
                       prefix         = "PS",
                       suffix         = "P2",
-                      range          = c(1L, 100L)) |>
+                      range          = c(1L, 100L),
+                      remove         = TRUE) |>
     convert_to_numeric(target_columns = "sex") |>
     clean_using_dictionary(dictionary = test_dictionary)
 

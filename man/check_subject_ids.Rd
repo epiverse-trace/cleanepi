@@ -2,7 +2,9 @@
 % Please edit documentation in R/standardize_subject_ids.R
 \name{check_subject_ids}
 \alias{check_subject_ids}
-\title{Check whether the subject IDs comply with the expected format}
+\title{Check whether the subject IDs comply with the expected format. When incorrect
+IDs are found, the function sends a message and the user can call the
+\code{correct_subject_ids()} function to correct them.}
 \usage{
 check_subject_ids(
   data,
@@ -10,11 +12,12 @@ check_subject_ids(
   format = NULL,
   prefix = NULL,
   suffix = NULL,
-  range = NULL
+  range = NULL,
+  remove = FALSE
 )
 }
 \arguments{
-\item{data}{A data frame}
+\item{data}{The input data frame or linelist}
 
 \item{id_column_name}{A column name of  the subject IDs. If not
 specified, the first column will be considered by default.}
@@ -26,13 +29,19 @@ specified, the first column will be considered by default.}
 \item{suffix}{A suffix used in the subject IDs}
 
 \item{range}{A vector with the range of numbers in the sample IDs}
+
+\item{remove}{A logical that is used to whether to remove the incorrect
+subject IDs or not. Default is \code{FALSE}.}
 }
 \value{
-A cleaned data frame with correct subject IDs. The incorrect
-subject ids will be stored in the report object.
+A cleaned data frame with only the correct subject IDs if
+\code{remove = TRUE}, or the input dataset otherwise. The incorrect subject ids
+will be stored in the report object.
 }
 \description{
-Check whether the subject IDs comply with the expected format
+Check whether the subject IDs comply with the expected format. When incorrect
+IDs are found, the function sends a message and the user can call the
+\code{correct_subject_ids()} function to correct them.
 }
 \examples{
 dat <- check_subject_ids(
@@ -42,6 +51,7 @@ dat <- check_subject_ids(
   format         = NULL,
   prefix         = "PS",
   suffix         = "P2",
-  range          = c(1, 100)
+  range          = c(1, 100),
+  remove         = TRUE
 )
 }
