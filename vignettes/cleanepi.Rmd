@@ -267,7 +267,8 @@ dat <- check_subject_ids(
 # GENERATE THE CORRECTION TABLE
 correction_table <- data.frame(
   from = c("P0005P2", "PB500P2", "PS004P2-1"),
-  to   = c("PB005P2", "PB050P2", "PS004P2")
+  to   = c("PB005P2", "PB050P2", "PS004P2"),
+  stringsAsFactors = FALSE
 )
 
 # perform the correction
