@@ -11,7 +11,8 @@ clean_data(
     NULL, rm_empty_rows = TRUE, rm_empty_cols = TRUE, rm_constant_cols = TRUE),
     standardize_dates = list(target_columns = NULL, error_tolerance = 0.5, format = NULL,
     timeframe = NULL), standardize_subject_ids = list(id_col_name = "id", format = NULL,
-    prefix = NULL, suffix = NULL, range = NULL), dictionary = NULL, to_numeric = NULL)
+    prefix = NULL, suffix = NULL, range = NULL, remove = FALSE), dictionary = NULL,
+    to_numeric = NULL)
 )
 }
 \arguments{
@@ -82,7 +83,8 @@ standardize_subject_ids <- list(id_col_name = "study_id",
                                 format      = NULL,
                                 prefix      = "PS",
                                 suffix      = "P2",
-                                range       = c(1, 100))
+                                range       = c(1, 100),
+                                remove      = TRUE)
 
 # to_numeric = "sex" the 'sex' column will be converted into numeric
 
