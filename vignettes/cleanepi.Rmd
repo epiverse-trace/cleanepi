@@ -246,7 +246,7 @@ The `check_date_sequence()` function verifies the order of sequences in date eve
 
 1. **data**: A data frame or linelist (required).
 2. **target_columns**: A vector containing the names of date columns of interest. These columns should be listed in the expected order of occurrence, reflecting the chronological sequence of events. For example, `target_columns = c("date_of_infection", "date_of_admission", "date_of_death")`.
-3. **remove_bad_seq**: A Boolean variable with a default value of `FALSE`. If set to `TRUE`, rows with incorrect date sequences will be removed from the output object. Otherwise, they will be flagged as erroneous and stored in the report object.
+3. **remove**: A Boolean variable with a default value of `FALSE`. If set to `TRUE`, rows with incorrect date sequences will be removed from the output object. Otherwise, they will be flagged as erroneous and stored in the report object.
 
 By utilizing these arguments, the `check_date_sequence()` function facilitates the validation of date sequences within a dataset, ensuring data integrity and accuracy for further analysis. Additionally, it offers flexibility by allowing users to choose whether to remove rows with incorrect sequences or store them for further examination in the report object.
 
@@ -256,7 +256,7 @@ res <- check_date_sequence(
   data           = readRDS(system.file("extdata", "test_df.RDS",
                                        package = "cleanepi")),
   target_columns = c("date_first_pcr_positive_test", "date.of.admission"),
-  remove_bad_seq = FALSE
+  remove         = FALSE
 )
 
 # EXTRACT THE REPORT

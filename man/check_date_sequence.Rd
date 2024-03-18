@@ -4,7 +4,7 @@
 \alias{check_date_sequence}
 \title{Check whether the order of the sequence of date-events is valid}
 \usage{
-check_date_sequence(data, target_columns, remove_bad_seq = FALSE)
+check_date_sequence(data, target_columns, remove = FALSE)
 }
 \arguments{
 \item{data}{A data frame}
@@ -16,12 +16,12 @@ For example: target_columns = c("date_symptoms_onset",
 object, this parameter can be set to \code{linelist_tags} if you wish to
 the date sequence across tagged columns only.}
 
-\item{remove_bad_seq}{A Boolean to specify if rows with incorrect order
+\item{remove}{A Boolean to specify if rows with incorrect order
 should be filtered out or not. The default is FALSE}
 }
 \value{
 Rows of the input data frame with incorrect date sequence
-if \code{remove_bad_seq = FALSE}, the input data frame without those
+if \code{remove = FALSE}, the input data frame without those
 rows if not.
 }
 \description{
@@ -33,6 +33,6 @@ good_date_sequence <- check_date_sequence(
   data           = readRDS(system.file("extdata", "test_df.RDS",
                                        package = "cleanepi")),
   target_columns = c("date_first_pcr_positive_test", "date.of.admission"),
-  remove_bad_seq = FALSE
+  remove         = FALSE
 )
 }

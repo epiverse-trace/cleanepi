@@ -41,7 +41,7 @@ test_that("check_date_sequence works as expected when target_column is provided
     data           = readRDS(system.file("extdata", "test_df.RDS",
                                          package = "cleanepi")),
     target_columns = c("date_first_pcr_positive_test", "date.of.admission"),
-    remove_bad_seq = FALSE
+    remove         = FALSE
   )
   expect_s3_class(good_date_sequence, "data.frame")
   expect_identical(nrow(good_date_sequence), 10L)
@@ -53,7 +53,7 @@ test_that("check_date_sequence works as expected when target_column is provided
               data           = readRDS(system.file("extdata", "test_df.RDS",
                                                    package = "cleanepi")),
               target_columns = "date_first_pcr_positive_test, date.of.admission", # nolint: line_length_linters
-              remove_bad_seq = FALSE
+              remove         = FALSE
             )
             expect_s3_class(good_date_sequence, "data.frame")
             expect_identical(nrow(good_date_sequence), 10L)
@@ -64,7 +64,7 @@ test_that("check_date_sequence works as expected", {
     data           = readRDS(system.file("extdata", "test_df.RDS",
                                          package = "cleanepi")),
     target_columns = c("date_first_pcr_positive_test", "date.of.admission"),
-    remove_bad_seq = TRUE
+    remove         = TRUE
   )
   expect_s3_class(good_date_sequence, "data.frame")
   expect_identical(nrow(good_date_sequence), 8L)
