@@ -453,7 +453,8 @@ standardize_subject_ids <- list(id_col_name = "study_id",
                                 format      = NULL,
                                 prefix      = "PS",
                                 suffix      = "P2",
-                                range       = c(1, 100))
+                                range       = c(1, 100),
+                                remove      = TRUE)
 params <- list(
   keep                    = NULL,
   replace_missing_values  = use_na, 
