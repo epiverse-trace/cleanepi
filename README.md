@@ -457,7 +457,8 @@ standardize_subject_ids <- list(id_col_name = "study_id",
                                 format      = NULL,
                                 prefix      = "PS",
                                 suffix      = "P2",
-                                range       = c(1, 100))
+                                range       = c(1, 100),
+                                remove      = TRUE)
 params <- list(
   keep                    = NULL,
   replace_missing_values  = use_na, 
@@ -699,15 +700,15 @@ By contributing to this project, you agree to abide by its terms.
 citation("cleanepi")
 #> To cite package 'cleanepi' in publications use:
 #> 
-#>   Mané K (2024). _cleanepi: Clean and Standardize Epidemiological
-#>   Data_.
+#>   Mané K, Bah B, Ahadzie B, Mohammed N, Degoot A (2024). _cleanepi:
+#>   Clean and Standardize Epidemiological Data_.
 #>   <https://epiverse-trace.github.io/cleanepi,https://github.com/epiverse-trace/cleanepi>.
 #> 
 #> A BibTeX entry for LaTeX users is
 #> 
 #>   @Manual{,
 #>     title = {cleanepi: Clean and Standardize Epidemiological Data},
-#>     author = {Karim Mané},
+#>     author = {Karim Mané and Bubacarr Bah and Bankolé Ahadzie and Nuredin Mohammed and Abdoelnaser Degoot},
 #>     year = {2024},
 #>     url = {https://epiverse-trace.github.io/cleanepi,
 #> https://github.com/epiverse-trace/cleanepi},
