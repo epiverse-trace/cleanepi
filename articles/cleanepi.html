@@ -128,8 +128,8 @@ cluttered datasets effectively.</p>
 character, logical and date values in every column of the input data
 frame.<br>
 </li>
-<li>Clean up column names and convert them to more sensible formats.
-This includes many sub-tasks such as changing a space, dot, or hyphen
+<li>Clean up column names and convert them to more intuitive formats.
+This includes many sub-tasks such as replacing a space, dot, or hyphen
 between two words with underscore; converting camel-cases to
 snake-cases; substituting foreign characters with their corresponding
 English characters; and splitting a long word into multiple short words
@@ -142,15 +142,15 @@ constant columns, i.e. columns with the same value across all
 rows.<br>
 </li>
 <li>Replace missing entries with <code>NA</code>.</li>
-<li>Check whether the the sequence of date events are correct in all
-rows of the input data.</li>
+<li>Check whether the sequence of date events are correct in all rows of
+the input data.</li>
 <li>Convert <code>character</code> columns into <code>Date</code> if the
 column actually contains values of type <code>Date</code> to some extent
 (default is 50% of the values are <code>Date</code>).</li>
 <li>Detect and remove rows with subject IDs that do not comply with the
 expected format.</li>
 <li>Perform dictionary-based cleaning: replace keys in specific columns
-with their corresponding values stored in a data dictionary file,
+with their corresponding values stored in a data dictionary file, and
 replace misspelled values with their correct ones.</li>
 <li>Convert numbers written in characters into numeric.</li>
 </ol>
@@ -680,7 +680,8 @@ we want to perform on the input data.</p>
 <span>  standardize_subject_ids <span class="op">=</span> <span class="va">stdn_ids</span>,</span>
 <span>  dictionary              <span class="op">=</span> <span class="va">test_dictionary</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p>The <code><a href="../reference/clean_data.html">clean_data()</a></code> requires 2 arguments:</p>
+<p>The <code><a href="../reference/clean_data.html">clean_data()</a></code> function, as shown below, requires 2
+arguments:</p>
 <ol style="list-style-type: decimal">
 <li>
 <strong>data</strong>: A <code>data.frame</code> or
@@ -703,10 +704,9 @@ cleaning operations to be performed.</li>
 <p>It returns the cleaned dataset. The report generated from the data
 cleaning operations is a <code>list object</code> that is attached to
 the cleaned data and can be accessed using the <code><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr()</a></code>
-function, as shown below. The report is automatically printed out, and
-it contains details of each cleaning operation that was performed
-successfully. However, users can access the report using the code
-below:</p>
+function. The report is automatically printed out, and it contains
+details of each cleaning operation that was performed successfully.
+However, users can access the report using the code below:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># ACCESS THE DATA CLEANING REPORT</span></span>
 <span><span class="va">report</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">cleaned_data</span>, <span class="st">"report"</span><span class="op">)</span></span>
