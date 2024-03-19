@@ -83,9 +83,8 @@ test_data       <- readRDS(system.file("extdata", "test_df.RDS",
 
 ```{r echo=FALSE, eval=TRUE}
 test_data |>
-  rlang::set_names(toupper) |>
   kableExtra::kbl() |>
-  kableExtra::kable_paper("striped", font_size = 18, full_width = TRUE) |>
+  kableExtra::kable_paper("striped", font_size = 14, full_width = TRUE) |>
   kableExtra::scroll_box(height = "200px", width = "100%",
                          box_css = "border: 1px solid #ddd; padding: 5px; ",
                          extra_css = NULL,
@@ -100,13 +99,8 @@ test_dictionary <- readRDS(system.file("extdata", "test_dictionary.RDS",
 
 ```{r echo=FALSE, eval=TRUE}
 test_dictionary |>
-  rlang::set_names(toupper) |>
   kableExtra::kbl() |>
-  kableExtra::kable_paper("striped", font_size = 18, full_width = TRUE) |>
-  kableExtra::scroll_box(height = "200px", width = "100%",
-                         box_css = "border: 1px solid #ddd; padding: 5px; ",
-                         extra_css = NULL,
-                         fixed_thead = TRUE)
+  kableExtra::kable_paper("striped", font_size = 14, full_width = TRUE)
 ```
 
 ```{r eval=TRUE}
@@ -148,9 +142,8 @@ cleaned_data <- clean_data(
 ```{r echo=FALSE, eval=TRUE}
 # VISUALISE THE CLEANED DATASET
 cleaned_data |>
-  rlang::set_names(toupper) |>
   kableExtra::kbl() |>
-  kableExtra::kable_paper("striped", font_size = 18, full_width = TRUE) |>
+  kableExtra::kable_paper("striped", font_size = 14, full_width = TRUE) |>
   kableExtra::scroll_box(height = "200px", width = "100%",
                          box_css = "border: 1px solid #ddd; padding: 5px; ",
                          extra_css = NULL,
