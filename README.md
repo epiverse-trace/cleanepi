@@ -87,32 +87,32 @@ test_data       <- readRDS(system.file("extdata", "test_df.RDS",
 
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:200px; overflow-x: scroll; width:100%; ">
 
-<table class=" lightable-paper lightable-striped" style="font-size: 18px; font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;">
+<table class=" lightable-paper lightable-striped" style="font-size: 14px; font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-STUDY_ID
+study_id
 </th>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-EVENT_NAME
+event_name
 </th>
 <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
-COUNTRY_CODE
+country_code
 </th>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-COUNTRY_NAME
+country_name
 </th>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-DATE.OF.ADMISSION
+date.of.admission
 </th>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-DATEOFBIRTH
+dateOfBirth
 </th>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-DATE_FIRST_PCR_POSITIVE_TEST
+date_first_pcr_positive_test
 </th>
 <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
-SEX
+sex
 </th>
 </tr>
 </thead>
@@ -388,22 +388,20 @@ test_dictionary <- readRDS(system.file("extdata", "test_dictionary.RDS",
                                        package = "cleanepi"))
 ```
 
-<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:200px; overflow-x: scroll; width:100%; ">
-
-<table class=" lightable-paper lightable-striped" style="font-size: 18px; font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;">
+<table class=" lightable-paper lightable-striped" style="font-size: 14px; font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
-<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-OPTIONS
+<th style="text-align:left;">
+options
 </th>
-<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-VALUES
+<th style="text-align:left;">
+values
 </th>
-<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-GRP
+<th style="text-align:left;">
+grp
 </th>
-<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
-ORDERS
+<th style="text-align:right;">
+orders
 </th>
 </tr>
 </thead>
@@ -438,8 +436,6 @@ sex
 </tr>
 </tbody>
 </table>
-
-</div>
 
 ``` r
 # DEFINING THE CLEANING PARAMETERS
@@ -486,25 +482,25 @@ cleaned_data <- clean_data(
 
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:200px; overflow-x: scroll; width:100%; ">
 
-<table class=" lightable-paper lightable-striped" style="font-size: 18px; font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;">
+<table class=" lightable-paper lightable-striped" style="font-size: 14px; font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
 </th>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-STUDY_ID
+study_id
 </th>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-DATE.OF.ADMISSION
+date.of.admission
 </th>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-DATEOFBIRTH
+dateOfBirth
 </th>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-DATE_FIRST_PCR_POSITIVE_TEST
+date_first_pcr_positive_test
 </th>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-SEX
+sex
 </th>
 </tr>
 </thead>
