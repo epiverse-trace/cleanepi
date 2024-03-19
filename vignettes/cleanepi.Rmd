@@ -52,9 +52,8 @@ test_data <- readRDS(system.file("extdata", "test_df.RDS",
 
 ```{r eval=TRUE, echo=FALSE}
 test_data |>
-  rlang::set_names(toupper) |>
   kableExtra::kbl() |>
-  kableExtra::kable_paper("striped", font_size = 18, full_width = TRUE) |>
+  kableExtra::kable_paper("striped", font_size = 14, full_width = TRUE) |>
   kableExtra::scroll_box(height = "200px", width = "100%",
                          box_css = "border: 1px solid #ddd; padding: 5px; ",
                          extra_css = NULL,
@@ -68,9 +67,8 @@ scan_result <- scan_data(test_data)
 
 ```{r eval=TRUE, echo=FALSE}
 scan_result |>
-  rlang::set_names(toupper) |>
   kableExtra::kbl() |>
-  kableExtra::kable_paper("striped", font_size = 18, full_width = TRUE) |>
+  kableExtra::kable_paper("striped", font_size = 14, full_width = TRUE) |>
   kableExtra::scroll_box(height = "200px", width = "100%",
                          box_css = "border: 1px solid #ddd; padding: 5px; ",
                          extra_css = NULL,
@@ -194,9 +192,8 @@ This function returns a the input dataset where the (specified) columns are conv
 
 ```{r echo=FALSE, eval=TRUE}
 res |>
-  rlang::set_names(toupper) |>
   kableExtra::kbl() |>
-  kableExtra::kable_paper("striped", font_size = 18, full_width = TRUE) |>
+  kableExtra::kable_paper("striped", font_size = 14, full_width = TRUE) |>
   kableExtra::scroll_box(height = "200px", width = "100%",
                          box_css = "border: 1px solid #ddd; padding: 5px; ",
                          extra_css = NULL,
@@ -246,7 +243,7 @@ The `check_date_sequence()` function verifies the order of sequences in date eve
 
 1. **data**: A data frame or linelist (required).
 2. **target_columns**: A vector containing the names of date columns of interest. These columns should be listed in the expected order of occurrence, reflecting the chronological sequence of events. For example, `target_columns = c("date_of_infection", "date_of_admission", "date_of_death")`.
-3. **remove_bad_seq**: A Boolean variable with a default value of `FALSE`. If set to `TRUE`, rows with incorrect date sequences will be removed from the output object. Otherwise, they will be flagged as erroneous and stored in the report object.
+3. **remove**: A Boolean variable with a default value of `FALSE`. If set to `TRUE`, rows with incorrect date sequences will be removed from the output object. Otherwise, they will be flagged as erroneous and stored in the report object.
 
 By utilizing these arguments, the `check_date_sequence()` function facilitates the validation of date sequences within a dataset, ensuring data integrity and accuracy for further analysis. Additionally, it offers flexibility by allowing users to choose whether to remove rows with incorrect sequences or store them for further examination in the report object.
 
@@ -256,7 +253,7 @@ res <- check_date_sequence(
   data           = readRDS(system.file("extdata", "test_df.RDS",
                                        package = "cleanepi")),
   target_columns = c("date_first_pcr_positive_test", "date.of.admission"),
-  remove_bad_seq = FALSE
+  remove         = FALSE
 )
 
 # EXTRACT THE REPORT
@@ -328,9 +325,8 @@ By including these extra columns, users gain insights into the specific rows ide
 report     <- attr(dups, "report")
 duplicates <- report$duplicated_rows
 duplicates |>
-  rlang::set_names(toupper) |>
   kableExtra::kbl() |>
-  kableExtra::kable_paper("striped", font_size = 18, full_width = TRUE) |>
+  kableExtra::kable_paper("striped", font_size = 14, full_width = TRUE) |>
   kableExtra::scroll_box(height = "200px", width = "100%",
                          box_css = "border: 1px solid #ddd; padding: 5px; ",
                          extra_css = NULL,
@@ -422,13 +418,8 @@ The `clean_using_dictionary()` function offers a convenient way to replace the o
 
 ```{r eval=TRUE, echo=FALSE}
 test_dictionary |>
-  rlang::set_names(toupper) |>
   kableExtra::kbl() |>
-  kableExtra::kable_paper("striped", font_size = 18, full_width = TRUE) |>
-  kableExtra::scroll_box(height = "200px", width = "100%",
-                         box_css = "border: 1px solid #ddd; padding: 5px; ",
-                         extra_css = NULL,
-                         fixed_thead = TRUE)
+  kableExtra::kable_paper("striped", font_size = 14, full_width = TRUE)
 ```
 
 The `add_to_dictionary()` function is a useful tool for expanding the coverage of a data dictionary by defining options that are present in the input data but not originally included in the dictionary. This function enables users to dynamically update the dictionary to accommodate new values encountered in the dataset. In addition to the current data dictionary the function takes the arguments defined below:
@@ -453,13 +444,8 @@ test_dictionary <- add_to_dictionary(test_dictionary,
 
 ```{r eval=TRUE, echo=FALSE}
 test_dictionary |>
-  rlang::set_names(toupper) |>
   kableExtra::kbl() |>
-  kableExtra::kable_paper("striped", font_size = 18, full_width = TRUE) |>
-  kableExtra::scroll_box(height = "200px", width = "100%",
-                         box_css = "border: 1px solid #ddd; padding: 5px; ",
-                         extra_css = NULL,
-                         fixed_thead = TRUE)
+  kableExtra::kable_paper("striped", font_size = 14, full_width = TRUE)
 ```
 
 
@@ -472,9 +458,8 @@ cleaned_df <- clean_using_dictionary(
 
 ```{r eval=TRUE, echo=FALSE}
 cleaned_df |>
-  rlang::set_names(toupper) |>
   kableExtra::kbl() |>
-  kableExtra::kable_paper("striped", font_size = 18, full_width = TRUE) |>
+  kableExtra::kable_paper("striped", font_size = 14, full_width = TRUE) |>
   kableExtra::scroll_box(height = "200px", width = "100%",
                          box_css = "border: 1px solid #ddd; padding: 5px; ",
                          extra_css = NULL,
@@ -541,9 +526,8 @@ The `calculate_age()` function augments the input dataset by adding one or two e
 ```{r eval=TRUE, echo=FALSE}
 # DISPLAY THE OUTPUT OBJECT
 age |>
-  rlang::set_names(toupper) |>
   kableExtra::kbl() |>
-  kableExtra::kable_paper("striped", font_size = 18, full_width = TRUE) |>
+  kableExtra::kable_paper("striped", font_size = 14, full_width = TRUE) |>
   kableExtra::scroll_box(height = "200px", width = "100%",
                          box_css = "border: 1px solid #ddd; padding: 5px; ",
                          extra_css = NULL,
