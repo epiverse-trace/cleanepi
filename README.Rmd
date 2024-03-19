@@ -161,6 +161,7 @@ print_report(report)
 ```
 
 ## Vignette
+
 ```{r eval=FALSE}
 browseVignettes("cleanepi")
 ```
