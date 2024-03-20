@@ -81,12 +81,50 @@ test_that("calculate_age works when age is calculated in years and
 
 test_that("calculate_age works when age is calculated in days", {
   age <- calculate_age(
-    data               = data,
-    target_column      = "dateOfBirth",
-    end_date           = Sys.Date(),
-    age_in             = "days"
+    data          = data,
+    target_column = "dateOfBirth",
+    end_date      = Sys.Date(),
+    age_in        = "days"
   )
   expect_s3_class(age, "data.frame")
   expect_identical(ncol(age), 9L)
   expect_identical(names(age)[9L], "age_in_days")
+})
+
+test_that("calculate_age works when age remainder is sent in decimal", {
+  age <- calculate_age(
+    data               = data,
+    target_column      = "dateOfBirth",
+    end_date           = Sys.Date(),
+    age_in             = "years",
+    age_remainder_unit = "digits"
+  )
+  expect_s3_class(age, "data.frame")
+  expect_identical(ncol(age), 9L)
+  expect_identical(names(age)[9L], "age_in_years")
+  expect_identical(typeof(age[["age_in_years"]]), "double")
+
+  age <- calculate_age(
+    data               = data,
+    target_column      = "dateOfBirth",
+    end_date           = Sys.Date(),
+    age_in             = "months",
+    age_remainder_unit = "digits"
+  )
+  expect_s3_class(age, "data.frame")
+  expect_identical(ncol(age), 9L)
+  expect_identical(names(age)[9L], "age_in_months")
+  expect_identical(typeof(age[["age_in_months"]]), "double")
+
+  age <- calculate_age(
+    data               = data,
+    target_column      = "dateOfBirth",
+    end_date           = Sys.Date(),
+    age_in             = "weeks",
+    age_remainder_unit = "digits"
+  )
+  expect_s3_class(age, "data.frame")
+  expect_identical(ncol(age), 9L)
+  expect_identical(names(age)[9L], "age_in_weeks")
+  expect_identical(typeof(age[["age_in_weeks"]]), "double")
 })

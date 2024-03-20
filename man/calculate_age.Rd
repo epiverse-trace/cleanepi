@@ -8,9 +8,9 @@ calculate_age(
   data,
   target_column = NULL,
   end_date = Sys.Date(),
-  age_in = c("years", "months", "weeks", "days"),
+  age_in = "years",
   age_column_name = sprintf("age_in_\%s", age_in),
-  age_remainder_unit = c("months", "weeks", "days")
+  age_remainder_unit = "digits"
 )
 }
 \arguments{
@@ -31,8 +31,9 @@ is today's date \code{Sys.Date()}.}
 store the calculated age in the input data.frame.}
 
 \item{age_remainder_unit}{A string for the unit in which the remainder of the
-age should be calculated. May be one of "months", "weeks", and "days".
-Remainders requested in the same unit as the age will return values of 0.}
+age should be calculated. May be one of "digits", "months", "weeks", and
+"days". Remainders requested in the same unit as the age will return
+values of 0. Default is "digits" i.e. decimal age.}
 }
 \value{
 The input data frame with 2 additional columns:
