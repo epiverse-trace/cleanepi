@@ -520,23 +520,17 @@ The `calculate_age()` function computes the ages of individuals, expressed in ye
 
 4. **age_in**: This parameter determines the unit in which the age is expressed (required). It  can be specified as "years", "months", "weeks", or "days". By default, the age is calculated in years if this parameter is not provided.
 5. **age_column_name**: A string for the name of the age column added to the input data. The default is `age_in_*` where `*` represents the unit specified in the 'age_in' argument.
-6. **age_remainder_unit**: A parameter used to determine the number of the remaining days (remainder_days) or weeks (remainder_weeks) or months (remainder_months), depending on the value of the 'age_remainder_unit' parameter, after calculating the age.
+6. **age_remainder_unit**: A parameter used to determine the number of the remaining days (remainder_days) or weeks (remainder_weeks) or months (remainder_months), depending on the value of the 'age_in' parameter, after calculating the age. By default, the function returns decimal age i.e. `age_remainder_unit = "digits"`.
 
 With these arguments, the function offers flexibility in determining the age of individuals based on different units and reference dates. It facilitates various analytics tasks where age computation is a necessary component, providing users with the ability to customize the output according to their specific requirements.
 
 ```{r eval=TRUE}
-# IMPORT THE INPUT DATA
-data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi"))
-
-# REPLACE MISSING VALUES IN TARGET COLUMNS WITH `NA`
-data <- replace_missing_values(data           = data,
-                               target_columns = "dateOfBirth",
-                               na_strings     = "-99")
-
-# calculate_age() EXPECTS DATE VALUES IN ISO FORMAT.
-data <- standardize_dates(data            = data,
-                          target_columns  = "dateOfBirth",
-                          error_tolerance = 0.0)
+# IMPORT DATA, REPLACE MISSING VALUES WITH 'NA' & STANDARDISE DATES
+data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi")) |>
+  replace_missing_values(target_columns = "dateOfBirth",
+                         na_strings     = "-99") |>
+  standardize_dates(target_columns  = "dateOfBirth",
+                    error_tolerance = 0.0)
 
 # CALCULATE INDIVIDUAL AGE IN YEARS FROM THE 'dateOfBirth' COLUMN AND SEND THE
 # REMAINDER IN MONTHS
@@ -548,7 +542,8 @@ age <- calculate_age(
   age_remainder_unit = "months"
 )
 
-# USING THE dplyr SYNTHAX
+# CALCULATE INDIVIDUAL AGE IN YEARS FROM THE 'dateOfBirth' COLUMN AND SEND THE
+# REMAINDER IN DIGITS
 data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi"))
 age  <- data |>
   replace_missing_values(target_columns = "dateOfBirth",
@@ -557,7 +552,7 @@ age  <- data |>
   calculate_age(target_column      = "dateOfBirth",
                 end_date           = Sys.Date(),
                 age_in             = "years",
-                age_remainder_unit = "months")
+                age_remainder_unit = "digits")
 ```
 
 The `calculate_age()` function augments the input dataset by adding one or two extra columns containing age-related information. These additional columns are as follows:
