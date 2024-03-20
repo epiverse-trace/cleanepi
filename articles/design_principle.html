@@ -123,14 +123,11 @@ cleaning tasks as needed, enhancing flexibility and usability.</p>
 <p><img src="../reference/figures/cleanepi_design_diagram.drawio.png"><!-- --></p>
 <p>At the core of {cleanepi}, the pivotal function
 <code><a href="../reference/clean_data.html">clean_data()</a></code> serves as a wrapper encapsulating all the
-modules, as illustrated in Figure <span class="citation">@fig:1</span>.
-This function is intended to be the primary entry point for users
-seeking to cleanse their data. We have categorized cleaning actions into
-two main types: <strong>implicit</strong> and <strong>explicit</strong>.
-Implicit actions are executed by default, regardless of user
-specifications; while explicit actions are performed only upon user
-request.</p>
-<p>In addition, this package also has two surrogate functions:</p>
+modules, as illustrated in the figure above. This function is intended
+to be the primary entry point for users seeking to cleanse their data.
+It performs the cleaning operations as requested by the user through the
+set of parameters that need to be explicitly defined. In addition, this
+package also has two surrogate functions:</p>
 <ol style="list-style-type: decimal">
 <li>
 <code><a href="../reference/scan_data.html">scan_data()</a></code>: This function enables users to assess the
@@ -148,20 +145,19 @@ process.</li>
 <p>{cleanepi} is an R package crafted to clean, curate, and standardize
 tabular datasets, with a particular focus on epidemiological data. In
 the architecture of {cleanepi}, the data cleaning operations are
-categorized into modules, each provides specific data cleaning task. The
-modules in the current version of {cleanepi} encompass:</p>
+categorized into modules, each provides a specific data cleaning task.
+The modules in the current version of {cleanepi} encompass the:</p>
 <ul>
-<li>Standardization of column names</li>
-<li>Removal of duplicates</li>
-<li>Replacement of missing values with <code>NA</code>
-</li>
-<li>Standardization of subject IDs</li>
-<li>Standardization of date values</li>
-<li>Replacement of existing values with predefined ones (dictionary
-based substitutions)</li>
-<li>Conversion of values when necessary</li>
-<li>Verification of the sequence order of date-events</li>
-<li>Transformation of select columns.</li>
+<li>standardization of column names,</li>
+<li>detection and removal of duplicates,</li>
+<li>replacement of missing values with <code>NA</code>,</li>
+<li>standardization of subject IDs,</li>
+<li>standardization of date values,</li>
+<li>replacement of existing values with predefined ones (dictionary
+based substitutions),</li>
+<li>conversion of values when necessary,</li>
+<li>verification of the sequence order of date-events, and</li>
+<li>transformation of selected columns.</li>
 </ul>
 <p>By compartmentalizing these operations into modules, {cleanepi}
 offers users a systematic and adaptable framework to address diverse
@@ -172,7 +168,7 @@ datasets.</p>
 <h2 id="input">Input<a class="anchor" aria-label="anchor" href="#input"></a>
 </h2>
 <p>The primary functions of the modules, as well as the core function
-<code>clean_data</code>, accept input in the form of a
+<code><a href="../reference/clean_data.html">clean_data()</a></code>, accept input in the form of a
 <code>data.frame</code> or <code>linelist</code>. This offers
 flexibility for users regarding where they want to position {ceanepi}
 within the R package ecosystem for epidemic analysis pipelines, either
@@ -187,10 +183,11 @@ functions specified for each module.</p>
 <h2 id="output">Output<a class="anchor" aria-label="anchor" href="#output"></a>
 </h2>
 <p>Both the primary functions of the modules and the core function
-<code>clean_data</code> return an object of type <code>data.frame</code>
-or <code>linelist</code>. The report generated from all cleaning tasks
-is appended to this <code>data.frame</code> as an attribute, which can
-be accessed using the <code><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr()</a></code> function in base R.</p>
+<code><a href="../reference/clean_data.html">clean_data()</a></code> return an object of type
+<code>data.frame</code> or <code>linelist</code>, depending on the type
+of the input dataset. The report generated from all cleaning tasks is
+attached to this object as an attribute, which can be accessed using the
+<code><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr()</a></code> function in base R.</p>
 <div class="section level3">
 <h3 id="modules-in-cleanepi">Modules in {cleanepi}<a class="anchor" aria-label="anchor" href="#modules-in-cleanepi"></a>
 </h3>
@@ -199,100 +196,76 @@ every module is built.</p>
 <p><strong>1. Standardization of column names</strong></p>
 <p>This module is designed to standardize the style and format of column
 names within the target dataset, offering users the flexibility to
-specify a subset of focal columns to preserve in their original
-format.</p>
+specify a subset of:</p>
 <ul>
-<li>
-<strong>Main function:</strong>
-<code><a href="../reference/standardize_column_names.html">standardize_column_names()</a></code>
-</li>
-<li>
-<strong>Input:</strong>
-<ul>
-<li>A <code>data.frame</code> or <code>linelist</code> object.</li>
-<li>Optionally, a <code>vector</code> of focal column names. If not
-provided, all columns will undergo standardization.</li>
-</ul>
-</li>
-<li>
-<strong>Output:</strong>
-<ul>
-<li>The input object with standardized column names.</li>
-</ul>
-</li>
-<li>
-<strong>Report:</strong>
-<ul>
-<li>A two-column table displaying the initial and current column names
-for each updated column in the original dataset.</li>
-</ul>
-</li>
-<li>
-<strong>Mode:</strong>
-<ul>
-<li>Implicit.</li>
-</ul>
-</li>
+<li><p>focal columns to preserve in their original format, and</p></li>
+<li><p>columns to be renamed i.e. given a new name chosen by the
+user.</p></li>
+<li><p><strong>Main function:</strong>
+<code><a href="../reference/standardize_column_names.html">standardize_column_names()</a></code></p></li>
+<li><p><strong>Input:</strong> – A <code>data.frame</code> or
+<code>linelist</code> object. – Optionally, a <code>vector</code> of
+focal column names and a vector of column names to be renamed in the
+form of <code>old_name = new_name</code>. If not provided, all columns
+will undergo standardization.</p></li>
+<li><p><strong>Output:</strong> – The input object with standardized
+column names.</p></li>
+<li><p><strong>Report:</strong> – A two-column table displaying the
+initial and current column names for each updated column in the original
+dataset.</p></li>
+<li><p><strong>Mode:</strong> – Explicit</p></li>
 </ul>
 <p>By incorporating the <code><a href="../reference/standardize_column_names.html">standardize_column_names()</a></code>
 function, {cleanepi} streamlines the process of ensuring consistency and
 clarity in column naming conventions, thereby enhancing the overall
 organization and readability of the dataset.</p>
-<p><strong>2. Removal of duplicates</strong></p>
-<p>This module is designed to identify and eliminate duplicate rows,
+<p><strong>2. Detection and removal of duplicates</strong></p>
+<p>This module is designed to identify and eliminate duplicated rows,
 columns, and constant columns within the dataset.</p>
 <ul>
 <li>
 <strong>Main function:</strong>
-<code><a href="../reference/remove_duplicates.html">remove_duplicates()</a></code>
+<code>find_duplicates(), remove_duplicates()</code>
 </li>
 <li>
 <strong>Input:</strong> Accepts a <code>data.frame</code> or
-<code>linelist</code> object, along with optional parameters:
-<ul>
-<li>Vector of target columns (default is to consider all columns)</li>
-<li>Option to remove empty rows (all rows by default)</li>
-<li>Option to remove empty columns (all columns by default)</li>
-<li>Option to remove constant columns (all constant columns by
-default)</li>
-</ul>
-</li>
+<code>linelist</code> object, along with optional parameters: – Vector
+of target columns (default is to consider all columns; possible to use
+<code>linelist_tags</code> to consider tagged variables only when the
+input is a linelist object) – Option to remove empty rows (all rows by
+default) – Option to remove empty columns (all columns by default) –
+Option to remove constant columns (all constant columns by default)</li>
 <li>
 <strong>Output:</strong> Returns the input object after applying the
 specified operations.</li>
 <li>
-<strong>Report:</strong>
-<ul>
-<li>A two-column table showcasing items and their values. Items include
-empty rows, empty columns, and constant columns.</li>
-<li>A table detailing the removed duplicates.</li>
-</ul>
-</li>
+<strong>Report:</strong> – A list with one or two table(s)
+showcasing found duplicates and removed duplicates (if
+<code>remove = TRUE</code>). The list also includes information about
+the detected empty rows, empty columns, and constant columns. – A table
+detailing the removed duplicates.</li>
 <li>
-<strong>Mode:</strong> Operates implicitly.</li>
+<strong>Mode:</strong> – explicit</li>
 </ul>
 <p>Through the <code><a href="../reference/remove_duplicates.html">remove_duplicates()</a></code> function, users can
 streamline their dataset by eliminating redundant rows, columns, and
 constant values, thus enhancing data integrity and analysis
 efficiency.</p>
-<p><strong>3. Replacement missing values with
+<p><strong>3. Replacement of missing values with
 <code>NA</code></strong></p>
 <p>This module aims to standardize and unify the representation of
 missing values within the dataset.</p>
 <ul>
 <li>
 <strong>Main function:</strong>
-<code>replace_missing_char()</code>
+<code><a href="../reference/replace_missing_values.html">replace_missing_values()</a></code>
 </li>
 <li>
 <strong>Input:</strong> Accepts a <code>data.frame</code> or
-<code>linelist</code> object, along with:
-<ul>
-<li>A <code>vector</code> of column names (if not provided, the
-operation is performed across all columns)</li>
-<li>A string specifying missing values (default value is null)</li>
-</ul>
-</li>
+<code>linelist</code> object, along with: – A <code>vector</code> of
+column names (if not provided, the operation is performed across all
+columns) – A string representing the current missing values (default
+value is null)</li>
 <li>
 <strong>Output:</strong> Returns the input object with all missing
 values represented as <code>NA</code>.</li>
@@ -300,15 +273,15 @@ values represented as <code>NA</code>.</li>
 <strong>Report:</strong> Generates a three-column table featuring
 index, column, and value for each missing item in the dataset.</li>
 <li>
-<strong>Mode:</strong> Operates implicitly.</li>
+<strong>Mode:</strong> – explicit</li>
 </ul>
 <p>By utilizing the <code>replace_missing_char()</code> function, users
 can ensure consistency in handling missing values across their dataset,
 facilitating accurate analysis and interpretation of the data.</p>
 <p><strong>4. Standardization of date values</strong></p>
-<p>This module is dedicated to standardizing the format of date-value
-columns and ensuring that all dates fall within a specified
-timeframe.</p>
+<p>This module is dedicated to convert date values in character columns
+into <code>Date</code> value in <code>ISO</code> format, and ensuring
+that all dates fall within the given timeframe.</p>
 <ul>
 <li>
 <strong>Main function:</strong>
@@ -316,29 +289,22 @@ timeframe.</p>
 </li>
 <li>
 <strong>Input:</strong> Accepts a <code>data.frame</code> or
-<code>linelist</code> object, along with:
-<ul>
-<li>A <code>vector</code> of targeted date columns (automatically
-determined if not provided)</li>
-<li>Tolerance threshold (default value is 50%)</li>
-<li>Format (default value is NULL)</li>
-<li>Timeframe (default value is null)</li>
-</ul>
-</li>
+<code>linelist</code> object, along with: – A <code>vector</code> of
+targeted date columns (automatically determined if not provided) –
+Tolerance threshold that defines the % of missing values to be allowed
+in a converted column. When % missing values exceeds it, the original
+values are returned (default value is 40%) – Format (default value is
+NULL) – Timeframe (default value is null)</li>
 <li>
 <strong>Output:</strong> Returns the input object with standardized
-date values in the format of <em>yyyy-mm-dd</em>.</li>
+date values in the format of <em>%Y-%m-%d</em>.</li>
 <li>
-<strong>Report:</strong>
-<ul>
-<li>A two-column table listing the columns where date values were
-standardized.</li>
-<li>A three-column table featuring index, column name, and values that
-fall outside the specified timeframe.</li>
-</ul>
-</li>
+<strong>Report:</strong> – A two-column table listing the columns
+where date values were standardized. – A three-column table featuring
+index, column name, and values that fall outside the specified
+timeframe.</li>
 <li>
-<strong>Mode:</strong> Operates implicitly.</li>
+<strong>Mode:</strong> – explicit</li>
 </ul>
 <p>By employing the <code><a href="../reference/standardize_dates.html">standardize_dates()</a></code> function, users can
 ensure uniformity and coherence in date formats across their dataset,
@@ -350,16 +316,13 @@ uniquely identifying subjects adhere to a consistent format.</p>
 <ul>
 <li>
 <strong>Main function:</strong>
-<code><a href="../reference/check_subject_ids.html">check_subject_ids()</a></code>
+<code>check_subject_ids(), correct_subject_ids()</code>
 </li>
 <li>
 <strong>Input:</strong> Accepts a <code>data.frame</code> or
-<code>linelist</code> object, along with:
-<ul>
-<li>The name of the ID column</li>
-<li>Strings for prefix, suffix, and numerical range within the IDs</li>
-</ul>
-</li>
+<code>linelist</code> object, along with: – The name of the ID column –
+Strings for prefix, suffix, and numerical range within the IDs – A
+logical that determines whether to delete the wrong ids or not.</li>
 <li>
 <strong>Output:</strong> Returns the input object with standardized
 subject IDs.</li>
@@ -368,18 +331,18 @@ subject IDs.</li>
 index and value of each subject ID that deviates from the expected
 format.</li>
 <li>
-<strong>Mode:</strong> Operates explicitly.</li>
+<strong>Mode:</strong> – explicit</li>
 </ul>
-<p>By utilizing the <code><a href="../reference/check_subject_ids.html">check_subject_ids()</a></code> function, users can
-ensure uniformity in the format of subject IDs, facilitating accurate
-tracking and analysis of individual subjects within the dataset.</p>
+<p>By utilizing the functions in this module, users can ensure
+uniformity in the format of subject ids, facilitating accurate tracking
+and analysis of individual subjects within the dataset.</p>
 <p><strong>6. Dictionary based substitution </strong></p>
 <p>This module facilitates dictionary-based substitution, which involves
-replacing existing values with predefined ones. It standardizes entries
-in specific columns to certain values, such as substituting 1 with
-“male” and 2 with “female” in a gender column. It also interoperate
-seamlessly with the <code>get_meta_data()</code> function from {readepi}
-R package.</p>
+replacing existing values with predefined ones. It replaces entries in a
+specific columns to certain values, such as substituting 1 with “male”
+and 2 with “female” in a gender column. It also interoperates seamlessly
+with the <code>get_meta_data()</code> function from {readepi} R
+package.</p>
 <ul>
 <li>
 <strong>Main function:</strong>
@@ -388,7 +351,8 @@ R package.</p>
 <li>
 <strong>Input:</strong> Accepts a <code>data.frame</code> or
 <code>linelist</code> object, along with a data dictionary featuring the
-following column names: options, values, column, and order.</li>
+following column names: <em>options</em>, <em>values</em>, and
+<em>order</em>.</li>
 <li>
 <strong>Output:</strong> Returns the input object where the
 specified options are replaced by their corresponding values.</li>
@@ -397,7 +361,7 @@ specified options are replaced by their corresponding values.</li>
 column, and value for each unexpected value encountered in a targeted
 column.</li>
 <li>
-<strong>Mode:</strong> Operates explicitly.</li>
+<strong>Mode:</strong> – explicit</li>
 </ul>
 <p>By leveraging the <code><a href="../reference/clean_using_dictionary.html">clean_using_dictionary()</a></code> function,
 users can streamline and standardize the values within specific columns
@@ -405,9 +369,8 @@ based on predefined mappings, enhancing consistency and accuracy in the
 dataset.</p>
 <p>Note that the <code><a href="../reference/clean_using_dictionary.html">clean_using_dictionary()</a></code> function will
 return a warning when it detects unexpected values in the target columns
-specified in the data dictionary. The unexpected values can be added to
-the data dictionary using the <code><a href="../reference/add_to_dictionary.html">add_to_dictionary()</a></code>
-function.</p>
+from the data dictionary. The unexpected values can be added to the data
+dictionary using the <code><a href="../reference/add_to_dictionary.html">add_to_dictionary()</a></code> function.</p>
 <p><strong>7. Conversion of values when necessary </strong></p>
 <p>This module is designed to convert numbers written in letters to
 numerical values, ensuring interoperability with the {numberize}
@@ -419,12 +382,8 @@ package.</p>
 </li>
 <li>
 <strong>Input:</strong> Accepts a <code>data.frame</code> or
-<code>linelist</code> object, along with:
-<ul>
-<li>A vector of column names to be converted into numeric</li>
-<li>The output of the <code><a href="../reference/scan_data.html">scan_data()</a></code> function</li>
-</ul>
-</li>
+<code>linelist</code> object, along with: – A vector of column names to
+be converted into numeric</li>
 <li>
 <strong>Output:</strong> Returns the input object with values in the
 target columns converted into numeric format.</li>
@@ -433,7 +392,7 @@ target columns converted into numeric format.</li>
 column, and value for each unrecognized value in the dataset (strings
 that could not be converted into numeric).</li>
 <li>
-<strong>Mode:</strong> Operates explicitly.</li>
+<strong>Mode:</strong> – explicit</li>
 </ul>
 <p>By employing the <code><a href="../reference/convert_to_numeric.html">convert_to_numeric()</a></code> function, users
 can seamlessly transform numeric representations written in letters into
@@ -453,13 +412,9 @@ birth.</p>
 </li>
 <li>
 <strong>Input:</strong> Accepts a <code>data.frame</code> or
-<code>linelist</code> object, along with:
-<ul>
-<li>A vector of date column names to be considered</li>
-<li>A logical value to specify whether to remove the incorrect rows from
-the input data or not</li>
-</ul>
-</li>
+<code>linelist</code> object, along with: – A vector of date column
+names to be considered – A logical value to specify whether to remove
+the incorrect rows from the input data or not</li>
 <li>
 <strong>Output:</strong> Returns the input object with incorrect
 rows removed if specified.</li>
@@ -467,7 +422,7 @@ rows removed if specified.</li>
 <strong>Report:</strong> Generates a table listing the incorrect
 rows from the specified columns.</li>
 <li>
-<strong>Mode:</strong> Operates explicitly.</li>
+<strong>Mode:</strong> – explicit</li>
 </ul>
 <p>By using the <code><a href="../reference/check_date_sequence.html">check_date_sequence()</a></code> function, users can
 systematically validate and ensure the coherence of date sequences
@@ -483,14 +438,10 @@ following function:</p>
 </li>
 <li>
 <strong>Input:</strong> Accepts a <code>data.frame</code> or
-<code>linelist</code> object, along with:
-<ul>
-<li>The name of the column of interest</li>
-<li>The reference date</li>
-<li>The time unit (possible values are days, weeks, months, or
-years)</li>
-</ul>
-</li>
+<code>linelist</code> object, along with: – The name of the column of
+interest – The reference date – The time and remainder units (possible
+values are days, weeks, months, or years) – The names of the newly
+generated columns</li>
 <li>
 <strong>Output:</strong> Returns the input object with clean data
 and an additional age column with values in the specified time
@@ -498,12 +449,12 @@ unit.</li>
 <li>
 <strong>Report:</strong> None.</li>
 <li>
-<strong>Mode:</strong> Operates explicitly.</li>
+<strong>Mode:</strong> – explicit</li>
 </ul>
 <p>By leveraging the <code><a href="../reference/calculate_age.html">calculate_age()</a></code> function, users can
 efficiently compute and integrate age-related information into their
 epidemiological dataset based on user-defined parameters, enhancing the
-analytical capabilities of the dataset.</p>
+analytics capabilities of the dataset.</p>
 </div>
 <div class="section level3">
 <h3 id="surrogate-functions">Surrogate functions<a class="anchor" aria-label="anchor" href="#surrogate-functions"></a>
@@ -515,9 +466,9 @@ each column. It calculates the percentage of values belonging to
 different data types such as character, numeric, missing, logical, and
 date. This summary can help analysts and data scientists understand the
 structure and content of the dataset at a glance.</p></li>
-<li><p><code><a href="../reference/print_report.html">print_report()</a></code>: This function is responsible for
-displaying reports detailing the cleaning operations executed on the
-dataset. It likely presents information about the data cleaning
+<li><p><code><a href="../reference/print_report.html">print_report()</a></code>: This function is used for displaying
+the report detailing the result of the cleaning operations executed on
+the dataset. It likely presents information about the data cleaning
 processes performed, such as handling missing values, correcting data
 types, removing duplicates, and any other transformations applied to
 ensure data quality and integrity.</p></li>
@@ -534,7 +485,7 @@ for analysis or modeling.</p>
 <p>The modules and surrogate functions will depend mainly on the
 following packages:</p>
 <p><a href="https://github.com/epiverse-trace/numberize" class="external-link">{numberize}</a>, <a href="https://CRAN.R-project.org/package=dplyr" class="external-link">{dplyr}</a>, <a href="https://CRAN.R-project.org/package=maggritr" class="external-link">{maggritr}</a>, <a href="https://CRAN.R-project.org/package=linelist" class="external-link">{linelist}</a>, <a href="https://CRAN.R-project.org/package=janitor" class="external-link">{janitor}</a>, <a href="https://CRAN.R-project.org/package=matchmaker" class="external-link">{matchmaker}</a>,
-<a href="https://CRAN.R-project.org/package=dplyr" class="external-link">{lubridate}</a>, <a href="https://CRAN.R-project.org/package=epitrix" class="external-link">{epitrix}</a>, <a href="https://CRAN.R-project.org/package=arsenal" class="external-link">{arsenal}</a>, <a href="https://CRAN.R-project.org/package=naniar" class="external-link">{naniar}</a>, <a href="https://CRAN.R-project.org/package=glue" class="external-link">{glue}</a>, <a href="https://CRAN.R-project.org/package=stringr" class="external-link">{stringr}</a>, <a href="https://CRAN.R-project.org/package=snakecase" class="external-link">{snakecase}</a>, <a href="https://CRAN.R-project.org/package=readr" class="external-link">{readr}</a>, and <a href="https://CRAN.R-project.org/package=R.utils" class="external-link">{R.utils}</a>.</p>
+<a href="https://CRAN.R-project.org/package=dplyr" class="external-link">{lubridate}</a>, <a href="https://CRAN.R-project.org/package=reactable" class="external-link">{reactable}</a>, <a href="https://CRAN.R-project.org/package=arsenal" class="external-link">{arsenal}</a>, <a href="https://CRAN.R-project.org/package=naniar" class="external-link">{naniar}</a>, <a href="https://CRAN.R-project.org/package=glue" class="external-link">{glue}</a>, <a href="https://CRAN.R-project.org/package=stringr" class="external-link">{stringr}</a>, <a href="https://CRAN.R-project.org/package=snakecase" class="external-link">{snakecase}</a>, <a href="https://CRAN.R-project.org/package=readr" class="external-link">{readr}</a>, and <a href="https://CRAN.R-project.org/package=R.utils" class="external-link">{R.utils}</a>.</p>
 <p>The functions will require all other packages that needed in the
 package development process including:</p>
 <p><a href="https://CRAN.R-project.org/package=checkmate" class="external-link">{checkmate}</a>, <a href="https://CRAN.R-project.org/package=kableExtra" class="external-link">{kableExtra}</a>,

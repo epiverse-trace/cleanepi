@@ -159,31 +159,31 @@ replace misspelled values with their correct ones.</li>
 <span><span class="va">test_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"test_df.RDS"</span>,</span>
 <span>                                 package <span class="op">=</span> <span class="st">"cleanepi"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:200px; overflow-x: scroll; width:100%; ">
-<table class="table  lightable-paper lightable-striped" style='font-size: 18px; font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'>
+<table class="table  lightable-paper lightable-striped" style='font-size: 14px; font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'>
 <thead><tr>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-STUDY_ID
+study_id
 </th>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-EVENT_NAME
+event_name
 </th>
 <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
-COUNTRY_CODE
+country_code
 </th>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-COUNTRY_NAME
+country_name
 </th>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-DATE.OF.ADMISSION
+date.of.admission
 </th>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-DATEOFBIRTH
+dateOfBirth
 </th>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-DATE_FIRST_PCR_POSITIVE_TEST
+date_first_pcr_positive_test
 </th>
 <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
-SEX
+sex
 </th>
 </tr></thead>
 <tbody>
@@ -454,25 +454,25 @@ Mar 03, 2021
 <code class="sourceCode R"><span><span class="co"># SCAN THE DATA</span></span>
 <span><span class="va">scan_result</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/scan_data.html">scan_data</a></span><span class="op">(</span><span class="va">test_data</span><span class="op">)</span></span></code></pre></div>
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:200px; overflow-x: scroll; width:100%; ">
-<table class="table  lightable-paper lightable-striped" style='font-size: 18px; font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'>
+<table class="table  lightable-paper lightable-striped" style='font-size: 14px; font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'>
 <thead><tr>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-FIELD_NAMES
+Field_names
 </th>
 <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
-MISSING
+missing
 </th>
 <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
-NUMERIC
+numeric
 </th>
 <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
-DATE
+date
 </th>
 <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
-CHARACTER
+character
 </th>
 <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
-LOGICAL
+logical
 </th>
 </tr></thead>
 <tbody>
@@ -804,31 +804,31 @@ date columns.</p>
 <p>This function returns a the input dataset where the (specified)
 columns are converted into date if the condition is met.</p>
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:200px; overflow-x: scroll; width:100%; ">
-<table class="table  lightable-paper lightable-striped" style='font-size: 18px; font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'>
+<table class="table  lightable-paper lightable-striped" style='font-size: 14px; font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'>
 <thead><tr>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-STUDY_ID
+study_id
 </th>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-EVENT_NAME
+event_name
 </th>
 <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
-COUNTRY_CODE
+country_code
 </th>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-COUNTRY_NAME
+country_name
 </th>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-DATE.OF.ADMISSION
+date.of.admission
 </th>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-DATEOFBIRTH
+dateOfBirth
 </th>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-DATE_FIRST_PCR_POSITIVE_TEST
+date_first_pcr_positive_test
 </th>
 <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
-SEX
+sex
 </th>
 </tr></thead>
 <tbody>
@@ -1178,11 +1178,10 @@ order of occurrence, reflecting the chronological sequence of events.
 For example,
 <code>target_columns = c("date_of_infection", "date_of_admission", "date_of_death")</code>.</li>
 <li>
-<strong>remove_bad_seq</strong>: A Boolean variable with a default
-value of <code>FALSE</code>. If set to <code>TRUE</code>, rows with
-incorrect date sequences will be removed from the output object.
-Otherwise, they will be flagged as erroneous and stored in the report
-object.</li>
+<strong>remove</strong>: A Boolean variable with a default value of
+<code>FALSE</code>. If set to <code>TRUE</code>, rows with incorrect
+date sequences will be removed from the output object. Otherwise, they
+will be flagged as erroneous and stored in the report object.</li>
 </ol>
 <p>By utilizing these arguments, the <code><a href="../reference/check_date_sequence.html">check_date_sequence()</a></code>
 function facilitates the validation of date sequences within a dataset,
@@ -1195,7 +1194,7 @@ report object.</p>
 <span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>  <span class="at">data           =</span> <span class="fu">readRDS</span>(<span class="fu">system.file</span>(<span class="st">"extdata"</span>, <span class="st">"test_df.RDS"</span>,</span>
 <span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>                                       <span class="at">package =</span> <span class="st">"cleanepi"</span>)),</span>
 <span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>  <span class="at">target_columns =</span> <span class="fu">c</span>(<span class="st">"date_first_pcr_positive_test"</span>, <span class="st">"date.of.admission"</span>),</span>
-<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>  <span class="at">remove_bad_seq =</span> <span class="cn">FALSE</span></span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>  <span class="at">remove         =</span> <span class="cn">FALSE</span></span>
 <span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a>)</span>
 <span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a>check_date_order Warning<span class="sc">:</span> Detected <span class="dv">2</span> incorrect date sequences at <span class="fu">line</span>(s)<span class="sc">:</span> <span class="dv">6</span>, <span class="dv">8</span></span>
 <span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a></span>
@@ -1323,33 +1322,32 @@ data within the dataset.</p>
 <span><span class="va">report</span>     <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">dups</span>, <span class="st">"report"</span><span class="op">)</span></span>
 <span><span class="va">duplicates</span> <span class="op">&lt;-</span> <span class="va">report</span><span class="op">$</span><span class="va">duplicated_rows</span></span>
 <span><span class="va">duplicates</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/set_names.html" class="external-link">set_names</a></span><span class="op">(</span><span class="va">toupper</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">kableExtra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/kbl.html" class="external-link">kbl</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">kableExtra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/kable_classic.html" class="external-link">kable_paper</a></span><span class="op">(</span><span class="st">"striped"</span>, font_size <span class="op">=</span> <span class="fl">18</span>, full_width <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">kableExtra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/kable_classic.html" class="external-link">kable_paper</a></span><span class="op">(</span><span class="st">"striped"</span>, font_size <span class="op">=</span> <span class="fl">14</span>, full_width <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">kableExtra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/scroll_box.html" class="external-link">scroll_box</a></span><span class="op">(</span>height <span class="op">=</span> <span class="st">"200px"</span>, width <span class="op">=</span> <span class="st">"100%"</span>,</span>
 <span>                         box_css <span class="op">=</span> <span class="st">"border: 1px solid #ddd; padding: 5px; "</span>,</span>
 <span>                         extra_css <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>                         fixed_thead <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:200px; overflow-x: scroll; width:100%; ">
-<table class="table  lightable-paper lightable-striped" style='font-size: 18px; font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'>
+<table class="table  lightable-paper lightable-striped" style='font-size: 14px; font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'>
 <thead><tr>
 <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
-ROW_ID
+row_id
 </th>
 <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
-GROUP_ID
+group_id
 </th>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-DT_ONSET
+dt_onset
 </th>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-DT_REPORT
+dt_report
 </th>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-SEX
+sex
 </th>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-OUTCOME
+outcome
 </th>
 </tr></thead>
 <tbody>
@@ -2631,20 +2629,19 @@ this data dictionary file should adhere to the standards expected by the
 package, as the <code><a href="../reference/clean_using_dictionary.html">clean_using_dictionary()</a></code> function relies on
 functions from this package.</li>
 </ol>
-<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:200px; overflow-x: scroll; width:100%; ">
-<table class="table  lightable-paper lightable-striped" style='font-size: 18px; font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'>
+<table class="table  lightable-paper lightable-striped" style='font-size: 14px; font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'>
 <thead><tr>
-<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-OPTIONS
+<th style="text-align:left;">
+options
 </th>
-<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-VALUES
+<th style="text-align:left;">
+values
 </th>
-<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-GRP
+<th style="text-align:left;">
+grp
 </th>
-<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
-ORDERS
+<th style="text-align:right;">
+orders
 </th>
 </tr></thead>
 <tbody>
@@ -2678,7 +2675,6 @@ sex
 </tr>
 </tbody>
 </table>
-</div>
 <p>The <code><a href="../reference/add_to_dictionary.html">add_to_dictionary()</a></code> function is a useful tool for
 expanding the coverage of a data dictionary by defining options that are
 present in the input data but not originally included in the dictionary.
@@ -2706,20 +2702,19 @@ below, we add <code>-99</code> to our test data dictionary,
 <span>                                      value  <span class="op">=</span> <span class="st">"unknow"</span>,</span>
 <span>                                      grp    <span class="op">=</span> <span class="st">"sex"</span>,</span>
 <span>                                      order  <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
-<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:200px; overflow-x: scroll; width:100%; ">
-<table class="table  lightable-paper lightable-striped" style='font-size: 18px; font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'>
+<table class="table  lightable-paper lightable-striped" style='font-size: 14px; font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'>
 <thead><tr>
-<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-OPTIONS
+<th style="text-align:left;">
+options
 </th>
-<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-VALUES
+<th style="text-align:left;">
+values
 </th>
-<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-GRP
+<th style="text-align:left;">
+grp
 </th>
-<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
-ORDERS
+<th style="text-align:right;">
+orders
 </th>
 </tr></thead>
 <tbody>
@@ -2767,38 +2762,37 @@ sex
 </tr>
 </tbody>
 </table>
-</div>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cleaned_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/clean_using_dictionary.html">clean_using_dictionary</a></span><span class="op">(</span></span>
 <span>  data       <span class="op">=</span> <span class="va">data</span>,</span>
 <span>  dictionary <span class="op">=</span> <span class="va">test_dictionary</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:200px; overflow-x: scroll; width:100%; ">
-<table class="table  lightable-paper lightable-striped" style='font-size: 18px; font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'>
+<table class="table  lightable-paper lightable-striped" style='font-size: 14px; font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'>
 <thead><tr>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-STUDY_ID
+study_id
 </th>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-EVENT_NAME
+event_name
 </th>
 <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
-COUNTRY_CODE
+country_code
 </th>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-COUNTRY_NAME
+country_name
 </th>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-DATE.OF.ADMISSION
+date.of.admission
 </th>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-DATEOFBIRTH
+dateOfBirth
 </th>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-DATE_FIRST_PCR_POSITIVE_TEST
+date_first_pcr_positive_test
 </th>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-SEX
+sex
 </th>
 </tr></thead>
 <tbody>
@@ -3150,37 +3144,37 @@ needed, and provides additional granularity in age
 representation.</p></li>
 </ol>
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:200px; overflow-x: scroll; width:100%; ">
-<table class="table  lightable-paper lightable-striped" style='font-size: 18px; font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'>
+<table class="table  lightable-paper lightable-striped" style='font-size: 14px; font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'>
 <thead><tr>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-STUDY_ID
+study_id
 </th>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-EVENT_NAME
+event_name
 </th>
 <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
-COUNTRY_CODE
+country_code
 </th>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-COUNTRY_NAME
+country_name
 </th>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-DATE.OF.ADMISSION
+date.of.admission
 </th>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-DATEOFBIRTH
+dateOfBirth
 </th>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-DATE_FIRST_PCR_POSITIVE_TEST
+date_first_pcr_positive_test
 </th>
 <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
-SEX
+sex
 </th>
 <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
-AGE_IN_YEARS
+age_in_years
 </th>
 <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
-REMAINDER_MONTHS
+remainder_months
 </th>
 </tr></thead>
 <tbody>
