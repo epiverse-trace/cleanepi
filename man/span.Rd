@@ -10,7 +10,7 @@ span(
   end_date = Sys.Date(),
   span_unit = c("years", "months", "weeks", "days"),
   span_column_name = "span",
-  span_remainder_unit = c(NULL, "months", "weeks", "days")
+  span_remainder_unit = c("months", "weeks", "days")
 )
 }
 \arguments{

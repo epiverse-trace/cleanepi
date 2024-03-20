@@ -1,12 +1,10 @@
 ---
 title: "cleanepi"
-output: 
-  rmarkdown::html_vignette:
-    df_print: "kable"
+output: markdown::html_format
 vignette: >
   %\VignetteIndexEntry{cleanepi}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::knitr}
+  %\usepackage[utf8]{inputenc}
 ---
 
 ```{r, include = FALSE} 
@@ -509,20 +507,18 @@ cleaned_df |>
                          fixed_thead = TRUE)
 ```
 
-### Calculating age in different time scales
+### Calculating time span different time scales
 
-The `calculate_age()` function computes the ages of individuals, expressed in years, months, weeks, or days, based on a given date column and a reference date. It requires the following arguments:
+The `span()` function computes the time span between a single Date value or a vector Date values or another column of the target data and a chosen in the target data. The resulting time span can be expressed in “years”, “months”, “weeks”, or “days”, depending on the user-specified unit. The functions requires the following arguments:
 
 1. **data**: The input dataset (required).
-2. **target_column**: A vector of the name of the column containing the birth or relevant  dates for which the age is being calculated (required).
-3. **end_date**: This is the reference date used to calculate the age of individuals (required). The function computes the age relative to this date. The default value is today's date (`Sys.Date()`)
-> The format required for this argument is `%Y-%m-%d` ("2024-12-31" for 31st of December 2024).
+2. **target_column**: A string with the name of the target column (require). The values in this column are expected to be in the form of `Ymd` i.e. `2024-01-31`. The time span will calculated between these values and the reference value(s).
+3. **end_date**: it can be either a character that is the name of another column of type Date from the input data or a vector of Date values or a single Date value (required). This should also be in the ISO format ("2024-01-31") and its default value is today's date `Sys.Date()`.
+4. **span_unit**: This parameter determines the unit in which the time span is expressed (required). It  can be specified as “years”, “months”, “weeks”, or “days”. By default, the time span is calculated in “years” if this parameter is not provided.
+5. **span_column_name**: A string for the name of the column added to the input data. The default is `span`.
+6. **span_remainder_unit**: A parameter used to determine the unit in which remainder of the time span calculation will be returned. The possible units are: “days” or “weeks” or “months”. By default, the function returns decimal age i.e. `span_remainder_unit = NULL`.
 
-4. **age_in**: This parameter determines the unit in which the age is expressed (required). It  can be specified as "years", "months", "weeks", or "days". By default, the age is calculated in years if this parameter is not provided.
-5. **age_column_name**: A string for the name of the age column added to the input data. The default is `age_in_*` where `*` represents the unit specified in the 'age_in' argument.
-6. **age_remainder_unit**: A parameter used to determine the number of the remaining days (remainder_days) or weeks (remainder_weeks) or months (remainder_months), depending on the value of the 'age_in' parameter, after calculating the age. By default, the function returns decimal age i.e. `age_remainder_unit = "digits"`.
-
-With these arguments, the function offers flexibility in determining the age of individuals based on different units and reference dates. It facilitates various analytics tasks where age computation is a necessary component, providing users with the ability to customize the output according to their specific requirements.
+With these arguments, the function offers flexibility in determining the spanning time in different units. It facilitates various analytics tasks where the time span computation is a necessary component, providing users with the ability to customize the output according to their specific requirements.
 
 ```{r eval=TRUE}
 # IMPORT DATA, REPLACE MISSING VALUES WITH 'NA' & STANDARDISE DATES
@@ -534,36 +530,42 @@ data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi")) |>
 
 # CALCULATE INDIVIDUAL AGE IN YEARS FROM THE 'dateOfBirth' COLUMN AND SEND THE
 # REMAINDER IN MONTHS
-age <- calculate_age(
-  data               = data,
-  target_column      = "dateOfBirth",
-  end_date           = Sys.Date(),
-  age_in             = "years",
-  age_remainder_unit = "months"
+age <- span(
+  data                = data,
+  target_column       = "dateOfBirth",
+  end_date            = Sys.Date(),
+  span_unit           = "years",
+  span_column_name    = "age_in_years",
+  span_remainder_unit = "months"
 )
 
-# CALCULATE INDIVIDUAL AGE IN YEARS FROM THE 'dateOfBirth' COLUMN AND SEND THE
-# REMAINDER IN DIGITS
+# CALCULATE THE TIME SPAN IN YEARS BETWEEN INDIVIDUALS 'dateOfBirth' AND THE DAY THEY TESTED POSITIVE
 data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi"))
-age  <- data |>
+time_span  <- data |>
   replace_missing_values(target_columns = "dateOfBirth",
                          na_strings     = "-99") |>
-  standardize_dates(target_columns  = "dateOfBirth", error_tolerance = 0.0) |>
-  calculate_age(target_column      = "dateOfBirth",
-                end_date           = Sys.Date(),
-                age_in             = "years",
-                age_remainder_unit = "digits")
+  standardize_dates(
+    target_columns  = c("dateOfBirth", "date_first_pcr_positive_test"),
+    error_tolerance = 0.0
+  ) |>
+  span(
+    target_column       = "dateOfBirth",
+    end_date            = "date_first_pcr_positive_test",
+    span_unit           = "years",
+    span_column_name    = "elapsed_time",
+    span_remainder_unit = NULL
+  )
 ```
 
-The `calculate_age()` function augments the input dataset by adding one or two extra columns containing age-related information. These additional columns are as follows:
+The `span()` function augments the input dataset by adding one or two extra columns containing age-related information. These additional columns are as follows:
 
-1. **Calculated age in specified scale**:  Contains the calculated age of individuals expressed in the specified unit (years, months, weeks, or days).
+1. **Calculated time span in the specified scale**:  Contains the calculated spanning time in the specified unit (“years”, “months”, “weeks”, or “days”).
 
-2. **Remaining number of days**:  Indicates the remaining number of days after calculating the age, representing the fractional part of the age calculation. This column is included if needed, and provides additional granularity in age representation.
+2. **Remaining number of days**:  Indicates the remaining number of days after calculating the spanning time, representing the fractional part of the time span calculation. This column is included if needed, and provides additional granularity in the time span representation.
 
 ```{r eval=TRUE, echo=FALSE}
 # DISPLAY THE OUTPUT OBJECT
-age |>
+time_span |>
   kableExtra::kbl() |>
   kableExtra::kable_paper("striped", font_size = 14, full_width = TRUE) |>
   kableExtra::scroll_box(height = "200px", width = "100%",

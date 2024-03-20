@@ -56,18 +56,20 @@ span <- function(data,
                  end_date            = Sys.Date(),
                  span_unit           = c("years", "months", "weeks", "days"),
                  span_column_name    = "span",
-                 span_remainder_unit = c(NULL, "months", "weeks", "days")) {
+                 span_remainder_unit = c("months", "weeks", "days")) {
   checkmate::assert_data_frame(data, null.ok = FALSE)
   checkmate::assert_choice(target_column,
                            choices = colnames(data),
                            null.ok = TRUE)
-  if (!checkmate::check_date(end_date, min.len = 1L, null.ok = FALSE)) {
-    checkmate::assert_character(end_date, len = 1L, null.ok = FALSE)
+  if (!inherits(end_date, "Date")) {
+    checkmate::check_character(end_date, min.len = 1L, null.ok = FALSE)
   }
   checkmate::assert_character(span_column_name, len = 1L, null.ok = FALSE,
                               any.missing = FALSE)
   span_unit           <- match.arg(span_unit)
-  span_remainder_unit <- match.arg(span_remainder_unit)
+  checkmate::assert_choice(span_remainder_unit,
+                           choices = c("months", "weeks", "days"),
+                           null.ok = TRUE)
 
   # end_date can be a column of the input data or
   # a vector of Date values with the same length as number of row in data or
@@ -82,12 +84,17 @@ span <- function(data,
   names(units)  <- c("years", "months", "weeks", "days")
   if (!is.null(span_remainder_unit)) {
     data[, span_column_name] <- floor(span_result / units[span_unit])
-    data[, sprintf("%s_remainder", span_column_name)] <- round(
+    data[, sprintf("remainder_%s", span_remainder_unit)] <- round(
       (span_result %% units[span_unit]) / units[span_remainder_unit],
       digits = 2L)
   } else {
     data[, span_column_name] <- round(span_result / units[span_unit],
                                       digits = 2L)
+  }
+
+  # when the time span is requested in days, remove remainder
+  if (span_unit == "days") {
+    data[, sprintf("remainder_%s", span_remainder_unit)] <- NULL
   }
 
   return(data)
