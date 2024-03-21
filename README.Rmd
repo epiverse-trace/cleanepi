@@ -111,7 +111,7 @@ remove_duplicates       <- list(target_columns   = NULL,
                                 rm_empty_cols    = TRUE,
                                 rm_constant_cols = TRUE)
 standardize_date        <- list(target_columns  = NULL,
-                                error_tolerance = 0.5,
+                                error_tolerance = 0.4,
                                 format          = NULL,
                                 timeframe       = as.Date(c("1973-05-29",
                                                             "2023-05-29")))
@@ -119,7 +119,7 @@ standardize_subject_ids <- list(target_columns = "study_id",
                                 prefix         = "PS",
                                 suffix         = "P2",
                                 range          = c(1, 100),
-                                length         = 7)
+                                nchar          = 7)
 params <- list(
   keep                    = NULL,
   replace_missing_values  = use_na, 

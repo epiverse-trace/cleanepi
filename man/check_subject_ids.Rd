@@ -12,7 +12,7 @@ check_subject_ids(
   prefix = NULL,
   suffix = NULL,
   range = NULL,
-  length = NULL
+  nchar = NULL
 )
 }
 \arguments{
@@ -26,8 +26,8 @@ check_subject_ids(
 
 \item{range}{A vector with the range of numbers in the sample IDs}
 
-\item{length}{An integer that represents the expected length in the subject
-ids.}
+\item{nchar}{An integer that represents the expected number of characters in
+the subject ids.}
 }
 \value{
 A cleaned data frame with only the correct subject IDs if
@@ -47,6 +47,6 @@ dat <- check_subject_ids(
   prefix         = "PS",
   suffix         = "P2",
   range          = c(1, 100),
-  length         = NULL
+  nchar          = 7
 )
 }
