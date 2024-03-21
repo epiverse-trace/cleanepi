@@ -7,8 +7,8 @@
 #' @param prefix A prefix used in the subject IDs
 #' @param suffix A suffix used in the subject IDs
 #' @param range A vector with the range of numbers in the sample IDs
-#' @param length An integer that represents the expected length in the subject
-#'    ids.
+#' @param nchar An integer that represents the expected number of characters in
+#'    the subject ids.
 #'
 #' @returns A cleaned data frame with only the correct subject IDs if
 #'    `remove = TRUE`, or the input dataset otherwise. The incorrect subject ids
@@ -22,7 +22,7 @@
 #'   prefix         = "PS",
 #'   suffix         = "P2",
 #'   range          = c(1, 100),
-#'   length         = NULL
+#'   nchar          = 7
 #' )
 #' @export
 check_subject_ids <- function(data,
@@ -30,7 +30,7 @@ check_subject_ids <- function(data,
                               prefix         = NULL,
                               suffix         = NULL,
                               range          = NULL,
-                              length         = NULL) {
+                              nchar          = NULL) {
   checkmate::assert_data_frame(data, null.ok = FALSE)
   checkmate::assert_character(target_columns, null.ok = FALSE,
                               any.missing = FALSE, len = 1L)
@@ -40,7 +40,7 @@ check_subject_ids <- function(data,
                               any.missing = FALSE)
   checkmate::assert_vector(range, any.missing = FALSE, min.len = 2L,
                            null.ok = TRUE, unique = TRUE, max.len = 2L)
-  checkmate::assert_numeric(length, null.ok = TRUE, any.missing = FALSE,
+  checkmate::assert_numeric(nchar, null.ok = TRUE, any.missing = FALSE,
                             len = 1L)
 
   data     <- check_ids_uniqueness(data, target_columns)
@@ -64,9 +64,9 @@ check_subject_ids <- function(data,
   }
 
   # detect subject IDs that do not match the provided format
-  if (!is.null(length)) {
+  if (!is.null(nchar)) {
     length_check <- as.logical(as.character(lapply(data[[target_columns]],
-                                                   check_id_length, length)))
+                                                   check_id_length, nchar)))
     idx          <- which(length_check)
     if (length(idx) > 0L) {
       bad_rows   <- c(bad_rows, idx)
@@ -195,7 +195,7 @@ check_subject_ids_oness <- function(data, id_col_name) {
 #' Check the length of sample IDs
 #'
 #' @param x the sample ID
-#' @param ref the expected length of the sample ids
+#' @param ref the expected number of characters in the sample ids
 #' @keywords internal
 check_id_length <- function(x, ref) {
   return(nchar(x) != ref)

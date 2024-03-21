@@ -16,7 +16,7 @@ cleaned_data      <- test_data |>
                     prefix         = "PS",
                     suffix         = "P2",
                     range          = c(1L, 100L),
-                    length         = 7L) |>
+                    nchar          = 7L) |>
   convert_to_numeric(target_columns = "sex") |>
   clean_using_dictionary(dictionary = test_dictionary)
 

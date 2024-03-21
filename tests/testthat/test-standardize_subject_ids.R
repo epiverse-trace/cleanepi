@@ -7,7 +7,7 @@ test_that("check_subject_ids works as expected when remove = FALSE", {
     prefix         = "PS",
     suffix         = "P2",
     range          = c(1L, 100L),
-    length         = NULL
+    nchar          = NULL
   )
   expect_s3_class(dat, "data.frame")
   expect_false(identical(data, dat))
@@ -23,7 +23,7 @@ test_that("check_subject_ids fails as expected", {
       prefix         = "PS",
       suffix         = "P2",
       range          = c(1L, 100L),
-      length         = NULL
+      nchar          = NULL
     ),
     regexp = cat("Assertion on',data,'failed: input data frame must be
                  provided.")
@@ -37,7 +37,7 @@ test_that("check_subject_ids fails as expected", {
       prefix         = "PS",
       suffix         = "P2",
       range          = c(1L, 100L),
-      length         = NULL
+      nchar          = NULL
     ),
     regexp = cat("Assertion on',id_column_name,'failed: Missing value not
                  allowed for 'id_column_name'.")
@@ -51,7 +51,7 @@ test_that("check_subject_ids fails as expected", {
       prefix         = "PS",
       suffix         = "P2",
       range          = c(1L, 100L),
-      length         = NULL
+      nchar          = NULL
     ),
     regexp = cat("Assertion on',id_column_name,'failed: Must be a character of
                  length 1.")
@@ -65,9 +65,9 @@ test_that("check_subject_ids fails as expected", {
       prefix         = "PS",
       suffix         = "P2",
       range          = c(1L, 100L),
-      length         = NA
+      nchar          = NA
     ),
-    regexp = cat("Assertion on',length,'failed: template sample IDs format
+    regexp = cat("Assertion on',nchar,'failed: template sample IDs format
                  must be provided.")
   )
 })
@@ -81,20 +81,19 @@ test_that("check_subject_ids sends a message when duplicated IDs are found", {
                       prefix         = "PS",
                       suffix         = "P2",
                       range          = c(1L, 100L),
-                      length         = NULL),
+                      nchar          = NULL),
     "Found 2 duplicated rows. Please consult the report for more details."
   )
 })
 
 data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi"))
-test_that("check_subject_ids works when relying on the length argument", {
+test_that("check_subject_ids works when relying on the nchar argument", {
   dat <- check_subject_ids(data           = data,
                            target_columns = "study_id",
                            prefix         = NULL,
                            suffix         = NULL,
                            range          = NULL,
-                           remove         = TRUE)
-                           length         = 7L)
+                           nchar          = 7L)
   expect_s3_class(dat, "data.frame")
   expect_false(nrow(data) == nrow(dat))
   expect_false("PS004P2-1" %in% dat[["study_id"]])
@@ -104,7 +103,7 @@ test_that("check_subject_ids works when relying on the length argument", {
                            prefix         = NULL,
                            suffix         = NULL,
                            range          = c(1L, 100L),
-                           length         = 7L)
+                           nchar          = 7L)
   expect_s3_class(dat, "data.frame")
   expect_false(nrow(data) == nrow(dat))
   expect_false("PS004P2-1" %in% dat[["study_id"]])
@@ -115,7 +114,7 @@ test_that("check_subject_ids works when relying on the length argument", {
                            prefix         = "PS",
                            suffix         = NULL,
                            range          = c(1L, 100L),
-                           length         = 7L)
+                           nchar          = 7L)
   expect_s3_class(dat, "data.frame")
   expect_false(nrow(data) == nrow(dat))
   expect_false("PS004P2-1" %in% dat[["study_id"]])
@@ -130,12 +129,11 @@ test_that("correct_subject_ids works as expected", {
   # detect the incorrect subject ids
   dat <- check_subject_ids(
     data           = data,
-    id_column_name = "study_id",
-    format         = NULL,
+    target_columns = "study_id",
     prefix         = "PS",
     suffix         = "P2",
     range          = c(1L, 100L),
-    remove         = FALSE
+    nchar          = 7L
   )
   report <- attr(dat, "report")
 

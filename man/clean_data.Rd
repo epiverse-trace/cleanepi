@@ -10,8 +10,8 @@ clean_data(
     na_strings = cleanepi::common_na_strings), remove_duplicates = list(target_columns =
     NULL, rm_empty_rows = TRUE, rm_empty_cols = TRUE, rm_constant_cols = TRUE),
     standardize_dates = list(target_columns = NULL, error_tolerance = 0.5, format = NULL,
-    timeframe = NULL), standardize_subject_ids = list(target_columns = "id", format =
-    NULL, prefix = NULL, suffix = NULL, range = NULL), dictionary = NULL, to_numeric =
+    timeframe = NULL), standardize_subject_ids = list(target_columns = "id", prefix =
+    NULL, suffix = NULL, range = NULL, nchar = NULL), dictionary = NULL, to_numeric =
     NULL)
 )
 }
@@ -83,7 +83,7 @@ standardize_subject_ids <- list(target_columns = "study_id",
                                 prefix         = "PS",
                                 suffix         = "P2",
                                 range          = c(1, 100),
-                                length         = 7)
+                                nchar          = 7)
 
 # to_numeric = "sex" the 'sex' column will be converted into numeric
 

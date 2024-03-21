@@ -9,7 +9,7 @@ check_id_length(x, ref)
 \arguments{
 \item{x}{the sample ID}
 
-\item{ref}{the expected length of the sample ids}
+\item{ref}{the expected number of characters in the sample ids}
 }
 \description{
 Check the length of sample IDs

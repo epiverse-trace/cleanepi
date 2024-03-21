@@ -66,7 +66,7 @@
 #'                                 prefix         = "PS",
 #'                                 suffix         = "P2",
 #'                                 range          = c(1, 100),
-#'                                 length         = 7)
+#'                                 nchar          = 7)
 #'
 #' # to_numeric = "sex" the 'sex' column will be converted into numeric
 #'
@@ -108,10 +108,10 @@ clean_data <- function(
       ),
       standardize_subject_ids = list(
         target_columns = "id",
-        format         = NULL,
         prefix         = NULL,
         suffix         = NULL,
-        range          = NULL
+        range          = NULL,
+        nchar          = NULL
       ),
       dictionary = NULL,
       to_numeric = NULL
@@ -200,7 +200,7 @@ clean_data <- function(
       prefix         = params[["standardize_subject_ids"]][["prefix"]],
       suffix         = params[["standardize_subject_ids"]][["suffix"]],
       range          = params[["standardize_subject_ids"]][["range"]],
-      length         = params[["standardize_subject_ids"]][["length"]]
+      nchar          = params[["standardize_subject_ids"]][["nchar"]]
     )
   }
 

@@ -16,12 +16,11 @@ standardize_date        <- list(target_columns  = NULL,
                                 format          = NULL,
                                 timeframe       = as.Date(c("1973-05-29",
                                                             "2023-05-29")))
-standardize_subject_ids <- list(id_col_name = "study_id",
-                                format      = NULL,
-                                prefix      = "PS",
-                                suffix      = "P2",
-                                range       = c(1, 100),
-                                remove      = TRUE)
+standardize_subject_ids <- list(target_columns = "study_id",
+                                prefix         = "PS",
+                                suffix         = "P2",
+                                range          = c(1L, 100L),
+                                nchar          = 7L)
 params <- list(
   keep                    = NULL,
   replace_missing_values  = use_na,
@@ -53,12 +52,11 @@ test_that("clean_data works in a pipable way", {
                       error_tolerance = 0.4,
                       format          = NULL,
                       timeframe     = as.Date(c("1973-05-29", "2023-05-29"))) |>
-    check_subject_ids(id_column_name = "study_id",
-                      format         = NULL,
+    check_subject_ids(target_columns = "study_id",
                       prefix         = "PS",
                       suffix         = "P2",
                       range          = c(1L, 100L),
-                      remove         = TRUE) |>
+                      nchar          = 7L) |>
     convert_to_numeric(target_columns = "sex") |>
     clean_using_dictionary(dictionary = test_dictionary)
 
