@@ -6,42 +6,34 @@
 #'    tagged column names. The Default is `NULL`.
 #' @param rename an expression used to specify how to rename some columns.
 #'
-#' @return A data frame with easy to work with column names.
+#' @return A data frame or linelist with easy to work with column names.
 #'
 #' @export
 #' @examples
 #' # do not rename 'date.of.admission'
 #' cleaned_data <- standardize_column_names(
 #'   data = readRDS(system.file("extdata", "test_df.RDS",
-#'     package = "cleanepi"
-#'   )),
+#'                              package = "cleanepi")),
 #'   keep = "date.of.admission"
 #' )
 #'
 #' # do not rename 'date.of.admission', but rename 'dateOfBirth' and 'sex' to
 #' # 'DOB' and 'gender' respectively
 #' cleaned_data <- standardize_column_names(
-#'   data = readRDS(system.file("extdata", "test_df.RDS",
-#'     package = "cleanepi"
-#'   )),
-#'   keep = "date.of.admission",
+#'   data   = readRDS(system.file("extdata", "test_df.RDS",
+#'                                package = "cleanepi")),
+#'   keep   = "date.of.admission",
 #'   rename = "dateOfBirth = DOB, sex=gender"
 #' )
 #'
 standardize_column_names <- function(data, keep = NULL, rename = NULL) {
-  if (!checkmate::check_vector(keep,
-    min.len = 0L, null.ok = TRUE,
-    any.missing = FALSE
-  )) {
-    checkmate::assert_character(keep,
-      fixed = TRUE, any.missing = FALSE,
-      null.ok = TRUE
-    )
+  if (!checkmate::check_vector(keep, min.len = 0L, null.ok = TRUE,
+                               any.missing = FALSE)) {
+    checkmate::assert_character(keep, fixed = TRUE, any.missing = FALSE,
+                                null.ok = TRUE)
   }
-  checkmate::assert_character(rename,
-    min.len = 0L, null.ok = TRUE,
-    any.missing = FALSE
-  )
+  checkmate::assert_character(rename, min.len = 0L, null.ok = TRUE,
+                              any.missing = FALSE)
   before <- colnames(data)
 
   # when rename is not NULL, get the new column names
