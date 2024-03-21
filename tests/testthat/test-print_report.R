@@ -12,11 +12,11 @@ cleaned_data      <- test_data |>
                     error_tolerance = 0.4,
                     format          = NULL,
                     timeframe     = as.Date(c("1973-05-29", "2023-05-29"))) |>
-  check_subject_ids(id_column_name = "study_id",
-                    format         = NULL,
+  check_subject_ids(target_columns = "study_id",
                     prefix         = "PS",
                     suffix         = "P2",
-                    range          = c(1L, 100L)) |>
+                    range          = c(1L, 100L),
+                    length         = 7L) |>
   convert_to_numeric(target_columns = "sex") |>
   clean_using_dictionary(dictionary = test_dictionary)
 

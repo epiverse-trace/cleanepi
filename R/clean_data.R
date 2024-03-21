@@ -62,12 +62,11 @@
 #'                                                      "2023-05-29")))
 #'
 #' # Parameters for subject IDs standardization
-#' standardize_subject_ids <- list(id_col_name = "study_id",
-#'                                 format      = NULL,
-#'                                 prefix      = "PS",
-#'                                 suffix      = "P2",
-#'                                 range       = c(1, 100),
-#'                                 remove      = TRUE)
+#' standardize_subject_ids <- list(target_columns = "study_id",
+#'                                 prefix         = "PS",
+#'                                 suffix         = "P2",
+#'                                 range          = c(1, 100),
+#'                                 length         = 7)
 #'
 #' # to_numeric = "sex" the 'sex' column will be converted into numeric
 #'
@@ -108,12 +107,11 @@ clean_data <- function(
         timeframe       = NULL
       ),
       standardize_subject_ids = list(
-        id_col_name = "id",
-        format      = NULL,
-        prefix      = NULL,
-        suffix      = NULL,
-        range       = NULL,
-        remove      = FALSE
+        target_columns = "id",
+        format         = NULL,
+        prefix         = NULL,
+        suffix         = NULL,
+        range          = NULL
       ),
       dictionary = NULL,
       to_numeric = NULL
@@ -193,17 +191,16 @@ clean_data <- function(
   if (!is.null(params[["standardize_subject_ids"]])) {
     R.utils::cat("\nchecking subject IDs format")
     stopifnot(
-      "'id_col_name' must be provided." =
-        !is.null(params[["standardize_subject_ids"]][["id_col_name"]])
+      "'target_columns' must be provided." =
+        !is.null(params[["standardize_subject_ids"]][["target_columns"]])
     )
     data <- check_subject_ids(
       data           = data,
-      format         = params[["standardize_subject_ids"]][["format"]],
-      id_column_name = params[["standardize_subject_ids"]][["id_col_name"]],
+      target_columns = params[["standardize_subject_ids"]][["target_columns"]],
       prefix         = params[["standardize_subject_ids"]][["prefix"]],
       suffix         = params[["standardize_subject_ids"]][["suffix"]],
       range          = params[["standardize_subject_ids"]][["range"]],
-      remove         = params[["standardize_subject_ids"]][["remove"]]
+      length         = params[["standardize_subject_ids"]][["length"]]
     )
   }
 
