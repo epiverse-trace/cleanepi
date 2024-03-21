@@ -1,18 +1,14 @@
 test_that("standardize_column_names works with rename argument", {
   cleaned_data <- standardize_column_names(
-    data = readRDS(system.file("extdata", "test_df.RDS",
-      package = "cleanepi"
-    )),
+    data = readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi")),
     rename = c("dateOfBirth = DOB, sex=gender")
   )
   expect_s3_class(cleaned_data, "data.frame")
-  expect_named(cleaned_data, expected = c(
-    "study_id", "event_name",
-    "country_code", "country_name",
-    "date.of.admission", "DOB",
-    "date_first_pcr_positive_test",
-    "gender"
-  ))
+  expect_named(cleaned_data, expected = c("study_id", "event_name",
+                                          "country_code", "country_name",
+                                          "date_of_admission", "DOB",
+                                          "date_first_pcr_positive_test",
+                                          "gender"))
 })
 test_that("standardize_column_names fails when rename argument contains existing column names", {
   expect_error(
@@ -34,13 +30,11 @@ test_that("standardize_column_names works with keep argument", {
     keep = "date.of.admission"
   )
   expect_s3_class(cleaned_data, "data.frame")
-  expect_named(cleaned_data, expected = c(
-    "study_id", "event_name",
-    "country_code", "country_name",
-    "date.of.admission", "dateOfBirth",
-    "date_first_pcr_positive_test",
-    "sex"
-  ))
+  expect_named(cleaned_data,
+               expected = c("study_id", "event_name", "country_code",
+                            "country_name", "date.of.admission",
+                            "date_of_birth", "date_first_pcr_positive_test",
+                            "sex"))
 })
 
 test_that("standardize_column_names works with all argument", {

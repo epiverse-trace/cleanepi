@@ -52,9 +52,8 @@ standardize_column_names <- function(data, keep = NULL, rename = NULL) {
   # name or column indices or NULL
   if (!is.null(keep)) {
     keep <- get_target_column_names(data,
-      target_columns = keep,
-      cols           = NULL
-    )
+                                    target_columns = keep,
+                                    cols           = NULL)
   }
 
   # if they're anything apart from ASCII e.g. arabic, throw error
@@ -64,13 +63,12 @@ standardize_column_names <- function(data, keep = NULL, rename = NULL) {
     snakecase::to_snake_case(before, transliterations = "Latin-ASCII"),
     sep = "_"
   )
-  kept <- which(before %in% keep)
-  after[kept] <- before[kept]
-  after[rename] <- names(rename)
+  kept           <- which(before %in% keep)
+  after[kept]    <- before[kept]
+  after[rename]  <- names(rename)
   colnames(data) <- after
-
-  colnames_info <- data.frame(before, after)
-  data <- add_to_report(data, "colnames", colnames_info)
+  colnames_info  <- data.frame(before, after)
+  data           <- add_to_report(data, "colnames", colnames_info)
   return(data)
 }
 
@@ -89,10 +87,10 @@ get_new_names <- function(original_names, target_columns) {
   }
   target_columns <- unlist(strsplit(target_columns, ",", fixed = TRUE))
   target_columns <- strsplit(target_columns, "=", fixed = TRUE)
-  curent <- new <- NULL
+  curent         <- new <- NULL
   for (i in seq_along(target_columns)) {
-    curent <- c(curent, trimws(target_columns[[i]][[1L]]))
-    new <- c(new, trimws(target_columns[[i]][[2L]]))
+    curent       <- c(curent, trimws(target_columns[[i]][[1L]]))
+    new          <- c(new, trimws(target_columns[[i]][[2L]]))
   }
   stopifnot(
     "Unrecognised column names specified in 'rename'" =
@@ -100,7 +98,7 @@ get_new_names <- function(original_names, target_columns) {
     "Replace column names already exists" =
       !any(new %in% original_names)
   )
-  idx <- match(curent, original_names)
+  idx        <- match(curent, original_names)
   names(idx) <- new
   return(idx)
 }
