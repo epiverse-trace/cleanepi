@@ -13,27 +13,35 @@
 #' # do not rename 'date.of.admission'
 #' cleaned_data <- standardize_column_names(
 #'   data = readRDS(system.file("extdata", "test_df.RDS",
-#'                              package = "cleanepi")),
+#'     package = "cleanepi"
+#'   )),
 #'   keep = "date.of.admission"
 #' )
 #'
 #' # do not rename 'date.of.admission', but rename 'dateOfBirth' and 'sex' to
 #' # 'DOB' and 'gender' respectively
 #' cleaned_data <- standardize_column_names(
-#'   data   = readRDS(system.file("extdata", "test_df.RDS",
-#'                                package = "cleanepi")),
-#'   keep   = "date.of.admission",
+#'   data = readRDS(system.file("extdata", "test_df.RDS",
+#'     package = "cleanepi"
+#'   )),
+#'   keep = "date.of.admission",
 #'   rename = "dateOfBirth = DOB, sex=gender"
 #' )
 #'
 standardize_column_names <- function(data, keep = NULL, rename = NULL) {
-  if (!checkmate::check_vector(keep, min.len = 0L, null.ok = TRUE,
-                               any.missing = FALSE)) {
-    checkmate::assert_character(keep, fixed = TRUE, any.missing = FALSE,
-                                null.ok = TRUE)
+  if (!checkmate::check_vector(keep,
+    min.len = 0L, null.ok = TRUE,
+    any.missing = FALSE
+  )) {
+    checkmate::assert_character(keep,
+      fixed = TRUE, any.missing = FALSE,
+      null.ok = TRUE
+    )
   }
-  checkmate::assert_character(rename, min.len = 0L, null.ok = TRUE,
-                              any.missing = FALSE)
+  checkmate::assert_character(rename,
+    min.len = 0L, null.ok = TRUE,
+    any.missing = FALSE
+  )
   before <- colnames(data)
 
   # when rename is not NULL, get the new column names
@@ -42,24 +50,27 @@ standardize_column_names <- function(data, keep = NULL, rename = NULL) {
   # when keep is 'linelist_tags', keep the tagged variables
   # also account for when target columns are provided as a vector or column
   # name or column indices or NULL
-  keep   <- get_target_column_names(data,
-                                    target_columns = keep,
-                                    cols           = NULL)
+  if (!is.null(keep)) {
+    keep <- get_target_column_names(data,
+      target_columns = keep,
+      cols           = NULL
+    )
+  }
 
   # if they're anything apart from ASCII e.g. arabic, throw error
   # TODO replace snakecase with fixed list of diacritics swapable to English
   # TODO e.g. é,ê,è = e
-  after  <- make.unique(
+  after <- make.unique(
     snakecase::to_snake_case(before, transliterations = "Latin-ASCII"),
     sep = "_"
   )
-  kept           <- which(before %in% keep)
-  after[kept]    <- before[kept]
-  after[rename]  <- names(rename)
+  kept <- which(before %in% keep)
+  after[kept] <- before[kept]
+  after[rename] <- names(rename)
   colnames(data) <- after
 
   colnames_info <- data.frame(before, after)
-  data          <- add_to_report(data, "colnames", colnames_info)
+  data <- add_to_report(data, "colnames", colnames_info)
   return(data)
 }
 
@@ -74,20 +85,22 @@ standardize_column_names <- function(data, keep = NULL, rename = NULL) {
 #'
 get_new_names <- function(original_names, target_columns) {
   if (is.null(target_columns)) {
-    idx          <- seq_along(original_names)
-    names(idx)   <- original_names
-    return(idx)
+    return(NULL)
   }
   target_columns <- unlist(strsplit(target_columns, ",", fixed = TRUE))
   target_columns <- strsplit(target_columns, "=", fixed = TRUE)
-  curent         <- new <- NULL
+  curent <- new <- NULL
   for (i in seq_along(target_columns)) {
-    curent       <- c(curent, trimws(target_columns[[i]][[1L]]))
-    new          <- c(new, trimws(target_columns[[i]][[2L]]))
+    curent <- c(curent, trimws(target_columns[[i]][[1L]]))
+    new <- c(new, trimws(target_columns[[i]][[2L]]))
   }
-  stopifnot("Unrecognised column names specified in 'rename'" =
-              all(curent %in% original_names))
-  idx            <- match(curent, original_names)
-  names(idx)     <- new
+  stopifnot(
+    "Unrecognised column names specified in 'rename'" =
+      all(curent %in% original_names),
+    "Replace column names already exists" =
+      !any(new %in% original_names)
+  )
+  idx <- match(curent, original_names)
+  names(idx) <- new
   return(idx)
 }
