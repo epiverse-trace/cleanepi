@@ -539,7 +539,8 @@ age <- span(
   span_remainder_unit = "months"
 )
 
-# CALCULATE THE TIME SPAN IN YEARS BETWEEN INDIVIDUALS 'dateOfBirth' AND THE DAY THEY TESTED POSITIVE
+# CALCULATE THE TIME SPAN IN YEARS BETWEEN INDIVIDUALS 'dateOfBirth' AND THE DAY
+# THEY TESTED POSITIVE
 data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi"))
 time_span  <- data |>
   replace_missing_values(target_columns = "dateOfBirth",
