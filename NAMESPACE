@@ -2,7 +2,6 @@
 
 export(add_to_dictionary)
 export(add_to_report)
-export(calculate_age)
 export(check_date_sequence)
 export(check_subject_ids)
 export(clean_data)
