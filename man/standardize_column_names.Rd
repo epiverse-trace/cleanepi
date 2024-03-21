@@ -16,7 +16,7 @@ tagged column names. The Default is \code{NULL}.}
 \item{rename}{an expression used to specify how to rename some columns.}
 }
 \value{
-A data frame with easy to work with column names.
+A data frame or linelist with easy to work with column names.
 }
 \description{
 Standardize column names of a data frame or linelist
