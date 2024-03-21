@@ -8,21 +8,17 @@ IDs are found, the function sends a message and the user can call the
 \usage{
 check_subject_ids(
   data,
-  id_column_name,
-  format = NULL,
+  target_columns,
   prefix = NULL,
   suffix = NULL,
   range = NULL,
-  remove = FALSE
+  length = NULL
 )
 }
 \arguments{
 \item{data}{The input data frame or linelist}
 
-\item{id_column_name}{A column name of  the subject IDs. If not
-specified, the first column will be considered by default.}
-
-\item{format}{A  format of the subject IDs}
+\item{target_columns}{A vector of column names with the subject ids.}
 
 \item{prefix}{A prefix used in the subject IDs}
 
@@ -30,8 +26,8 @@ specified, the first column will be considered by default.}
 
 \item{range}{A vector with the range of numbers in the sample IDs}
 
-\item{remove}{A logical that is used to whether to remove the incorrect
-subject IDs or not. Default is \code{FALSE}.}
+\item{length}{An integer that represents the expected length in the subject
+ids.}
 }
 \value{
 A cleaned data frame with only the correct subject IDs if
@@ -47,11 +43,10 @@ IDs are found, the function sends a message and the user can call the
 dat <- check_subject_ids(
   data           = readRDS(system.file("extdata", "test_df.RDS",
                                        package = "cleanepi")),
-  id_column_name = "study_id",
-  format         = NULL,
+  target_columns = "study_id",
   prefix         = "PS",
   suffix         = "P2",
   range          = c(1, 100),
-  remove         = TRUE
+  length         = NULL
 )
 }

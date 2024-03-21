@@ -9,9 +9,6 @@ correct_subject_ids(data, id_column_name, correction_table)
 \arguments{
 \item{data}{The input data frame or linelist}
 
-\item{id_column_name}{A column name of  the subject IDs. If not
-specified, the first column will be considered by default.}
-
 \item{correction_table}{A data frame with the following two columns:
 \enumerate{
 \item \code{from}: a column with the wrong subject IDs,

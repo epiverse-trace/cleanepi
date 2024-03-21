@@ -3,34 +3,11 @@ data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi"))
 test_that("check_subject_ids works as expected when remove = FALSE", {
   dat <- check_subject_ids(
     data           = data,
-    id_column_name = "study_id",
-    format         = NULL,
+    target_columns = "study_id",
     prefix         = "PS",
     suffix         = "P2",
     range          = c(1L, 100L),
-    remove         = FALSE
-  )
-  report <- attr(dat, "report")
-  expect_s3_class(dat, "data.frame")
-  expect_false(identical(data, dat))
-  expect_true(nrow(data) == nrow(dat))
-  expect_true(all(c("PS004P2-1", "P0005P2", "PB500P2") %in% dat[["study_id"]]))
-  expect_true("incorrect_subject_id" %in% names(report))
-  expect_true(all(c("PS004P2-1", "P0005P2", "PB500P2") %in%
-                    report[["incorrect_subject_id"]][["ids"]]))
-  expect_identical(ncol(report[["incorrect_subject_id"]]), 2L)
-  expect_identical(nrow(report[["incorrect_subject_id"]]), 3L)
-})
-
-test_that("check_subject_ids works as expected when remove = TRUE", {
-  dat <- check_subject_ids(
-    data           = data,
-    id_column_name = "study_id",
-    format         = NULL,
-    prefix         = "PS",
-    suffix         = "P2",
-    range          = c(1L, 100L),
-    remove         = TRUE
+    length         = NULL
   )
   expect_s3_class(dat, "data.frame")
   expect_false(identical(data, dat))
@@ -42,12 +19,11 @@ test_that("check_subject_ids fails as expected", {
   expect_error(
     check_subject_ids(
       data           = NULL,
-      id_column_name = "study_id",
-      format         = "PS000P2",
+      target_columns = "study_id",
       prefix         = "PS",
       suffix         = "P2",
       range          = c(1L, 100L),
-      remove         = TRUE
+      length         = NULL
     ),
     regexp = cat("Assertion on',data,'failed: input data frame must be
                  provided.")
@@ -57,12 +33,11 @@ test_that("check_subject_ids fails as expected", {
     check_subject_ids(
       data           = readRDS(system.file("extdata", "test_df.RDS",
                                            package = "cleanepi")),
-      id_column_name = NA,
-      format         = "PS000P2",
+      target_columns = NA,
       prefix         = "PS",
       suffix         = "P2",
       range          = c(1L, 100L),
-      remove         = TRUE
+      length         = NULL
     ),
     regexp = cat("Assertion on',id_column_name,'failed: Missing value not
                  allowed for 'id_column_name'.")
@@ -72,12 +47,11 @@ test_that("check_subject_ids fails as expected", {
     check_subject_ids(
       data           = readRDS(system.file("extdata", "test_df.RDS",
                                            package = "cleanepi")),
-      id_column_name = c("study_id", "event_name"),
-      format         = "PS000P2",
+      target_columns = c("study_id", "event_name"),
       prefix         = "PS",
       suffix         = "P2",
       range          = c(1L, 100L),
-      remove         = TRUE
+      length         = NULL
     ),
     regexp = cat("Assertion on',id_column_name,'failed: Must be a character of
                  length 1.")
@@ -87,30 +61,14 @@ test_that("check_subject_ids fails as expected", {
     check_subject_ids(
       data           = readRDS(system.file("extdata", "test_df.RDS",
                                            package = "cleanepi")),
-      id_column_name = "study_id",
-      format         = NA,
+      target_columns = "study_id",
       prefix         = "PS",
       suffix         = "P2",
       range          = c(1L, 100L),
-      remove         = TRUE
+      length         = NA
     ),
-    regexp = cat("Assertion on',format,'failed: template sample IDs format
+    regexp = cat("Assertion on',length,'failed: template sample IDs format
                  must be provided.")
-  )
-
-  expect_error(
-    check_subject_ids(
-      data           = readRDS(system.file("extdata", "test_df.RDS",
-                                           package = "cleanepi")),
-      id_column_name = "study_id",
-      format         = c("PS000P2", "PS000P1"),
-      prefix         = "PS",
-      suffix         = "P2",
-      range          = c(1L, 100L),
-      remove         = TRUE
-    ),
-    regexp = cat("Assertion on',format,'failed: Must be a character of length
-                 1.")
   )
 })
 
@@ -119,47 +77,45 @@ test_that("check_subject_ids sends a message when duplicated IDs are found", {
   data[["study_id"]][[10L]] <- data[["study_id"]][[1L]]
   expect_message(
     check_subject_ids(data           = data,
-                      id_column_name = "study_id",
-                      format         = NULL,
+                      target_columns = "study_id",
                       prefix         = "PS",
                       suffix         = "P2",
-                      range          = c(1L, 100L)),
+                      range          = c(1L, 100L),
+                      length         = NULL),
     "Found 2 duplicated rows. Please consult the report for more details."
   )
 })
 
 data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi"))
-test_that("check_subject_ids works when relying on the format argument", {
+test_that("check_subject_ids works when relying on the length argument", {
   dat <- check_subject_ids(data           = data,
-                           id_column_name = "study_id",
-                           format         = "PS100P2",
+                           target_columns = "study_id",
                            prefix         = NULL,
                            suffix         = NULL,
                            range          = NULL,
                            remove         = TRUE)
+                           length         = 7L)
   expect_s3_class(dat, "data.frame")
   expect_false(nrow(data) == nrow(dat))
   expect_false("PS004P2-1" %in% dat[["study_id"]])
 
   dat <- check_subject_ids(data           = data,
-                           id_column_name = "study_id",
-                           format         = "PS100P2",
+                           target_columns = "study_id",
                            prefix         = NULL,
                            suffix         = NULL,
                            range          = c(1L, 100L),
-                           remove         = TRUE)
+                           length         = 7L)
   expect_s3_class(dat, "data.frame")
   expect_false(nrow(data) == nrow(dat))
   expect_false("PS004P2-1" %in% dat[["study_id"]])
   expect_false("PB500P2" %in% dat[["study_id"]])
 
   dat <- check_subject_ids(data           = data,
-                           id_column_name = "study_id",
-                           format         = "PS100P2",
+                           target_columns = "study_id",
                            prefix         = "PS",
                            suffix         = NULL,
                            range          = c(1L, 100L),
-                           remove         = TRUE)
+                           length         = 7L)
   expect_s3_class(dat, "data.frame")
   expect_false(nrow(data) == nrow(dat))
   expect_false("PS004P2-1" %in% dat[["study_id"]])

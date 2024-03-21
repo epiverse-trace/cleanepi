@@ -10,9 +10,9 @@ clean_data(
     na_strings = cleanepi::common_na_strings), remove_duplicates = list(target_columns =
     NULL, rm_empty_rows = TRUE, rm_empty_cols = TRUE, rm_constant_cols = TRUE),
     standardize_dates = list(target_columns = NULL, error_tolerance = 0.5, format = NULL,
-    timeframe = NULL), standardize_subject_ids = list(id_col_name = "id", format = NULL,
-    prefix = NULL, suffix = NULL, range = NULL, remove = FALSE), dictionary = NULL,
-    to_numeric = NULL)
+    timeframe = NULL), standardize_subject_ids = list(target_columns = "id", format =
+    NULL, prefix = NULL, suffix = NULL, range = NULL), dictionary = NULL, to_numeric =
+    NULL)
 )
 }
 \arguments{
@@ -79,12 +79,11 @@ standardize_date <- list(target_columns  = NULL,
                                                      "2023-05-29")))
 
 # Parameters for subject IDs standardization
-standardize_subject_ids <- list(id_col_name = "study_id",
-                                format      = NULL,
-                                prefix      = "PS",
-                                suffix      = "P2",
-                                range       = c(1, 100),
-                                remove      = TRUE)
+standardize_subject_ids <- list(target_columns = "study_id",
+                                prefix         = "PS",
+                                suffix         = "P2",
+                                range          = c(1, 100),
+                                length         = 7)
 
 # to_numeric = "sex" the 'sex' column will be converted into numeric
 

@@ -3,14 +3,12 @@
 #' `correct_subject_ids()` function to correct them.
 #'
 #' @param data The input data frame or linelist
-#' @param id_column_name A column name of  the subject IDs. If not
-#'    specified, the first column will be considered by default.
-#' @param format A  format of the subject IDs
+#' @param target_columns A vector of column names with the subject ids.
 #' @param prefix A prefix used in the subject IDs
 #' @param suffix A suffix used in the subject IDs
 #' @param range A vector with the range of numbers in the sample IDs
-#' @param remove A logical that is used to whether to remove the incorrect
-#'    subject IDs or not. Default is `FALSE`.
+#' @param length An integer that represents the expected length in the subject
+#'    ids.
 #'
 #' @returns A cleaned data frame with only the correct subject IDs if
 #'    `remove = TRUE`, or the input dataset otherwise. The incorrect subject ids
@@ -20,40 +18,36 @@
 #' dat <- check_subject_ids(
 #'   data           = readRDS(system.file("extdata", "test_df.RDS",
 #'                                        package = "cleanepi")),
-#'   id_column_name = "study_id",
-#'   format         = NULL,
+#'   target_columns = "study_id",
 #'   prefix         = "PS",
 #'   suffix         = "P2",
 #'   range          = c(1, 100),
-#'   remove         = TRUE
+#'   length         = NULL
 #' )
 #' @export
 check_subject_ids <- function(data,
-                              id_column_name,
-                              format         = NULL,
+                              target_columns,
                               prefix         = NULL,
                               suffix         = NULL,
                               range          = NULL,
-                              remove         = FALSE) {
+                              length         = NULL) {
   checkmate::assert_data_frame(data, null.ok = FALSE)
-  checkmate::assert_character(id_column_name, null.ok = FALSE,
+  checkmate::assert_character(target_columns, null.ok = FALSE,
                               any.missing = FALSE, len = 1L)
-  checkmate::assert_character(format, len = 1L, null.ok = TRUE,
-                              any.missing = FALSE)
   checkmate::assert_character(prefix, len = 1L, null.ok = TRUE,
                               any.missing = FALSE)
   checkmate::assert_character(suffix, len = 1L, null.ok = TRUE,
                               any.missing = FALSE)
   checkmate::assert_vector(range, any.missing = FALSE, min.len = 2L,
                            null.ok = TRUE, unique = TRUE, max.len = 2L)
-  checkmate::assert_logical(remove, any.missing = FALSE, len = 1L,
-                            null.ok = FALSE)
+  checkmate::assert_numeric(length, null.ok = TRUE, any.missing = FALSE,
+                            len = 1L)
 
-  data     <- check_subject_ids_oness(data, id_column_name)
+  data     <- check_ids_uniqueness(data, target_columns)
   bad_rows <- NULL
   # check prefix of subject IDs
   if (!is.null(prefix)) {
-    prefix_check    <- startsWith(data[[id_column_name]], prefix)
+    prefix_check    <- startsWith(data[[target_columns]], prefix)
     idx             <- which(!(prefix_check))
     if (length(idx) > 0L) {
       bad_rows      <- c(bad_rows, idx)
@@ -62,7 +56,7 @@ check_subject_ids <- function(data,
 
   # check suffix of subject IDs
   if (!is.null(suffix)) {
-    suffix_check <- endsWith(data[[id_column_name]], suffix)
+    suffix_check <- endsWith(data[[target_columns]], suffix)
     idx          <- which(!(suffix_check))
     if (length(idx) > 0L) {
       bad_rows   <- c(bad_rows, idx)
@@ -70,11 +64,10 @@ check_subject_ids <- function(data,
   }
 
   # detect subject IDs that do not match the provided format
-  if (!is.null(format)) {
-    length_check <- as.logical(as.character(lapply(data[[id_column_name]],
-                                                   check_subject_ids_length,
-                                                   format)))
-    idx          <- which(!(length_check))
+  if (!is.null(length)) {
+    length_check <- as.logical(as.character(lapply(data[[target_columns]],
+                                                   check_id_length, length)))
+    idx          <- which(length_check)
     if (length(idx) > 0L) {
       bad_rows   <- c(bad_rows, idx)
     }
@@ -82,7 +75,7 @@ check_subject_ids <- function(data,
 
   # check the numbers in the sample IDs
   if (!is.null(range)) {
-    numbers_in <- as.numeric(unlist(lapply(data[[id_column_name]],
+    numbers_in <- as.numeric(unlist(lapply(data[[target_columns]],
                                            readr::parse_number)))
     idx        <- which(!(numbers_in >= min(range) & numbers_in <= max(range)))
     if (length(idx) > 0L) {
@@ -94,16 +87,8 @@ check_subject_ids <- function(data,
   if (!is.null(bad_rows)) {
     bad_rows     <- unique(bad_rows)
     tmp_report   <- data.frame(idx = bad_rows,
-                               ids = data[[id_column_name]][bad_rows])
-    if (remove) {
-      data       <- data[-bad_rows, ]
-      message(nrow(tmp_report), " incorrect subject IDs were removed. See the ",
-              "report for more details.")
-    } else {
-      message("Found ", nrow(tmp_report), " incorrect subject IDs. Use the ",
-              "'correct_subject_ids()' function to correct them. See the ",
-              "report for more details.")
-    }
+                               ids = data[[target_columns]][bad_rows])
+    data         <- data[-bad_rows, ]
     data         <- add_to_report(x     = data,
                                   key   = "incorrect_subject_id",
                                   value = tmp_report)
@@ -210,8 +195,8 @@ check_subject_ids_oness <- function(data, id_col_name) {
 #' Check the length of sample IDs
 #'
 #' @param x the sample ID
-#' @param ref the template sample ID
+#' @param ref the expected length of the sample ids
 #' @keywords internal
-check_subject_ids_length <- function(x, ref) {
-  return(nchar(ref) >= nchar(x))
+check_id_length <- function(x, ref) {
+  return(nchar(x) != ref)
 }
