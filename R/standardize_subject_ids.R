@@ -142,7 +142,10 @@ check_subject_ids <- function(data,
 #' )
 correct_subject_ids <- function(data, target_columns, correction_table) {
   checkmate::assert_data_frame(correction_table, any.missing = FALSE,
-                               min.rows = 1L, ncols = 2L, null.ok = FALSE)
+                               min.rows = 1L, ncols = 2L, null.ok = FALSE,
+                               col.names = "named")
+  checkmate::assert_names(names(correction_table),
+                          identical.to = c("from", "to"))
 
   stopifnot("Some ids in the correction table were not found in the input data"
             = all(correction_table[["from"]] %in% data[[target_columns]]))

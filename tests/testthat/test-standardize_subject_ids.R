@@ -191,4 +191,15 @@ test_that("correct_subject_ids fails as expected", {
                  subject ids column of the input data.")
   )
 
+  colnames(correction_table)[[2L]] <- "new"
+  expect_error(
+    correct_subject_ids(
+      data             = data,
+      target_columns   = "study_id",
+      correction_table = correction_table
+    ),
+    regexp = cat("Column in 'correction_table' must be named as 'from' and
+                 'to'")
+  )
+
 })
