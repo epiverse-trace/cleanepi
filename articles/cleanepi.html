@@ -3120,86 +3120,95 @@ female
 </div>
 </div>
 <div class="section level3">
-<h3 id="calculating-age-in-different-time-scales">Calculating age in different time scales<a class="anchor" aria-label="anchor" href="#calculating-age-in-different-time-scales"></a>
+<h3 id="calculating-time-span-in-different-time-scales-years-months-weeks-or-days">Calculating time span in different time scales (“years”, “months”,
+“weeks”, or “days”)<a class="anchor" aria-label="anchor" href="#calculating-time-span-in-different-time-scales-years-months-weeks-or-days"></a>
 </h3>
-<p>The <code><a href="../reference/calculate_age.html">calculate_age()</a></code> function computes the ages of
-individuals, expressed in years, months, weeks, or days, based on a
-given date column and a reference date. It requires the following
-arguments:</p>
+<p>The <code><a href="../reference/span.html">span()</a></code> function computes the time span between a
+single Date value or a vector Date values or another column of the
+target data and a chosen in the target data. The resulting time span can
+be expressed in “years”, “months”, “weeks”, or “days”, depending on the
+user-specified unit. The functions requires the following arguments:</p>
 <ol style="list-style-type: decimal">
-<li><p><strong>data</strong>: The input dataset (required).</p></li>
-<li><p><strong>target_column</strong>: A vector of the name of the
-column containing the birth or relevant dates for which the age is being
-calculated (required).</p></li>
-<li><p><strong>end_date</strong>: This is the reference date used to
-calculate the age of individuals (required). The function computes the
-age relative to this date. The default value is today’s date
-(<code><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date()</a></code>) &gt; The format required for this argument is
-<code>%Y-%m-%d</code> (“2024-12-31” for 31st of December 2024).</p></li>
-<li><p><strong>age_in</strong>: This parameter determines the unit in
-which the age is expressed (required). It can be specified as “years”,
-“months”, “weeks”, or “days”. By default, the age is calculated in years
-if this parameter is not provided.</p></li>
-<li><p><strong>age_column_name</strong>: A string for the name of the
-age column added to the input data. The default is <code>age_in_*</code>
-where <code>*</code> represents the unit specified in the ‘age_in’
-argument.</p></li>
-<li><p><strong>age_remainder_unit</strong>: A parameter used to
-determine the number of the remaining days (remainder_days) or weeks
-(remainder_weeks) or months (remainder_months), depending on the value
-of the ‘age_remainder_unit’ parameter, after calculating the
-age.</p></li>
+<li>
+<strong>data</strong>: The input dataset (required).</li>
+<li>
+<strong>target_column</strong>: A string with the name of the target
+column (require). The values in this column are expected to be in the
+form of <code>Ymd</code> i.e. <code>2024-01-31</code>. The time span
+will calculated between these values and the reference value(s).</li>
+<li>
+<strong>end_date</strong>: it can be either a character that is the
+name of another column of type Date from the input data or a vector of
+Date values or a single Date value (required). This should also be in
+the ISO format (“2024-01-31”) and its default value is today’s date
+<code><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date()</a></code>.</li>
+<li>
+<strong>span_unit</strong>: This parameter determines the unit in
+which the time span is expressed (required). It can be specified as
+“years”, “months”, “weeks”, or “days”. By default, the time span is
+calculated in “years” if this parameter is not provided.</li>
+<li>
+<strong>span_column_name</strong>: A string for the name of the
+column added to the input data. The default is <code>span</code>.</li>
+<li>
+<strong>span_remainder_unit</strong>: A parameter used to determine
+the unit in which remainder of the time span calculation will be
+returned. The possible units are: “days” or “weeks” or “months”. By
+default, the function returns decimal age
+i.e. <code>span_remainder_unit = NULL</code>.</li>
 </ol>
 <p>With these arguments, the function offers flexibility in determining
-the age of individuals based on different units and reference dates. It
-facilitates various analytics tasks where age computation is a necessary
-component, providing users with the ability to customize the output
-according to their specific requirements.</p>
+the time span in different units. It facilitates various analytics tasks
+where the time span computation is a necessary component, providing
+users with the ability to customize the output according to their
+specific requirements.</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># IMPORT THE INPUT DATA</span></span>
-<span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"test_df.RDS"</span>, package <span class="op">=</span> <span class="st">"cleanepi"</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># REPLACE MISSING VALUES IN TARGET COLUMNS WITH `NA`</span></span>
-<span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/replace_missing_values.html">replace_missing_values</a></span><span class="op">(</span>data           <span class="op">=</span> <span class="va">data</span>,</span>
-<span>                               target_columns <span class="op">=</span> <span class="st">"dateOfBirth"</span>,</span>
-<span>                               na_strings     <span class="op">=</span> <span class="st">"-99"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># calculate_age() EXPECTS DATE VALUES IN ISO FORMAT.</span></span>
-<span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/standardize_dates.html">standardize_dates</a></span><span class="op">(</span>data            <span class="op">=</span> <span class="va">data</span>,</span>
-<span>                          target_columns  <span class="op">=</span> <span class="st">"dateOfBirth"</span>,</span>
-<span>                          error_tolerance <span class="op">=</span> <span class="fl">0.0</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="co"># IMPORT DATA, REPLACE MISSING VALUES WITH 'NA' &amp; STANDARDISE DATES</span></span>
+<span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"test_df.RDS"</span>, package <span class="op">=</span> <span class="st">"cleanepi"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/replace_missing_values.html">replace_missing_values</a></span><span class="op">(</span>target_columns <span class="op">=</span> <span class="st">"dateOfBirth"</span>,</span>
+<span>                         na_strings     <span class="op">=</span> <span class="st">"-99"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/standardize_dates.html">standardize_dates</a></span><span class="op">(</span>target_columns  <span class="op">=</span> <span class="st">"dateOfBirth"</span>,</span>
+<span>                    error_tolerance <span class="op">=</span> <span class="fl">0.0</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># CALCULATE INDIVIDUAL AGE IN YEARS FROM THE 'dateOfBirth' COLUMN AND SEND THE</span></span>
 <span><span class="co"># REMAINDER IN MONTHS</span></span>
-<span><span class="va">age</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calculate_age.html">calculate_age</a></span><span class="op">(</span></span>
-<span>  data               <span class="op">=</span> <span class="va">data</span>,</span>
-<span>  target_column      <span class="op">=</span> <span class="st">"dateOfBirth"</span>,</span>
-<span>  end_date           <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  age_in             <span class="op">=</span> <span class="st">"years"</span>,</span>
-<span>  age_remainder_unit <span class="op">=</span> <span class="st">"months"</span></span>
+<span><span class="va">age</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/span.html">span</a></span><span class="op">(</span></span>
+<span>  data                <span class="op">=</span> <span class="va">data</span>,</span>
+<span>  target_column       <span class="op">=</span> <span class="st">"dateOfBirth"</span>,</span>
+<span>  end_date            <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  span_unit           <span class="op">=</span> <span class="st">"years"</span>,</span>
+<span>  span_column_name    <span class="op">=</span> <span class="st">"age_in_years"</span>,</span>
+<span>  span_remainder_unit <span class="op">=</span> <span class="st">"months"</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># USING THE dplyr SYNTHAX</span></span>
+<span><span class="co"># CALCULATE THE TIME SPAN IN YEARS BETWEEN INDIVIDUALS 'dateOfBirth' AND THE DAY</span></span>
+<span><span class="co"># THEY TESTED POSITIVE</span></span>
 <span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"test_df.RDS"</span>, package <span class="op">=</span> <span class="st">"cleanepi"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">age</span>  <span class="op">&lt;-</span> <span class="va">data</span> <span class="op">|&gt;</span></span>
+<span><span class="va">time_span</span>  <span class="op">&lt;-</span> <span class="va">data</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/replace_missing_values.html">replace_missing_values</a></span><span class="op">(</span>target_columns <span class="op">=</span> <span class="st">"dateOfBirth"</span>,</span>
 <span>                         na_strings     <span class="op">=</span> <span class="st">"-99"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="../reference/standardize_dates.html">standardize_dates</a></span><span class="op">(</span>target_columns  <span class="op">=</span> <span class="st">"dateOfBirth"</span>, error_tolerance <span class="op">=</span> <span class="fl">0.0</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="../reference/calculate_age.html">calculate_age</a></span><span class="op">(</span>target_column      <span class="op">=</span> <span class="st">"dateOfBirth"</span>,</span>
-<span>                end_date           <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>                age_in             <span class="op">=</span> <span class="st">"years"</span>,</span>
-<span>                age_remainder_unit <span class="op">=</span> <span class="st">"months"</span><span class="op">)</span></span></code></pre></div>
-<p>The <code><a href="../reference/calculate_age.html">calculate_age()</a></code> function augments the input dataset
-by adding one or two extra columns containing age-related information.
-These additional columns are as follows:</p>
+<span>  <span class="fu"><a href="../reference/standardize_dates.html">standardize_dates</a></span><span class="op">(</span></span>
+<span>    target_columns  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dateOfBirth"</span>, <span class="st">"date_first_pcr_positive_test"</span><span class="op">)</span>,</span>
+<span>    error_tolerance <span class="op">=</span> <span class="fl">0.0</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/span.html">span</a></span><span class="op">(</span></span>
+<span>    target_column       <span class="op">=</span> <span class="st">"dateOfBirth"</span>,</span>
+<span>    end_date            <span class="op">=</span> <span class="st">"date_first_pcr_positive_test"</span>,</span>
+<span>    span_unit           <span class="op">=</span> <span class="st">"years"</span>,</span>
+<span>    span_column_name    <span class="op">=</span> <span class="st">"elapsed_time"</span>,</span>
+<span>    span_remainder_unit <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+<p>The <code><a href="../reference/span.html">span()</a></code> function augments the input dataset by adding
+one or two extra columns containing age-related information. These
+additional columns are as follows:</p>
 <ol style="list-style-type: decimal">
-<li><p><strong>Calculated age in specified scale</strong>: Contains the
-calculated age of individuals expressed in the specified unit (years,
-months, weeks, or days).</p></li>
+<li><p><strong>Calculated time span in the specified scale</strong>:
+Contains the calculated time span in the specified unit (“years”,
+“months”, “weeks”, or “days”).</p></li>
 <li><p><strong>Remaining number of days</strong>: Indicates the
-remaining number of days after calculating the age, representing the
-fractional part of the age calculation. This column is included if
-needed, and provides additional granularity in age
+remaining number of days after calculating the time span, representing
+the fractional part of the time span calculation. This column is
+included if needed, and provides additional granularity in the time span
 representation.</p></li>
 </ol>
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:200px; overflow-x: scroll; width:100%; ">
@@ -3230,10 +3239,7 @@ date_first_pcr_positive_test
 sex
 </th>
 <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
-age_in_years
-</th>
-<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
-remainder_months
+elapsed_time
 </th>
 </tr></thead>
 <tbody>
@@ -3257,16 +3263,13 @@ Gambia
 1972-01-06
 </td>
 <td style="text-align:left;">
-Dec 01, 2020
+2020-12-01
 </td>
 <td style="text-align:right;">
 1
 </td>
 <td style="text-align:right;">
-52
-</td>
-<td style="text-align:right;">
-2
+48.90
 </td>
 </tr>
 <tr>
@@ -3289,16 +3292,13 @@ Gambia
 1952-02-20
 </td>
 <td style="text-align:left;">
-Jan 01, 2021
+2021-01-01
 </td>
 <td style="text-align:right;">
 1
 </td>
 <td style="text-align:right;">
-72
-</td>
-<td style="text-align:right;">
-1
+68.87
 </td>
 </tr>
 <tr>
@@ -3321,16 +3321,13 @@ Gambia
 1961-06-15
 </td>
 <td style="text-align:left;">
-Feb 11, 2021
+2021-02-11
 </td>
 <td style="text-align:right;">
 -99
 </td>
 <td style="text-align:right;">
-62
-</td>
-<td style="text-align:right;">
-9
+59.66
 </td>
 </tr>
 <tr>
@@ -3353,16 +3350,13 @@ Gambia
 1947-11-11
 </td>
 <td style="text-align:left;">
-Feb 01, 2021
+2021-02-01
 </td>
 <td style="text-align:right;">
 1
 </td>
 <td style="text-align:right;">
-76
-</td>
-<td style="text-align:right;">
-4
+73.23
 </td>
 </tr>
 <tr>
@@ -3385,16 +3379,13 @@ Gambia
 2000-09-26
 </td>
 <td style="text-align:left;">
-Feb 16, 2021
+2021-02-16
 </td>
 <td style="text-align:right;">
 2
 </td>
 <td style="text-align:right;">
-23
-</td>
-<td style="text-align:right;">
-5
+20.39
 </td>
 </tr>
 <tr>
@@ -3417,13 +3408,10 @@ Gambia
 NA
 </td>
 <td style="text-align:left;">
-May 02, 2021
+2021-05-02
 </td>
 <td style="text-align:right;">
 2
-</td>
-<td style="text-align:right;">
-NA
 </td>
 <td style="text-align:right;">
 NA
@@ -3449,16 +3437,13 @@ Gambia
 1989-03-11
 </td>
 <td style="text-align:left;">
-Feb 19, 2021
+2021-02-19
 </td>
 <td style="text-align:right;">
 1
 </td>
 <td style="text-align:right;">
-35
-</td>
-<td style="text-align:right;">
-0
+31.95
 </td>
 </tr>
 <tr>
@@ -3481,16 +3466,13 @@ Gambia
 1976-05-10
 </td>
 <td style="text-align:left;">
-Sep 20, 2021
+2021-09-20
 </td>
 <td style="text-align:right;">
 2
 </td>
 <td style="text-align:right;">
-47
-</td>
-<td style="text-align:right;">
-10
+45.36
 </td>
 </tr>
 <tr>
@@ -3513,16 +3495,13 @@ Gambia
 1991-09-23
 </td>
 <td style="text-align:left;">
-Feb 26, 2021
+2021-02-26
 </td>
 <td style="text-align:right;">
 1
 </td>
 <td style="text-align:right;">
-32
-</td>
-<td style="text-align:right;">
-5
+29.43
 </td>
 </tr>
 <tr>
@@ -3545,16 +3524,13 @@ Gambia
 1991-08-02
 </td>
 <td style="text-align:left;">
-Mar 03, 2021
+2021-03-03
 </td>
 <td style="text-align:right;">
 2
 </td>
 <td style="text-align:right;">
-32
-</td>
-<td style="text-align:right;">
-7
+29.59
 </td>
 </tr>
 </tbody>

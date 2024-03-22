@@ -37,9 +37,6 @@
     <loc>https://epiverse-trace.github.io/cleanepi/reference/as_date.html</loc>
   </url>
   <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/calculate_age.html</loc>
-  </url>
-  <url>
     <loc>https://epiverse-trace.github.io/cleanepi/reference/check_date_sequence.html</loc>
   </url>
   <url>
@@ -197,6 +194,9 @@
   </url>
   <url>
     <loc>https://epiverse-trace.github.io/cleanepi/reference/scan_data.html</loc>
+  </url>
+  <url>
+    <loc>https://epiverse-trace.github.io/cleanepi/reference/span.html</loc>
   </url>
   <url>
     <loc>https://epiverse-trace.github.io/cleanepi/reference/standardize_column_names.html</loc>
