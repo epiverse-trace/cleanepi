@@ -507,7 +507,7 @@ cleaned_df |>
                          fixed_thead = TRUE)
 ```
 
-### Calculating time span different time scales
+### Calculating time span in different time scales (“years”, “months”, “weeks”, or “days”)
 
 The `span()` function computes the time span between a single Date value or a vector Date values or another column of the target data and a chosen in the target data. The resulting time span can be expressed in “years”, “months”, “weeks”, or “days”, depending on the user-specified unit. The functions requires the following arguments:
 
@@ -518,7 +518,7 @@ The `span()` function computes the time span between a single Date value or a ve
 5. **span_column_name**: A string for the name of the column added to the input data. The default is `span`.
 6. **span_remainder_unit**: A parameter used to determine the unit in which remainder of the time span calculation will be returned. The possible units are: “days” or “weeks” or “months”. By default, the function returns decimal age i.e. `span_remainder_unit = NULL`.
 
-With these arguments, the function offers flexibility in determining the spanning time in different units. It facilitates various analytics tasks where the time span computation is a necessary component, providing users with the ability to customize the output according to their specific requirements.
+With these arguments, the function offers flexibility in determining the time span in different units. It facilitates various analytics tasks where the time span computation is a necessary component, providing users with the ability to customize the output according to their specific requirements.
 
 ```{r eval=TRUE}
 # IMPORT DATA, REPLACE MISSING VALUES WITH 'NA' & STANDARDISE DATES
@@ -560,9 +560,9 @@ time_span  <- data |>
 
 The `span()` function augments the input dataset by adding one or two extra columns containing age-related information. These additional columns are as follows:
 
-1. **Calculated time span in the specified scale**:  Contains the calculated spanning time in the specified unit (“years”, “months”, “weeks”, or “days”).
+1. **Calculated time span in the specified scale**:  Contains the calculated time span in the specified unit (“years”, “months”, “weeks”, or “days”).
 
-2. **Remaining number of days**:  Indicates the remaining number of days after calculating the spanning time, representing the fractional part of the time span calculation. This column is included if needed, and provides additional granularity in the time span representation.
+2. **Remaining number of days**:  Indicates the remaining number of days after calculating the  time span, representing the fractional part of the time span calculation. This column is included if needed, and provides additional granularity in the time span representation.
 
 ```{r eval=TRUE, echo=FALSE}
 # DISPLAY THE OUTPUT OBJECT
