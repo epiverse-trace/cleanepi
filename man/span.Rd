@@ -17,7 +17,7 @@ span(
 \item{data}{The input data frame or linelist}
 
 \item{target_column}{A string used to specify the name of the date column of
-interest. The values in this columns should be of type 'Date' in ISO
+interest. The values in this column should be of type 'Date' in ISO
 format ("2024-01-31").}
 
 \item{end_date}{An end date. It can be either a character that is the name of
@@ -25,17 +25,17 @@ another column of type 'Date' from the input data or a vector of Dates or
 a single Date value. This should also be in the ISO format ("2024-01-31").
 Default is today's date \code{Sys.Date()}.}
 
-\item{span_unit}{A string that specifies the units in which the spanning time
+\item{span_unit}{A string that specifies the units in which the time span
 between the dates will be returned. The possible units are: 'years',
 'months', 'weeks' or 'days'.}
 
 \item{span_column_name}{A string for the name of the new column to be used to
-store the calculated spanning time in the input data frame.}
+store the calculated time span in the input data frame.}
 
 \item{span_remainder_unit}{A string for the unit in which the remainder of
-the spanning time should be calculated. May be one of "months", "weeks",
+the time span should be calculated. May be one of "months", "weeks",
 and "days". Remainders requested in the same unit as the age will return
-values of 0. Default is NULL for decimal spanning time.}
+values of 0. Default is NULL for decimal time span.}
 }
 \value{
 The input data frame with one or two additional columns:
