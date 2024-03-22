@@ -50,6 +50,7 @@ Suggests:
     kableExtra,
     knitr,
     lintr,
+    markdown,
     reactable,
     rlang,
     rmarkdown,
