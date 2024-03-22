@@ -3,7 +3,7 @@
 \name{check_subject_ids}
 \alias{check_subject_ids}
 \title{Check whether the subject IDs comply with the expected format. When incorrect
-IDs are found, the function sends a message and the user can call the
+IDs are found, the function sends a warning and the user can call the
 \code{correct_subject_ids()} function to correct them.}
 \usage{
 check_subject_ids(
@@ -30,13 +30,11 @@ check_subject_ids(
 the subject ids.}
 }
 \value{
-A cleaned data frame with only the correct subject IDs if
-\code{remove = TRUE}, or the input dataset otherwise. The incorrect subject ids
-will be stored in the report object.
+The input dataset with a warning if incorrect subject ids were found
 }
 \description{
 Check whether the subject IDs comply with the expected format. When incorrect
-IDs are found, the function sends a message and the user can call the
+IDs are found, the function sends a warning and the user can call the
 \code{correct_subject_ids()} function to correct them.
 }
 \examples{

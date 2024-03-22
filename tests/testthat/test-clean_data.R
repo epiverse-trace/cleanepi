@@ -37,7 +37,7 @@ test_that("clean_data works as expected", {
     params = params
   )
   expect_s3_class(clean_data, "data.frame")
-  expect_identical(nrow(clean_data), 7L)
+  expect_identical(nrow(clean_data), 10L)
   expect_identical(ncol(clean_data), 5L)
   expect_false("-99" %in% as.vector(as.matrix(clean_data)))
 })
@@ -61,7 +61,7 @@ test_that("clean_data works in a pipable way", {
     clean_using_dictionary(dictionary = test_dictionary)
 
   expect_s3_class(clean_data, "data.frame")
-  expect_identical(nrow(clean_data), 7L)
+  expect_identical(nrow(clean_data), 10L)
   expect_identical(ncol(clean_data), 5L)
   expect_false("-99" %in% as.vector(as.matrix(clean_data)))
 })

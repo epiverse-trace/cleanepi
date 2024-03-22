@@ -4,10 +4,12 @@
 \alias{correct_subject_ids}
 \title{Correct the wrong subject IDs based on the user-provided values.}
 \usage{
-correct_subject_ids(data, id_column_name, correction_table)
+correct_subject_ids(data, target_columns, correction_table)
 }
 \arguments{
 \item{data}{The input data frame or linelist}
+
+\item{target_columns}{A vector of column names with the subject ids.}
 
 \item{correction_table}{A data frame with the following two columns:
 \enumerate{
@@ -30,12 +32,11 @@ substitution.
 dat <- check_subject_ids(
   data           = readRDS(system.file("extdata", "test_df.RDS",
                                        package = "cleanepi")),
-  id_column_name = "study_id",
-  format         = NULL,
+  target_columns = "study_id",
   prefix         = "PS",
   suffix         = "P2",
   range          = c(1, 100),
-  remove         = FALSE
+  nchar          = 7
 )
 
 # generate the correction table
@@ -47,7 +48,7 @@ correction_table <- data.frame(
 # perform the correction
 dat <- correct_subject_ids(
   data             = dat,
-  id_column_name   = "study_id",
+  target_columns   = "study_id",
   correction_table = correction_table
 )
 }
