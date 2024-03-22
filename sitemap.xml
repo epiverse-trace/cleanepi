@@ -43,10 +43,13 @@
     <loc>https://epiverse-trace.github.io/cleanepi/reference/check_date_sequence.html</loc>
   </url>
   <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/check_ids_uniqueness.html</loc>
+    <loc>https://epiverse-trace.github.io/cleanepi/reference/check_subject_ids.html</loc>
   </url>
   <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/check_subject_ids.html</loc>
+    <loc>https://epiverse-trace.github.io/cleanepi/reference/check_subject_ids_length.html</loc>
+  </url>
+  <url>
+    <loc>https://epiverse-trace.github.io/cleanepi/reference/check_subject_ids_oness.html</loc>
   </url>
   <url>
     <loc>https://epiverse-trace.github.io/cleanepi/reference/clean_data.html</loc>
@@ -71,6 +74,9 @@
   </url>
   <url>
     <loc>https://epiverse-trace.github.io/cleanepi/reference/convert_to_numeric.html</loc>
+  </url>
+  <url>
+    <loc>https://epiverse-trace.github.io/cleanepi/reference/correct_subject_ids.html</loc>
   </url>
   <url>
     <loc>https://epiverse-trace.github.io/cleanepi/reference/date_check_column_existence.html</loc>
