@@ -477,6 +477,8 @@ cleaned_data <- clean_data(
 #> removing duplicated rows
 #> standardising date columns
 #> checking subject IDs format
+#> 3 incorrect subject IDs were removed. See the report for more details.
+#> 
 #> converting sex into numeric
 #> performing dictionary-based cleaning
 ```
