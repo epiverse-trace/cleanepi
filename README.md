@@ -65,7 +65,7 @@ from [GitHub](https://epiverse-trace.github.io/cleanepi).
 
 ``` r
 if (!require("pak")) install.packages("pak")
-#pak::pak("{{ gh_repo }}")
+pak::pak("{{ gh_repo }}")
 library(cleanepi)
 ```
 
