@@ -1,21 +1,35 @@
 data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi"))
 
-test_that("check_subject_ids works as expected when remove = FALSE", {
-  dat <- check_subject_ids(
-    data           = data,
-    target_columns = "study_id",
-    prefix         = "PS",
-    suffix         = "P2",
-    range          = c(1L, 100L),
-    nchar          = NULL
-  )
-  expect_s3_class(dat, "data.frame")
-  expect_false(identical(data, dat))
-  expect_false(nrow(data) == nrow(dat))
-  expect_false(all(c("PS004P2-1", "P0005P2", "PB500P2") %in% dat[["study_id"]]))
+test_that("check_subject_ids works as expected when all parameters are
+          provided", {
+            dat <- check_subject_ids(
+              data           = data,
+              target_columns = "study_id",
+              prefix         = "PS",
+              suffix         = "P2",
+              range          = c(1L, 100L),
+              nchar          = 7L
+            )
+            expect_s3_class(dat, "data.frame")
+            expect_false(identical(data, dat))
+            expect_true(nrow(data) == nrow(dat))
+            expect_true(all(c("PS004P2-1", "P0005P2", "PB500P2") %in%
+                              dat[["study_id"]]))
 })
 
 test_that("check_subject_ids fails as expected", {
+  expect_warning(
+    check_subject_ids(
+      data           = data,
+      target_columns = "study_id",
+      prefix         = "PS",
+      suffix         = "P2",
+      range          = c(1L, 100L),
+      nchar          = 7L
+    ),
+    regexp = cat("Detected incorrect subject ids at lines: 5, 7, 3\n
+                 Use the correct_subject_ids() function to adjust them.")
+  )
   expect_error(
     check_subject_ids(
       data           = NULL,
@@ -81,7 +95,7 @@ test_that("check_subject_ids sends a message when duplicated IDs are found", {
                       prefix         = "PS",
                       suffix         = "P2",
                       range          = c(1L, 100L),
-                      nchar          = NULL),
+                      nchar          = 7L),
     "Found 2 duplicated rows. Please consult the report for more details."
   )
 })
@@ -95,8 +109,8 @@ test_that("check_subject_ids works when relying on the nchar argument", {
                            range          = NULL,
                            nchar          = 7L)
   expect_s3_class(dat, "data.frame")
-  expect_false(nrow(data) == nrow(dat))
-  expect_false("PS004P2-1" %in% dat[["study_id"]])
+  expect_true(nrow(data) == nrow(dat))
+  expect_true("PS004P2-1" %in% dat[["study_id"]])
 
   dat <- check_subject_ids(data           = data,
                            target_columns = "study_id",
@@ -105,9 +119,9 @@ test_that("check_subject_ids works when relying on the nchar argument", {
                            range          = c(1L, 100L),
                            nchar          = 7L)
   expect_s3_class(dat, "data.frame")
-  expect_false(nrow(data) == nrow(dat))
-  expect_false("PS004P2-1" %in% dat[["study_id"]])
-  expect_false("PB500P2" %in% dat[["study_id"]])
+  expect_true(nrow(data) == nrow(dat))
+  expect_true("PS004P2-1" %in% dat[["study_id"]])
+  expect_true("PB500P2" %in% dat[["study_id"]])
 
   dat <- check_subject_ids(data           = data,
                            target_columns = "study_id",
@@ -116,10 +130,10 @@ test_that("check_subject_ids works when relying on the nchar argument", {
                            range          = c(1L, 100L),
                            nchar          = 7L)
   expect_s3_class(dat, "data.frame")
-  expect_false(nrow(data) == nrow(dat))
-  expect_false("PS004P2-1" %in% dat[["study_id"]])
-  expect_false("PB500P2" %in% dat[["study_id"]])
-  expect_false("P0005P2" %in% dat[["study_id"]])
+  expect_true(nrow(data) == nrow(dat))
+  expect_true("PS004P2-1" %in% dat[["study_id"]])
+  expect_true("PB500P2" %in% dat[["study_id"]])
+  expect_true("P0005P2" %in% dat[["study_id"]])
 })
 
 # testing correct_subject_ids()
@@ -146,7 +160,7 @@ test_that("correct_subject_ids works as expected", {
   # perform the correction
   dat <- correct_subject_ids(
     data             = dat,
-    id_column_name   = "study_id",
+    target_columns   = "study_id",
     correction_table = correction_table
   )
   expect_s3_class(dat, "data.frame")
@@ -170,7 +184,7 @@ test_that("correct_subject_ids fails as expected", {
   expect_error(
     correct_subject_ids(
       data             = data,
-      id_column_name   = "study_id",
+      target_columns   = "study_id",
       correction_table = correction_table
     ),
     regexp = cat("All subject ids in the correction table should be part of the

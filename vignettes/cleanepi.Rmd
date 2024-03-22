@@ -202,7 +202,7 @@ res |>
 
 #### Detecting and remove incorrect subject ids
 
-The `check_subject_ids()` function is designed to identify and eliminate rows from the input dataset that don't comply with the expected format for subject IDs. It requires the following parameters:
+The `check_subject_ids()` function is designed to identify rows from the input dataset where the ids don't comply with the expected subject ids format. It requires the following parameters:
 
 1. **data**: A data frame or linelist (required).
 2. **target_columns**: The name of the column containing the subject IDs in the dataset (required).
@@ -212,9 +212,9 @@ The `check_subject_ids()` function is designed to identify and eliminate rows fr
 6. **range**: A vector of two elements. If there is an expected range of numbers within the subject IDs, define it using  this parameter. It is optional and can be omitted if there is no specific range.
 7. **remove**: A logical that determines whether to remove the incorrect subject IDs or not. By default, the wrong ids are detected and reported, and replaced using the `correct_subject_ids()` function.
 
-By providing these parameters, the function becomes a versatile tool for data cleaning, ensuring that only rows with subject IDs adhering to the expected format are retained in the dataset. When using the function, make sure to tailor the parameters according to the specific requirements of your dataset and the expected characteristics of the subject IDs.
+By providing these parameters, the function becomes a versatile tool for data cleaning, ensuring that the user is alerted on the presence of unexpected subject ids. When using the function, make sure to tailor the parameters according to the specific requirements of your dataset and the expected characteristics of the subject IDs.
 
-```{r eval=TRUE, comment="subject_ids_standaedisation"}
+```{r eval=TRUE, comment="subject_ids_standardisation"}
 # DETECT AND REMOVE INCORRECT SUBJECT IDs
 res <- check_subject_ids(
   data           = readRDS(system.file("extdata", "test_df.RDS",
@@ -233,14 +233,13 @@ report <- attr(res, "report")
 summary(report)
 ```
 
-The `check_subject_ids()` function returns the input dataset or a subset of a subset of the input data where rows with incorrect IDs have been removed (if `remove = TRUE`).
+The `check_subject_ids()` function returns the input dataset and send a warming when there are some incorrect ids.
 
 In addition to detecting wrong subject IDs, the function will also look for missing and duplicated IDs. As the result of this, the report made from this operation might contain two extra elements: **missing_ids** (a vector of row indexes where there is a missing IDs) and **duplicated_ids** (a data frame of rows with the duplicated IDs). Use the `print_report()` function to display the report made from this operation.
 
-#### Detecting and correct wrong subject ids
+#### Correct wrong subject ids
 
-When the user needs to find out the incorrect subject ids in order to correct, the `remove` argument of the `check_subject_ids()` should be set to `FALSE`.
-This allows to subsequently use the `correct_subject_ids()` to replace non complying ids with the correct ones. The function requires a data frame with the following two columns:
+After the detection of the incorrect subject ids using the `check_subject_ids()`, use the `correct_subject_ids()` to replace non complying ids with the correct ones. The function requires a data frame with the following two columns:
 
 1. **from**: a column with the wrong subject ids,
 2. **to**: a column with the values to be used to substitute the incorrect ids.
@@ -248,17 +247,6 @@ This allows to subsequently use the `correct_subject_ids()` to replace non compl
 ```{r eval=TRUE, comment="correct ids"}
 # IMPORT THE INPUT DATA
 data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi"))
-
-# DETECT THE INCORRECT SUBJECT IDS
-dat <- check_subject_ids(
-  data           = data,
-  id_column_name = "study_id",
-  format         = NULL,
-  prefix         = "PS",
-  suffix         = "P2",
-  range          = c(1L, 100L),
-  remove         = FALSE
-)
 
 # GENERATE THE CORRECTION TABLE
 correction_table <- data.frame(
@@ -269,8 +257,8 @@ correction_table <- data.frame(
 
 # perform the correction
 dat <- correct_subject_ids(
-  data             = dat,
-  id_column_name   = "study_id",
+  data             = data,
+  target_columns   = "study_id",
   correction_table = correction_table
 )
 ```

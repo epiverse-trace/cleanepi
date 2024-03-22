@@ -1,5 +1,5 @@
 #' Check whether the subject IDs comply with the expected format. When incorrect
-#' IDs are found, the function sends a message and the user can call the
+#' IDs are found, the function sends a warning and the user can call the
 #' `correct_subject_ids()` function to correct them.
 #'
 #' @param data The input data frame or linelist
@@ -10,9 +10,7 @@
 #' @param nchar An integer that represents the expected number of characters in
 #'    the subject ids.
 #'
-#' @returns A cleaned data frame with only the correct subject IDs if
-#'    `remove = TRUE`, or the input dataset otherwise. The incorrect subject ids
-#'    will be stored in the report object.
+#' @returns The input dataset with a warning if incorrect subject ids were found
 #'
 #' @examples
 #' dat <- check_subject_ids(
@@ -43,7 +41,7 @@ check_subject_ids <- function(data,
   checkmate::assert_numeric(nchar, null.ok = TRUE, any.missing = FALSE,
                             len = 1L)
 
-  data     <- check_ids_uniqueness(data, target_columns)
+  data     <- check_subject_ids_oness(data, target_columns)
   bad_rows <- NULL
   # check prefix of subject IDs
   if (!is.null(prefix)) {
@@ -88,7 +86,10 @@ check_subject_ids <- function(data,
     bad_rows     <- unique(bad_rows)
     tmp_report   <- data.frame(idx = bad_rows,
                                ids = data[[target_columns]][bad_rows])
-    data         <- data[-bad_rows, ]
+    bad_rows     <- glue::glue_collapse(bad_rows, sep = ", ")
+    warning("Detected incorrect subject ids at lines: ", bad_rows,
+            "\nUse the correct_subject_ids() function to adjust them.",
+            call. = FALSE)
     data         <- add_to_report(x     = data,
                                   key   = "incorrect_subject_id",
                                   value = tmp_report)
@@ -120,12 +121,11 @@ check_subject_ids <- function(data,
 #' dat <- check_subject_ids(
 #'   data           = readRDS(system.file("extdata", "test_df.RDS",
 #'                                        package = "cleanepi")),
-#'   id_column_name = "study_id",
-#'   format         = NULL,
+#'   target_columns = "study_id",
 #'   prefix         = "PS",
 #'   suffix         = "P2",
 #'   range          = c(1, 100),
-#'   remove         = FALSE
+#'   nchar          = 7
 #' )
 #'
 #' # generate the correction table
@@ -137,23 +137,23 @@ check_subject_ids <- function(data,
 #' # perform the correction
 #' dat <- correct_subject_ids(
 #'   data             = dat,
-#'   id_column_name   = "study_id",
+#'   target_columns   = "study_id",
 #'   correction_table = correction_table
 #' )
-correct_subject_ids <- function(data, id_column_name, correction_table) {
+correct_subject_ids <- function(data, target_columns, correction_table) {
   checkmate::assert_data_frame(correction_table, any.missing = FALSE,
                                min.rows = 1L, ncols = 2L, null.ok = FALSE)
 
   stopifnot("Some ids in the correction table were not found in the input data"
-            = all(correction_table[["from"]] %in% data[[id_column_name]]))
+            = all(correction_table[["from"]] %in% data[[target_columns]]))
 
   # perform the substitution
   idx                         <- match(correction_table[["from"]],
-                                       data[[id_column_name]])
-  data[[id_column_name]][idx] <- correction_table[["to"]]
+                                       data[[target_columns]])
+  data[[target_columns]][idx] <- correction_table[["to"]]
 
   # check whether substitution did not introduce any duplicate
-  data                        <- check_subject_ids_oness(data, id_column_name)
+  data                        <- check_subject_ids_oness(data, target_columns)
 
   return(data)
 }
