@@ -41,8 +41,8 @@
 #' @export
 #'
 #' @examples
-#' keep <- NULL # column names standardization will be performed across
-#' # all columns
+#' # Parameters for column names standardization
+#' standardize_col_names <- list(keep = NULL, rename = NULL)
 #'
 #' # Parameters for substituting missing values with NA:
 #' replace_missing_values <- list(target_columns = NULL, na_strings = "-99")
@@ -82,20 +82,20 @@
 #'   data   = readRDS(system.file("extdata", "test_df.RDS",
 #'                                package = "cleanepi")),
 #'   params = list(
-#'     keep                    = NULL,
-#'     replace_missing_values  = replace_missing_values,
-#'     remove_duplicates       = remove_duplicates,
-#'     standardize_date        = standardize_date,
-#'     standardize_subject_ids = standardize_subject_ids,
-#'     to_numeric              = "sex",
-#'     dictionary              = NULL
+#'     standardize_column_names = standardize_col_names,
+#'     replace_missing_values   = replace_missing_values,
+#'     remove_duplicates        = remove_duplicates,
+#'     standardize_date         = standardize_date,
+#'     standardize_subject_ids  = standardize_subject_ids,
+#'     to_numeric               = "sex",
+#'     dictionary               = NULL
 #'   )
 #' )
 #'
 clean_data <- function(
     data,
     params = list(
-      keep = NULL,
+      standardize_column_names = list(keep = NULL, rename = NULL),
       replace_missing_values = list(
         target_columns = NULL,
         na_strings     = cleanepi::common_na_strings
@@ -134,9 +134,13 @@ clean_data <- function(
   ## | are cleaned based using {base r} and {epitrix} packages.
   ## | Column names in 'keep' will not be modified.
   ## -----
-  if (!is.null(params[["keep"]])) {
+  if (!is.null(params[["standardize_column_names"]])) {
     R.utils::cat("\ncleaning column names")
-    data <- standardize_column_names(data = data, keep = params[["keep"]])
+    data <- standardize_column_names(
+      data   = data,
+      keep   = params[["standardize_column_names"]][["keep"]],
+      rename = params[["standardize_column_names"]][["rename"]]
+    )
   }
 
   ## -----

@@ -7,6 +7,7 @@ test_dictionary <- readRDS(system.file("extdata", "test_dictionary.RDS",
 
 # DEFINING THE CLEANING PARAMETERS
 use_na                  <- list(target_columns = NULL, na_strings = "-99")
+standardize_col_names   <- list(keep = NULL, rename = NULL)
 remove_duplicates       <- list(target_columns   = NULL,
                                 rm_empty_rows    = TRUE,
                                 rm_empty_cols    = TRUE,
@@ -22,13 +23,13 @@ standardize_subject_ids <- list(target_columns = "study_id",
                                 range          = c(1L, 100L),
                                 nchar          = 7L)
 params <- list(
-  keep                    = NULL,
-  replace_missing_values  = use_na,
-  remove_duplicates       = remove_duplicates,
-  standardize_date        = standardize_date,
-  standardize_subject_ids = standardize_subject_ids,
-  to_numeric              = "sex",
-  dictionary              = test_dictionary
+  standardize_column_names = standardize_col_names,
+  replace_missing_values   = use_na,
+  remove_duplicates        = remove_duplicates,
+  standardize_date         = standardize_date,
+  standardize_subject_ids  = standardize_subject_ids,
+  to_numeric               = "sex",
+  dictionary               = test_dictionary
 )
 
 test_that("clean_data works as expected", {
