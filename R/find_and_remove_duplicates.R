@@ -1,11 +1,8 @@
-#' Remove duplicates and constant rows and columns
+#' Remove duplicates
 #'
 #' @description
-#' Removes duplicates and noise such as  empty rows and
-#' columns, and constant columns. These operations are
-#' automatically performed by default unless specified otherwise.
-#' Users can specify a set columns to consider when removing
-#' duplicates with the 'target_columns' argument.
+#' When removing duplicates, users can specify a set columns to consider with
+#' the 'target_columns' argument.
 #'
 #' @param data A input data frame or linelist.
 #' @param target_columns A vector of column names to use when looking for
@@ -17,12 +14,6 @@
 #'    that are duplicates of each other based on the `target_columns`.
 #'    If remove = `NULL` (default value), the first duplicate is kept and
 #'    the rest of the duplicates in the group are removed.
-#' @param rm_empty_rows A logical variable that is used to specify whether to
-#'    remove empty rows or not. The default  value is `TRUE`.
-#' @param rm_empty_cols A logical variable that is used to specify whether to
-#'    remove empty columns or not. The default value is `TRUE`.
-#' @param rm_constant_cols A logical variable that is used to specify whether to
-#'    remove constant columns or not. The default value is `TRUE`.
 #'
 #' @return A  data frame or linelist  without the duplicates values and nor
 #'    constant columns.
@@ -30,75 +21,33 @@
 #'
 #' @examples
 #' no_dups <- remove_duplicates(
-#'   data             = readRDS(system.file("extdata", "test_linelist.RDS",
-#'                                          package = "cleanepi")),
-#'   target_columns   = "linelist_tags",
-#'   remove           = NULL,
-#'   rm_empty_rows    = TRUE,
-#'   rm_empty_cols    = TRUE,
-#'   rm_constant_cols = TRUE
+#'   data           = readRDS(system.file("extdata", "test_linelist.RDS",
+#'                                        package = "cleanepi")),
+#'   target_columns = "linelist_tags",
+#'   remove         = NULL
 #' )
 #'
 remove_duplicates <- function(data,
-                              target_columns   = NULL,
-                              remove           = NULL,
-                              rm_empty_rows    = TRUE,
-                              rm_empty_cols    = TRUE,
-                              rm_constant_cols = TRUE) {
+                              target_columns = NULL,
+                              remove         = NULL) {
 
   # setting up the variables below to NULL to avoid linters
   row_id <- NULL # nolint: object_usage_linter
-
-  # remove the empty rows and columns
   report <- attr(data, "report")
-  dat    <- data %>%
-    janitor::remove_empty(c("rows", "cols"))
-  cols     <- rows <- NULL
-  add_this <- "none"
-  idx      <- which(!(names(data) %in% names(dat)))
-  if (length(idx) > 0L) {
-    cols <- names(data)[idx]
-    if (!is.null(cols)) {
-      add_this <- glue::glue_collapse(cols, sep = ", ")
-    }
-  }
-  dat      <- add_to_report(x     = dat,
-                            key   = "empty_columns",
-                            value = add_this)
-  if (nrow(summary(arsenal::comparedf(data, dat))[["obs.table"]]) > 0L) {
-    rows   <- summary(arsenal::comparedf(data,
-                                         dat))[["obs.table"]][["observation"]]
-    if (!is.null(rows)) {
-      add_this <- rows
-    }
-  }
-
-  # remove constant columns
-  add_this <- "none"
-  data     <- dat
-  dat      <- data %>% janitor::remove_constant()
-  idx      <- which(!(names(data) %in% names(dat)))
-  if (length(idx) > 0L) {
-    add_this <- glue::glue_collapse(names(data)[idx], sep = ", ")
-    cols     <- c(cols, names(data)[idx])
-  }
-  dat        <- add_to_report(x     = dat,
-                              key   = "constant_columns",
-                              value = add_this)
+  dat    <- data
 
   # get the target column names
   target_columns <- get_target_column_names(dat, target_columns,
                                             cols = NULL)
 
   # find duplicates
-  add_this   <- "none"
   dups       <- find_duplicates(dat, target_columns)
   tmp_report <- attr(dups, "report")
   if ("duplicated_rows" %in% names(tmp_report) &&
       nrow(tmp_report[["duplicated_rows"]]) > 0L) {
-    dups   <- tmp_report[["duplicated_rows"]]
-    report <- c(report, tmp_report)
-    dat    <- dat %>%
+    dups     <- tmp_report[["duplicated_rows"]]
+    report   <- c(report, tmp_report)
+    dat      <- dat %>%
       dplyr::mutate(row_id = seq_len(nrow(dat)))
   }
 

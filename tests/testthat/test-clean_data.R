@@ -24,6 +24,7 @@ standardize_subject_ids <- list(target_columns = "study_id",
                                 nchar          = 7L)
 params <- list(
   standardize_column_names = standardize_col_names,
+  remove_constant         = list(cutoff = 1.0),
   replace_missing_values   = use_na,
   remove_duplicates        = remove_duplicates,
   standardize_date         = standardize_date,
@@ -47,8 +48,8 @@ test_that("clean_data works in a pipable way", {
   clean_data <- test_data |>
     standardize_column_names(keep = NULL, rename = NULL) |>
     replace_missing_values(target_columns = NULL, na_strings = "-99") |>
-    remove_duplicates(target_columns   = NULL, rm_empty_rows    = TRUE,
-                      rm_empty_cols    = TRUE, rm_constant_cols = TRUE) |>
+    remove_constant(cutoff = 1.0) |>
+    remove_duplicates(target_columns = NULL) |>
     standardize_dates(target_columns  = NULL,
                       error_tolerance = 0.4,
                       format          = NULL,

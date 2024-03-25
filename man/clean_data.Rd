@@ -65,6 +65,9 @@ formats.
 # Parameters for column names standardization
 standardize_col_names <- list(keep = NULL, rename = NULL)
 
+# parameters to remove constant columns, empty rows and columns
+remove_cte <- list(cutoff = 1)
+
 # Parameters for substituting missing values with NA:
 replace_missing_values <- list(target_columns = NULL, na_strings = "-99")
 
@@ -104,6 +107,7 @@ cleaned_data <- clean_data(
                                package = "cleanepi")),
   params = list(
     standardize_column_names = standardize_col_names,
+    remove_constant          = remove_cte,
     replace_missing_values   = replace_missing_values,
     remove_duplicates        = remove_duplicates,
     standardize_date         = standardize_date,
