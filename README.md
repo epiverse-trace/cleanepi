@@ -460,9 +460,10 @@ standardize_subject_ids <- list(target_columns = "study_id",
                                 suffix         = "P2",
                                 range          = c(1, 100),
                                 nchar          = 7)
+standardize_col_names   <- list(keep = NULL, rename = NULL)
 
 params <- list(
-  keep                    = NULL,
+  standardize_column_names = standardize_col_names,
   replace_missing_values  = use_na, 
   remove_duplicates       = remove_duplicates,
   standardize_date        = standardize_date,
