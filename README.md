@@ -440,10 +440,7 @@ sex
 ``` r
 # DEFINING THE CLEANING PARAMETERS
 use_na                  <- list(target_columns = NULL, na_strings = "-99")
-remove_duplicates       <- list(target_columns   = NULL,
-                                rm_empty_rows    = TRUE,
-                                rm_empty_cols    = TRUE,
-                                rm_constant_cols = TRUE)
+remove_duplicates       <- list(target_columns   = NULL)
 standardize_date        <- list(target_columns  = NULL,
                                 error_tolerance = 0.4,
                                 format          = NULL,
@@ -461,9 +458,10 @@ standardize_subject_ids <- list(target_columns = "study_id",
                                 range          = c(1, 100),
                                 nchar          = 7)
 standardize_col_names   <- list(keep = NULL, rename = NULL)
-
+remove_cte              <- list(cutoff = 1)
 params <- list(
   standardize_column_names = standardize_col_names,
+  remove_constant         = remove_cte,
   replace_missing_values  = use_na, 
   remove_duplicates       = remove_duplicates,
   standardize_date        = standardize_date,
