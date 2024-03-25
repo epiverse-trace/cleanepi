@@ -5,7 +5,7 @@
 <!-- `gh_repo` is extracted via a special environment variable in GitHub Actions -->
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# {{ packagename }}: Clean and standardize epidemiological data <img src="man/figures/logo.svg" align="right" width="130"/>
+# cleanepi: Clean and standardize epidemiological data <img src="man/figures/logo.svg" align="right" width="130"/>
 
 <!-- badges: start -->
 
@@ -18,12 +18,12 @@ coverage](https://codecov.io/gh/epiverse-trace/cleanepi/branch/main/graph/badge.
 
 <!-- badges: end -->
 
-**{{ packagename }}** is an R package designed for cleaning, curating,
-and standardizing epidemiological data. It streamlines various data
-cleaning tasks that are typically expected when working with datasets in
+**cleanepi** is an R package designed for cleaning, curating, and
+standardizing epidemiological data. It streamlines various data cleaning
+tasks that are typically expected when working with datasets in
 epidemiology.
 
-Key functionalities of **{{ packagename }}** include:
+Key functionalities of **cleanepi** include:
 
 1.  **Removing irregularities**: It efficiently removes duplicated and
     empty rows and columns, as well as columns with constant values.
@@ -46,13 +46,13 @@ Key functionalities of **{{ packagename }}** include:
     and a reference date, providing valuable demographic insights for
     epidemiological analysis.
 
-**{{ packagename }}** operates on data frames or similar structures like
-tibbles, as well as linelist objects commonly used in epidemiological
-research. It returns the processed data in the same format, ensuring
-seamless integration into existing workflows. Additionally, it generates
-a comprehensive report detailing the outcomes of each cleaning task.
+**cleanepi** operates on data frames or similar structures like tibbles,
+as well as linelist objects commonly used in epidemiological research.
+It returns the processed data in the same format, ensuring seamless
+integration into existing workflows. Additionally, it generates a
+comprehensive report detailing the outcomes of each cleaning task.
 
-**{{ packagename }}** is developed by the
+**cleanepi** is developed by the
 [Epiverse-TRACE](https://data.org/initiatives/epiverse/) team at the
 [Medical Research Council The Gambia unit at the London School of
 Hygiene and Tropical
@@ -60,24 +60,24 @@ Medicine](https://www.lshtm.ac.uk/research/units/mrc-gambia).
 
 ## Installation
 
-The latest development version of **{{ packagename }}** can be installed
-from [GitHub](https://epiverse-trace.github.io/cleanepi).
+The latest development version of **cleanepi** can be installed from
+[GitHub](https://epiverse-trace.github.io/cleanepi).
 
 ``` r
 if (!require("pak")) install.packages("pak")
-pak::pak("{{ gh_repo }}")
+pak::pak("epiverse-trace/cleanepi")
 library(cleanepi)
 ```
 
 ## Quick start
 
-The main function in **{{ packagename }}** is `clean_data(),` which
-internally makes call of almost all standard data cleaning functions,
-such as removal of empty and duplicated rows and columns, replacement of
-missing values, etc. However, each function can also be called
-independently to perform a specific task. This mechanism is explained in
-details in the **vignette**. Below is typical example of how to use the
-`clean_data()` function.
+The main function in **cleanepi** is `clean_data(),` which internally
+makes call of almost all standard data cleaning functions, such as
+removal of empty and duplicated rows and columns, replacement of missing
+values, etc. However, each function can also be called independently to
+perform a specific task. This mechanism is explained in details in the
+**vignette**. Below is typical example of how to use the `clean_data()`
+function.
 
 ``` r
 # READING IN THE TEST DATASET
@@ -448,14 +448,6 @@ standardize_date        <- list(target_columns  = NULL,
                                 error_tolerance = 0.4,
                                 format          = NULL,
                                 timeframe       = as.Date(c("1973-05-29",
-<<<<<<< HEAD
-                                                            "2023-05-29")))
-standardize_subject_ids <- list(target_columns = "study_id",
-                                prefix         = "PS",
-                                suffix         = "P2",
-                                range          = c(1, 100),
-                                nchar          = 7)
-=======
                                                             "2023-05-29")),
                                 modern_excel    = TRUE,
                                 orders          = list(
@@ -463,13 +455,12 @@ standardize_subject_ids <- list(target_columns = "study_id",
                                   world_digit_months = c("dmy", "Ymd"),
                                   US_formats         = c("Omdy", "YOmd")
                                 ))
-standardize_subject_ids <- list(id_col_name = "study_id",
-                                format      = NULL,
-                                prefix      = "PS",
-                                suffix      = "P2",
-                                range       = c(1, 100),
-                                remove      = TRUE)
->>>>>>> a05e245 (Automatic readme update)
+standardize_subject_ids <- list(target_columns = "study_id",
+                                prefix         = "PS",
+                                suffix         = "P2",
+                                range          = c(1, 100),
+                                nchar          = 7)
+
 params <- list(
   keep                    = NULL,
   replace_missing_values  = use_na, 
@@ -492,6 +483,9 @@ cleaned_data <- clean_data(
 #> removing duplicated rows
 #> standardising date columns
 #> checking subject IDs format
+#> Warning: Detected incorrect subject ids at lines: 5, 7, 3
+#> Use the correct_subject_ids() function to adjust them.
+#> 
 #> converting sex into numeric
 #> performing dictionary-based cleaning
 ```
@@ -501,8 +495,6 @@ cleaned_data <- clean_data(
 <table class=" lightable-paper lightable-striped" style="font-size: 14px; font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
-<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-</th>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
 study_id
 </th>
@@ -523,9 +515,6 @@ sex
 <tbody>
 <tr>
 <td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
 PS001P2
 </td>
 <td style="text-align:left;">
@@ -542,9 +531,6 @@ male
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
-2
-</td>
 <td style="text-align:left;">
 PS002P2
 </td>
@@ -563,8 +549,22 @@ male
 </tr>
 <tr>
 <td style="text-align:left;">
-4
+PS004P2-1
 </td>
+<td style="text-align:left;">
+2021-02-15
+</td>
+<td style="text-align:left;">
+06/15/1961
+</td>
+<td style="text-align:left;">
+2021-02-11
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
 <td style="text-align:left;">
 PS003P2
 </td>
@@ -583,8 +583,22 @@ male
 </tr>
 <tr>
 <td style="text-align:left;">
-6
+P0005P2
 </td>
+<td style="text-align:left;">
+2021-02-17
+</td>
+<td style="text-align:left;">
+09/26/2000
+</td>
+<td style="text-align:left;">
+2021-02-16
+</td>
+<td style="text-align:left;">
+female
+</td>
+</tr>
+<tr>
 <td style="text-align:left;">
 PS006P2
 </td>
@@ -603,8 +617,22 @@ female
 </tr>
 <tr>
 <td style="text-align:left;">
-8
+PB500P2
 </td>
+<td style="text-align:left;">
+2021-02-28
+</td>
+<td style="text-align:left;">
+11/03/1989
+</td>
+<td style="text-align:left;">
+2021-02-19
+</td>
+<td style="text-align:left;">
+male
+</td>
+</tr>
+<tr>
 <td style="text-align:left;">
 PS008P2
 </td>
@@ -623,9 +651,6 @@ female
 </tr>
 <tr>
 <td style="text-align:left;">
-9
-</td>
-<td style="text-align:left;">
 PS010P2
 </td>
 <td style="text-align:left;">
@@ -642,9 +667,6 @@ male
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
-10
-</td>
 <td style="text-align:left;">
 PS011P2
 </td>
@@ -700,8 +722,8 @@ requests](https://github.com/%7B%7B%20gh_repo%20%7D%7D/pulls).
 
 ### Code of Conduct
 
-Please note that the {{ packagename }} project is released with a
-[Contributor Code of
+Please note that the cleanepi project is released with a [Contributor
+Code of
 Conduct](https://github.com/epiverse-trace/.github/blob/main/CODE_OF_CONDUCT.md).
 By contributing to this project, you agree to abide by its terms.
 
@@ -709,7 +731,6 @@ By contributing to this project, you agree to abide by its terms.
 
 ``` r
 citation("cleanepi")
-#> 
 #> To cite package 'cleanepi' in publications use:
 #> 
 #>   Mané K, Bah B, Ahadzie B, Mohammed N, Degoot A (2024). _cleanepi:
