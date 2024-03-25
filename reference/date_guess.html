@@ -90,7 +90,6 @@ threshold is exceeded, the original vector is returned.</p>
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">date_guess</span><span class="op">(</span></span>
 <span>  <span class="va">x</span>,</span>
-<span>  error_tolerance <span class="op">=</span> <span class="fl">0.5</span>,</span>
 <span>  quiet <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  modern_excel <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  orders <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>world_named_months <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Ybd"</span>, <span class="st">"dby"</span><span class="op">)</span>, world_digit_months <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dmy"</span>,</span>
@@ -104,15 +103,8 @@ threshold is exceeded, the original vector is returned.</p>
 <dd><p>A <code>character</code> vector or a <code>factor</code></p></dd>
 
 
-<dt>error_tolerance</dt>
-<dd><p>a number between 0 and 1 indicating the proportion of
-entries which cannot be identified as dates to be tolerated; if this
-proportion is exceeded, the original vector is returned, and a message is
-issued; defaults to 0.1 (10 percent)</p></dd>
-
-
 <dt>quiet</dt>
-<dd><p>a logical indicating if messages should be displayed to the
+<dd><p>A logical indicating if messages should be displayed to the
 console (<code>TRUE</code>, default); set to <code>FALSE</code> to silence messages</p></dd>
 
 
@@ -127,52 +119,17 @@ if the data came from an OSX version of Excel before 2011.</p></dd>
 
 
 <dt>orders</dt>
-<dd><p>date codes for fine-grained parsing of dates. This allows for
-parsing of mixed dates. If a list is supplied, that list will be used for
-successive tries in parsing.  This is passed on to
-<code><a href="https://lubridate.tidyverse.org/reference/parse_date_time.html" class="external-link">lubridate::parse_date_time()</a></code>. Default orders
-(<code>getOption("linelist_guess_orders")</code>) parse World dmy/dby dates before US
-mdy/bdy dates.</p></dd>
-
-</dl></div>
-    <div class="section level2">
-    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>Converting ambiguous character strings to dates is difficult for
-many reasons:</p><ul><li><p>dates may not use the standard Ymd format</p></li>
-<li><p>within the same variable, dates may follow different formats</p></li>
-<li><p>dates may be mixed with things that are not dates</p></li>
-<li><p>the behaviour of <code>as.Date</code> in the presence of non-date is hard to predict,
-sometimes returning <code>NA</code>, sometimes issuing an error.</p></li>
-</ul><p>This function tries to address all the above issues. Dates with the following
-format should be automatically detected, irrespective of separators
-(e.g. "-", " ", "/") and surrounding text:</p><ul><li><p>"19 09 2018"</p></li>
-<li><p>"2018 09 19"</p></li>
-<li><p>"19 Sep 2018"</p></li>
-<li><p>"2018 Sep 19"</p></li>
-<li><p>"Sep 19 2018"</p></li>
-</ul><div class="section">
-<h3 id="how-it-works">How it works<a class="anchor" aria-label="anchor" href="#how-it-works"></a></h3>
-
-
-<p>This function relies heavily on <code><a href="https://lubridate.tidyverse.org/reference/parse_date_time.html" class="external-link">lubridate::parse_date_time()</a></code>, which is an
-extremely flexible date parser that works well for consistent date formats,
-but can quickly become unweildy and may produce spurious results.
-<code>guess_dates()</code> will use a list of formats in the <code>orders</code> argument to run
-<code>parse_date_time()</code> with each format vector separately and take the first
-correctly parsed date from all the trials. By default, the orders are in
-<code>getOption("linelist_guess_orders")</code>:</p>
+<dd><p>The date codes for fine-grained parsing of dates. This allows
+for parsing of mixed dates. If a list is supplied, that list will be used
+for successive tries in parsing. This is passed on to
+<code><a href="https://lubridate.tidyverse.org/reference/parse_date_time.html" class="external-link">lubridate::parse_date_time()</a></code>. Default orders are:</p>
 <p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">list</span>(</span>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>  <span class="at">world_named_months =</span> <span class="fu">c</span>(<span class="st">"Ybd"</span>, <span class="st">"dby"</span>),</span>
 <span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>  <span class="at">world_digit_months =</span> <span class="fu">c</span>(<span class="st">"dmy"</span>, <span class="st">"Ymd"</span>),</span>
 <span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>  <span class="at">US_formats         =</span> <span class="fu">c</span>(<span class="st">"Omdy"</span>, <span class="st">"YOmd"</span>)</span>
-<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>)</span></code></pre><p></p></div>
-<p>In this case, the dates 03 Jan 2018, 07/03/1982, and 08/20/85 are correctly
-intepreted as 2018-01-03, 1982-03-07, and 1985-08-20. The examples section
-will show how you can manipulate the <code>orders</code> to be customised for your
-situation.</p>
-</div>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>)</span></code></pre><p></p></div></dd>
 
-    </div>
+</dl></div>
     <div class="section level2">
     <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>
     <p>Thibaut Jombart, Zhian N. Kamvar</p>
@@ -188,15 +145,17 @@ situation.</p>
 <span class="r-in"><span><span class="co"># Prioritizing specific date formats ------------------------</span></span></span>
 <span class="r-in"><span><span class="co">#</span></span></span>
 <span class="r-in"><span><span class="co"># The default orders prioritize world date ordering over American-style.</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">ord</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"linelist_guess_orders"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">orders</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  world_named_months <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Ybd"</span>, <span class="st">"dby"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  world_digit_months <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dmy"</span>, <span class="st">"Ymd"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  US_formats         <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Omdy"</span>, <span class="st">"YOmd"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># if you want to prioritize American-style dates with numeric months, you</span></span></span>
 <span class="r-in"><span><span class="co"># can switch the second and third elements of the default orders</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">ord</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"linelist_guess_orders"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">us_ord</span> <span class="op">&lt;-</span> <span class="va">ord</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">2</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">guess_dates</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"03 Jan 2018"</span>, <span class="st">"07/03/1982"</span>, <span class="st">"08/20/85"</span><span class="op">)</span>, orders <span class="op">=</span> <span class="va">us_ord</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">us_ord</span> <span class="op">&lt;-</span> <span class="va">orders</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">2</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">date_guess</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"03 Jan 2018"</span>, <span class="st">"07/03/1982"</span>, <span class="st">"08/20/85"</span><span class="op">)</span>, orders <span class="op">=</span> <span class="va">us_ord</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Handling dates with time formats --------------------------</span></span></span>
 <span class="r-in"><span><span class="co">#</span></span></span>
@@ -204,22 +163,20 @@ situation.</p>
 <span class="r-in"><span><span class="co"># to the list of formats. Note, however, that this function will drop levels</span></span></span>
 <span class="r-in"><span><span class="co"># below day.</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">ord</span><span class="op">$</span><span class="va">ymdhms</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Ymdhms"</span>, <span class="st">"Ymdhm"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">orders</span><span class="op">$</span><span class="va">ymdhms</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Ymdhms"</span>, <span class="st">"Ymdhm"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">guess_dates</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2014_04_05_23:15:43"</span>, <span class="st">"03 Jan 2018"</span>,</span></span>
-<span class="r-in"><span><span class="st">"07/03/1982"</span>, <span class="st">"08/20/85"</span><span class="op">)</span>, orders <span class="op">=</span> <span class="va">ord</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">date_guess</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2014_04_05_23:15:43"</span>, <span class="st">"03 Jan 2018"</span>,</span></span>
+<span class="r-in"><span><span class="st">"07/03/1982"</span>, <span class="st">"08/20/85"</span><span class="op">)</span>, orders <span class="op">=</span> <span class="va">orders</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Handling  missing and nonsense data -----------------------</span></span></span>
 <span class="r-in"><span><span class="co">#</span></span></span>
-<span class="r-in"><span><span class="co"># guess_dates can handle messy dates and tolerate missing data</span></span></span>
+<span class="r-in"><span><span class="co"># date_guess can handle messy dates and tolerate missing data</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"01-12-2001"</span>, <span class="st">"male"</span>, <span class="st">"female"</span>, <span class="st">"2018-10-18"</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="st">"2018_10_17"</span>,</span></span>
 <span class="r-in"><span>       <span class="st">"43391"</span>, <span class="st">"2018 10 19"</span>, <span class="st">"// 24/12/1989"</span>, <span class="st">"this is 24/12/1989!"</span>,</span></span>
 <span class="r-in"><span>       <span class="st">"RECON NGO: 19 Sep 2018 :)"</span>, <span class="st">"6/9/11"</span>, <span class="st">"10/10/10"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">guess_dates</span><span class="op">(</span><span class="va">x</span>, error_tolerance <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="co"># forced conversion</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">guess_dates</span><span class="op">(</span><span class="va">x</span>, error_tolerance <span class="op">=</span> <span class="fl">0.15</span><span class="op">)</span> <span class="co"># only 15% errors allowed</span></span></span>
+<span class="r-in"><span><span class="fu">date_guess</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>

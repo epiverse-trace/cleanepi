@@ -657,9 +657,13 @@ we want to perform on the input data.</p>
 <span></span>
 <span><span class="co"># PARAMETERS FOR STANDARDING DATES</span></span>
 <span><span class="va">stdn_date</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>target_columns  <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>                  error_tolerance <span class="op">=</span> <span class="fl">0.5</span>,</span>
+<span>                  error_tolerance <span class="op">=</span> <span class="fl">0.4</span>,</span>
 <span>                  format          <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>                  timeframe       <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"1973-05-29"</span>, <span class="st">"2023-05-29"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span>                  timeframe       <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"1973-05-29"</span>, <span class="st">"2023-05-29"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>                  orders          <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>world_named_months <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Ybd"</span>, <span class="st">"dby"</span><span class="op">)</span>,</span>
+<span>                                         world_digit_months <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dmy"</span>, <span class="st">"Ymd"</span><span class="op">)</span>,</span>
+<span>                                         US_formats       <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Omdy"</span>, <span class="st">"YOmd"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>                  modern_excel    <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># PARAMETERS FOR STANDARDING SUBJECT IDs</span></span>
 <span><span class="va">stdn_ids</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>target_columns <span class="op">=</span> <span class="st">"study_id"</span>,</span>
@@ -718,7 +722,6 @@ However, users can access the report using the code below:</p>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">report</span><span class="op">)</span></span>
 <span><span class="co">#&gt;                            Length Class      Mode     </span></span>
 <span><span class="co">#&gt; missing_values_replaced_at 1      -none-     character</span></span>
-<span><span class="co">#&gt; out_of_range_dates         3      data.frame list     </span></span>
 <span><span class="co">#&gt; incorrect_subject_id       2      data.frame list</span></span></code></pre></div>
 <p>The report can also be displayed in an HTML format using the
 <code><a href="../reference/print_report.html">print_report()</a></code> function as shown below:</p>
@@ -750,16 +753,17 @@ specific needs.</p>
 comprehensive set of options for converting date columns into a
 specified format and handling various scenarios, such as different date
 formats and mixed data types in a column.</p>
-<p>The default date format in R is <code>%Y-%m-%d</code> (the ISO
-format). However, it is very common to encounter date values that are
-written differently from this. Also, there are cases where a column in a
-data frame contains both values of type <code>Date</code>,
+<p>The default date format in R is <code>Ymd</code> (the ISO format).
+However, it is very common to encounter date values that are written
+differently from this. Also, there are cases where a column in a data
+frame contains both values of type <code>Date</code>,
 <code>character</code> or others.</p>
-<p>The <code><a href="../reference/standardize_dates.html">standardize_dates()</a></code> function offers the possibility
-to convert date columns into <code>%Y-%m-%d</code> format and convert
-<code>character</code> columns into <code>Date</code> if the percentage
-of date values reach a specified threshold. The function needs the
-following arguments:</p>
+<p>Entries which cannot be processed result in <code>NA</code>. An error
+threshold can be used to define the maximum number of resulting
+<code>NA</code> (i.e. entries without an identified date) that can be
+tolerated. If this threshold is exceeded, the original vector is
+returned.</p>
+<p>The function needs the following arguments:</p>
 <ol style="list-style-type: decimal">
 <li>
 <strong>data</strong>: A data frame or linelist (required).<br>
@@ -778,32 +782,73 @@ the format.</li>
 date values should fall. Values outside of this range will be set to
 <code>NA</code> (optional).</li>
 <li>
-<strong>error_tolerance</strong>: The minimum percentage of values
-of type Date in a character column needed to convert it into a Date
-column. Default is 50% i.e. <code>0.5</code>.</li>
+<strong>error_tolerance</strong>: The maximum percentage of
+<code>NA</code> values (non date values) that can be allowed in a
+converted column. Default is 40% i.e. <code>0.5</code>.</li>
+<li>
+<strong>orders</strong>: The date codes for fine-grained parsing of
+dates. It is used for parsing of mixed dates. If a list is supplied,
+that list will be used for successive tries in parsing. Default is:</li>
 </ol>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">orders</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>  world_named_months <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Ybd"</span>, <span class="st">"dby"</span><span class="op">)</span>,</span>
+<span>  world_digit_months <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dmy"</span>, <span class="st">"Ymd"</span><span class="op">)</span>,</span>
+<span>  US_formats         <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Omdy"</span>, <span class="st">"YOmd"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<ol start="7" style="list-style-type: decimal">
+<li>
+<strong>modern_excel</strong>: A Boolean that whether all numeric
+values represent dates from either a Windows version of Excel or a 2011
+or later version of Excel for OSX. Set this parameter to
+<code>FALSE</code> if the data came from an OSX version of Excel before
+2011. This is only relevant when parsing dates from excel. Default is
+<code>TRUE</code>.</li>
+</ol>
+<blockquote>
 <p>⚠️ The <code>error_tolerance</code> must be used with caution. When
-it is set, and the percentage of date values in a character column is
-less than this threshold, the column will be returned as it is.</p>
+it is set, and the percentage of non-date values (NA i.e. values that
+were not converted into date) in a character column is greater than this
+threshold, the column will be returned as it is.</p>
+</blockquote>
+<blockquote>
+<p>The value for the <code>orders</code> argument can be modified to
+suit the user’s needs. Other date formats can be specified too. For
+instance, if you want to prioritize American-style dates with numeric
+months, you can switch the second and third elements of the default
+orders as shown below:</p>
+</blockquote>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># GIVE PRIORITY TO AMERICAN-STYLE DATES</span></span>
+<span><span class="va">us_ord</span> <span class="op">&lt;-</span> <span class="va">orders</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1L</span>, <span class="fl">3L</span>, <span class="fl">2L</span><span class="op">)</span><span class="op">]</span></span>
+<span></span>
+<span><span class="co"># ADD A FORMAT WITH HOURS TO THE EXISTING orders</span></span>
+<span><span class="co"># THIS WILL ALLOW FOR THE CONVERSION OF VALUES SUCH AS "2014_04_05_23:15:43"</span></span>
+<span><span class="co"># WHEN THEY APPEAR IN THE TARGET COLUMNS.</span></span>
+<span><span class="va">orders</span><span class="op">$</span><span class="va">ymdhms</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Ymdhms"</span>, <span class="st">"Ymdhm"</span><span class="op">)</span></span></code></pre></div>
 <p>This function provides users with the flexibility to standardize date
 columns in their dataset according to specified requirements, including
 format, timeframe, and error tolerance for conversion from character to
 date columns.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="co"># STANDARDISE VALUES IN THE 'date_first_pcr_positive_test' COLUMN</span></span>
-<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>test_data <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="fu">system.file</span>(<span class="st">"extdata"</span>, <span class="st">"test_df.RDS"</span>,</span>
-<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>                                 <span class="at">package =</span> <span class="st">"cleanepi"</span>))</span>
-<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a></span>
-<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="fu">head</span>(test_data<span class="sc">$</span>date_first_pcr_positive_test)</span>
-<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>date_standardisation [<span class="dv">1</span>] <span class="st">"Dec 01, 2020"</span> <span class="st">"Jan 01, 2021"</span> <span class="st">"Feb 11, 2021"</span> <span class="st">"Feb 01, 2021"</span> <span class="st">"Feb 16, 2021"</span></span>
-<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>date_standardisation [<span class="dv">6</span>] <span class="st">"May 02, 2021"</span></span>
-<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a></span>
-<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">standardize_dates</span>(</span>
-<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a>  <span class="at">data            =</span> test_data,</span>
-<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a>  <span class="at">target_columns  =</span> <span class="st">"date_first_pcr_positive_test"</span>,</span>
-<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a>  <span class="at">format          =</span> <span class="cn">NULL</span>,</span>
-<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a>  <span class="at">timeframe       =</span> <span class="cn">NULL</span>,</span>
-<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a>  <span class="at">error_tolerance =</span> <span class="fl">0.5</span></span>
-<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="co"># STANDARDISE VALUES IN THE 'date_first_pcr_positive_test' COLUMN</span></span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>test_data <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="fu">system.file</span>(<span class="st">"extdata"</span>, <span class="st">"test_df.RDS"</span>,</span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>                                 <span class="at">package =</span> <span class="st">"cleanepi"</span>))</span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a><span class="fu">head</span>(test_data<span class="sc">$</span>date_first_pcr_positive_test)</span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>date_standardisation [<span class="dv">1</span>] <span class="st">"Dec 01, 2020"</span> <span class="st">"Jan 01, 2021"</span> <span class="st">"Feb 11, 2021"</span> <span class="st">"Feb 01, 2021"</span> <span class="st">"Feb 16, 2021"</span></span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a>date_standardisation [<span class="dv">6</span>] <span class="st">"May 02, 2021"</span></span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">standardize_dates</span>(</span>
+<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a>  <span class="at">data            =</span> test_data,</span>
+<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a>  <span class="at">target_columns  =</span> <span class="st">"date_first_pcr_positive_test"</span>,</span>
+<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a>  <span class="at">format          =</span> <span class="cn">NULL</span>,</span>
+<span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a>  <span class="at">timeframe       =</span> <span class="cn">NULL</span>,</span>
+<span id="cb10-14"><a href="#cb10-14" tabindex="-1"></a>  <span class="at">error_tolerance =</span> <span class="fl">0.4</span>,</span>
+<span id="cb10-15"><a href="#cb10-15" tabindex="-1"></a>  <span class="at">orders          =</span> <span class="fu">list</span>(<span class="at">world_named_months =</span> <span class="fu">c</span>(<span class="st">"Ybd"</span>, <span class="st">"dby"</span>),</span>
+<span id="cb10-16"><a href="#cb10-16" tabindex="-1"></a>                         <span class="at">world_digit_months =</span> <span class="fu">c</span>(<span class="st">"dmy"</span>, <span class="st">"Ymd"</span>),</span>
+<span id="cb10-17"><a href="#cb10-17" tabindex="-1"></a>                         <span class="at">US_formats         =</span> <span class="fu">c</span>(<span class="st">"Omdy"</span>, <span class="st">"YOmd"</span>)),</span>
+<span id="cb10-18"><a href="#cb10-18" tabindex="-1"></a>  <span class="at">modern_excel    =</span> <span class="cn">TRUE</span></span>
+<span id="cb10-19"><a href="#cb10-19" tabindex="-1"></a>)</span></code></pre></div>
 <p>This function returns a the input dataset where the (specified)
 columns are converted into date if the condition is met.</p>
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:200px; overflow-x: scroll; width:100%; ">
@@ -1141,26 +1186,26 @@ for data cleaning, ensuring that the user is alerted on the presence of
 unexpected subject ids. When using the function, make sure to tailor the
 parameters according to the specific requirements of your dataset and
 the expected characteristics of the subject IDs.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="co"># DETECT AND REMOVE INCORRECT SUBJECT IDs</span></span>
-<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">check_subject_ids</span>(</span>
-<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>  <span class="at">data           =</span> <span class="fu">readRDS</span>(<span class="fu">system.file</span>(<span class="st">"extdata"</span>, <span class="st">"test_df.RDS"</span>,</span>
-<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>                                       <span class="at">package =</span> <span class="st">"cleanepi"</span>)),</span>
-<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>  <span class="at">target_columns =</span> <span class="st">"study_id"</span>,</span>
-<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>  <span class="at">prefix         =</span> <span class="st">"PS"</span>,</span>
-<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>  <span class="at">suffix         =</span> <span class="st">"P2"</span>,</span>
-<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a>  <span class="at">range          =</span> <span class="fu">c</span>(<span class="dv">1</span><span class="dt">L</span>, <span class="dv">100</span><span class="dt">L</span>),</span>
-<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a>  <span class="at">nchar          =</span> <span class="dv">7</span><span class="dt">L</span></span>
-<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a>)</span>
-<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a>subject_ids_standardisation Warning<span class="sc">:</span> Detected incorrect subject ids at lines<span class="sc">:</span> <span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">3</span></span>
-<span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a>subject_ids_standardisation Use the <span class="fu">correct_subject_ids</span>() <span class="cf">function</span> to adjust them.</span>
-<span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a></span>
-<span id="cb9-14"><a href="#cb9-14" tabindex="-1"></a><span class="co"># EXTRACT REPORT</span></span>
-<span id="cb9-15"><a href="#cb9-15" tabindex="-1"></a>report <span class="ot">&lt;-</span> <span class="fu">attr</span>(res, <span class="st">"report"</span>)</span>
-<span id="cb9-16"><a href="#cb9-16" tabindex="-1"></a></span>
-<span id="cb9-17"><a href="#cb9-17" tabindex="-1"></a><span class="co"># SUMMARIZE THE REPORT OBJECT</span></span>
-<span id="cb9-18"><a href="#cb9-18" tabindex="-1"></a><span class="fu">summary</span>(report)</span>
-<span id="cb9-19"><a href="#cb9-19" tabindex="-1"></a>subject_ids_standardisation                      Length Class      Mode</span>
-<span id="cb9-20"><a href="#cb9-20" tabindex="-1"></a>subject_ids_standardisation incorrect_subject_id <span class="dv">2</span>      data.frame list</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="co"># DETECT AND REMOVE INCORRECT SUBJECT IDs</span></span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">check_subject_ids</span>(</span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>  <span class="at">data           =</span> <span class="fu">readRDS</span>(<span class="fu">system.file</span>(<span class="st">"extdata"</span>, <span class="st">"test_df.RDS"</span>,</span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>                                       <span class="at">package =</span> <span class="st">"cleanepi"</span>)),</span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>  <span class="at">target_columns =</span> <span class="st">"study_id"</span>,</span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a>  <span class="at">prefix         =</span> <span class="st">"PS"</span>,</span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a>  <span class="at">suffix         =</span> <span class="st">"P2"</span>,</span>
+<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a>  <span class="at">range          =</span> <span class="fu">c</span>(<span class="dv">1</span><span class="dt">L</span>, <span class="dv">100</span><span class="dt">L</span>),</span>
+<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a>  <span class="at">nchar          =</span> <span class="dv">7</span><span class="dt">L</span></span>
+<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a>)</span>
+<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a>subject_ids_standardisation Warning<span class="sc">:</span> Detected incorrect subject ids at lines<span class="sc">:</span> <span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">3</span></span>
+<span id="cb11-12"><a href="#cb11-12" tabindex="-1"></a>subject_ids_standardisation Use the <span class="fu">correct_subject_ids</span>() <span class="cf">function</span> to adjust them.</span>
+<span id="cb11-13"><a href="#cb11-13" tabindex="-1"></a></span>
+<span id="cb11-14"><a href="#cb11-14" tabindex="-1"></a><span class="co"># EXTRACT REPORT</span></span>
+<span id="cb11-15"><a href="#cb11-15" tabindex="-1"></a>report <span class="ot">&lt;-</span> <span class="fu">attr</span>(res, <span class="st">"report"</span>)</span>
+<span id="cb11-16"><a href="#cb11-16" tabindex="-1"></a></span>
+<span id="cb11-17"><a href="#cb11-17" tabindex="-1"></a><span class="co"># SUMMARIZE THE REPORT OBJECT</span></span>
+<span id="cb11-18"><a href="#cb11-18" tabindex="-1"></a><span class="fu">summary</span>(report)</span>
+<span id="cb11-19"><a href="#cb11-19" tabindex="-1"></a>subject_ids_standardisation                      Length Class      Mode</span>
+<span id="cb11-20"><a href="#cb11-20" tabindex="-1"></a>subject_ids_standardisation incorrect_subject_id <span class="dv">2</span>      data.frame list</span></code></pre></div>
 <p>The <code><a href="../reference/check_subject_ids.html">check_subject_ids()</a></code> function returns the input
 dataset and send a warming when there are some incorrect ids.</p>
 <p>In addition to detecting wrong subject IDs, the function will also
@@ -1186,7 +1231,7 @@ columns:</p>
 <strong>to</strong>: a column with the values to be used to
 substitute the incorrect ids.</li>
 </ol>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># IMPORT THE INPUT DATA</span></span>
 <span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"test_df.RDS"</span>, package <span class="op">=</span> <span class="st">"cleanepi"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
@@ -1233,22 +1278,22 @@ ensuring data integrity and accuracy for further analysis. Additionally,
 it offers flexibility by allowing users to choose whether to remove rows
 with incorrect sequences or store them for further examination in the
 report object.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="co"># DETECT ROWS WITH INCORRECT DATE SEQUENCE</span></span>
-<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">check_date_sequence</span>(</span>
-<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>  <span class="at">data           =</span> <span class="fu">readRDS</span>(<span class="fu">system.file</span>(<span class="st">"extdata"</span>, <span class="st">"test_df.RDS"</span>,</span>
-<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>                                       <span class="at">package =</span> <span class="st">"cleanepi"</span>)),</span>
-<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>  <span class="at">target_columns =</span> <span class="fu">c</span>(<span class="st">"date_first_pcr_positive_test"</span>, <span class="st">"date.of.admission"</span>),</span>
-<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a>  <span class="at">remove         =</span> <span class="cn">FALSE</span></span>
-<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a>)</span>
-<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a>check_date_order Warning<span class="sc">:</span> Detected <span class="dv">2</span> incorrect date sequences at <span class="fu">line</span>(s)<span class="sc">:</span> <span class="dv">6</span>, <span class="dv">8</span></span>
-<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a></span>
-<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a><span class="co"># EXTRACT THE REPORT</span></span>
-<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a>report <span class="ot">&lt;-</span> <span class="fu">attr</span>(res, <span class="st">"report"</span>)</span>
-<span id="cb11-12"><a href="#cb11-12" tabindex="-1"></a></span>
-<span id="cb11-13"><a href="#cb11-13" tabindex="-1"></a><span class="co"># SUMMARIZE THE REPORT OBJECT</span></span>
-<span id="cb11-14"><a href="#cb11-14" tabindex="-1"></a><span class="fu">summary</span>(report)</span>
-<span id="cb11-15"><a href="#cb11-15" tabindex="-1"></a>check_date_order                         Length Class      Mode</span>
-<span id="cb11-16"><a href="#cb11-16" tabindex="-1"></a>check_date_order incorrect_date_sequence <span class="dv">2</span>      data.table list</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="co"># DETECT ROWS WITH INCORRECT DATE SEQUENCE</span></span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">check_date_sequence</span>(</span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>  <span class="at">data           =</span> <span class="fu">readRDS</span>(<span class="fu">system.file</span>(<span class="st">"extdata"</span>, <span class="st">"test_df.RDS"</span>,</span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>                                       <span class="at">package =</span> <span class="st">"cleanepi"</span>)),</span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a>  <span class="at">target_columns =</span> <span class="fu">c</span>(<span class="st">"date_first_pcr_positive_test"</span>, <span class="st">"date.of.admission"</span>),</span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a>  <span class="at">remove         =</span> <span class="cn">FALSE</span></span>
+<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a>)</span>
+<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a>check_date_order Warning<span class="sc">:</span> Detected <span class="dv">2</span> incorrect date sequences at <span class="fu">line</span>(s)<span class="sc">:</span> <span class="dv">6</span>, <span class="dv">8</span></span>
+<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a></span>
+<span id="cb13-10"><a href="#cb13-10" tabindex="-1"></a><span class="co"># EXTRACT THE REPORT</span></span>
+<span id="cb13-11"><a href="#cb13-11" tabindex="-1"></a>report <span class="ot">&lt;-</span> <span class="fu">attr</span>(res, <span class="st">"report"</span>)</span>
+<span id="cb13-12"><a href="#cb13-12" tabindex="-1"></a></span>
+<span id="cb13-13"><a href="#cb13-13" tabindex="-1"></a><span class="co"># SUMMARIZE THE REPORT OBJECT</span></span>
+<span id="cb13-14"><a href="#cb13-14" tabindex="-1"></a><span class="fu">summary</span>(report)</span>
+<span id="cb13-15"><a href="#cb13-15" tabindex="-1"></a>check_date_order                         Length Class      Mode</span>
+<span id="cb13-16"><a href="#cb13-16" tabindex="-1"></a>check_date_order incorrect_date_sequence <span class="dv">2</span>      data.table list</span></code></pre></div>
 <p>The <code><a href="../reference/check_date_sequence.html">check_date_sequence()</a></code> function returns the input
 dataset or a subset of it without the rows that have incorrect date
 sequences, depending on whether the <code>remove_bad_seq</code>
@@ -1285,14 +1330,14 @@ converted into numeric. Note that any string in such column that can not
 be converted into numeric will be set to <code>NA</code> in the
 resulting data.</li>
 </ol>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="co"># CONVERT THE 'age' COLUMN IN THE </span><span class="al">TEST</span><span class="co"> LINELIST DATA</span></span>
-<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="fu">system.file</span>(<span class="st">"extdata"</span>, <span class="st">"messy_data.RDS"</span>, <span class="at">package =</span> <span class="st">"cleanepi"</span>))</span>
-<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a><span class="fu">head</span>(dat<span class="sc">$</span>age, <span class="dv">10</span><span class="dt">L</span>)</span>
-<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>check_date_order  [<span class="dv">1</span>] <span class="st">"37"</span>           <span class="st">"seventy-four"</span> <span class="st">"17"</span>           <span class="st">"3"</span>            <span class="st">"37"</span>          </span>
-<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>check_date_order  [<span class="dv">6</span>] <span class="cn">NA</span>             <span class="st">"6"</span>            <span class="st">"26"</span>           <span class="st">"eleven"</span>       <span class="st">"44"</span></span>
-<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">convert_to_numeric</span>(dat, <span class="at">target_columns =</span> <span class="st">"age"</span>)</span>
-<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a><span class="fu">head</span>(dat<span class="sc">$</span>age, <span class="dv">10</span><span class="dt">L</span>)</span>
-<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a>check_date_order  [<span class="dv">1</span>] <span class="dv">37</span> <span class="dv">74</span> <span class="dv">17</span>  <span class="dv">3</span> <span class="dv">37</span> <span class="cn">NA</span>  <span class="dv">6</span> <span class="dv">26</span> <span class="dv">11</span> <span class="dv">44</span></span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="co"># CONVERT THE 'age' COLUMN IN THE </span><span class="al">TEST</span><span class="co"> LINELIST DATA</span></span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="fu">system.file</span>(<span class="st">"extdata"</span>, <span class="st">"messy_data.RDS"</span>, <span class="at">package =</span> <span class="st">"cleanepi"</span>))</span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a><span class="fu">head</span>(dat<span class="sc">$</span>age, <span class="dv">10</span><span class="dt">L</span>)</span>
+<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a>check_date_order  [<span class="dv">1</span>] <span class="st">"37"</span>           <span class="st">"seventy-four"</span> <span class="st">"17"</span>           <span class="st">"3"</span>            <span class="st">"37"</span>          </span>
+<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a>check_date_order  [<span class="dv">6</span>] <span class="cn">NA</span>             <span class="st">"6"</span>            <span class="st">"26"</span>           <span class="st">"eleven"</span>       <span class="st">"44"</span></span>
+<span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">convert_to_numeric</span>(dat, <span class="at">target_columns =</span> <span class="st">"age"</span>)</span>
+<span id="cb14-7"><a href="#cb14-7" tabindex="-1"></a><span class="fu">head</span>(dat<span class="sc">$</span>age, <span class="dv">10</span><span class="dt">L</span>)</span>
+<span id="cb14-8"><a href="#cb14-8" tabindex="-1"></a>check_date_order  [<span class="dv">1</span>] <span class="dv">37</span> <span class="dv">74</span> <span class="dv">17</span>  <span class="dv">3</span> <span class="dv">37</span> <span class="cn">NA</span>  <span class="dv">6</span> <span class="dv">26</span> <span class="dv">11</span> <span class="dv">44</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="finding-duplicated-rows">Finding duplicated rows<a class="anchor" aria-label="anchor" href="#finding-duplicated-rows"></a>
@@ -1316,36 +1361,36 @@ variables only.</li>
 appropriate parameters, users can efficiently pinpoint duplicated rows
 within their datasets, either across all columns or selectively across
 tagged variables in a <code>linelist</code> object.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="co"># IMPORT A `linelist` DATA</span></span>
-<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="fu">system.file</span>(<span class="st">"extdata"</span>, <span class="st">"test_linelist.RDS"</span>,</span>
-<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>                            <span class="at">package =</span> <span class="st">"cleanepi"</span>))</span>
-<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a></span>
-<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a><span class="co"># SHOW THE TAGGED VARIABLES</span></span>
-<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a>linelist<span class="sc">::</span><span class="fu">tags</span>(data)</span>
-<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a><span class="sc">$</span>date_onset</span>
-<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"dt_onset"</span></span>
-<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a></span>
-<span id="cb13-10"><a href="#cb13-10" tabindex="-1"></a><span class="sc">$</span>date_reporting</span>
-<span id="cb13-11"><a href="#cb13-11" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"dt_report"</span></span>
-<span id="cb13-12"><a href="#cb13-12" tabindex="-1"></a></span>
-<span id="cb13-13"><a href="#cb13-13" tabindex="-1"></a><span class="sc">$</span>gender</span>
-<span id="cb13-14"><a href="#cb13-14" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"sex"</span></span>
-<span id="cb13-15"><a href="#cb13-15" tabindex="-1"></a></span>
-<span id="cb13-16"><a href="#cb13-16" tabindex="-1"></a><span class="sc">$</span>outcome</span>
-<span id="cb13-17"><a href="#cb13-17" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"outcome"</span></span>
-<span id="cb13-18"><a href="#cb13-18" tabindex="-1"></a></span>
-<span id="cb13-19"><a href="#cb13-19" tabindex="-1"></a><span class="co"># FIND DUPLICATES ACROSS ALL COLUMNS EXCEPT THE SUBJECT IDs COLUMN</span></span>
-<span id="cb13-20"><a href="#cb13-20" tabindex="-1"></a>all_columns    <span class="ot">&lt;-</span> <span class="fu">names</span>(data)</span>
-<span id="cb13-21"><a href="#cb13-21" tabindex="-1"></a>target_columns <span class="ot">&lt;-</span> all_columns[all_columns <span class="sc">!=</span> <span class="st">"id"</span>]</span>
-<span id="cb13-22"><a href="#cb13-22" tabindex="-1"></a>dups           <span class="ot">&lt;-</span> <span class="fu">find_duplicates</span>(<span class="at">data           =</span> data,</span>
-<span id="cb13-23"><a href="#cb13-23" tabindex="-1"></a>                                  <span class="at">target_columns =</span> target_columns)</span>
-<span id="cb13-24"><a href="#cb13-24" tabindex="-1"></a></span>
-<span id="cb13-25"><a href="#cb13-25" tabindex="-1"></a><span class="co"># FIND DUPLICATES ACROSS TAGGED VARIABLES</span></span>
-<span id="cb13-26"><a href="#cb13-26" tabindex="-1"></a>dups <span class="ot">&lt;-</span> <span class="fu">find_duplicates</span>(</span>
-<span id="cb13-27"><a href="#cb13-27" tabindex="-1"></a>  <span class="at">data           =</span> data,</span>
-<span id="cb13-28"><a href="#cb13-28" tabindex="-1"></a>  <span class="at">target_columns =</span> <span class="st">"linelist_tags"</span></span>
-<span id="cb13-29"><a href="#cb13-29" tabindex="-1"></a>)</span>
-<span id="cb13-30"><a href="#cb13-30" tabindex="-1"></a>Found <span class="dv">57</span> duplicated rows. Please consult the report <span class="cf">for</span> more details.</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="co"># IMPORT A `linelist` DATA</span></span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="fu">system.file</span>(<span class="st">"extdata"</span>, <span class="st">"test_linelist.RDS"</span>,</span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>                            <span class="at">package =</span> <span class="st">"cleanepi"</span>))</span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a><span class="co"># SHOW THE TAGGED VARIABLES</span></span>
+<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a>linelist<span class="sc">::</span><span class="fu">tags</span>(data)</span>
+<span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a><span class="sc">$</span>date_onset</span>
+<span id="cb15-8"><a href="#cb15-8" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"dt_onset"</span></span>
+<span id="cb15-9"><a href="#cb15-9" tabindex="-1"></a></span>
+<span id="cb15-10"><a href="#cb15-10" tabindex="-1"></a><span class="sc">$</span>date_reporting</span>
+<span id="cb15-11"><a href="#cb15-11" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"dt_report"</span></span>
+<span id="cb15-12"><a href="#cb15-12" tabindex="-1"></a></span>
+<span id="cb15-13"><a href="#cb15-13" tabindex="-1"></a><span class="sc">$</span>gender</span>
+<span id="cb15-14"><a href="#cb15-14" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"sex"</span></span>
+<span id="cb15-15"><a href="#cb15-15" tabindex="-1"></a></span>
+<span id="cb15-16"><a href="#cb15-16" tabindex="-1"></a><span class="sc">$</span>outcome</span>
+<span id="cb15-17"><a href="#cb15-17" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"outcome"</span></span>
+<span id="cb15-18"><a href="#cb15-18" tabindex="-1"></a></span>
+<span id="cb15-19"><a href="#cb15-19" tabindex="-1"></a><span class="co"># FIND DUPLICATES ACROSS ALL COLUMNS EXCEPT THE SUBJECT IDs COLUMN</span></span>
+<span id="cb15-20"><a href="#cb15-20" tabindex="-1"></a>all_columns    <span class="ot">&lt;-</span> <span class="fu">names</span>(data)</span>
+<span id="cb15-21"><a href="#cb15-21" tabindex="-1"></a>target_columns <span class="ot">&lt;-</span> all_columns[all_columns <span class="sc">!=</span> <span class="st">"id"</span>]</span>
+<span id="cb15-22"><a href="#cb15-22" tabindex="-1"></a>dups           <span class="ot">&lt;-</span> <span class="fu">find_duplicates</span>(<span class="at">data           =</span> data,</span>
+<span id="cb15-23"><a href="#cb15-23" tabindex="-1"></a>                                  <span class="at">target_columns =</span> target_columns)</span>
+<span id="cb15-24"><a href="#cb15-24" tabindex="-1"></a></span>
+<span id="cb15-25"><a href="#cb15-25" tabindex="-1"></a><span class="co"># FIND DUPLICATES ACROSS TAGGED VARIABLES</span></span>
+<span id="cb15-26"><a href="#cb15-26" tabindex="-1"></a>dups <span class="ot">&lt;-</span> <span class="fu">find_duplicates</span>(</span>
+<span id="cb15-27"><a href="#cb15-27" tabindex="-1"></a>  <span class="at">data           =</span> data,</span>
+<span id="cb15-28"><a href="#cb15-28" tabindex="-1"></a>  <span class="at">target_columns =</span> <span class="st">"linelist_tags"</span></span>
+<span id="cb15-29"><a href="#cb15-29" tabindex="-1"></a>)</span>
+<span id="cb15-30"><a href="#cb15-30" tabindex="-1"></a>Found <span class="dv">57</span> duplicated rows. Please consult the report <span class="cf">for</span> more details.</span></code></pre></div>
 <p>Upon execution, the <code><a href="../reference/find_duplicates.html">find_duplicates()</a></code> function
 identifies all duplicated rows either based on all columns or those
 specified, and stores them in the report. In addition to the existing
@@ -1361,7 +1406,7 @@ identical values in the designated columns of interest.</p></li>
 specific rows identified as duplicates and their corresponding group
 identifiers, enabling efficient analysis and management of duplicated
 data within the dataset.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># VISUALIZE THE DUPLICATES</span></span>
 <span><span class="va">report</span>     <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">dups</span>, <span class="st">"report"</span><span class="op">)</span></span>
 <span><span class="va">duplicates</span> <span class="op">&lt;-</span> <span class="va">report</span><span class="op">$</span><span class="va">duplicated_rows</span></span>
@@ -2576,7 +2621,7 @@ remove empty columns or not. The default is <code>TRUE</code>
 remove constant columns or not. The default is <code>TRUE</code>
 </li>
 </ol>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># REMOVE DUPLICATE ACROSS TAGGED COLUMNS ONLY.</span></span>
 <span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/remove_duplicates.html">remove_duplicates</a></span><span class="op">(</span></span>
 <span>  data           <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"test_linelist.RDS"</span>,</span>
@@ -2610,49 +2655,49 @@ the columns from which duplicates were identified.</li>
 into the specific duplicated rows, those that were removed, and the
 columns used to identify the duplicated, thus facilitating transparency
 and documentation of the duplicates removal process.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="co"># ACCESS THE REPORT</span></span>
-<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>report <span class="ot">&lt;-</span> <span class="fu">attr</span>(res, <span class="st">"report"</span>)</span>
-<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a></span>
-<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a><span class="co"># SUMMARIZE THE REPORT OBJECT</span></span>
-<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a><span class="fu">summary</span>(report)</span>
-<span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a>Length  Class   Mode </span>
-<span id="cb16-7"><a href="#cb16-7" tabindex="-1"></a>     <span class="dv">0</span>   <span class="cn">NULL</span>   <span class="cn">NULL</span> </span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="co"># ACCESS THE REPORT</span></span>
+<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>report <span class="ot">&lt;-</span> <span class="fu">attr</span>(res, <span class="st">"report"</span>)</span>
+<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a><span class="co"># SUMMARIZE THE REPORT OBJECT</span></span>
+<span id="cb18-5"><a href="#cb18-5" tabindex="-1"></a><span class="fu">summary</span>(report)</span>
+<span id="cb18-6"><a href="#cb18-6" tabindex="-1"></a>Length  Class   Mode </span>
+<span id="cb18-7"><a href="#cb18-7" tabindex="-1"></a>     <span class="dv">0</span>   <span class="cn">NULL</span>   <span class="cn">NULL</span> </span></code></pre></div>
 <p>Use the <code><a href="../reference/print_report.html">print_report()</a></code> function to display the report
 made from this operation</p>
 <p>The output from <code><a href="../reference/find_duplicates.html">find_duplicates()</a></code> function can also be
 passed to <code><a href="../reference/remove_duplicates.html">remove_duplicates()</a></code> function to specify which
 duplicated rows to be removed.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="co"># DETECT DUPLICATES FROM TAGGED COLUMNS</span></span>
-<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>dups <span class="ot">&lt;-</span> <span class="fu">find_duplicates</span>(</span>
-<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a>  <span class="at">data           =</span> <span class="fu">readRDS</span>(<span class="fu">system.file</span>(<span class="st">"extdata"</span>, <span class="st">"test_linelist.RDS"</span>,</span>
-<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a>                                       <span class="at">package =</span> <span class="st">"cleanepi"</span>)),</span>
-<span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a>  <span class="at">target_columns =</span> <span class="st">"linelist_tags"</span></span>
-<span id="cb17-6"><a href="#cb17-6" tabindex="-1"></a>)</span>
-<span id="cb17-7"><a href="#cb17-7" tabindex="-1"></a>find_and_remove_dups Found <span class="dv">57</span> duplicated rows. Please consult the report <span class="cf">for</span> more details.</span>
-<span id="cb17-8"><a href="#cb17-8" tabindex="-1"></a></span>
-<span id="cb17-9"><a href="#cb17-9" tabindex="-1"></a><span class="co"># EXTRACT THE DUPLICATES</span></span>
-<span id="cb17-10"><a href="#cb17-10" tabindex="-1"></a>report     <span class="ot">&lt;-</span> <span class="fu">attr</span>(dups, <span class="st">"report"</span>)</span>
-<span id="cb17-11"><a href="#cb17-11" tabindex="-1"></a>duplicates <span class="ot">&lt;-</span> report<span class="sc">$</span>duplicated_rows</span>
-<span id="cb17-12"><a href="#cb17-12" tabindex="-1"></a></span>
-<span id="cb17-13"><a href="#cb17-13" tabindex="-1"></a><span class="co"># REMOVE FIRST OCCURRENCE OF DUPLICATED ROWS</span></span>
-<span id="cb17-14"><a href="#cb17-14" tabindex="-1"></a>dups_index_to_remove <span class="ot">&lt;-</span> duplicates[[<span class="st">"row_id"</span>]][<span class="fu">seq</span>(<span class="dv">1</span><span class="dt">L</span>, <span class="fu">nrow</span>(dups), <span class="dv">2</span><span class="dt">L</span>)]</span>
-<span id="cb17-15"><a href="#cb17-15" tabindex="-1"></a>dups_index_to_remove <span class="ot">&lt;-</span> dups_index_to_remove[<span class="sc">!</span><span class="fu">is.na</span>(dups_index_to_remove)]</span>
-<span id="cb17-16"><a href="#cb17-16" tabindex="-1"></a>no_dups <span class="ot">&lt;-</span> <span class="fu">remove_duplicates</span>(</span>
-<span id="cb17-17"><a href="#cb17-17" tabindex="-1"></a>  <span class="at">data           =</span> <span class="fu">readRDS</span>(<span class="fu">system.file</span>(<span class="st">"extdata"</span>, <span class="st">"test_linelist.RDS"</span>,</span>
-<span id="cb17-18"><a href="#cb17-18" tabindex="-1"></a>                                       <span class="at">package =</span> <span class="st">"cleanepi"</span>)),</span>
-<span id="cb17-19"><a href="#cb17-19" tabindex="-1"></a>  <span class="at">target_columns =</span> <span class="st">"linelist_tags"</span>,</span>
-<span id="cb17-20"><a href="#cb17-20" tabindex="-1"></a>  <span class="at">remove         =</span> dups_index_to_remove</span>
-<span id="cb17-21"><a href="#cb17-21" tabindex="-1"></a>)</span>
-<span id="cb17-22"><a href="#cb17-22" tabindex="-1"></a>find_and_remove_dups Found <span class="dv">57</span> duplicated rows. Please consult the report <span class="cf">for</span> more details.</span>
-<span id="cb17-23"><a href="#cb17-23" tabindex="-1"></a></span>
-<span id="cb17-24"><a href="#cb17-24" tabindex="-1"></a><span class="co"># KEEP SPECIFIC DUPLICATED ROWS</span></span>
-<span id="cb17-25"><a href="#cb17-25" tabindex="-1"></a>no_dups <span class="ot">&lt;-</span> <span class="fu">remove_duplicates</span>(</span>
-<span id="cb17-26"><a href="#cb17-26" tabindex="-1"></a>  <span class="at">data           =</span> <span class="fu">readRDS</span>(<span class="fu">system.file</span>(<span class="st">"extdata"</span>, <span class="st">"test_linelist.RDS"</span>,</span>
-<span id="cb17-27"><a href="#cb17-27" tabindex="-1"></a>                                       <span class="at">package =</span> <span class="st">"cleanepi"</span>)),</span>
-<span id="cb17-28"><a href="#cb17-28" tabindex="-1"></a>  <span class="at">target_columns =</span> <span class="st">"linelist_tags"</span>,</span>
-<span id="cb17-29"><a href="#cb17-29" tabindex="-1"></a>  <span class="at">remove         =</span> <span class="sc">-</span><span class="fu">c</span>(<span class="dv">33</span>, <span class="dv">55</span>)</span>
-<span id="cb17-30"><a href="#cb17-30" tabindex="-1"></a>)</span>
-<span id="cb17-31"><a href="#cb17-31" tabindex="-1"></a>find_and_remove_dups Found <span class="dv">57</span> duplicated rows. Please consult the report <span class="cf">for</span> more details.</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="co"># DETECT DUPLICATES FROM TAGGED COLUMNS</span></span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a>dups <span class="ot">&lt;-</span> <span class="fu">find_duplicates</span>(</span>
+<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a>  <span class="at">data           =</span> <span class="fu">readRDS</span>(<span class="fu">system.file</span>(<span class="st">"extdata"</span>, <span class="st">"test_linelist.RDS"</span>,</span>
+<span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a>                                       <span class="at">package =</span> <span class="st">"cleanepi"</span>)),</span>
+<span id="cb19-5"><a href="#cb19-5" tabindex="-1"></a>  <span class="at">target_columns =</span> <span class="st">"linelist_tags"</span></span>
+<span id="cb19-6"><a href="#cb19-6" tabindex="-1"></a>)</span>
+<span id="cb19-7"><a href="#cb19-7" tabindex="-1"></a>find_and_remove_dups Found <span class="dv">57</span> duplicated rows. Please consult the report <span class="cf">for</span> more details.</span>
+<span id="cb19-8"><a href="#cb19-8" tabindex="-1"></a></span>
+<span id="cb19-9"><a href="#cb19-9" tabindex="-1"></a><span class="co"># EXTRACT THE DUPLICATES</span></span>
+<span id="cb19-10"><a href="#cb19-10" tabindex="-1"></a>report     <span class="ot">&lt;-</span> <span class="fu">attr</span>(dups, <span class="st">"report"</span>)</span>
+<span id="cb19-11"><a href="#cb19-11" tabindex="-1"></a>duplicates <span class="ot">&lt;-</span> report<span class="sc">$</span>duplicated_rows</span>
+<span id="cb19-12"><a href="#cb19-12" tabindex="-1"></a></span>
+<span id="cb19-13"><a href="#cb19-13" tabindex="-1"></a><span class="co"># REMOVE FIRST OCCURRENCE OF DUPLICATED ROWS</span></span>
+<span id="cb19-14"><a href="#cb19-14" tabindex="-1"></a>dups_index_to_remove <span class="ot">&lt;-</span> duplicates[[<span class="st">"row_id"</span>]][<span class="fu">seq</span>(<span class="dv">1</span><span class="dt">L</span>, <span class="fu">nrow</span>(dups), <span class="dv">2</span><span class="dt">L</span>)]</span>
+<span id="cb19-15"><a href="#cb19-15" tabindex="-1"></a>dups_index_to_remove <span class="ot">&lt;-</span> dups_index_to_remove[<span class="sc">!</span><span class="fu">is.na</span>(dups_index_to_remove)]</span>
+<span id="cb19-16"><a href="#cb19-16" tabindex="-1"></a>no_dups <span class="ot">&lt;-</span> <span class="fu">remove_duplicates</span>(</span>
+<span id="cb19-17"><a href="#cb19-17" tabindex="-1"></a>  <span class="at">data           =</span> <span class="fu">readRDS</span>(<span class="fu">system.file</span>(<span class="st">"extdata"</span>, <span class="st">"test_linelist.RDS"</span>,</span>
+<span id="cb19-18"><a href="#cb19-18" tabindex="-1"></a>                                       <span class="at">package =</span> <span class="st">"cleanepi"</span>)),</span>
+<span id="cb19-19"><a href="#cb19-19" tabindex="-1"></a>  <span class="at">target_columns =</span> <span class="st">"linelist_tags"</span>,</span>
+<span id="cb19-20"><a href="#cb19-20" tabindex="-1"></a>  <span class="at">remove         =</span> dups_index_to_remove</span>
+<span id="cb19-21"><a href="#cb19-21" tabindex="-1"></a>)</span>
+<span id="cb19-22"><a href="#cb19-22" tabindex="-1"></a>find_and_remove_dups Found <span class="dv">57</span> duplicated rows. Please consult the report <span class="cf">for</span> more details.</span>
+<span id="cb19-23"><a href="#cb19-23" tabindex="-1"></a></span>
+<span id="cb19-24"><a href="#cb19-24" tabindex="-1"></a><span class="co"># KEEP SPECIFIC DUPLICATED ROWS</span></span>
+<span id="cb19-25"><a href="#cb19-25" tabindex="-1"></a>no_dups <span class="ot">&lt;-</span> <span class="fu">remove_duplicates</span>(</span>
+<span id="cb19-26"><a href="#cb19-26" tabindex="-1"></a>  <span class="at">data           =</span> <span class="fu">readRDS</span>(<span class="fu">system.file</span>(<span class="st">"extdata"</span>, <span class="st">"test_linelist.RDS"</span>,</span>
+<span id="cb19-27"><a href="#cb19-27" tabindex="-1"></a>                                       <span class="at">package =</span> <span class="st">"cleanepi"</span>)),</span>
+<span id="cb19-28"><a href="#cb19-28" tabindex="-1"></a>  <span class="at">target_columns =</span> <span class="st">"linelist_tags"</span>,</span>
+<span id="cb19-29"><a href="#cb19-29" tabindex="-1"></a>  <span class="at">remove         =</span> <span class="sc">-</span><span class="fu">c</span>(<span class="dv">33</span>, <span class="dv">55</span>)</span>
+<span id="cb19-30"><a href="#cb19-30" tabindex="-1"></a>)</span>
+<span id="cb19-31"><a href="#cb19-31" tabindex="-1"></a>find_and_remove_dups Found <span class="dv">57</span> duplicated rows. Please consult the report <span class="cf">for</span> more details.</span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="dictionary-based-data-substituting">Dictionary based data substituting<a class="anchor" aria-label="anchor" href="#dictionary-based-data-substituting"></a>
@@ -2735,7 +2780,7 @@ the evolving nature of the input dataset, thereby enhancing the accuracy
 and completeness of data interpretation and analysis. In the example
 below, we add <code>-99</code> to our test data dictionary,
 <code>test_dictionary</code>.</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># READING IN THE DATA</span></span>
 <span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"test_df.RDS"</span>,</span>
 <span>                            package <span class="op">=</span> <span class="st">"cleanepi"</span><span class="op">)</span><span class="op">)</span></span>
@@ -2806,7 +2851,7 @@ sex
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cleaned_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/clean_using_dictionary.html">clean_using_dictionary</a></span><span class="op">(</span></span>
 <span>  data       <span class="op">=</span> <span class="va">data</span>,</span>
 <span>  dictionary <span class="op">=</span> <span class="va">test_dictionary</span></span>
@@ -3147,13 +3192,18 @@ the time span in different units. It facilitates various analytics tasks
 where the time span computation is a necessary component, providing
 users with the ability to customize the output according to their
 specific requirements.</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># IMPORT DATA, REPLACE MISSING VALUES WITH 'NA' &amp; STANDARDISE DATES</span></span>
 <span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"test_df.RDS"</span>, package <span class="op">=</span> <span class="st">"cleanepi"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/replace_missing_values.html">replace_missing_values</a></span><span class="op">(</span>target_columns <span class="op">=</span> <span class="st">"dateOfBirth"</span>,</span>
 <span>                         na_strings     <span class="op">=</span> <span class="st">"-99"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/standardize_dates.html">standardize_dates</a></span><span class="op">(</span>target_columns  <span class="op">=</span> <span class="st">"dateOfBirth"</span>,</span>
 <span>                    error_tolerance <span class="op">=</span> <span class="fl">0.0</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># calculate_age() EXPECTS DATE VALUES IN ISO FORMAT</span></span>
+<span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/standardize_dates.html">standardize_dates</a></span><span class="op">(</span>data            <span class="op">=</span> <span class="va">data</span>,</span>
+<span>                          target_columns  <span class="op">=</span> <span class="st">"dateOfBirth"</span>,</span>
+<span>                          error_tolerance <span class="op">=</span> <span class="fl">0.0</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># CALCULATE INDIVIDUAL AGE IN YEARS FROM THE 'dateOfBirth' COLUMN AND SEND THE</span></span>
 <span><span class="co"># REMAINDER IN MONTHS</span></span>
@@ -3526,7 +3576,7 @@ Gambia
 <div class="section level2">
 <h2 id="printing-the-report">Printing the report<a class="anchor" aria-label="anchor" href="#printing-the-report"></a>
 </h2>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/print_report.html">print_report</a></span><span class="op">(</span></span>
 <span>  data             <span class="op">=</span> <span class="va">data</span>,</span>
 <span>  report_title     <span class="op">=</span> <span class="st">"{cleanepi} data cleaning report"</span>,</span>

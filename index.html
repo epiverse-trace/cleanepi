@@ -84,14 +84,14 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level1">
 <div class="page-header">
-<img src="logo.svg" class="logo" alt=""><h1 id="id_-packagename--clean-and-standardize-epidemiological-data-">{{ packagename }}: Clean and standardize epidemiological data <a class="anchor" aria-label="anchor" href="#id_-packagename--clean-and-standardize-epidemiological-data-"></a>
+<img src="logo.svg" class="logo" alt=""><h1 id="cleanepi-clean-and-standardize-epidemiological-data-">cleanepi: Clean and standardize epidemiological data <a class="anchor" aria-label="anchor" href="#cleanepi-clean-and-standardize-epidemiological-data-"></a>
 </h1>
 </div>
 <!-- badges: start -->
 
 <!-- badges: end -->
-<p><strong>{{ packagename }}</strong> is an R package designed for cleaning, curating, and standardizing epidemiological data. It streamlines various data cleaning tasks that are typically expected when working with datasets in epidemiology.</p>
-<p>Key functionalities of <strong>{{ packagename }}</strong> include:</p>
+<p><strong>cleanepi</strong> is an R package designed for cleaning, curating, and standardizing epidemiological data. It streamlines various data cleaning tasks that are typically expected when working with datasets in epidemiology.</p>
+<p>Key functionalities of <strong>cleanepi</strong> include:</p>
 <ol style="list-style-type: decimal">
 <li><p><strong>Removing irregularities</strong>: It efficiently removes duplicated and empty rows and columns, as well as columns with constant values.</p></li>
 <li><p><strong>Handling missing values</strong>: It replaces missing values with the standard <code>NA</code> format, ensuring consistency and ease of analysis.</p></li>
@@ -100,21 +100,21 @@
 <li><p><strong>Standardizing entries</strong>: It can standardize column entries into specified formats, promoting consistency across the dataset.</p></li>
 <li><p><strong>Age calculation</strong>: It calculates age from a given <code>Date</code> column and a reference date, providing valuable demographic insights for epidemiological analysis.</p></li>
 </ol>
-<p><strong>{{ packagename }}</strong> operates on data frames or similar structures like tibbles, as well as linelist objects commonly used in epidemiological research. It returns the processed data in the same format, ensuring seamless integration into existing workflows. Additionally, it generates a comprehensive report detailing the outcomes of each cleaning task.</p>
-<p><strong>{{ packagename }}</strong> is developed by the <a href="https://data.org/initiatives/epiverse/" class="external-link">Epiverse-TRACE</a> team at the <a href="https://www.lshtm.ac.uk/research/units/mrc-gambia" class="external-link">Medical Research Council The Gambia unit at the London School of Hygiene and Tropical Medicine</a>.</p>
+<p><strong>cleanepi</strong> operates on data frames or similar structures like tibbles, as well as linelist objects commonly used in epidemiological research. It returns the processed data in the same format, ensuring seamless integration into existing workflows. Additionally, it generates a comprehensive report detailing the outcomes of each cleaning task.</p>
+<p><strong>cleanepi</strong> is developed by the <a href="https://data.org/initiatives/epiverse/" class="external-link">Epiverse-TRACE</a> team at the <a href="https://www.lshtm.ac.uk/research/units/mrc-gambia" class="external-link">Medical Research Council The Gambia unit at the London School of Hygiene and Tropical Medicine</a>.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>The latest development version of <strong>{{ packagename }}</strong> can be installed from <a href="https://epiverse-trace.github.io/cleanepi">GitHub</a>.</p>
+<p>The latest development version of <strong>cleanepi</strong> can be installed from <a href="https://epiverse-trace.github.io/cleanepi">GitHub</a>.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://pak.r-lib.org/" class="external-link">"pak"</a></span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"pak"</span><span class="op">)</span></span>
-<span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"{{ gh_repo }}"</span><span class="op">)</span></span>
+<span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"epiverse-trace/cleanepi"</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://epiverse-trace.github.io/cleanepi">cleanepi</a></span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="quick-start">Quick start<a class="anchor" aria-label="anchor" href="#quick-start"></a>
 </h2>
-<p>The main function in <strong>{{ packagename }}</strong> is <code>clean_data(),</code> which internally makes call of almost all standard data cleaning functions, such as removal of empty and duplicated rows and columns, replacement of missing values, etc. However, each function can also be called independently to perform a specific task. This mechanism is explained in details in the <strong>vignette</strong>. Below is typical example of how to use the <code><a href="reference/clean_data.html">clean_data()</a></code> function.</p>
+<p>The main function in <strong>cleanepi</strong> is <code>clean_data(),</code> which internally makes call of almost all standard data cleaning functions, such as removal of empty and duplicated rows and columns, replacement of missing values, etc. However, each function can also be called independently to perform a specific task. This mechanism is explained in details in the <strong>vignette</strong>. Below is typical example of how to use the <code><a href="reference/clean_data.html">clean_data()</a></code> function.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># READING IN THE TEST DATASET</span></span>
 <span><span class="va">test_data</span>       <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"test_df.RDS"</span>,</span>
@@ -472,12 +472,19 @@ sex
 <span>                                error_tolerance <span class="op">=</span> <span class="fl">0.4</span>,</span>
 <span>                                format          <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>                                timeframe       <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"1973-05-29"</span>,</span>
-<span>                                                            <span class="st">"2023-05-29"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span>                                                            <span class="st">"2023-05-29"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>                                modern_excel    <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>                                orders          <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>                                  world_named_months <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Ybd"</span>, <span class="st">"dby"</span><span class="op">)</span>,</span>
+<span>                                  world_digit_months <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dmy"</span>, <span class="st">"Ymd"</span><span class="op">)</span>,</span>
+<span>                                  US_formats         <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Omdy"</span>, <span class="st">"YOmd"</span><span class="op">)</span></span>
+<span>                                <span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">standardize_subject_ids</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>target_columns <span class="op">=</span> <span class="st">"study_id"</span>,</span>
 <span>                                prefix         <span class="op">=</span> <span class="st">"PS"</span>,</span>
 <span>                                suffix         <span class="op">=</span> <span class="st">"P2"</span>,</span>
 <span>                                range          <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">100</span><span class="op">)</span>,</span>
 <span>                                nchar          <span class="op">=</span> <span class="fl">7</span><span class="op">)</span></span>
+<span></span>
 <span><span class="va">params</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>  keep                    <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  replace_missing_values  <span class="op">=</span> <span class="va">use_na</span>, </span>
@@ -498,13 +505,14 @@ sex
 <span><span class="co">#&gt; removing duplicated rows</span></span>
 <span><span class="co">#&gt; standardising date columns</span></span>
 <span><span class="co">#&gt; checking subject IDs format</span></span>
+<span><span class="co">#&gt; Warning: Detected incorrect subject ids at lines: 5, 7, 3</span></span>
+<span><span class="co">#&gt; Use the correct_subject_ids() function to adjust them.</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; converting sex into numeric</span></span>
 <span><span class="co">#&gt; performing dictionary-based cleaning</span></span></code></pre></div>
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:200px; overflow-x: scroll; width:100%; ">
 <table class="table  lightable-paper lightable-striped" style='font-size: 14px; font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'>
 <thead><tr>
-<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-</th>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
 study_id
 </th>
@@ -524,9 +532,6 @@ sex
 <tbody>
 <tr>
 <td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
 PS001P2
 </td>
 <td style="text-align:left;">
@@ -543,9 +548,6 @@ male
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
-2
-</td>
 <td style="text-align:left;">
 PS002P2
 </td>
@@ -564,8 +566,22 @@ male
 </tr>
 <tr>
 <td style="text-align:left;">
-4
+PS004P2-1
 </td>
+<td style="text-align:left;">
+2021-02-15
+</td>
+<td style="text-align:left;">
+06/15/1961
+</td>
+<td style="text-align:left;">
+2021-02-11
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
 <td style="text-align:left;">
 PS003P2
 </td>
@@ -584,8 +600,22 @@ male
 </tr>
 <tr>
 <td style="text-align:left;">
-6
+P0005P2
 </td>
+<td style="text-align:left;">
+2021-02-17
+</td>
+<td style="text-align:left;">
+09/26/2000
+</td>
+<td style="text-align:left;">
+2021-02-16
+</td>
+<td style="text-align:left;">
+female
+</td>
+</tr>
+<tr>
 <td style="text-align:left;">
 PS006P2
 </td>
@@ -604,8 +634,22 @@ female
 </tr>
 <tr>
 <td style="text-align:left;">
-8
+PB500P2
 </td>
+<td style="text-align:left;">
+2021-02-28
+</td>
+<td style="text-align:left;">
+11/03/1989
+</td>
+<td style="text-align:left;">
+2021-02-19
+</td>
+<td style="text-align:left;">
+male
+</td>
+</tr>
+<tr>
 <td style="text-align:left;">
 PS008P2
 </td>
@@ -624,9 +668,6 @@ female
 </tr>
 <tr>
 <td style="text-align:left;">
-9
-</td>
-<td style="text-align:left;">
 PS010P2
 </td>
 <td style="text-align:left;">
@@ -643,9 +684,6 @@ male
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
-10
-</td>
 <td style="text-align:left;">
 PS011P2
 </td>
@@ -695,7 +733,7 @@ female
 <div class="section level3">
 <h3 id="code-of-conduct">Code of Conduct<a class="anchor" aria-label="anchor" href="#code-of-conduct"></a>
 </h3>
-<p>Please note that the {{ packagename }} project is released with a <a href="https://github.com/epiverse-trace/.github/blob/main/CODE_OF_CONDUCT.md" class="external-link">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
+<p>Please note that the cleanepi project is released with a <a href="https://github.com/epiverse-trace/.github/blob/main/CODE_OF_CONDUCT.md" class="external-link">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
 </div>
 </div>
 <div class="section level2">
@@ -703,7 +741,6 @@ female
 </h2>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/citation.html" class="external-link">citation</a></span><span class="op">(</span><span class="st">"cleanepi"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; To cite package 'cleanepi' in publications use:</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;   Mané K, Bah B, Ahadzie B, Mohammed N, Degoot A (2024). _cleanepi:</span></span>
