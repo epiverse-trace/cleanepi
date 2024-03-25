@@ -15,7 +15,7 @@ row_id <- group_id <- NULL
 ```
 
 
-## An overview
+# An overview
 
 Data cleaning is a critical step of data analysis, especially considering the messy nature of real-world data, which often includes duplicates, errors, incomplete entries, and irrelevant formats. Addressing these issues is essential for producing accurate, reliable, and reproducible results. However, data cleaning can pose a substantial barrier in data analysis due to the time-consuming nature of the process.
 
@@ -27,7 +27,7 @@ This vignette provides a comprehensive guide to the functionalities encapsulated
 library("cleanepi")
 ```
 
-## General data cleaning tasks
+# General data cleaning tasks
 
 The main function in **{cleanepi}** is `clean_data()` that can perform the following tasks:
 
@@ -107,6 +107,9 @@ stdn_ids <- list(target_columns = "study_id",
                  range          = c(1, 100),
                  nchar          = 7)
 
+# PARAMETERS FOR CONSTANT COLUMNS, EMPTY ROWS AND COLUMNS REMOVAL
+remove_cte <- list(cutoff = 1)
+
 # LAOD THE DATA DICTIONARY
 test_dictionary <- readRDS(system.file("extdata", "test_dictionary.RDS",
                                        package = "cleanepi"))
@@ -114,6 +117,7 @@ test_dictionary <- readRDS(system.file("extdata", "test_dictionary.RDS",
 # DEFINE THE LIST OF PARAMETERS
 params <- list(
   standardize_column_names = standardise_col_names,
+  remove_constant          = remove_cte,
   replace_missing_values   = rm_na,
   remove_duplicates        = rm_dup,
   standardize_date         = stdn_date,
@@ -152,7 +156,7 @@ The report can also be displayed in an HTML format using the `print_report()` fu
 print_report(report)
 ```
 
-## Specific data cleaning tasks
+# Specific data cleaning tasks
 
 Certain data cleaning operations are automatically applied to input data. These operations include renaming columns, removing empty rows and columns, removing columns with the same values across all rows, and standardizing date columns. We refer to these operation as the `implicit data cleaning steps`,  which are executed by default.
 
@@ -160,7 +164,39 @@ However, we also provide users with the flexibility to call a specific function 
 
 This setup offers users both convenience and flexibility, as they can benefit from default data cleaning operations while also having the option to customize their data cleaning process according to their specific needs.
 
-### Standardizing Dates
+## Remove constant data
+
+Some datasets contain constant columns (columns with the same values across all rows), and/or empty rows and columns (rows or columns where all values are missing i.e `NA`).
+The `remove_constant()` function can be used to remove such “noise”. The function takes the following argument:
+
+1. **data**: the input data frame or linelist,
+2. **cutoff**: a numeric, between `0` and `1`, to be used when removing empty rows and columns. When provided, only rows and columns where the percent of missing data is greater than this cut-off will removed. Rows and columns with 100% missing values will be remove by default.
+
+```{r echo=FALSE, eval=TRUE}
+# IMPORT THE INPUT DATA
+data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi"))
+
+# INTRODUCE AN EMPTY COLUMN
+data$empty_column <- NA
+
+# remove the constant columns, empty rows and columns
+dat <- remove_constant(data   = data,
+                       cutoff = 1)
+```
+
+The `remove_constant()` function returns a dataset where all constant columns, empty rows and columns are removed.
+
+```{r echo=FALSE, eval=TRUE}
+dat |>
+  kableExtra::kbl() |>
+  kableExtra::kable_paper("striped", font_size = 14, full_width = TRUE) |>
+  kableExtra::scroll_box(height = "200px", width = "100%",
+                         box_css = "border: 1px solid #ddd; padding: 5px; ",
+                         extra_css = NULL,
+                         fixed_thead = TRUE)
+```
+
+## Standardizing Dates
 
 The `standardize_dates()` function provides a comprehensive set of options for converting date columns into a specified format and handling various scenarios, such as different date formats and mixed data types in a column.
 
@@ -235,9 +271,9 @@ res |>
                          fixed_thead = TRUE)
 ```
 
-### Standardizing subject IDs
+## Standardizing subject IDs
 
-#### Detecting and remove incorrect subject ids
+### Detecting and remove incorrect subject ids
 
 The `check_subject_ids()` function is designed to identify rows from the input dataset where the ids don't comply with the expected subject ids format. It requires the following parameters:
 
@@ -274,7 +310,7 @@ The `check_subject_ids()` function returns the input dataset and send a warming 
 
 In addition to detecting wrong subject IDs, the function will also look for missing and duplicated IDs. As the result of this, the report made from this operation might contain two extra elements: **missing_ids** (a vector of row indexes where there is a missing IDs) and **duplicated_ids** (a data frame of rows with the duplicated IDs). Use the `print_report()` function to display the report made from this operation.
 
-#### Correct wrong subject ids
+### Correct wrong subject ids
 
 After the detection of the incorrect subject ids using the `check_subject_ids()`, use the `correct_subject_ids()` to replace non complying ids with the correct ones. The function requires a data frame with the following two columns:
 
@@ -301,7 +337,7 @@ dat <- correct_subject_ids(
 ```
 
 
-### Checking date sequence
+## Checking date sequence
 
 The `check_date_sequence()` function verifies the order of sequences in date event columns within a dataset. It ensures that the values in specified date columns follow the desired chronological order. Here are the arguments accepted by the function:
 
@@ -330,7 +366,7 @@ summary(report)
 The `check_date_sequence()` function returns the input dataset or a subset of it without the rows that have incorrect date sequences, depending on whether the `remove_bad_seq` parameter is set to `TRUE`.
 It also provides a detailed report highlighting any discrepancies found in the date sequences, enabling users to take appropriate actions. Use the `print_report()` function to display the report made from this operation.
 
-### Converting character columns into numeric
+## Converting character columns into numeric
 
 In certain scenarios, the input data contains columns where the number are written in letters. For instance, the ages of a study participants can be written in letters. Similarly, a column can contain values written in both numbers and letters (an age column where some values are written in numbers and others in letters). The `convert_to_numeric()` function offers the framework to convert all numbers written in letters from a given column into numeric. It takes the following arguments:
 
@@ -346,7 +382,7 @@ dat <- convert_to_numeric(dat, target_columns = "age")
 head(dat$age, 10L)
 ```
 
-### Finding duplicated rows
+## Finding duplicated rows
 
 The `find_duplicates()` function serves the purpose of identifying duplicated rows within a given dataset. It accepts the following parameters:
 
@@ -397,17 +433,13 @@ duplicates |>
                          fixed_thead = TRUE)
 ```
 
-### Removing duplicates
+## Removing duplicates
 
 To eliminate duplicated rows from a dataset, the `remove_duplicates()` function can be employed. This function internally utilizes the `find_duplicates()` function and expects the following parameters:
 
-1. **data**: A data frame of the input dataset from which duplicated rows will be removed.
+1. **data**: The input data frame or linelist from which duplicated rows will be removed.
 2. **target_columns**: A vector containing either column names or indexes specifying the  columns from which duplicated rows will be identified. If set to `NULL`, the function will detect duplicates across all columns. If the input dataset is a `linelist` object, setting this parameter to `tags` will identify duplicates across the tagged variables only.
 3. **remove**: A numeric vector of the indices of the duplicated rows to be removed. If set to  `NULL`, the function removes duplicates and retains only the first occurrence of the   duplicated rows.
-4. **rm_empty_rows**: A Boolean to indicate whether to remove empty rows or not. The default is `TRUE`
-5. **rm_empty_cols**: A Boolean to indicate whether to remove empty columns or not. The default is `TRUE`
-6. **rm_constant_cols**: A Boolean to indicate whether to remove constant columns or not. The default is `TRUE`
-
 
 ```{r eval=TRUE}
 # REMOVE DUPLICATE ACROSS TAGGED COLUMNS ONLY.
@@ -422,8 +454,6 @@ res <- remove_duplicates(
 Upon execution, the `remove_duplicates()` function returns the input dataset with duplicated rows removed (if found).
 The details about the duplicates removal operation are reported as a list attached to the output object. When duplicates are found, this report will contain the following elements:
 
-- **empty_columns**: A vector of empty columns (if found).
-- **constant_columns**: A vector of constant columns (if found).
 - **duplicated_rows**: A data frame with the detected duplicates.
 - **removed_duplicates**: A data frame with the duplicated rows that have been removed.
 - **duplicates_checked_from**: A vector of the names of the columns from which duplicates were identified.
@@ -473,7 +503,7 @@ no_dups <- remove_duplicates(
 )
 ```
 
-### Dictionary based data substituting
+## Dictionary based data substituting
 
 The `clean_using_dictionary()` function offers a convenient way to replace the options in a data frame or linelist with their corresponding values stored in a data dictionary file. The function expects the following arguments:
 
@@ -530,7 +560,7 @@ cleaned_df |>
                          fixed_thead = TRUE)
 ```
 
-### Calculating time span in different time scales (“years”, “months”, “weeks”, or “days”)
+## Calculating time span in different time scales (“years”, “months”, “weeks”, or “days”)
 
 The `span()` function computes the time span between a single Date value or a vector Date values or another column of the target data and a chosen in the target data. The resulting time span can be expressed in “years”, “months”, “weeks”, or “days”, depending on the user-specified unit. The functions requires the following arguments:
 

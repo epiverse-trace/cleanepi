@@ -2,16 +2,9 @@
 % Please edit documentation in R/find_and_remove_duplicates.R
 \name{remove_duplicates}
 \alias{remove_duplicates}
-\title{Remove duplicates and constant rows and columns}
+\title{Remove duplicates}
 \usage{
-remove_duplicates(
-  data,
-  target_columns = NULL,
-  remove = NULL,
-  rm_empty_rows = TRUE,
-  rm_empty_cols = TRUE,
-  rm_constant_cols = TRUE
-)
+remove_duplicates(data, target_columns = NULL, remove = NULL)
 }
 \arguments{
 \item{data}{A input data frame or linelist.}
@@ -26,36 +19,21 @@ are unique identifiers for all rows in the original data frame or linelist
 that are duplicates of each other based on the \code{target_columns}.
 If remove = \code{NULL} (default value), the first duplicate is kept and
 the rest of the duplicates in the group are removed.}
-
-\item{rm_empty_rows}{A logical variable that is used to specify whether to
-remove empty rows or not. The default  value is \code{TRUE}.}
-
-\item{rm_empty_cols}{A logical variable that is used to specify whether to
-remove empty columns or not. The default value is \code{TRUE}.}
-
-\item{rm_constant_cols}{A logical variable that is used to specify whether to
-remove constant columns or not. The default value is \code{TRUE}.}
 }
 \value{
 A  data frame or linelist  without the duplicates values and nor
 constant columns.
 }
 \description{
-Removes duplicates and noise such as  empty rows and
-columns, and constant columns. These operations are
-automatically performed by default unless specified otherwise.
-Users can specify a set columns to consider when removing
-duplicates with the 'target_columns' argument.
+When removing duplicates, users can specify a set columns to consider with
+the 'target_columns' argument.
 }
 \examples{
 no_dups <- remove_duplicates(
-  data             = readRDS(system.file("extdata", "test_linelist.RDS",
-                                         package = "cleanepi")),
-  target_columns   = "linelist_tags",
-  remove           = NULL,
-  rm_empty_rows    = TRUE,
-  rm_empty_cols    = TRUE,
-  rm_constant_cols = TRUE
+  data           = readRDS(system.file("extdata", "test_linelist.RDS",
+                                       package = "cleanepi")),
+  target_columns = "linelist_tags",
+  remove         = NULL
 )
 
 }

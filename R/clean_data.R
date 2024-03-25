@@ -44,6 +44,9 @@
 #' # Parameters for column names standardization
 #' standardize_col_names <- list(keep = NULL, rename = NULL)
 #'
+#' # parameters to remove constant columns, empty rows and columns
+#' remove_cte <- list(cutoff = 1)
+#'
 #' # Parameters for substituting missing values with NA:
 #' replace_missing_values <- list(target_columns = NULL, na_strings = "-99")
 #'
@@ -83,6 +86,7 @@
 #'                                package = "cleanepi")),
 #'   params = list(
 #'     standardize_column_names = standardize_col_names,
+#'     remove_constant          = remove_cte,
 #'     replace_missing_values   = replace_missing_values,
 #'     remove_duplicates        = remove_duplicates,
 #'     standardize_date         = standardize_date,
@@ -127,7 +131,7 @@ clean_data <- function(
       to_numeric = NULL
     )) {
   checkmate::assert_data_frame(data, null.ok = FALSE, min.cols = 1L)
-  checkmate::assert_list(params, min.len = 0L, null.ok = TRUE)
+  checkmate::assert_list(params, min.len = 1L, null.ok = FALSE)
 
   ## -----
   ## | we choose to use snake_cases for both variable and column names
@@ -159,6 +163,17 @@ clean_data <- function(
   }
 
   ## -----
+  ## | we can choose to remove the constant columns, the empty rows and columns
+  ## -----
+  if (!is.null(params[["remove_constant"]])) {
+    R.utils::cat("\nremoving the constant columns, empty rows and columns")
+    data <- remove_constant(
+      data   = data,
+      cutoff = params[["remove_constant"]][["cutoff"]]
+    )
+  }
+
+  ## -----
   ## | The existence of duplicated records can be genuine. But duplication is
   ## | generally introduced by mistake. We looks for and remove duplicates to
   ## | minimize potential issues during data analysis. When no column is
@@ -172,10 +187,8 @@ clean_data <- function(
     R.utils::cat("\nremoving duplicated rows")
     data <- remove_duplicates(
       data,
-      target_columns   = params[["remove_duplicates"]][["target_columns"]],
-      rm_empty_rows    = params[["remove_duplicates"]][["rm_empty_rows"]],
-      rm_empty_cols    = params[["remove_duplicates"]][["rm_empty_cols"]],
-      rm_constant_cols = params[["remove_duplicates"]][["rm_constant_cols"]]
+      target_columns = params[["remove_duplicates"]][["target_columns"]],
+      remove         = params[["remove_duplicates"]][["remove"]]
     )
   }
 
