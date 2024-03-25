@@ -6,15 +6,17 @@
 \usage{
 clean_data(
   data,
-  params = list(keep = NULL, replace_missing_values = list(target_columns = NULL,
-    na_strings = cleanepi::common_na_strings), remove_duplicates = list(target_columns =
-    NULL, rm_empty_rows = TRUE, rm_empty_cols = TRUE, rm_constant_cols = TRUE),
+  params = list(standardize_column_names = list(keep = NULL, rename = NULL),
+    replace_missing_values = list(target_columns = NULL, na_strings =
+    cleanepi::common_na_strings), remove_duplicates = list(target_columns = NULL,
+    rm_empty_rows = TRUE, rm_empty_cols = TRUE, rm_constant_cols = TRUE),
     standardize_dates = list(target_columns = NULL, error_tolerance = 0.4, format = NULL,
     timeframe = NULL, orders = list(world_named_months = c("Ybd", "dby"),
-    world_digit_months = c("dmy", "Ymd"), US_formats = c("Omdy", "YOmd")), modern_excel =
-    TRUE), standardize_subject_ids = list(target_columns = "id", 
-     prefix = NULL,
-    suffix = NULL, range = NULL, nchar = NULL), dictionary = NULL, to_numeric = NULL)
+    world_digit_months = c("dmy", "Ymd"), US_formats = c("Omdy", "YOmd")), 
+    
+    modern_excel = TRUE), standardize_subject_ids = list(target_columns = "id", prefix =
+    NULL, suffix = NULL, range = NULL, nchar = NULL), dictionary = NULL, to_numeric =
+    NULL)
 )
 }
 \arguments{
@@ -60,8 +62,8 @@ certain number of date values, and detecting subject IDs with wrong
 formats.
 }
 \examples{
-keep <- NULL # column names standardization will be performed across
-# all columns
+# Parameters for column names standardization
+standardize_col_names <- list(keep = NULL, rename = NULL)
 
 # Parameters for substituting missing values with NA:
 replace_missing_values <- list(target_columns = NULL, na_strings = "-99")
@@ -101,13 +103,13 @@ cleaned_data <- clean_data(
   data   = readRDS(system.file("extdata", "test_df.RDS",
                                package = "cleanepi")),
   params = list(
-    keep                    = NULL,
-    replace_missing_values  = replace_missing_values,
-    remove_duplicates       = remove_duplicates,
-    standardize_date        = standardize_date,
-    standardize_subject_ids = standardize_subject_ids,
-    to_numeric              = "sex",
-    dictionary              = NULL
+    standardize_column_names = standardize_col_names,
+    replace_missing_values   = replace_missing_values,
+    remove_duplicates        = remove_duplicates,
+    standardize_date         = standardize_date,
+    standardize_subject_ids  = standardize_subject_ids,
+    to_numeric               = "sex",
+    dictionary               = NULL
   )
 )
 

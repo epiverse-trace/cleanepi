@@ -81,6 +81,9 @@ In the following chunk, we define a list of cleaning operations that we want to 
 # PARAMETERS FOR REPLACING MISSING VALUES WITH NA
 rm_na <- list(target_columns = NULL, na_strings = "-99")
 
+# PARAMETERS FOR COLUMN NAMES STANDARDIZATION
+standardise_col_names <- list(keep = NULL, rename = NULL)
+
 # PARAMETERS FOR DUBLICATES DETECTION AND REMOVAL
 rm_dup <- list(target_columns   = NULL,
                rm_empty_rows    = TRUE,
@@ -110,11 +113,12 @@ test_dictionary <- readRDS(system.file("extdata", "test_dictionary.RDS",
 
 # DEFINE THE LIST OF PARAMETERS
 params <- list(
-  replace_missing_values  = rm_na,
-  remove_duplicates       = rm_dup,
-  standardize_date        = stdn_date,
-  standardize_subject_ids = stdn_ids,
-  dictionary              = test_dictionary
+  standardize_column_names = standardise_col_names,
+  replace_missing_values   = rm_na,
+  remove_duplicates        = rm_dup,
+  standardize_date         = stdn_date,
+  standardize_subject_ids  = stdn_ids,
+  dictionary               = test_dictionary
 )
 ```
 
