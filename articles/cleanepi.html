@@ -662,12 +662,11 @@ we want to perform on the input data.</p>
 <span>                  timeframe       <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"1973-05-29"</span>, <span class="st">"2023-05-29"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># PARAMETERS FOR STANDARDING SUBJECT IDs</span></span>
-<span><span class="va">stdn_ids</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>id_col_name <span class="op">=</span> <span class="st">"study_id"</span>,</span>
-<span>                 format      <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>                 prefix      <span class="op">=</span> <span class="st">"PS"</span>,</span>
-<span>                 suffix      <span class="op">=</span> <span class="st">"P2"</span>,</span>
-<span>                 range       <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">100</span><span class="op">)</span>,</span>
-<span>                 remove      <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">stdn_ids</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>target_columns <span class="op">=</span> <span class="st">"study_id"</span>,</span>
+<span>                 prefix         <span class="op">=</span> <span class="st">"PS"</span>,</span>
+<span>                 suffix         <span class="op">=</span> <span class="st">"P2"</span>,</span>
+<span>                 range          <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">100</span><span class="op">)</span>,</span>
+<span>                 nchar          <span class="op">=</span> <span class="fl">7</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># LAOD THE DATA DICTIONARY</span></span>
 <span><span class="va">test_dictionary</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"test_dictionary.RDS"</span>,</span>
@@ -701,9 +700,10 @@ cleaning operations to be performed.</li>
 <span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>removing duplicated rows</span>
 <span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>standardising date columns</span>
 <span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>checking subject IDs format</span>
-<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="dv">3</span> incorrect subject IDs were removed. See the report <span class="cf">for</span> more details.</span>
-<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a></span>
-<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a>performing dictionary<span class="sc">-</span>based cleaning</span></code></pre></div>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>Warning<span class="sc">:</span> Detected incorrect subject ids at lines<span class="sc">:</span> <span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">3</span></span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a>Use the <span class="fu">correct_subject_ids</span>() <span class="cf">function</span> to adjust them.</span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a>performing dictionary<span class="sc">-</span>based cleaning</span></code></pre></div>
 <p>It returns the cleaned dataset. The report generated from the data
 cleaning operations is a <code>list object</code> that is attached to
 the cleaned data and can be accessed using the <code><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr()</a></code>
@@ -1106,18 +1106,17 @@ Gambia
 <h4 id="detecting-and-remove-incorrect-subject-ids">Detecting and remove incorrect subject ids<a class="anchor" aria-label="anchor" href="#detecting-and-remove-incorrect-subject-ids"></a>
 </h4>
 <p>The <code><a href="../reference/check_subject_ids.html">check_subject_ids()</a></code> function is designed to identify
-and eliminate rows from the input dataset that don’t comply with the
-expected format for subject IDs. It requires the following
-parameters:</p>
+rows from the input dataset where the ids don’t comply with the expected
+subject ids format. It requires the following parameters:</p>
 <ol style="list-style-type: decimal">
 <li>
 <strong>data</strong>: A data frame or linelist (required).</li>
 <li>
-<strong>id_column_name</strong>: The name of the column containing
+<strong>target_columns</strong>: The name of the column containing
 the subject IDs in the dataset (required).</li>
 <li>
-<strong>format</strong>: The expected format for the subject IDs.
-The function will use this format to validate the IDs (optional).</li>
+<strong>nchar</strong>: The expected number of character in the
+subject ids (optional).</li>
 <li>
 <strong>prefix</strong>: A string. If subject IDs have a specified
 prefix, it is used as a value for this argument. This is optional and
@@ -1138,34 +1137,32 @@ and reported, and replaced using the <code><a href="../reference/correct_subject
 function.</li>
 </ol>
 <p>By providing these parameters, the function becomes a versatile tool
-for data cleaning, ensuring that only rows with subject IDs adhering to
-the expected format are retained in the dataset. When using the
-function, make sure to tailor the parameters according to the specific
-requirements of your dataset and the expected characteristics of the
-subject IDs.</p>
+for data cleaning, ensuring that the user is alerted on the presence of
+unexpected subject ids. When using the function, make sure to tailor the
+parameters according to the specific requirements of your dataset and
+the expected characteristics of the subject IDs.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="co"># DETECT AND REMOVE INCORRECT SUBJECT IDs</span></span>
 <span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">check_subject_ids</span>(</span>
 <span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>  <span class="at">data           =</span> <span class="fu">readRDS</span>(<span class="fu">system.file</span>(<span class="st">"extdata"</span>, <span class="st">"test_df.RDS"</span>,</span>
 <span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>                                       <span class="at">package =</span> <span class="st">"cleanepi"</span>)),</span>
-<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>  <span class="at">id_column_name =</span> <span class="st">"study_id"</span>,</span>
-<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>  <span class="at">format         =</span> <span class="st">"PS000P2"</span>,</span>
-<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>  <span class="at">prefix         =</span> <span class="st">"PS"</span>,</span>
-<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a>  <span class="at">suffix         =</span> <span class="st">"P2"</span>,</span>
-<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a>  <span class="at">range          =</span> <span class="fu">c</span>(<span class="dv">1</span><span class="dt">L</span>, <span class="dv">100</span><span class="dt">L</span>),</span>
-<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a>  <span class="at">remove         =</span> <span class="cn">TRUE</span></span>
-<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a>)</span>
-<span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a>subject_ids_standaedisation <span class="dv">3</span> incorrect subject IDs were removed. See the report <span class="cf">for</span> more details.</span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>  <span class="at">target_columns =</span> <span class="st">"study_id"</span>,</span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>  <span class="at">prefix         =</span> <span class="st">"PS"</span>,</span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>  <span class="at">suffix         =</span> <span class="st">"P2"</span>,</span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a>  <span class="at">range          =</span> <span class="fu">c</span>(<span class="dv">1</span><span class="dt">L</span>, <span class="dv">100</span><span class="dt">L</span>),</span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a>  <span class="at">nchar          =</span> <span class="dv">7</span><span class="dt">L</span></span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a>)</span>
+<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a>subject_ids_standardisation Warning<span class="sc">:</span> Detected incorrect subject ids at lines<span class="sc">:</span> <span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">3</span></span>
+<span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a>subject_ids_standardisation Use the <span class="fu">correct_subject_ids</span>() <span class="cf">function</span> to adjust them.</span>
 <span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a></span>
 <span id="cb9-14"><a href="#cb9-14" tabindex="-1"></a><span class="co"># EXTRACT REPORT</span></span>
 <span id="cb9-15"><a href="#cb9-15" tabindex="-1"></a>report <span class="ot">&lt;-</span> <span class="fu">attr</span>(res, <span class="st">"report"</span>)</span>
 <span id="cb9-16"><a href="#cb9-16" tabindex="-1"></a></span>
 <span id="cb9-17"><a href="#cb9-17" tabindex="-1"></a><span class="co"># SUMMARIZE THE REPORT OBJECT</span></span>
 <span id="cb9-18"><a href="#cb9-18" tabindex="-1"></a><span class="fu">summary</span>(report)</span>
-<span id="cb9-19"><a href="#cb9-19" tabindex="-1"></a>subject_ids_standaedisation                      Length Class      Mode</span>
-<span id="cb9-20"><a href="#cb9-20" tabindex="-1"></a>subject_ids_standaedisation incorrect_subject_id <span class="dv">2</span>      data.frame list</span></code></pre></div>
+<span id="cb9-19"><a href="#cb9-19" tabindex="-1"></a>subject_ids_standardisation                      Length Class      Mode</span>
+<span id="cb9-20"><a href="#cb9-20" tabindex="-1"></a>subject_ids_standardisation incorrect_subject_id <span class="dv">2</span>      data.frame list</span></code></pre></div>
 <p>The <code><a href="../reference/check_subject_ids.html">check_subject_ids()</a></code> function returns the input
-dataset or a subset of a subset of the input data where rows with
-incorrect IDs have been removed (if <code>remove = TRUE</code>).</p>
+dataset and send a warming when there are some incorrect ids.</p>
 <p>In addition to detecting wrong subject IDs, the function will also
 look for missing and duplicated IDs. As the result of this, the report
 made from this operation might contain two extra elements:
@@ -1175,14 +1172,13 @@ with the duplicated IDs). Use the <code><a href="../reference/print_report.html"
 to display the report made from this operation.</p>
 </div>
 <div class="section level4">
-<h4 id="detecting-and-correct-wrong-subject-ids">Detecting and correct wrong subject ids<a class="anchor" aria-label="anchor" href="#detecting-and-correct-wrong-subject-ids"></a>
+<h4 id="correct-wrong-subject-ids">Correct wrong subject ids<a class="anchor" aria-label="anchor" href="#correct-wrong-subject-ids"></a>
 </h4>
-<p>When the user needs to find out the incorrect subject ids in order to
-correct, the <code>remove</code> argument of the
-<code><a href="../reference/check_subject_ids.html">check_subject_ids()</a></code> should be set to <code>FALSE</code>.
-This allows to subsequently use the <code><a href="../reference/correct_subject_ids.html">correct_subject_ids()</a></code>
-to replace non complying ids with the correct ones. The function
-requires a data frame with the following two columns:</p>
+<p>After the detection of the incorrect subject ids using the
+<code><a href="../reference/check_subject_ids.html">check_subject_ids()</a></code>, use the
+<code><a href="../reference/correct_subject_ids.html">correct_subject_ids()</a></code> to replace non complying ids with the
+correct ones. The function requires a data frame with the following two
+columns:</p>
 <ol style="list-style-type: decimal">
 <li>
 <strong>from</strong>: a column with the wrong subject ids,</li>
@@ -1190,34 +1186,23 @@ requires a data frame with the following two columns:</p>
 <strong>to</strong>: a column with the values to be used to
 substitute the incorrect ids.</li>
 </ol>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="co"># IMPORT THE INPUT DATA</span></span>
-<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="fu">system.file</span>(<span class="st">"extdata"</span>, <span class="st">"test_df.RDS"</span>, <span class="at">package =</span> <span class="st">"cleanepi"</span>))</span>
-<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a></span>
-<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="co"># DETECT THE INCORRECT SUBJECT IDS</span></span>
-<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">check_subject_ids</span>(</span>
-<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>  <span class="at">data           =</span> data,</span>
-<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a>  <span class="at">id_column_name =</span> <span class="st">"study_id"</span>,</span>
-<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a>  <span class="at">format         =</span> <span class="cn">NULL</span>,</span>
-<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a>  <span class="at">prefix         =</span> <span class="st">"PS"</span>,</span>
-<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a>  <span class="at">suffix         =</span> <span class="st">"P2"</span>,</span>
-<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a>  <span class="at">range          =</span> <span class="fu">c</span>(<span class="dv">1</span><span class="dt">L</span>, <span class="dv">100</span><span class="dt">L</span>),</span>
-<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a>  <span class="at">remove         =</span> <span class="cn">FALSE</span></span>
-<span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a>)</span>
-<span id="cb10-14"><a href="#cb10-14" tabindex="-1"></a>correct ids Found <span class="dv">3</span> incorrect subject IDs. Use the <span class="st">'correct_subject_ids()'</span> <span class="cf">function</span> to correct them. See the report <span class="cf">for</span> more details.</span>
-<span id="cb10-15"><a href="#cb10-15" tabindex="-1"></a></span>
-<span id="cb10-16"><a href="#cb10-16" tabindex="-1"></a><span class="co"># GENERATE THE CORRECTION TABLE</span></span>
-<span id="cb10-17"><a href="#cb10-17" tabindex="-1"></a>correction_table <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb10-18"><a href="#cb10-18" tabindex="-1"></a>  <span class="at">from =</span> <span class="fu">c</span>(<span class="st">"P0005P2"</span>, <span class="st">"PB500P2"</span>, <span class="st">"PS004P2-1"</span>),</span>
-<span id="cb10-19"><a href="#cb10-19" tabindex="-1"></a>  <span class="at">to   =</span> <span class="fu">c</span>(<span class="st">"PB005P2"</span>, <span class="st">"PB050P2"</span>, <span class="st">"PS004P2"</span>),</span>
-<span id="cb10-20"><a href="#cb10-20" tabindex="-1"></a>  <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span></span>
-<span id="cb10-21"><a href="#cb10-21" tabindex="-1"></a>)</span>
-<span id="cb10-22"><a href="#cb10-22" tabindex="-1"></a></span>
-<span id="cb10-23"><a href="#cb10-23" tabindex="-1"></a><span class="co"># perform the correction</span></span>
-<span id="cb10-24"><a href="#cb10-24" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">correct_subject_ids</span>(</span>
-<span id="cb10-25"><a href="#cb10-25" tabindex="-1"></a>  <span class="at">data             =</span> dat,</span>
-<span id="cb10-26"><a href="#cb10-26" tabindex="-1"></a>  <span class="at">id_column_name   =</span> <span class="st">"study_id"</span>,</span>
-<span id="cb10-27"><a href="#cb10-27" tabindex="-1"></a>  <span class="at">correction_table =</span> correction_table</span>
-<span id="cb10-28"><a href="#cb10-28" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># IMPORT THE INPUT DATA</span></span>
+<span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"test_df.RDS"</span>, package <span class="op">=</span> <span class="st">"cleanepi"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># GENERATE THE CORRECTION TABLE</span></span>
+<span><span class="va">correction_table</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>  from <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"P0005P2"</span>, <span class="st">"PB500P2"</span>, <span class="st">"PS004P2-1"</span><span class="op">)</span>,</span>
+<span>  to   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"PB005P2"</span>, <span class="st">"PB050P2"</span>, <span class="st">"PS004P2"</span><span class="op">)</span>,</span>
+<span>  stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># perform the correction</span></span>
+<span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/correct_subject_ids.html">correct_subject_ids</a></span><span class="op">(</span></span>
+<span>  data             <span class="op">=</span> <span class="va">data</span>,</span>
+<span>  target_columns   <span class="op">=</span> <span class="st">"study_id"</span>,</span>
+<span>  correction_table <span class="op">=</span> <span class="va">correction_table</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level3">

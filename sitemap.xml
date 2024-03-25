@@ -40,10 +40,10 @@
     <loc>https://epiverse-trace.github.io/cleanepi/reference/check_date_sequence.html</loc>
   </url>
   <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/check_subject_ids.html</loc>
+    <loc>https://epiverse-trace.github.io/cleanepi/reference/check_id_length.html</loc>
   </url>
   <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/check_subject_ids_length.html</loc>
+    <loc>https://epiverse-trace.github.io/cleanepi/reference/check_subject_ids.html</loc>
   </url>
   <url>
     <loc>https://epiverse-trace.github.io/cleanepi/reference/check_subject_ids_oness.html</loc>
