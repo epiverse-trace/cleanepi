@@ -649,6 +649,9 @@ we want to perform on the input data.</p>
 <code class="sourceCode R"><span><span class="co"># PARAMETERS FOR REPLACING MISSING VALUES WITH NA</span></span>
 <span><span class="va">rm_na</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>target_columns <span class="op">=</span> <span class="cn">NULL</span>, na_strings <span class="op">=</span> <span class="st">"-99"</span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># PARAMETERS FOR COLUMN NAMES STANDARDIZATION</span></span>
+<span><span class="va">standardise_col_names</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>keep <span class="op">=</span> <span class="cn">NULL</span>, rename <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
+<span></span>
 <span><span class="co"># PARAMETERS FOR DUBLICATES DETECTION AND REMOVAL</span></span>
 <span><span class="va">rm_dup</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>target_columns   <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>               rm_empty_rows    <span class="op">=</span> <span class="cn">TRUE</span>,</span>
@@ -678,11 +681,12 @@ we want to perform on the input data.</p>
 <span></span>
 <span><span class="co"># DEFINE THE LIST OF PARAMETERS</span></span>
 <span><span class="va">params</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span>  replace_missing_values  <span class="op">=</span> <span class="va">rm_na</span>,</span>
-<span>  remove_duplicates       <span class="op">=</span> <span class="va">rm_dup</span>,</span>
-<span>  standardize_date        <span class="op">=</span> <span class="va">stdn_date</span>,</span>
-<span>  standardize_subject_ids <span class="op">=</span> <span class="va">stdn_ids</span>,</span>
-<span>  dictionary              <span class="op">=</span> <span class="va">test_dictionary</span></span>
+<span>  standardize_column_names <span class="op">=</span> <span class="va">standardise_col_names</span>,</span>
+<span>  replace_missing_values   <span class="op">=</span> <span class="va">rm_na</span>,</span>
+<span>  remove_duplicates        <span class="op">=</span> <span class="va">rm_dup</span>,</span>
+<span>  standardize_date         <span class="op">=</span> <span class="va">stdn_date</span>,</span>
+<span>  standardize_subject_ids  <span class="op">=</span> <span class="va">stdn_ids</span>,</span>
+<span>  dictionary               <span class="op">=</span> <span class="va">test_dictionary</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p>The <code><a href="../reference/clean_data.html">clean_data()</a></code> function, as shown below, requires 2
 arguments:</p>
@@ -700,14 +704,15 @@ cleaning operations to be performed.</li>
 <span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>  <span class="at">params =</span> params</span>
 <span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>)</span>
 <span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a></span>
-<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>replacing missing values with <span class="cn">NA</span></span>
-<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>removing duplicated rows</span>
-<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>standardising date columns</span>
-<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>checking subject IDs format</span>
-<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>Warning<span class="sc">:</span> Detected incorrect subject ids at lines<span class="sc">:</span> <span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">3</span></span>
-<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a>Use the <span class="fu">correct_subject_ids</span>() <span class="cf">function</span> to adjust them.</span>
-<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a></span>
-<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a>performing dictionary<span class="sc">-</span>based cleaning</span></code></pre></div>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>cleaning column names</span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>replacing missing values with <span class="cn">NA</span></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>removing duplicated rows</span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>standardising date columns</span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>checking subject IDs format</span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a>Warning<span class="sc">:</span> Detected incorrect subject ids at lines<span class="sc">:</span> <span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">3</span></span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a>Use the <span class="fu">correct_subject_ids</span>() <span class="cf">function</span> to adjust them.</span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a></span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a>performing dictionary<span class="sc">-</span>based cleaning</span></code></pre></div>
 <p>It returns the cleaned dataset. The report generated from the data
 cleaning operations is a <code>list object</code> that is attached to
 the cleaned data and can be accessed using the <code><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr()</a></code>
@@ -721,6 +726,7 @@ However, users can access the report using the code below:</p>
 <span><span class="co"># SUMMARIZE THE REPORT OBJECT</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">report</span><span class="op">)</span></span>
 <span><span class="co">#&gt;                            Length Class      Mode     </span></span>
+<span><span class="co">#&gt; colnames                   2      data.frame list     </span></span>
 <span><span class="co">#&gt; missing_values_replaced_at 1      -none-     character</span></span>
 <span><span class="co">#&gt; incorrect_subject_id       2      data.frame list</span></span></code></pre></div>
 <p>The report can also be displayed in an HTML format using the
