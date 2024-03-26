@@ -14,10 +14,11 @@ be converted from numeric to date. When the input data is a \code{linelist}
 object, this parameter can be set to \code{linelist_tags} if you wish to only
 convert the tagged columns.}
 
-\item{ref_date}{A reference date}
+\item{ref_date}{A reference date. This can also be a character string with
+the name of the reference column.}
 
 \item{forward}{A Boolean to indicate whether the counts started after the
-reference date (TRUE) or not (FALSE). The default is FALSE.}
+reference date (TRUE) or not (FALSE). The default is TRUE.}
 }
 \value{
 A data frame where the column of interest are updated

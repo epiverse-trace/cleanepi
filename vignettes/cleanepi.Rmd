@@ -465,6 +465,45 @@ dat <- convert_to_numeric(dat, target_columns = "age")
 head(dat$age, 10L)
 ```
 
+
+## Converting numeric values into date
+
+Some columns in a data frame might contain numeric values that represents the number of days elapsed between two events. For instance, the recruitment day of individuals in a study can be stored as a numeric column where the numeric values are the count of days between when they are recruited and when there were admitted in the hospital. The actual dates when the individuals were recruited can be retrieved using the `convert_numeric_to_date()` function.
+This function can take the following parameters:
+
+1. **data**: the input data frame or linelist.
+2. **target_columns**: a vector or a comma-separated list of columns names to be converted from numeric to date. When the input data is a `linelist` object, this parameter can be set to `linelist_tags` if tagged variables are the target columns.
+3. **ref_date**: a reference date
+4. **forward**: a Boolean that indicates whether the counts started after the reference date (`TRUE`) or not (`FALSE`). The default is `TRUE`.
+
+```{reval=TRUE, comment="convert_numeric_to_date"}
+data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi")) |>
+  standardize_dates(target_columns = "date.of.admission")
+
+# CREATE THE RECRUITMENT DATE COLUMNS
+data$recruitment_date <- sample(20:50, nrow(data), replace = FALSE)
+
+# RETRIVE THE DATE INDIVIDUALS WERE RECRUITED
+data <- convert_numeric_to_date(
+  data           = data,
+  target_columns = "recruitment_date",
+  ref_date       = "date.of.admission",
+  forward        = TRUE
+)
+
+# RETRIVE THE DATE INDIVIDUALS WERE RECRUITED
+data <- convert_numeric_to_date(
+  data           = data,
+  target_columns = "recruitment_date",
+  ref_date       = as.Date("2019-10-13"),
+  forward        = FALSE
+)
+```
+
+The function returns the input data where the values in the target columns(s) are converted into Date. This enables the usage of **{cleanepi}'s** functions that operates on Date columns as well as the powerful functions that can be used to manipulate Dates from the {base} R or {lubridate} packages.
+
+
+
 ## Finding duplicated rows
 
 The `find_duplicates()` function serves the purpose of identifying duplicated rows within a given dataset. It accepts the following parameters:

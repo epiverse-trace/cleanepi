@@ -5,9 +5,10 @@
 #'    be converted from numeric to date. When the input data is a `linelist`
 #'    object, this parameter can be set to `linelist_tags` if you wish to only
 #'    convert the tagged columns.
-#' @param ref_date A reference date
+#' @param ref_date A reference date. This can also be a character string with
+#'    the name of the reference column.
 #' @param forward A Boolean to indicate whether the counts started after the
-#'    reference date (TRUE) or not (FALSE). The default is FALSE.
+#'    reference date (TRUE) or not (FALSE). The default is TRUE.
 #'
 #' @return A data frame where the column of interest are updated
 #' @export
@@ -22,8 +23,10 @@
 #' )
 convert_numeric_to_date <- function(data, target_columns, ref_date,
                                     forward = TRUE) {
-  checkmate::assert_date(ref_date, any.missing = FALSE, min.len = 1L,
-                         max.len = 1L, null.ok = FALSE)
+  if (!checkmate::test_character(ref_date, len = 1L, null.ok = FALSE)) {
+    checkmate::assert_date(ref_date, any.missing = FALSE, min.len = 1L,
+                           max.len = 1L, null.ok = FALSE)
+  }
   if (!checkmate::check_vector(target_columns, min.len = 1, unique = TRUE,
                                null.ok = FALSE)) {
     checkmate::assert_character(target_columns, null.ok = FALSE,
@@ -38,6 +41,11 @@ convert_numeric_to_date <- function(data, target_columns, ref_date,
     target_columns <- trimws(target_columns)
   }
   target_columns <- get_target_column_names(data, target_columns, cols = NULL)
+
+  if (is.character(ref_date)) {
+    stopifnot("Unrecognised column name" = ref_date %in% colnames(data))
+    ref_date <- data[[ref_date]]
+  }
 
   if (forward) {
     for (cols in target_columns) {
