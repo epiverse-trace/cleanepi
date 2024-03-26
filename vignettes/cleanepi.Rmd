@@ -167,7 +167,6 @@ For example, some data cleaning operations, such as renaming columns, removing e
 This setup offers users both convenience and flexibility, as they can perform all the cleaning operations at once, or execute them individually according to their specific needs.
 
 
-
 ## Remove constant data
 
 Some datasets contain constant columns (columns with the same values across all rows), and/or empty rows and columns (rows or columns where all values are missing i.e `NA`).
@@ -188,8 +187,6 @@ dat <- remove_constant(data   = data,
                        cutoff = 1)
 ```
 
-The `remove_constant()` function returns a dataset where all constant columns, empty rows and columns are removed.
-
 ```{r echo=FALSE, eval=TRUE}
 dat |>
   kableExtra::kbl() |>
@@ -199,6 +196,86 @@ dat |>
                          extra_css = NULL,
                          fixed_thead = TRUE)
 ```
+
+The `remove_constant()` function returns a dataset where all constant columns, empty rows and columns are removed.
+
+
+## Cleaning column names
+
+The syntax used to name the columns of a dataset during its creation depending on many factors such as the language, the naming convention, etc.
+We provide, in **{cleanepi}**, the `standardize_column_names()` function to clean up column names and convert them to more intuitive formats. It performs many sub-tasks including: replacing a space, dot, or hyphen between two words with underscore; converting camel-cases to snake-cases; substituting foreign characters with their corresponding English characters; and splitting along word into multiple short words by capital characters within, if any, and 
+connecting them with underscores. The function can take the following arguments:
+
+1. **data**: the input data frame or linelist
+2. **keep**: a vector of column names to maintain as they are. When dealing with a linelist, this can be set to `linelist_tags`, to maintain the tagged column names. The Default is `NULL`.
+3. **rename**: an expression used to specify how to rename some columns.
+
+```{r eval=TRUE, comment="col_name_cleaning"}
+# IMPORT AND PRINT THE INITAL COLUMN NAMES
+data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi"))
+print(colnames(data))
+
+# KEEP 'date.of.admission' AS IS
+cleaned_data <- standardize_column_names(
+  data = data,
+  keep = "date.of.admission"
+)
+print(colnames(data))
+
+# KEEP 'date.of.admission' AS IS, BUT RENAME 'dateOfBirth' AND 'sex' TO
+# 'DOB' AND 'gender' RESPECTIVELY
+cleaned_data <- standardize_column_names(
+  data   = data,
+  keep   = "date.of.admission",
+  rename = "dateOfBirth = DOB, sex=gender"
+)
+print(colnames(data))
+```
+
+By providing the function with these parameters, the users can redefine the name of the columns and get easy to work with column names. This enables a more comprehensive naming system that is tailored to the needs of the user.
+
+
+## Replacing missing entries with `NA`
+
+It is common to have missing values in an input dataset. By default, R expects missing values to be represented by `NA`, However, this is not always the case as some dataset can contain a specific character string that denotes the missing value. In the presence of such a scenario, user can call the `replace_missing_values()` function to substitute these missing values with `NA`. This will make the data suitable for any data science operations. The function takes the following arguments:
+
+1. **data**: the input data frame or linelist.
+2. **target_columns**: a vector of column names. If provided, the substitution of missing values will only be executed in those specified columns. When the input data is a `linelist` object, this parameter can be set to `linelist_tags` if you wish to replace missing values with `NA` on tagged columns only. The default value `NULL` i.e. replace missing values across all columns.
+3. **na_strings**: a vector of character strings that represents the missing values in the columns of interest. By default, it utilizes `cleanepi::common_na_strings`. However, if the missing values string in the columns of interest is not included in this predefined vector, it can be used as the value for this argument.
+
+```{r eval=TRUE, comment="default_missing_values"}
+# VISUALIZE THE PREDEFINED VECTOR OF MISSING CHARACTERS
+print(cleanepi::common_na_strings)
+```
+
+```{r eval=TRUE, comment="replace_missing"}
+# REPLACE ALL OCCURENCES OF "-99" WITH NA IN THE "sex" COLUMN
+cleaned_data <- replace_missing_values(
+  data           = readRDS(system.file("extdata", "test_df.RDS",
+                                       package = "cleanepi")),
+  target_columns = "sex",
+  na_strings     = "-99"
+)
+
+# REPLACE ALL OCCURENCES OF "-99" WITH NA FROM ALL COLUMNS
+cleaned_data <- replace_missing_values(
+  data           = readRDS(system.file("extdata", "test_df.RDS",
+                                       package = "cleanepi")),
+  target_columns = NULL,
+  na_strings     = "-99"
+)
+```
+
+```{r echo=FALSE, eval=TRUE}
+cleaned_data |>
+  kableExtra::kbl() |>
+  kableExtra::kable_paper("striped", font_size = 14, full_width = TRUE) |>
+  kableExtra::scroll_box(height = "200px", width = "100%",
+                         box_css = "border: 1px solid #ddd; padding: 5px; ",
+                         extra_css = NULL,
+                         fixed_thead = TRUE)
+```
+
 
 ## Standardizing Dates
 
@@ -274,6 +351,7 @@ res |>
                          extra_css = NULL,
                          fixed_thead = TRUE)
 ```
+
 
 ## Standardizing subject IDs
 
