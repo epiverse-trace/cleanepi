@@ -461,13 +461,13 @@ standardize_col_names   <- list(keep = NULL, rename = NULL)
 remove_cte              <- list(cutoff = 1)
 params <- list(
   standardize_column_names = standardize_col_names,
-  remove_constant         = remove_cte,
-  replace_missing_values  = use_na, 
-  remove_duplicates       = remove_duplicates,
-  standardize_date        = standardize_date,
-  standardize_subject_ids = standardize_subject_ids,
-  to_numeric              = "sex",
-  dictionary              = test_dictionary
+  remove_constant          = remove_cte,
+  replace_missing_values   = use_na, 
+  remove_duplicates        = remove_duplicates,
+  standardize_date         = standardize_date,
+  standardize_subject_ids  = standardize_subject_ids,
+  to_numeric               = "sex",
+  dictionary               = test_dictionary
 )
 ```
 
@@ -478,6 +478,7 @@ cleaned_data <- clean_data(
   params = params
 )
 #> 
+#> cleaning column names
 #> replacing missing values with NA
 #> removing duplicated rows
 #> standardising date columns
@@ -498,10 +499,10 @@ cleaned_data <- clean_data(
 study_id
 </th>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-date.of.admission
+date_of_admission
 </th>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-dateOfBirth
+date_of_birth
 </th>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
 date_first_pcr_positive_test
