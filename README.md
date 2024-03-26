@@ -458,6 +458,7 @@ standardize_subject_ids <- list(target_columns = "study_id",
                                 suffix         = "P2",
                                 range          = c(1, 100),
                                 nchar          = 7)
+standardize_col_names   <- list(keep = NULL, rename = NULL)
 remove_cte              <- list(cutoff = 1)
 standardize_col_names   <- list(keep   = "date.of.admission",
                                 rename = "dateOfBirth = DOB")
@@ -483,6 +484,7 @@ cleaned_data <- clean_data(
 #> 
 #> cleaning column names
 #> replacing missing values with NA
+#> removing the constant columns, empty rows and columns
 #> removing duplicated rows
 #> standardising date columns
 #> checking subject IDs format
@@ -500,15 +502,6 @@ cleaned_data <- clean_data(
 <tr>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
 study_id
-</th>
-<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-event_name
-</th>
-<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
-country_code
-</th>
-<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-country_name
 </th>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
 date.of.admission
@@ -530,15 +523,6 @@ sex
 PS001P2
 </td>
 <td style="text-align:left;">
-day 0
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-Gambia
-</td>
-<td style="text-align:left;">
 2020-12-01
 </td>
 <td style="text-align:left;">
@@ -554,15 +538,6 @@ male
 <tr>
 <td style="text-align:left;">
 PS002P2
-</td>
-<td style="text-align:left;">
-day 0
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-Gambia
 </td>
 <td style="text-align:left;">
 2021-01-28
@@ -582,15 +557,6 @@ male
 PS004P2-1
 </td>
 <td style="text-align:left;">
-day 0
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-Gambia
-</td>
-<td style="text-align:left;">
 2021-02-15
 </td>
 <td style="text-align:left;">
@@ -606,15 +572,6 @@ NA
 <tr>
 <td style="text-align:left;">
 PS003P2
-</td>
-<td style="text-align:left;">
-day 0
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-Gambia
 </td>
 <td style="text-align:left;">
 2021-02-11
@@ -634,15 +591,6 @@ male
 P0005P2
 </td>
 <td style="text-align:left;">
-day 0
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-Gambia
-</td>
-<td style="text-align:left;">
 2021-02-17
 </td>
 <td style="text-align:left;">
@@ -658,15 +606,6 @@ female
 <tr>
 <td style="text-align:left;">
 PS006P2
-</td>
-<td style="text-align:left;">
-day 0
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-Gambia
 </td>
 <td style="text-align:left;">
 2021-02-17
@@ -686,15 +625,6 @@ female
 PB500P2
 </td>
 <td style="text-align:left;">
-day 0
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-Gambia
-</td>
-<td style="text-align:left;">
 2021-02-28
 </td>
 <td style="text-align:left;">
@@ -710,15 +640,6 @@ male
 <tr>
 <td style="text-align:left;">
 PS008P2
-</td>
-<td style="text-align:left;">
-day 0
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-Gambia
 </td>
 <td style="text-align:left;">
 2021-02-22
@@ -738,15 +659,6 @@ female
 PS010P2
 </td>
 <td style="text-align:left;">
-day 0
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-Gambia
-</td>
-<td style="text-align:left;">
 2021-03-02
 </td>
 <td style="text-align:left;">
@@ -762,15 +674,6 @@ male
 <tr>
 <td style="text-align:left;">
 PS011P2
-</td>
-<td style="text-align:left;">
-day 0
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-Gambia
 </td>
 <td style="text-align:left;">
 2021-03-05
