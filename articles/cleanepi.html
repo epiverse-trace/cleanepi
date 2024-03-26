@@ -675,6 +675,9 @@ we want to perform on the input data.</p>
 <span>                 range          <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">100</span><span class="op">)</span>,</span>
 <span>                 nchar          <span class="op">=</span> <span class="fl">7</span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># PARAMETERS FOR CONSTANT COLUMNS, EMPTY ROWS AND COLUMNS REMOVAL</span></span>
+<span><span class="va">remove_cte</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>cutoff <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span></span>
 <span><span class="co"># LAOD THE DATA DICTIONARY</span></span>
 <span><span class="va">test_dictionary</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"test_dictionary.RDS"</span>,</span>
 <span>                                       package <span class="op">=</span> <span class="st">"cleanepi"</span><span class="op">)</span><span class="op">)</span></span>
@@ -682,6 +685,7 @@ we want to perform on the input data.</p>
 <span><span class="co"># DEFINE THE LIST OF PARAMETERS</span></span>
 <span><span class="va">params</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>  standardize_column_names <span class="op">=</span> <span class="va">standardise_col_names</span>,</span>
+<span>  remove_constant          <span class="op">=</span> <span class="va">remove_cte</span>,</span>
 <span>  replace_missing_values   <span class="op">=</span> <span class="va">rm_na</span>,</span>
 <span>  remove_duplicates        <span class="op">=</span> <span class="va">rm_dup</span>,</span>
 <span>  standardize_date         <span class="op">=</span> <span class="va">stdn_date</span>,</span>
@@ -706,13 +710,14 @@ cleaning operations to be performed.</li>
 <span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a></span>
 <span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>cleaning column names</span>
 <span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>replacing missing values with <span class="cn">NA</span></span>
-<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>removing duplicated rows</span>
-<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>standardising date columns</span>
-<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>checking subject IDs format</span>
-<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a>Warning<span class="sc">:</span> Detected incorrect subject ids at lines<span class="sc">:</span> <span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">3</span></span>
-<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a>Use the <span class="fu">correct_subject_ids</span>() <span class="cf">function</span> to adjust them.</span>
-<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a></span>
-<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a>performing dictionary<span class="sc">-</span>based cleaning</span></code></pre></div>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>removing the constant columns, empty rows and columns</span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>removing duplicated rows</span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>standardising date columns</span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a>checking subject IDs format</span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a>Warning<span class="sc">:</span> Detected incorrect subject ids at lines<span class="sc">:</span> <span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">3</span></span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a>Use the <span class="fu">correct_subject_ids</span>() <span class="cf">function</span> to adjust them.</span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a></span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a>performing dictionary<span class="sc">-</span>based cleaning</span></code></pre></div>
 <p>It returns the cleaned dataset. The report generated from the data
 cleaning operations is a <code>list object</code> that is attached to
 the cleaned data and can be accessed using the <code><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr()</a></code>
@@ -728,6 +733,7 @@ However, users can access the report using the code below:</p>
 <span><span class="co">#&gt;                            Length Class      Mode     </span></span>
 <span><span class="co">#&gt; colnames                   2      data.frame list     </span></span>
 <span><span class="co">#&gt; missing_values_replaced_at 1      -none-     character</span></span>
+<span><span class="co">#&gt; constant_columns           1      glue       character</span></span>
 <span><span class="co">#&gt; incorrect_subject_id       2      data.frame list</span></span></code></pre></div>
 <p>The report can also be displayed in an HTML format using the
 <code><a href="../reference/print_report.html">print_report()</a></code> function as shown below:</p>
@@ -752,6 +758,220 @@ needed.</p>
 benefit from default data cleaning operations while also having the
 option to customize their data cleaning process according to their
 specific needs.</p>
+<div class="section level3">
+<h3 id="remove-constant-data">Remove constant data<a class="anchor" aria-label="anchor" href="#remove-constant-data"></a>
+</h3>
+<p>Some datasets contain constant columns (columns with the same values
+across all rows), and/or empty rows and columns (rows or columns where
+all values are missing i.e <code>NA</code>). The
+<code><a href="../reference/remove_constant.html">remove_constant()</a></code> function can be used to remove such
+“noise”. The function takes the following argument:</p>
+<ol style="list-style-type: decimal">
+<li>
+<strong>data</strong>: the input data frame or linelist,</li>
+<li>
+<strong>cutoff</strong>: a numeric, between <code>0</code> and
+<code>1</code>, to be used when removing empty rows and columns. When
+provided, only rows and columns where the percent of missing data is
+greater than this cut-off will removed. Rows and columns with 100%
+missing values will be remove by default.</li>
+</ol>
+<p>The <code><a href="../reference/remove_constant.html">remove_constant()</a></code> function returns a dataset where
+all constant columns, empty rows and columns are removed.</p>
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:200px; overflow-x: scroll; width:100%; ">
+<table class="table  lightable-paper lightable-striped" style='font-size: 14px; font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'>
+<thead><tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+study_id
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+date.of.admission
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+dateOfBirth
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+date_first_pcr_positive_test
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+sex
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+PS001P2
+</td>
+<td style="text-align:left;">
+01/12/2020
+</td>
+<td style="text-align:left;">
+06/01/1972
+</td>
+<td style="text-align:left;">
+Dec 01, 2020
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PS002P2
+</td>
+<td style="text-align:left;">
+28/01/2021
+</td>
+<td style="text-align:left;">
+02/20/1952
+</td>
+<td style="text-align:left;">
+Jan 01, 2021
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PS004P2-1
+</td>
+<td style="text-align:left;">
+15/02/2021
+</td>
+<td style="text-align:left;">
+06/15/1961
+</td>
+<td style="text-align:left;">
+Feb 11, 2021
+</td>
+<td style="text-align:right;">
+-99
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PS003P2
+</td>
+<td style="text-align:left;">
+11/02/2021
+</td>
+<td style="text-align:left;">
+11/11/1947
+</td>
+<td style="text-align:left;">
+Feb 01, 2021
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+P0005P2
+</td>
+<td style="text-align:left;">
+17/02/2021
+</td>
+<td style="text-align:left;">
+09/26/2000
+</td>
+<td style="text-align:left;">
+Feb 16, 2021
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PS006P2
+</td>
+<td style="text-align:left;">
+17/02/2021
+</td>
+<td style="text-align:left;">
+-99
+</td>
+<td style="text-align:left;">
+May 02, 2021
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PB500P2
+</td>
+<td style="text-align:left;">
+28/02/2021
+</td>
+<td style="text-align:left;">
+11/03/1989
+</td>
+<td style="text-align:left;">
+Feb 19, 2021
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PS008P2
+</td>
+<td style="text-align:left;">
+22/02/2021
+</td>
+<td style="text-align:left;">
+10/05/1976
+</td>
+<td style="text-align:left;">
+Sep 20, 2021
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PS010P2
+</td>
+<td style="text-align:left;">
+02/03/2021
+</td>
+<td style="text-align:left;">
+09/23/1991
+</td>
+<td style="text-align:left;">
+Feb 26, 2021
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PS011P2
+</td>
+<td style="text-align:left;">
+05/03/2021
+</td>
+<td style="text-align:left;">
+02/08/1991
+</td>
+<td style="text-align:left;">
+Mar 03, 2021
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="section level3">
 <h3 id="standardizing-dates">Standardizing Dates<a class="anchor" aria-label="anchor" href="#standardizing-dates"></a>
 </h3>
@@ -2599,7 +2819,7 @@ internally utilizes the <code><a href="../reference/find_duplicates.html">find_d
 expects the following parameters:</p>
 <ol style="list-style-type: decimal">
 <li>
-<strong>data</strong>: A data frame of the input dataset from which
+<strong>data</strong>: The input data frame or linelist from which
 duplicated rows will be removed.</li>
 <li>
 <strong>target_columns</strong>: A vector containing either column
@@ -2614,18 +2834,6 @@ only.</li>
 duplicated rows to be removed. If set to <code>NULL</code>, the function
 removes duplicates and retains only the first occurrence of the
 duplicated rows.</li>
-<li>
-<strong>rm_empty_rows</strong>: A Boolean to indicate whether to
-remove empty rows or not. The default is <code>TRUE</code>
-</li>
-<li>
-<strong>rm_empty_cols</strong>: A Boolean to indicate whether to
-remove empty columns or not. The default is <code>TRUE</code>
-</li>
-<li>
-<strong>rm_constant_cols</strong>: A Boolean to indicate whether to
-remove constant columns or not. The default is <code>TRUE</code>
-</li>
 </ol>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># REMOVE DUPLICATE ACROSS TAGGED COLUMNS ONLY.</span></span>
@@ -2641,12 +2849,6 @@ about the duplicates removal operation are reported as a list attached
 to the output object. When duplicates are found, this report will
 contain the following elements:</p>
 <ul>
-<li>
-<strong>empty_columns</strong>: A vector of empty columns (if
-found).</li>
-<li>
-<strong>constant_columns</strong>: A vector of constant columns (if
-found).</li>
 <li>
 <strong>duplicated_rows</strong>: A data frame with the detected
 duplicates.</li>
@@ -3578,10 +3780,9 @@ Gambia
 </table>
 </div>
 </div>
-</div>
-<div class="section level2">
-<h2 id="printing-the-report">Printing the report<a class="anchor" aria-label="anchor" href="#printing-the-report"></a>
-</h2>
+<div class="section level3">
+<h3 id="printing-the-report">Printing the report<a class="anchor" aria-label="anchor" href="#printing-the-report"></a>
+</h3>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/print_report.html">print_report</a></span><span class="op">(</span></span>
 <span>  data             <span class="op">=</span> <span class="va">data</span>,</span>
@@ -3591,6 +3792,7 @@ Gambia
 <span>  format           <span class="op">=</span> <span class="st">"html"</span>,</span>
 <span>  print            <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
+</div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>

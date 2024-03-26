@@ -464,10 +464,7 @@ sex
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># DEFINING THE CLEANING PARAMETERS</span></span>
 <span><span class="va">use_na</span>                  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>target_columns <span class="op">=</span> <span class="cn">NULL</span>, na_strings <span class="op">=</span> <span class="st">"-99"</span><span class="op">)</span></span>
-<span><span class="va">remove_duplicates</span>       <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>target_columns   <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>                                rm_empty_rows    <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>                                rm_empty_cols    <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>                                rm_constant_cols <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">remove_duplicates</span>       <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>target_columns   <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span><span class="va">standardize_date</span>        <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>target_columns  <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>                                error_tolerance <span class="op">=</span> <span class="fl">0.4</span>,</span>
 <span>                                format          <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -485,15 +482,16 @@ sex
 <span>                                range          <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">100</span><span class="op">)</span>,</span>
 <span>                                nchar          <span class="op">=</span> <span class="fl">7</span><span class="op">)</span></span>
 <span><span class="va">standardize_col_names</span>   <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>keep <span class="op">=</span> <span class="cn">NULL</span>, rename <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
-<span></span>
+<span><span class="va">remove_cte</span>              <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>cutoff <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="va">params</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>  standardize_column_names <span class="op">=</span> <span class="va">standardize_col_names</span>,</span>
-<span>  replace_missing_values  <span class="op">=</span> <span class="va">use_na</span>, </span>
-<span>  remove_duplicates       <span class="op">=</span> <span class="va">remove_duplicates</span>,</span>
-<span>  standardize_date        <span class="op">=</span> <span class="va">standardize_date</span>,</span>
-<span>  standardize_subject_ids <span class="op">=</span> <span class="va">standardize_subject_ids</span>,</span>
-<span>  to_numeric              <span class="op">=</span> <span class="st">"sex"</span>,</span>
-<span>  dictionary              <span class="op">=</span> <span class="va">test_dictionary</span></span>
+<span>  remove_constant          <span class="op">=</span> <span class="va">remove_cte</span>,</span>
+<span>  replace_missing_values   <span class="op">=</span> <span class="va">use_na</span>, </span>
+<span>  remove_duplicates        <span class="op">=</span> <span class="va">remove_duplicates</span>,</span>
+<span>  standardize_date         <span class="op">=</span> <span class="va">standardize_date</span>,</span>
+<span>  standardize_subject_ids  <span class="op">=</span> <span class="va">standardize_subject_ids</span>,</span>
+<span>  to_numeric               <span class="op">=</span> <span class="st">"sex"</span>,</span>
+<span>  dictionary               <span class="op">=</span> <span class="va">test_dictionary</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># PERFORMING THE DATA CLEANING</span></span>
@@ -502,6 +500,7 @@ sex
 <span>  params <span class="op">=</span> <span class="va">params</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; cleaning column names</span></span>
 <span><span class="co">#&gt; replacing missing values with NA</span></span>
 <span><span class="co">#&gt; removing duplicated rows</span></span>
 <span><span class="co">#&gt; standardising date columns</span></span>
@@ -518,10 +517,10 @@ sex
 study_id
 </th>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-date.of.admission
+date_of_admission
 </th>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-dateOfBirth
+date_of_birth
 </th>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
 date_first_pcr_positive_test
