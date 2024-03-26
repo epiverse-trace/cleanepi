@@ -158,7 +158,7 @@ print_report(report)
 ```
 
 
-## Specific data cleaning tasks
+# Specific data cleaning tasks
 
 **{cleanepi}** luckily provides users with the flexibility to call a specific function if they wish to perform that particular task individually. This approach allows users to have more control over the data cleaning process and to apply additional data cleaning functions as needed.
 

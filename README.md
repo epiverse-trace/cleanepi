@@ -36,14 +36,15 @@ Key functionalities of **cleanepi** include:
     duplicates.
 
 4.  **Date conversion**: It offers functionality to convert character
-    columns to Date format under specified conditions, enhancing data
-    uniformity and facilitating temporal analysis.
+    columns to Date format under specific conditions, enhancing data
+    uniformity and facilitating temporal analysis. It also offers
+    conversion of numeric values written in letters into numbers.
 
 5.  **Standardizing entries**: It can standardize column entries into
     specified formats, promoting consistency across the dataset.
 
-6.  **Age calculation**: It calculates age from a given `Date` column
-    and a reference date, providing valuable demographic insights for
+6.  **Time span calculation**: It calculates the time span between two
+    elements of type `Date`, providing valuable demographic insights for
     epidemiological analysis.
 
 **cleanepi** operates on data frames or similar structures like tibbles,
@@ -81,8 +82,8 @@ function.
 
 ``` r
 # READING IN THE TEST DATASET
-test_data       <- readRDS(system.file("extdata", "test_df.RDS",
-                                       package = "cleanepi"))
+test_data <- readRDS(system.file("extdata", "test_df.RDS",
+                                 package = "cleanepi"))
 ```
 
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:200px; overflow-x: scroll; width:100%; ">
@@ -457,8 +458,10 @@ standardize_subject_ids <- list(target_columns = "study_id",
                                 suffix         = "P2",
                                 range          = c(1, 100),
                                 nchar          = 7)
-standardize_col_names   <- list(keep = NULL, rename = NULL)
 remove_cte              <- list(cutoff = 1)
+standardize_col_names   <- list(keep   = "date.of.admission",
+                                rename = "dateOfBirth = DOB")
+
 params <- list(
   standardize_column_names = standardize_col_names,
   remove_constant          = remove_cte,
@@ -492,17 +495,26 @@ cleaned_data <- clean_data(
 
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:200px; overflow-x: scroll; width:100%; ">
 
-<table class=" lightable-paper lightable-striped" style="font-size: 14px; font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;">
+<table class=" lightable-paper lightable-striped" style="font-size: 14px; font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
 study_id
 </th>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-date_of_admission
+event_name
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+country_code
 </th>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-date_of_birth
+country_name
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+date.of.admission
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+DOB
 </th>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
 date_first_pcr_positive_test
@@ -516,6 +528,15 @@ sex
 <tr>
 <td style="text-align:left;">
 PS001P2
+</td>
+<td style="text-align:left;">
+day 0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Gambia
 </td>
 <td style="text-align:left;">
 2020-12-01
@@ -535,6 +556,15 @@ male
 PS002P2
 </td>
 <td style="text-align:left;">
+day 0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Gambia
+</td>
+<td style="text-align:left;">
 2021-01-28
 </td>
 <td style="text-align:left;">
@@ -550,6 +580,15 @@ male
 <tr>
 <td style="text-align:left;">
 PS004P2-1
+</td>
+<td style="text-align:left;">
+day 0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Gambia
 </td>
 <td style="text-align:left;">
 2021-02-15
@@ -569,6 +608,15 @@ NA
 PS003P2
 </td>
 <td style="text-align:left;">
+day 0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Gambia
+</td>
+<td style="text-align:left;">
 2021-02-11
 </td>
 <td style="text-align:left;">
@@ -584,6 +632,15 @@ male
 <tr>
 <td style="text-align:left;">
 P0005P2
+</td>
+<td style="text-align:left;">
+day 0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Gambia
 </td>
 <td style="text-align:left;">
 2021-02-17
@@ -603,6 +660,15 @@ female
 PS006P2
 </td>
 <td style="text-align:left;">
+day 0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Gambia
+</td>
+<td style="text-align:left;">
 2021-02-17
 </td>
 <td style="text-align:left;">
@@ -618,6 +684,15 @@ female
 <tr>
 <td style="text-align:left;">
 PB500P2
+</td>
+<td style="text-align:left;">
+day 0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Gambia
 </td>
 <td style="text-align:left;">
 2021-02-28
@@ -637,6 +712,15 @@ male
 PS008P2
 </td>
 <td style="text-align:left;">
+day 0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Gambia
+</td>
+<td style="text-align:left;">
 2021-02-22
 </td>
 <td style="text-align:left;">
@@ -654,6 +738,15 @@ female
 PS010P2
 </td>
 <td style="text-align:left;">
+day 0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Gambia
+</td>
+<td style="text-align:left;">
 2021-03-02
 </td>
 <td style="text-align:left;">
@@ -669,6 +762,15 @@ male
 <tr>
 <td style="text-align:left;">
 PS011P2
+</td>
+<td style="text-align:left;">
+day 0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Gambia
 </td>
 <td style="text-align:left;">
 2021-03-05
@@ -706,7 +808,7 @@ browseVignettes("cleanepi")
 
 ## Next steps
 
-:white_check_mark: update and create test files
+:white_check_mark: cleaning aggregated data
 
 ### Lifecycle
 
