@@ -152,7 +152,7 @@ cleaned_data <- clean_data(
 # VISUALISE THE CLEANED DATASET
 cleaned_data |>
   kableExtra::kbl() |>
-  kableExtra::kable_paper("striped", font_size = 14, full_width = TRUE) |>
+  kableExtra::kable_paper("striped", font_size = 14, full_width = FALSE) |>
   kableExtra::scroll_box(height = "200px", width = "100%",
                          box_css = "border: 1px solid #ddd; padding: 5px; ",
                          extra_css = NULL,
