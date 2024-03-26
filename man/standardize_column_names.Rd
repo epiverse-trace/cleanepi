@@ -19,7 +19,9 @@ tagged column names. The Default is \code{NULL}.}
 A data frame or linelist with easy to work with column names.
 }
 \description{
-Standardize column names of a data frame or linelist
+All columns names will be reformatted to use the snakecase. When the
+conversion to snakecase does not work as expected, use the \code{keep} and/or
+\code{rename} arguments to reformat the column name properly.
 }
 \examples{
 # do not rename 'date.of.admission'

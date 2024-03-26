@@ -1,5 +1,9 @@
 #' Standardize column names of a data frame or linelist
 #'
+#' All columns names will be reformatted to use the snakecase. When the
+#' conversion to snakecase does not work as expected, use the `keep` and/or
+#' `rename` arguments to reformat the column name properly.
+#'
 #' @param data The input data frame or linelist.
 #' @param keep A vector of column names to maintain as they are. When dealing
 #'    with a linelist, this can be set to `linelist_tags`, to maintain the
