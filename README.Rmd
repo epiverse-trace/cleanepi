@@ -38,7 +38,7 @@ coverage](https://codecov.io/gh/epiverse-trace/cleanepi/branch/main/graph/badge.
 
 <!-- badges: end -->
 
-**{{ packagename }}** is an  R package designed for cleaning, curating, and standardizing  epidemiological data. It streamlines various data cleaning tasks that are typically expected when working with  datasets in epidemiology.
+**{{ packagename }}** is an  R package designed for cleaning, curating, and standardizing  epidemiological data. It streamlines various data cleaning tasks that are typically expected when working with datasets in epidemiology.
 
 Key functionalities of **{{ packagename }}** include:
 
@@ -48,11 +48,11 @@ Key functionalities of **{{ packagename }}** include:
 
 3. **Ensuring data integrity**: It ensures the uniqueness of uniquely identified columns, thus maintaining data integrity and preventing duplicates.
 
-4. **Date conversion**: It offers functionality to convert character columns to Date format under specified conditions, enhancing data uniformity and facilitating temporal analysis.
+4. **Date conversion**: It offers functionality to convert character columns to Date format under specific conditions, enhancing data uniformity and facilitating temporal analysis. It also offers conversion of numeric values written in letters into numbers.
 
 5. **Standardizing entries**: It can standardize column entries into specified formats, promoting consistency across the dataset.
 
-6. **Age calculation**: It calculates age from a given `Date` column and a reference date, providing valuable demographic insights for epidemiological analysis.
+6. **Time span calculation**: It calculates the time span between two elements of type `Date`, providing valuable demographic insights for epidemiological analysis.
 
 **{{ packagename }}** operates on data frames or similar structures like tibbles, as well as linelist objects commonly used in epidemiological research. It returns the processed data in the same format, ensuring seamless integration into existing workflows. Additionally, it generates a comprehensive report detailing the outcomes of each cleaning task.
 
@@ -72,13 +72,13 @@ library(cleanepi)
 
 ## Quick start
 
-The main function in **{{ packagename }}** is `clean_data(),` which internally makes call of almost all standard data cleaning functions, such as removal of empty and duplicated rows and columns, replacement of missing values, etc. However, each function can also be called independently to perform a specific  task. This mechanism is explained in details in the **vignette**. Below is typical example of how to use the `clean_data()` function. 
+The main function in **{{ packagename }}** is `clean_data(),` which internally makes call of almost all standard data cleaning functions, such as removal of empty and duplicated rows and columns, replacement of missing values, etc. However, each function can also be called independently to perform a specific task. This mechanism is explained in details in the **vignette**. Below is typical example of how to use the `clean_data()` function. 
 
 
 ```{r eval=TRUE}
 # READING IN THE TEST DATASET
-test_data       <- readRDS(system.file("extdata", "test_df.RDS",
-                                       package = "cleanepi"))
+test_data <- readRDS(system.file("extdata", "test_df.RDS",
+                                 package = "cleanepi"))
 ```
 
 ```{r echo=FALSE, eval=TRUE}
@@ -125,6 +125,9 @@ standardize_subject_ids <- list(target_columns = "study_id",
                                 nchar          = 7)
 standardize_col_names   <- list(keep = NULL, rename = NULL)
 remove_cte              <- list(cutoff = 1)
+standardize_col_names   <- list(keep   = "date.of.admission",
+                                rename = "dateOfBirth = DOB")
+
 params <- list(
   standardize_column_names = standardize_col_names,
   remove_constant          = remove_cte,
@@ -174,7 +177,7 @@ browseVignettes("cleanepi")
 
 ## Next steps
 
-:white_check_mark: update and create test files    
+:white_check_mark: cleaning aggregated data    
 
 
 ### Lifecycle
