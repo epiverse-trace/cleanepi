@@ -25,8 +25,8 @@ epidemiology.
 
 Key functionalities of **cleanepi** include:
 
-1.  **Removing irregularities**: It efficiently removes duplicated and
-    empty rows and columns, as well as columns with constant values.
+1.  **Removing irregularities**: It removes duplicated and empty rows
+    and columns, as well as columns with constant values.
 
 2.  **Handling missing values**: It replaces missing values with the
     standard `NA` format, ensuring consistency and ease of analysis.
@@ -708,10 +708,6 @@ print_report(report)
 ``` r
 browseVignettes("cleanepi")
 ```
-
-## Next steps
-
-:white_check_mark: cleaning aggregated data
 
 ### Lifecycle
 
