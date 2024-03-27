@@ -156,7 +156,7 @@ clean_data <- function(
   if (!is.null(params[["replace_missing_values"]])) {
     R.utils::cat("\nreplacing missing values with NA")
     data <- replace_missing_values(
-      data,
+      data           = data,
       target_columns = params[["replace_missing_values"]][["target_columns"]],
       na_strings     = params[["replace_missing_values"]][["na_strings"]]
     )
