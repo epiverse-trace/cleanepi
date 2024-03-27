@@ -203,17 +203,35 @@ specify a subset of:</p>
 user.</p></li>
 <li><p><strong>Main function:</strong>
 <code><a href="../reference/standardize_column_names.html">standardize_column_names()</a></code></p></li>
-<li><p><strong>Input:</strong> – A <code>data.frame</code> or
-<code>linelist</code> object. – Optionally, a <code>vector</code> of
-focal column names and a vector of column names to be renamed in the
-form of <code>old_name = new_name</code>. If not provided, all columns
-will undergo standardization.</p></li>
-<li><p><strong>Output:</strong> – The input object with standardized
-column names.</p></li>
-<li><p><strong>Report:</strong> – A two-column table displaying the
-initial and current column names for each updated column in the original
-dataset.</p></li>
-<li><p><strong>Mode:</strong> – Explicit</p></li>
+<li>
+<p><strong>Input:</strong></p>
+<ul>
+<li>A <code>data.frame</code> or <code>linelist</code> object.</li>
+<li>Optionally, a <code>vector</code> of focal column names and a vector
+of column names to be renamed in the form of
+<code>old_name = new_name</code>. If not provided, all columns will
+undergo standardization.</li>
+</ul>
+</li>
+<li>
+<p><strong>Output:</strong></p>
+<ul>
+<li>The input object with standardized column names.</li>
+</ul>
+</li>
+<li>
+<p><strong>Report:</strong></p>
+<ul>
+<li>A two-column table displaying the initial and current column names
+for each updated column in the original dataset.</li>
+</ul>
+</li>
+<li>
+<p><strong>Mode:</strong></p>
+<ul>
+<li>Explicit</li>
+</ul>
+</li>
 </ul>
 <p>By incorporating the <code><a href="../reference/standardize_column_names.html">standardize_column_names()</a></code>
 function, {cleanepi} streamlines the process of ensuring consistency and
@@ -229,23 +247,36 @@ columns, and constant columns within the dataset.</p>
 </li>
 <li>
 <strong>Input:</strong> Accepts a <code>data.frame</code> or
-<code>linelist</code> object, along with optional parameters: – Vector
-of target columns (default is to consider all columns; possible to use
-<code>linelist_tags</code> to consider tagged variables only when the
-input is a linelist object) – Option to remove empty rows (all rows by
-default) – Option to remove empty columns (all columns by default) –
-Option to remove constant columns (all constant columns by default)</li>
+<code>linelist</code> object, along with optional parameters:
+<ul>
+<li>Vector of target columns (default is to consider all columns;
+possible to use <code>linelist_tags</code> to consider tagged variables
+only when the input is a linelist object)</li>
+<li>Option to remove empty rows (all rows by default)</li>
+<li>Option to remove empty columns (all columns by default)</li>
+<li>Option to remove constant columns (all constant columns by
+default)</li>
+</ul>
+</li>
 <li>
 <strong>Output:</strong> Returns the input object after applying the
 specified operations.</li>
 <li>
-<strong>Report:</strong> – A list with one or two table(s)
-showcasing found duplicates and removed duplicates (if
-<code>remove = TRUE</code>). The list also includes information about
-the detected empty rows, empty columns, and constant columns. – A table
-detailing the removed duplicates.</li>
+<strong>Report:</strong>
+<ul>
+<li>A list with one or two table(s) showcasing found duplicates and
+removed duplicates (if <code>remove = TRUE</code>). The list also
+includes information about the detected empty rows, empty columns, and
+constant columns.</li>
+<li>A table detailing the removed duplicates.</li>
+</ul>
+</li>
 <li>
-<strong>Mode:</strong> – explicit</li>
+<strong>Mode:</strong>
+<ul>
+<li>explicit</li>
+</ul>
+</li>
 </ul>
 <p>Through the <code><a href="../reference/remove_duplicates.html">remove_duplicates()</a></code> function, users can
 streamline their dataset by eliminating redundant rows, columns, and
@@ -262,10 +293,14 @@ missing values within the dataset.</p>
 </li>
 <li>
 <strong>Input:</strong> Accepts a <code>data.frame</code> or
-<code>linelist</code> object, along with: – A <code>vector</code> of
-column names (if not provided, the operation is performed across all
-columns) – A string representing the current missing values (default
-value is null)</li>
+<code>linelist</code> object, along with:
+<ul>
+<li>A <code>vector</code> of column names (if not provided, the
+operation is performed across all columns)</li>
+<li>A string representing the current missing values (default value is
+null)</li>
+</ul>
+</li>
 <li>
 <strong>Output:</strong> Returns the input object with all missing
 values represented as <code>NA</code>.</li>
@@ -273,7 +308,11 @@ values represented as <code>NA</code>.</li>
 <strong>Report:</strong> Generates a three-column table featuring
 index, column, and value for each missing item in the dataset.</li>
 <li>
-<strong>Mode:</strong> – explicit</li>
+<strong>Mode:</strong>
+<ul>
+<li>explicit</li>
+</ul>
+</li>
 </ul>
 <p>By utilizing the <code>replace_missing_char()</code> function, users
 can ensure consistency in handling missing values across their dataset,
@@ -289,22 +328,35 @@ that all dates fall within the given timeframe.</p>
 </li>
 <li>
 <strong>Input:</strong> Accepts a <code>data.frame</code> or
-<code>linelist</code> object, along with: – A <code>vector</code> of
-targeted date columns (automatically determined if not provided) –
-Tolerance threshold that defines the % of missing values to be allowed
-in a converted column. When % missing values exceeds it, the original
-values are returned (default value is 40%) – Format (default value is
-NULL) – Timeframe (default value is null)</li>
+<code>linelist</code> object, along with:
+<ul>
+<li>A <code>vector</code> of targeted date columns (automatically
+determined if not provided)</li>
+<li>Tolerance threshold that defines the % of missing values to be
+allowed in a converted column. When % missing values exceeds it, the
+original values are returned (default value is 40%)</li>
+<li>Format (default value is NULL)</li>
+<li>Timeframe (default value is null)</li>
+</ul>
+</li>
 <li>
 <strong>Output:</strong> Returns the input object with standardized
 date values in the format of <em>%Y-%m-%d</em>.</li>
 <li>
-<strong>Report:</strong> – A two-column table listing the columns
-where date values were standardized. – A three-column table featuring
-index, column name, and values that fall outside the specified
-timeframe.</li>
+<strong>Report:</strong>
+<ul>
+<li>A two-column table listing the columns where date values were
+standardized.</li>
+<li>A three-column table featuring index, column name, and values that
+fall outside the specified timeframe.</li>
+</ul>
+</li>
 <li>
-<strong>Mode:</strong> – explicit</li>
+<strong>Mode:</strong>
+<ul>
+<li>explicit</li>
+</ul>
+</li>
 </ul>
 <p>By employing the <code><a href="../reference/standardize_dates.html">standardize_dates()</a></code> function, users can
 ensure uniformity and coherence in date formats across their dataset,
@@ -320,9 +372,14 @@ uniquely identifying subjects adhere to a consistent format.</p>
 </li>
 <li>
 <strong>Input:</strong> Accepts a <code>data.frame</code> or
-<code>linelist</code> object, along with: – The name of the ID column –
-Strings for prefix, suffix, and numerical range within the IDs – A
-logical that determines whether to delete the wrong ids or not.</li>
+<code>linelist</code> object, along with:
+<ul>
+<li>The name of the ID column</li>
+<li>Strings for prefix, suffix, and numerical range within the IDs</li>
+<li>A logical that determines whether to delete the wrong ids or
+not.</li>
+</ul>
+</li>
 <li>
 <strong>Output:</strong> Returns the input object with standardized
 subject IDs.</li>
@@ -331,7 +388,11 @@ subject IDs.</li>
 index and value of each subject ID that deviates from the expected
 format.</li>
 <li>
-<strong>Mode:</strong> – explicit</li>
+<strong>Mode:</strong>
+<ul>
+<li>explicit</li>
+</ul>
+</li>
 </ul>
 <p>By utilizing the functions in this module, users can ensure
 uniformity in the format of subject ids, facilitating accurate tracking
@@ -361,7 +422,11 @@ specified options are replaced by their corresponding values.</li>
 column, and value for each unexpected value encountered in a targeted
 column.</li>
 <li>
-<strong>Mode:</strong> – explicit</li>
+<strong>Mode:</strong>
+<ul>
+<li>explicit</li>
+</ul>
+</li>
 </ul>
 <p>By leveraging the <code><a href="../reference/clean_using_dictionary.html">clean_using_dictionary()</a></code> function,
 users can streamline and standardize the values within specific columns
@@ -382,8 +447,11 @@ package.</p>
 </li>
 <li>
 <strong>Input:</strong> Accepts a <code>data.frame</code> or
-<code>linelist</code> object, along with: – A vector of column names to
-be converted into numeric</li>
+<code>linelist</code> object, along with:
+<ul>
+<li>A vector of column names to be converted into numeric</li>
+</ul>
+</li>
 <li>
 <strong>Output:</strong> Returns the input object with values in the
 target columns converted into numeric format.</li>
@@ -392,7 +460,11 @@ target columns converted into numeric format.</li>
 column, and value for each unrecognized value in the dataset (strings
 that could not be converted into numeric).</li>
 <li>
-<strong>Mode:</strong> – explicit</li>
+<strong>Mode:</strong>
+<ul>
+<li>explicit</li>
+</ul>
+</li>
 </ul>
 <p>By employing the <code><a href="../reference/convert_to_numeric.html">convert_to_numeric()</a></code> function, users
 can seamlessly transform numeric representations written in letters into
@@ -412,9 +484,13 @@ birth.</p>
 </li>
 <li>
 <strong>Input:</strong> Accepts a <code>data.frame</code> or
-<code>linelist</code> object, along with: – A vector of date column
-names to be considered – A logical value to specify whether to remove
-the incorrect rows from the input data or not</li>
+<code>linelist</code> object, along with:
+<ul>
+<li>A vector of date column names to be considered</li>
+<li>A logical value to specify whether to remove the incorrect rows from
+the input data or not</li>
+</ul>
+</li>
 <li>
 <strong>Output:</strong> Returns the input object with incorrect
 rows removed if specified.</li>
@@ -422,7 +498,11 @@ rows removed if specified.</li>
 <strong>Report:</strong> Generates a table listing the incorrect
 rows from the specified columns.</li>
 <li>
-<strong>Mode:</strong> – explicit</li>
+<strong>Mode:</strong>
+<ul>
+<li>explicit</li>
+</ul>
+</li>
 </ul>
 <p>By using the <code><a href="../reference/check_date_sequence.html">check_date_sequence()</a></code> function, users can
 systematically validate and ensure the coherence of date sequences
@@ -438,10 +518,15 @@ following function:</p>
 </li>
 <li>
 <strong>Input:</strong> Accepts a <code>data.frame</code> or
-<code>linelist</code> object, along with: – The name of the column of
-interest – The reference date – The time and remainder units (possible
-values are days, weeks, months, or years) – The names of the newly
-generated columns</li>
+<code>linelist</code> object, along with:
+<ul>
+<li>The name of the column of interest</li>
+<li>The reference date</li>
+<li>The time and remainder units (possible values are days, weeks,
+months, or years)</li>
+<li>The names of the newly generated columns</li>
+</ul>
+</li>
 <li>
 <strong>Output:</strong> Returns the input object with clean data
 and an additional age column with values in the specified time
@@ -449,7 +534,11 @@ unit.</li>
 <li>
 <strong>Report:</strong> None.</li>
 <li>
-<strong>Mode:</strong> – explicit</li>
+<strong>Mode:</strong>
+<ul>
+<li>explicit</li>
+</ul>
+</li>
 </ul>
 <p>By leveraging the <code>calculate_age()</code> function, users can
 efficiently compute and integrate age-related information into their

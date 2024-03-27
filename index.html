@@ -93,12 +93,12 @@
 <p><strong>cleanepi</strong> is an R package designed for cleaning, curating, and standardizing epidemiological data. It streamlines various data cleaning tasks that are typically expected when working with datasets in epidemiology.</p>
 <p>Key functionalities of <strong>cleanepi</strong> include:</p>
 <ol style="list-style-type: decimal">
-<li><p><strong>Removing irregularities</strong>: It efficiently removes duplicated and empty rows and columns, as well as columns with constant values.</p></li>
+<li><p><strong>Removing irregularities</strong>: It removes duplicated and empty rows and columns, as well as columns with constant values.</p></li>
 <li><p><strong>Handling missing values</strong>: It replaces missing values with the standard <code>NA</code> format, ensuring consistency and ease of analysis.</p></li>
 <li><p><strong>Ensuring data integrity</strong>: It ensures the uniqueness of uniquely identified columns, thus maintaining data integrity and preventing duplicates.</p></li>
-<li><p><strong>Date conversion</strong>: It offers functionality to convert character columns to Date format under specified conditions, enhancing data uniformity and facilitating temporal analysis.</p></li>
+<li><p><strong>Date conversion</strong>: It offers functionality to convert character columns to Date format under specific conditions, enhancing data uniformity and facilitating temporal analysis. It also offers conversion of numeric values written in letters into numbers.</p></li>
 <li><p><strong>Standardizing entries</strong>: It can standardize column entries into specified formats, promoting consistency across the dataset.</p></li>
-<li><p><strong>Age calculation</strong>: It calculates age from a given <code>Date</code> column and a reference date, providing valuable demographic insights for epidemiological analysis.</p></li>
+<li><p><strong>Time span calculation</strong>: It calculates the time span between two elements of type <code>Date</code>, providing valuable demographic insights for epidemiological analysis.</p></li>
 </ol>
 <p><strong>cleanepi</strong> operates on data frames or similar structures like tibbles, as well as linelist objects commonly used in epidemiological research. It returns the processed data in the same format, ensuring seamless integration into existing workflows. Additionally, it generates a comprehensive report detailing the outcomes of each cleaning task.</p>
 <p><strong>cleanepi</strong> is developed by the <a href="https://data.org/initiatives/epiverse/" class="external-link">Epiverse-TRACE</a> team at the <a href="https://www.lshtm.ac.uk/research/units/mrc-gambia" class="external-link">Medical Research Council The Gambia unit at the London School of Hygiene and Tropical Medicine</a>.</p>
@@ -117,8 +117,8 @@
 <p>The main function in <strong>cleanepi</strong> is <code>clean_data(),</code> which internally makes call of almost all standard data cleaning functions, such as removal of empty and duplicated rows and columns, replacement of missing values, etc. However, each function can also be called independently to perform a specific task. This mechanism is explained in details in the <strong>vignette</strong>. Below is typical example of how to use the <code><a href="reference/clean_data.html">clean_data()</a></code> function.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># READING IN THE TEST DATASET</span></span>
-<span><span class="va">test_data</span>       <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"test_df.RDS"</span>,</span>
-<span>                                       package <span class="op">=</span> <span class="st">"cleanepi"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">test_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"test_df.RDS"</span>,</span>
+<span>                                 package <span class="op">=</span> <span class="st">"cleanepi"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:200px; overflow-x: scroll; width:100%; ">
 <table class="table  lightable-paper lightable-striped" style='font-size: 14px; font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'>
 <thead><tr>
@@ -483,6 +483,9 @@ sex
 <span>                                nchar          <span class="op">=</span> <span class="fl">7</span><span class="op">)</span></span>
 <span><span class="va">standardize_col_names</span>   <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>keep <span class="op">=</span> <span class="cn">NULL</span>, rename <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span><span class="va">remove_cte</span>              <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>cutoff <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="va">standardize_col_names</span>   <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>keep   <span class="op">=</span> <span class="st">"date.of.admission"</span>,</span>
+<span>                                rename <span class="op">=</span> <span class="st">"dateOfBirth = DOB"</span><span class="op">)</span></span>
+<span></span>
 <span><span class="va">params</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>  standardize_column_names <span class="op">=</span> <span class="va">standardize_col_names</span>,</span>
 <span>  remove_constant          <span class="op">=</span> <span class="va">remove_cte</span>,</span>
@@ -502,6 +505,7 @@ sex
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; cleaning column names</span></span>
 <span><span class="co">#&gt; replacing missing values with NA</span></span>
+<span><span class="co">#&gt; removing the constant columns, empty rows and columns</span></span>
 <span><span class="co">#&gt; removing duplicated rows</span></span>
 <span><span class="co">#&gt; standardising date columns</span></span>
 <span><span class="co">#&gt; checking subject IDs format</span></span>
@@ -511,16 +515,16 @@ sex
 <span><span class="co">#&gt; converting sex into numeric</span></span>
 <span><span class="co">#&gt; performing dictionary-based cleaning</span></span></code></pre></div>
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:200px; overflow-x: scroll; width:100%; ">
-<table class="table  lightable-paper lightable-striped" style='font-size: 14px; font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'>
+<table class="table  lightable-paper lightable-striped" style='font-size: 14px; font-family: "Arial Narrow", arial, helvetica, sans-serif; width: auto !important; margin-left: auto; margin-right: auto;'>
 <thead><tr>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
 study_id
 </th>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-date_of_admission
+date.of.admission
 </th>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-date_of_birth
+DOB
 </th>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
 date_first_pcr_positive_test
@@ -715,11 +719,6 @@ female
 </h2>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/browseVignettes.html" class="external-link">browseVignettes</a></span><span class="op">(</span><span class="st">"cleanepi"</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level2">
-<h2 id="next-steps">Next steps<a class="anchor" aria-label="anchor" href="#next-steps"></a>
-</h2>
-<p><span class="emoji" data-emoji="white_check_mark">✅</span> update and create test files</p>
 <div class="section level3">
 <h3 id="lifecycle">Lifecycle<a class="anchor" aria-label="anchor" href="#lifecycle"></a>
 </h3>
