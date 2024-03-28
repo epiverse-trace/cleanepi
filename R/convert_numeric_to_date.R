@@ -27,11 +27,8 @@ convert_numeric_to_date <- function(data, target_columns, ref_date,
     checkmate::assert_date(ref_date, any.missing = FALSE, min.len = 1L,
                            max.len = 1L, null.ok = FALSE)
   }
-  if (!checkmate::check_vector(target_columns, min.len = 1, unique = TRUE,
-                               null.ok = FALSE)) {
-    checkmate::assert_character(target_columns, null.ok = FALSE,
-                                any.missing = FALSE, min.len = 1L)
-  }
+  checkmate::assert_vector(target_columns, min.len = 1, max.len = ncol(data),
+                           null.ok = FALSE, any.missing = FALSE)
   checkmate::assert_data_frame(data, null.ok = FALSE, min.cols = 1L)
 
   # check if input is character string

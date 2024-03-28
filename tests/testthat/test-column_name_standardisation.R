@@ -27,13 +27,24 @@ test_that("standardize_column_names works with keep argument", {
   # TODO update this after Banky's suggestion as 'dateOfBirth' might change
   cleaned_data <- standardize_column_names(
     data = readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi")),
-    keep = "date.of.admission"
+    keep = as.character("date.of.admission")
   )
   expect_s3_class(cleaned_data, "data.frame")
   expect_named(cleaned_data,
                expected = c("study_id", "event_name", "country_code",
                             "country_name", "date.of.admission",
                             "date_of_birth", "date_first_pcr_positive_test",
+                            "sex"))
+
+  cleaned_data <- standardize_column_names(
+    data = readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi")),
+    keep = c("date.of.admission", "dateOfBirth")
+  )
+  expect_s3_class(cleaned_data, "data.frame")
+  expect_named(cleaned_data,
+               expected = c("study_id", "event_name", "country_code",
+                            "country_name", "date.of.admission",
+                            "dateOfBirth", "date_first_pcr_positive_test",
                             "sex"))
 })
 

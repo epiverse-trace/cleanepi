@@ -49,3 +49,15 @@ test_that("convert_numeric_to_date works with a comma-separated list of column
             expect_true(inherits(dat[["recruted_on_day"]], "Date"))
             expect_true(inherits(dat[["removed_on_day"]], "Date"))
 })
+
+test_that("convert_numeric_to_date fails as expected", {
+  expect_error(
+    convert_numeric_to_date(
+      data           = dat,
+      target_columns = "fake_column_name",
+      ref_date       = as.Date("2022-10-13"),
+      forward        = FALSE
+    ),
+    regexp = cat("Unrecognised column name")
+  )
+})

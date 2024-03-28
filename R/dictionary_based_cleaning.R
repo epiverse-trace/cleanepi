@@ -100,10 +100,8 @@ make_readcap_dictionary <- function(metadata,
 
   stopifnot(opt_column %in% names(metadata))
 
-  metadata     <- metadata %>%
-    dplyr::filter(!is.na(metadata[[opt_column]]),
-                  metadata[[field_type]] != "calc")
-
+  metadata     <- metadata[which(!is.na(metadata[[opt_column]]) &
+                                   metadata[[field_type]] != "calc"), ]
   dictionary   <- NULL
   for (i in seq_len(nrow(metadata))) {
     dictionary <- rbind(dictionary,
@@ -165,18 +163,12 @@ add_to_dictionary <- function(dictionary,
                                value,
                                grp,
                                order = NULL) {
-  if (!checkmate::check_vector(option, min.len = 1L, null.ok = FALSE)) {
-    checkmate::assert_character(option, len = 1L, any.missing = FALSE,
-                                null.ok = FALSE)
-  }
-  if (!checkmate::check_vector(value, min.len = 1L, null.ok = FALSE)) {
-    checkmate::assert_character(value, len = 1L, any.missing = TRUE,
-                                null.ok = FALSE)
-  }
-  if (!checkmate::check_vector(grp, min.len = 1L, null.ok = FALSE)) {
-    checkmate::assert_character(grp, len = 1L, any.missing = TRUE,
-                                null.ok = FALSE)
-  }
+  checkmate::assert_vector(option, min.len = 1L, null.ok = FALSE,
+                           any.missing = FALSE)
+  checkmate::assert_vector(value, min.len = 1L, null.ok = FALSE,
+                           any.missing = FALSE)
+  checkmate::assert_vector(grp, min.len = 1L, null.ok = FALSE,
+                           any.missing = FALSE)
   checkmate::assert_numeric(order, any.missing = TRUE, lower = 1L,
                             null.ok = TRUE)
 

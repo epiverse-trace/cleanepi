@@ -46,9 +46,9 @@ check_date_sequence <- function(data, target_columns,
   # check if all columns are part of the data frame
   if (!all(target_columns %in% names(data))) {
     idx            <- which(!(target_columns %in% names(data)))
-    target_columns <- target_columns[-idx]
     warning("\nRemoving unrecognised column name: ", target_columns[idx],
             call. = FALSE)
+    target_columns <- target_columns[-idx]
     if (length(target_columns) < 2L) {
       stop("\nAt least 2 event dates are required!")
     }

@@ -55,47 +55,6 @@ get_sum <- function(x) {
   return(x)
 }
 
-#' Add a report obtained from a data cleaning step to a data frame
-#'
-#' @param data A  data frame
-#' @param report A named list or a data frame containing details from the
-#'    cleaning operations.
-#' @param name A character with the name of the cleaning operation. The default
-#'    value is NULL.
-#'
-#' @return The input data frame with a report associated to it. This can be
-#'    accessed using `attr(data, "report")`
-#' @keywords internal
-#'
-add_report <- function(data, report, name = NULL) {
-  # when the data is not associated with any report, make it be
-  if (is.null(attr(data, "report"))) {
-    tmp_report <- list()
-    if (!is.null(name)) {
-      tmp_report[[name]] <- report
-    } else {
-      tmp_report[[1L]]   <- report
-    }
-    attr(data, which = "report") <- tmp_report
-  } else {
-    # when the report object is a data frame, the user will provide the
-    # name of the analysis step. This will be used to add the report to the data
-    #
-    # if it is a list (we expect a named list), then it will be concatenated to
-    # the existing report.
-    tmp_report <- attr(data, "report")
-    if (!is.null(name)) {
-      tmp_report[[name]] <- report
-    } else {
-      tmp_report[[length(tmp_report) + 1L]] <- report
-    }
-    attr(data, which = "report") <- tmp_report
-  }
-
-  return(data)
-}
-
-
 #' Add an element to the report object
 #'
 #' @param x A data frame  or linelist
