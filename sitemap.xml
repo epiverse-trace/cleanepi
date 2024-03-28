@@ -40,10 +40,10 @@
     <loc>https://epiverse-trace.github.io/cleanepi/reference/check_date_sequence.html</loc>
   </url>
   <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/check_id_length.html</loc>
+    <loc>https://epiverse-trace.github.io/cleanepi/reference/check_subject_ids.html</loc>
   </url>
   <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/check_subject_ids.html</loc>
+    <loc>https://epiverse-trace.github.io/cleanepi/reference/check_subject_ids_length.html</loc>
   </url>
   <url>
     <loc>https://epiverse-trace.github.io/cleanepi/reference/check_subject_ids_oness.html</loc>
@@ -62,9 +62,6 @@
   </url>
   <url>
     <loc>https://epiverse-trace.github.io/cleanepi/reference/construct_misspelled_report.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/convert.html</loc>
   </url>
   <url>
     <loc>https://epiverse-trace.github.io/cleanepi/reference/convert_numeric_to_date.html</loc>
@@ -145,19 +142,19 @@
     <loc>https://epiverse-trace.github.io/cleanepi/reference/date_trim_outliers.html</loc>
   </url>
   <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/detect_columns_to_convert.html</loc>
+    <loc>https://epiverse-trace.github.io/cleanepi/reference/detect_misspelled_options.html</loc>
   </url>
   <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/detect_misspelled_options.html</loc>
+    <loc>https://epiverse-trace.github.io/cleanepi/reference/detect_to_numeric_columns.html</loc>
+  </url>
+  <url>
+    <loc>https://epiverse-trace.github.io/cleanepi/reference/dictionary_make_metadata.html</loc>
   </url>
   <url>
     <loc>https://epiverse-trace.github.io/cleanepi/reference/find_duplicates.html</loc>
   </url>
   <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/get_column_composition.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/get_new_names.html</loc>
+    <loc>https://epiverse-trace.github.io/cleanepi/reference/get_new_column_names_indices.html</loc>
   </url>
   <url>
     <loc>https://epiverse-trace.github.io/cleanepi/reference/get_sum.html</loc>
@@ -169,10 +166,7 @@
     <loc>https://epiverse-trace.github.io/cleanepi/reference/index.html</loc>
   </url>
   <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/is_order.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/make_metadata.html</loc>
+    <loc>https://epiverse-trace.github.io/cleanepi/reference/is_date_sequence_ordered.html</loc>
   </url>
   <url>
     <loc>https://epiverse-trace.github.io/cleanepi/reference/make_readcap_dictionary.html</loc>
@@ -196,6 +190,9 @@
     <loc>https://epiverse-trace.github.io/cleanepi/reference/replace_missing_values.html</loc>
   </url>
   <url>
+    <loc>https://epiverse-trace.github.io/cleanepi/reference/scan_columns.html</loc>
+  </url>
+  <url>
     <loc>https://epiverse-trace.github.io/cleanepi/reference/scan_data.html</loc>
   </url>
   <url>
@@ -206,5 +203,8 @@
   </url>
   <url>
     <loc>https://epiverse-trace.github.io/cleanepi/reference/standardize_dates.html</loc>
+  </url>
+  <url>
+    <loc>https://epiverse-trace.github.io/cleanepi/reference/to_numeric_convert.html</loc>
   </url>
 </urlset>
