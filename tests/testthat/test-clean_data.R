@@ -17,10 +17,10 @@ standardize_date        <- list(target_columns  = NULL,
                                 format          = NULL,
                                 timeframe       = as.Date(c("1973-05-29",
                                                             "2023-05-29")),
-                                orders = list(world_named_months = c("Ybd", "dby"), # nolint: line_length_linters
-                                              world_digit_months = c("dmy", "Ymd"), # nolint: line_length_linters
-                                              US_formats         = c("Omdy", "YOmd")), # nolint: line_length_linters
-                                modern_excel    = TRUE)
+                                orders = list(named_months = c("Ybd", "dby"),
+                                              digit_months = c("dmy", "Ymd"),
+                                              US_formats   = c("Omdy", "YOmd")),
+                                modern_excel = TRUE)
 standardize_subject_ids <- list(target_columns = "study_id",
                                 prefix         = "PS",
                                 suffix         = "P2",
@@ -71,3 +71,12 @@ test_that("cleaned_data works in a pipable way", {
   expect_identical(ncol(cleaned_data), 5L)
   expect_false("-99" %in% as.vector(as.matrix(cleaned_data)))
 })
+
+test_that("clean_data fails as expected", {
+  params[["standardize_subject_ids"]][["target_columns"]] <- NULL
+  expect_error(
+    clean_data(data = test_data, params = params),
+    regexp = cat("'target_columns' must be provided.")
+  )
+})
+

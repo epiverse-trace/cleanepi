@@ -103,3 +103,43 @@ test_that("add_to_report works as expected", {
                                               "logical"))
   expect_identical(nrow(report[["scanning_result"]]), ncol(data))
 })
+
+
+# test internal function
+test_that("date_get_part1 works as expected", {
+  res <- date_get_part1(NA, sep = "/")
+  expect_identical(res, NA)
+
+  res <- date_get_part1("2024/03/28", sep = "/")
+  expect_identical(res, "2024")
+})
+
+test_that("date_get_part2 works as expected", {
+  res <- date_get_part2(NA, sep = "/")
+  expect_identical(res, NA)
+
+  res <- date_get_part2("2024/03/28", sep = "/")
+  expect_identical(res, "03")
+})
+
+test_that("date_get_part3 works as expected", {
+  res <- date_get_part3(NA, sep = "/")
+  expect_identical(res, NA)
+
+  res <- date_get_part3("2024/03/28", sep = "/")
+  expect_identical(res, "28")
+})
+
+test_that("get_sum works as expected", {
+  res <- get_sum("28")
+  expect_identical(res, 10)
+})
+
+test_that("get_target_column_names fails as expected", {
+  data <- readRDS(system.file("extdata", "test_linelist.RDS",
+                              package = "cleanepi"))
+  expect_error(
+    get_target_column_names(data, target_columns = 10L, cols = NULL),
+    regexp = cat("Incorrect vector of column name indices provided!")
+  )
+})

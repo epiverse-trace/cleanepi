@@ -31,11 +31,9 @@
 #' )
 #'
 standardize_column_names <- function(data, keep = NULL, rename = NULL) {
-  if (!checkmate::check_vector(keep, min.len = 0L, null.ok = TRUE,
-                               any.missing = FALSE)) {
-    checkmate::assert_character(keep, fixed = TRUE, any.missing = FALSE,
-                                null.ok = TRUE)
-  }
+  checkmate::assert_vector(keep, min.len = 0L, max.len = ncol(data),
+                           null.ok = TRUE,
+                           any.missing = FALSE)
   checkmate::assert_character(rename, min.len = 0L, null.ok = TRUE,
                               any.missing = FALSE)
   before <- colnames(data)
