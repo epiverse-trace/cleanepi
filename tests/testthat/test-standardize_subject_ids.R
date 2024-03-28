@@ -201,5 +201,18 @@ test_that("correct_subject_ids fails as expected", {
     regexp = cat("Column in 'correction_table' must be named as 'from' and
                  'to'")
   )
+})
 
+test_that("check_subject_ids fails as expected", {
+  data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi"))
+  data[["study_id"]][[7]] <- NA_character_
+  expect_warning(
+    check_subject_ids(data           = data,
+                      target_columns = "study_id",
+                      prefix         = "PS",
+                      suffix         = "P2",
+                      range          = c(1L, 100L),
+                      nchar          = 7L),
+    regexp = cat("Missing values found on ID column in lines: 7")
+  )
 })
