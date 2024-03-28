@@ -86,8 +86,8 @@ test_that("standardize_column_names fails when wrong column names are
   )
 })
 
-test_that("get_new_names works as expected", {
-  rename_idx <- get_new_names(
+test_that("get_new_column_names_indices works as expected", {
+  rename_idx <- get_new_column_names_indices(
     original_names = c(
       "study_id", "event_name",
       "country_code", "country_name",
@@ -103,9 +103,9 @@ test_that("get_new_names works as expected", {
   expect_length(rename_idx, n = 2L)
 })
 
-test_that("get_new_names fails as expected", {
+test_that("get_new_column_names_indices fails as expected", {
   expect_error(
-    get_new_names(
+    get_new_column_names_indices(
       original_names = c(
         "study_id", "event_name", "country_code",
         "country_name", "date.of.admission", "dateOfBirth",

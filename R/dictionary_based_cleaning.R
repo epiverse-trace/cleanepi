@@ -107,8 +107,8 @@ make_readcap_dictionary <- function(metadata,
   dictionary   <- NULL
   for (i in seq_len(nrow(metadata))) {
     dictionary <- rbind(dictionary,
-                        make_metadata(metadata[[opt_column]][i],
-                                      metadata[[field_column]][i]))
+                        dictionary_make_metadata(metadata[[opt_column]][i],
+                                                 metadata[[field_column]][i]))
   }
   return(dictionary)
 }
@@ -123,7 +123,7 @@ make_readcap_dictionary <- function(metadata,
 #'    the \{matchmaker\} package.
 #' @keywords internal
 #'
-make_metadata <- function(x, field_column) {
+dictionary_make_metadata <- function(x, field_column) {
   splits          <- trimws(unlist(strsplit(x, "|", fixed = TRUE)))
   combined_splits <- lapply(splits, function(x) { trimws(unlist(strsplit(x, ",", fixed = TRUE))) }) # nolint: line_length_linter
   combined_splits <- do.call(rbind.data.frame, combined_splits)

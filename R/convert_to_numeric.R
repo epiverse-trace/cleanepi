@@ -28,13 +28,13 @@ convert_to_numeric <- function(data, target_columns = NULL) {
                            null.ok = TRUE)
   if (is.null(target_columns)) {
     scan_res       <- scan_data(data = data)
-    target_columns <- detect_columns_to_convert(scan_res)
+    target_columns <- detect_to_numeric_columns(scan_res)
   }
   target_columns   <- get_target_column_names(data, target_columns, cols = NULL)
 
   stopifnot("Please specify the target columns." = length(target_columns) > 0L)
   for (col in target_columns) {
-    data[[col]]    <- convert(data[[col]])
+    data[[col]]    <- to_numeric_convert(data[[col]])
   }
   data             <- add_to_report(x     = data,
                                     key   = "converted_into_numeric",
@@ -52,7 +52,7 @@ convert_to_numeric <- function(data, target_columns = NULL) {
 #' @return a vector of column names to be converted into numeric
 #' @keywords internal
 #'
-detect_columns_to_convert <- function(scan_res) {
+detect_to_numeric_columns <- function(scan_res) {
   checkmate::assert_data_frame(scan_res, min.rows = 1L, min.cols = 1L,
                                null.ok = FALSE)
   to_numeric <- vector(mode = "character", length = 0L)
@@ -90,7 +90,7 @@ detect_columns_to_convert <- function(scan_res) {
 #' @return a vector of type numeric with the same length as the input vector
 #' @keywords internal
 #'
-convert <- function(x) {
+to_numeric_convert <- function(x) {
   if (all(is.numeric(x))) {
     return(as.numeric(x))
   }

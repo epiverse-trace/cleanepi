@@ -64,7 +64,7 @@ check_date_sequence <- function(data, target_columns,
 
   # checking the date sequence
   tmp_data   <- data %>% dplyr::select(dplyr::all_of(target_columns))
-  order_date <- apply(tmp_data, 1L, is_order)
+  order_date <- apply(tmp_data, 1L, is_date_sequence_ordered)
   bad_order  <- which(!order_date)
   if (!all(order_date)) {
     tmp_data <- tmp_data[bad_order, ]
@@ -90,6 +90,6 @@ check_date_sequence <- function(data, target_columns,
 #'
 #' @param x A string of interest
 #' @keywords internal
-is_order <- function(x) {
+is_date_sequence_ordered <- function(x) {
   return(!is.unsorted(x))
 }

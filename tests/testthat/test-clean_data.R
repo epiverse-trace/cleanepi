@@ -16,7 +16,11 @@ standardize_date        <- list(target_columns  = NULL,
                                 error_tolerance = 0.4,
                                 format          = NULL,
                                 timeframe       = as.Date(c("1973-05-29",
-                                                            "2023-05-29")))
+                                                            "2023-05-29")),
+                                orders = list(world_named_months = c("Ybd", "dby"), # nolint: line_length_linters
+                                              world_digit_months = c("dmy", "Ymd"), # nolint: line_length_linters
+                                              US_formats         = c("Omdy", "YOmd")), # nolint: line_length_linters
+                                modern_excel    = TRUE)
 standardize_subject_ids <- list(target_columns = "study_id",
                                 prefix         = "PS",
                                 suffix         = "P2",
@@ -34,18 +38,18 @@ params <- list(
 )
 
 test_that("clean_data works as expected", {
-  clean_data <- clean_data(
+  cleaned_data <- clean_data(
     data   = test_data,
     params = params
   )
-  expect_s3_class(clean_data, "data.frame")
-  expect_identical(nrow(clean_data), 10L)
-  expect_identical(ncol(clean_data), 5L)
-  expect_false("-99" %in% as.vector(as.matrix(clean_data)))
+  expect_s3_class(cleaned_data, "data.frame")
+  expect_identical(nrow(cleaned_data), 10L)
+  expect_identical(ncol(cleaned_data), 5L)
+  expect_false("-99" %in% as.vector(as.matrix(cleaned_data)))
 })
 
-test_that("clean_data works in a pipable way", {
-  clean_data <- test_data |>
+test_that("cleaned_data works in a pipable way", {
+  cleaned_data <- test_data |>
     standardize_column_names(keep = NULL, rename = NULL) |>
     replace_missing_values(target_columns = NULL, na_strings = "-99") |>
     remove_constant(cutoff = 1.0) |>
@@ -62,8 +66,8 @@ test_that("clean_data works in a pipable way", {
     convert_to_numeric(target_columns = "sex") |>
     clean_using_dictionary(dictionary = test_dictionary)
 
-  expect_s3_class(clean_data, "data.frame")
-  expect_identical(nrow(clean_data), 10L)
-  expect_identical(ncol(clean_data), 5L)
-  expect_false("-99" %in% as.vector(as.matrix(clean_data)))
+  expect_s3_class(cleaned_data, "data.frame")
+  expect_identical(nrow(cleaned_data), 10L)
+  expect_identical(ncol(cleaned_data), 5L)
+  expect_false("-99" %in% as.vector(as.matrix(cleaned_data)))
 })
