@@ -136,10 +136,9 @@ test_that("get_sum works as expected", {
 })
 
 test_that("get_target_column_names fails as expected", {
-  data <- readRDS(system.file("extdata", "test_linelist.RDS",
-                              package = "cleanepi"))
+  data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi"))
   expect_error(
-    get_target_column_names(data, target_columns = 10L, cols = NULL),
-    regexp = cat("Incorrect vector of column name indices provided!")
+    get_target_column_names(data, target_columns = c(2L, 3L, 10L), cols = NULL),
+    regexp = cat("Some specified column names indices are out of bound.")
   )
 })

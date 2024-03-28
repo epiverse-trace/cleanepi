@@ -58,6 +58,16 @@ test_that("convert_numeric_to_date fails as expected", {
       ref_date       = as.Date("2022-10-13"),
       forward        = FALSE
     ),
-    regexp = cat("Unrecognised column name")
+    regexp = cat("Supplied incorrect target column name")
+  )
+
+  expect_error(
+    convert_numeric_to_date(
+      data           = dat,
+      target_columns = "recruted_on_day",
+      ref_date       = "fake_column_name",
+      forward        = FALSE
+    ),
+    regexp = cat("'fake_column_name' not found.")
   )
 })
