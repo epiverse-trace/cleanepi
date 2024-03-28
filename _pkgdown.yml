@@ -1,3 +1,88 @@
 url: https://epiverse-trace.github.io/cleanepi
 template:
   package: epiversetheme
+
+reference:
+- title: Exported functions
+  desc: "`{cleanepi}` functions available to end-users"
+- contents:
+  - lacks_concept("internal")
+
+- subtitle: Shared helpers
+- contents:
+  - get_target_column_names
+  - add_to_report
+  - get_sum
+  - numbers_only
+
+- subtitle: Clean data
+  desc: Performs several cleaning operations at once
+- contents:
+  - clean_data
+
+- subtitle: Check data structure
+  desc: Scan through the input data to determine its composition
+- contents:
+  - scan_data
+
+- subtitle: Print data cleaning report
+- contents:
+  - print_report
+  - starts_with("scan_", internal = TRUE)
+
+- subtitle: Standardise column names
+  desc: Harmonise on the usage of English characters in column names
+- contents:
+  - has_keyword("_column_names")
+
+- subtitle: Retrieve Date from numeric values
+- contents:
+  - convert_numeric_to_date
+
+- subtitle: Convert numbers written in letters into numeric
+- contents:
+  - has_keyword("to_numeric")
+
+- subtitle: Standardise dates
+  desc: Coerce date values to the ISO format `Ymd` (2024-31-01)
+- contents:
+  - standardize_dates
+  - starts_with("date_", internal = TRUE)
+  - ends_with("_date", internal = TRUE)
+
+- subtitle: Dictionary-based substitution
+  desc: Substitute given options from columns in a data frame with their
+  corresponding values
+- contents:
+  - starts_with("dictionary_", internal = TRUE)
+  - ends_with("_dictionary", internal = TRUE)
+  - has_keyword("_misspelled_")
+
+- subtitle: Find and remove duplicates
+- contents:
+  - ends_with("_duplicates", internal = TRUE)
+
+- subtitle: Remove constant data
+  desc: Remove constant columns, empty rows and columns
+- contents:
+  - remove_constant
+
+- subtitle: Replace missing values with NA
+- contents:
+  - replace_missing_values
+
+- subtitle: Calculate time span between the variables of type Date
+- contents:
+  - span
+
+- subtitle: Detect incorrect subject ids and correct them if required
+- contents:
+  - has_keyword("subject_ids")
+
+
+- subtitle: Check sequence of date events
+- contents:
+  - has_keyword("to_numeric")
+
+
+

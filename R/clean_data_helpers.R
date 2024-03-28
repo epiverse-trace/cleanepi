@@ -9,7 +9,7 @@
 #'
 #' @keywords internal
 #'
-get_column_composition <- function(x) {
+scan_columns <- function(x) {
   # --- save the variable length ---
   n_rows <- length(x)
 
@@ -60,8 +60,7 @@ get_column_composition <- function(x) {
 #'                              package = "cleanepi"))
 #' )
 scan_data <- function(data) {
-  scan_result           <- data.frame(t(apply(data, 2L,
-                                              get_column_composition)))
+  scan_result           <- data.frame(t(apply(data, 2L, scan_columns)))
   names(scan_result)    <- c("missing", "numeric", "date", "character",
                              "logical")
   row_names             <- rownames(scan_result)

@@ -64,7 +64,8 @@ check_subject_ids <- function(data,
   # detect subject IDs that do not match the provided format
   if (!is.null(nchar)) {
     length_check <- as.logical(as.character(lapply(data[[target_columns]],
-                                                   check_id_length, nchar)))
+                                                   check_subject_ids_length,
+                                                   nchar)))
     idx          <- which(length_check)
     if (length(idx) > 0L) {
       bad_rows   <- c(bad_rows, idx)
@@ -200,6 +201,6 @@ check_subject_ids_oness <- function(data, id_col_name) {
 #' @param x the sample ID
 #' @param ref the expected number of characters in the sample ids
 #' @keywords internal
-check_id_length <- function(x, ref) {
+check_subject_ids_length <- function(x, ref) {
   return(nchar(x) != ref)
 }

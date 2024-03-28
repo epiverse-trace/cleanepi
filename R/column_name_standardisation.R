@@ -41,7 +41,8 @@ standardize_column_names <- function(data, keep = NULL, rename = NULL) {
   before <- colnames(data)
 
   # when rename is not NULL, get the new column names
-  rename <- get_new_names(original_names = before, target_columns = rename)
+  rename <- get_new_column_names_indices(original_names = before,
+                                         target_columns = rename)
 
   # when keep is 'linelist_tags', keep the tagged variables
   # also account for when target columns are provided as a vector or column
@@ -77,7 +78,7 @@ standardize_column_names <- function(data, keep = NULL, rename = NULL) {
 #' @return A named vector of the indices of the columns to be renamed
 #' @keywords internal
 #'
-get_new_names <- function(original_names, target_columns) {
+get_new_column_names_indices <- function(original_names, target_columns) {
   if (is.null(target_columns)) {
     return(NULL)
   }
