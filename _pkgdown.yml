@@ -24,16 +24,16 @@ reference:
   desc: Scan through the input data to determine its composition
 - contents:
   - scan_data
+  - starts_with("scan_", internal = TRUE)
 
 - subtitle: Print data cleaning report
 - contents:
   - print_report
-  - starts_with("scan_", internal = TRUE)
 
 - subtitle: Standardise column names
   desc: Harmonise on the usage of English characters in column names
 - contents:
-  - has_keyword("_column_names")
+  - matches("_column_names")
 
 - subtitle: Retrieve Date from numeric values
 - contents:
@@ -41,7 +41,7 @@ reference:
 
 - subtitle: Convert numbers written in letters into numeric
 - contents:
-  - has_keyword("to_numeric")
+  - matches("to_numeric")
 
 - subtitle: Standardise dates
   desc: Coerce date values to the ISO format `Ymd` (2024-31-01)
@@ -52,11 +52,13 @@ reference:
 
 - subtitle: Dictionary-based substitution
   desc: Substitute given options from columns in a data frame with their
-  corresponding values
+    corresponding values
 - contents:
   - starts_with("dictionary_", internal = TRUE)
   - ends_with("_dictionary", internal = TRUE)
-  - has_keyword("_misspelled_")
+  - construct_misspelled_report
+  - detect_misspelled_options
+  - print_misspelled_values
 
 - subtitle: Find and remove duplicates
 - contents:
@@ -77,12 +79,9 @@ reference:
 
 - subtitle: Detect incorrect subject ids and correct them if required
 - contents:
-  - has_keyword("subject_ids")
-
+  - matches("subject_ids")
 
 - subtitle: Check sequence of date events
 - contents:
-  - has_keyword("to_numeric")
-
-
-
+  - check_date_sequence
+  - is_date_sequence_ordered
