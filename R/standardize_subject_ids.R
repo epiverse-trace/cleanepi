@@ -41,8 +41,15 @@ check_subject_ids <- function(data,
   checkmate::assert_numeric(nchar, null.ok = TRUE, any.missing = FALSE,
                             len = 1L)
 
+  # coerce id column to character
+  if (is.numeric(data[[target_columns]]) | is.factor(data[[target_columns]])) {
+    data[[target_columns]] <- as.character(data[[target_columns]])
+  }
+
+  # check for missing and duplicated ids
   data     <- check_subject_ids_oness(data, target_columns)
   bad_rows <- NULL
+
   # check prefix of subject IDs
   if (!is.null(prefix)) {
     prefix_check    <- startsWith(data[[target_columns]], prefix)
