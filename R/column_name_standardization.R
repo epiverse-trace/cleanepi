@@ -97,3 +97,43 @@ get_new_column_names_indices <- function(original_names, target_columns) {
   names(idx) <- new
   return(idx)
 }
+
+#' Get column names
+#'
+#' When several performing data cleaning operations using the `clean_data()`
+#' function, the input column names might be altered by after the column names
+#' cleaning. As a consequence of this, some cleaning operations will fail due to
+#' the column names mismatch. This function is provided to anticipate on this
+#' scenario, hence providing continuity between the cleaning operations.
+#'
+#' @param data the input data. It can also be a modified data generated in
+#'    intermediate cleaning operations.
+#' @param target_columns a vector of target column names
+#'
+#' @return a vector of column names to be used for the target cleaning
+#'    operations
+#' @keywords internal
+#'
+retrieve_column_names <- function(data, target_columns) {
+  if (length(target_columns) == 1L && target_columns == "linelist_tags") {
+    return(target_columns)
+  }
+  report    <- attr(data, "report")
+  new_names <- target_columns
+  idx       <- which(target_columns %in% names(data))
+  if (length(idx) < length(target_columns)) {
+    new_names          <- target_columns[idx]
+    target_columns     <- target_columns[-idx]
+    if ("colnames" %in% names(report) &&
+        all(target_columns %in% report[["colnames"]][["before"]])) {
+      all_column_names <- report[["colnames"]]
+      idx              <- match(target_columns, all_column_names[["before"]])
+      new_names        <- c(new_names, all_column_names[["after"]][idx])
+    } else {
+      stop("Could not find the following column names: ",
+           glue::glue_collapse(target_columns, sep = ", "))
+    }
+  }
+
+  return(new_names)
+}

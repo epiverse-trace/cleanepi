@@ -35,13 +35,17 @@ check_date_sequence <- function(data, target_columns,
   checkmate::assert_logical(remove, any.missing = FALSE, len = 1L,
                             null.ok = FALSE)
 
-  # check if input is character string
+  # if target_column is a character string, then convert it to vector
   if (all(grepl(",", target_columns, fixed = TRUE))) {
     target_columns <- as.character(unlist(strsplit(target_columns, ",",
                                                    fixed = TRUE)))
     target_columns <- trimws(target_columns)
   }
+  # get the correct names in case some have been modified - see the
+  # `retrieve_column_names()` function for more details
+  target_columns <- retrieve_column_names(data, target_columns)
   target_columns <- get_target_column_names(data, target_columns, cols = NULL)
+
 
   # check if all columns are part of the data frame
   if (!all(target_columns %in% names(data))) {

@@ -27,7 +27,9 @@
 replace_missing_values <- function(data,
                                    target_columns = NULL,
                                    na_strings = cleanepi::common_na_strings) {
-  # get the target columns
+  # get the correct names in case some have been modified - see the
+  # `retrieve_column_names()` function for more details
+  target_columns <- retrieve_column_names(data, target_columns)
   cols    <- get_target_column_names(data, target_columns, cols = NULL)
 
   # replace missing values with NA

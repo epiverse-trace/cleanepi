@@ -71,6 +71,11 @@ span <- function(data,
                            choices = c("months", "weeks", "days"),
                            null.ok = TRUE)
 
+  # get the correct names in case some have been modified - see the
+  # `retrieve_column_names()` function for more details
+  target_column <- retrieve_column_names(data, target_column)
+  target_column <- get_target_column_names(data, target_column, cols = NULL)
+
   # end_date can be a column of the input data or
   # a vector of Date values with the same length as number of row in data or
   # a Date value

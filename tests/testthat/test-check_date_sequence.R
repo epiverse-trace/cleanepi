@@ -12,7 +12,7 @@ test_that("is_date_sequence_ordered works as expected", {
 
 test_that("check_date_sequence sends a warning when incorrect column nams are
           found", {
-            expect_warning(
+            expect_error(
               check_date_sequence(
                 data           = readRDS(system.file("extdata", "test_df.RDS",
                                                      package = "cleanepi")),
@@ -20,7 +20,8 @@ test_that("check_date_sequence sends a warning when incorrect column nams are
                                    "date.of.admission", "fake_name"),
                 remove         = FALSE
               ),
-              regexp = cat("Removing unrecognised column name: fake_name")
+              regexp = cat("Could not find the following column names:
+                           fake_name")
             )
 
             expect_warning(

@@ -36,9 +36,10 @@ remove_duplicates <- function(data,
   report <- attr(data, "report")
   dat    <- data
 
-  # get the target column names
-  target_columns <- get_target_column_names(dat, target_columns,
-                                            cols = NULL)
+  # get the correct names in case some have been modified - see the
+  # `retrieve_column_names()` function for more details
+  target_columns <- retrieve_column_names(data, target_columns)
+  target_columns <- get_target_column_names(dat, target_columns, cols = NULL)
 
   # find duplicates
   dups       <- find_duplicates(dat, target_columns)
