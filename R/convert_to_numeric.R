@@ -10,6 +10,7 @@
 #' @param target_columns A vector of the target column names. When the input
 #'    data is a `linelist` object, this parameter can be set to `linelist_tags`
 #'    if the tagged columns are those to be converted into numeric.
+#' @param lang The text's language. Currently one of `"en" | "fr" | "es"`.
 #'
 #' @return A data frame after the conversion process, wherein all the specified
 #'    or detected columns have been transformed into numeric format.
@@ -19,13 +20,16 @@
 #' dat <- convert_to_numeric(
 #'   data           = readRDS(system.file("extdata", "messy_data.RDS",
 #'                                        package = "cleanepi")),
-#'   target_columns = "age"
+#'   target_columns = "age",
+#'   lang           = "en"
 #' )
-convert_to_numeric <- function(data, target_columns = NULL) {
+convert_to_numeric <- function(data, target_columns = NULL,
+                               lang = c("en", "fr", "es")) {
   checkmate::assert_data_frame(data, min.rows = 1L, min.cols = 1L,
                                null.ok = FALSE)
   checkmate::assert_vector(target_columns, any.missing = FALSE, min.len = 0L,
                            null.ok = TRUE)
+  lang <- match.arg(lang)
   if (is.null(target_columns)) {
     scan_res       <- scan_data(data = data)
     target_columns <- detect_to_numeric_columns(scan_res)
@@ -34,7 +38,8 @@ convert_to_numeric <- function(data, target_columns = NULL) {
 
   stopifnot("Please specify the target columns." = length(target_columns) > 0L)
   for (col in target_columns) {
-    data[[col]]    <- to_numeric_convert(data[[col]])
+    # data[[col]]    <- to_numeric_convert(data[[col]])
+    data[[col]]    <- numberize::numberize(text = data[[col]], lang = lang)
   }
   data             <- add_to_report(x     = data,
                                     key   = "converted_into_numeric",

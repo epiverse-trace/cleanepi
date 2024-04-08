@@ -86,7 +86,7 @@
 #'                                package = "cleanepi")),
 #'   params = list(
 #'     standardize_column_names = standardize_col_names,
-#'     remove_constant          = remove_cte,
+#'     remove_constants         = remove_cte,
 #'     replace_missing_values   = replace_missing_values,
 #'     remove_duplicates        = remove_duplicates,
 #'     standardize_date         = standardize_date,
@@ -105,7 +105,9 @@ clean_data <- function(
         na_strings     = cleanepi::common_na_strings
       ),
       remove_duplicates = list(
-        target_columns   = NULL,
+        target_columns   = NULL
+      ),
+      remove_constants = list(
         rm_empty_rows    = TRUE,
         rm_empty_cols    = TRUE,
         rm_constant_cols = TRUE
@@ -165,11 +167,11 @@ clean_data <- function(
   ## -----
   ## | we can choose to remove the constant columns, the empty rows and columns
   ## -----
-  if (!is.null(params[["remove_constant"]])) {
+  if (!is.null(params[["remove_constants"]])) {
     R.utils::cat("\nremoving the constant columns, empty rows and columns")
-    data <- remove_constant(
+    data <- remove_constants(
       data   = data,
-      cutoff = params[["remove_constant"]][["cutoff"]]
+      cutoff = params[["remove_constants"]][["cutoff"]]
     )
   }
 

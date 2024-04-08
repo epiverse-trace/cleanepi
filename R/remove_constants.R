@@ -16,7 +16,7 @@
 #' data$empty_column <- NA
 #'
 #' # remove the constant columns, empty rows and columns
-#' dat <- remove_constant(
+#' dat <- remove_constants(
 #'   data   = data,
 #'   cutoff = 1
 #' )
@@ -24,7 +24,7 @@
 #' # check the report to see what has happened
 #' report <- attr(dat, "report")
 #' summary(report)
-remove_constant <- function(data, cutoff = 1L) {
+remove_constants <- function(data, cutoff = 1L) {
   checkmate::assert_number(cutoff, lower = 0.0, upper = 1.0, na.ok = FALSE,
                            finite = TRUE, null.ok = FALSE)
   report     <- attr(data, "report")

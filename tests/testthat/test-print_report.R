@@ -6,7 +6,7 @@ test_dictionary <- readRDS(system.file("extdata", "test_dictionary.RDS",
 cleaned_data      <- test_data |>
   standardize_column_names(keep = NULL, rename = NULL) |>
   replace_missing_values(target_columns = NULL, na_strings = "-99") |>
-  remove_constant(cutoff = 1.0) |>
+  remove_constants(cutoff = 1.0) |>
   remove_duplicates(target_columns = NULL) |>
   standardize_dates(target_columns  = NULL,
                     error_tolerance = 0.4,

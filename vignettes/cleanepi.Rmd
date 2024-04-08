@@ -86,7 +86,7 @@ In the following chunk, we define a list of cleaning operations that we want to 
 rm_na <- list(target_columns = NULL, na_strings = "-99")
 
 # PARAMETERS FOR COLUMN NAMES STANDARDIZATION
-standardise_col_names <- list(keep = NULL, rename = NULL)
+standardize_col_names <- list(keep = NULL, rename = NULL)
 
 # PARAMETERS FOR DUBLICATES DETECTION AND REMOVAL
 rm_dup <- list(target_columns   = NULL)
@@ -117,8 +117,8 @@ test_dictionary <- readRDS(system.file("extdata", "test_dictionary.RDS",
 
 # DEFINE THE LIST OF PARAMETERS
 params <- list(
-  standardize_column_names = standardise_col_names,
-  remove_constant          = remove_cte,
+  standardize_column_names = standardize_col_names,
+  remove_constants         = remove_cte,
   replace_missing_values   = rm_na,
   remove_duplicates        = rm_dup,
   standardize_date         = stdn_date,
@@ -170,7 +170,7 @@ This setup offers users both convenience and flexibility, as they can perform al
 ## Remove constant data
 
 Some datasets contain constant columns (columns with the same values across all rows), and/or empty rows and columns (rows or columns where all values are missing i.e `NA`).
-The `remove_constant()` function can be used to remove such “noise”. The function takes the following argument:
+The `remove_constants()` function can be used to remove such “noise”. The function takes the following argument:
 
 1. **data**: the input data frame or linelist,
 2. **cutoff**: a numeric, between `0` and `1`, to be used when removing empty rows and columns. When provided, only rows and columns where the percent of missing data is greater than this cut-off will removed. Rows and columns with 100% missing values will be remove by default.
@@ -183,8 +183,8 @@ data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi"))
 data$empty_column <- NA
 
 # remove the constant columns, empty rows and columns
-dat <- remove_constant(data   = data,
-                       cutoff = 1)
+dat <- remove_constants(data   = data,
+                        cutoff = 1)
 ```
 
 ```{r echo=FALSE, eval=TRUE}
@@ -197,7 +197,7 @@ dat |>
                          fixed_thead = TRUE)
 ```
 
-The `remove_constant()` function returns a dataset where all constant columns, empty rows and columns are removed.
+The `remove_constants()` function returns a dataset where all constant columns, empty rows and columns are removed.
 
 
 ## Cleaning column names
@@ -321,7 +321,7 @@ orders$ymdhms <- c("Ymdhms", "Ymdhm")
 This function provides users with the flexibility to standardize date columns in their dataset according to specified requirements, including format, timeframe, and error tolerance for conversion from character to date columns.
 
 ```{r eval=TRUE, comment="date_standardisation"}
-# STANDARDISE VALUES IN THE 'date_first_pcr_positive_test' COLUMN
+# STANDARDIZE VALUES IN THE 'date_first_pcr_positive_test' COLUMN
 test_data <- readRDS(system.file("extdata", "test_df.RDS",
                                  package = "cleanepi"))
 
@@ -696,7 +696,7 @@ The `span()` function computes the time span between two elements of type Date. 
 With these arguments, the function offers flexibility in determining the time span in different units. It facilitates various analytics tasks where the time span computation is a necessary component, providing users with the ability to customize the output according to their specific requirements.
 
 ```{r eval=TRUE}
-# IMPORT DATA, REPLACE MISSING VALUES WITH 'NA' & STANDARDISE DATES
+# IMPORT DATA, REPLACE MISSING VALUES WITH 'NA' & STANDARDIZE DATES
 data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi")) |>
   replace_missing_values(target_columns = "dateOfBirth",
                          na_strings     = "-99") |>

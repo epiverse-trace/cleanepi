@@ -4,7 +4,7 @@
 \alias{convert_to_numeric}
 \title{Convert columns into numeric}
 \usage{
-convert_to_numeric(data, target_columns = NULL)
+convert_to_numeric(data, target_columns = NULL, lang = c("en", "fr", "es"))
 }
 \arguments{
 \item{data}{The input data frame or linelist}
@@ -12,6 +12,8 @@ convert_to_numeric(data, target_columns = NULL)
 \item{target_columns}{A vector of the target column names. When the input
 data is a \code{linelist} object, this parameter can be set to \code{linelist_tags}
 if the tagged columns are those to be converted into numeric.}
+
+\item{lang}{The text's language. Currently one of \code{"en" | "fr" | "es"}.}
 }
 \value{
 A data frame after the conversion process, wherein all the specified
@@ -28,6 +30,7 @@ values and performs the conversion in them.
 dat <- convert_to_numeric(
   data           = readRDS(system.file("extdata", "messy_data.RDS",
                                        package = "cleanepi")),
-  target_columns = "age"
+  target_columns = "age",
+  lang           = "en"
 )
 }
