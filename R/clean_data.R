@@ -130,7 +130,9 @@ clean_data <- function(
         nchar          = NULL
       ),
       dictionary = NULL,
-      to_numeric = NULL
+      to_numeric = NULL,
+      check_date_sequence = NULL,
+      span = NULL
     )) {
   checkmate::assert_data_frame(data, null.ok = FALSE, min.cols = 1L)
   checkmate::assert_list(params, min.len = 1L, null.ok = FALSE)
@@ -181,9 +183,6 @@ clean_data <- function(
   ## | minimize potential issues during data analysis. When no column is
   ## | provided, duplicates are identified across all column. Otherwise, the
   ## | duplicates will only be considered from the specified columns.
-  ## |
-  ## | Empty rows and columns will also be removed. So will the constant columns
-  ## | be.
   ## -----
   if (!is.null(params[["remove_duplicates"]])) {
     R.utils::cat("\nremoving duplicated rows")
@@ -258,6 +257,20 @@ clean_data <- function(
   if (!is.null(params[["dictionary"]])) {
     R.utils::cat("\nperforming dictionary-based cleaning")
     data <- clean_using_dictionary(data, params[["dictionary"]])
+  }
+
+  ## -----
+  ## The sequence of date events provided in the target column will be checked
+  ## for conformity. When rows with incorrect date sequences are found, they
+  ## will be flagged out.
+  ## -----
+  if (!is.null(params[["check_date_sequence"]])) {
+    R.utils::cat("\nchecking whether date the sequences are respected")
+    data <- check_date_sequence(
+      data           = data,
+      target_columns = params[["check_date_sequence"]][["target_columns"]],
+      remove         = params[["check_date_sequence"]][["remove"]]
+    )
   }
 
   # return the final object

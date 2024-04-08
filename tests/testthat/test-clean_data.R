@@ -72,11 +72,32 @@ test_that("cleaned_data works in a pipable way", {
   expect_false("-99" %in% as.vector(as.matrix(cleaned_data)))
 })
 
+test_that("cleaned_data works in a pipable way even when old column names are
+          used", {
+            cleaned_data <- test_data |>
+              standardize_column_names(keep = NULL,
+                                       rename = "dateOfBirth = DOB") |>
+              standardize_dates(target_columns = c("dateOfBirth",
+                                                   "date_of_admission"))
+            expect_s3_class(cleaned_data, "data.frame")
+            expect_identical(nrow(cleaned_data), 10L)
+            expect_identical(class(cleaned_data[["DOB"]]), "Date")
+            expect_identical(class(cleaned_data[["date_of_admission"]]), "Date")
+})
+
 test_that("clean_data fails as expected", {
   params[["standardize_subject_ids"]][["target_columns"]] <- NULL
   expect_error(
     clean_data(data = test_data, params = params),
     regexp = cat("'target_columns' must be provided.")
+  )
+
+  expect_error(
+    test_data |>
+      standardize_column_names(keep = NULL,
+                               rename = "dateOfBirth = DOB") |>
+      standardize_dates(target_columns = c("dateOfBirth", "fake_column_name",
+                                           "date_of_admission"))
   )
 })
 

@@ -119,6 +119,9 @@ standardize_dates <- function(data,
       target_columns <- unlist(strsplit(target_columns, ",", fixed = TRUE))
       target_columns <- trimws(target_columns)
     }
+    # get the correct names in case some have been modified - see the
+    # `retrieve_column_names()` function for more details
+    target_columns <- retrieve_column_names(data, target_columns)
     target_columns <- get_target_column_names(data, target_columns, cols = NULL)
 
     if (!is.null(format)) {

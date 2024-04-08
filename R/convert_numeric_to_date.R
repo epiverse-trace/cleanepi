@@ -31,12 +31,16 @@ convert_numeric_to_date <- function(data, target_columns, ref_date,
                            null.ok = FALSE, any.missing = FALSE)
   checkmate::assert_data_frame(data, null.ok = FALSE, min.cols = 1L)
 
-  # check if input is character string
+  # if target column is character string, convert it to vector
   if (all(grepl(",", target_columns, fixed = TRUE))) {
     target_columns <- as.character(unlist(strsplit(target_columns, ",",
                                                    fixed = TRUE)))
     target_columns <- trimws(target_columns)
   }
+
+  # get the correct names in case some have been modified - see the
+  # `retrieve_column_names()` function for more details
+  target_columns <- retrieve_column_names(data, target_columns)
   target_columns <- get_target_column_names(data, target_columns, cols = NULL)
 
   if (is.character(ref_date)) {

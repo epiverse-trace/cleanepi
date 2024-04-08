@@ -16,7 +16,7 @@ clean_data(
      "YOmd")),
     modern_excel = TRUE), standardize_subject_ids = list(target_columns = "id", prefix =
     NULL, suffix = NULL, range = NULL, nchar = NULL), dictionary = NULL, to_numeric =
-    NULL)
+    NULL, check_date_sequence = NULL, span = NULL)
 )
 }
 \arguments{

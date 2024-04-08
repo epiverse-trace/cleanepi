@@ -41,6 +41,10 @@ check_subject_ids <- function(data,
   checkmate::assert_numeric(nchar, null.ok = TRUE, any.missing = FALSE,
                             len = 1L)
 
+  # get the correct names in case some have been modified - see the
+  # `retrieve_column_names()` function for more details
+  target_columns <- retrieve_column_names(data, target_columns)
+
   # coerce id column to character
   if (is.numeric(data[[target_columns]]) | is.factor(data[[target_columns]])) {
     data[[target_columns]] <- as.character(data[[target_columns]])
