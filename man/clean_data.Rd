@@ -8,12 +8,12 @@ clean_data(
   data,
   params = list(standardize_column_names = list(keep = NULL, rename = NULL),
     replace_missing_values = list(target_columns = NULL, na_strings =
-    cleanepi::common_na_strings), remove_duplicates = list(target_columns = NULL,
-    rm_empty_rows = TRUE, rm_empty_cols = TRUE, rm_constant_cols = TRUE),
-    standardize_dates = list(target_columns = NULL, error_tolerance = 0.4, format = NULL,
-    timeframe = NULL, orders = list(world_named_months = c("Ybd", "dby"),
-    world_digit_months = c("dmy", "Ymd"), US_formats = c("Omdy", "YOmd")), 
-    
+    cleanepi::common_na_strings), remove_duplicates = list(target_columns = NULL),
+    remove_constants = list(rm_empty_rows = TRUE, rm_empty_cols = TRUE, rm_constant_cols
+    = TRUE), standardize_dates = list(target_columns = NULL, error_tolerance = 0.4,
+    format = NULL, timeframe = NULL, orders = list(world_named_months = c("Ybd", "dby"),
+    world_digit_months = c("dmy", "Ymd"), US_formats = c("Omdy", 
+     "YOmd")),
     modern_excel = TRUE), standardize_subject_ids = list(target_columns = "id", prefix =
     NULL, suffix = NULL, range = NULL, nchar = NULL), dictionary = NULL, to_numeric =
     NULL)
@@ -107,7 +107,7 @@ cleaned_data <- clean_data(
                                package = "cleanepi")),
   params = list(
     standardize_column_names = standardize_col_names,
-    remove_constant          = remove_cte,
+    remove_constants         = remove_cte,
     replace_missing_values   = replace_missing_values,
     remove_duplicates        = remove_duplicates,
     standardize_date         = standardize_date,

@@ -6,8 +6,8 @@ data[["empty_column"]] <- NA
 # introduce an empty row
 data[7L, ] <- NA
 
-test_that("remove_constant works", {
-  dat <- remove_constant(
+test_that("remove_constants works", {
+  dat <- remove_constants(
     data   = data,
     cutoff = 1
   )

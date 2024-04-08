@@ -123,14 +123,13 @@ standardize_subject_ids <- list(target_columns = "study_id",
                                 suffix         = "P2",
                                 range          = c(1, 100),
                                 nchar          = 7)
-standardize_col_names   <- list(keep = NULL, rename = NULL)
 remove_cte              <- list(cutoff = 1)
 standardize_col_names   <- list(keep   = "date.of.admission",
                                 rename = "dateOfBirth = DOB")
 
 params <- list(
   standardize_column_names = standardize_col_names,
-  remove_constant          = remove_cte,
+  remove_constants         = remove_cte,
   replace_missing_values   = use_na, 
   remove_duplicates        = remove_duplicates,
   standardize_date         = standardize_date,
