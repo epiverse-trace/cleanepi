@@ -26,13 +26,13 @@
 #'   target_columns = "linelist_tags",
 #'   remove         = NULL
 #' )
+#' @importFrom rlang .data
 #'
 remove_duplicates <- function(data,
                               target_columns = NULL,
                               remove         = NULL) {
 
   # setting up the variables below to NULL to avoid linters
-  row_id <- NULL # nolint: object_usage_linter
   report <- attr(data, "report")
   dat    <- data
 
@@ -105,6 +105,7 @@ remove_duplicates <- function(data,
 #'                                        package = "cleanepi")),
 #'   target_columns = c("dt_onset", "dt_report", "sex", "outcome")
 #' )
+#' @importFrom rlang .data
 #'
 find_duplicates <- function(data, target_columns = NULL) {
   # get the target column names
@@ -114,24 +115,23 @@ find_duplicates <- function(data, target_columns = NULL) {
   target_columns   <- get_target_column_names(data, target_columns, cols = NULL)
 
   # find duplicates
-  num_dups <- row_id <- group_id <- NULL
   dups <- data %>%
     dplyr::group_by_at(dplyr::vars(target_columns)) %>%
     dplyr::mutate(num_dups = dplyr::n()) %>%
     dplyr::ungroup() %>%
     dplyr::mutate(row_id = seq_len(nrow(data))) %>%
     dplyr::arrange(dplyr::pick(target_columns)) %>%
-    dplyr::filter(num_dups > 1L) %>%
-    dplyr::select(-c(num_dups)) %>%
+    dplyr::filter(.data$num_dups > 1L) %>%
+    dplyr::select(-"num_dups") %>%
     dplyr::group_by_at(dplyr::vars(target_columns)) %>%
     dplyr::mutate(group_id = dplyr::cur_group_id()) %>%
-    dplyr::select(row_id, group_id, dplyr::everything())
+    dplyr::select("row_id", "group_id", dplyr::everything())
 
   if (nrow(dups) > 0L) {
     message("Found ", nrow(dups), " duplicated rows. Please consult the report",
             " for more details.")
     to_be_shown <- dups %>%
-      dplyr::select(c(row_id, group_id, {{ target_columns }}))
+      dplyr::select(c("row_id", "group_id", {{ target_columns }}))
     data <- add_to_report(x     = data,
                           key   = "duplicated_rows",
                           value = to_be_shown)
