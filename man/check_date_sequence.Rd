@@ -15,7 +15,9 @@ target_columns = c("date_symptoms_onset", "date_hospitalization",
 "date_death").
 When the input data is a \code{linelist} object, this parameter can be set to
 \code{linelist_tags} if you wish to the date sequence across tagged columns
-only.}
+only.
+The values in this column should be in the ISO format (2024-12-31).
+Otherwise, use the \code{standardize_dates()} function to standardize them.}
 }
 \value{
 The input dataset. When found, the incorrect date sequences will be
@@ -27,9 +29,20 @@ Checks whether a date sequence in
 a vector of  specified columns is in order or not.
 }
 \examples{
+# import the data
+data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi"))
+
+# standardize the date values
+data <- data |>
+  standardize_dates(
+    target_columns  = c("date_first_pcr_positive_test", "date.of.admission"),
+    error_tolerance = 0.4,
+    format          = NULL,
+    timeframe       = NULL
+  )
+
 good_date_sequence <- check_date_sequence(
-  data           = readRDS(system.file("extdata", "test_df.RDS",
-                                       package = "cleanepi")),
+  data           = data,
   target_columns = c("date_first_pcr_positive_test", "date.of.admission")
 )
 }
