@@ -426,7 +426,6 @@ The `check_date_sequence()` function verifies the order of sequences in date eve
 
 1. **data**: A data frame or linelist (required).
 2. **target_columns**: A vector containing the names of the date columns of interest. These columns should be listed in the expected order of occurrence, reflecting the chronological sequence of events. For example, `target_columns = c("date_of_infection", "date_of_admission", "date_of_death")`.
-3. **remove**: A Boolean variable with a default value of `FALSE`. If set to `TRUE`, rows with incorrect date sequences will be removed from the output object. Otherwise, they will be flagged as erroneous and stored in the report object.
 
 By utilizing these arguments, the `check_date_sequence()` function facilitates the validation of date sequences within a dataset, ensuring data integrity and accuracy for further analysis. Additionally, it offers flexibility by allowing users to choose whether to remove rows with incorrect sequences or store them for further examination in the report object.
 
@@ -435,8 +434,7 @@ By utilizing these arguments, the `check_date_sequence()` function facilitates t
 res <- check_date_sequence(
   data           = readRDS(system.file("extdata", "test_df.RDS",
                                        package = "cleanepi")),
-  target_columns = c("date_first_pcr_positive_test", "date.of.admission"),
-  remove         = FALSE
+  target_columns = c("date_first_pcr_positive_test", "date.of.admission")
 )
 
 # EXTRACT THE REPORT
@@ -446,8 +444,8 @@ report <- attr(res, "report")
 summary(report)
 ```
 
-The `check_date_sequence()` function returns the input dataset or a subset of it without the rows that have incorrect date sequences, depending on whether the `remove` parameter is set to `FALSE` or not.
-It also provides a detailed report highlighting any discrepancies found in the date sequences, enabling users to take appropriate actions. Use the `print_report()` function to display the report made from this operation.
+The `check_date_sequence()` function returns the input dataset, augmented with an attributes named as `incorrect_date_sequence` if there are rows with incorrect date sequences.
+This attribute highlights any discrepancies found in the date sequences, enabling users to take appropriate actions. Use the `print_report()` function to display the report made from this operation.
 
 ## Converting character columns into numeric
 
