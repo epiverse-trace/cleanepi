@@ -10,30 +10,23 @@
 #'    "date_hospitalization", "date_death"). When the input data is a `linelist`
 #'    object, this parameter can be set to `linelist_tags` if you wish to
 #'    the date sequence across tagged columns only.
-#' @param remove A Boolean to specify if rows with incorrect order
-#'    should be filtered out or not. The default is FALSE
 #'
-#' @returns Rows of the input data frame with incorrect date sequence
-#'    if `remove = FALSE`, the input data frame without those
-#'    rows if not.
+#' @returns The input dataset. When found, the incorrect date sequences will be
+#'    stored in the report where they can be accessed using
+#'    `attr(data, "report")`.
 #' @export
 #'
 #' @examples
 #' good_date_sequence <- check_date_sequence(
 #'   data           = readRDS(system.file("extdata", "test_df.RDS",
 #'                                        package = "cleanepi")),
-#'   target_columns = c("date_first_pcr_positive_test", "date.of.admission"),
-#'   remove         = FALSE
+#'   target_columns = c("date_first_pcr_positive_test", "date.of.admission")
 #' )
-check_date_sequence <- function(data, target_columns,
-                                remove = FALSE) {
-
+check_date_sequence <- function(data, target_columns) {
   checkmate::assert_vector(target_columns, any.missing = FALSE, min.len = 1L,
                            max.len = dim(data)[2], null.ok = FALSE,
                            unique = TRUE)
   checkmate::assert_data_frame(data, null.ok = FALSE)
-  checkmate::assert_logical(remove, any.missing = FALSE, len = 1L,
-                            null.ok = FALSE)
 
   # if target_column is a character string, then convert it to vector
   if (all(grepl(",", target_columns, fixed = TRUE))) {
@@ -80,11 +73,6 @@ check_date_sequence <- function(data, target_columns,
             " incorrect date sequences at line(s): ",
             glue::glue_collapse(bad_order, sep = ", "),
             call. = FALSE)
-    if (remove) {
-      data  <- data[-bad_order, ]
-      warning("The incorrect date sequences have been removed.",
-              call. = FALSE)
-    }
   }
 
   return(data)

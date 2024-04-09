@@ -268,8 +268,7 @@ clean_data <- function(
     R.utils::cat("\nchecking whether date the sequences are respected")
     data <- check_date_sequence(
       data           = data,
-      target_columns = params[["check_date_sequence"]][["target_columns"]],
-      remove         = params[["check_date_sequence"]][["remove"]]
+      target_columns = params[["check_date_sequence"]][["target_columns"]]
     )
   }
 
