@@ -42,7 +42,6 @@ convert_to_numeric <- function(data, target_columns = NULL,
 
   stopifnot("Please specify the target columns." = length(target_columns) > 0L)
   for (col in target_columns) {
-    # data[[col]]    <- to_numeric_convert(data[[col]])
     data[[col]]    <- numberize::numberize(text = data[[col]], lang = lang)
   }
   data             <- add_to_report(x     = data,

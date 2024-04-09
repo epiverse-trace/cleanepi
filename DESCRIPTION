@@ -43,6 +43,7 @@ Imports:
     numberize,
     R.utils,
     readr,
+    rlang,
     snakecase,
     stringr,
     utils
@@ -52,7 +53,6 @@ Suggests:
     lintr,
     markdown,
     reactable,
-    rlang,
     rmarkdown,
     spelling,
     testthat (>= 3.0.0)

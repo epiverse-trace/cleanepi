@@ -176,10 +176,10 @@ add_to_dictionary <- function(dictionary,
   # the value of the grp argument
   max_order      <- max(dictionary[["orders"]])
   tmp_dictionary <- dictionary %>%
-    dplyr::filter(grp == grp)
+    dplyr::filter(.data$grp == grp)
 
   dictionary     <- dictionary %>%
-    dplyr::filter(grp != grp)
+    dplyr::filter(.data$grp != grp)
 
   # make the new order
   new_order      <- order
@@ -212,13 +212,12 @@ add_to_dictionary <- function(dictionary,
 #' @keywords internal
 #'
 detect_misspelled_options <- function(data, dictionary) {
-  grp <- NULL
   cols_to_modify  <- unique(dictionary[["grp"]])
   outliers        <- list()
   for (col in cols_to_modify) {
     unique_values <- unique(data[[col]])[!is.na(unique(data[[col]]))]
     temp_dict     <- dictionary %>%
-      dplyr::filter(grp == col)
+      dplyr::filter(.data$grp == col)
     opts          <- c(temp_dict[["options"]], unique(temp_dict[["values"]]))
     m             <- match(unique_values, opts)
     which(!(unique(data[[col]]) %in% dictionary[["options"]]))

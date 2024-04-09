@@ -35,5 +35,4 @@ dups <- find_duplicates(
                                        package = "cleanepi")),
   target_columns = c("dt_onset", "dt_report", "sex", "outcome")
 )
-
 }
