@@ -46,7 +46,7 @@ check_subject_ids <- function(data,
   target_columns <- retrieve_column_names(data, target_columns)
 
   # coerce id column to character
-  if (is.numeric(data[[target_columns]]) | is.factor(data[[target_columns]])) {
+  if (is.numeric(data[[target_columns]]) || is.factor(data[[target_columns]])) {
     data[[target_columns]] <- as.character(data[[target_columns]])
   }
 
