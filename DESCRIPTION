@@ -22,7 +22,6 @@ Authors@R: c(
     person("Joshua W.", "Lambert", , "joshua.lambert@lshtm.ac.uk", role = "rev",
            comment = c(ORCID = "0000-0001-5218-3046"))
   )
-Maintainer: Karim Mané <karim.mane@lshtm.ac.uk>
 Description: cleanepi provides functions for cleaning and standardizing tabular data,
     tailored specifically for curating epidemiological data.
 License: MIT + file LICENSE
