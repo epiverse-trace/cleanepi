@@ -103,16 +103,10 @@ to_numeric_convert <- function(x) {
   if (all(is.numeric(x))) {
     return(as.numeric(x))
   }
-  tmp    <- x
-  is_na  <- which(is.na(x))
-  xx     <- suppressWarnings(as.numeric(x))
-  after_conversion_is_na <- NULL
-  if (length(is_na) > 0L) {
-    xx[is_na]              <- "i_set_this"
-    after_conversion_is_na <- which(is.na(xx))
-  }
-  tmp[after_conversion_is_na] <- unlist(lapply(tmp[after_conversion_is_na],
-                                               numberize::numberize,
-                                               lang = "en"))
-  return(as.numeric(tmp))
+  xx                        <- suppressWarnings(as.numeric(x))
+  after_conversion_is_na    <- setdiff(which(is.na(xx)), which(is.na(x)))
+  x[after_conversion_is_na] <- unlist(lapply(x[after_conversion_is_na],
+                                             numberize::numberize,
+                                             lang = "en"))
+  return(as.numeric(x))
 }
