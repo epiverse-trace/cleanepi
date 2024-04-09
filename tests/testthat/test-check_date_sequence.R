@@ -61,24 +61,3 @@ test_that("check_date_sequence works as expected when target_column is provided
   expect_identical(names(report[["incorrect_date_sequence"]]),
                    c("date_first_pcr_positive_test", "date.of.admission"))
 })
-
-test_that("check_date_sequence works as expected when target_column is provided
-          as a comma-separated list of column names", {
-            good_date_sequence <- check_date_sequence(
-              data           = readRDS(system.file("extdata", "test_df.RDS",
-                                                   package = "cleanepi")),
-              target_columns = "date_first_pcr_positive_test, date.of.admission"
-            )
-            report <- attr(good_date_sequence, "report")
-            expect_s3_class(good_date_sequence, "data.frame")
-            expect_identical(nrow(good_date_sequence), 10L)
-            expect_type(report, "list")
-            expect_named(report, "incorrect_date_sequence")
-            expect_s3_class(report[["incorrect_date_sequence"]], "data.frame")
-            expect_identical(nrow(report[["incorrect_date_sequence"]]), 2L)
-            expect_identical(ncol(report[["incorrect_date_sequence"]]), 2L)
-            expect_identical(
-              names(report[["incorrect_date_sequence"]]),
-              c("date_first_pcr_positive_test", "date.of.admission")
-            )
-          })

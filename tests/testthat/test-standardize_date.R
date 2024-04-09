@@ -30,21 +30,6 @@ test_that("standardize_dates works with a data frame", {
   expect_true(inherits(dat[["date_first_pcr_positive_test"]], "Date"))
   expect_true(inherits(dat[["date.of.admission"]], "Date"))
 
-  dat <- standardize_dates(
-    data            = data,
-    target_columns  = "date_first_pcr_positive_test, date.of.admission",
-    format          = NULL,
-    timeframe       = NULL,
-    error_tolerance = 0.4,
-    orders          = list(world_named_months = c("Ybd", "dby"),
-                           world_digit_months = c("dmy", "Ymd"),
-                           US_formats         = c("Omdy", "YOmd")),
-    modern_excel    = TRUE
-  )
-  expect_s3_class(dat, "data.frame")
-  expect_true(inherits(dat[["date_first_pcr_positive_test"]], "Date"))
-  expect_true(inherits(dat[["date.of.admission"]], "Date"))
-
   dat <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi")) |>
     replace_missing_values(target_columns = "dateOfBirth",
                            na_strings = "-99") |>

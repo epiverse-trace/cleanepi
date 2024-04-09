@@ -1,10 +1,9 @@
 #' Convert numeric to date
 #'
 #' @param data The input data frame or linelist
-#' @param target_columns A vector or a comma-separated list of columns names to
-#'    be converted from numeric to date. When the input data is a `linelist`
-#'    object, this parameter can be set to `linelist_tags` if you wish to only
-#'    convert the tagged columns.
+#' @param target_columns A vector of columns names to be converted from numeric
+#'    to date. When the input data is a `linelist` object, this parameter can be
+#'    set to `linelist_tags` if you wish to only convert the tagged columns.
 #' @param ref_date A reference date. This can also be a character string with
 #'    the name of the reference column.
 #' @param forward A Boolean to indicate whether the counts started after the
@@ -30,13 +29,6 @@ convert_numeric_to_date <- function(data, target_columns, ref_date,
   checkmate::assert_vector(target_columns, min.len = 1, max.len = ncol(data),
                            null.ok = FALSE, any.missing = FALSE)
   checkmate::assert_data_frame(data, null.ok = FALSE, min.cols = 1L)
-
-  # if target column is character string, convert it to vector
-  if (all(grepl(",", target_columns, fixed = TRUE))) {
-    target_columns <- as.character(unlist(strsplit(target_columns, ",",
-                                                   fixed = TRUE)))
-    target_columns <- trimws(target_columns)
-  }
 
   # get the correct names in case some have been modified - see the
   # `retrieve_column_names()` function for more details

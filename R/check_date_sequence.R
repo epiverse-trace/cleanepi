@@ -5,11 +5,12 @@
 #'
 #' @param data A data frame
 #' @param target_columns A vector of event column names. Users should specify at
-#'    least 2 column names in the expected order.
-#'    For example: target_columns = c("date_symptoms_onset",
-#'    "date_hospitalization", "date_death"). When the input data is a `linelist`
-#'    object, this parameter can be set to `linelist_tags` if you wish to
-#'    the date sequence across tagged columns only.
+#'    least 2 column names in the expected order. For example:
+#'    target_columns = c("date_symptoms_onset", "date_hospitalization",
+#'    "date_death").
+#'    When the input data is a `linelist` object, this parameter can be set to
+#'    `linelist_tags` if you wish to the date sequence across tagged columns
+#'    only.
 #'
 #' @returns The input dataset. When found, the incorrect date sequences will be
 #'    stored in the report where they can be accessed using
@@ -28,12 +29,6 @@ check_date_sequence <- function(data, target_columns) {
                            unique = TRUE)
   checkmate::assert_data_frame(data, null.ok = FALSE)
 
-  # if target_column is a character string, then convert it to vector
-  if (all(grepl(",", target_columns, fixed = TRUE))) {
-    target_columns <- as.character(unlist(strsplit(target_columns, ",",
-                                                   fixed = TRUE)))
-    target_columns <- trimws(target_columns)
-  }
   # get the correct names in case some have been modified - see the
   # `retrieve_column_names()` function for more details
   target_columns <- retrieve_column_names(data, target_columns)

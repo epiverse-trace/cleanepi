@@ -5,10 +5,10 @@
 #' extract dates from a `character` vector or a `factor`.
 #'
 #' @param data A data frame or linelist
-#' @param target_columns A vector or a comma-separated list of the target date
-#'    column names. When the input data is a `linelist` object, this parameter
-#'    can be set to `linelist_tags` if you wish to standardize the date columns
-#'    across tagged columns only.
+#' @param target_columns A vector of the target date column names. When the
+#'    input data is a `linelist` object, this parameter can be set to
+#'    `linelist_tags` if you wish to standardize the date columns across tagged
+#'    columns only.
 #' @param format A format of the date values in the date columns
 #' @param timeframe A vector of 2 values of type date. If provided, date values
 #'    that do not fall within this timeframe will be set to `NA`.
@@ -115,10 +115,6 @@ standardize_dates <- function(data,
                             any.missing = FALSE)
 
   if (!is.null(target_columns)) {
-    if (is.character(target_columns)) {
-      target_columns <- unlist(strsplit(target_columns, ",", fixed = TRUE))
-      target_columns <- trimws(target_columns)
-    }
     # get the correct names in case some have been modified - see the
     # `retrieve_column_names()` function for more details
     target_columns <- retrieve_column_names(data, target_columns)
