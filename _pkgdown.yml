@@ -33,7 +33,8 @@ reference:
 - subtitle: Standardise column names
   desc: Harmonise on the usage of English characters in column names
 - contents:
-  - matches("_column_names")
+  - ends_with("_column_names")
+  - get_new_column_names_indices
 
 - subtitle: Retrieve Date from numeric values
 - contents:
@@ -41,7 +42,9 @@ reference:
 
 - subtitle: Convert numbers written in letters into numeric
 - contents:
-  - matches("to_numeric")
+  - ends_with("_to_numeric")
+  - starts_with("to_numeric_")
+  - detect_to_numeric_columns
 
 - subtitle: Standardise dates
   desc: Coerce date values to the ISO format `Ymd` (2024-31-01)
@@ -67,7 +70,7 @@ reference:
 - subtitle: Remove constant data
   desc: Remove constant columns, empty rows and columns
 - contents:
-  - remove_constant
+  - remove_constants
 
 - subtitle: Replace missing values with NA
 - contents:
