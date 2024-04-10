@@ -32,10 +32,10 @@ check_subject_ids <- function(data,
   checkmate::assert_data_frame(data, null.ok = FALSE)
   checkmate::assert_character(target_columns, null.ok = FALSE,
                               any.missing = FALSE, len = 1L)
-  checkmate::assert_character(prefix, len = 1L, null.ok = TRUE,
-                              any.missing = FALSE)
-  checkmate::assert_character(suffix, len = 1L, null.ok = TRUE,
-                              any.missing = FALSE)
+  checkmate::assert_vector(prefix, min.len = 1L, null.ok = TRUE,
+                           any.missing = FALSE)
+  checkmate::assert_vector(suffix, min.len = 1L, null.ok = TRUE,
+                           any.missing = FALSE)
   checkmate::assert_vector(range, any.missing = FALSE, min.len = 2L,
                            null.ok = TRUE, unique = TRUE, max.len = 2L)
   checkmate::assert_numeric(nchar, null.ok = TRUE, any.missing = FALSE,
@@ -54,6 +54,10 @@ check_subject_ids <- function(data,
   data       <- check_subject_ids_oness(data, target_columns)
   bad_rows   <- NULL
   regex_test <- ""
+
+  # collapse multiple prefix or suffix
+  prefix <- glue::glue_collapse(prefix, sep = "|")
+  suffix <- glue::glue_collapse(suffix, sep = "|")
 
   # we will use regular expressions to match on prefix and suffix
   if (!is.null(prefix)) {
