@@ -216,3 +216,23 @@ test_that("check_subject_ids fails as expected", {
     regexp = cat("Missing values found on ID column in lines: 7")
   )
 })
+
+# test multiple prefix and suffix
+data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi"))
+test_that("check_subject_ids works when relying on the nchar argument", {
+  dat <- check_subject_ids(data           = data,
+                           target_columns = "study_id",
+                           prefix         = c("PS", "PB"),
+                           suffix         = c("P2", "P2-1"),
+                           range          = c(1L, 100L),
+                           nchar          = 7L)
+  expect_s3_class(dat, "data.frame")
+  expect_true(nrow(data) == nrow(dat))
+  report <- attr(dat, "report")
+  expect_type(report, "list")
+  expect_named(report, "incorrect_subject_id")
+  expect_s3_class(report[["incorrect_subject_id"]], "data.frame")
+  expect_identical(report[["incorrect_subject_id"]][["idx"]], c(5L, 7L, 3L))
+  expect_identical(report[["incorrect_subject_id"]][["ids"]],
+                   c("P0005P2", "PB500P2", "PS004P2-1"))
+})
