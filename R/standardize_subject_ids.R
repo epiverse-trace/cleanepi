@@ -51,46 +51,40 @@ check_subject_ids <- function(data,
   }
 
   # check for missing and duplicated ids
-  data     <- check_subject_ids_oness(data, target_columns)
-  bad_rows <- NULL
+  data       <- check_subject_ids_oness(data, target_columns)
+  bad_rows   <- NULL
+  regex_test <- ""
 
-  # check prefix of subject IDs
+  # we will use regular expressions to match on prefix and suffix
   if (!is.null(prefix)) {
-    prefix_check    <- startsWith(data[[target_columns]], prefix)
-    idx             <- which(!(prefix_check))
-    if (length(idx) > 0L) {
-      bad_rows      <- c(bad_rows, idx)
-    }
+    regex_test <- glue::glue(regex_test, "pre_")
   }
-
-  # check suffix of subject IDs
   if (!is.null(suffix)) {
-    suffix_check <- endsWith(data[[target_columns]], suffix)
-    idx          <- which(!(suffix_check))
-    if (length(idx) > 0L) {
-      bad_rows   <- c(bad_rows, idx)
-    }
+    regex_test <- glue::glue(regex_test, "suf")
+  }
+  regex_match  <- switch(regex_test,
+                         "pre_" = sprintf("^%s", prefix),
+                         "pre_suf" = sprintf("^%s.*%s$", prefix, suffix),
+                         "suf" = sprintf("*%s$", suffix))
+  if (!is.null(regex_match)) {
+    bad_rows <- c(bad_rows, which(!grepl(regex_match, data[[target_columns]])))
   }
 
-  # detect subject IDs that do not match the provided format
-  if (!is.null(nchar)) {
-    length_check <- as.logical(as.character(lapply(data[[target_columns]],
-                                                   check_subject_ids_length,
-                                                   nchar)))
-    idx          <- which(length_check)
-    if (length(idx) > 0L) {
-      bad_rows   <- c(bad_rows, idx)
-    }
-  }
-
-  # check the numbers in the sample IDs
+  # the usage of regular expression to determine whether numbers belong to a
+  # specified range is not trivial. we use an approach where we parse numbers
+  # only.
   if (!is.null(range)) {
     numbers_in <- as.numeric(unlist(lapply(data[[target_columns]],
                                            readr::parse_number)))
-    idx        <- which(!(numbers_in >= min(range) & numbers_in <= max(range)))
-    if (length(idx) > 0L) {
-      bad_rows <- c(bad_rows, idx)
-    }
+    bad_rows   <- c(
+      bad_rows,
+      which(!(numbers_in >= min(range) & numbers_in <= max(range)))
+    )
+  }
+
+  # detect subject IDs where the number of characters is not as expected
+  if (!is.null(nchar)) {
+    bad_rows <- c(bad_rows, which(!nchar(data[[target_columns]]) == nchar))
   }
 
   # remove the incorrect rows
@@ -205,13 +199,4 @@ check_subject_ids_oness <- function(data, id_col_name) {
   }
 
   return(data)
-}
-
-#' Check the length of sample IDs
-#'
-#' @param x the sample ID
-#' @param ref the expected number of characters in the sample ids
-#' @keywords internal
-check_subject_ids_length <- function(x, ref) {
-  return(nchar(x) != ref)
 }
