@@ -1,8 +1,9 @@
 #' Standardize date variables
 #'
-#' When the format of the values in a column is not provided, we strongly
-#' recommend checking a few converted dates manually. This function tries to
-#' extract dates from a `character` vector or a `factor`.
+#' When the format of the values in a column and/or the target columns are not
+#' defined, we strongly recommend checking a few converted dates manually to
+#' make sure that the dates extracted from a `character` vector or a `factor`
+#' are correct.
 #'
 #' @param data A data frame or linelist
 #' @param target_columns A vector of the target date column names. When the
@@ -18,8 +19,7 @@
 #'    issued; defaults to 0.4 (40 percent).
 #' @param orders The date codes for fine-grained parsing of dates. This allows
 #'    for parsing of mixed dates. If a list is supplied, that list will be used
-#'    for successive tries in parsing. This is passed on to
-#'    [lubridate::parse_date_time()]. Default orders are:
+#'    for successive tries in parsing. Default orders are:
 #'
 #' ```
 #' list(

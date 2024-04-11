@@ -35,8 +35,7 @@ issued; defaults to 0.4 (40 percent).}
 
 \item{orders}{The date codes for fine-grained parsing of dates. This allows
 for parsing of mixed dates. If a list is supplied, that list will be used
-for successive tries in parsing. This is passed on to
-\code{\link[lubridate:parse_date_time]{lubridate::parse_date_time()}}. Default orders are:
+for successive tries in parsing. Default orders are:
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{list(
   world_named_months = c("Ybd", "dby"),
@@ -57,9 +56,10 @@ if the data came from an OSX version of Excel before 2011.}
 The input dataset where the date columns have been standardized
 }
 \description{
-When the format of the values in a column is not provided, we strongly
-recommend checking a few converted dates manually. This function tries to
-extract dates from a \code{character} vector or a \code{factor}.
+When the format of the values in a column and/or the target columns are not
+defined, we strongly recommend checking a few converted dates manually to
+make sure that the dates extracted from a \code{character} vector or a \code{factor}
+are correct.
 }
 \details{
 Converting ambiguous character strings to dates is difficult for
