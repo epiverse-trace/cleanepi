@@ -4,38 +4,29 @@
 \alias{clean_data}
 \title{Clean and standardize data}
 \usage{
-clean_data(
-  data,
-  params = list(standardize_column_names = list(keep = NULL, rename = NULL),
-    replace_missing_values = list(target_columns = NULL, na_strings =
-    cleanepi::common_na_strings), remove_duplicates = list(target_columns = NULL),
-    remove_constants = list(rm_empty_rows = TRUE, rm_empty_cols = TRUE, rm_constant_cols
-    = TRUE), standardize_dates = list(target_columns = NULL, error_tolerance = 0.4,
-    format = NULL, timeframe = NULL, orders = list(world_named_months = c("Ybd", "dby"),
-    world_digit_months = c("dmy", "Ymd"), US_formats = c("Omdy", 
-     "YOmd")),
-    modern_excel = TRUE), standardize_subject_ids = list(target_columns = "id", prefix =
-    NULL, suffix = NULL, range = NULL, nchar = NULL), dictionary = NULL, to_numeric =
-    NULL, check_date_sequence = NULL, span = NULL)
-)
+clean_data(data, params = NULL)
 }
 \arguments{
 \item{data}{The input data frame or linelist}
 
 \item{params}{A list of parameters that define what cleaning operations will
-be applied on the input data. Possible values are:
+be applied on the input data. The default parameters are defined in
+\code{cleanepi::default_cleanepi_settings()}. The Possible values are:
 \enumerate{
-\item \code{keep}: A vector of column names to be kept as they appear in the
-original data. All column names will be standardized if this is \code{NULL}
-(the default value).
+\item \code{standardize_column_names}: A list with the arguments needed to
+standardize the column names. The elements of this list will be the
+input for the \code{standardize_column_names()} function.
 \item \code{replace_missing_values}: A list of parameters to be used when
-replacing the missing values by \code{NA}. These parameters are the inputs
-for the \code{replace_missing_values()} function.
-\item \code{remove_duplicates}: A list of arguments that defines the list of
-columns to be considered when looking for duplicates. It also contains
-arguments that determine how constant rows and columns will be handled.
-They are the input values for the \code{remove_duplicates()} function.
-\item \code{standardize_date}: A list of parameters that will be used to
+replacing the missing values by \code{NA}. The elements of the list are the
+inputs for the \code{replace_missing_values()} function.
+\item \code{remove_duplicates}: A list with the arguments that define the
+columns and other parameters to be considered when looking for
+duplicates. They are the input values for the \code{remove_duplicates()}
+function.
+\item \code{remove_constants}: A list with the parameters that define whether to
+remove constant data or not. The values are the input for the
+\code{remove_constants()} function.
+\item \code{standardize_dates}: A list of parameters that will be used to
 standardize the date values from the input data. They represent the
 input values for the \code{standardize_dates()} function.
 \item \code{standardize_subject_ids}: A list of parameters that are needed to
@@ -46,6 +37,13 @@ these columns will be converted into numeric.
 \item \code{dictionary}: A data frame that will be used to substitute the
 current values in the specified columns the those in the dictionary. It
 is the main argument for the \code{clean_using_dictionary()} function.
+\item \code{check_date_sequence}: A list of arguments to be used when
+determining whether the sequence of date events is respected across all
+rows of the input data. The value in this list are the input for the
+\code{check_date_sequence()} function.
+\item \code{span}: A list with the parameters that define how the time span will
+be calculated between 2 columns of between a column and a Date value.
+These arguments will be used in the \code{span()} function.
 }}
 }
 \value{
@@ -55,11 +53,11 @@ This is associated with a data cleaning report that can be accessed using
 }
 \description{
 Cleans up messy data frames by performing several operations.
-These Include cleaning of column names, detecting and removing
-duplicates, empty records and columns, constant columns, replacing missing
-values by NA, converting character columns into dates when they contain a
-certain number of date values, and detecting subject IDs with wrong
-formats.
+These Include among others: cleaning of column names, detecting and
+removing duplicates, empty records and columns, constant columns,
+replacing missing values by NA, converting character columns into dates
+when they contain a certain number of date values, detecting subject
+IDs with wrong formats, etc.
 }
 \examples{
 # Parameters for column names standardization

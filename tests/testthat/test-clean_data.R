@@ -5,6 +5,16 @@ test_data <- readRDS(system.file("extdata", "test_df.RDS",
 test_dictionary <- readRDS(system.file("extdata", "test_dictionary.RDS",
                                        package = "cleanepi"))
 
+test_that("clean_data works as expected with the default parameters", {
+  cleaned_data <- clean_data(
+    data   = test_data,
+    params = NULL
+  )
+  expect_s3_class(cleaned_data, "data.frame")
+  expect_identical(nrow(cleaned_data), 10L)
+  expect_identical(ncol(cleaned_data), 5L)
+})
+
 # DEFINING THE CLEANING PARAMETERS
 use_na                  <- list(target_columns = NULL, na_strings = "-99")
 standardize_col_names   <- list(keep = NULL, rename = NULL)
