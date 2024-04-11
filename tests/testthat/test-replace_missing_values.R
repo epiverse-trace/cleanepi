@@ -26,13 +26,13 @@ test_that("replace_missing_values works when target_columns is set to NULL", {
 })
 
 test_that("replace_missing_values fails as expected", {
-  expect_error(
+  expect_warning(
     replace_missing_values(
       data           = data,
       target_columns = "sex",
       na_strings     = "missing"
     ),
-    regexp = cat("Assertion on',na_strings,'failed: the provided missing value
-                 strings must be part of the columns in the data.")
+    regexp = cat("The provided missing value strings must be part of the columns
+                 in the data.")
   )
 })

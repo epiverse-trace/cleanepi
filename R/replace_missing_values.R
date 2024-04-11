@@ -51,9 +51,11 @@ replace_missing_values <- function(data,
     names(data)[index] <- col
   }
 
-  stopifnot("Could not detect missing value character! Please use the
-  appropriate strings that represents the missing values from your data." =
-              res < length(cols))
+  if (res > 0L) {
+    warning("Could not detect missing value character!",
+            "\nPlease use the appropriate strings that represents the missing",
+            "values from your data.", call. = FALSE)
+  }
 
   # make report
   xx   <- ifelse(length(indexes) == ncol(data),
