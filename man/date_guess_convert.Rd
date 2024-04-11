@@ -19,8 +19,7 @@ that do not fall within this timeframe will be set to \code{NA}.}
 
 \item{orders}{The date codes for fine-grained parsing of dates. This allows
 for parsing of mixed dates. If a list is supplied, that list will be used
-for successive tries in parsing. This is passed on to
-\code{\link[lubridate:parse_date_time]{lubridate::parse_date_time()}}. Default orders are:
+for successive tries in parsing. Default orders are:
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{list(
   world_named_months = c("Ybd", "dby"),
