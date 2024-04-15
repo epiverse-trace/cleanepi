@@ -121,7 +121,7 @@ params <- list(
   remove_constants         = remove_cte,
   replace_missing_values   = rm_na,
   remove_duplicates        = rm_dup,
-  standardize_date         = stdn_date,
+  standardize_dates        = stdn_date,
   standardize_subject_ids  = stdn_ids,
   dictionary               = test_dictionary
 )

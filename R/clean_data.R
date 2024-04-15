@@ -69,17 +69,17 @@
 #'                           rm_constant_cols = TRUE)
 #'
 #' # Parameters for dates standardization
-#' standardize_date <- list(target_columns  = NULL,
-#'                          error_tolerance = 0.4,
-#'                          format          = NULL,
-#'                          timeframe       = as.Date(c("1973-05-29",
-#'                                                      "2023-05-29")),
-#'                          orders          = list(
-#'                            world_named_months = c("Ybd", "dby"),
-#'                            world_digit_months = c("dmy", "Ymd"),
-#'                            US_formats         = c("Omdy", "YOmd")
-#'                          ),
-#'                          modern_excel    = TRUE)
+#' standardize_dates <- list(target_columns  = NULL,
+#'                           error_tolerance = 0.4,
+#'                           format          = NULL,
+#'                           timeframe       = as.Date(c("1973-05-29",
+#'                                                       "2023-05-29")),
+#'                           orders          = list(
+#'                             world_named_months = c("Ybd", "dby"),
+#'                             world_digit_months = c("dmy", "Ymd"),
+#'                             US_formats         = c("Omdy", "YOmd")
+#'                           ),
+#'                           modern_excel    = TRUE)
 #'
 #' # Parameters for subject IDs standardization
 #' standardize_subject_ids <- list(target_columns = "study_id",
@@ -100,7 +100,7 @@
 #'     remove_constants         = remove_cte,
 #'     replace_missing_values   = replace_missing_values,
 #'     remove_duplicates        = remove_duplicates,
-#'     standardize_date         = standardize_date,
+#'     standardize_dates        = standardize_dates,
 #'     standardize_subject_ids  = standardize_subject_ids,
 #'     to_numeric               = "sex",
 #'     dictionary               = NULL
@@ -109,11 +109,17 @@
 #'
 clean_data <- function(data, params = NULL) {
   checkmate::assert_data_frame(data, null.ok = FALSE, min.cols = 1L)
-  checkmate::assert_list(params, min.len = 1L, null.ok = TRUE)
-
   if (is.null(params)) {
     params <- default_cleanepi_settings()
   }
+  checkmate::assert_list(params, min.len = 1L, max.len = 10L, null.ok = TRUE)
+  checkmate::check_names(
+    params,
+    subset.of = c("standardize_column_names", "remove_constants",
+                  "replace_missing_values", "remove_duplicates",
+                  "standardize_dates", "standardize_subject_ids",
+                  "to_numeric", "dictionary", "check_date_sequence", "span")
+  )
 
   ## -----
   ## | we choose to use snake_cases for both variable and column names
@@ -176,16 +182,16 @@ clean_data <- function(data, params = NULL) {
   ## | detect and convert columns with Date values. This conversion will make it
   ## | easy to apply the functions that operate on variables of type Date.
   ## -----
-  if (!is.null(params[["standardize_date"]])) {
+  if (!is.null(params[["standardize_dates"]])) {
     R.utils::cat("\nstandardising date columns")
     data <- standardize_dates(
       data            = data,
-      target_columns  = params[["standardize_date"]][["target_columns"]],
-      format          = params[["standardize_date"]][["format"]],
-      timeframe       = params[["standardize_date"]][["timeframe"]],
-      error_tolerance = params[["standardize_date"]][["error_tolerance"]],
-      orders          = params[["standardize_date"]][["orders"]],
-      modern_excel    = params[["standardize_date"]][["modern_excel"]]
+      target_columns  = params[["standardize_dates"]][["target_columns"]],
+      format          = params[["standardize_dates"]][["format"]],
+      timeframe       = params[["standardize_dates"]][["timeframe"]],
+      error_tolerance = params[["standardize_dates"]][["error_tolerance"]],
+      orders          = params[["standardize_dates"]][["orders"]],
+      modern_excel    = params[["standardize_dates"]][["modern_excel"]]
     )
   }
 

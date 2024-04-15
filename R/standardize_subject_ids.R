@@ -67,9 +67,9 @@ check_subject_ids <- function(data,
     regex_test <- glue::glue(regex_test, "suf")
   }
   regex_match  <- switch(regex_test,
-                         "pre_" = sprintf("^%s", prefix),
-                         "pre_suf" = sprintf("^%s.*%s$", prefix, suffix),
-                         "suf" = sprintf("*%s$", suffix))
+                         pre_    = sprintf("^%s", prefix),
+                         pre_suf = sprintf("^%s.*%s$", prefix, suffix),
+                         suf     = sprintf("*%s$", suffix))
   if (!is.null(regex_match)) {
     bad_rows <- c(bad_rows, which(!grepl(regex_match, data[[target_columns]])))
   }

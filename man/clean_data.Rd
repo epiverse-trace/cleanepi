@@ -77,17 +77,17 @@ remove_duplicates <- list(target_columns   = NULL,
                           rm_constant_cols = TRUE)
 
 # Parameters for dates standardization
-standardize_date <- list(target_columns  = NULL,
-                         error_tolerance = 0.4,
-                         format          = NULL,
-                         timeframe       = as.Date(c("1973-05-29",
-                                                     "2023-05-29")),
-                         orders          = list(
-                           world_named_months = c("Ybd", "dby"),
-                           world_digit_months = c("dmy", "Ymd"),
-                           US_formats         = c("Omdy", "YOmd")
-                         ),
-                         modern_excel    = TRUE)
+standardize_dates <- list(target_columns  = NULL,
+                          error_tolerance = 0.4,
+                          format          = NULL,
+                          timeframe       = as.Date(c("1973-05-29",
+                                                      "2023-05-29")),
+                          orders          = list(
+                            world_named_months = c("Ybd", "dby"),
+                            world_digit_months = c("dmy", "Ymd"),
+                            US_formats         = c("Omdy", "YOmd")
+                          ),
+                          modern_excel    = TRUE)
 
 # Parameters for subject IDs standardization
 standardize_subject_ids <- list(target_columns = "study_id",
@@ -108,7 +108,7 @@ cleaned_data <- clean_data(
     remove_constants         = remove_cte,
     replace_missing_values   = replace_missing_values,
     remove_duplicates        = remove_duplicates,
-    standardize_date         = standardize_date,
+    standardize_dates        = standardize_dates,
     standardize_subject_ids  = standardize_subject_ids,
     to_numeric               = "sex",
     dictionary               = NULL
