@@ -237,7 +237,7 @@ The modules and surrogate functions will depend mainly on the following packages
 
   [{numberize}](https://github.com/epiverse-trace/numberize),
   [{dplyr}](https://CRAN.R-project.org/package=dplyr),
-  [{maggritr}](https://CRAN.R-project.org/package=maggritr),
+  [{magrittr}](https://CRAN.R-project.org/package=magrittr),
   [{linelist}](https://CRAN.R-project.org/package=linelist),
   [{janitor}](https://CRAN.R-project.org/package=janitor),
   [{matchmaker}](https://CRAN.R-project.org/package=matchmaker),

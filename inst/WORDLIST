@@ -21,7 +21,7 @@ lifecycle
 linelist
 lintr
 lubridate
-maggritr
+magrittr
 naniar
 nchar
 numberize
