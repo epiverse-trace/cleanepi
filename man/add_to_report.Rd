@@ -29,8 +29,7 @@ cleaned_data <- clean_data(
   data   = readRDS(system.file("extdata", "test_df.RDS",
                                package = "cleanepi")),
   params = list(
-    keep       = NULL,
-    to_numeric = "sex",
+    to_numeric = list(target_columns = "sex", lang = "en"),
     dictionary = NULL
   )
 )

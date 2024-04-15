@@ -1,15 +1,20 @@
 data <- readRDS(system.file("extdata", "messy_data.RDS", package = "cleanepi"))
 test_that("convert_to_numeric works", {
+  # test if it works fine when the target column names is specified
   dat <- convert_to_numeric(
     data           = data,
-    target_columns = "age"
+    target_columns = "age",
+    lang           = "en"
   )
   expect_s3_class(dat, "data.frame")
   expect_true(inherits(dat[["age"]], "numeric"))
 
+  # test if it works when the target column names are not specified but inferred
+  # from the scan_data() result.
   dat <- convert_to_numeric(
     data           = data,
-    target_columns = NULL
+    target_columns = NULL,
+    lang           = "en"
   )
   expect_s3_class(dat, "data.frame")
   expect_true(inherits(dat[["age"]], "numeric"))
@@ -25,6 +30,20 @@ test_that("convert_to_numeric sends a warning when no column is provided and
               regexp = cat("'gender' column has similar number of numeric and
                            character values.")
             )
+          })
+
+test_that("convert_to_numeric returns NA when the specified language is not
+          appropriate.", {
+            dat <- data[1L:10L, ]
+            idx <- which(is.na(suppressWarnings(as.numeric(dat$age))))
+            dat <- convert_to_numeric(
+              data           = dat,
+              target_columns = "age",
+              lang           = "fr"
+            )
+            expect_s3_class(dat, "data.frame")
+            expect_identical(nrow(dat), 10L)
+            expect_true(all(is.na(dat$age[idx])))
           })
 
 scan_res <- scan_data(data)

@@ -38,16 +38,16 @@ convert_to_numeric <- function(data, target_columns = NULL,
   # get the correct names in case some have been modified - see the
   # `retrieve_column_names()` function for more details
   target_columns <- retrieve_column_names(data, target_columns)
-  target_columns   <- get_target_column_names(data, target_columns, cols = NULL)
+  target_columns <- get_target_column_names(data, target_columns, cols = NULL)
 
   stopifnot("Please specify the target columns." = length(target_columns) > 0L)
   for (col in target_columns) {
-    data[[col]]    <- numberize::numberize(text = data[[col]], lang = lang)
+    data[[col]]  <- numberize::numberize(text = data[[col]], lang = lang)
   }
-  data             <- add_to_report(x     = data,
-                                    key   = "converted_into_numeric",
-                                    value = glue::glue_collapse(target_columns,
-                                                                sep = ", "))
+  data           <- add_to_report(x     = data,
+                                  key   = "converted_into_numeric",
+                                  value = glue::glue_collapse(target_columns,
+                                                              sep = ", "))
   return(data)
 }
 
@@ -77,8 +77,8 @@ detect_to_numeric_columns <- function(scan_res) {
       if (values[["numeric"]] > (2.0 * values[["character"]])) {
         to_numeric <- c(to_numeric, col)
       } else if (values[["numeric"]] < (2L * values[["character"]])) {
-          warning(sprintf("In '%s' column, the number of numeric values is\n
-                          same as the number of character values", col),
+          warning(sprintf("In '%s' column, the number of numeric values", col),
+                          " is same as the number of character values",
                   call. = FALSE)
       }
     } else {

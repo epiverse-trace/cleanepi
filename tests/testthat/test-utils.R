@@ -75,9 +75,7 @@ scan_res <- scan_data(data)
 # Perform data cleaning
 cleaned_data <- data |>
   replace_missing_values(target_columns = "sex", na_strings = "-99") |>
-  clean_data(params = list(keep       = NULL,
-                           to_numeric = "sex",
-                           dictionary = NULL))
+  convert_to_numeric(target_columns = "sex", lang = "en")
 
 test_that("add_to_report works as expected", {
   cleaned_data <- add_to_report(x     = cleaned_data,

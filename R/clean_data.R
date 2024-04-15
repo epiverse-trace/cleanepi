@@ -88,7 +88,8 @@
 #'                                 range          = c(1, 100),
 #'                                 nchar          = 7)
 #'
-#' # to_numeric = "sex" the 'sex' column will be converted into numeric
+#' to_numeric <- list(target_columns = "sex", lang = "en")
+#'
 #'
 #' # dictionary = NULL the dictionary-based cleaning will not be performed here
 #'
@@ -102,7 +103,7 @@
 #'     remove_duplicates        = remove_duplicates,
 #'     standardize_dates        = standardize_dates,
 #'     standardize_subject_ids  = standardize_subject_ids,
-#'     to_numeric               = "sex",
+#'     to_numeric               = to_numeric,
 #'     dictionary               = NULL
 #'   )
 #' )
@@ -127,7 +128,7 @@ clean_data <- function(data, params = NULL) {
   ## | Column names in 'keep' will not be modified.
   ## -----
   if (!is.null(params[["standardize_column_names"]])) {
-    R.utils::cat("\ncleaning column names")
+    R.utils::cat("\ncleaning column names\n")
     data <- standardize_column_names(
       data   = data,
       keep   = params[["standardize_column_names"]][["keep"]],
@@ -142,7 +143,7 @@ clean_data <- function(data, params = NULL) {
   ## | user if known, or inferred internally otherwise.
   ## -----
   if (!is.null(params[["replace_missing_values"]])) {
-    R.utils::cat("\nreplacing missing values with NA")
+    R.utils::cat("replacing missing values with NA\n")
     data <- replace_missing_values(
       data           = data,
       target_columns = params[["replace_missing_values"]][["target_columns"]],
@@ -154,7 +155,7 @@ clean_data <- function(data, params = NULL) {
   ## | we can choose to remove the constant columns, the empty rows and columns
   ## -----
   if (!is.null(params[["remove_constants"]])) {
-    R.utils::cat("\nremoving the constant columns, empty rows and columns")
+    R.utils::cat("removing the constant columns, empty rows and columns\n")
     data <- remove_constants(
       data   = data,
       cutoff = params[["remove_constants"]][["cutoff"]]
@@ -169,7 +170,7 @@ clean_data <- function(data, params = NULL) {
   ## | duplicates will only be considered from the specified columns.
   ## -----
   if (!is.null(params[["remove_duplicates"]])) {
-    R.utils::cat("\nremoving duplicated rows")
+    R.utils::cat("removing duplicated rows\n")
     data <- remove_duplicates(
       data,
       target_columns = params[["remove_duplicates"]][["target_columns"]],
@@ -183,7 +184,7 @@ clean_data <- function(data, params = NULL) {
   ## | easy to apply the functions that operate on variables of type Date.
   ## -----
   if (!is.null(params[["standardize_dates"]])) {
-    R.utils::cat("\nstandardising date columns")
+    R.utils::cat("standardising date columns\n")
     data <- standardize_dates(
       data            = data,
       target_columns  = params[["standardize_dates"]][["target_columns"]],
@@ -203,7 +204,7 @@ clean_data <- function(data, params = NULL) {
   ## | redundant subject ID.
   ## -----
   if (!is.null(params[["standardize_subject_ids"]])) {
-    R.utils::cat("\nchecking subject IDs format")
+    R.utils::cat("checking subject IDs format\n")
     stopifnot(
       "'target_columns' must be provided." =
         !is.null(params[["standardize_subject_ids"]][["target_columns"]])
@@ -225,12 +226,15 @@ clean_data <- function(data, params = NULL) {
   ## -----
   if (!is.null(params[["to_numeric"]])) {
     R.utils::cat(
-      "\nconverting",
+      "converting",
       glue::glue_collapse(params[["to_numeric"]], sep = ", "),
-      "into numeric"
+      "into numeric\n"
     )
-    data <- convert_to_numeric(data           = data,
-                               target_columns = params[["to_numeric"]])
+    data <- convert_to_numeric(
+      data           = data,
+      target_columns = params[["to_numeric"]][["target_columns"]],
+      lang           = params[["to_numeric"]][["lang"]]
+    )
   }
 
   ## -----
@@ -255,7 +259,6 @@ clean_data <- function(data, params = NULL) {
       target_columns = params[["check_date_sequence"]][["target_columns"]]
     )
   }
-  R.utils::cat("\n")
 
   # return the final object
   return(data)
