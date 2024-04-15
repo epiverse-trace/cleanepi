@@ -255,6 +255,7 @@ clean_data <- function(data, params = NULL) {
       target_columns = params[["check_date_sequence"]][["target_columns"]]
     )
   }
+  R.utils::cat("\n")
 
   # return the final object
   return(data)
