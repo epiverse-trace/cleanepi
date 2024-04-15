@@ -11,3 +11,4 @@
 ^doc$
 ^Meta$
 ^CITATION\.cff$
+^data-raw$
