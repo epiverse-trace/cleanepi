@@ -13,7 +13,9 @@ standardize_column_names(data, keep = NULL, rename = NULL)
 with a linelist, this can be set to \code{linelist_tags}, to maintain the
 tagged column names. The Default is \code{NULL}.}
 
-\item{rename}{an expression used to specify how to rename some columns.}
+\item{rename}{A named vector of column names to be renamed. This should be in
+the form of \code{c("new_name1" = "old_name1", "new_name2" = "old_name2")} for
+example.}
 }
 \value{
 A data frame or linelist with easy to work with column names.
@@ -37,7 +39,7 @@ cleaned_data <- standardize_column_names(
   data   = readRDS(system.file("extdata", "test_df.RDS",
                                package = "cleanepi")),
   keep   = "date.of.admission",
-  rename = "dateOfBirth = DOB, sex=gender"
+  rename = c("DOB" = "dateOfBirth", "gender" = "sex")
 )
 
 }

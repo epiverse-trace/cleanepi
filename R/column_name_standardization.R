@@ -8,7 +8,9 @@
 #' @param keep A vector of column names to maintain as they are. When dealing
 #'    with a linelist, this can be set to `linelist_tags`, to maintain the
 #'    tagged column names. The Default is `NULL`.
-#' @param rename an expression used to specify how to rename some columns.
+#' @param rename A named vector of column names to be renamed. This should be in
+#'    the form of `c("new_name1" = "old_name1", "new_name2" = "old_name2")` for
+#'    example.
 #'
 #' @return A data frame or linelist with easy to work with column names.
 #'
@@ -27,7 +29,7 @@
 #'   data   = readRDS(system.file("extdata", "test_df.RDS",
 #'                                package = "cleanepi")),
 #'   keep   = "date.of.admission",
-#'   rename = "dateOfBirth = DOB, sex=gender"
+#'   rename = c("DOB" = "dateOfBirth", "gender" = "sex")
 #' )
 #'
 standardize_column_names <- function(data, keep = NULL, rename = NULL) {
@@ -38,9 +40,20 @@ standardize_column_names <- function(data, keep = NULL, rename = NULL) {
                               any.missing = FALSE)
   before <- colnames(data)
 
-  # when rename is not NULL, get the new column names
-  rename <- get_new_column_names_indices(original_names = before,
-                                         target_columns = rename)
+  # when rename is not NULL, get the indices of the old column names as a vector
+  # and name them with the new names
+  if (!is.null(rename)) {
+    new_names    <- names(rename)
+    curent_names <- unname(rename)
+    stopifnot(
+      "Unrecognised column names specified in 'rename'" =
+        all(curent_names %in% before),
+      "Replace column names already exists" =
+        !any(new_names %in% before)
+    )
+    rename        <- match(curent_names, before)
+    names(rename) <- new_names
+  }
 
   # when keep is 'linelist_tags', keep the tagged variables
   # also account for when target columns are provided as a vector or column
@@ -65,37 +78,6 @@ standardize_column_names <- function(data, keep = NULL, rename = NULL) {
   colnames_info  <- data.frame(before, after)
   data           <- add_to_report(data, "colnames", colnames_info)
   return(data)
-}
-
-#' Get the indices of the columns to be renamed
-#'
-#' @param original_names A vector with the column names of the input data
-#' @param target_columns The expression that specifies how the column names
-#'    should be renamed
-#'
-#' @return A named vector of the indices of the columns to be renamed
-#' @keywords internal
-#'
-get_new_column_names_indices <- function(original_names, target_columns) {
-  if (is.null(target_columns)) {
-    return(NULL)
-  }
-  target_columns <- unlist(strsplit(target_columns, ",", fixed = TRUE))
-  target_columns <- strsplit(target_columns, "=", fixed = TRUE)
-  curent         <- new <- NULL
-  for (i in seq_along(target_columns)) {
-    curent       <- c(curent, trimws(target_columns[[i]][[1L]]))
-    new          <- c(new, trimws(target_columns[[i]][[2L]]))
-  }
-  stopifnot(
-    "Unrecognised column names specified in 'rename'" =
-      all(curent %in% original_names),
-    "Replace column names already exists" =
-      !any(new %in% original_names)
-  )
-  idx        <- match(curent, original_names)
-  names(idx) <- new
-  return(idx)
 }
 
 #' Get column names

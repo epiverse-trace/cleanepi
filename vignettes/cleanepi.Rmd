@@ -227,7 +227,7 @@ print(colnames(data))
 cleaned_data <- standardize_column_names(
   data   = data,
   keep   = "date.of.admission",
-  rename = "dateOfBirth = DOB, sex=gender"
+  rename = c("DOB" = "dateOfBirth", "gender" = "sex")
 )
 print(colnames(data))
 ```
@@ -454,12 +454,13 @@ In certain scenarios, the input data contains columns where the number are writt
 1. **data**: A data frame or linelist (required).
 2. **target_columns**: A vector containing the names of the columns of interest. When dealing with a linelist, this can be set to `linelist_tags` if the tagged columns are the one to be converted into numeric. When `target_columns = NULL`, the function uses the output form the `scan_data()` function to identify the columns where the proportion of numeric values is at least twice as the percentage of character values. Those columns will be the columns of interest and the character values in them will be converted into numeric. 
 Note that any string in such column that can not be converted into numeric will be set to `NA` in the resulting data.
+3. **lang**: A character string with language to be used when performing the conversion. Currently one of `"en", "fr", or "es"`.
 
 ```{r eval=TRUE, comment="check_date_order"}
 # CONVERT THE 'age' COLUMN IN THE TEST LINELIST DATA
 dat <- readRDS(system.file("extdata", "messy_data.RDS", package = "cleanepi"))
 head(dat$age, 10L)
-dat <- convert_to_numeric(dat, target_columns = "age")
+dat <- convert_to_numeric(dat, target_columns = "age", lang = "en")
 head(dat$age, 10L)
 ```
 
