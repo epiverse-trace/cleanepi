@@ -181,7 +181,8 @@ This module is designed to convert numbers written in letters to numerical value
 
 - **Main function:** `convert_to_numeric()`
 - **Input:** Accepts a `data.frame` or `linelist` object, along with:
-  * A vector of column names to be converted into numeric
+  * A vector of column names to be converted into numeric, and
+  * A string that denotes the language used in the text. The current version supports `English, French and Spanish`.
 - **Output:** Returns the input object with values in the target columns converted into numeric format.
 - **Report:** Generates a three-column table with index, column, and value for each unrecognized value in the dataset (strings that could not be converted into numeric).
 - **Mode:**

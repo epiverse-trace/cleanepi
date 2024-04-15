@@ -49,7 +49,7 @@ scan_res <- scan_data(data)
 
 # Perform data cleaning
 cleaned_data <- data |>
- standardize_column_names(keep = NULL, rename = "dateOfBirth = DOB") |>
+ standardize_column_names(keep = NULL, rename = c("DOB" = "dateOfBirth")) |>
  replace_missing_values(target_columns = NULL, na_strings = "-99") |>
  remove_constant(cutoff = 1.0) |>
  remove_duplicates(target_columns = NULL) |>
@@ -62,7 +62,7 @@ cleaned_data <- data |>
                    suffix         = "P2",
                    range          = c(1L, 100L),
                    nchar          = 7L) |>
- convert_to_numeric(target_columns = "sex") |>
+ convert_to_numeric(target_columns = "sex", lang = "en") |>
  clean_using_dictionary(dictionary = test_dictionary)
 
 # add the data scanning result to the report

@@ -17,6 +17,7 @@ etc
 grp
 kableExtra
 knitr
+lang
 lifecycle
 linelist
 lintr

@@ -36,6 +36,8 @@ standardize_subject_ids <- list(target_columns = "study_id",
                                 suffix         = "P2",
                                 range          = c(1L, 100L),
                                 nchar          = 7L)
+to_numeric              <- list(target_columns = "sex",
+                                lang           = "en")
 params <- list(
   standardize_column_names = standardize_col_names,
   remove_constants         = list(cutoff = 1.0),
@@ -43,7 +45,7 @@ params <- list(
   remove_duplicates        = remove_duplicates,
   standardize_dates        = standardize_dates,
   standardize_subject_ids  = standardize_subject_ids,
-  to_numeric               = "sex",
+  to_numeric               = to_numeric,
   dictionary               = test_dictionary
 )
 
@@ -73,7 +75,7 @@ test_that("cleaned_data works in a pipable way", {
                       suffix         = "P2",
                       range          = c(1L, 100L),
                       nchar          = 7L) |>
-    convert_to_numeric(target_columns = "sex") |>
+    convert_to_numeric(target_columns = "sex", lang = "en") |>
     clean_using_dictionary(dictionary = test_dictionary)
 
   expect_s3_class(cleaned_data, "data.frame")
@@ -86,7 +88,7 @@ test_that("cleaned_data works in a pipable way even when old column names are
           used", {
             cleaned_data <- test_data |>
               standardize_column_names(keep = NULL,
-                                       rename = "dateOfBirth = DOB") |>
+                                       rename = c("DOB" = "dateOfBirth")) |>
               standardize_dates(target_columns = c("dateOfBirth",
                                                    "date_of_admission"))
             expect_s3_class(cleaned_data, "data.frame")

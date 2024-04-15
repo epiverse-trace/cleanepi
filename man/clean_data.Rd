@@ -96,7 +96,8 @@ standardize_subject_ids <- list(target_columns = "study_id",
                                 range          = c(1, 100),
                                 nchar          = 7)
 
-# to_numeric = "sex" the 'sex' column will be converted into numeric
+to_numeric <- list(target_columns = "sex", lang = "en")
+
 
 # dictionary = NULL the dictionary-based cleaning will not be performed here
 
@@ -110,7 +111,7 @@ cleaned_data <- clean_data(
     remove_duplicates        = remove_duplicates,
     standardize_dates        = standardize_dates,
     standardize_subject_ids  = standardize_subject_ids,
-    to_numeric               = "sex",
+    to_numeric               = to_numeric,
     dictionary               = NULL
   )
 )
