@@ -68,7 +68,7 @@ many reasons:
 \item dates may not use the standard Ymd format
 \item within the same variable, dates may follow different formats
 \item dates may be mixed with things that are not dates
-\item the behavior of \code{as.Date} in the presence of non-date is hard to predict,
+\item the behaviour of \code{as.Date} in the presence of non-date is hard to predict,
 sometimes returning \code{NA}, sometimes issuing an error.
 }
 

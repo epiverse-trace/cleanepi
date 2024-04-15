@@ -20,7 +20,7 @@ as_date <- function(x, format = c("ymd", "ydm", "dmy", "mdy", "myd", "dym",
 
 #' Check date time frame
 #'
-#' @param first_date A Date object specify.ing the first valid date.
+#' @param first_date A Date object specifying the first valid date.
 #' The default value is fifty years before the `last_date`
 #' @param last_date A  Date object specifying the last valid date.
 #'    The defaults value is the current date.

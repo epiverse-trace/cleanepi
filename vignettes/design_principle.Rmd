@@ -57,7 +57,7 @@ By compartmentalizing these operations into modules, {cleanepi} offers users a s
 
 ## Input
 
-The primary functions of the modules, as well as the core function `clean_data()`, accept input in the form of a `data.frame` or `linelist`. This offers flexibility for users regarding where they want to position {ceanepi} within the R package ecosystem for epidemic analysis pipelines, either to clean data before or after converting it to a `linelist`.
+The primary functions of the modules, as well as the core function `clean_data()`, accept input in the form of a `data.frame` or `linelist`. This offers flexibility for users regarding where they want to position {cleanepi} within the R package ecosystem for epidemic analysis pipelines, either to clean data before or after converting it to a `linelist`.
 
 In addition to the target dataset, the core function `clean_data()` accepts a `list` of operations to be executed on the dataset. It subsequently invokes the primary functions specified for each module. 
 
@@ -132,8 +132,8 @@ This module is dedicated to convert date values in character columns into `Date`
 - **Input:** Accepts a `data.frame` or `linelist` object, along with:
   * A `vector` of targeted date columns (automatically determined if not provided)
   * Tolerance threshold that defines the % of missing values to be allowed in a converted column. When % missing values exceeds it, the original values are returned (default value is 40%)
-  * Format (default value is NULL)
-  * Timeframe (default value is null)
+  * format (default value is NULL)
+  * timeframe (default value is null)
 - **Output:** Returns the input object with standardized date values in the format of *%Y-%m-%d*.
 - **Report:**
   * A two-column table listing the columns where date values were standardized.
@@ -229,7 +229,7 @@ By leveraging the `calculate_age()` function, users can efficiently compute and 
 
 2. `print_report()`: This function is used for displaying the report detailing the result of the cleaning operations executed on the dataset. It likely presents information about the data cleaning processes performed, such as handling missing values, correcting data types, removing duplicates, and any other transformations applied to ensure data quality and integrity.
 
-These surrogate functions play crucial roles in the data analysis and cleaning workflow, providing valuable information and documentation about the dataset's characteristics and the steps taken to prepare it for analysis or modeling. 
+These surrogate functions play crucial roles in the data analysis and cleaning workflow, providing valuable information and documentation about the dataset characteristics and the steps taken to prepare it for analysis or modelling. 
 
 ## Dependencies
 
