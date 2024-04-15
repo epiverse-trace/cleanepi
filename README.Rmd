@@ -125,7 +125,9 @@ standardize_subject_ids <- list(target_columns = "study_id",
                                 nchar          = 7)
 remove_cte              <- list(cutoff = 1)
 standardize_col_names   <- list(keep   = "date.of.admission",
-                                rename = "dateOfBirth = DOB")
+                                rename = c("DOB" = "dateOfBirth"))
+to_numeric              <- list(target_columns = "sex",
+                                lang           = "en")
 
 params <- list(
   standardize_column_names = standardize_col_names,
@@ -134,7 +136,7 @@ params <- list(
   remove_duplicates        = remove_duplicates,
   standardize_dates        = standardize_dates,
   standardize_subject_ids  = standardize_subject_ids,
-  to_numeric               = "sex",
+  to_numeric               = to_numeric,
   dictionary               = test_dictionary
 )
 ```
