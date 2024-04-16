@@ -30,40 +30,31 @@ replace_missing_values <- function(data,
   # get the correct names in case some have been modified - see the
   # `retrieve_column_names()` function for more details
   target_columns <- retrieve_column_names(data, target_columns)
-  cols    <- get_target_column_names(data, target_columns, cols = NULL)
+  cols           <- get_target_column_names(data, target_columns, cols = NULL)
 
-  # replace missing values with NA
-  indexes <- NULL
-  res     <- 0L
-  for (col in cols) {
-    index              <- match(col, names(data))
-    names(data)[index] <- "x"
-    idx                <- match(na_strings, data[["x"]])
-    if (all(is.na(idx))) {
-      res                <- res + 1L
-      names(data)[index] <- col
-      next
-    }
-    idx     <- which(na_strings %in% data[["x"]])
-    data    <- naniar::replace_with_na(data,
-                                       replace = list(x = na_strings[idx]))
-    indexes <- c(indexes, col)
-    names(data)[index] <- col
-  }
+  # get the indices of the columns that contain the missing value characters
+  tmp <- data |>
+    dplyr::select(dplyr::all_of(cols))
+  indices <- colSums(apply(tmp, 2, match, na_strings), na.rm = TRUE) > 0
+  cols    <- names(tmp)[indices]
 
-  if (res > 0L) {
+  # send a warning when none of the columns contains the provided missing value
+  # string
+  if (any(indices)) {
+    # replace missing values with NA
+    data <- data |>
+      dplyr::mutate(dplyr::across(dplyr::all_of(cols), ~
+                                    dplyr::na_if(as.character(.x), na_strings)))
+
+    # make report
+    data <- add_to_report(x     = data,
+                          key   = "missing_values_replaced_at",
+                          value = glue::glue_collapse(cols, sep = ", "))
+  } else {
     warning("Could not detect missing value character!",
             "\nPlease use the appropriate strings that represents the missing",
             "values from your data.", call. = FALSE)
   }
-
-  # make report
-  xx   <- ifelse(length(indexes) == ncol(data),
-                 glue::glue_collapse(names(data), sep = ", "),
-                 glue::glue_collapse(indexes, sep = ", "))
-  data <- add_to_report(x     = data,
-                        key   = "missing_values_replaced_at",
-                        value = xx)
 
   return(data)
 }
