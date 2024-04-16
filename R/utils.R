@@ -88,10 +88,7 @@ add_to_report <- function(x, key, value = NULL) {
   checkmate::assert_data_frame(x, min.rows = 1L, min.cols = 1L, null.ok = FALSE)
   checkmate::assert_character(key, any.missing = FALSE, len = 1L,
                               null.ok = FALSE)
-  report   <- attr(x, "report")
-  if (is.null(report)) {
-    report <- list()
-  }
+  report                    <- attr(x, "report")
   report[[key]]             <- value
   attr(x, which = "report") <- report
   return(x)
