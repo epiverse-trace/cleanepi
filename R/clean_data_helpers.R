@@ -22,14 +22,13 @@ scan_columns <- function(x) {
   are_numeric <- round((sum(!is.na(tmp)) / n_rows), 6L)
 
   # --- get the proportion of date values ---
-  x <- x[which(is.na(tmp))]
+  x        <- x[which(is.na(tmp))]
+  are_date <- 0L
   if (!is.null(lubridate::guess_formats(x, c("ymd", "ydm", "dmy", "mdy", "myd",
                                              "dym", "Ymd", "Ydm", "dmY", "mdY",
                                              "mYd", "dYm")))) {
     x        <- as_date(x)
     are_date <- round((sum(!is.na(x)) / n_rows), 6L)
-  } else {
-    are_date <- 0L
   }
 
   # --- get the proportion of logical values ---
