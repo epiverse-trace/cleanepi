@@ -58,11 +58,10 @@ standardize_column_names <- function(data, keep = NULL, rename = NULL) {
   # when keep is 'linelist_tags', keep the tagged variables
   # also account for when target columns are provided as a vector or column
   # name or column indices or NULL
-  if (!is.null(keep)) {
-    keep <- get_target_column_names(data,
-                                    target_columns = keep,
-                                    cols           = NULL)
-  }
+  keep <- get_target_column_names(data,
+                                  target_columns = keep,
+                                  cols           = NULL)
+  kept <- before %in% keep
 
   # if they're anything apart from ASCII e.g. arabic, throw error
   # TODO replace snakecase with fixed list of diacritics swapable to English
@@ -71,8 +70,9 @@ standardize_column_names <- function(data, keep = NULL, rename = NULL) {
     snakecase::to_snake_case(before, transliterations = "Latin-ASCII"),
     sep = "_"
   )
-  kept           <- which(before %in% keep)
-  after[kept]    <- before[kept]
+  if (!all(kept)) {
+    after[kept]  <- before[kept]
+  }
   after[rename]  <- names(rename)
   colnames(data) <- after
   colnames_info  <- data.frame(before, after)
