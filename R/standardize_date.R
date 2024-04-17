@@ -77,6 +77,15 @@
 #' }
 #'
 #' @examples
+#' x <- c("03 Jan 2018", "07/03/1982", "08/20/85")
+#' # The below will coerce values where the month is written in letters only
+#' # into Date.
+#' as.Date(lubridate::parse_date_time(x, orders = c("Ybd", "dby")))
+#'
+#' # coerce values where the month is written in letters or numbers into Date.
+#' as.Date(lubridate::parse_date_time(x, orders = c("dmy", "Ymd")))
+#'
+#' # How to use standardize_dates()
 #' dat <- standardize_dates(
 #'   data            = readRDS(system.file("extdata", "test_df.RDS",
 #'                                         package = "cleanepi")),
