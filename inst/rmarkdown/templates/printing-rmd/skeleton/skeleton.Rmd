@@ -57,78 +57,38 @@ p.compact {
 
 ```{r cleanepi-source-data, eval=TRUE, echo=FALSE}
 # EXTRACT THE REPORT SECTIONS
-is_data_scanned <- are_column_standardised <- are_missing_values_replaced <-
-  are_empty_columns_found <- are_constant_columns_found <-
-  are_duplicates_found <- are_duplicates_removed <- are_duplicates_checked <-
-  are_out_of_range_dates_found <- are_incorrect_subject_id <-
-  are_missing_ids_found <- are_duplicated_ids <- are_missing_ids <-
-  are_converted_to_numeric <- are_misspelled_values_found <-
-  are_incorrect_date_seq_found <- are_converted_into_numeric <-
-  are_incorrect_date_sequence <- are_empty_rows_found <- FALSE
-scanning_result              <- params[["scanning_result"]]
-if (!is.null(scanning_result)) {
-  is_data_scanned            <- TRUE
-}
+scanning_result <- params[["scanning_result"]]
+is_data_scanned <- !is.null(scanning_result)
 standardized_column_names <- params[["colnames"]]
-if (!is.null(standardized_column_names)) {
-  are_column_standardised <- TRUE
-}
-out_of_range_dates             <- params[["out_of_range_dates"]]
-if (!is.null(out_of_range_dates)) {
-  are_out_of_range_dates_found <- TRUE
-}
-incorrect_date_sequence        <- params[["incorrect_date_sequence"]]
-if (!is.null(incorrect_date_sequence)) {
-  are_incorrect_date_seq_found <- TRUE
-}
-empty_columns             <- params[["empty_columns"]]
-if (!is.null(empty_columns)) {
-  are_empty_columns_found <- TRUE
-}
-empty_rows             <- params[["empty_rows"]]
-if (!is.null(empty_rows)) {
-  are_empty_rows_found <- TRUE
-}
-constant_columns             <- params[["constant_columns"]]
-if (!is.null(constant_columns)) {
-  are_constant_columns_found <- TRUE
-}
-duplicated_rows         <- params[["duplicated_rows"]]
-if (!is.null(duplicated_rows)) {
-  are_duplicates_found  <- TRUE
-}
-removed_duplicates       <- params[["removed_duplicates"]]
-if (!is.null(removed_duplicates)) {
-  are_duplicates_removed <- TRUE
-}
-misspelled_values             <- params[["misspelled_values"]]
-if (!is.null(misspelled_values)) {
-  are_misspelled_values_found <- TRUE
-}
-missing_values_replaced_at    <- params[["missing_values_replaced_at"]]
-if (!is.null(missing_values_replaced_at)) {
-  are_missing_values_replaced <- TRUE
-}
-incorrect_subject_id       <- params[["incorrect_subject_id"]]
-if (!is.null(incorrect_subject_id)) {
-  are_incorrect_subject_id <- TRUE
-}
-missing_ids       <- params[["missing_ids"]]
-if (!is.null(missing_ids)) {
-  are_missing_ids <- TRUE
-}
-duplicated_ids       <- params[["duplicated_ids"]]
-if (!is.null(duplicated_ids)) {
-  are_duplicated_ids <- TRUE
-}
-converted_into_numeric       <- params[["converted_into_numeric"]]
-if (!is.null(converted_into_numeric)) {
-  are_converted_into_numeric <- TRUE
-}
-incorrect_date_sequence       <- params[["incorrect_date_sequence"]]
-if (!is.null(incorrect_date_sequence)) {
-  are_incorrect_date_sequence <- TRUE
-}
+are_column_standardised   <- !is.null(standardized_column_names)
+out_of_range_dates           <- params[["out_of_range_dates"]]
+are_out_of_range_dates_found <- !is.null(out_of_range_dates)
+incorrect_date_sequence      <- params[["incorrect_date_sequence"]]
+are_incorrect_date_seq_found <- !is.null(incorrect_date_sequence)
+empty_columns           <- params[["empty_columns"]]
+are_empty_columns_found <- !is.null(empty_columns)
+empty_rows           <- params[["empty_rows"]]
+are_empty_rows_found <- !is.null(empty_rows)
+constant_columns           <- params[["constant_columns"]]
+are_constant_columns_found <- !is.null(constant_columns)
+duplicated_rows      <- params[["duplicated_rows"]]
+are_duplicates_found <- !is.null(duplicated_rows)
+removed_duplicates     <- params[["removed_duplicates"]]
+are_duplicates_removed <- !is.null(removed_duplicates)
+misspelled_values           <- params[["misspelled_values"]]
+are_misspelled_values_found <- !is.null(misspelled_values)
+missing_values_replaced_at  <- params[["missing_values_replaced_at"]]
+are_missing_values_replaced <- !is.null(missing_values_replaced_at)
+incorrect_subject_id     <- params[["incorrect_subject_id"]]
+are_incorrect_subject_id <- !is.null(incorrect_subject_id)
+missing_ids     <- params[["missing_ids"]]
+are_missing_ids <- !is.null(missing_ids)
+duplicated_ids     <- params[["duplicated_ids"]]
+are_duplicated_ids <- !is.null(duplicated_ids)
+converted_into_numeric     <- params[["converted_into_numeric"]]
+are_converted_into_numeric <- !is.null(converted_into_numeric)
+incorrect_date_sequence     <- params[["incorrect_date_sequence"]]
+are_incorrect_date_sequence <- !is.null(incorrect_date_sequence)
 ```
 
 ### Data structure
