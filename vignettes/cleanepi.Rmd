@@ -1,10 +1,10 @@
 ---
-title: "cleanepi"
-output: markdown::html_format
+title: "Introduction to cleanepi"
+output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{cleanepi}
-  %\VignetteEngine{knitr::knitr}
-  %\usepackage[utf8]{inputenc}
+  %\VignetteIndexEntry{Introduction to cleanepi}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r, include = FALSE} 
