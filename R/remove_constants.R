@@ -27,15 +27,15 @@
 remove_constants <- function(data, cutoff = 1L) {
   checkmate::assert_number(cutoff, lower = 0.0, upper = 1.0, na.ok = FALSE,
                            finite = TRUE, null.ok = FALSE)
-  report     <- attr(data, "report")
+  report  <- attr(data, "report")
   # remove the empty rows and columns
-  dat        <- data %>%
+  dat     <- data %>%
     janitor::remove_empty(which = c("rows", "cols"), cutoff = cutoff)
 
   # report empty columns if found
-  idx        <- which(!(colnames(data) %in% names(dat)))
-  if (length(idx) > 0L) {
-    add_this <- glue::glue_collapse(names(data)[idx], sep = ", ")
+  removed <- setdiff(colnames(data), names(dat))
+  if (length(removed) > 0L) {
+    add_this <- glue::glue_collapse(removed, sep = ", ")
     report[["empty_columns"]] <- add_this
   }
 
@@ -48,14 +48,14 @@ remove_constants <- function(data, cutoff = 1L) {
   }
 
   # remove constant columns
-  data       <- dat
-  dat        <- data %>% janitor::remove_constant()
-  idx        <- which(!(names(data) %in% names(dat)))
-  if (length(idx) > 0L) {
-    add_this <- glue::glue_collapse(names(data)[idx], sep = ", ")
+  data    <- dat
+  dat     <- data %>% janitor::remove_constant()
+  removed <- setdiff(colnames(data), names(dat))
+  if (length(removed) > 0L) {
+    add_this <- glue::glue_collapse(removed, sep = ", ")
     report[["constant_columns"]] <- add_this
   }
-  attr(dat, "report") <- report
 
+  attr(dat, "report") <- report
   return(dat)
 }
