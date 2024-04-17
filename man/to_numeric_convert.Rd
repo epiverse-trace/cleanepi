@@ -7,7 +7,7 @@
 to_numeric_convert(x)
 }
 \arguments{
-\item{x}{a vector of type character}
+\item{x}{a vector of type character or numeric}
 }
 \value{
 a vector of type numeric with the same length as the input vector

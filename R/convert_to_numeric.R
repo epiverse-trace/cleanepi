@@ -93,13 +93,13 @@ detect_to_numeric_columns <- function(scan_res) {
 #' The conversion is only applied on non-missing and non-numeric values found
 #' from the input vector
 #'
-#' @param x a vector of type character
+#' @param x a vector of type character or numeric
 #'
 #' @return a vector of type numeric with the same length as the input vector
 #' @keywords internal
 #'
 to_numeric_convert <- function(x) {
-  if (all(is.numeric(x))) {
+  if (is.numeric(x)) {
     return(as.numeric(x))
   }
   xx                        <- suppressWarnings(as.numeric(x))
