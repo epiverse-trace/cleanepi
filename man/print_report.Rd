@@ -51,7 +51,7 @@ scan_res <- scan_data(data)
 cleaned_data <- data |>
  standardize_column_names(keep = NULL, rename = c("DOB" = "dateOfBirth")) |>
  replace_missing_values(target_columns = NULL, na_strings = "-99") |>
- remove_constant(cutoff = 1.0) |>
+ remove_constants(cutoff = 1.0) |>
  remove_duplicates(target_columns = NULL) |>
  standardize_dates(target_columns  = NULL,
                    error_tolerance = 0.4,
