@@ -1,21 +1,4 @@
-#' Reformat a given date
-#'
-#' @param x A string of interest
-#' @param format A date format
-#' @keywords internal
-#'
-as_date <- function(x, format = c("ymd", "ydm", "dmy", "mdy", "myd", "dym",
-                                  "Ymd", "Ydm", "dmY", "mdY", "mYd", "dYm")) {
-  fmt <- lubridate::guess_formats(x, format)
-  fmt <- unique(fmt)
-  y   <- as.Date(x, format = fmt[[1L]])
-  for (i in seq_along(fmt)[-1L]) {
-    na    <- is.na(y)
-    if (!any(na)) break
-    y[na] <- as.Date(x[na], format = fmt[i])
-  }
-  return(y)
-}
+
 
 
 #' Check date time frame

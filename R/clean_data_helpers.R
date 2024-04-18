@@ -27,7 +27,14 @@ scan_columns <- function(x) {
   if (!is.null(lubridate::guess_formats(x, c("ymd", "ydm", "dmy", "mdy", "myd",
                                              "dym", "Ymd", "Ydm", "dmY", "mdY",
                                              "mYd", "dYm")))) {
-    x        <- as_date(x)
+    x <- suppressWarnings(
+      as.Date(
+        lubridate::parse_date_time(
+          x, orders = c("ymd", "ydm", "dmy", "mdy", "myd", "dym", "Ymd", "Ydm",
+                        "dmY", "mdY", "mYd", "dYm")
+        )
+      )
+    )
     are_date <- round((sum(!is.na(x)) / n_rows), 6L)
   }
 
