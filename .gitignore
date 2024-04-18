@@ -54,3 +54,6 @@ inst/doc
 # macOS hidden files
 .DS_Store
 
+# file used to check environment
+check.env
+

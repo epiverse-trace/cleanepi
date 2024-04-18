@@ -1,7 +1,7 @@
 #' Clean and standardize data
 #'
 #' @description Cleans up messy data frames by performing several operations.
-#'    These Include among others: cleaning of column names, detecting and
+#'    These include among others: cleaning of column names, detecting and
 #'    removing duplicates, empty records and columns, constant columns,
 #'    replacing missing values by NA, converting character columns into dates
 #'    when they contain a certain number of date values, detecting subject
@@ -10,7 +10,7 @@
 #' @param data The input data frame or linelist
 #' @param params A list of parameters that define what cleaning operations will
 #'    be applied on the input data. The default parameters are defined in
-#'    `cleanepi::default_cleanepi_settings()`. The Possible values are:
+#'    `cleanepi::default_cleanepi_settings()`. The possible values are:
 #' \enumerate{
 #'   \item `standardize_column_names`: A list with the arguments needed to
 #'      standardize the column names. The elements of this list will be the

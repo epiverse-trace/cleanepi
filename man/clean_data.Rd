@@ -11,7 +11,7 @@ clean_data(data, params = NULL)
 
 \item{params}{A list of parameters that define what cleaning operations will
 be applied on the input data. The default parameters are defined in
-\code{cleanepi::default_cleanepi_settings()}. The Possible values are:
+\code{cleanepi::default_cleanepi_settings()}. The possible values are:
 \enumerate{
 \item \code{standardize_column_names}: A list with the arguments needed to
 standardize the column names. The elements of this list will be the
@@ -53,7 +53,7 @@ This is associated with a data cleaning report that can be accessed using
 }
 \description{
 Cleans up messy data frames by performing several operations.
-These Include among others: cleaning of column names, detecting and
+These include among others: cleaning of column names, detecting and
 removing duplicates, empty records and columns, constant columns,
 replacing missing values by NA, converting character columns into dates
 when they contain a certain number of date values, detecting subject
