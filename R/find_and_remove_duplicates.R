@@ -109,10 +109,8 @@ remove_duplicates <- function(data,
 #'
 find_duplicates <- function(data, target_columns = NULL) {
   # get the target column names
-  if (is.null(target_columns)) {
-    target_columns <- names(data)
-  }
-  target_columns   <- get_target_column_names(data, target_columns, cols = NULL)
+  target_columns <- retrieve_column_names(data, target_columns)
+  target_columns <- get_target_column_names(data, target_columns, cols = NULL)
 
   # find duplicates
   dups <- data %>%

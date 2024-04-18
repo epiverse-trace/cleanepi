@@ -106,17 +106,17 @@ add_to_report <- function(x, key, value = NULL) {
 #' @keywords internal
 #'
 get_target_column_names <- function(data, target_columns, cols) {
+  # if NULL return all column names
+  if (is.null(target_columns)) {
+    target_columns <- names(data)
+  }
+
   # extract column names if target_columns is a vector of column names
   if (length(target_columns) == 1L && target_columns != "linelist_tags") {
     idx            <- match(target_columns, names(data))
     stopifnot("Could not find some specified target column names" =
                 !anyNA(idx))
     target_columns <- names(data)[idx]
-  }
-
-  # if NULL return all column names
-  if (is.null(target_columns)) {
-    target_columns <- names(data)
   }
 
   # extract column names if target_columns is a vector of column indexes
