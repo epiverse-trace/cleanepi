@@ -473,8 +473,8 @@ date_process <- function(x) {
 #' Check whether the number of provided formats matches the number of target
 #' columns to be standardized.
 #'
-#' @param target_columns a vector of column names to be standardised
-#' @param format a vector of formats to be used when standardising the columns
+#' @param target_columns a vector of column names to be standardized
+#' @param format a vector of formats to be used when standardizing the columns
 #'
 #' @return a vector of format
 #' @keywords internal
