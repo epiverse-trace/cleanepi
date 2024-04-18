@@ -48,7 +48,7 @@
 #'
 #' - dates may be mixed with things that are not dates
 #'
-#' - the behaviour of `as.Date` in the presence of non-date is hard to predict,
+#' - the behavior of `as.Date` in the presence of non-date is hard to predict,
 #'   sometimes returning `NA`, sometimes issuing an error.
 #'
 #' This function tries to address all the above issues. Dates with the following
