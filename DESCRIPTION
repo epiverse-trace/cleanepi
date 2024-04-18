@@ -20,7 +20,9 @@ Authors@R: c(
     person("James M.", "Azam", , "james.azam@lshtm.ac.uk", role = "rev",
            comment = c(ORCID = "0000-0001-5782-7330")),  
     person("Joshua W.", "Lambert", , "joshua.lambert@lshtm.ac.uk", role = "rev",
-           comment = c(ORCID = "0000-0001-5218-3046"))
+           comment = c(ORCID = "0000-0001-5218-3046")),
+    person("Chris", "Hartgerink", , "chris@data.org", role = "rev",
+           comment = c(ORCID = "0000-0003-1050-6809"))
   )
 Description: cleanepi provides functions for cleaning and standardizing tabular data,
     tailored specifically for curating epidemiological data.

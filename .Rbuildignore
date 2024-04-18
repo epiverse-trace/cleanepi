@@ -12,3 +12,4 @@
 ^Meta$
 ^CITATION\.cff$
 ^data-raw$
+^check.env$
