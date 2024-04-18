@@ -279,7 +279,7 @@ cleaned_data |>
 
 ## Standardizing Dates
 
-The default date format in R is `Ymd` (the ISO format). However, it is very common to encounter date values that are written differently from this. Also, there are cases where a column in a data frame contains both values of type `Date`, `character` or others.   
+The default date format in R is `Ymd` (the ISO8601 format). However, it is very common to encounter date values that are written differently from this. Also, there are cases where a column in a data frame contains both values of type `Date`, `character` or others.   
 
 The `standardize_dates()` function provides a comprehensive set of options for converting date columns into a specified format and handling various scenarios, such as different date formats and mixed data types in a column.
 
@@ -687,7 +687,7 @@ The `span()` function computes the time span between two elements of type Date. 
 
 1. **data**: The input dataset (required).
 2. **target_column**: A string with the name of the target column (require). The values in this column are expected to be in the form of `Ymd` i.e. `2024-01-31`. The time span will calculated between these values and the `end_date` defined below.
-3. **end_date**: it can be either a character that is the name of another column of type Date from the input data or a vector of Date values or a single Date value (required). This should also be in the ISO format ("2024-01-31") and its default value is today's date `Sys.Date()`.
+3. **end_date**: it can be either a character that is the name of another column of type Date from the input data or a vector of Date values or a single Date value (required). This should also be in the ISO8601 format ("2024-01-31") and its default value is today's date `Sys.Date()`.
 4. **span_unit**: This parameter determines the unit in which the time span is expressed (required). It can be calculated in “years”, “months”, “weeks”, or “days”. By default, the time span is calculated in “years” if this parameter is not provided.
 5. **span_column_name**: A string for the name of the column added to the input data. The default is `span`.
 6. **span_remainder_unit**: A parameter used to determine the unit in which the remainder of the time span calculation will be returned. The possible units are: “days” or “weeks” or “months”. By default, the function returns decimal age i.e. `span_remainder_unit = NULL`.

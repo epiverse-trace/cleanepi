@@ -126,7 +126,7 @@ By utilizing the `replace_missing_char()` function, users can ensure consistency
   
 **4. Standardization of date values**
 
-This module is dedicated to convert date values in character columns into `Date` value in `ISO` format, and ensuring that all dates fall within the given timeframe.
+This module is dedicated to convert date values in character columns into `Date` value in `ISO8601` format, and ensuring that all dates fall within the given timeframe.
 
 - **Main function:** `standardize_dates()`
 - **Input:** Accepts a `data.frame` or `linelist` object, along with:
