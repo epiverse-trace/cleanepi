@@ -43,7 +43,6 @@ Imports:
     readr,
     rlang,
     snakecase,
-    stringr,
     utils
 Suggests: 
     kableExtra,

@@ -288,7 +288,7 @@ date_detect_separator <- function(x) {
   if (!is.na(x)) {
     sep <- NULL
     for (spec_char in special_characters) {
-      if (stringr::str_detect(x, spec_char)) {
+      if (grepl(pattern = spec_char, x)) {
         sep <- c(sep, spec_char)
       }
     }
