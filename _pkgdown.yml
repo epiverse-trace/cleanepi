@@ -34,7 +34,6 @@ reference:
   desc: Harmonise on the usage of English characters in column names
 - contents:
   - ends_with("_column_names")
-  - get_new_column_names_indices
 
 - subtitle: Retrieve Date from numeric values
 - contents:
