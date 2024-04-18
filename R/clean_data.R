@@ -243,7 +243,7 @@ clean_data <- function(data, params = NULL) {
   ## replace these coded values with the exact values from the data dictionary.
   ## -----
   if (!is.null(params[["dictionary"]])) {
-    R.utils::cat("\nperforming dictionary-based cleaning")
+    R.utils::cat("performing dictionary-based cleaning\n")
     data <- clean_using_dictionary(data, params[["dictionary"]])
   }
 
@@ -253,7 +253,7 @@ clean_data <- function(data, params = NULL) {
   ## will be flagged out.
   ## -----
   if (!is.null(params[["check_date_sequence"]])) {
-    R.utils::cat("\nchecking whether date the sequences are respected")
+    R.utils::cat("checking whether date the sequences are respected\n")
     data <- check_date_sequence(
       data           = data,
       target_columns = params[["check_date_sequence"]][["target_columns"]]
