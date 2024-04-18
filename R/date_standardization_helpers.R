@@ -171,10 +171,10 @@ date_convert_and_update <- function(data, timeframe, new_dates, cols,
 date_guess_convert <- function(data, error_tolerance, timeframe,
                                orders, modern_excel) {
   # guess and convert for column of type character, factor and POSIX
-  are_posix      <- which(apply(data, 2, function(x) inherits(x, "POSIXt")))
-  are_characters <- which(apply(data, 2, function(x) inherits(x, "character")))
-  are_factors    <- which(apply(data, 2, function(x) inherits(x, "factor")))
-  are_dates      <- which(apply(data, 2, function(x) inherits(x, "Date")))
+  are_posix      <- which(apply(data, 2, inherits, "POSIXt"))
+  are_characters <- which(apply(data, 2, inherits, "character"))
+  are_factors    <- which(apply(data, 2, inherits, "factor"))
+  are_dates      <- which(apply(data, 2, inherits, "Date"))
 
   # convert POSIX to date
   for (i in are_posix) {
