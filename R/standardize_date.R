@@ -152,7 +152,7 @@ standardize_dates <- function(data,
           format <- date_get_format(data, cols, sep)
         }
 
-        # convert to ISO date
+        # convert to ISO8601 date
         if (!is.null(format)) {
           data[[cols]] <- as.Date(data[[cols]], format = format)
         }
