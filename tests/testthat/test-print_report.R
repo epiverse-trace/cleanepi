@@ -32,16 +32,17 @@ cleaned_data <- add_to_report(x     = cleaned_data,
 test_that("print_report works", {
   testthat::skip_on_cran()
   testthat::skip_on_covr()
-  expect_snapshot(
-    print_report(
-      data             = cleaned_data,
-      report_title     = "{cleanepi} data cleaning report",
-      output_directory = ".",
-      output_filename  = "template_data_report",
-      format           = "html",
-      print            = FALSE
-    )
+  test_print_report <- print_report(
+    data             = cleaned_data,
+    report_title     = "{cleanepi} data cleaning report",
+    output_file_name = NULL,
+    format           = "html",
+    print            = FALSE
   )
+  expect_type(test_print_report, "character")
+  expect_true(file.exists(test_print_report))
+  expect_true(grepl(".html", test_print_report))
+  expect_true(file.size(test_print_report) > 0L)
 })
 
 test_that("print_report fails when no report is associated to the data", {
@@ -51,8 +52,7 @@ test_that("print_report fails when no report is associated to the data", {
     print_report(
       data             = test_data,
       report_title     = "{cleanepi} data cleaning report",
-      output_directory = ".",
-      output_filename  = "template_data_report",
+      output_file_name = NULL,
       format           = "html",
       print            = FALSE
     ),
@@ -64,8 +64,7 @@ test_that("print_report fails when no report is associated to the data", {
     print_report(
       data             = test_data,
       report_title     = "{cleanepi} data cleaning report",
-      output_directory = ".",
-      output_filename  = "template_data_report",
+      output_file_name = NULL,
       format           = "pdf",
       print            = FALSE
     ),

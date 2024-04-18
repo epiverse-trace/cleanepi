@@ -7,8 +7,7 @@
 print_report(
   data,
   report_title = "{cleanepi} data cleaning report",
-  output_directory = ".",
-  output_filename = NULL,
+  output_file_name = NULL,
   format = "html",
   print = TRUE
 )
@@ -19,12 +18,9 @@ print_report(
 
 \item{report_title}{The title to appear on the report}
 
-\item{output_directory}{A string specifying directory in which to save the
-report. Default is current directory.}
-
-\item{output_filename}{A string specifying filename for the report, excluding
-any file extension. If no filename is supplied, one will be automatically
-generated with the format \code{cleanepi_report_YYMMDD_HHMMSS}.}
+\item{output_file_name}{A string specifying the name of the report file,
+excluding any file extension. If no file name is supplied, one will be
+automatically generated with the format \code{cleanepi_report_YYMMDD_HHMMSS}.}
 
 \item{format}{The file format of the report. Currently only \code{"html"}
 is supported.}
@@ -74,12 +70,10 @@ cleaned_data <- add_to_report(x     = cleaned_data,
 print_report(
   data             = cleaned_data,
   report_title     = "{cleanepi} data cleaning report",
-  output_directory = ".",
-  output_filename  = "template_data_report",
+  output_file_name = NULL,
   format           = "html",
   print            = TRUE
 )
-\dontshow{file.remove("./template_data_report.html")}
 }
 
 }

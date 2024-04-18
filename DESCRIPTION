@@ -45,7 +45,8 @@ Imports:
     readr,
     rlang,
     snakecase,
-    utils
+    utils,
+    withr
 Suggests: 
     kableExtra,
     knitr,
