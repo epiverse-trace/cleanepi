@@ -145,20 +145,20 @@ date_convert_and_update <- function(data, timeframe, new_dates, cols,
   prop_successful <- (length(data[[cols]]) - na_after) / (length(data[[cols]]) - na_before) # nolint: line_length_linter
 
   # shape result depending on whether conversion was successful
-  outsiders        <- NULL
   if (prop_successful > (1L - error_tolerance)) {
     data[[cols]]   <- new_dates[["new_dates"]]
-    outsiders      <- rbind(outsiders, new_dates[["outsiders"]])
-    report         <- attr(data, "report")
-    if ("out_of_range_dates" %in% names(report)) {
-      outsiders    <- rbind(report[["out_of_range_dates"]], outsiders)
-    }
   }
 
-  return(list(
-    data           = data,
-    outsiders      = outsiders
-  ))
+  outsiders   <- new_dates[["outsiders"]]
+  if (all(is.na(new_dates[["new_dates"]]))) {
+    outsiders <- NULL
+  }
+  report      <- attr(data, "report")
+  if ("out_of_range_dates" %in% names(report)) {
+    outsiders <- rbind(report[["out_of_range_dates"]], outsiders)
+  }
+
+  return(list(data = data, outsiders = outsiders))
 }
 
 #' Guess if a character vector contains Date values, and convert them to date
@@ -182,7 +182,6 @@ date_guess_convert <- function(data, error_tolerance, timeframe,
   }
 
   # convert characters and factors to date when applicable
-  outsiders     <- NULL
   of_interest   <- c(are_characters, are_factors, are_dates, are_posix)
   for (i in names(of_interest)) {
     new_dates   <- date_guess(data[[i]], orders = orders,
@@ -194,16 +193,12 @@ date_guess_convert <- function(data, error_tolerance, timeframe,
       res       <- date_convert_and_update(data, timeframe, new_dates, i,
                                            error_tolerance)
       data      <- res[["data"]]
-      outsiders <- res[["outsiders"]]
-    }
-
-    # report this cleaning operation
-    if (!is.null(outsiders)) {
       data      <- add_to_report(x     = data,
                                  key   = "out_of_range_dates",
-                                 value = outsiders)
+                                 value = res[["outsiders"]])
     }
   }
+
 
   return(data)
 }

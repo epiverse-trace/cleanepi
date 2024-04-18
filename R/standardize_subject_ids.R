@@ -98,7 +98,7 @@ check_subject_ids <- function(data,
                                ids = data[[target_columns]][bad_rows])
     bad_rows     <- glue::glue_collapse(bad_rows, sep = ", ")
     warning("Detected incorrect subject ids at lines: ", bad_rows,
-            "\nUse the correct_subject_ids() function to adjust them.",
+            "\nUse the correct_subject_ids() function to adjust them.\n",
             call. = FALSE)
     data         <- add_to_report(x     = data,
                                   key   = "incorrect_subject_id",
