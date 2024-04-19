@@ -12,6 +12,7 @@ Zhian
 analytics
 bookdown
 dplyr
+epiCleanr
 grp
 interoperates
 kableExtra
@@ -19,6 +20,7 @@ knitr
 lang
 lifecycle
 linelist
+linters
 lintr
 lubridate
 magrittr
@@ -35,8 +37,8 @@ readepi
 readr
 rmarkdown
 snakecase
-stringr
 testthat
 tibbles
 timeframe
+withr
 ️
