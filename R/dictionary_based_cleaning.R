@@ -33,16 +33,18 @@ clean_using_dictionary <- function(data, dictionary) {
             " the add_to_dictionary() function.")
     misspelled_report <- construct_misspelled_report(misspelled_options, data)
     # add the result to the reporting object
-    data <- add_to_report(x     = data,
-                          key   = "misspelled_values",
-                          value = misspelled_report)
+    data              <- add_to_report(x     = data,
+                                       key   = "misspelled_values",
+                                       value = misspelled_report)
   }
   # perform the dictionary-based cleaning
-  data   <- matchmaker::match_df(data,
-                                 dictionary = dictionary,
-                                 from       = "options",
-                                 to         = "values",
-                                 by         = "grp")
+  data                <- suppressWarnings(
+    matchmaker::match_df(data,
+                         dictionary = dictionary,
+                         from       = "options",
+                         to         = "values",
+                         by         = "grp")
+  )
 
   return(data)
 }
@@ -220,9 +222,9 @@ detect_misspelled_options <- function(data, dictionary) {
       dplyr::filter(.data$grp == col)
     opts          <- c(temp_dict[["options"]], unique(temp_dict[["values"]]))
     m             <- match(unique_values, opts)
-    which(!(unique(data[[col]]) %in% dictionary[["options"]]))
+    # which(!(unique(data[[col]]) %in% dictionary[["options"]]))
     if (anyNA(m)) {
-      outliers[[col]] <- which(data[[col]] == unique_values[which(is.na(m))])
+      outliers[[col]] <- which(data[[col]] == unique_values[is.na(m)])
     }
   }
   return(outliers)
