@@ -24,14 +24,14 @@ Data cleaning is an important phase for ensuring the efficacy of downstream anal
 
 ## Design decisions
 
-The {cleanepi} R package is designed to offer functional programming-style data cleansing tasks. To streamline the organization of data cleaning operations, we have categorized them into distinct groups referred to as **modules**. These modules are based on overarching goals derived from commonly anticipated data cleaning procedures. Each module features a primary function along with additional helper functions tailored to accomplish specific tasks. It's important to note that only the main function of each module will be exported. This deliberate choice empowers users to execute individual cleaning tasks as needed, enhancing flexibility and usability.
+The {cleanepi} R package is designed to offer functional programming-style data cleansing tasks. To streamline the organization of data cleaning operations, we have categorized them into distinct groups referred to as **modules**. These modules are based on overarching goals derived from commonly anticipated data cleaning procedures. Each module features a primary function along with additional helper functions tailored to accomplish specific tasks. It's important to note that, except for few cases where the outcome a helper function can impact on the cleaning task, only the main function of each module will be exported. This deliberate choice empowers users to execute individual cleaning tasks as needed, enhancing flexibility and usability.
 
 ```{r echo=FALSE, comment="Figure1"}
 knitr::include_graphics(file.path("..", "man", "figures",
                                   "cleanepi_design_diagram.drawio.png"))
 ```
 
-At the core of {cleanepi}, the pivotal function `clean_data()` serves as a wrapper encapsulating all the modules, as illustrated in the figure above. This function is intended to be the primary entry point for users seeking to cleanse their data. It performs the cleaning operations as requested by the user through the set of parameters that need to be explicitly defined.
+At the core of {cleanepi}, the pivotal function `clean_data()` serves as a wrapper encapsulating all the modules, as illustrated in the figure above. This function is intended to be the primary entry point for users seeking to cleanse their data. It performs the cleaning operations as requested by the user through the set of parameters that need to be explicitly defined. Furthermore, multiple cleaning operations can be performed sequentially using the “pipe” operators (`|>` or `%>%`).
 In addition, this package also has two surrogate functions:
 
 1. `scan_data()`: This function enables users to assess the data types present in each column of their dataset.
@@ -39,7 +39,7 @@ In addition, this package also has two surrogate functions:
 
 ## Scope
 
-{cleanepi} is an R package  crafted to clean, curate, and standardize tabular datasets, with a particular focus on epidemiological data. In the architecture of {cleanepi}, the data cleaning operations are categorized into modules, each provides a specific data cleaning task. The modules in the current version of {cleanepi} encompass the:
+{cleanepi} is an R package crafted to clean, curate, and standardize tabular datasets, with a particular focus on epidemiological data. In the architecture of {cleanepi}, the data cleaning operations are categorized into modules, each provides a specific data cleaning task. The modules in the current version of {cleanepi} encompass the:
 
 - standardization of column names,
 - detection and removal of duplicates,
@@ -68,6 +68,7 @@ Both the primary functions of the modules and the core function `clean_data()` r
 
 
 ### Modules in {cleanepi}
+
 In this section, we provide a detailed description of the way that every module is built.
 
 **1. Standardization of column names**
@@ -80,7 +81,7 @@ This module is designed to standardize the style and format of column names with
 - **Main function:** `standardize_column_names()`
 - **Input:** 
   * A `data.frame` or `linelist` object.
-  * Optionally, a `vector` of focal column names and a vector of column names to be renamed in the form of `old_name = new_name`. If not provided, all columns will undergo standardization.
+  * Optionally, a `vector` of focal column names and a vector of column names to be renamed in the form of `new_name = old_name`. If not provided, all columns will undergo standardization.
 - **Output:** 
   * The input object with standardized column names.
 - **Report:** 
@@ -89,34 +90,45 @@ This module is designed to standardize the style and format of column names with
   * Explicit
 
 By incorporating the `standardize_column_names()` function, {cleanepi} streamlines the process of ensuring consistency and clarity in column naming conventions, thereby enhancing the overall organization and readability of the dataset.
-  
-**2. Detection and removal of duplicates**
 
-This module is designed to identify and eliminate duplicated rows, columns, and constant columns within the dataset.
+
+**2. Removal of empty rows and columns and constant columns**
+
+This module aims at eliminating irrelevant and redundant rows and columns, including empty rows and columns as well as constant columns.
+
+- **Main function:** `remove_constants()`
+- **Input:** Accepts a `data.frame` or `linelist` object, along with:
+  * A cut-off that determines the percent of missing values beyond which a row or column should be deleted.
+- **Output:** Returns the input object after applying the specified operations.
+- **Report:**
+  * A list with one or two or three vector(s) showcasing detected empty rows, empty columns and constant columns.
+- **Mode:**
+  * explicit
+  
+**3. Detection and removal of duplicates**
+
+This module is designed to identify and eliminate duplicated rows.
 
 - **Main function:** `find_duplicates(), remove_duplicates()`
 - **Input:** Accepts a `data.frame` or `linelist` object, along with optional parameters:
-  * Vector of target columns (default is to consider all columns; possible to use `linelist_tags` to consider tagged variables only when the input is a linelist object)
-  * Option to remove empty rows (all rows by default)
-  * Option to remove empty columns (all columns by default)
-  * Option to remove constant columns (all constant columns by default)
+  * Vector of target columns (default is to consider all columns; possible to use `linelist_tags` to consider tagged variables only when the input is a linelist object).
 - **Output:** Returns the input object after applying the specified operations.
 - **Report:**
-  * A list with one or two table(s) showcasing found duplicates and removed duplicates (if `remove = TRUE`). The list also includes information about the detected empty rows, empty columns, and constant columns.
+  * A list with one or two table(s) showcasing found duplicates and removed duplicates (if `remove = TRUE`).
   * A table detailing the removed duplicates.
 - **Mode:**
   * explicit
 
-Through the `remove_duplicates()` function, users can streamline their dataset by eliminating redundant rows, columns, and constant values, thus enhancing data integrity and analysis efficiency.
+Through the `remove_duplicates()` function, users can streamline their dataset by eliminating redundant rows, thus enhancing data integrity and analysis efficiency.
   
-**3. Replacement of missing values with `NA`**
+**4. Replacement of missing values with `NA`**
 
 This module aims to standardize and unify the representation of missing values within the dataset.
 
 - **Main function:** `replace_missing_values()`
 - **Input:** Accepts a `data.frame` or `linelist` object, along with:
   * A `vector` of column names (if not provided, the operation is performed across all columns)
-  * A string representing the current missing values (default value is null)
+  * A string or a vector of strings representing the current missing values (default value is cleanepi::common_na_strings)
 - **Output:** Returns the input object with all missing values represented as `NA`.
 - **Report:** Generates a three-column table featuring index, column, and value for each missing item in the dataset.
 - **Mode:**
@@ -124,14 +136,14 @@ This module aims to standardize and unify the representation of missing values w
 
 By utilizing the `replace_missing_char()` function, users can ensure consistency in handling missing values across their dataset, facilitating accurate analysis and interpretation of the data.
   
-**4. Standardization of date values**
+**5. Standardization of date values**
 
 This module is dedicated to convert date values in character columns into `Date` value in `ISO8601` format, and ensuring that all dates fall within the given timeframe.
 
 - **Main function:** `standardize_dates()`
 - **Input:** Accepts a `data.frame` or `linelist` object, along with:
   * A `vector` of targeted date columns (automatically determined if not provided)
-  * Tolerance threshold that defines the % of missing values to be allowed in a converted column. When % missing values exceeds it, the original values are returned (default value is 40%)
+  * Tolerance threshold that defines the % of missing (out of range values converted to `NA`) values to be allowed in a converted column. When % missing values exceeds or is equal to it, the original values are returned (default value is 40%)
   * format (default value is NULL)
   * timeframe (default value is null)
 - **Output:** Returns the input object with standardized date values in the format of *%Y-%m-%d*.
@@ -143,9 +155,9 @@ This module is dedicated to convert date values in character columns into `Date`
 
 By employing the `standardize_dates()` function, users can ensure uniformity and coherence in date formats across their dataset, while also validating the temporal integrity of the data within the defined timeframe.
 
-**5. Standardization of subject IDs**
+**6. Standardization of subject IDs**
 
-This module is tailored to verify whether the values in the column uniquely identifying subjects adhere to a consistent format. 
+This module is tailored to verify whether the values in the column uniquely identifying subjects adhere to a consistent format. It also offers a functionality that allow users to correct the inconsistent subject ids.
 
 - **Main function:** `check_subject_ids(), correct_subject_ids()`
 - **Input:** Accepts a `data.frame` or `linelist` object, along with:
@@ -159,9 +171,9 @@ This module is tailored to verify whether the values in the column uniquely iden
 
 By utilizing the functions in this module, users can ensure uniformity in the format of subject ids, facilitating accurate tracking and analysis of individual subjects within the dataset.
 
-**6. Dictionary based substitution **
+**7. Dictionary based substitution **
 
-This module facilitates dictionary-based substitution, which involves replacing existing values with predefined ones. It replaces entries in a specific columns to certain values, such as substituting 1 with "male" and 2 with "female" in a gender column. It also interoperates seamlessly with the `get_meta_data()` function from {readepi} R package.
+This module facilitates dictionary-based substitution, which involves replacing existing values with predefined ones. It replaces entries in a specific columns to certain values, such as substituting 1 with “male” and 2 with “female” in a gender column. It also interoperates seamlessly with the `get_meta_data()` function from {readepi} R package.
 
 - **Main function:** `clean_using_dictionary()`
 - **Input:** Accepts a `data.frame` or `linelist` object, along with a data dictionary featuring the following column names: _options_, _values_, and _order_.
@@ -175,9 +187,9 @@ By leveraging the `clean_using_dictionary()` function, users can streamline and 
 Note that the `clean_using_dictionary()` function will return a warning when it detects unexpected values in the target columns from the data dictionary.
 The unexpected values can be added to the data dictionary using the `add_to_dictionary()` function.
 
-**7. Conversion of values when necessary **
+**8. Conversion of values when necessary **
 
-This module is designed to convert numbers written in letters to numerical values, ensuring interoperability with the {numberize} package.
+This module is designed to convert numbers written in letters to numerical values, ensuring interoperability with the `{numberize}` package.
 
 - **Main function:** `convert_to_numeric()`
 - **Input:** Accepts a `data.frame` or `linelist` object, along with:
@@ -192,14 +204,13 @@ By employing the `convert_to_numeric()` function, users can seamlessly transform
   
 Note that `convert_to_numeric()` will issue a warning for unexpected values and return them in the report.
 
-**8. Verification of the sequence of date-events **
+**9. Verification of the sequence of date-events **
 
 This module provides functions to verify whether the sequence of date events aligns with expectations. For instance, it can flag rows where the date of admission to the hospital precedes the individual's date of birth.
 
 - **Main function:** `check_date_sequence()`
 - **Input:** Accepts a `data.frame` or `linelist` object, along with:
   * A vector of date column names to be considered
-  * A logical value to specify whether to remove the incorrect rows from the input data or not
 - **Output:** Returns the input object with incorrect rows removed if specified.
 - **Report:** Generates a table listing the incorrect rows from the specified columns.
 - **Mode:**
@@ -207,22 +218,22 @@ This module provides functions to verify whether the sequence of date events ali
 
 By using the `check_date_sequence()` function, users can systematically validate and ensure the coherence of date sequences within their dataset, promoting accuracy and reliability in subsequent analyses.
 
-**9. Transformation of select columns**
+**10. Transformation of selected columns**
 
 This module is dedicated to performing various specialized operations related to epidemiological data analytics, and it currently includes the following function:
 
-- **Main function:** `calculate_age()`
+- **Main function:** `span()`
 - **Input:** Accepts a `data.frame` or `linelist` object, along with:
   * The name of the column of interest
-  * The reference date
+  * The reference date value or column
   * The time and remainder units (possible values are days, weeks, months, or years)
   * The names of the newly generated columns
-- **Output:** Returns the input object with clean data and an additional age column with values in the specified time unit.
+- **Output:** Returns the input object with clean data and one or two additional columns with values in the specified time unit.
 - **Report:** None.
 - **Mode:**
   * explicit
 
-By leveraging the `calculate_age()` function, users can efficiently compute and integrate age-related information into their epidemiological dataset based on user-defined parameters, enhancing the analytics capabilities of the dataset.
+By leveraging the `span()` function, users can efficiently compute and integrate time span information into their epidemiological dataset based on user-defined parameters, enhancing the analytics capabilities of the dataset.
 
 ### Surrogate functions
 
@@ -230,27 +241,37 @@ By leveraging the `calculate_age()` function, users can efficiently compute and 
 
 2. `print_report()`: This function is used for displaying the report detailing the result of the cleaning operations executed on the dataset. It likely presents information about the data cleaning processes performed, such as handling missing values, correcting data types, removing duplicates, and any other transformations applied to ensure data quality and integrity.
 
-These surrogate functions play crucial roles in the data analysis and cleaning workflow, providing valuable information and documentation about the dataset characteristics and the steps taken to prepare it for analysis or modelling. 
+These surrogate functions play crucial roles in the data analysis and cleaning workflow, providing valuable information and documentation about the dataset characteristics and the steps taken to prepare it for analysis or modelling.
+
+
+## Related packages
+
+[{janitor}](https://CRAN.R-project.org/package=janitor),
+[{matchmaker}](https://CRAN.R-project.org/package=matchmaker),
+[{naniar}](https://CRAN.R-project.org/package=naniar),
+[{daiquiri}](https://CRAN.R-project.org/package=daiquiri)
+[{epiCleanr}](https://CRAN.R-project.org/package=epiCleanr)
+[{matchmaker}](https://CRAN.R-project.org/package=matchmaker)
+
+
 
 ## Dependencies
 
 The modules and surrogate functions will depend mainly on the following packages:   
 
-  [{numberize}](https://github.com/epiverse-trace/numberize),
-  [{dplyr}](https://CRAN.R-project.org/package=dplyr),
-  [{magrittr}](https://CRAN.R-project.org/package=magrittr),
-  [{linelist}](https://CRAN.R-project.org/package=linelist),
-  [{janitor}](https://CRAN.R-project.org/package=janitor),
-  [{matchmaker}](https://CRAN.R-project.org/package=matchmaker),
-  [{lubridate}](https://CRAN.R-project.org/package=dplyr),
-  [{reactable}](https://CRAN.R-project.org/package=reactable),
-  [{arsenal}](https://CRAN.R-project.org/package=arsenal),
-  [{naniar}](https://CRAN.R-project.org/package=naniar),
-  [{glue}](https://CRAN.R-project.org/package=glue),
-  [{stringr}](https://CRAN.R-project.org/package=stringr),
-  [{snakecase}](https://CRAN.R-project.org/package=snakecase),
-  [{readr}](https://CRAN.R-project.org/package=readr), and
-  [{R.utils}](https://CRAN.R-project.org/package=R.utils).
+  [{numberize}](https://github.com/epiverse-trace/numberize) used for the conversion of number from character to numeric,
+  [{dplyr}](https://CRAN.R-project.org/package=dplyr) used in many way including filtering, column creation, data summary, etc,
+  [{magrittr}](https://CRAN.R-project.org/package=magrittr) used here for its `%>%` operator,
+  [{linelist}](https://CRAN.R-project.org/package=linelist) used to perform some operations on linelist-type input objects,
+  [{janitor}](https://CRAN.R-project.org/package=janitor) used here for the removal of constant data (empty rows and columns, as well as constant columns),
+  [{matchmaker}](https://CRAN.R-project.org/package=matchmaker) utilized to perform the dictionary-based cleaning,
+  [{lubridate}](https://CRAN.R-project.org/package=dplyr) used to create, handle, and manipulate objects of type Date,
+  [{reactable}](https://CRAN.R-project.org/package=reactable) mainly used here to customize the data cleaning report,
+  [{arsenal}](https://CRAN.R-project.org/package=arsenal) used in standardizing column names,
+  [{glue}](https://CRAN.R-project.org/package=glue) used here in substitution of `paste() and paste0()` to avoid linters,
+  [{snakecase}](https://CRAN.R-project.org/package=snakecase) used in standardizing column names to transform everything into snake-case except when specified otherwise,
+  [{withr}](https://CRAN.R-project.org/package=withr) utilized to handle the creation of temporary files and directory relevant for `print_report()` and,
+  [{readr}](https://CRAN.R-project.org/package=readr) used to import data.
   
 The functions will require all other packages that needed in the package development process including:    
 
