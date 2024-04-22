@@ -227,7 +227,7 @@ clean_data <- function(data, params = NULL) {
   if (!is.null(params[["to_numeric"]])) {
     base::cat(
       "converting",
-      glue::glue_collapse(params[["to_numeric"]], sep = ", "),
+      paste(params[["to_numeric"]], sep = ", "),
       "into numeric\n"
     )
     data <- convert_to_numeric(

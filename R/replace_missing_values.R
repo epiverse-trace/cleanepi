@@ -49,7 +49,7 @@ replace_missing_values <- function(data,
     # make report
     data <- add_to_report(x     = data,
                           key   = "missing_values_replaced_at",
-                          value = glue::glue_collapse(cols, sep = ", "))
+                          value = paste(cols, sep = ", "))
   } else {
     warning("Could not detect missing value character!",
             "\nPlease use the appropriate strings that represents the missing",

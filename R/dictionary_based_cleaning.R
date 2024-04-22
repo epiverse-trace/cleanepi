@@ -222,7 +222,6 @@ detect_misspelled_options <- function(data, dictionary) {
       dplyr::filter(.data$grp == col)
     opts          <- c(temp_dict[["options"]], unique(temp_dict[["values"]]))
     m             <- match(unique_values, opts)
-    # which(!(unique(data[[col]]) %in% dictionary[["options"]]))
     if (anyNA(m)) {
       outliers[[col]] <- which(data[[col]] == unique_values[is.na(m)])
     }
@@ -241,7 +240,7 @@ detect_misspelled_options <- function(data, dictionary) {
 print_misspelled_values <- function(misspelled_options) {
   for (opts in names(misspelled_options)) {
     message("\nDetected misspelled values at lines ",
-            glue::glue_collapse(misspelled_options[[opts]], sep = ", "),
+            paste(misspelled_options[[opts]], sep = ", "),
             " of column '", opts, "'")
   }
 }

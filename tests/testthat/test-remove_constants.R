@@ -20,9 +20,10 @@ test_that("remove_constants works", {
 
   report <- attr(dat, "report")
   expect_type(report, "list")
+  expect_length(report, 3L)
   expect_named(report, c("empty_columns", "empty_rows", "constant_columns"))
   expect_identical(report[["empty_columns"]], "empty_column")
   expect_identical(report[["constant_columns"]],
-                   "event_name, country_code, country_name")
+                   c("event_name", "country_code", "country_name"))
   expect_identical(report[["empty_rows"]], 10L)
 })
