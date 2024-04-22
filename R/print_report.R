@@ -107,7 +107,8 @@ print_report <- function(data,
       )
     },
     tmpdir  = tempdir(),
-    clean   = FALSE, # when TRUE, the folder is deleted and report is not printed out
+    clean   = FALSE, # when TRUE, the folder is deleted and report is not
+    # printed out
     fileext = "",
     pattern = "cleanepi_report_"
   )

@@ -232,7 +232,7 @@ test_that("check_subject_ids works when relying on the nchar argument", {
   expect_type(report, "list")
   expect_named(report, "incorrect_subject_id")
   expect_s3_class(report[["incorrect_subject_id"]], "data.frame")
-  expect_identical(report[["incorrect_subject_id"]][["idx"]], c(5L, 7L, 3L))
+  expect_identical(report[["incorrect_subject_id"]][["idx"]], c(3L, 5L, 7L))
   expect_identical(report[["incorrect_subject_id"]][["ids"]],
-                   c("P0005P2", "PB500P2", "PS004P2-1"))
+                   c("PS004P2-1", "P0005P2", "PB500P2"))
 })

@@ -35,7 +35,7 @@ remove_constants <- function(data, cutoff = 1L) {
   # report empty columns if found
   removed <- setdiff(colnames(data), names(dat))
   if (length(removed) > 0L) {
-    add_this <- glue::glue_collapse(removed, sep = ", ")
+    add_this <- paste(removed, sep = ", ")
     report[["empty_columns"]] <- add_this
   }
 
@@ -52,7 +52,7 @@ remove_constants <- function(data, cutoff = 1L) {
   dat     <- data %>% janitor::remove_constant()
   removed <- setdiff(colnames(data), names(dat))
   if (length(removed) > 0L) {
-    add_this <- glue::glue_collapse(removed, sep = ", ")
+    add_this <- paste(removed, sep = ", ")
     report[["constant_columns"]] <- add_this
   }
 

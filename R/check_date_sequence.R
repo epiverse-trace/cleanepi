@@ -71,7 +71,7 @@ check_date_sequence <- function(data, target_columns) {
                               value = tmp_data)
     warning("Detected ", length(bad_order),
             " incorrect date sequences at line(s): ",
-            glue::glue_collapse(bad_order, sep = ", "),
+            paste(bad_order, sep = ", "),
             call. = FALSE)
   }
 

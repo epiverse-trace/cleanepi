@@ -55,16 +55,14 @@ check_subject_ids <- function(data,
   bad_rows   <- NULL
   regex_test <- ""
 
-  # collapse multiple prefix or suffix
-  prefix <- glue::glue_collapse(prefix, sep = "|")
-  suffix <- glue::glue_collapse(suffix, sep = "|")
-
   # we will use regular expressions to match on prefix and suffix
   if (!is.null(prefix)) {
-    regex_test <- glue::glue(regex_test, "pre_")
+    prefix     <- paste(prefix, sep = "|")
+    regex_test <- paste0(regex_test, "pre_")
   }
   if (!is.null(suffix)) {
-    regex_test <- glue::glue(regex_test, "suf")
+    suffix     <- paste(suffix, sep = "|")
+    regex_test <- paste0(regex_test, "suf")
   }
   regex_match  <- switch(regex_test,
                          pre_    = sprintf("^%s", prefix),
@@ -96,7 +94,7 @@ check_subject_ids <- function(data,
     bad_rows     <- unique(bad_rows)
     tmp_report   <- data.frame(idx = bad_rows,
                                ids = data[[target_columns]][bad_rows])
-    bad_rows     <- glue::glue_collapse(bad_rows, sep = ", ")
+    bad_rows     <- paste(bad_rows, sep = ", ")
     warning("Detected incorrect subject ids at lines: ", bad_rows,
             "\nUse the correct_subject_ids() function to adjust them.\n",
             call. = FALSE)
@@ -185,10 +183,10 @@ check_subject_ids_oness <- function(data, id_col_name) {
   if (anyNA(data[[id_col_name]])) {
     idx                <- which(is.na(data[[id_col_name]]))
     warning("\nMissing values found on ID column in lines: ",
-            glue::glue_collapse(idx, sep = ", "), call. = FALSE)
+            paste(idx, sep = ", "), call. = FALSE)
     data <- add_to_report(x     = data,
                           key   = "missing_ids",
-                          value = glue::glue_collapse(idx, sep = ", "))
+                          value = paste(idx, sep = ", "))
   }
 
   # check for duplicates ID column

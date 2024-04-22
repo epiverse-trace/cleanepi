@@ -113,7 +113,7 @@ retrieve_column_names <- function(data, target_columns) {
       new_names        <- c(new_names, all_column_names[["after"]][idx])
     } else {
       stop("Could not find the following column names: ",
-           glue::glue_collapse(target_columns, sep = ", "))
+           paste(target_columns, sep = ", "))
     }
   }
 
