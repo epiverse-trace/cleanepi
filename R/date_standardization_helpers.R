@@ -4,8 +4,8 @@
 #' Check date time frame
 #'
 #' @param first_date A Date object specifying the first valid date.
-#' The default value is fifty years before the `last_date`
-#' @param last_date A  Date object specifying the last valid date.
+#'    The arbitrary default value is fifty years before the `last_date`.
+#' @param last_date A Date object specifying the last valid date.
 #'    The defaults value is the current date.
 #'
 #' @return A list with the first and last dates
