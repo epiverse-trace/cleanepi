@@ -8,9 +8,9 @@ date_check_timeframe(first_date, last_date)
 }
 \arguments{
 \item{first_date}{A Date object specifying the first valid date.
-The default value is fifty years before the \code{last_date}}
+The arbitrary default value is fifty years before the \code{last_date}.}
 
-\item{last_date}{A  Date object specifying the last valid date.
+\item{last_date}{A Date object specifying the last valid date.
 The defaults value is the current date.}
 }
 \value{
