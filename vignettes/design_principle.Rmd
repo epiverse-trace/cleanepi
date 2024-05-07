@@ -220,9 +220,9 @@ By using the `check_date_sequence()` function, users can systematically validate
 
 **10. Transformation of selected columns**
 
-This module is dedicated to performing various specialized operations related to epidemiological data analytics, and it currently includes the following function:
+This module is dedicated to performing various specialized operations related to epidemiological data analytics, and it currently includes the following functions:
 
-- **Main function:** `span()`
+- **Main function:** `timespan()`
 - **Input:** Accepts a `data.frame` or `linelist` object, along with:
   * The name of the column of interest
   * The reference date value or column
@@ -233,7 +233,7 @@ This module is dedicated to performing various specialized operations related to
 - **Mode:**
   * explicit
 
-By leveraging the `span()` function, users can efficiently compute and integrate time span information into their epidemiological dataset based on user-defined parameters, enhancing the analytics capabilities of the dataset.
+By leveraging the `timespan()` function, users can efficiently compute and integrate time span information into their epidemiological dataset based on user-defined parameters, enhancing the analytics capabilities of the dataset.
 
 ### Surrogate functions
 

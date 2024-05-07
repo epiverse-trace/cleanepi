@@ -5,9 +5,9 @@ data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi")) |>
                                         "date_first_pcr_positive_test"),
                     error_tolerance = 0.0)
 
-test_that("span works when the time span is calculated in months and
+test_that("timespan works when the time span is calculated in months and
           remainder is sent in days", {
-            time_span <- span(
+            time_span <- timespan(
               data                = data,
               target_column       = "dateOfBirth",
               end_date            = Sys.Date(),
@@ -21,9 +21,9 @@ test_that("span works when the time span is calculated in months and
                                                          "remainder_days"))
           })
 
-test_that("span works when the time span is calculated in months and
+test_that("timespan works when the time span is calculated in months and
           remainder is sent in weeks", {
-            time_span <- span(
+            time_span <- timespan(
               data                = data,
               target_column       = "dateOfBirth",
               end_date            = Sys.Date(),
@@ -37,9 +37,9 @@ test_that("span works when the time span is calculated in months and
                                                          "remainder_weeks"))
           })
 
-test_that("span works when the time span is calculated in years and
+test_that("timespan works when the time span is calculated in years and
           remainder is sent in months", {
-            time_span <- span(
+            time_span <- timespan(
               data                = data,
               target_column       = "dateOfBirth",
               end_date            = Sys.Date(),
@@ -53,9 +53,9 @@ test_that("span works when the time span is calculated in years and
                              c("age_in_years", "remainder_months"))
           })
 
-test_that("span works when the time span is calculated in years and
+test_that("timespan works when the time span is calculated in years and
           remainder is sent in weeks", {
-            time_span <- span(
+            time_span <- timespan(
               data                = data,
               target_column       = "dateOfBirth",
               end_date            = Sys.Date(),
@@ -70,9 +70,9 @@ test_that("span works when the time span is calculated in years and
 
           })
 
-test_that("span works when the time span is calculated in years and
+test_that("timespan works when the time span is calculated in years and
           remainder is sent in days", {
-            time_span <- span(
+            time_span <- timespan(
               data                = data,
               target_column       = "dateOfBirth",
               end_date            = Sys.Date(),
@@ -86,8 +86,8 @@ test_that("span works when the time span is calculated in years and
                              c("age_in_years", "remainder_days"))
           })
 
-test_that("span works when the time span is calculated in days", {
-  time_span <- span(
+test_that("timespan works when the time span is calculated in days", {
+  time_span <- timespan(
     data                = data,
     target_column       = "dateOfBirth",
     end_date            = Sys.Date(),
@@ -100,8 +100,8 @@ test_that("span works when the time span is calculated in days", {
   expect_identical(names(time_span)[9L], "age_in_days")
 })
 
-test_that("span works when the time span is returned in decimal", {
-  time_span <- span(
+test_that("timespan works when the time span is returned in decimal", {
+  time_span <- timespan(
     data                = data,
     target_column       = "dateOfBirth",
     end_date            = Sys.Date(),
@@ -114,7 +114,7 @@ test_that("span works when the time span is returned in decimal", {
   expect_identical(names(time_span)[9L], "age_in_years")
   expect_identical(typeof(time_span[["age_in_years"]]), "double")
 
-  time_span <- span(
+  time_span <- timespan(
     data                = data,
     target_column       = "dateOfBirth",
     end_date            = Sys.Date(),
@@ -127,7 +127,7 @@ test_that("span works when the time span is returned in decimal", {
   expect_identical(names(time_span)[9L], "age_in_months")
   expect_identical(typeof(time_span[["age_in_months"]]), "double")
 
-  time_span <- span(
+  time_span <- timespan(
     data                = data,
     target_column       = "dateOfBirth",
     end_date            = Sys.Date(),
@@ -141,8 +141,8 @@ test_that("span works when the time span is returned in decimal", {
   expect_identical(typeof(time_span[["age_in_weeks"]]), "double")
 })
 
-test_that("span works when the time span is calculated between 2 columns", {
-  time_span <- span(
+test_that("timespan works when the time span is calculated between 2 columns", {
+  time_span <- timespan(
     data                = data,
     target_column       = "dateOfBirth",
     end_date            = "date_first_pcr_positive_test",
@@ -155,10 +155,10 @@ test_that("span works when the time span is calculated between 2 columns", {
   expect_identical(names(time_span)[9L], "elapsed_time")
 })
 
-test_that("span works when the time span is calculated between a column of
+test_that("timespan works when the time span is calculated between a column of
           of the data frame and a vector of dates", {
             end_date <- data[["date_first_pcr_positive_test"]]
-            time_span <- span(
+            time_span <- timespan(
               data                = data,
               target_column       = "dateOfBirth",
               end_date            = end_date,
