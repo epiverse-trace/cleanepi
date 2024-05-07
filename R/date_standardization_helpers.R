@@ -1,6 +1,3 @@
-
-
-
 #' Check date time frame
 #'
 #' @param first_date A Date object specifying the first valid date.

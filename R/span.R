@@ -43,7 +43,7 @@
 #'                     error_tolerance = 0.0)
 #'
 #' # calculate the age in 'years' and return the remainder in 'months'
-#' age <- span(
+#' age <- timespan(
 #'   data                = data,
 #'   target_column       = "dateOfBirth",
 #'   end_date            = Sys.Date(),
@@ -51,12 +51,12 @@
 #'   span_column_name    = "age_in_years",
 #'   span_remainder_unit = "months"
 #' )
-span <- function(data,
-                 target_column       = NULL,
-                 end_date            = Sys.Date(),
-                 span_unit           = c("years", "months", "weeks", "days"),
-                 span_column_name    = "span",
-                 span_remainder_unit = c("months", "weeks", "days")) {
+timespan <- function(data,
+                     target_column      = NULL,
+                     end_date           = Sys.Date(),
+                     span_unit          = c("years", "months", "weeks", "days"),
+                     span_column_name   = "span",
+                     span_remainder_unit = NULL) {
   checkmate::assert_data_frame(data, null.ok = FALSE)
   checkmate::assert_choice(target_column,
                            choices = colnames(data),
@@ -79,22 +79,41 @@ span <- function(data,
   # end_date can be a column of the input data or
   # a vector of Date values with the same length as number of row in data or
   # a Date value
-  if (is.character(end_date) && end_date %in% colnames(data)) {
-    span_result <- abs(unclass(data[[target_column]]) -
-                         unclass(data[[end_date]]))
-  } else {
-    span_result <- abs(unclass(data[[target_column]]) - unclass(end_date))
+  if (is.character(end_date)) {
+    stopifnot("The columns specified in 'end_date' argument should be of type
+              Date in ISO8601 format." = end_date %in% colnames(data),
+              inherits(data[[end_date]], "Date"))
+    end_date <- data[[end_date]]
   }
-  units         <- c(365.25, 30.0, 7.0, 1.0)
-  names(units)  <- c("years", "months", "weeks", "days")
-  if (!is.null(span_remainder_unit)) {
-    data[, span_column_name] <- floor(span_result / units[span_unit])
-    data[, sprintf("remainder_%s", span_remainder_unit)] <- round(
-      (span_result %% units[span_unit]) / units[span_remainder_unit],
-      digits = 2L)
+
+  # switch divisor based on requested unit
+  # NOTE: default divisor unit is 'years'
+  divisor_age <- switch(
+    span_unit,
+    years  = lubridate::years(1L),
+    months = months(1L), # from base, lubridate provides method returning period
+    weeks  = lubridate::weeks(1L),
+    days   = lubridate::days(1)
+  )
+
+  # calculate the time difference, convert to numeric or period, and get the
+  # quotient and remainder
+  time_diff <- lubridate::as.period(end_date - data[[target_column]])
+  if (is.null(span_remainder_unit)) {
+    data[, span_column_name] <- lubridate::time_length(time_diff,
+                                                       unit = span_unit)
   } else {
-    data[, span_column_name] <- round(span_result / units[span_unit],
-                                      digits = 2L)
+    data[, span_column_name] <- time_diff %/% divisor_age
+
+    # switch divisor for remainder based on requested unit
+    divisor_remainder        <- switch(
+      span_remainder_unit,
+      months = months(1L), # from base as above
+      weeks  = lubridate::weeks(1L),
+      days   = lubridate::days(1)
+    )
+    data[, sprintf("remainder_%s", span_remainder_unit)] <-
+      (time_diff %% divisor_age) %/% divisor_remainder
   }
 
   # when the time span is requested in days, remove remainder
