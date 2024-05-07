@@ -77,7 +77,7 @@ reference:
 
 - subtitle: Calculate time span between the variables of type Date
 - contents:
-  - span
+  - timespan
 
 - subtitle: Detect incorrect subject ids and correct them if required
 - contents:
