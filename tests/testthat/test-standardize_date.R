@@ -184,7 +184,7 @@ test_that("date_guess works as expected", {
                     quiet        = TRUE,
                     modern_excel = TRUE,
                     orders       = "dmY")
-  expect_identical(res,
+  expect_identical(res[["res"]],
                    as.Date(c("2020-12-01", "2021-01-28", "2021-02-15",
                              "2021-02-11", "2021-02-17", "2021-02-17",
                              "2021-02-28", "2021-02-22", "2021-03-02",

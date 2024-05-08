@@ -37,6 +37,12 @@ for successive tries in parsing. Default orders are:
 )
 }\if{html}{\out{</div>}}}
 }
+\value{
+A list of following two elements: a vector of the newly reformatted
+dates and a data frame with the date values that were converted from more
+than one format. If all values comply with only one format, the later
+element will be NULL.
+}
 \description{
 Note that THIS FEATURE IS STILL EXPERIMENTAL: we strongly recommend checking
 a few converted dates manually. This function tries to extract dates from a

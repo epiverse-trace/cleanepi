@@ -354,6 +354,39 @@ res |>
                          fixed_thead = TRUE)
 ```
 
+It also adds two or three elements to the report object:
+
+* A data frame with the columns where date values were standardized,
+* A data frame with the values that fall outside of the specified timeframe,
+* A data frame featuring date values that can comply with more than one specified format.
+
+```{r echo=FALSE, eval=TRUE}
+# STANDARDIZE VALUES IN ALL COLUMNS
+res <- standardize_dates(
+  data            = test_data,
+  target_columns  = NULL,
+  format          = NULL,
+  timeframe       = NULL,
+  error_tolerance = 0.4,
+  orders          = list(world_named_months = c("Ybd", "dby"),
+                         world_digit_months = c("dmy", "Ymd"),
+                         US_formats         = c("Omdy", "YOmd")),
+  modern_excel    = TRUE
+)
+
+# GET THE REPORT
+report <- attr(res, "report")
+
+# DISPLAY DATE VALUES THAT COMPLY WITH MULTIPLE FORMATS
+report$multi_format_dates |>
+  kableExtra::kbl() |>
+  kableExtra::kable_paper("striped", font_size = 14, full_width = TRUE) |>
+  kableExtra::scroll_box(height = "200px", width = "100%",
+                         box_css = "border: 1px solid #ddd; padding: 5px; ",
+                         extra_css = NULL,
+                         fixed_thead = TRUE)
+```
+
 
 ## Standardizing subject IDs
 
