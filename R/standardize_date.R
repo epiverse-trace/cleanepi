@@ -36,7 +36,10 @@
 #'    or a 2011 or later version of Excel for OSX. Set this parameter to `FALSE`
 #'    if the data came from an OSX version of Excel before 2011.
 #'
-#' @returns The input dataset where the date columns have been standardized
+#' @returns The input dataset where the date columns have been standardized. The
+#'    date values that are out of the specified timeframe will be reported in
+#'    the report. Similarly, date values that comply with multiple formats will
+#'    also be featured in the report object.
 #' @export
 #'
 #' @details Converting ambiguous character strings to dates is difficult for
