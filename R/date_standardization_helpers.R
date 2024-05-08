@@ -90,11 +90,21 @@ date_trim_outliers <- function(new_dates, dmin, dmax, cols, original_dates) {
 date_convert <- function(data, cols, error_tolerance,
                          timeframe = NULL, orders, modern_excel) {
   # Guess the date using Thibault's parser
-  new_dates   <- data[[cols]]
+  new_dates           <- data[[cols]]
   if (!inherits(data[[cols]], "Date")) {
-    new_dates <- date_guess(data[[cols]],
-                            orders       = orders,
-                            modern_excel = modern_excel)
+    date_guess_res    <- date_guess(data[[cols]],
+                                    orders       = orders,
+                                    modern_excel = modern_excel)
+    new_dates         <- date_guess_res[["res"]]
+    multi_forma_dates <- date_guess_res[["multi_format"]]
+    # report the multi formatted dates
+    if (nrow(multi_forma_dates)) {
+      data            <- add_to_report(
+        x     = data,
+        key   = "multi_format_dates",
+        value = multi_forma_dates
+      )
+    }
   }
 
   # Trim outliers i.e. date values that are out of the range of the provided
@@ -109,7 +119,7 @@ date_convert <- function(data, cols, error_tolerance,
     data[[cols]]   <- new_dates
   }
 
-  # report this cleaning operation
+  # report the out of range dates
   if (!is.null(outsiders)) {
     data         <- add_to_report(x     = data,
                                   key   = "out_of_range_dates",
@@ -179,23 +189,39 @@ date_guess_convert <- function(data, error_tolerance, timeframe,
   }
 
   # convert characters and factors to date when applicable
-  of_interest   <- c(are_characters, are_factors, are_dates, are_posix)
+  of_interest       <- c(are_characters, are_factors, are_dates, are_posix)
+  multi_forma_dates <- NULL
   for (i in names(of_interest)) {
-    new_dates   <- date_guess(data[[i]], orders = orders,
-                              modern_excel = modern_excel)
+    date_guess_res    <- date_guess(data[[i]], orders = orders,
+                                    modern_excel = modern_excel)
+    new_dates         <- date_guess_res[["res"]]
+    multi_format      <- date_guess_res[["multi_format"]]
+    if (nrow(multi_format) > 0L) {
+      multi_forma_dates <- rbind(multi_forma_dates,
+                                 cbind(field = i, multi_format))
+    }
+
     if (!all(is.na(new_dates)) && is.null(timeframe)) {
-      data[[i]] <- new_dates
+      data[[i]]       <- new_dates
     }
     if (!is.null(timeframe)) {
-      res       <- date_convert_and_update(data, timeframe, new_dates, i,
-                                           error_tolerance)
-      data      <- res[["data"]]
-      data      <- add_to_report(x     = data,
-                                 key   = "out_of_range_dates",
-                                 value = res[["outsiders"]])
+      res             <- date_convert_and_update(data, timeframe, new_dates, i,
+                                                 error_tolerance)
+      data            <- res[["data"]]
+      data            <- add_to_report(x     = data,
+                                       key   = "out_of_range_dates",
+                                       value = res[["outsiders"]])
     }
   }
 
+  # report the multi formatted dates
+  if (!is.null(multi_forma_dates)) {
+    data            <- add_to_report(
+      x     = data,
+      key   = "multi_format_dates",
+      value = multi_forma_dates
+    )
+  }
 
   return(data)
 }

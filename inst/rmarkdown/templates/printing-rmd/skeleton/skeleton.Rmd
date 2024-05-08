@@ -20,6 +20,7 @@ params:
   converted_into_numeric: NULL
   misspelled_values: NULL
   incorrect_date_sequence: NULL
+  multi_format_dates: NULL
   report_title: "cleanepi report"
   logo: NULL
 ---
@@ -89,6 +90,8 @@ converted_into_numeric     <- params[["converted_into_numeric"]]
 are_converted_into_numeric <- !is.null(converted_into_numeric)
 incorrect_date_sequence     <- params[["incorrect_date_sequence"]]
 are_incorrect_date_sequence <- !is.null(incorrect_date_sequence)
+multi_format_dates <- params[["multi_format_dates"]]
+are_multi_format_dates <- !is.null(multi_format_dates)
 ```
 
 ### Data structure
@@ -100,9 +103,10 @@ reactable::reactable( # nolint: cyclocomp_linter
   filterable = FALSE,
   searchable = FALSE,
   rownames   = FALSE,
-  pagination = FALSE,
+  pagination = TRUE,
   striped    = TRUE,
   highlight  = TRUE,
+  defaultPageSize = 15,
   columns    = list(
     Field_names = reactable::colDef(name  = "field_names",
                                     style = list(fontWeight = "bold",
@@ -175,12 +179,13 @@ reactable::reactable(
   sortable   = TRUE,
   filterable = FALSE,
   searchable = FALSE,
-  pagination = FALSE,
+  pagination = TRUE,
   rownames   = FALSE,
   compact    = TRUE,
   fullWidth  = TRUE,
   striped    = TRUE,
   highlight  = TRUE,
+  defaultPageSize = 15,
   columns    = list(
     before = reactable::colDef(name     = "original name",
                                minWidth = 200),
@@ -193,7 +198,9 @@ reactable::reactable(
 ```
 
 
-### Standardised dates
+### Standardised dates {.tabset}
+
+#### Out of range dates
 
 ```{r out_of_range_dates, eval=are_out_of_range_dates_found}
 reactable::reactable(
@@ -207,6 +214,7 @@ reactable::reactable(
   highlight  = TRUE,
   compact    = TRUE,
   fullWidth  = TRUE,
+  defaultPageSize = 15,
   columns    = list(
     idx = reactable::colDef(name  = "row indices", align = "center",
                             style = list(fontWeight = "normal")),
@@ -216,6 +224,44 @@ reactable::reactable(
                                        style = list(fontWeight = "bold",
                                                     color      = "#e00000"))
   )
+)
+```
+
+#### Multi-formatted dates
+
+```{r multi_format_dates, eval=are_multi_format_dates}
+multi_format_dates <- multi_format_dates |>
+  dplyr::group_by(field)
+
+reactable::reactable(
+  multi_format_dates,
+  sortable   = TRUE,
+  filterable = FALSE,
+  searchable = FALSE,
+  rownames   = FALSE,
+  pagination = TRUE,
+  striped    = FALSE,
+  highlight  = TRUE,
+  compact    = TRUE,
+  fullWidth  = TRUE,
+  defaultPageSize = 15,
+  columns = list(
+    field = reactable::colDef(name = "column name",
+      style = htmlwidgets::JS("function(rowInfo, column, state) {
+        const firstSorted = state.sorted[0]
+        // Merge cells if unsorted or sorting by field
+        if (!firstSorted || firstSorted.id === 'field') {
+          const prevRow = state.pageRows[rowInfo.viewIndex - 1]
+          if (prevRow && rowInfo.values['field'] === prevRow['field']) {
+            return { visibility: 'hidden' }
+          }
+        }
+      }")
+    ),
+    idx = reactable::colDef(name  = "row indices", align = "center",
+                            style = list(fontWeight = "normal"))
+  ),
+  outlined = TRUE
 )
 ```
 
@@ -231,7 +277,8 @@ reactable::reactable(
   rownames   = FALSE,
   striped    = TRUE,
   compact    = TRUE,
-  fullWidth  = TRUE
+  fullWidth  = TRUE,
+  defaultPageSize = 15
 )
 ```
 
@@ -240,6 +287,7 @@ reactable::reactable(
 #### Duplicated rows
 
 ```{r duplicates, eval=are_duplicates_found}
+duplicated_rows <- duplicated_rows |> dplyr::relocate(group_id)
 reactable::reactable(
   duplicated_rows,
   sortable   = TRUE,
@@ -247,19 +295,32 @@ reactable::reactable(
   searchable = FALSE,
   rownames   = FALSE,
   pagination = TRUE,
-  striped    = TRUE,
+  striped    = FALSE,
   highlight  = TRUE,
   compact    = TRUE,
   fullWidth  = TRUE,
   bordered   = TRUE,
   resizable  = TRUE,
+  defaultPageSize = 15,
+  outlined = TRUE,
   columns    = list(
     row_id = reactable::colDef(name   = "row indices", align = "center",
                                style  = list(backgroundColor = "#f7f7e7"),
                                sticky = "left"),
-    group_id = reactable::colDef(name   = "group id", align = "center",
-                                 style  = list(backgroundColor = "#f7f7e7"),
-                                 sticky = "left")
+    group_id = reactable::colDef(
+      name   = "group id", align = "center",
+      style = htmlwidgets::JS("function(rowInfo, column, state) {
+        const firstSorted = state.sorted[0]
+        // Merge cells if unsorted or sorting by group_id
+        if (!firstSorted || firstSorted.id === 'group_id') {
+          const prevRow = state.pageRows[rowInfo.viewIndex - 1]
+          if (prevRow && rowInfo.values['group_id'] === prevRow['group_id']) {
+            return { visibility: 'hidden' }
+          }
+        }
+      }"),
+      sticky = "left"
+    )
   ),
   theme = reactable::reactableTheme(
     borderColor = "#dfe2e5",
@@ -290,6 +351,7 @@ reactable::reactable(
   fullWidth  = TRUE,
   bordered   = TRUE,
   resizable  = TRUE,
+  defaultPageSize = 15,
   columns    = list(
     row_id = reactable::colDef(name   = "row indices", align = "center",
                                style  = list(backgroundColor = "#f7f7e7"),
@@ -386,6 +448,7 @@ reactable::reactable(
   fullWidth  = TRUE,
   bordered   = TRUE,
   resizable  = TRUE,
+  defaultPageSize = 15,
   columns    = list(
     idx = reactable::colDef(name = "row indices", align = "center"),
     column = reactable::colDef(name = "column name", align = "center"),
@@ -431,6 +494,7 @@ reactable::reactable(
   fullWidth  = TRUE,
   bordered   = TRUE,
   resizable  = TRUE,
+  defaultPageSize = 15,
   columns    = list(
     idx = reactable::colDef(name   = "row indices", align = "center",
                             style  = list(backgroundColor = "#f7f7e7"),
@@ -487,6 +551,7 @@ reactable::reactable(
   fullWidth  = TRUE,
   bordered   = TRUE,
   resizable  = TRUE,
+  defaultPageSize = 15,
   columns    = list(
     row_id = reactable::colDef(name   = "row indices", align = "center",
                                style  = list(backgroundColor = "#f7f7e7"),

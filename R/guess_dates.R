@@ -18,6 +18,11 @@
 #'     console (`TRUE`, default); set to `FALSE` to silence messages
 #' @inheritParams standardize_dates
 #'
+#' @return A list of following two elements: a vector of the newly reformatted
+#'    dates and a data frame with the date values that were converted from more
+#'    than one format. If all values comply with only one format, the later
+#'    element will be NULL.
+#'
 #' @examples
 #' \dontrun{
 #' # Mixed format date -----------------------------------------
@@ -149,17 +154,28 @@ date_guess <- function(x,
 #' @keywords internal
 #'
 date_choose_first_good <- function(date_a_frame) {
+  multi_format <- NULL
   n            <- nrow(date_a_frame)
   date_a_frame <- as.matrix(date_a_frame)
-  res          <- rep_len(as.Date(NA), length.out = n)
+  res          <- rep_len(lubridate::NA_Date_, length.out = n)
   for (i in seq_len(n)) {
+    # get values that lubridate converted successfully
     tmp        <- date_a_frame[i, , drop = TRUE]
     idx        <- which(!is.na(tmp))
     if (length(idx) > 0L) {
       res[i]   <- as.Date(tmp[idx][[1L]])
+      # detect values that comply with multiple formats. Useful for report.
+      tmp_date <- unique(tmp[idx])
+      if (length(tmp_date) > 1L) {
+        multi_format <- rbind(multi_format,
+                              cbind(idx = i, date_a_frame[i, , drop = FALSE]))
+      }
     }
   }
-  return(res)
+  return(
+    list(res          = res,
+         multi_format = as.data.frame(multi_format))
+  )
 }
 
 #' Find the dates that lubridate couldn't

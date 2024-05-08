@@ -150,6 +150,7 @@ This module is dedicated to convert date values in character columns into `Date`
 - **Report:**
   * A two-column table listing the columns where date values were standardized.
   * A three-column table featuring index, column name, and values that fall outside the specified timeframe.
+  * A data frame featuring date values that can comply with more than one specified format. Users can update the standardized date values with the correct when it's appropriated.
 - **Mode:**
   * explicit
 
