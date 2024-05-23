@@ -18,18 +18,15 @@ test_that("clean_data works as expected with the default parameters", {
 # DEFINING THE CLEANING PARAMETERS
 use_na                  <- list(target_columns = NULL, na_strings = "-99")
 standardize_col_names   <- list(keep = NULL, rename = NULL)
-remove_duplicates       <- list(target_columns   = NULL,
-                                rm_empty_rows    = TRUE,
-                                rm_empty_cols    = TRUE,
-                                rm_constant_cols = TRUE)
-standardize_dates        <- list(target_columns  = NULL,
-                                 error_tolerance = 0.4,
-                                 format          = NULL,
-                                 timeframe       = as.Date(c("1973-05-29",
-                                                             "2023-05-29")),
-                                 orders = list(named_months = c("Ybd", "dby"),
-                                               digit_months = c("dmy", "Ymd"),
-                                               US_formats = c("Omdy", "YOmd")),
+remove_duplicates       <- list(target_columns   = NULL)
+standardize_dates       <- list(target_columns  = NULL,
+                                error_tolerance = 0.4,
+                                format          = NULL,
+                                timeframe       = as.Date(c("1973-05-29",
+                                                            "2023-05-29")),
+                                orders = list(named_months = c("Ybd", "dby"),
+                                              digit_months = c("dmy", "Ymd"),
+                                              US_formats = c("Omdy", "YOmd")),
                                 modern_excel = TRUE)
 standardize_subject_ids <- list(target_columns = "study_id",
                                 prefix         = "PS",

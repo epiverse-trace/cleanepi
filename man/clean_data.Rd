@@ -70,11 +70,7 @@ remove_cte <- list(cutoff = 1)
 replace_missing_values <- list(target_columns = NULL, na_strings = "-99")
 
 # Parameters for duplicates removal across all columns
-# (target_columns = NULL)
-remove_duplicates <- list(target_columns   = NULL,
-                          rm_empty_rows    = TRUE,
-                          rm_empty_cols    = TRUE,
-                          rm_constant_cols = TRUE)
+remove_duplicates <- list(target_columns   = NULL)
 
 # Parameters for dates standardization
 standardize_dates <- list(target_columns  = NULL,

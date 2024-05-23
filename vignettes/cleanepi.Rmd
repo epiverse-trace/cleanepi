@@ -594,15 +594,13 @@ To eliminate duplicated rows from a dataset, the `remove_duplicates()` function 
 
 1. **data**: A data frame or linelist from which duplicated rows will be removed.
 2. **target_columns**: A vector containing either column names or indices specifying the  columns from which duplicated rows will be identified. If set to `NULL`, the function will detect duplicates across all columns. If the input dataset is a `linelist` object, setting this parameter to `linelist_tags` will identify duplicates across the tagged variables only.
-3. **remove**: A numeric vector of the indices of the duplicated rows to be removed. If set to  `NULL`, the function removes duplicates and retains only the first occurrence of the   duplicated rows.
 
 ```{r eval=TRUE}
 # REMOVE DUPLICATE ACROSS TAGGED COLUMNS ONLY.
 res <- remove_duplicates(
   data           = readRDS(system.file("extdata", "test_linelist.RDS",
                                        package = "cleanepi")),
-  target_columns = "linelist_tags",
-  remove         = NULL
+  target_columns = "linelist_tags"
 )
 ```
 
@@ -642,20 +640,7 @@ duplicates <- report$duplicated_rows
 # REMOVE FIRST OCCURRENCE OF DUPLICATED ROWS
 dups_index_to_remove <- duplicates[["row_id"]][seq(1L, nrow(dups), 2L)]
 dups_index_to_remove <- dups_index_to_remove[!is.na(dups_index_to_remove)]
-no_dups <- remove_duplicates(
-  data           = readRDS(system.file("extdata", "test_linelist.RDS",
-                                       package = "cleanepi")),
-  target_columns = "linelist_tags",
-  remove         = dups_index_to_remove
-)
-
-# KEEP SPECIFIC DUPLICATED ROWS
-no_dups <- remove_duplicates(
-  data           = readRDS(system.file("extdata", "test_linelist.RDS",
-                                       package = "cleanepi")),
-  target_columns = "linelist_tags",
-  remove         = -c(33, 55)
-)
+no_dups <- data[-dups_index_to_remove, ]
 ```
 
 ## Dictionary based data substituting

@@ -4,7 +4,7 @@
 \alias{remove_duplicates}
 \title{Remove duplicates}
 \usage{
-remove_duplicates(data, target_columns = NULL, remove = NULL)
+remove_duplicates(data, target_columns = NULL)
 }
 \arguments{
 \item{data}{A input data frame or linelist.}
@@ -13,12 +13,6 @@ remove_duplicates(data, target_columns = NULL, remove = NULL)
 duplicates. When the input data is a \code{linelist} object, this
 parameter can be set to \code{linelist_tags} if you wish to look for duplicates
 on tagged columns only. Default is \code{NULL}.}
-
-\item{remove}{A vector of duplicate indices to be removed. Duplicate indices
-are unique identifiers for all rows in the original data frame or linelist
-that are duplicates of each other based on the \code{target_columns}.
-If remove = \code{NULL} (default value), the first duplicate is kept and
-the rest of the duplicates in the group are removed.}
 }
 \value{
 A  data frame or linelist  without the duplicates values and nor
@@ -32,7 +26,6 @@ the 'target_columns' argument.
 no_dups <- remove_duplicates(
   data           = readRDS(system.file("extdata", "test_linelist.RDS",
                                        package = "cleanepi")),
-  target_columns = "linelist_tags",
-  remove         = NULL
+  target_columns = "linelist_tags"
 )
 }

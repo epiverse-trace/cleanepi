@@ -9,11 +9,6 @@
 #'    duplicates. When the input data is a `linelist` object, this
 #'    parameter can be set to `linelist_tags` if you wish to look for duplicates
 #'    on tagged columns only. Default is `NULL`.
-#' @param remove A vector of duplicate indices to be removed. Duplicate indices
-#'    are unique identifiers for all rows in the original data frame or linelist
-#'    that are duplicates of each other based on the `target_columns`.
-#'    If remove = `NULL` (default value), the first duplicate is kept and
-#'    the rest of the duplicates in the group are removed.
 #'
 #' @return A  data frame or linelist  without the duplicates values and nor
 #'    constant columns.
@@ -23,14 +18,11 @@
 #' no_dups <- remove_duplicates(
 #'   data           = readRDS(system.file("extdata", "test_linelist.RDS",
 #'                                        package = "cleanepi")),
-#'   target_columns = "linelist_tags",
-#'   remove         = NULL
+#'   target_columns = "linelist_tags"
 #' )
 #' @importFrom rlang .data
 #'
-remove_duplicates <- function(data,
-                              target_columns = NULL,
-                              remove         = NULL) {
+remove_duplicates <- function(data, target_columns = NULL) {
 
   # setting up the variables below to NULL to avoid linters
   report <- attr(data, "report")
@@ -52,17 +44,10 @@ remove_duplicates <- function(data,
       dplyr::mutate(row_id = seq_len(nrow(dat)))
   }
 
-  # remove duplicates
-  if (is.null(remove)) {
-    # remove duplicates and keep the first instance of the duplicate in each
-    # duplicate group
-    dat <- dat %>%
-      dplyr::distinct_at({{ target_columns }}, .keep_all = TRUE)
-  } else {
-    # remove duplicates from user specified rows
-    dat <- dat[-remove, ]
-  }
-
+  # remove duplicates and keep the first instance of the duplicate in each
+  # duplicate group
+  dat <- dat %>%
+    dplyr::distinct_at({{ target_columns }}, .keep_all = TRUE)
 
   if ("duplicated_rows" %in% names(tmp_report) &&
       nrow(tmp_report[["duplicated_rows"]]) > 0L) {
