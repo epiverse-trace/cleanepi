@@ -97,25 +97,36 @@ standardize_column_names <- function(data, keep = NULL, rename = NULL) {
 #' @keywords internal
 #'
 retrieve_column_names <- function(data, target_columns) {
+  # when 'linelist_tags' is provided, it will be returned as is
   if (length(target_columns) == 1L && target_columns == "linelist_tags") {
     return(target_columns)
   }
+
+  # extract the report object to make it easily accessible
   report    <- attr(data, "report")
-  new_names <- target_columns
-  idx       <- which(target_columns %in% names(data))
-  if (length(idx) < length(target_columns)) {
-    new_names          <- target_columns[idx]
-    target_columns     <- target_columns[-idx]
-    if ("colnames" %in% names(report) &&
-        all(target_columns %in% report[["colnames"]][["before"]])) {
-      all_column_names <- report[["colnames"]]
-      idx              <- match(target_columns, all_column_names[["before"]])
-      new_names        <- c(new_names, all_column_names[["after"]][idx])
-    } else {
-      stop("Could not find the following column names: ",
-           paste(target_columns, sep = ", "))
-    }
+  if (is.null(report) || !("colnames" %in% names(report))) {
+    return(target_columns)
   }
+
+  # when no target column is provided, it will return NULL
+  if (is.null(target_columns)) {
+    return(NULL)
+  }
+
+  # detect the current names
+  # identify the old names
+  new_names      <- target_columns[target_columns %in% names(data)]
+  target_columns <- target_columns[!(target_columns %in% names(data))]
+  if ("colnames" %in% names(report) &&
+      all(target_columns %in% report[["colnames"]][["before"]])) {
+    all_column_names <- report[["colnames"]]
+    idx              <- match(target_columns, all_column_names[["before"]])
+    new_names        <- c(new_names, all_column_names[["after"]][idx])
+  } else {
+    stop("Could not find the following column names: ",
+         paste(target_columns, collapse = ", "))
+  }
+
 
   return(new_names)
 }

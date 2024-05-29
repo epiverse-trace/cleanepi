@@ -26,14 +26,13 @@ data <- data |>
 
 test_that("check_date_sequence sends a warning when incorrect column nams are
           found", {
-            expect_error(
+            expect_warning(
               check_date_sequence(
                 data           = data,
                 target_columns = c("date_first_pcr_positive_test",
                                    "date.of.admission", "fake_name")
               ),
-              regexp = cat("Could not find the following column names:
-                           fake_name")
+              regexp = cat("Removing unrecognised column name: fake_name")
             )
 
             expect_warning(

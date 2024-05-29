@@ -2,6 +2,7 @@ CMD
 Codecov
 Epiverse
 Kamvar
+LSHTM
 Lifecycle
 ORCID
 OSX
@@ -13,6 +14,7 @@ analytics
 bookdown
 dplyr
 epiCleanr
+funder
 grp
 interoperates
 kableExtra
