@@ -1,207 +1,70 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/404.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/articles/cleanepi.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/articles/design_principle.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/index.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/add_to_dictionary.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/add_to_report.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/as_date.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/check_date_sequence.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/check_subject_ids.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/check_subject_ids_length.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/check_subject_ids_oness.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/clean_data.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/clean_using_dictionary.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/cleanepi-package.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/common_na_strings.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/construct_misspelled_report.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/convert_numeric_to_date.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/convert_to_numeric.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/correct_subject_ids.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/date_check_column_existence.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/date_check_timeframe.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/date_choose_first_good.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/date_convert.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/date_convert_and_update.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/date_detect_complex_format.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/date_detect_day_or_month.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/date_detect_format.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/date_detect_separator.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/date_detect_simple_format.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/date_get_format.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/date_get_part1.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/date_get_part2.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/date_get_part3.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/date_guess.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/date_guess_convert.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/date_i_extract_string.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/date_i_find_format.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/date_make_format.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/date_match_format_and_column.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/date_process.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/date_rescue_lubridate_failures.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/date_trim_outliers.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/detect_misspelled_options.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/detect_to_numeric_columns.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/dictionary_make_metadata.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/find_duplicates.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/get_new_column_names_indices.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/get_sum.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/get_target_column_names.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/is_date_sequence_ordered.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/make_readcap_dictionary.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/numbers_only.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/print_misspelled_values.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/print_report.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/remove_constant.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/remove_duplicates.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/replace_missing_values.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/scan_columns.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/scan_data.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/span.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/standardize_column_names.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/standardize_dates.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/cleanepi/reference/to_numeric_convert.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://epiverse-trace.github.io/cleanepi/404.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/cleanepi/LICENSE-text.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/cleanepi/LICENSE.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/cleanepi/articles/cleanepi.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/cleanepi/articles/design_principle.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/cleanepi/articles/index.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/cleanepi/authors.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/cleanepi/index.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/cleanepi/reference/add_to_dictionary.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/cleanepi/reference/add_to_report.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/cleanepi/reference/check_date_sequence.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/cleanepi/reference/check_subject_ids.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/cleanepi/reference/check_subject_ids_oness.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/cleanepi/reference/clean_data.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/cleanepi/reference/clean_using_dictionary.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/cleanepi/reference/cleanepi-package.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/cleanepi/reference/common_na_strings.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/cleanepi/reference/construct_misspelled_report.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/cleanepi/reference/convert_numeric_to_date.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/cleanepi/reference/convert_to_numeric.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/cleanepi/reference/correct_subject_ids.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/cleanepi/reference/date_check_column_existence.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/cleanepi/reference/date_check_timeframe.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/cleanepi/reference/date_choose_first_good.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/cleanepi/reference/date_convert.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/cleanepi/reference/date_convert_and_update.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/cleanepi/reference/date_detect_complex_format.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/cleanepi/reference/date_detect_day_or_month.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/cleanepi/reference/date_detect_format.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/cleanepi/reference/date_detect_separator.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/cleanepi/reference/date_detect_simple_format.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/cleanepi/reference/date_get_format.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/cleanepi/reference/date_get_part1.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/cleanepi/reference/date_get_part2.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/cleanepi/reference/date_get_part3.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/cleanepi/reference/date_guess.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/cleanepi/reference/date_guess_convert.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/cleanepi/reference/date_i_extract_string.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/cleanepi/reference/date_i_find_format.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/cleanepi/reference/date_make_format.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/cleanepi/reference/date_match_format_and_column.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/cleanepi/reference/date_process.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/cleanepi/reference/date_rescue_lubridate_failures.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/cleanepi/reference/date_trim_outliers.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/cleanepi/reference/default_cleanepi_settings.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/cleanepi/reference/detect_misspelled_options.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/cleanepi/reference/detect_to_numeric_columns.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/cleanepi/reference/dictionary_make_metadata.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/cleanepi/reference/find_duplicates.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/cleanepi/reference/get_sum.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/cleanepi/reference/get_target_column_names.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/cleanepi/reference/index.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/cleanepi/reference/is_date_sequence_ordered.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/cleanepi/reference/make_readcap_dictionary.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/cleanepi/reference/numbers_only.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/cleanepi/reference/print_misspelled_values.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/cleanepi/reference/print_report.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/cleanepi/reference/remove_constants.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/cleanepi/reference/remove_duplicates.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/cleanepi/reference/replace_missing_values.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/cleanepi/reference/retrieve_column_names.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/cleanepi/reference/scan_columns.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/cleanepi/reference/scan_data.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/cleanepi/reference/standardize_column_names.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/cleanepi/reference/standardize_dates.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/cleanepi/reference/timespan.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/cleanepi/reference/to_numeric_convert.html</loc></url>
 </urlset>
+

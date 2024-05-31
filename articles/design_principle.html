@@ -5,7 +5,6 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="cleanepi">
 <title>Package Design vignette for {cleanepi} • cleanepi</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
@@ -15,86 +14,58 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Package Design vignette for {cleanepi}">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Package Design vignette for {cleanepi}">
+<meta name="description" content="cleanepi">
 <meta property="og:description" content="cleanepi">
 <meta property="og:image" content="https://epiverse-trace.github.io/cleanepi/logo.svg">
-<!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
-<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]--><!-- Google tag (gtag.js) --><script async src="https://www.googletagmanager.com/gtag/js?id=G-XZ471458FQ"></script><script>
+<!-- Google tag (gtag.js) --><script async src="https://www.googletagmanager.com/gtag/js?id=G-XZ471458FQ"></script><script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'G-XZ471458FQ');
 </script>
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
-    
-
-    <nav class="navbar fixed-top navbar-dark navbar-expand-lg bg-dark"><div class="container">
-    
-    <a href="https://epiverse-trace.github.io/" class="external-link"><img src="../logo_white.svg" id="logo" alt="Epiverse-TRACE"></a>
+    <nav class="navbar navbar-expand-lg fixed-top bg-dark" data-bs-theme="dark" aria-label="Site navigation"><div class="container">
+    <a href="https://epiverse-trace.github.io/" class="external-link"><img src="https://epiverse-trace.github.io/blueprints/logo_white.svg" id="logo" alt="Epiverse-TRACE"></a>
     <a class="navbar-brand me-2" href="../index.html">cleanepi</a>
-
-    <small class="nav-text text-muted me-auto version-number" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.2</small>
-
-    
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.2</small>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
-<li class="nav-item">
-  <a class="nav-link" href="../articles/cleanepi.html">Get started</a>
-</li>
-<li class="nav-item">
-  <a class="nav-link" href="../reference/index.html">Reference</a>
-</li>
+<li class="nav-item"><a class="nav-link" href="../articles/cleanepi.html">Get started</a></li>
+<li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="active nav-item dropdown">
-  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
-  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/design_principle.html">Package Design vignette for {cleanepi}</a>
-  </div>
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
+<li><a class="dropdown-item" href="../articles/design_principle.html">Package Design vignette for {cleanepi}</a></li>
+  </ul>
 </li>
       </ul>
-<form class="form-inline my-2 my-lg-0" role="search">
-        <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off">
-</form>
-
-      <ul class="navbar-nav">
-<li class="nav-item">
-  <a class="external-link nav-link" href="https://github.com/epiverse-trace/cleanepi/" aria-label="github">
-    <span class="fab fa fab fa-github fa-lg"></span>
-     
-  </a>
-</li>
+<ul class="navbar-nav">
+<li class="nav-item"><form class="form-inline" role="search">
+ <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json">
+</form></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/epiverse-trace/cleanepi/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul>
 </div>
-
-    
   </div>
 </nav><div class="container template-article">
-
 
 
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>Package Design vignette for {cleanepi}</h1>
-            
-      
-      <small class="dont-index">Source: <a href="https://github.com/epiverse-trace/cleanepi/blob/HEAD/vignettes/design_principle.Rmd" class="external-link"><code>vignettes/design_principle.Rmd</code></a></small>
+                        <small class="dont-index">Source: <a href="https://github.com/epiverse-trace/cleanepi/blob/HEAD/vignettes/design_principle.Rmd" class="external-link"><code>vignettes/design_principle.Rmd</code></a></small>
       <div class="d-none name"><code>design_principle.Rmd</code></div>
     </div>
-
-    
-    
-<div class="section level2">
+        <div class="section level2">
 <h2 id="concept-and-motivation">Concept and motivation<a class="anchor" aria-label="anchor" href="#concept-and-motivation"></a>
 </h2>
 <p>In this document, we will outline the design decisions that have
@@ -117,17 +88,21 @@ groups referred to as <strong>modules</strong>. These modules are based
 on overarching goals derived from commonly anticipated data cleaning
 procedures. Each module features a primary function along with
 additional helper functions tailored to accomplish specific tasks. It’s
-important to note that only the main function of each module will be
-exported. This deliberate choice empowers users to execute individual
-cleaning tasks as needed, enhancing flexibility and usability.</p>
+important to note that, except for few cases where the outcome a helper
+function can impact on the cleaning task, only the main function of each
+module will be exported. This deliberate choice empowers users to
+execute individual cleaning tasks as needed, enhancing flexibility and
+usability.</p>
 <p><img src="../reference/figures/cleanepi_design_diagram.drawio.png"><!-- --></p>
 <p>At the core of {cleanepi}, the pivotal function
 <code><a href="../reference/clean_data.html">clean_data()</a></code> serves as a wrapper encapsulating all the
 modules, as illustrated in the figure above. This function is intended
 to be the primary entry point for users seeking to cleanse their data.
 It performs the cleaning operations as requested by the user through the
-set of parameters that need to be explicitly defined. In addition, this
-package also has two surrogate functions:</p>
+set of parameters that need to be explicitly defined. Furthermore,
+multiple cleaning operations can be performed sequentially using the
+“pipe” operators (<code>|&gt;</code> or <code>%&gt;%</code>). In
+addition, this package also has two surrogate functions:</p>
 <ol style="list-style-type: decimal">
 <li>
 <code><a href="../reference/scan_data.html">scan_data()</a></code>: This function enables users to assess the
@@ -170,7 +145,7 @@ datasets.</p>
 <p>The primary functions of the modules, as well as the core function
 <code><a href="../reference/clean_data.html">clean_data()</a></code>, accept input in the form of a
 <code>data.frame</code> or <code>linelist</code>. This offers
-flexibility for users regarding where they want to position {ceanepi}
+flexibility for users regarding where they want to position {cleanepi}
 within the R package ecosystem for epidemic analysis pipelines, either
 to clean data before or after converting it to a
 <code>linelist</code>.</p>
@@ -209,7 +184,7 @@ user.</p></li>
 <li>A <code>data.frame</code> or <code>linelist</code> object.</li>
 <li>Optionally, a <code>vector</code> of focal column names and a vector
 of column names to be renamed in the form of
-<code>old_name = new_name</code>. If not provided, all columns will
+<code>new_name = old_name</code>. If not provided, all columns will
 undergo standardization.</li>
 </ul>
 </li>
@@ -237,9 +212,43 @@ for each updated column in the original dataset.</li>
 function, {cleanepi} streamlines the process of ensuring consistency and
 clarity in column naming conventions, thereby enhancing the overall
 organization and readability of the dataset.</p>
-<p><strong>2. Detection and removal of duplicates</strong></p>
-<p>This module is designed to identify and eliminate duplicated rows,
-columns, and constant columns within the dataset.</p>
+<p><strong>2. Removal of empty rows and columns and constant
+columns</strong></p>
+<p>This module aims at eliminating irrelevant and redundant rows and
+columns, including empty rows and columns as well as constant
+columns.</p>
+<ul>
+<li>
+<strong>Main function:</strong> <code><a href="../reference/remove_constants.html">remove_constants()</a></code>
+</li>
+<li>
+<strong>Input:</strong> Accepts a <code>data.frame</code> or
+<code>linelist</code> object, along with:
+<ul>
+<li>A cut-off that determines the percent of missing values beyond which
+a row or column should be deleted.</li>
+</ul>
+</li>
+<li>
+<strong>Output:</strong> Returns the input object after applying the
+specified operations.</li>
+<li>
+<strong>Report:</strong>
+<ul>
+<li>A list with one or two or three vector(s) showcasing detected empty
+rows, empty columns and constant columns.</li>
+</ul>
+</li>
+<li>
+<strong>Mode:</strong>
+<ul>
+<li>explicit</li>
+</ul>
+</li>
+</ul>
+<p><strong>3. Detection and removal of duplicates</strong></p>
+<p>This module is designed to identify and eliminate duplicated
+rows.</p>
 <ul>
 <li>
 <strong>Main function:</strong>
@@ -251,11 +260,7 @@ columns, and constant columns within the dataset.</p>
 <ul>
 <li>Vector of target columns (default is to consider all columns;
 possible to use <code>linelist_tags</code> to consider tagged variables
-only when the input is a linelist object)</li>
-<li>Option to remove empty rows (all rows by default)</li>
-<li>Option to remove empty columns (all columns by default)</li>
-<li>Option to remove constant columns (all constant columns by
-default)</li>
+only when the input is a linelist object).</li>
 </ul>
 </li>
 <li>
@@ -265,9 +270,7 @@ specified operations.</li>
 <strong>Report:</strong>
 <ul>
 <li>A list with one or two table(s) showcasing found duplicates and
-removed duplicates (if <code>remove = TRUE</code>). The list also
-includes information about the detected empty rows, empty columns, and
-constant columns.</li>
+removed duplicates (if <code>remove = TRUE</code>).</li>
 <li>A table detailing the removed duplicates.</li>
 </ul>
 </li>
@@ -279,10 +282,9 @@ constant columns.</li>
 </li>
 </ul>
 <p>Through the <code><a href="../reference/remove_duplicates.html">remove_duplicates()</a></code> function, users can
-streamline their dataset by eliminating redundant rows, columns, and
-constant values, thus enhancing data integrity and analysis
-efficiency.</p>
-<p><strong>3. Replacement of missing values with
+streamline their dataset by eliminating redundant rows, thus enhancing
+data integrity and analysis efficiency.</p>
+<p><strong>4. Replacement of missing values with
 <code>NA</code></strong></p>
 <p>This module aims to standardize and unify the representation of
 missing values within the dataset.</p>
@@ -297,8 +299,8 @@ missing values within the dataset.</p>
 <ul>
 <li>A <code>vector</code> of column names (if not provided, the
 operation is performed across all columns)</li>
-<li>A string representing the current missing values (default value is
-null)</li>
+<li>A string or a vector of strings representing the current missing
+values (default value is cleanepi::common_na_strings)</li>
 </ul>
 </li>
 <li>
@@ -317,10 +319,10 @@ index, column, and value for each missing item in the dataset.</li>
 <p>By utilizing the <code>replace_missing_char()</code> function, users
 can ensure consistency in handling missing values across their dataset,
 facilitating accurate analysis and interpretation of the data.</p>
-<p><strong>4. Standardization of date values</strong></p>
+<p><strong>5. Standardization of date values</strong></p>
 <p>This module is dedicated to convert date values in character columns
-into <code>Date</code> value in <code>ISO</code> format, and ensuring
-that all dates fall within the given timeframe.</p>
+into <code>Date</code> value in <code>ISO8601</code> format, and
+ensuring that all dates fall within the given timeframe.</p>
 <ul>
 <li>
 <strong>Main function:</strong>
@@ -332,11 +334,12 @@ that all dates fall within the given timeframe.</p>
 <ul>
 <li>A <code>vector</code> of targeted date columns (automatically
 determined if not provided)</li>
-<li>Tolerance threshold that defines the % of missing values to be
-allowed in a converted column. When % missing values exceeds it, the
-original values are returned (default value is 40%)</li>
-<li>Format (default value is NULL)</li>
-<li>Timeframe (default value is null)</li>
+<li>Tolerance threshold that defines the % of missing (out of range
+values converted to <code>NA</code>) values to be allowed in a converted
+column. When % missing values exceeds or is equal to it, the original
+values are returned (default value is 40%)</li>
+<li>format (default value is NULL)</li>
+<li>timeframe (default value is null)</li>
 </ul>
 </li>
 <li>
@@ -349,6 +352,9 @@ date values in the format of <em>%Y-%m-%d</em>.</li>
 standardized.</li>
 <li>A three-column table featuring index, column name, and values that
 fall outside the specified timeframe.</li>
+<li>A data frame featuring date values that can comply with more than
+one specified format. Users can update the standardized date values with
+the correct when it’s appropriated.</li>
 </ul>
 </li>
 <li>
@@ -362,9 +368,11 @@ fall outside the specified timeframe.</li>
 ensure uniformity and coherence in date formats across their dataset,
 while also validating the temporal integrity of the data within the
 defined timeframe.</p>
-<p><strong>5. Standardization of subject IDs</strong></p>
+<p><strong>6. Standardization of subject IDs</strong></p>
 <p>This module is tailored to verify whether the values in the column
-uniquely identifying subjects adhere to a consistent format.</p>
+uniquely identifying subjects adhere to a consistent format. It also
+offers a functionality that allow users to correct the inconsistent
+subject ids.</p>
 <ul>
 <li>
 <strong>Main function:</strong>
@@ -397,7 +405,7 @@ format.</li>
 <p>By utilizing the functions in this module, users can ensure
 uniformity in the format of subject ids, facilitating accurate tracking
 and analysis of individual subjects within the dataset.</p>
-<p><strong>6. Dictionary based substitution </strong></p>
+<p><strong>7. Dictionary based substitution </strong></p>
 <p>This module facilitates dictionary-based substitution, which involves
 replacing existing values with predefined ones. It replaces entries in a
 specific columns to certain values, such as substituting 1 with “male”
@@ -436,10 +444,10 @@ dataset.</p>
 return a warning when it detects unexpected values in the target columns
 from the data dictionary. The unexpected values can be added to the data
 dictionary using the <code><a href="../reference/add_to_dictionary.html">add_to_dictionary()</a></code> function.</p>
-<p><strong>7. Conversion of values when necessary </strong></p>
+<p><strong>8. Conversion of values when necessary </strong></p>
 <p>This module is designed to convert numbers written in letters to
-numerical values, ensuring interoperability with the {numberize}
-package.</p>
+numerical values, ensuring interoperability with the
+<a href="https://github.com/epiverse-trace/numberize" class="external-link">numberize</a> package.</p>
 <ul>
 <li>
 <strong>Main function:</strong>
@@ -449,7 +457,9 @@ package.</p>
 <strong>Input:</strong> Accepts a <code>data.frame</code> or
 <code>linelist</code> object, along with:
 <ul>
-<li>A vector of column names to be converted into numeric</li>
+<li>A vector of column names to be converted into numeric, and</li>
+<li>A string that denotes the language used in the text. The current
+version supports <code>English, French and Spanish</code>.</li>
 </ul>
 </li>
 <li>
@@ -472,7 +482,7 @@ numerical values, ensuring compatibility with the {numberize} package
 and promoting accuracy in numerical analysis.</p>
 <p>Note that <code><a href="../reference/convert_to_numeric.html">convert_to_numeric()</a></code> will issue a warning for
 unexpected values and return them in the report.</p>
-<p><strong>8. Verification of the sequence of date-events </strong></p>
+<p><strong>9. Verification of the sequence of date-events </strong></p>
 <p>This module provides functions to verify whether the sequence of date
 events aligns with expectations. For instance, it can flag rows where
 the date of admission to the hospital precedes the individual’s date of
@@ -487,8 +497,6 @@ birth.</p>
 <code>linelist</code> object, along with:
 <ul>
 <li>A vector of date column names to be considered</li>
-<li>A logical value to specify whether to remove the incorrect rows from
-the input data or not</li>
 </ul>
 </li>
 <li>
@@ -508,20 +516,20 @@ rows from the specified columns.</li>
 systematically validate and ensure the coherence of date sequences
 within their dataset, promoting accuracy and reliability in subsequent
 analyses.</p>
-<p><strong>9. Transformation of select columns</strong></p>
+<p><strong>10. Transformation of selected columns</strong></p>
 <p>This module is dedicated to performing various specialized operations
 related to epidemiological data analytics, and it currently includes the
-following function:</p>
+following functions:</p>
 <ul>
 <li>
-<strong>Main function:</strong> <code>calculate_age()</code>
+<strong>Main function:</strong> <code><a href="../reference/timespan.html">timespan()</a></code>
 </li>
 <li>
 <strong>Input:</strong> Accepts a <code>data.frame</code> or
 <code>linelist</code> object, along with:
 <ul>
 <li>The name of the column of interest</li>
-<li>The reference date</li>
+<li>The reference date value or column</li>
 <li>The time and remainder units (possible values are days, weeks,
 months, or years)</li>
 <li>The names of the newly generated columns</li>
@@ -529,7 +537,7 @@ months, or years)</li>
 </li>
 <li>
 <strong>Output:</strong> Returns the input object with clean data
-and an additional age column with values in the specified time
+and one or two additional columns with values in the specified time
 unit.</li>
 <li>
 <strong>Report:</strong> None.</li>
@@ -540,8 +548,8 @@ unit.</li>
 </ul>
 </li>
 </ul>
-<p>By leveraging the <code>calculate_age()</code> function, users can
-efficiently compute and integrate age-related information into their
+<p>By leveraging the <code><a href="../reference/timespan.html">timespan()</a></code> function, users can
+efficiently compute and integrate time span information into their
 epidemiological dataset based on user-defined parameters, enhancing the
 analytics capabilities of the dataset.</p>
 </div>
@@ -564,17 +572,39 @@ ensure data quality and integrity.</p></li>
 </ol>
 <p>These surrogate functions play crucial roles in the data analysis and
 cleaning workflow, providing valuable information and documentation
-about the dataset’s characteristics and the steps taken to prepare it
-for analysis or modeling.</p>
+about the dataset characteristics and the steps taken to prepare it for
+analysis or modelling.</p>
 </div>
+</div>
+<div class="section level2">
+<h2 id="related-packages">Related packages<a class="anchor" aria-label="anchor" href="#related-packages"></a>
+</h2>
+<p><a href="https://CRAN.R-project.org/package=janitor" class="external-link">{janitor}</a>,
+<a href="https://CRAN.R-project.org/package=matchmaker" class="external-link">{matchmaker}</a>,
+<a href="https://CRAN.R-project.org/package=naniar" class="external-link">{naniar}</a>, <a href="https://CRAN.R-project.org/package=daiquiri" class="external-link">{daiquiri}</a> <a href="https://CRAN.R-project.org/package=epiCleanr" class="external-link">{epiCleanr}</a> <a href="https://CRAN.R-project.org/package=matchmaker" class="external-link">{matchmaker}</a></p>
 </div>
 <div class="section level2">
 <h2 id="dependencies">Dependencies<a class="anchor" aria-label="anchor" href="#dependencies"></a>
 </h2>
 <p>The modules and surrogate functions will depend mainly on the
 following packages:</p>
-<p><a href="https://github.com/epiverse-trace/numberize" class="external-link">{numberize}</a>, <a href="https://CRAN.R-project.org/package=dplyr" class="external-link">{dplyr}</a>, <a href="https://CRAN.R-project.org/package=maggritr" class="external-link">{maggritr}</a>, <a href="https://CRAN.R-project.org/package=linelist" class="external-link">{linelist}</a>, <a href="https://CRAN.R-project.org/package=janitor" class="external-link">{janitor}</a>, <a href="https://CRAN.R-project.org/package=matchmaker" class="external-link">{matchmaker}</a>,
-<a href="https://CRAN.R-project.org/package=dplyr" class="external-link">{lubridate}</a>, <a href="https://CRAN.R-project.org/package=reactable" class="external-link">{reactable}</a>, <a href="https://CRAN.R-project.org/package=arsenal" class="external-link">{arsenal}</a>, <a href="https://CRAN.R-project.org/package=naniar" class="external-link">{naniar}</a>, <a href="https://CRAN.R-project.org/package=glue" class="external-link">{glue}</a>, <a href="https://CRAN.R-project.org/package=stringr" class="external-link">{stringr}</a>, <a href="https://CRAN.R-project.org/package=snakecase" class="external-link">{snakecase}</a>, <a href="https://CRAN.R-project.org/package=readr" class="external-link">{readr}</a>, and <a href="https://CRAN.R-project.org/package=R.utils" class="external-link">{R.utils}</a>.</p>
+<p><a href="https://github.com/epiverse-trace/numberize" class="external-link">{numberize}</a>
+used for the conversion of number from character to numeric, <a href="https://CRAN.R-project.org/package=dplyr" class="external-link">{dplyr}</a> used in many
+way including filtering, column creation, data summary, etc, <a href="https://CRAN.R-project.org/package=magrittr" class="external-link">{magrittr}</a> used
+here for its <code>%&gt;%</code> operator, <a href="https://CRAN.R-project.org/package=linelist" class="external-link">{linelist}</a> used
+to perform some operations on linelist-type input objects, <a href="https://CRAN.R-project.org/package=janitor" class="external-link">{janitor}</a> used
+here for the removal of constant data (empty rows and columns, as well
+as constant columns), <a href="https://CRAN.R-project.org/package=matchmaker" class="external-link">{matchmaker}</a>
+utilized to perform the dictionary-based cleaning, <a href="https://CRAN.R-project.org/package=dplyr" class="external-link">{lubridate}</a> used to
+create, handle, and manipulate objects of type Date, <a href="https://CRAN.R-project.org/package=reactable" class="external-link">{reactable}</a>
+mainly used here to customize the data cleaning report, <a href="https://CRAN.R-project.org/package=arsenal" class="external-link">{arsenal}</a> used in
+standardizing column names, <a href="https://CRAN.R-project.org/package=glue" class="external-link">{glue}</a> used here in
+substitution of <code>paste() and paste0()</code> to avoid linters, <a href="https://CRAN.R-project.org/package=snakecase" class="external-link">{snakecase}</a> used
+in standardizing column names to transform everything into snake-case
+except when specified otherwise, <a href="https://CRAN.R-project.org/package=withr" class="external-link">{withr}</a> utilized to
+handle the creation of temporary files and directory relevant for
+<code><a href="../reference/print_report.html">print_report()</a></code> and, <a href="https://CRAN.R-project.org/package=readr" class="external-link">{readr}</a> used to
+import data.</p>
 <p>The functions will require all other packages that needed in the
 package development process including:</p>
 <p><a href="https://CRAN.R-project.org/package=checkmate" class="external-link">{checkmate}</a>, <a href="https://CRAN.R-project.org/package=kableExtra" class="external-link">{kableExtra}</a>,
@@ -589,28 +619,16 @@ package development process including:</p>
 please follow the <a href="https://github.com/epiverse-trace/.github/blob/main/CONTRIBUTING.md" class="external-link">package
 contributing guide</a>.</p>
 </div>
-  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
 </div>
-
-
-
     <footer><div class="pkgdown-footer-left">
-  <p></p>
-<p>Developed by Karim Mané, Bubacarr Bah, Bankolé Ahadzie, Nuredin Mohammed, Abdoelnaser Degoot.</p>
+  <p>Developed by Karim Mané, Bubacarr Bah, Bankolé Ahadzie, Nuredin Mohammed, Abdoelnaser Degoot, data.org.</p>
 </div>
-
 <div class="pkgdown-footer-right">
-  <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.9000.</p>
 </div>
-
     </footer>
 </div>
-
-  
-
-  
-
   </body>
 </html>
