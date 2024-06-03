@@ -27,6 +27,20 @@ test_that("get_target_column_names works with
             expect_identical(target_columns, c("dateOfBirth", "sex"))
           })
 
+test_that("get_target_column_names works with
+          target_columns as a vector of numeric values", {
+            target_columns <- get_target_column_names(
+              data           = readRDS(system.file("extdata",
+                                                   "test_df.RDS",
+                                                   package = "cleanepi")),
+              target_columns = c(6L, 8L),
+              cols           = NULL
+            )
+            expect_type(target_columns, "character")
+            expect_length(target_columns, 2L)
+            expect_identical(target_columns, c("dateOfBirth", "sex"))
+          })
+
 test_that("get_target_column_names works with target_columns and cols", {
   target_columns <- get_target_column_names(
     data           = readRDS(system.file("extdata",

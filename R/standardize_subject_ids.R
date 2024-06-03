@@ -94,7 +94,7 @@ check_subject_ids <- function(data,
     bad_rows     <- unique(bad_rows)
     tmp_report   <- data.frame(idx = bad_rows,
                                ids = data[[target_columns]][bad_rows])
-    bad_rows     <- paste(bad_rows, sep = ", ")
+    bad_rows     <- toString(bad_rows)
     warning("Detected incorrect subject ids at lines: ", bad_rows,
             "\nUse the correct_subject_ids() function to adjust them.\n",
             call. = FALSE)

@@ -100,6 +100,16 @@ test_that("check_subject_ids sends a message when duplicated IDs are found", {
   )
 })
 
+test_that("check_subject_ids when the id column is numeric", {
+  data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi"))
+  data[["case_id"]] <- seq_len(nrow(data))
+  dat <- check_subject_ids(data           = data,
+                           target_columns = "case_id")
+  expect_s3_class(dat, "data.frame")
+  expect_false(identical(data, dat))
+  expect_true(nrow(data) == nrow(dat))
+})
+
 data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi"))
 test_that("check_subject_ids works when relying on the nchar argument", {
   dat <- check_subject_ids(data           = data,

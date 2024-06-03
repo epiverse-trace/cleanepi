@@ -122,11 +122,7 @@ retrieve_column_names <- function(data, target_columns) {
     all_column_names <- report[["colnames"]]
     idx              <- match(target_columns, all_column_names[["before"]])
     new_names        <- c(new_names, all_column_names[["after"]][idx])
-  } else {
-    stop("Could not find the following column names: ",
-         toString(target_columns))
   }
-
 
   return(new_names)
 }
