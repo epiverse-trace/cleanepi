@@ -1,5 +1,5 @@
-Type: Package
 Package: cleanepi
+Type: Package
 Title: Clean and Standardize Epidemiological Data
 Version: 0.0.2
 Authors@R: c(
