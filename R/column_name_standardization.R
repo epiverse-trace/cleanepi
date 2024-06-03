@@ -124,7 +124,7 @@ retrieve_column_names <- function(data, target_columns) {
     new_names        <- c(new_names, all_column_names[["after"]][idx])
   } else {
     stop("Could not find the following column names: ",
-         paste(target_columns, collapse = ", "))
+         toString(target_columns))
   }
 
 

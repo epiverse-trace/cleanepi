@@ -140,9 +140,9 @@ date_convert <- function(data, cols, error_tolerance,
 #' @param new_dates A vector of the converted date values
 #' @param cols The names of the date column been converted
 #'
-#' @returns A list of 2 data frames: the updated input data (if some columns were
-#'    converted to Date) and a data frame of date values that are not within the
-#'    specified timeframe.
+#' @returns A list of 2 data frames: the updated input data (if some columns
+#'    were converted to Date) and a data frame of date values that are not
+#'    within the specified timeframe.
 #' @keywords internal
 #'
 date_convert_and_update <- function(data, timeframe, new_dates, cols,

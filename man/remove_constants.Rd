@@ -14,8 +14,8 @@ only rows and columns where the percent of missing data is greater than
 this cut-off will removed.}
 }
 \value{
-The input dataset without the empty rows and columns and the constant
-columns.
+The input dataset without the empty rows and columns and the
+constant columns.
 }
 \description{
 Remove empty rows and columns and constant column
