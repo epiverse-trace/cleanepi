@@ -62,6 +62,12 @@ Key functionalities of **{{ packagename }}** include:
 
 ## Installation
 
+**{{ packagename }}** can be installed from CRAN using
+
+```{r message=FALSE, eval=FALSE}
+install.packages("cleanepi")
+```
+
 The latest development version of **{{ packagename }}** can be installed from  [GitHub](https://epiverse-trace.github.io/cleanepi).
 
 ```{r message=FALSE}
