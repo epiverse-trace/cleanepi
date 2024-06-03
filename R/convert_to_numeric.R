@@ -86,25 +86,3 @@ detect_to_numeric_columns <- function(scan_res) {
   }
   return(to_numeric)
 }
-
-#' Convert values in a character vector into numeric
-#'
-#' The conversion is only applied on non-missing and non-numeric values found
-#' from the input vector
-#'
-#' @param x a vector of type character or numeric
-#'
-#' @returns a vector of type numeric with the same length as the input vector
-#' @keywords internal
-#'
-to_numeric_convert <- function(x) {
-  if (is.numeric(x)) {
-    return(as.numeric(x))
-  }
-  xx                        <- suppressWarnings(as.numeric(x))
-  after_conversion_is_na    <- setdiff(which(is.na(xx)), which(is.na(x)))
-  x[after_conversion_is_na] <- unlist(lapply(x[after_conversion_is_na],
-                                             numberize::numberize,
-                                             lang = "en"))
-  return(as.numeric(x))
-}

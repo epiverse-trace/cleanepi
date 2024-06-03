@@ -35,6 +35,9 @@ standardize_subject_ids <- list(target_columns = "study_id",
                                 nchar          = 7L)
 to_numeric              <- list(target_columns = "sex",
                                 lang           = "en")
+check_date_sequence     <- list(
+  target_columns = c("date_first_pcr_positive_test", "date.of.admission")
+)
 params <- list(
   standardize_column_names = standardize_col_names,
   remove_constants         = list(cutoff = 1.0),
@@ -43,7 +46,8 @@ params <- list(
   standardize_dates        = standardize_dates,
   standardize_subject_ids  = standardize_subject_ids,
   to_numeric               = to_numeric,
-  dictionary               = test_dictionary
+  dictionary               = test_dictionary,
+  check_date_sequence      = check_date_sequence
 )
 
 test_that("clean_data works as expected", {

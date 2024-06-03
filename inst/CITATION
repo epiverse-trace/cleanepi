@@ -19,5 +19,5 @@ bibentry(
   title   = paste0(meta$Package, ": ", gsub("[[:space:]]+", " ", meta$Title)),
   author  = author,
   year    = date,
-  url     = meta$URL
+  url     = paste0(meta$URL, "/")
 )

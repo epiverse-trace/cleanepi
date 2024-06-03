@@ -36,7 +36,6 @@ convert_numeric_to_date <- function(data, target_columns, ref_date,
   target_columns <- get_target_column_names(data, target_columns, cols = NULL)
 
   if (is.character(ref_date)) {
-    stopifnot("Unrecognised column name" = ref_date %in% colnames(data))
     ref_date <- data[[ref_date]]
   }
 
