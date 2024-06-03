@@ -4,7 +4,7 @@
 #'
 #' @param x A vector of ones or a combination of various data types.
 #'
-#' @return A vector of 5 elements representing the percentage of missing,
+#' @returns A vector of 5 elements representing the percentage of missing,
 #' numeric, date, character, and logical values found in the input vector.
 #'
 #' @keywords internal
@@ -54,7 +54,7 @@ scan_columns <- function(x) {
 #'
 #' @param data A data frame or linelist
 #'
-#' @return A  data frame or linelist with the same columns as the input data
+#' @returns A  data frame or linelist with the same columns as the input data
 #'  and 5 rows representing the percentage of missing, numeric, date, character,
 #'   and logical values in each column.
 #'

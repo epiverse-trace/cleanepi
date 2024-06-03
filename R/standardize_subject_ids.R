@@ -120,7 +120,7 @@ check_subject_ids <- function(data,
 #'        incorrect ids.
 #'  }
 #'
-#' @return The input dataset where all subject ids comply with the expected
+#' @returns The input dataset where all subject ids comply with the expected
 #'    format.
 #' @export
 #'
@@ -174,7 +174,7 @@ correct_subject_ids <- function(data, target_columns, correction_table) {
 #' @param data the input data frame
 #' @param id_col_name the name of the column that contains the sample IDs
 #'
-#' @return the input data frame with and extra element in its attributes when
+#' @returns the input data frame with and extra element in its attributes when
 #'    there are missing or duplicated IDs.
 #' @keywords internal
 #'

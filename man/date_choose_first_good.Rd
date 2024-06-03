@@ -10,6 +10,9 @@ date_choose_first_good(date_a_frame)
 \item{date_a_frame}{a data frame where each column contains a different
 parsing of the same date vector}
 }
+\value{
+The chosen first date value
+}
 \description{
 Choose the first non-missing date from a data frame of dates
 }

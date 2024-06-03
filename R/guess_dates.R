@@ -18,7 +18,7 @@
 #'     console (`TRUE`, default); set to `FALSE` to silence messages
 #' @inheritParams standardize_dates
 #'
-#' @return A list of following two elements: a vector of the newly reformatted
+#' @returns A list of following two elements: a vector of the newly reformatted
 #'    dates and a data frame with the date values that were converted from more
 #'    than one format. If all values comply with only one format, the later
 #'    element will be NULL.
@@ -149,6 +149,7 @@ date_guess <- function(x,
 #' @param date_a_frame a data frame where each column contains a different
 #'   parsing of the same date vector
 #'
+#' @returns The chosen first date value
 #' @keywords internal
 #'
 date_choose_first_good <- function(date_a_frame) {
@@ -184,6 +185,8 @@ date_choose_first_good <- function(date_a_frame) {
 #' @param mxl "modern excel" if TRUE, then it uses 1900 as the origin, otherwise
 #'    1904 is used as the origin.
 #'
+#' @returns The input data frame where the values that do not match the proposed
+#'    formats have been converted into Date.
 #' @keywords internal
 date_rescue_lubridate_failures <- function(date_a_frame, original_dates,
                                            mxl = TRUE) {
@@ -219,7 +222,7 @@ date_rescue_lubridate_failures <- function(date_a_frame, original_dates,
 #' format (e.g. `2018-01-23`).
 #'
 #' @author Thibaut Jombart
-#' @return Either `NA_character_` or a date, as a standardized character string.
+#' @returns Either `NA_character_` or a date, as a standardized character string.
 #' @keywords internal
 date_i_extract_string <- function(x) {
 
@@ -247,7 +250,7 @@ date_i_extract_string <- function(x) {
 #'
 #' @author Thibaut Jombart
 #'
-#' @return If no matching format can be found, the function returns NULL; if a
+#' @returns If no matching format can be found, the function returns NULL; if a
 #'    matching format is found, the function returned the matched regular
 #'    expression (clean date) and its format compatible with `as.Date`.
 #' @keywords internal

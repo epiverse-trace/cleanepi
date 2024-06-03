@@ -18,7 +18,7 @@
 #'    and "days". Remainders requested in the same unit as the age will return
 #'    values of 0. Default is NULL for decimal time span.
 #'
-#' @return The input data frame with one or two additional columns:
+#' @returns The input data frame with one or two additional columns:
 #' \enumerate{
 #'   \item "span" or any other name chosen by the user. This will contain the
 #'      calculated time span in the desired units.

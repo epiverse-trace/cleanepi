@@ -9,7 +9,7 @@
 #' @param forward A Boolean to indicate whether the counts started after the
 #'    reference date (TRUE) or not (FALSE). The default is TRUE.
 #'
-#' @return A data frame where the column of interest are updated
+#' @returns A data frame where the column of interest are updated
 #' @export
 #'
 #' @examples

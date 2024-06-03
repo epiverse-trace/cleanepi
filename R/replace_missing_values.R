@@ -13,7 +13,7 @@
 #'    the columns of interest is not included in this predefined vector,
 #'    it can be used as the value for this argument.
 #'
-#' @return The input data where missing values are replaced by `NA`.
+#' @returns The input data where missing values are replaced by `NA`.
 #' @export
 #'
 #' @examples

@@ -14,8 +14,8 @@ columns of interest.}
 \item{data}{A data frame}
 }
 \value{
-A data frame the details about where in the input data the misspelled
-values were found.
+A data frame the details about where in the input data the
+misspelled values were found.
 }
 \description{
 Build the report for the detected misspelled values during dictionary-based

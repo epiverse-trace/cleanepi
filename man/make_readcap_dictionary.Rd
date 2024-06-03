@@ -21,7 +21,7 @@ project data}
 field type information}
 }
 \value{
-a data frame with 4 columns. This is in the format required by the
+A data frame with 4 columns. This is in the format required by the
 \{matchmaker\} R package for dictionary-based cleaning.
 }
 \description{

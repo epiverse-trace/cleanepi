@@ -2,14 +2,18 @@
 % Please edit documentation in R/utils.R
 \name{get_sum}
 \alias{get_sum}
-\title{Get sum from number}
+\title{Get sum of numbers from a string}
 \usage{
 get_sum(x)
 }
 \arguments{
 \item{x}{A string of interest}
 }
+\value{
+A numeric that correspond to the sum of every digit in the provided
+string.
+}
 \description{
-Get sum from number
+Get sum of numbers from a string
 }
 \keyword{internal}

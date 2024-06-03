@@ -10,6 +10,9 @@ print_misspelled_values(misspelled_options)
 \item{misspelled_options}{A list with the misspelled values found in
 the different columns of the input data.}
 }
+\value{
+Prints out the misspelled values from the column of interest
+}
 \description{
 Print the detected misspelled values
 }

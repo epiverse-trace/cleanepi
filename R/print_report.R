@@ -11,7 +11,7 @@
 #' @param print A logical that specifies whether to print the generated HTML
 #'    file or no.
 #'
-#' @return A string containing the name and path of the saved report
+#' @returns A string containing the name and path of the saved report
 #' @examples
 #' \dontrun{
 #' data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi"))

@@ -57,8 +57,8 @@ clean_using_dictionary <- function(data, dictionary) {
 #'    columns of interest.
 #' @inheritParams clean_using_dictionary
 #'
-#' @return A data frame the details about where in the input data the misspelled
-#'    values were found.
+#' @returns A data frame the details about where in the input data the
+#'    misspelled values were found.
 #' @keywords internal
 #'
 construct_misspelled_report <- function(misspelled_options, data) {
@@ -86,7 +86,7 @@ construct_misspelled_report <- function(misspelled_options, data) {
 #' @param field_type A `character` with the name of the column that contains the
 #'    field type information
 #'
-#' @return a data frame with 4 columns. This is in the format required by the
+#' @returns A data frame with 4 columns. This is in the format required by the
 #'    \{matchmaker\} R package for dictionary-based cleaning.
 #' @keywords internal
 #'
@@ -119,7 +119,7 @@ make_readcap_dictionary <- function(metadata,
 #' @param field_column A character with the name of the field where the
 #'    choices are made.
 #'
-#' @return A data frame with the dictionary in the format that is accepted by
+#' @returns A data frame with the dictionary in the format that is accepted by
 #'    the \{matchmaker\} package.
 #' @keywords internal
 #'
@@ -147,7 +147,7 @@ dictionary_make_metadata <- function(x, field_column) {
 #'    of interest.
 #' @param order A numeric with the order of the new option.
 #'
-#' @return An object of type data frame. This is the new data dictionary with an
+#' @returns An object of type data frame. This is the new data dictionary with an
 #'    additional line that contains the details about the new options.
 #' @export
 #'
@@ -209,7 +209,7 @@ add_to_dictionary <- function(dictionary,
 #'
 #' @inheritParams clean_using_dictionary
 #'
-#' @return A list with the indexes of the misspelled values in every column
+#' @returns A list with the indexes of the misspelled values in every column
 #'    that needs to be cleaned.
 #' @keywords internal
 #'
@@ -235,6 +235,7 @@ detect_misspelled_options <- function(data, dictionary) {
 #' @param misspelled_options A list with the misspelled values found in
 #'    the different columns of the input data.
 #'
+#' @returns Prints out the misspelled values from the column of interest
 #' @keywords internal
 #'
 print_misspelled_values <- function(misspelled_options) {

@@ -10,7 +10,7 @@
 #'    parameter can be set to `linelist_tags` if you wish to look for duplicates
 #'    on tagged columns only. Default is `NULL`.
 #'
-#' @return A  data frame or linelist  without the duplicates values and nor
+#' @returns A  data frame or linelist  without the duplicates values and nor
 #'    constant columns.
 #' @export
 #'
@@ -72,7 +72,7 @@ remove_duplicates <- function(data, target_columns = NULL) {
 #'    Its default value is `NULL`, which considers duplicates across all
 #'    columns.
 #'
-#' @return A data frame or linelist of all duplicated rows with following 2
+#' @returns A data frame or linelist of all duplicated rows with following 2
 #'    additional columns:
 #'    \enumerate{
 #'      \item `row_id`: the indices of the duplicated rows from the input data.

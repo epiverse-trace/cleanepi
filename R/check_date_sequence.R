@@ -78,9 +78,11 @@ check_date_sequence <- function(data, target_columns) {
   return(data)
 }
 
-#' Check order of a sequence of events
+#' Check order of a sequence of date-events
 #'
-#' @param x A string of interest
+#' @param x A vector of Date values
+#'
+#' @returns `TRUE` if elements of the vector are ordered, `FALSE` otherwise.
 #' @keywords internal
 is_date_sequence_ordered <- function(x) {
   return(!is.unsorted(x))

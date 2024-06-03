@@ -9,6 +9,9 @@ numbers_only(x)
 \arguments{
 \item{x}{A string of numbers}
 }
+\value{
+\code{TRUE} if the string only contains numbers, \code{FALSE} otherwise
+}
 \description{
 Detects whether a string contains only numbers or not.
 }

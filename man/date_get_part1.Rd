@@ -11,6 +11,10 @@ date_get_part1(x, sep)
 
 \item{sep}{A separator in the string of interest}
 }
+\value{
+A string with the first element of the vector returned by the
+\code{strsplit()} function.
+}
 \description{
 Get part1 of date value
 }

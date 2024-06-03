@@ -15,6 +15,10 @@ parsing of the same date vector}
 \item{mxl}{"modern excel" if TRUE, then it uses 1900 as the origin, otherwise
 1904 is used as the origin.}
 }
+\value{
+The input data frame where the values that do not match the proposed
+formats have been converted into Date.
+}
 \description{
 Find the dates that lubridate couldn't
 }

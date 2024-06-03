@@ -12,7 +12,7 @@
 #'    the form of `c("new_name1" = "old_name1", "new_name2" = "old_name2")` for
 #'    example.
 #'
-#' @return A data frame or linelist with easy to work with column names.
+#' @returns A data frame or linelist with easy to work with column names.
 #'
 #' @export
 #' @examples
@@ -92,7 +92,7 @@ standardize_column_names <- function(data, keep = NULL, rename = NULL) {
 #'    intermediate cleaning operations.
 #' @param target_columns a vector of target column names
 #'
-#' @return a vector of column names to be used for the target cleaning
+#' @returns a vector of column names to be used for the target cleaning
 #'    operations
 #' @keywords internal
 #'

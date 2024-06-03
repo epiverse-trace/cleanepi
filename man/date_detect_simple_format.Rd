@@ -2,14 +2,17 @@
 % Please edit documentation in R/date_standardization_helpers.R
 \name{date_detect_simple_format}
 \alias{date_detect_simple_format}
-\title{Get format from a simple date value}
+\title{Get format from a simple Date value}
 \usage{
 date_detect_simple_format(x)
 }
 \arguments{
 \item{x}{A string with the date value of interest}
 }
+\value{
+A string with the abbreviation that correspond to the Date value
+}
 \description{
-Get format from a simple date value
+Get format from a simple Date value
 }
 \keyword{internal}

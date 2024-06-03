@@ -36,6 +36,10 @@ all numeric values represent dates from either a Windows version of Excel
 or a 2011 or later version of Excel for OSX. Set this parameter to \code{FALSE}
 if the data came from an OSX version of Excel before 2011.}
 }
+\value{
+The input data frame where the character columns with date values
+have been converted into Date.
+}
 \description{
 Guess if a character vector contains Date values, and convert them to date
 }

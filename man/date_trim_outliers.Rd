@@ -17,6 +17,11 @@ date_trim_outliers(new_dates, dmin, dmax, cols, original_dates)
 
 \item{original_dates}{A vector of the original date values}
 }
+\value{
+A list of 2 elements: the update input vector where date values that
+are out of the boundaries are replaced by \code{NA}, and a vector of the out of
+boundaries values.
+}
 \description{
 Trim dates outside of the defined boundaries
 }

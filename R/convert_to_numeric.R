@@ -12,7 +12,7 @@
 #'    if the tagged columns are those to be converted into numeric.
 #' @param lang The text's language. Currently one of `"en" | "fr" | "es"`.
 #'
-#' @return A data frame after the conversion process, wherein all the specified
+#' @returns A data frame after the conversion process, wherein all the specified
 #'    or detected columns have been transformed into numeric format.
 #' @export
 #'
@@ -56,7 +56,7 @@ convert_to_numeric <- function(data, target_columns = NULL,
 #' @param scan_res a data frame that corresponds to the result from the
 #'    `scan_data()` function
 #'
-#' @return a vector of column names to be converted into numeric
+#' @returns a vector of column names to be converted into numeric
 #' @keywords internal
 #'
 detect_to_numeric_columns <- function(scan_res) {
@@ -94,7 +94,7 @@ detect_to_numeric_columns <- function(scan_res) {
 #'
 #' @param x a vector of type character or numeric
 #'
-#' @return a vector of type numeric with the same length as the input vector
+#' @returns a vector of type numeric with the same length as the input vector
 #' @keywords internal
 #'
 to_numeric_convert <- function(x) {
