@@ -5,7 +5,7 @@
 #' @param last_date A Date object specifying the last valid date.
 #'    The defaults value is the current date.
 #'
-#' @return A list with the first and last dates
+#' @returns A list with the first and last dates
 #' @keywords internal
 #'
 date_check_timeframe <- function(first_date, last_date) {
@@ -52,6 +52,10 @@ date_check_timeframe <- function(first_date, last_date) {
 #'    for errors)
 #' @param cols The name of the date column of interest
 #' @param original_dates A vector of the original date values
+#'
+#' @returns A list of 2 elements: the update input vector where date values that
+#'    are out of the boundaries are replaced by `NA`, and a vector of the out of
+#'    boundaries values.
 #' @keywords internal
 #'
 date_trim_outliers <- function(new_dates, dmin, dmax, cols, original_dates) {
@@ -82,7 +86,7 @@ date_trim_outliers <- function(new_dates, dmin, dmax, cols, original_dates) {
 #' @inheritParams standardize_dates
 #' @param cols  date column name(s)
 #'
-#' @return A data frame where the specified columns have been converted
+#' @returns A data frame where the specified columns have been converted
 #'    into Date.
 #'
 #' @keywords internal
@@ -136,7 +140,7 @@ date_convert <- function(data, cols, error_tolerance,
 #' @param new_dates A vector of the converted date values
 #' @param cols The names of the date column been converted
 #'
-#' @return A list of 2 data frames: the updated input data (if some columns were
+#' @returns A list of 2 data frames: the updated input data (if some columns were
 #'    converted to Date) and a data frame of date values that are not within the
 #'    specified timeframe.
 #' @keywords internal
@@ -173,6 +177,8 @@ date_convert_and_update <- function(data, timeframe, new_dates, cols,
 #' @param data A data frame
 #' @inheritParams standardize_dates
 #'
+#' @returns The input data frame where the character columns with date values
+#'    have been converted into Date.
 #' @keywords internal
 #'
 date_guess_convert <- function(data, error_tolerance, timeframe,
@@ -229,6 +235,8 @@ date_guess_convert <- function(data, error_tolerance, timeframe,
 #' Detect complex date format
 #'
 #' @param x A string of interest
+#'
+#' @returns A string with the inferred format.
 #' @keywords internal
 #'
 date_detect_complex_format <- function(x) {
@@ -260,6 +268,8 @@ date_detect_complex_format <- function(x) {
 #' Detect a date format with only 1 separator
 #'
 #' @param x A string of interest
+#'
+#' @returns A string with the identified format.
 #' @keywords internal
 #'
 date_detect_format <- function(x) {
@@ -278,9 +288,11 @@ date_detect_format <- function(x) {
 
 #' Check if date column exists in the given dataset
 #'
-#' @param data A dataframe
-#' @param date_column_names The name of the columns to check
+#' @param data The input data frame
+#' @param date_column_names A vector with the name of the columns to check
 #'
+#' @returns The input vector if all column names are part of the input data, an
+#'    error is issued otherwise.
 #' @keywords internal
 #'
 date_check_column_existence <- function(data, date_column_names) {
@@ -302,6 +314,8 @@ date_check_column_existence <- function(data, date_column_names) {
 #'
 #' @param x A string of interest
 #' @returns A detected separator
+#'
+#' @returns A vector of the identified special characters.
 #' @keywords internal
 #'
 date_detect_separator <- function(x) {
@@ -318,9 +332,12 @@ date_detect_separator <- function(x) {
   return(sep)
 }
 
-#' Detect whether it's day or month
+#' Detect the appropriate abbreviation for day or month value
 #'
-#' @param x A string of interest
+#' @param x The input string
+#'
+#' @returns A string with abbreviation used to distinguish the written day or
+#'    month
 #' @keywords internal
 #'
 date_detect_day_or_month <- function(x) {
@@ -350,9 +367,11 @@ date_detect_day_or_month <- function(x) {
   return(f1)
 }
 
-#' Get format from a simple date value
+#' Get format from a simple Date value
 #'
 #' @param x A string with the date value of interest
+#'
+#' @returns A string with the abbreviation that correspond to the Date value
 #' @keywords internal
 #'
 date_detect_simple_format <- function(x) {
@@ -469,9 +488,9 @@ date_make_format <- function(f1, f2, tmp_sep) {
 
 #' Process date variable
 #'
-#' @param x A object of date class
+#' @param x A object of class Date
 #'
-#' @return A modified input object
+#' @return The converted input value into Date or character
 #' @keywords internal
 #'
 date_process <- function(x) {
@@ -495,10 +514,10 @@ date_process <- function(x) {
 #' Check whether the number of provided formats matches the number of target
 #' columns to be standardized.
 #'
-#' @param target_columns a vector of column names to be standardized
-#' @param format a vector of formats to be used when standardizing the columns
+#' @param target_columns A vector of column names to be standardized
+#' @param format A vector of formats to be used when standardizing the columns
 #'
-#' @return a vector of format
+#' @return A vector of format
 #' @keywords internal
 #'
 date_match_format_and_column <- function(target_columns, format) {

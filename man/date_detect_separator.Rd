@@ -11,6 +11,8 @@ date_detect_separator(x)
 }
 \value{
 A detected separator
+
+A vector of the identified special characters.
 }
 \description{
 Detect the special character that is the separator in the date values

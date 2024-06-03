@@ -1,6 +1,8 @@
 #' Detects whether a string contains only numbers or not.
 #'
 #' @param x A string of numbers
+#'
+#' @returns `TRUE` if the string only contains numbers, `FALSE` otherwise
 #' @keywords internal
 numbers_only <- function(x) {
   return(!grepl("\\D", x))
@@ -10,6 +12,9 @@ numbers_only <- function(x) {
 #'
 #' @param x A string of interest
 #' @param sep A separator in the string of interest
+#'
+#' @returns A string with the first element of the vector returned by the
+#'    `strsplit()` function.
 #' @keywords internal
 date_get_part1 <- function(x, sep) {
   if (is.na(x)) {
@@ -22,6 +27,9 @@ date_get_part1 <- function(x, sep) {
 #'
 #' @param x A string of interest
 #' @param sep A separator in the string of interest
+#'
+#' @returns A string with the second element of the vector returned by the
+#'    `strsplit()` function.
 #' @keywords internal
 date_get_part2 <- function(x, sep) {
   if (is.na(x)) {
@@ -34,6 +42,9 @@ date_get_part2 <- function(x, sep) {
 #'
 #' @param x A string of interest
 #' @param sep A separator in the string of interest
+#'
+#' @returns A string with the third element of the vector returned by the
+#'    `strsplit()` function.
 #' @keywords internal
 #'
 date_get_part3 <- function(x, sep) {
@@ -43,9 +54,12 @@ date_get_part3 <- function(x, sep) {
   return(unlist(strsplit(x, sep, fixed = TRUE))[[3L]])
 }
 
-#' Get sum from number
+#' Get sum of numbers from a string
 #'
 #' @param x A string of interest
+#'
+#' @returns A numeric that correspond to the sum of every digit in the provided
+#'    string.
 #' @keywords internal
 #'
 get_sum <- function(x) {
@@ -61,7 +75,7 @@ get_sum <- function(x) {
 #' @param key The name of the cleaning operation
 #' @param value The object to add to the report object
 #'
-#' @return The input report object with an additional element
+#' @returns The input report object with an additional element
 #' @export
 #'
 #' @examples
@@ -101,7 +115,7 @@ add_to_report <- function(x, key, value = NULL) {
 #'    be 'linelist_tags'
 #' @param cols A vector of empty and constant columns
 #'
-#' @return A vector with the target column names or indexes
+#' @returns A vector with the target column names or indexes
 #'
 #' @keywords internal
 #'

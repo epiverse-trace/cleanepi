@@ -45,7 +45,7 @@
 #'      These arguments will be used in the `span()` function.
 #'   }
 #'
-#' @return The cleaned input date according to the user-specified parameters.
+#' @returns The cleaned input date according to the user-specified parameters.
 #'    This is associated with a data cleaning report that can be accessed using
 #'    `attr(cleaned_data, "report")`
 #'

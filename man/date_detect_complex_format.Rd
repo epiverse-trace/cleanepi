@@ -9,6 +9,9 @@ date_detect_complex_format(x)
 \arguments{
 \item{x}{A string of interest}
 }
+\value{
+A string with the inferred format.
+}
 \description{
 Detect complex date format
 }

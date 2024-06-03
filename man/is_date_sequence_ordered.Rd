@@ -2,14 +2,17 @@
 % Please edit documentation in R/check_date_sequence.R
 \name{is_date_sequence_ordered}
 \alias{is_date_sequence_ordered}
-\title{Check order of a sequence of events}
+\title{Check order of a sequence of date-events}
 \usage{
 is_date_sequence_ordered(x)
 }
 \arguments{
-\item{x}{A string of interest}
+\item{x}{A vector of Date values}
+}
+\value{
+\code{TRUE} if elements of the vector are ordered, \code{FALSE} otherwise.
 }
 \description{
-Check order of a sequence of events
+Check order of a sequence of date-events
 }
 \keyword{internal}

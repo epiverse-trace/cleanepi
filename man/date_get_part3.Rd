@@ -11,6 +11,10 @@ date_get_part3(x, sep)
 
 \item{sep}{A separator in the string of interest}
 }
+\value{
+A string with the third element of the vector returned by the
+\code{strsplit()} function.
+}
 \description{
 Get part3 of date value
 }

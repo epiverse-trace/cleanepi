@@ -9,6 +9,9 @@ date_detect_format(x)
 \arguments{
 \item{x}{A string of interest}
 }
+\value{
+A string with the identified format.
+}
 \description{
 Detect a date format with only 1 separator
 }

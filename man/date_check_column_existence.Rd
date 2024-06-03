@@ -7,9 +7,13 @@
 date_check_column_existence(data, date_column_names)
 }
 \arguments{
-\item{data}{A dataframe}
+\item{data}{The input data frame}
 
-\item{date_column_names}{The name of the columns to check}
+\item{date_column_names}{A vector with the name of the columns to check}
+}
+\value{
+The input vector if all column names are part of the input data, an
+error is issued otherwise.
 }
 \description{
 Check if date column exists in the given dataset

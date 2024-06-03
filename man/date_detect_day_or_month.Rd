@@ -2,14 +2,18 @@
 % Please edit documentation in R/date_standardization_helpers.R
 \name{date_detect_day_or_month}
 \alias{date_detect_day_or_month}
-\title{Detect whether it's day or month}
+\title{Detect the appropriate abbreviation for day or month value}
 \usage{
 date_detect_day_or_month(x)
 }
 \arguments{
-\item{x}{A string of interest}
+\item{x}{The input string}
+}
+\value{
+A string with abbreviation used to distinguish the written day or
+month
 }
 \description{
-Detect whether it's day or month
+Detect the appropriate abbreviation for day or month value
 }
 \keyword{internal}
