@@ -21,8 +21,8 @@ of interest.}
 \item{order}{A numeric with the order of the new option.}
 }
 \value{
-An object of type data frame. This is the new data dictionary with an
-additional line that contains the details about the new options.
+An object of type data frame. This is the new data dictionary with
+an additional line that contains the details about the new options.
 }
 \description{
 Add an element to the data dictionary

@@ -7,7 +7,8 @@
 date_i_extract_string(x)
 }
 \value{
-Either \code{NA_character_} or a date, as a standardized character string.
+Either \code{NA_character_} or a date, as a standardized character
+string.
 }
 \description{
 This function looks for a well-formatted date character string inside a

@@ -147,8 +147,8 @@ dictionary_make_metadata <- function(x, field_column) {
 #'    of interest.
 #' @param order A numeric with the order of the new option.
 #'
-#' @returns An object of type data frame. This is the new data dictionary with an
-#'    additional line that contains the details about the new options.
+#' @returns An object of type data frame. This is the new data dictionary with
+#'    an additional line that contains the details about the new options.
 #' @export
 #'
 #' @examples

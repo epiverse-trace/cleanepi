@@ -28,9 +28,9 @@ proportion is exceeded, the original vector is returned, and a message is
 issued; defaults to 0.4 (40 percent).}
 }
 \value{
-A list of 2 data frames: the updated input data (if some columns were
-converted to Date) and a data frame of date values that are not within the
-specified timeframe.
+A list of 2 data frames: the updated input data (if some columns
+were converted to Date) and a data frame of date values that are not
+within the specified timeframe.
 }
 \description{
 Convert and update the date values

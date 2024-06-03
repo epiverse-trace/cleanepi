@@ -222,7 +222,8 @@ date_rescue_lubridate_failures <- function(date_a_frame, original_dates,
 #' format (e.g. `2018-01-23`).
 #'
 #' @author Thibaut Jombart
-#' @returns Either `NA_character_` or a date, as a standardized character string.
+#' @returns Either `NA_character_` or a date, as a standardized character
+#'    string.
 #' @keywords internal
 date_i_extract_string <- function(x) {
 
