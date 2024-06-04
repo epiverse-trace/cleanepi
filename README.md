@@ -15,6 +15,7 @@ MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.or
 [![Codecov test
 coverage](https://codecov.io/gh/epiverse-trace/cleanepi/branch/main/graph/badge.svg)](https://app.codecov.io/gh/epiverse-trace/cleanepi?branch=main)
 [![lifecycle-experimental](https://raw.githubusercontent.com/reconverse/reconverse.github.io/master/images/badge-experimental.svg)](https://www.reconverse.org/lifecycle.html#experimental)
+[![DOI](https://zenodo.org/badge/607159823.svg)](https://zenodo.org/doi/10.5281/zenodo.11473984)
 
 <!-- badges: end -->
 
@@ -495,7 +496,7 @@ cleaned_data <- clean_data(
 #> removing duplicated rows
 #> standardising date columns
 #> checking subject IDs format
-#> Warning: Detected incorrect subject ids at lines: 357
+#> Warning: Detected incorrect subject ids at lines: 3, 5, 7
 #> Use the correct_subject_ids() function to adjust them.
 #> converting sex en into numeric
 #> performing dictionary-based cleaning
@@ -742,7 +743,8 @@ citation("cleanepi")
 #> 
 #>   Mané K, Bah B, Ahadzie B, Mohammed N, Degoot A (2024). _cleanepi:
 #>   Clean and Standardize Epidemiological Data_.
-#>   <https://epiverse-trace.github.io/cleanepi,https://github.com/epiverse-trace/cleanepi>.
+#>   doi:10.5281/zenodo.6532786 <https://doi.org/10.5281/zenodo.6532786>,
+#>   <https://epiverse-trace.github.io/cleanepi/>.
 #> 
 #> A BibTeX entry for LaTeX users is
 #> 
@@ -750,7 +752,7 @@ citation("cleanepi")
 #>     title = {cleanepi: Clean and Standardize Epidemiological Data},
 #>     author = {Karim Mané and Bubacarr Bah and Bankolé Ahadzie and Nuredin Mohammed and Abdoelnaser Degoot},
 #>     year = {2024},
-#>     url = {https://epiverse-trace.github.io/cleanepi,
-#> https://github.com/epiverse-trace/cleanepi},
+#>     doi = {10.5281/zenodo.6532786},
+#>     url = {https://epiverse-trace.github.io/cleanepi/},
 #>   }
 ```
