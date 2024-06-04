@@ -19,6 +19,6 @@ bibentry(
   title   = paste0(meta$Package, ": ", gsub("[[:space:]]+", " ", meta$Title)),
   author  = author,
   year    = date,
-  doi     = "10.5281/zenodo.6532786",
+  doi     = "10.5281/zenodo.11473985",
   url     = "https://epiverse-trace.github.io/cleanepi/"
 )
