@@ -9,6 +9,7 @@ type: software
 license: MIT
 title: 'cleanepi: Clean and Standardize Epidemiological Data'
 version: 0.0.2
+doi: 10.5281/zenodo.6532786
 abstract: cleanepi provides functions for cleaning and standardizing tabular data,
   tailored specifically for curating epidemiological data.
 authors:
@@ -53,10 +54,8 @@ preferred-citation:
     email: abdoelnaser-mahmood.degoot@lshtm.ac.uk
     orcid: https://orcid.org/0000-0001-8788-2496
   year: '2024'
-  url: https://epiverse-trace.github.io/cleanepi
-  identifiers:
-  - type: url
-    value: https://github.com/epiverse-trace/cleanepi
+  doi: 10.5281/zenodo.6532786
+  url: https://epiverse-trace.github.io/cleanepi/
 repository-code: https://github.com/epiverse-trace/cleanepi
 url: https://epiverse-trace.github.io/cleanepi
 contact:
@@ -467,7 +466,4 @@ references:
     email: hadley@posit.co
   year: '2024'
   version: '>= 3.0.0'
-identifiers:
-- type: url
-  value: https://github.com/epiverse-trace/cleanepi
 
