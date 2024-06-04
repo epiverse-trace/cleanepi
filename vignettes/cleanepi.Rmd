@@ -229,7 +229,7 @@ print(colnames(data))
 cleaned_data <- standardize_column_names(
   data   = data,
   keep   = "date.of.admission",
-  rename = c("DOB" = "dateOfBirth", "gender" = "sex") # nolint: keyword_quote_linter
+  rename = c("DOB" = "dateOfBirth", "gender" = "sex")
 )
 print(colnames(data))
 ```
