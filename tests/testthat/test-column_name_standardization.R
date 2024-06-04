@@ -2,7 +2,7 @@ test_that("standardize_column_names works with rename argument", {
   cleaned_data <- standardize_column_names(
     data   = readRDS(system.file("extdata", "test_df.RDS",
                                  package = "cleanepi")),
-    rename = c("DOB" = "dateOfBirth", "gender" = "sex")
+    rename = c(DOB = "dateOfBirth", gender = "sex")
   )
   expect_s3_class(cleaned_data, "data.frame")
   expect_named(cleaned_data, expected = c("study_id", "event_name",
@@ -16,7 +16,7 @@ test_that("standardize_column_names fails when rename argument contains existing
     standardize_column_names(
       data   = readRDS(system.file("extdata", "test_df.RDS",
                                    package = "cleanepi")),
-      rename = c("DOB" = "dateOfBirth", "dateOfBirth" = "sex")
+      rename = c(DOB = "dateOfBirth", dateOfBirth = "sex")
     ),
     regexp = cat("Replace column names already exists")
   )
@@ -51,7 +51,7 @@ test_that("standardize_column_names works with keep argument", {
 test_that("standardize_column_names works with all argument", {
   cleaned_data <- standardize_column_names(
     data  = readRDS(system.file("extdata", "test_df.RDS",package = "cleanepi")),
-    rename = c("DOB" = "dateOfBirth", "gender" = "sex"),
+    rename = c(DOB = "dateOfBirth", gender = "sex"),
     keep   = "date.of.admission"
   )
   expect_s3_class(cleaned_data, "data.frame")
@@ -70,7 +70,7 @@ test_that("standardize_column_names fails when 'linelist_tags' is provided when
     standardize_column_names(
       data   = readRDS(system.file("extdata", "test_df.RDS",
                                    package = "cleanepi")),
-      rename = c("DOB" = "dateOfBirth", "gender" = "sex"),
+      rename = c(DOB = "dateOfBirth", gender = "sex"),
       keep   = "linelist_tags"
     ),
     regexp = cat("Assertion on',keep,'failed: usage of 'linelist_tags'
@@ -84,7 +84,7 @@ test_that("standardize_column_names fails when wrong column names are
     standardize_column_names(
       data   = readRDS(system.file("extdata", "test_df.RDS",
                                    package = "cleanepi")),
-      rename = c("DOB" = "dateOfBirth", "gender" = "fake_name"),
+      rename = c(DOB = "dateOfBirth", gender = "fake_name"),
       keep   = NULL
     ),
     regexp = cat("Assertion on',keep or rename,'failed: Only the

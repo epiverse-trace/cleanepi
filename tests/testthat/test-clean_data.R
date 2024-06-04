@@ -89,7 +89,7 @@ test_that("cleaned_data works in a pipable way even when old column names are
           used", {
             cleaned_data <- test_data |>
               standardize_column_names(keep = NULL,
-                                       rename = c("DOB" = "dateOfBirth")) |>
+                                       rename = c(DOB = "dateOfBirth")) |>
               standardize_dates(target_columns = c("dateOfBirth",
                                                    "date_of_admission"))
             expect_s3_class(cleaned_data, "data.frame")
