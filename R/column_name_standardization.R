@@ -9,7 +9,7 @@
 #'    with a linelist, this can be set to `linelist_tags`, to maintain the
 #'    tagged column names. The Default is `NULL`.
 #' @param rename A named vector of column names to be renamed. This should be in
-#'    the form of `c("new_name1" = "old_name1", "new_name2" = "old_name2")` for
+#'    the form of `c(new_name1 = "old_name1", new_name2 = "old_name2")` for
 #'    example.
 #'
 #' @returns A data frame or linelist with easy to work with column names.
@@ -29,7 +29,7 @@
 #'   data   = readRDS(system.file("extdata", "test_df.RDS",
 #'                                package = "cleanepi")),
 #'   keep   = "date.of.admission",
-#'   rename = c("DOB" = "dateOfBirth", "gender" = "sex")
+#'   rename = c(DOB = "dateOfBirth", gender = "sex")
 #' )
 #'
 standardize_column_names <- function(data, keep = NULL, rename = NULL) {

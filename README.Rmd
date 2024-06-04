@@ -132,7 +132,7 @@ standardize_subject_ids <- list(target_columns = "study_id",
                                 nchar          = 7)
 remove_cte              <- list(cutoff = 1)
 standardize_col_names   <- list(keep   = "date.of.admission",
-                                rename = c("DOB" = "dateOfBirth"))
+                                rename = c(DOB = "dateOfBirth"))
 to_numeric              <- list(target_columns = "sex",
                                 lang           = "en")
 

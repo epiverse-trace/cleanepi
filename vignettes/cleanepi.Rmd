@@ -210,7 +210,7 @@ connecting them with underscores. The function can take the following arguments:
 
 1. **data**: the input data frame or linelist
 2. **keep**: a vector of column names to maintain as they are. When dealing with a linelist, this can be set to `linelist_tags`, to maintain the tagged column names. The Default is `NULL`.
-3. **rename**: an expression used to specify how to rename some columns.
+3. **rename**: a `vector` of focal column names and a vector of column names to be renamed in the form of `new_name = "old_name"`. If not provided, all columns will undergo standardization.
 
 ```{r eval=TRUE, comment="col_name_cleaning"}
 # IMPORT AND PRINT THE INITAL COLUMN NAMES
@@ -229,7 +229,7 @@ print(colnames(data))
 cleaned_data <- standardize_column_names(
   data   = data,
   keep   = "date.of.admission",
-  rename = c("DOB" = "dateOfBirth", "gender" = "sex")
+  rename = c(DOB = "dateOfBirth", gender = "sex")
 )
 print(colnames(data))
 ```

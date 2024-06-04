@@ -81,7 +81,7 @@ This module is designed to standardize the style and format of column names with
 - **Main function:** `standardize_column_names()`
 - **Input:** 
   * A `data.frame` or `linelist` object.
-  * Optionally, a `vector` of focal column names and a vector of column names to be renamed in the form of `new_name = old_name`. If not provided, all columns will undergo standardization.
+  * Optionally, a `vector` of focal column names and a vector of column names to be renamed in the form of `new_name = "old_name"`. If not provided, all columns will undergo standardization.
 - **Output:** 
   * The input object with standardized column names.
 - **Report:** 
