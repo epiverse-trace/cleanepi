@@ -11,7 +11,7 @@ if (length(author)) {
 if (is.null(meta$Date)) {
   date <- format(Sys.Date(), "%Y")
 } else {
-  date <- format(meta$Date, "%Y")
+  date <- format(as.Date(meta$Date), "%Y")
 }
 
 bibentry(
@@ -19,5 +19,6 @@ bibentry(
   title   = paste0(meta$Package, ": ", gsub("[[:space:]]+", " ", meta$Title)),
   author  = author,
   year    = date,
-  url     = paste0(meta$URL, "/")
+  doi     = "10.5281/zenodo.6532786",
+  url     = "https://epiverse-trace.github.io/cleanepi/"
 )
