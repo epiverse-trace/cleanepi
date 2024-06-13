@@ -69,7 +69,7 @@ Key functionalities of **{{ packagename }}** include:
 install.packages("cleanepi")
 ```
 
-The latest development version of **{{ packagename }}** can be installed from  [GitHub](https://epiverse-trace.github.io/cleanepi).
+The latest development version of **{{ packagename }}** can be installed from  [GitHub](https://epiverse-trace.github.io/cleanepi/).
 
 ```{r message=FALSE}
 if (!require("pak")) install.packages("pak")
@@ -192,7 +192,7 @@ functional, but interfaces and functionalities may change over time, testing and
 ### Contributions
 
 Contributions are welcome via [pull
-requests](https://github.com/%7B%7B%20gh_repo%20%7D%7D/pulls).
+requests](https://github.com/{{ gh_repo }}/pulls).
 
 ### Code of Conduct
 
