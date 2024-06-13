@@ -69,7 +69,7 @@ install.packages("cleanepi")
 ```
 
 The latest development version of **cleanepi** can be installed from
-[GitHub](https://epiverse-trace.github.io/cleanepi).
+[GitHub](https://epiverse-trace.github.io/cleanepi/).
 
 ``` r
 if (!require("pak")) install.packages("pak")
@@ -467,7 +467,7 @@ standardize_subject_ids <- list(target_columns = "study_id",
                                 nchar          = 7)
 remove_cte              <- list(cutoff = 1)
 standardize_col_names   <- list(keep   = "date.of.admission",
-                                rename = c("DOB" = "dateOfBirth"))
+                                rename = c(DOB = "dateOfBirth"))
 to_numeric              <- list(target_columns = "sex",
                                 lang           = "en")
 
@@ -726,7 +726,7 @@ change over time, testing and documentation may be lacking.
 ### Contributions
 
 Contributions are welcome via [pull
-requests](https://github.com/%7B%7B%20gh_repo%20%7D%7D/pulls).
+requests](https://github.com/epiverse-trace/cleanepi/pulls).
 
 ### Code of Conduct
 
