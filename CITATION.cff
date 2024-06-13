@@ -9,7 +9,7 @@ type: software
 license: MIT
 title: 'cleanepi: Clean and Standardize Epidemiological Data'
 version: 0.0.2
-doi: 10.5281/zenodo.6532786
+doi: 10.5281/zenodo.11473985
 abstract: cleanepi provides functions for cleaning and standardizing tabular data,
   tailored specifically for curating epidemiological data.
 authors:
@@ -54,7 +54,7 @@ preferred-citation:
     email: abdoelnaser-mahmood.degoot@lshtm.ac.uk
     orcid: https://orcid.org/0000-0001-8788-2496
   year: '2024'
-  doi: 10.5281/zenodo.6532786
+  doi: 10.5281/zenodo.11473985
   url: https://epiverse-trace.github.io/cleanepi/
 repository-code: https://github.com/epiverse-trace/cleanepi
 url: https://epiverse-trace.github.io/cleanepi
@@ -194,32 +194,18 @@ references:
   year: '2024'
 - type: software
   title: numberize
-  abstract: 'numberize: Convert words to numbers in multiple languages'
+  abstract: 'numberize: Convert Words to Numbers in Multiple Languages'
   notes: Imports
   url: https://github.com/epiverse-trace/numberize
+  repository: https://CRAN.R-project.org/package=numberize
   authors:
-  - family-names: Laddha
-    given-names: Avinash
-    email: avinash@data.org
-  - family-names: Azam
-    given-names: James M.
-    email: james.azam@lshtm.ac.uk
-    orcid: https://orcid.org/0000-0001-5782-7330
-  - family-names: Gupte
-    given-names: Pratik
-    email: pratik.gupte@lshtm.ac.uk
-    orcid: https://orcid.org/0000-0001-5294-7819
-  - family-names: Lambert
-    given-names: Joshua W.
-    email: joshua.lambert@lshtm.ac.uk
-    orcid: https://orcid.org/0000-0001-5218-3046
   - family-names: Gruson
     given-names: Hugo
     email: hugo.gruson+R@normalesup.org
     orcid: https://orcid.org/0000-0002-4094-1476
   - family-names: Ahadzie
-    given-names: Banky
-    email: bahadzie@gmail.com
+    given-names: Bankole
+    email: bankole.ahadzie@lshtm.ac.uk
   year: '2024'
 - type: software
   title: readr
