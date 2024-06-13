@@ -1,5 +1,4 @@
 Package: cleanepi
-Type: Package
 Title: Clean and Standardize Epidemiological Data
 Version: 1.0.0
 Authors@R: c(
@@ -29,7 +28,7 @@ Authors@R: c(
 Description: cleanepi provides functions for cleaning and standardizing tabular data,
     tailored specifically for curating epidemiological data.
 License: MIT + file LICENSE
-URL: https://epiverse-trace.github.io/cleanepi,
+URL: https://epiverse-trace.github.io/cleanepi/,
     https://github.com/epiverse-trace/cleanepi
 BugReports: https://github.com/epiverse-trace/cleanepi/issues
 Language: en-US
