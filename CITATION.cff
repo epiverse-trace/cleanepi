@@ -17,20 +17,20 @@ authors:
   given-names: Karim
   email: karim.mane@lshtm.ac.uk
   orcid: https://orcid.org/0000-0002-9892-2999
-- family-names: Bah
-  given-names: Bubacarr
-  email: Bubacarr.Bah1@lshtm.ac.uk
-  orcid: https://orcid.org/0000-0003-3318-6668
+- family-names: Degoot
+  given-names: Abdoelnaser
+  email: abdoelnaser-mahmood.degoot@lshtm.ac.uk
+  orcid: https://orcid.org/0000-0001-8788-2496
 - family-names: Ahadzie
   given-names: Bankolé
   email: Bankole.Ahadzie@lshtm.ac.uk
 - family-names: Mohammed
   given-names: Nuredin
   email: Nuredin.Mohammed@lshtm.ac.uk
-- family-names: Degoot
-  given-names: Abdoelnaser
-  email: abdoelnaser-mahmood.degoot@lshtm.ac.uk
-  orcid: https://orcid.org/0000-0001-8788-2496
+- family-names: Bah
+  given-names: Bubacarr
+  email: Bubacarr.Bah1@lshtm.ac.uk
+  orcid: https://orcid.org/0000-0003-3318-6668
 preferred-citation:
   type: manual
   title: 'cleanepi: Clean and Standardize Epidemiological Data'
@@ -39,20 +39,20 @@ preferred-citation:
     given-names: Karim
     email: karim.mane@lshtm.ac.uk
     orcid: https://orcid.org/0000-0002-9892-2999
-  - family-names: Bah
-    given-names: Bubacarr
-    email: Bubacarr.Bah1@lshtm.ac.uk
-    orcid: https://orcid.org/0000-0003-3318-6668
+  - family-names: Degoot
+    given-names: Abdoelnaser
+    email: abdoelnaser-mahmood.degoot@lshtm.ac.uk
+    orcid: https://orcid.org/0000-0001-8788-2496
   - family-names: Ahadzie
     given-names: Bankolé
     email: Bankole.Ahadzie@lshtm.ac.uk
   - family-names: Mohammed
     given-names: Nuredin
     email: Nuredin.Mohammed@lshtm.ac.uk
-  - family-names: Degoot
-    given-names: Abdoelnaser
-    email: abdoelnaser-mahmood.degoot@lshtm.ac.uk
-    orcid: https://orcid.org/0000-0001-8788-2496
+  - family-names: Bah
+    given-names: Bubacarr
+    email: Bubacarr.Bah1@lshtm.ac.uk
+    orcid: https://orcid.org/0000-0003-3318-6668
   year: '2024'
   doi: 10.5281/zenodo.11473985
   url: https://epiverse-trace.github.io/cleanepi/
