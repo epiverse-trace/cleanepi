@@ -6,6 +6,7 @@
 \usage{
 date_guess(
   x,
+  column_name,
   quiet = TRUE,
   modern_excel = TRUE,
   orders = list(world_named_months = c("Ybd", "dby"), world_digit_months = c("dmy",
@@ -14,6 +15,8 @@ date_guess(
 }
 \arguments{
 \item{x}{A \code{character} vector or a \code{factor}}
+
+\item{column_name}{The target column name}
 
 \item{quiet}{A logical indicating if messages should be displayed to the
 console (\code{TRUE}, default); set to \code{FALSE} to silence messages}

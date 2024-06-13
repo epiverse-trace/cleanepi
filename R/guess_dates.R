@@ -16,6 +16,7 @@
 #' @param x A `character` vector or a `factor`
 #' @param quiet A logical indicating if messages should be displayed to the
 #'     console (`TRUE`, default); set to `FALSE` to silence messages
+#' @param column_name The target column name
 #' @inheritParams standardize_dates
 #'
 #' @returns A list of following two elements: a vector of the newly reformatted
@@ -68,6 +69,7 @@
 #' @keywords internal
 #'
 date_guess <- function(x,
+                       column_name,
                        quiet           = TRUE,
                        modern_excel    = TRUE,
                        orders          = list(
@@ -139,20 +141,21 @@ date_guess <- function(x,
                                                mxl            = modern_excel)
 
   # Select the correct dates and test if we were successful --------------------
-  new_x     <- date_choose_first_good(x_rescued)
+  new_x     <- date_choose_first_good(x_rescued, column_name = column_name)
   return(new_x)
 }
 
 
 #' Choose the first non-missing date from a data frame of dates
 #'
-#' @param date_a_frame a data frame where each column contains a different
+#' @param date_a_frame A data frame where each column contains a different
 #'   parsing of the same date vector
+#' @param column_name The target column name
 #'
 #' @returns The chosen first date value
 #' @keywords internal
 #'
-date_choose_first_good <- function(date_a_frame) {
+date_choose_first_good <- function(date_a_frame, column_name) {
   multi_format <- NULL
   n            <- nrow(date_a_frame)
   date_a_frame <- as.matrix(date_a_frame)
@@ -167,7 +170,8 @@ date_choose_first_good <- function(date_a_frame) {
       tmp_date <- unique(tmp[idx])
       if (length(tmp_date) > 1L) {
         multi_format <- rbind(multi_format,
-                              cbind(idx = i, date_a_frame[i, , drop = FALSE]))
+                              cbind(field = column_name, idx = i,
+                                    date_a_frame[i, , drop = FALSE]))
       }
     }
   }
