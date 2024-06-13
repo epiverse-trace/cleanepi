@@ -16,6 +16,7 @@ bookdown
 dplyr
 epiCleanr
 funder
+gh
 grp
 interoperates
 kableExtra
@@ -38,6 +39,7 @@ pre
 reactable
 readepi
 readr
+repo
 rmarkdown
 snakecase
 testthat
