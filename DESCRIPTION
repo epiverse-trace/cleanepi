@@ -60,8 +60,6 @@ Suggests:
     testthat (>= 3.0.0)
 VignetteBuilder: 
     knitr
-Remotes:
-    epiverse-trace/numberize
 Config/Needs/website: epiverse-trace/epiversetheme
 Config/testthat/edition: 3
 Encoding: UTF-8
