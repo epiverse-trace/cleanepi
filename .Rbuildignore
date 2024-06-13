@@ -14,3 +14,4 @@
 ^data-raw$
 ^check.env$
 ^cran-comments\.md$
+^CRAN-SUBMISSION$
