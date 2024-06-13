@@ -39,7 +39,7 @@ coverage](https://codecov.io/gh/epiverse-trace/cleanepi/branch/main/graph/badge.
 
 <!-- badges: end -->
 
-**{{ packagename }}** is an  R package designed for cleaning, curating, and standardizing  epidemiological data. It streamlines various data cleaning tasks that are typically expected when working with datasets in epidemiology.
+**{{ packagename }}** is an  R package designed for cleaning, curating, and standardizing epidemiological data. It streamlines various data cleaning tasks that are typically expected when working with datasets in epidemiology.
 
 Key functionalities of **{{ packagename }}** include:
 
