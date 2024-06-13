@@ -4,11 +4,13 @@
 \alias{date_choose_first_good}
 \title{Choose the first non-missing date from a data frame of dates}
 \usage{
-date_choose_first_good(date_a_frame)
+date_choose_first_good(date_a_frame, column_name)
 }
 \arguments{
-\item{date_a_frame}{a data frame where each column contains a different
+\item{date_a_frame}{A data frame where each column contains a different
 parsing of the same date vector}
+
+\item{column_name}{The target column name}
 }
 \value{
 The chosen first date value
