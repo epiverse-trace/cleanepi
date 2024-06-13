@@ -11,7 +11,7 @@ cleanepi provides functions for cleaning and standardizing tabular data, tailore
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://epiverse-trace.github.io/cleanepi}
+  \item \url{https://epiverse-trace.github.io/cleanepi/}
   \item \url{https://github.com/epiverse-trace/cleanepi}
   \item Report bugs at \url{https://github.com/epiverse-trace/cleanepi/issues}
 }
