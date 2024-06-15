@@ -7,3 +7,13 @@
 ## revdepcheck results
 
 * There are currently no downstream dependencies for this package.
+
+## Resubmission
+
+This is a resubmission. In this version I have fixed the NOTE raised during the
+previous submission. The changes include:
+
+* Updating inst/WORDLIST with the new words that were missing.
+* Adding a '/' to the package Github link in the DESCRIPTION file.
+* Removing "Type: Package" from the DESCRIPTION file.
+* Update package description from the DESCRIPTION file.
