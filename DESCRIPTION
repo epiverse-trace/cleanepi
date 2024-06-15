@@ -1,6 +1,6 @@
 Package: cleanepi
 Title: Clean and Standardize Epidemiological Data
-Version: 1.0.1
+Version: 1.0.2
 Authors@R: c(
     person("Karim", "Mané", , "karim.mane@lshtm.ac.uk", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-9892-2999")),
