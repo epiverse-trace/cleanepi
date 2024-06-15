@@ -16,4 +16,7 @@ previous submission. The changes include:
 * Updating inst/WORDLIST with the new words that were missing.
 * Adding a '/' to the package Github link in the DESCRIPTION file.
 * Removing "Type: Package" from the DESCRIPTION file.
-* Update package description from the DESCRIPTION file.
+* Updating package description from the DESCRIPTION file.
+* Replacing \dontrun with \donttest in print_report() function.
+* Replacing base::cat() with message() in clean_data() function.
+* Removing the example in date_guess() function's documentation.
