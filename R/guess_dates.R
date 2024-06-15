@@ -24,48 +24,6 @@
 #'    than one format. If all values comply with only one format, the later
 #'    element will be NULL.
 #'
-#' @examples
-#' \dontrun{
-#' # Mixed format date -----------------------------------------
-#'
-#' guess_dates(c("03 Jan 2018", "07/03/1982", "08/20/85")) # default
-#'
-#' # Prioritizing specific date formats ------------------------
-#' #
-#' # The default orders prioritize world date ordering over American-style.
-#' orders <- list(
-#'   world_named_months = c("Ybd", "dby"),
-#'   world_digit_months = c("dmy", "Ymd"),
-#'   US_formats         = c("Omdy", "YOmd")
-#' )
-#'
-#' # if you want to prioritize American-style dates with numeric months, you
-#' # can switch the second and third elements of the default orders
-#'
-#' print(us_ord <- orders[c(1, 3, 2)])
-#' date_guess(c("03 Jan 2018", "07/03/1982", "08/20/85"), orders = us_ord)
-#'
-#' # Handling dates with time formats --------------------------
-#' #
-#' # If you have a format with hours, minutes and seconds, you can also add that
-#' # to the list of formats. Note, however, that this function will drop levels
-#' # below day.
-#'
-#' print(orders$ymdhms <- c("Ymdhms", "Ymdhm"))
-#'
-#' date_guess(c("2014_04_05_23:15:43", "03 Jan 2018",
-#' "07/03/1982", "08/20/85"), orders = orders)
-#'
-#' # Handling  missing and nonsense data -----------------------
-#' #
-#' # date_guess can handle messy dates and tolerate missing data
-#'
-#' x <- c("01-12-2001", "male", "female", "2018-10-18", NA, NA, "2018_10_17",
-#'        "43391", "2018 10 19", "// 24/12/1989", "this is 24/12/1989!",
-#'        "RECON NGO: 19 Sep 2018 :)", "6/9/11", "10/10/10")
-#'
-#' date_guess(x)
-#' }
 #' @keywords internal
 #'
 date_guess <- function(x,
