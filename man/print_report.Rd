@@ -35,7 +35,7 @@ A string containing the name and path of the saved report
 Generate report from data cleaning operations
 }
 \examples{
-\dontrun{
+\donttest{
 data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi"))
 test_dictionary <- readRDS(system.file("extdata", "test_dictionary.RDS",
                                        package = "cleanepi"))

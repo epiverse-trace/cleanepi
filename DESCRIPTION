@@ -5,19 +5,19 @@ Authors@R: c(
     person("Karim", "Mané", , "karim.mane@lshtm.ac.uk", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-9892-2999")),
     person("Thibaut", "Jombart", , "thibautjombart@gmail.com", role = "cph",
-           comment = c("Thibault is the owner of the code in guess_dates.R file.")),
+           comment = "Thibault is the owner of the code in guess_dates.R file."),
     person("Bubacarr", "Bah", , "Bubacarr.Bah1@lshtm.ac.uk", role = "aut",
            comment = c(ORCID = "0000-0003-3318-6668")),
     person("Bankolé", "Ahadzie", , "Bankole.Ahadzie@lshtm.ac.uk", role = "aut"),
     person("Nuredin", "Mohammed", , "Nuredin.Mohammed@lshtm.ac.uk", role = "aut"),
-    person("Abdoelnaser", "Degoot", , "abdoelnaser-mahmood.degoot@lshtm.ac.uk", role = "aut", 
-          comment = c(ORCID = "0000-0001-8788-2496")),
-    person("Hugo", "Gruson", , "hugo@data.org", role = "rev", 
-          comment = c(ORCID = "0000-0002-4094-1476")),
-    person("Pratik R.", "Gupte", , "pratik.gupte@lshtm.ac.uk", role ="rev",
+    person("Abdoelnaser", "Degoot", , "abdoelnaser-mahmood.degoot@lshtm.ac.uk", role = "aut",
+           comment = c(ORCID = "0000-0001-8788-2496")),
+    person("Hugo", "Gruson", , "hugo@data.org", role = "rev",
+           comment = c(ORCID = "0000-0002-4094-1476")),
+    person("Pratik R.", "Gupte", , "pratik.gupte@lshtm.ac.uk", role = "rev",
            comment = c(ORCID = "0000-0001-5294-7819")),
     person("James M.", "Azam", , "james.azam@lshtm.ac.uk", role = "rev",
-           comment = c(ORCID = "0000-0001-5782-7330")),  
+           comment = c(ORCID = "0000-0001-5782-7330")),
     person("Joshua W.", "Lambert", , "joshua.lambert@lshtm.ac.uk", role = "rev",
            comment = c(ORCID = "0000-0001-5218-3046")),
     person("Chris", "Hartgerink", , "chris@data.org", role = "rev",
@@ -25,13 +25,16 @@ Authors@R: c(
     person("London School of Hygiene and Tropical Medicine, LSHTM", role = "cph"),
     person("data.org", role = "fnd")
   )
-Description: cleanepi provides functions for cleaning and standardizing tabular data,
-    tailored specifically for curating epidemiological data.
+Description: Cleaning and standardizing tabular data package, tailored
+    specifically for curating epidemiological data. It streamlines various data
+    cleaning tasks that are typically expected when working with datasets in
+    epidemiology. It returns the processed data in the same format, ensuring
+    seamless integration into existing workflows. Additionally, it generates a
+    comprehensive report detailing the outcomes of each cleaning task.
 License: MIT + file LICENSE
 URL: https://epiverse-trace.github.io/cleanepi/,
     https://github.com/epiverse-trace/cleanepi
 BugReports: https://github.com/epiverse-trace/cleanepi/issues
-Language: en-US
 Imports:
     arsenal,
     checkmate,
@@ -62,6 +65,7 @@ VignetteBuilder:
 Config/Needs/website: epiverse-trace/epiversetheme
 Config/testthat/edition: 3
 Encoding: UTF-8
+Language: en-US
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.1

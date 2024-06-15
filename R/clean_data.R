@@ -124,7 +124,7 @@ clean_data <- function(data, params = NULL) {
   ## | Column names in 'keep' will not be modified.
   ## -----
   if (!is.null(params[["standardize_column_names"]])) {
-    base::cat("\ncleaning column names\n")
+    message("\ncleaning column names\n")
     data <- standardize_column_names(
       data   = data,
       keep   = params[["standardize_column_names"]][["keep"]],
@@ -139,7 +139,7 @@ clean_data <- function(data, params = NULL) {
   ## | user if known, or inferred internally otherwise.
   ## -----
   if (!is.null(params[["replace_missing_values"]])) {
-    base::cat("replacing missing values with NA\n")
+    message("replacing missing values with NA\n")
     data <- replace_missing_values(
       data           = data,
       target_columns = params[["replace_missing_values"]][["target_columns"]],
@@ -151,7 +151,7 @@ clean_data <- function(data, params = NULL) {
   ## | we can choose to remove the constant columns, the empty rows and columns
   ## -----
   if (!is.null(params[["remove_constants"]])) {
-    base::cat("removing the constant columns, empty rows and columns\n")
+    message("removing the constant columns, empty rows and columns\n")
     data <- remove_constants(
       data   = data,
       cutoff = params[["remove_constants"]][["cutoff"]]
@@ -166,7 +166,7 @@ clean_data <- function(data, params = NULL) {
   ## | duplicates will only be considered from the specified columns.
   ## -----
   if (!is.null(params[["remove_duplicates"]])) {
-    base::cat("removing duplicated rows\n")
+    message("removing duplicated rows\n")
     data <- remove_duplicates(
       data,
       target_columns = params[["remove_duplicates"]][["target_columns"]]
@@ -179,7 +179,7 @@ clean_data <- function(data, params = NULL) {
   ## | easy to apply the functions that operate on variables of type Date.
   ## -----
   if (!is.null(params[["standardize_dates"]])) {
-    base::cat("standardising date columns\n")
+    message("standardising date columns\n")
     data <- standardize_dates(
       data            = data,
       target_columns  = params[["standardize_dates"]][["target_columns"]],
@@ -199,7 +199,7 @@ clean_data <- function(data, params = NULL) {
   ## | redundant subject ID.
   ## -----
   if (!is.null(params[["standardize_subject_ids"]])) {
-    base::cat("checking subject IDs format\n")
+    message("checking subject IDs format\n")
     stopifnot(
       "'target_columns' must be provided." =
         !is.null(params[["standardize_subject_ids"]][["target_columns"]])
@@ -220,7 +220,7 @@ clean_data <- function(data, params = NULL) {
   ## | homogeneous.
   ## -----
   if (!is.null(params[["to_numeric"]])) {
-    base::cat(
+    message(
       "converting",
       paste(params[["to_numeric"]], sep = ", "),
       "into numeric\n"
@@ -238,7 +238,7 @@ clean_data <- function(data, params = NULL) {
   ## replace these coded values with the exact values from the data dictionary.
   ## -----
   if (!is.null(params[["dictionary"]])) {
-    base::cat("performing dictionary-based cleaning\n")
+    message("performing dictionary-based cleaning\n")
     data <- clean_using_dictionary(data, params[["dictionary"]])
   }
 
@@ -248,7 +248,7 @@ clean_data <- function(data, params = NULL) {
   ## will be flagged out.
   ## -----
   if (!is.null(params[["check_date_sequence"]])) {
-    base::cat("checking whether date the sequences are respected\n")
+    message("checking whether date the sequences are respected\n")
     data <- check_date_sequence(
       data           = data,
       target_columns = params[["check_date_sequence"]][["target_columns"]]
