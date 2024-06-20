@@ -269,7 +269,6 @@ The modules and surrogate functions will depend mainly on the following packages
   [{lubridate}](https://CRAN.R-project.org/package=dplyr) used to create, handle, and manipulate objects of type Date,
   [{reactable}](https://CRAN.R-project.org/package=reactable) mainly used here to customize the data cleaning report,
   [{arsenal}](https://CRAN.R-project.org/package=arsenal) used in standardizing column names,
-  [{glue}](https://CRAN.R-project.org/package=glue) used here in substitution of `paste() and paste0()` to avoid linters,
   [{snakecase}](https://CRAN.R-project.org/package=snakecase) used in standardizing column names to transform everything into snake-case except when specified otherwise,
   [{withr}](https://CRAN.R-project.org/package=withr) utilized to handle the creation of temporary files and directory relevant for `print_report()` and,
   [{readr}](https://CRAN.R-project.org/package=readr) used to import data.
