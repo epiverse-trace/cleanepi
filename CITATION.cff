@@ -8,10 +8,14 @@ message: 'To cite package "cleanepi" in publications use:'
 type: software
 license: MIT
 title: 'cleanepi: Clean and Standardize Epidemiological Data'
-version: 0.0.2
+version: 1.0.2.9000
 doi: 10.5281/zenodo.11473985
-abstract: cleanepi provides functions for cleaning and standardizing tabular data,
-  tailored specifically for curating epidemiological data.
+abstract: Cleaning and standardizing tabular data package, tailored specifically for
+  curating epidemiological data. It streamlines various data cleaning tasks that are
+  typically expected when working with datasets in epidemiology. It returns the processed
+  data in the same format, ensuring seamless integration into existing workflows.
+  Additionally, it generates a comprehensive report detailing the outcomes of each
+  cleaning task.
 authors:
 - family-names: Mané
   given-names: Karim
@@ -56,8 +60,9 @@ preferred-citation:
   year: '2024'
   doi: 10.5281/zenodo.11473985
   url: https://epiverse-trace.github.io/cleanepi/
+repository: https://CRAN.R-project.org/package=cleanepi
 repository-code: https://github.com/epiverse-trace/cleanepi
-url: https://epiverse-trace.github.io/cleanepi
+url: https://epiverse-trace.github.io/cleanepi/
 contact:
 - family-names: Mané
   given-names: Karim
