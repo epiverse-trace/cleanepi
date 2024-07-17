@@ -190,12 +190,6 @@ add_to_dictionary <- function(dictionary,
   }
 
   # make the data frame with the new option
-  if (length(value) == 1L) {
-    value        <- rep(value, length(option))
-  }
-  if (length(grp) == 1L) {
-    grp          <- rep(grp, length(option))
-  }
   new_option     <- data.frame(options = option,
                                values  = value,
                                grp     = grp,
