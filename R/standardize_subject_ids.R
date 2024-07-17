@@ -52,25 +52,15 @@ check_subject_ids <- function(data,
 
   # check for missing and duplicated ids
   data       <- check_subject_ids_oness(data, target_columns)
-  bad_rows   <- NULL
-  regex_test <- ""
 
   # we will use regular expressions to match on prefix and suffix
-  if (!is.null(prefix)) {
-    prefix     <- paste(prefix, sep = "|")
-    regex_test <- paste0(regex_test, "pre_")
-  }
-  if (!is.null(suffix)) {
-    suffix     <- paste(suffix, sep = "|")
-    regex_test <- paste0(regex_test, "suf")
-  }
-  regex_match  <- switch(regex_test,
-                         pre_    = sprintf("^%s", prefix),
-                         pre_suf = sprintf("^%s.*%s$", prefix, suffix),
-                         suf     = sprintf("*%s$", suffix))
-  if (!is.null(regex_match)) {
-    bad_rows <- c(bad_rows, which(!grepl(regex_match, data[[target_columns]])))
-  }
+  regex_match  <- paste0(
+    "^", paste(prefix, collapse = "|"), # starts with prefix
+    ".*",
+    paste(suffix, collapse = "|"), "$"  # ends with suffix
+  )
+
+  bad_rows <- which(!grepl(regex_match, data[[target_columns]]))
 
   # the usage of regular expression to determine whether numbers belong to a
   # specified range is not trivial. we use an approach where we parse numbers
@@ -91,7 +81,7 @@ check_subject_ids <- function(data,
 
   # remove the incorrect rows
   if (!is.null(bad_rows)) {
-    bad_rows     <- unique(bad_rows)
+    bad_rows     <- sort(unique(bad_rows))
     tmp_report   <- data.frame(idx = bad_rows,
                                ids = data[[target_columns]][bad_rows])
     bad_rows     <- toString(bad_rows)
