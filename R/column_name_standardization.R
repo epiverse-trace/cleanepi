@@ -44,14 +44,14 @@ standardize_column_names <- function(data, keep = NULL, rename = NULL) {
   # and name them with the new names
   if (!is.null(rename)) {
     new_names    <- names(rename)
-    curent_names <- unname(rename)
+    current_names <- unname(rename)
     stopifnot(
       "Unrecognised column names specified in 'rename'" =
-        all(curent_names %in% before),
+        all(current_names %in% before),
       "Replace column names already exists" =
         !any(new_names %in% before)
     )
-    rename        <- match(curent_names, before)
+    rename        <- match(current_names, before)
     names(rename) <- new_names
   }
 
