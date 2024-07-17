@@ -98,13 +98,13 @@ standardize_column_names <- function(data, keep = NULL, rename = NULL) {
 #'
 retrieve_column_names <- function(data, target_columns) {
   # when 'linelist_tags' is provided, it will be returned as is
-  if (length(target_columns) == 1L && target_columns == "linelist_tags") {
+  if (identical(target_columns, "linelist_tags")) {
     return(target_columns)
   }
 
   # extract the report object to make it easily accessible
   report    <- attr(data, "report")
-  if (is.null(report) || !("colnames" %in% names(report))) {
+  if (!"colnames" %in% names(report)) {
     return(target_columns)
   }
 

@@ -142,7 +142,7 @@ get_target_column_names <- function(data, target_columns, cols) {
   }
 
   # check for linelist object if target_columns='tags'
-  if (all(length(target_columns) == 1L && target_columns == "linelist_tags")) {
+  if (identical(target_columns, "linelist_tags")) {
     stopifnot(
       "'linelist_tags' only works on linelist object. Please provide a vector of
               column names if you are dealing with a data frame" =
