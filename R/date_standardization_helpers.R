@@ -96,7 +96,7 @@ date_convert <- function(data, cols, error_tolerance,
   # Guess the date using Thibault's parser
   new_dates           <- data[[cols]]
   if (!inherits(data[[cols]], "Date")) {
-    date_guess_res    <- date_guess(data[[cols]],
+    date_guess_res    <- date_guess(new_dates,
                                     orders       = orders,
                                     modern_excel = modern_excel,
                                     column_name  = cols)
