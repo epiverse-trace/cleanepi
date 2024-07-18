@@ -51,7 +51,7 @@ check_date_sequence <- function(data, target_columns) {
   missing_cols <- !target_columns %in% names(data)
   # check if all columns are part of the data frame
   if (any(missing_cols)) {
-    warning("\nRemoving unrecognised column name: ", target_columns[missing_cols],
+    warning("Removing unrecognised column name: ", target_columns[missing_cols],
             call. = FALSE)
     target_columns <- target_columns[!missing_cols]
     if (length(target_columns) < 2L) {
