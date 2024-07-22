@@ -6,7 +6,7 @@
 containing different data types such as numeric, Date, character, and
 logical.}
 \usage{
-scan_columns(x)
+scan_columns(x, type)
 }
 \arguments{
 \item{x}{A vector of ones or a combination of various data types.}
