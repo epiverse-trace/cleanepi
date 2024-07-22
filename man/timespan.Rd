@@ -58,9 +58,9 @@ Calculate time span between dates
 # import the data, replace missing values with NA and convert date into ISO
 # format
 data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi"))
-data <- data |>
+data <- data \%>\%
   replace_missing_values(target_columns = "dateOfBirth",
-                         na_strings     = "-99") |>
+                         na_strings     = "-99") \%>\%
   standardize_dates(target_columns  = "dateOfBirth",
                     error_tolerance = 0.0)
 

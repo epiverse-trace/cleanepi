@@ -55,9 +55,9 @@ test_data <- readRDS(system.file("extdata", "test_df.RDS",
 ```
 
 ```{r eval=TRUE, echo=FALSE}
-test_data |>
-  kableExtra::kbl() |>
-  kableExtra::kable_paper("striped", font_size = 14, full_width = TRUE) |>
+test_data %>%
+  kableExtra::kbl() %>%
+  kableExtra::kable_paper("striped", font_size = 14, full_width = TRUE) %>%
   kableExtra::scroll_box(height = "200px", width = "100%",
                          box_css = "border: 1px solid #ddd; padding: 5px; ",
                          extra_css = NULL,
@@ -70,9 +70,9 @@ scan_result <- scan_data(test_data)
 ```
 
 ```{r eval=TRUE, echo=FALSE}
-scan_result |>
-  kableExtra::kbl() |>
-  kableExtra::kable_paper("striped", font_size = 14, full_width = FALSE) |>
+scan_result %>%
+  kableExtra::kbl() %>%
+  kableExtra::kable_paper("striped", font_size = 14, full_width = FALSE) %>%
   kableExtra::scroll_box(height = "200px", width = "100%",
                          box_css = "border: 1px solid #ddd; padding: 5px; ",
                          extra_css = NULL,
@@ -190,9 +190,9 @@ dat <- remove_constants(data   = data,
 ```
 
 ```{r echo=FALSE, eval=TRUE}
-dat |>
-  kableExtra::kbl() |>
-  kableExtra::kable_paper("striped", font_size = 14, full_width = TRUE) |>
+dat %>%
+  kableExtra::kbl() %>%
+  kableExtra::kable_paper("striped", font_size = 14, full_width = TRUE) %>%
   kableExtra::scroll_box(height = "200px", width = "100%",
                          box_css = "border: 1px solid #ddd; padding: 5px; ",
                          extra_css = NULL,
@@ -269,9 +269,9 @@ cleaned_data <- replace_missing_values(
 ```
 
 ```{r echo=FALSE, eval=TRUE}
-cleaned_data |>
-  kableExtra::kbl() |>
-  kableExtra::kable_paper("striped", font_size = 14, full_width = TRUE) |>
+cleaned_data %>%
+  kableExtra::kbl() %>%
+  kableExtra::kable_paper("striped", font_size = 14, full_width = TRUE) %>%
   kableExtra::scroll_box(height = "200px", width = "100%",
                          box_css = "border: 1px solid #ddd; padding: 5px; ",
                          extra_css = NULL,
@@ -345,9 +345,9 @@ res <- standardize_dates(
 This function returns the input dataset where the (specified) columns are converted into Date if the condition is met.
 
 ```{r echo=FALSE, eval=TRUE}
-res |>
-  kableExtra::kbl() |>
-  kableExtra::kable_paper("striped", font_size = 14, full_width = TRUE) |>
+res %>%
+  kableExtra::kbl() %>%
+  kableExtra::kable_paper("striped", font_size = 14, full_width = TRUE) %>%
   kableExtra::scroll_box(height = "200px", width = "100%",
                          box_css = "border: 1px solid #ddd; padding: 5px; ",
                          extra_css = NULL,
@@ -378,9 +378,9 @@ res <- standardize_dates(
 report <- attr(res, "report")
 
 # DISPLAY DATE VALUES THAT COMPLY WITH MULTIPLE FORMATS
-report$multi_format_dates |>
-  kableExtra::kbl() |>
-  kableExtra::kable_paper("striped", font_size = 14, full_width = TRUE) |>
+report$multi_format_dates %>%
+  kableExtra::kbl() %>%
+  kableExtra::kable_paper("striped", font_size = 14, full_width = TRUE) %>%
   kableExtra::scroll_box(height = "200px", width = "100%",
                          box_css = "border: 1px solid #ddd; padding: 5px; ",
                          extra_css = NULL,
@@ -511,7 +511,7 @@ This function can take the following parameters:
 4. **forward**: a Boolean that indicates whether the counts started after the reference date (`TRUE`) or not (`FALSE`). The default is `TRUE`.
 
 ```{reval=TRUE, comment="convert_numeric_to_date"}
-data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi")) |>
+data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi")) %>%
   standardize_dates(target_columns = "date.of.admission")
 
 # CREATE THE RECRUITMENT DATE COLUMNS
@@ -579,9 +579,9 @@ By including these extra columns, users gain insights into the specific rows ide
 # VISUALIZE THE DUPLICATES
 report     <- attr(dups, "report")
 duplicates <- report$duplicated_rows
-duplicates |>
-  kableExtra::kbl() |>
-  kableExtra::kable_paper("striped", font_size = 14, full_width = FALSE) |>
+duplicates %>%
+  kableExtra::kbl() %>%
+  kableExtra::kable_paper("striped", font_size = 14, full_width = FALSE) %>%
   kableExtra::scroll_box(height = "200px", width = "100%",
                          box_css = "border: 1px solid #ddd; padding: 5px; ",
                          extra_css = NULL,
@@ -651,8 +651,8 @@ The `clean_using_dictionary()` function offers a convenient way to replace the o
 2. **dictionary**: The data frame with the data dictionary that contains the complete labels for these options. The structure of this data dictionary file should adhere to the standards expected by the [matchmaker](https://www.repidemicsconsortium.org/matchmaker/)  package, as the `clean_using_dictionary()` function relies on functions from this   package.
 
 ```{r eval=TRUE, echo=FALSE}
-test_dictionary |>
-  kableExtra::kbl() |>
+test_dictionary %>%
+  kableExtra::kbl() %>%
   kableExtra::kable_paper("striped", font_size = 14, full_width = TRUE)
 ```
 
@@ -677,8 +677,8 @@ test_dictionary <- add_to_dictionary(test_dictionary,
 ```
 
 ```{r eval=TRUE, echo=FALSE}
-test_dictionary |>
-  kableExtra::kbl() |>
+test_dictionary %>%
+  kableExtra::kbl() %>%
   kableExtra::kable_paper("striped", font_size = 14, full_width = TRUE)
 ```
 
@@ -692,9 +692,9 @@ cleaned_df <- clean_using_dictionary(
 ```
 
 ```{r eval=TRUE, echo=FALSE}
-cleaned_df |>
-  kableExtra::kbl() |>
-  kableExtra::kable_paper("striped", font_size = 14, full_width = TRUE) |>
+cleaned_df %>%
+  kableExtra::kbl() %>%
+  kableExtra::kable_paper("striped", font_size = 14, full_width = TRUE) %>%
   kableExtra::scroll_box(height = "200px", width = "100%",
                          box_css = "border: 1px solid #ddd; padding: 5px; ",
                          extra_css = NULL,
@@ -716,9 +716,9 @@ With these arguments, the function offers flexibility in determining the time sp
 
 ```{r eval=TRUE}
 # IMPORT DATA, REPLACE MISSING VALUES WITH 'NA' & STANDARDIZE DATES
-data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi")) |>
+data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi")) %>%
   replace_missing_values(target_columns = "dateOfBirth",
-                         na_strings     = "-99") |>
+                         na_strings     = "-99") %>%
   standardize_dates(target_columns  = "dateOfBirth",
                     error_tolerance = 0.0)
 
@@ -735,13 +735,13 @@ age <- timespan(
 
 # CALCULATE THE TIME SPAN IN YEARS BETWEEN INDIVIDUALS 'dateOfBirth' AND THE DAY
 # THEY TESTED POSITIVE
-data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi")) |>
+data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi")) %>%
   replace_missing_values(target_columns = "dateOfBirth",
-                         na_strings     = "-99") |>
+                         na_strings     = "-99") %>%
   standardize_dates(
     target_columns  = c("dateOfBirth", "date_first_pcr_positive_test"),
     error_tolerance = 0.0
-  ) |>
+  ) %>%
   timespan(
     target_column       = "dateOfBirth",
     end_date            = "date_first_pcr_positive_test",
@@ -759,9 +759,9 @@ The `timespan()` function augments the input dataset by adding one or two extra 
 
 ```{r eval=TRUE, echo=FALSE}
 # DISPLAY THE OUTPUT OBJECT
-data |>
-  kableExtra::kbl() |>
-  kableExtra::kable_paper("striped", font_size = 14, full_width = TRUE) |>
+data %>%
+  kableExtra::kbl() %>%
+  kableExtra::kable_paper("striped", font_size = 14, full_width = TRUE) %>%
   kableExtra::scroll_box(height = "200px", width = "100%",
                          box_css = "border: 1px solid #ddd; padding: 5px; ",
                          extra_css = NULL,

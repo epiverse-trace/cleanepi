@@ -33,7 +33,7 @@ replace_missing_values <- function(data,
   cols           <- get_target_column_names(data, target_columns, cols = NULL)
 
   # get the indices of the columns that contain the missing value characters
-  tmp <- data |>
+  tmp <- data %>%
     dplyr::select(dplyr::all_of(cols))
   indices <- colSums(apply(tmp, 2, match, na_strings), na.rm = TRUE) > 0
   cols    <- names(tmp)[indices]
@@ -42,7 +42,7 @@ replace_missing_values <- function(data,
   # string
   if (any(indices)) {
     # replace missing values with NA
-    data <- data |>
+    data <- data %>%
       dplyr::mutate(dplyr::across(dplyr::all_of(cols), ~
                                     dplyr::na_if(as.character(.x), na_strings)))
 

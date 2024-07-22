@@ -87,8 +87,8 @@ data     <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi"))
 scan_res <- scan_data(data)
 
 # Perform data cleaning
-cleaned_data <- data |>
-  replace_missing_values(target_columns = "sex", na_strings = "-99") |>
+cleaned_data <- data %>%
+  replace_missing_values(target_columns = "sex", na_strings = "-99") %>%
   convert_to_numeric(target_columns = "sex", lang = "en")
 
 test_that("add_to_report works as expected", {

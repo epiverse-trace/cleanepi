@@ -15,7 +15,7 @@ data <- readRDS(system.file("extdata", "test_df.RDS",
                             package = "cleanepi"))
 
 # standardize the date values
-data <- data |>
+data <- data %>%
   standardize_dates(
     target_columns  = c("date_first_pcr_positive_test",
                         "date.of.admission"),
