@@ -10,6 +10,8 @@ scan_columns(x, type)
 }
 \arguments{
 \item{x}{A vector of ones or a combination of various data types.}
+
+\item{type}{A character with the the vector type.}
 }
 \value{
 A vector of 5 elements representing the percentage of missing,
