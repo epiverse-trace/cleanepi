@@ -1,6 +1,6 @@
-data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi")) |>
+data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi")) %>%
   replace_missing_values(target_columns = "dateOfBirth",
-                         na_strings     = "-99") |>
+                         na_strings     = "-99") %>%
   standardize_dates(target_columns  = c("dateOfBirth",
                                         "date_first_pcr_positive_test"),
                     error_tolerance = 0.0)

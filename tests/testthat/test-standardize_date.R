@@ -1,4 +1,4 @@
-data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi")) |>
+data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi")) %>%
   replace_missing_values(na_strings = "-99")
 test_that("standardize_dates works with a data frame", {
   dat <- standardize_dates(
@@ -30,9 +30,9 @@ test_that("standardize_dates works with a data frame", {
   expect_true(inherits(dat[["date_first_pcr_positive_test"]], "Date"))
   expect_true(inherits(dat[["date.of.admission"]], "Date"))
 
-  dat <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi")) |>
+  dat <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi")) %>%
     replace_missing_values(target_columns = "dateOfBirth",
-                           na_strings = "-99") |>
+                           na_strings = "-99") %>%
     standardize_dates(
     target_columns  = NULL,
     format          = NULL,
@@ -123,7 +123,7 @@ test_that("standardize_dates works when the input column is a factor", {
 })
 
 data <- readRDS(system.file("extdata", "test_linelist.RDS",
-                            package = "cleanepi")) |>
+                            package = "cleanepi")) %>%
   linelist::make_linelist(date_onset     = "dt_onset",
                           date_reporting = "dt_report")
 test_that("standardize_dates works with a linelist", {

@@ -22,10 +22,10 @@ Useful links:
 
 Authors:
 \itemize{
-  \item Bubacarr Bah \email{Bubacarr.Bah1@lshtm.ac.uk} (\href{https://orcid.org/0000-0003-3318-6668}{ORCID})
+  \item Abdoelnaser Degoot \email{abdoelnaser-mahmood.degoot@lshtm.ac.uk} (\href{https://orcid.org/0000-0001-8788-2496}{ORCID})
   \item Bankolé Ahadzie \email{Bankole.Ahadzie@lshtm.ac.uk}
   \item Nuredin Mohammed \email{Nuredin.Mohammed@lshtm.ac.uk}
-  \item Abdoelnaser Degoot \email{abdoelnaser-mahmood.degoot@lshtm.ac.uk} (\href{https://orcid.org/0000-0001-8788-2496}{ORCID})
+  \item Bubacarr Bah \email{Bubacarr.Bah1@lshtm.ac.uk} (\href{https://orcid.org/0000-0003-3318-6668}{ORCID})
 }
 
 Other contributors:
