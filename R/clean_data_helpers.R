@@ -9,7 +9,7 @@
 #'
 #' @keywords internal
 #'
-scan_columns <- function(x) {
+scan_columns <- function(x, type) {
   # --- save the variable length ---
   n_rows <- length(x)
 
@@ -18,8 +18,12 @@ scan_columns <- function(x) {
   x      <- x[!is.na(x)]
 
   # --- get the proportion of numeric values ---
-  tmp         <- suppressWarnings(as.numeric(x))
-  are_numeric <- round((sum(!is.na(tmp)) / n_rows), 6L)
+  are_numeric <- 0L
+  verdict     <- type == "logical" | type == "factor"
+  if (!verdict) {
+    tmp         <- suppressWarnings(as.numeric(x))
+    are_numeric <- round((sum(!is.na(tmp)) / n_rows), 6L)
+  }
 
   # --- get the proportion of date values ---
   x        <- x[which(is.na(tmp))]
@@ -39,11 +43,18 @@ scan_columns <- function(x) {
   }
 
   # --- get the proportion of logical values ---
-  are_logical   <- round((sum(is.logical(x)) / n_rows), 6L)
+  are_logical   <- 0
+  if (type == "logical") {
+    are_logical <- round((1.0 - (are_na + are_date)), 6L)
+  }
 
   # --- get the proportion of character values ---
-  are_character <- round((1.0 - (are_na + are_numeric +
-                                   are_date + are_logical)), 6L)
+  are_character   <- 0L
+  if (!verdict) {
+    are_character <- round((1.0 - (are_na + are_numeric +
+                                     are_date + are_logical)), 6L)
+  }
+
 
   # --- return the output ---
   return(c(are_na, are_numeric, are_date, are_character, are_logical))
@@ -66,11 +77,22 @@ scan_columns <- function(x) {
 #'                              package = "cleanepi"))
 #' )
 scan_data <- function(data) {
-  scan_result           <- data.frame(t(apply(data, 2L, scan_columns)))
-  names(scan_result)    <- c("missing", "numeric", "date", "character",
+  # when scanning through the data, logical and factor columns will be treated
+  # differently from the others. It means only the percent of missing and Date
+  # values will be evaluated for these columns.
+  # The percent of numeric and character value will be set automatically to 0 as
+  # to prevent from the effects of the conversion to numeric and character.
+  #
+  types         <- as.character(sapply(data, class))
+  scan_result   <- NULL
+  j             <- 1
+  for (i in names(data)) {
+    scan_result <- rbind(scan_result, scan_columns(data[[i]], types[j]))
+    j           <- j + 1
+  }
+  scan_result        <- as.data.frame(scan_result)
+  names(scan_result) <- c("missing", "numeric", "date", "character",
                              "logical")
-  row_names             <- rownames(scan_result)
-  rownames(scan_result) <- NULL
-  scan_result           <- cbind(Field_names = row_names, scan_result)
+  scan_result        <- cbind(Field_names = names(data), scan_result)
   return(scan_result)
 }
