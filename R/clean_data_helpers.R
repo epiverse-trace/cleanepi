@@ -83,7 +83,7 @@ scan_data <- function(data) {
   # The percent of numeric and character value will be set automatically to 0 as
   # to prevent from the effects of the conversion to numeric and character.
   #
-  types         <- as.character(sapply(data, class))
+  types         <- as.character(vapply(data, class, character(1L)))
   scan_result   <- NULL
   j             <- 1
   for (i in names(data)) {
