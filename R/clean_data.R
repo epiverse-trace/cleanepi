@@ -221,9 +221,9 @@ clean_data <- function(data, params = NULL) {
   ## -----
   if (!is.null(params[["to_numeric"]])) {
     message(
-      "converting",
-      paste(params[["to_numeric"]], sep = ", "),
-      "into numeric\n"
+      "converting ",
+      paste(params[["to_numeric"]], collapse = ", "),
+      " into numeric\n"
     )
     data <- convert_to_numeric(
       data           = data,
