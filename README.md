@@ -498,7 +498,7 @@ cleaned_data <- clean_data(
 #> checking subject IDs format
 #> Warning: Detected incorrect subject ids at lines: 3, 5, 7
 #> Use the correct_subject_ids() function to adjust them.
-#> convertingsexeninto numeric
+#> converting sex, en into numeric
 #> performing dictionary-based cleaning
 ```
 
