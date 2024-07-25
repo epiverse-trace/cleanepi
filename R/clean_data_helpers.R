@@ -69,7 +69,8 @@ scan_lgl_and_fct_columns <- function(x) {
 #'
 scan_columns <- function(x, type) {
   ## The processing path is determine with the logical `verdict`
-  verdict <- type == "logical" || type == "factor"
+  type    <- unlist(strsplit(type, ","))
+  verdict <- type %in% c("logical", "factor")
 
   ## logical and factor are processed differently from the other.
   ## Logical vectors are expected to contain `TRUE` or `FALSE` or `NA`. For
@@ -77,7 +78,7 @@ scan_columns <- function(x, type) {
   ## will be set at 0.
   ## For factor columns, the processing is based on their levels. Levels will be
   ## checked for numeric, date, logical, NA, and character
-  if (verdict) {
+  if (any(verdict)) {
     return(scan_lgl_and_fct_columns(x))
   }
 
@@ -88,18 +89,17 @@ scan_columns <- function(x, type) {
   are_na <- round((sum(is.na(x)) / n_rows), 6L)
   x      <- x[!is.na(x)]
 
-  # get the proportion of numeric values
-  are_numeric <- are_logical <- 0L
-  tmp         <- suppressWarnings(as.numeric(x))
-  are_numeric <- round((sum(!is.na(tmp)) / n_rows), 6L)
-
   # get the proportion of date values
-  x        <- x[which(is.na(tmp))]
   are_date <- 0L
+  if (any(type %in% c("POSIXct", "POSIXt"))) {
+    tmp      <- as.Date(x)
+    are_date <- round((sum(!is.na(tmp)) / n_rows), 6L)
+    x        <- x[is.na(tmp)]
+  }
   if (!is.null(lubridate::guess_formats(x, c("ymd", "ydm", "dmy", "mdy", "myd",
                                              "dym", "Ymd", "Ydm", "dmY", "mdY",
                                              "mYd", "dYm")))) {
-    x      <- suppressWarnings(
+    tmp    <- suppressWarnings(
       as.Date(
         lubridate::parse_date_time(
           x, orders = c("ymd", "ydm", "dmy", "mdy", "myd", "dym", "Ymd", "Ydm",
@@ -107,18 +107,37 @@ scan_columns <- function(x, type) {
         )
       )
     )
-    are_date <- round((sum(!is.na(x)) / n_rows), 6L)
+    are_date <- round((sum(!is.na(tmp)) / n_rows), 6L)
+    x        <- x[is.na(tmp)]
+  }
+
+  # get the proportion of numeric values
+  are_numeric <- are_logical <- 0L
+  if (length(x) > 0L) {
+    tmp         <- suppressWarnings(as.numeric(x))
+    are_numeric <- round((sum(!is.na(tmp)) / n_rows), 6L)
   }
 
   # get the proportion of character values
   are_character   <- 0L
-  if (!verdict) {
+  if (!all(verdict)) {
     are_character <- round((1.0 - (are_na + are_numeric +
                                      are_date + are_logical)), 6L)
   }
 
   # return the output
   return(c(are_na, are_numeric, are_date, are_character, are_logical))
+}
+
+#' Get class of a vector
+#'
+#' @param x The input vector
+#'
+#' @return A character with the class of the input vector
+#' @keywords internal
+#'
+get_class <- function(x) {
+  paste(class(x), collapse = ",")
 }
 
 #' Scan a data frame to determine the percentage of `missing`, `numeric`,
@@ -143,7 +162,7 @@ scan_data <- function(data) {
   # values will be evaluated for these columns.
   # The percent of numeric and character value will be set automatically to 0 as
   # to prevent from the effects of the conversion to numeric and character.
-  types       <- vapply(data, class, character(1L))
+  types       <- vapply(data, get_class, character(1L))
   scan_result <- vapply(seq_len(ncol(data)), function(col_index) {
     scan_columns(data[[col_index]], types[[col_index]])
   }, numeric(5L))
