@@ -97,18 +97,17 @@ find_duplicates <- function(data, target_columns = NULL) {
   target_columns <- retrieve_column_names(data, target_columns)
   target_columns <- get_target_column_names(data, target_columns, cols = NULL)
 
-  # find duplicates
+  # We are not using janitor::find_dupes() because we want to record the row
+  # number
   dups <- data %>%
-    dplyr::group_by_at(dplyr::vars(target_columns)) %>%
-    dplyr::mutate(num_dups = dplyr::n()) %>%
-    dplyr::ungroup() %>%
-    dplyr::mutate(row_id = seq_len(nrow(data))) %>%
+    dplyr::mutate(row_id = seq_len(nrow(data)), .before = 1) %>%
+    dplyr::filter(dplyr::n() > 1L, .by = dplyr::all_of(target_columns)) %>%
     dplyr::arrange(dplyr::pick(target_columns)) %>%
-    dplyr::filter(.data$num_dups > 1L) %>%
-    dplyr::select(-"num_dups") %>%
-    dplyr::group_by_at(dplyr::vars(target_columns)) %>%
-    dplyr::mutate(group_id = dplyr::cur_group_id()) %>%
-    dplyr::select("row_id", "group_id", dplyr::everything())
+    dplyr::group_by(dplyr::across(dplyr::all_of(target_columns))) %>%
+    dplyr::mutate(
+      group_id = dplyr::cur_group_id(),
+      .after = "row_id"
+    )
 
   if (nrow(dups) > 0L) {
     message("Found ", nrow(dups), " duplicated rows. Please consult the report",
