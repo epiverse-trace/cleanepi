@@ -28,14 +28,13 @@
 #'
 date_guess <- function(x,
                        column_name,
-                       quiet           = TRUE,
-                       modern_excel    = TRUE,
-                       orders          = list(
+                       quiet = TRUE,
+                       modern_excel = TRUE,
+                       orders = list(
                          world_named_months = c("Ybd", "dby"),
                          world_digit_months = c("dmy", "Ymd"),
                          US_formats         = c("Omdy", "YOmd")
-                        )) {
-
+                       )) {
   ## This function tries converting a single character string into a
   ## well-formatted date, but still returning a character. If it can't convert
   ## it, it returns NA.
@@ -62,7 +61,7 @@ date_guess <- function(x,
   ##
 
   # Process dates --------------------------------------------------------------
-  x  <- date_process(x)
+  x <- date_process(x)
 
   # Process lubridate order list -----------------------------------------------
   if (!is.list(orders) && is.character(orders)) {
@@ -76,8 +75,8 @@ date_guess <- function(x,
   # Guess dates ----------------------------------------------------------------
 
   # create output data frame for dates
-  res        <- list(rep(as.Date(NA_character_), length(x)))
-  res        <- rep(res, length(orders))
+  res <- list(rep(as.Date(NA_character_), length(x)))
+  res <- rep(res, length(orders))
   names(res) <- names(orders)
 
   # loop over each set of lubridate orders and find the dates
@@ -85,21 +84,23 @@ date_guess <- function(x,
     # only test the dates if the previous run wasn't successful or the user
     # doesn't want to
     # create an empty date vector
-    tmp_res  <- rep(as.Date(NA_character_), length(x))
-    keep     <- TRUE
+    tmp_res <- rep(as.Date(NA_character_), length(x))
+    keep <- TRUE
 
     # guess at only the subset of dates
     res[[i]] <- suppressWarnings(tmp_res[keep] <- as.Date(lubridate::parse_date_time(x[keep], # nolint
-                                                                     orders = orders[[i]]))) # nolint: line_length_linter
+      orders = orders[[i]]
+    ))) # nolint: line_length_linter
   }
 
   ## if lubridate fails to do the job, then we should use thibaut's parser.
-  x_rescued  <- date_rescue_lubridate_failures(data.frame(res),
-                                               original_dates = x,
-                                               mxl            = modern_excel)
+  x_rescued <- date_rescue_lubridate_failures(data.frame(res),
+    original_dates = x,
+    mxl            = modern_excel
+  )
 
   # Select the correct dates and test if we were successful --------------------
-  new_x     <- date_choose_first_good(x_rescued, column_name = column_name)
+  new_x <- date_choose_first_good(x_rescued, column_name = column_name)
   return(new_x)
 }
 
@@ -115,27 +116,33 @@ date_guess <- function(x,
 #'
 date_choose_first_good <- function(date_a_frame, column_name) {
   multi_format <- NULL
-  n            <- nrow(date_a_frame)
+  n <- nrow(date_a_frame)
   date_a_frame <- as.matrix(date_a_frame)
-  res          <- rep_len(lubridate::NA_Date_, length.out = n)
+  res <- rep_len(lubridate::NA_Date_, length.out = n)
   for (i in seq_len(n)) {
     # get values that lubridate converted successfully
-    tmp        <- date_a_frame[i, , drop = TRUE]
-    idx        <- which(!is.na(tmp))
+    tmp <- date_a_frame[i, , drop = TRUE]
+    idx <- which(!is.na(tmp))
     if (length(idx) > 0L) {
-      res[i]   <- as.Date(tmp[idx][[1L]])
+      res[i] <- as.Date(tmp[idx][[1L]])
       # detect values that comply with multiple formats. Useful for report.
       tmp_date <- unique(tmp[idx])
       if (length(tmp_date) > 1L) {
-        multi_format <- rbind(multi_format,
-                              cbind(field = column_name, idx = i,
-                                    date_a_frame[i, , drop = FALSE]))
+        multi_format <- rbind(
+          multi_format,
+          cbind(
+            field = column_name, idx = i,
+            date_a_frame[i, , drop = FALSE]
+          )
+        )
       }
     }
   }
   return(
-    list(res          = res,
-         multi_format = as.data.frame(multi_format))
+    list(
+      res = res,
+      multi_format = as.data.frame(multi_format)
+    )
   )
 }
 
@@ -153,14 +160,14 @@ date_choose_first_good <- function(date_a_frame, column_name) {
 date_rescue_lubridate_failures <- function(date_a_frame, original_dates,
                                            mxl = TRUE) {
   # Find places where all rows are missing
-  nas     <- is.na(date_a_frame)
+  nas <- is.na(date_a_frame)
   all_nas <- apply(nas, 1L, all)
   numbers <- suppressWarnings(!is.na(o_num <- as.integer(original_dates))) # nolint
   go_tibo <- which(all_nas & !numbers)
   go_exel <- all_nas & numbers
 
   # Use Thibaut's guesser
-  tmpbo   <- rep(as.Date(NA_character_), length(go_tibo))
+  tmpbo <- rep(as.Date(NA_character_), length(go_tibo))
   for (i in go_tibo) {
     tmpbo[go_tibo == i] <- date_i_extract_string(original_dates[i])
   }
@@ -169,7 +176,7 @@ date_rescue_lubridate_failures <- function(date_a_frame, original_dates,
   # Use the excel guesser
   if (sum(go_exel)) {
     origin <- if (mxl) as.Date("1899-12-30") else as.Date("1904-01-01")
-    tmpxl  <- as.Date(o_num[go_exel], origin = origin)
+    tmpxl <- as.Date(o_num[go_exel], origin = origin)
     date_a_frame[[1L]][go_exel] <- tmpxl
   }
 
@@ -188,7 +195,6 @@ date_rescue_lubridate_failures <- function(date_a_frame, original_dates,
 #'    string.
 #' @keywords internal
 date_i_extract_string <- function(x) {
-
   ## This function tries converting a single character string into a
   ## well-formatted date, but still returning a character. If it can't convert
   ## it, it returns NA.
@@ -199,7 +205,8 @@ date_i_extract_string <- function(x) {
   }
 
   return(as.character(as.Date(date_info[["date"]],
-                              format = date_info[["format"]])))
+    format = date_info[["format"]]
+  )))
 }
 
 #' Guess date format of a character string
@@ -222,10 +229,10 @@ date_i_find_format <- function(x) {
 
   ## define the regular expressions used to find dates
 
-  num       <- "[[:digit:]]"
-  letters   <- "[[:alpha:]]"
+  num <- "[[:digit:]]"
+  letters <- "[[:alpha:]]"
   separator <- "[[:punct:][:blank:]]+"
-  x         <- gsub(separator, "-", x)
+  x <- gsub(separator, "-", x)
 
 
   ## These are the formats currently handled; not that any punctuation is
@@ -234,20 +241,28 @@ date_i_find_format <- function(x) {
   formats <- list(
     ## 2010-01-23
     "%Y-%m-%d" = paste0(num, "{4}", "-",
-                        num, "{2}", "-",
-                        num, "{2}", collapse = ""),
+      num, "{2}", "-",
+      num, "{2}",
+      collapse = ""
+    ),
     ##  23-01-2010
     "%d-%m-%Y" = paste0(num, "{2}", "-",
-                        num, "{2}",  "-",
-                        num, "{4}", collapse = ""),
+      num, "{2}", "-",
+      num, "{4}",
+      collapse = ""
+    ),
     ## 23-Jan-2010
     "%d-%b-%Y" = paste0(num, "{2}", "-",
-                        letters, "{3}",  "-",
-                        num, "{4}", collapse = ""),
+      letters, "{3}", "-",
+      num, "{4}",
+      collapse = ""
+    ),
     ## 2010-Jan-23
     "%Y-%b-%d" = paste0(num, "{4}", "-",
-                        letters, "{3}",  "-",
-                        num, "{2}", collapse = "")
+      letters, "{3}", "-",
+      num, "{2}",
+      collapse = ""
+    )
   )
 
 
@@ -256,7 +271,7 @@ date_i_find_format <- function(x) {
     any(grepl(pattern, x))
   }, logical(1L))
 
-  idx      <- which(matching)
+  idx <- which(matching)
   if (length(idx) == 0L) {
     return(NULL)
   } else {
@@ -268,9 +283,9 @@ date_i_find_format <- function(x) {
   ## garbage), and return a named character vector of length 2, containing the
   ## as.Date compatible 'format', and the clean date itself, as a character.
 
-  expression    <- formats[[format]]
+  expression <- formats[[format]]
   cleaning_expr <- paste0("^.*(", expression, ").*$")
-  clean_date    <- gsub(cleaning_expr, "\\1", x)
-  out           <- c(format = format, date = clean_date)
+  clean_date <- gsub(cleaning_expr, "\\1", x)
+  out <- c(format = format, date = clean_date)
   return(out)
 }

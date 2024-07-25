@@ -14,32 +14,43 @@
 #'
 #' @examples
 #' dat <- check_subject_ids(
-#'   data           = readRDS(system.file("extdata", "test_df.RDS",
-#'                                        package = "cleanepi")),
+#'   data = readRDS(system.file("extdata", "test_df.RDS",
+#'     package = "cleanepi"
+#'   )),
 #'   target_columns = "study_id",
-#'   prefix         = "PS",
-#'   suffix         = "P2",
-#'   range          = c(1, 100),
-#'   nchar          = 7
+#'   prefix = "PS",
+#'   suffix = "P2",
+#'   range = c(1, 100),
+#'   nchar = 7
 #' )
 #' @export
 check_subject_ids <- function(data,
                               target_columns,
-                              prefix         = NULL,
-                              suffix         = NULL,
-                              range          = NULL,
-                              nchar          = NULL) {
+                              prefix = NULL,
+                              suffix = NULL,
+                              range = NULL,
+                              nchar = NULL) {
   checkmate::assert_data_frame(data, null.ok = FALSE)
-  checkmate::assert_character(target_columns, null.ok = FALSE,
-                              any.missing = FALSE, len = 1L)
-  checkmate::assert_vector(prefix, min.len = 1L, null.ok = TRUE,
-                           any.missing = FALSE)
-  checkmate::assert_vector(suffix, min.len = 1L, null.ok = TRUE,
-                           any.missing = FALSE)
-  checkmate::assert_vector(range, any.missing = FALSE, min.len = 2L,
-                           null.ok = TRUE, unique = TRUE, max.len = 2L)
-  checkmate::assert_numeric(nchar, null.ok = TRUE, any.missing = FALSE,
-                            len = 1L)
+  checkmate::assert_character(target_columns,
+    null.ok = FALSE,
+    any.missing = FALSE, len = 1L
+  )
+  checkmate::assert_vector(prefix,
+    min.len = 1L, null.ok = TRUE,
+    any.missing = FALSE
+  )
+  checkmate::assert_vector(suffix,
+    min.len = 1L, null.ok = TRUE,
+    any.missing = FALSE
+  )
+  checkmate::assert_vector(range,
+    any.missing = FALSE, min.len = 2L,
+    null.ok = TRUE, unique = TRUE, max.len = 2L
+  )
+  checkmate::assert_numeric(nchar,
+    null.ok = TRUE, any.missing = FALSE,
+    len = 1L
+  )
 
   # get the correct names in case some have been modified - see the
   # `retrieve_column_names()` function for more details
@@ -51,13 +62,13 @@ check_subject_ids <- function(data,
   }
 
   # check for missing and duplicated ids
-  data       <- check_subject_ids_oness(data, target_columns)
+  data <- check_subject_ids_oness(data, target_columns)
 
   # we will use regular expressions to match on prefix and suffix
-  regex_match  <- paste0(
+  regex_match <- paste0(
     "^", paste(prefix, collapse = "|"), # starts with prefix
     ".*",
-    paste(suffix, collapse = "|"), "$"  # ends with suffix
+    paste(suffix, collapse = "|"), "$" # ends with suffix
   )
 
   bad_rows <- which(!grepl(regex_match, data[[target_columns]]))
@@ -66,9 +77,11 @@ check_subject_ids <- function(data,
   # specified range is not trivial. we use an approach where we parse numbers
   # only.
   if (!is.null(range)) {
-    numbers_in <- as.numeric(unlist(lapply(data[[target_columns]],
-                                           readr::parse_number)))
-    bad_rows   <- c(
+    numbers_in <- as.numeric(unlist(lapply(
+      data[[target_columns]],
+      readr::parse_number
+    )))
+    bad_rows <- c(
       bad_rows,
       which(!(numbers_in >= min(range) & numbers_in <= max(range)))
     )
@@ -81,16 +94,21 @@ check_subject_ids <- function(data,
 
   # remove the incorrect rows
   if (!is.null(bad_rows)) {
-    bad_rows     <- sort(unique(bad_rows))
-    tmp_report   <- data.frame(idx = bad_rows,
-                               ids = data[[target_columns]][bad_rows])
-    bad_rows     <- toString(bad_rows)
+    bad_rows <- sort(unique(bad_rows))
+    tmp_report <- data.frame(
+      idx = bad_rows,
+      ids = data[[target_columns]][bad_rows]
+    )
+    bad_rows <- toString(bad_rows)
     warning("Detected incorrect subject ids at lines: ", bad_rows,
-            "\nUse the correct_subject_ids() function to adjust them.\n",
-            call. = FALSE)
-    data         <- add_to_report(x     = data,
-                                  key   = "incorrect_subject_id",
-                                  value = tmp_report)
+      "\nUse the correct_subject_ids() function to adjust them.\n",
+      call. = FALSE
+    )
+    data <- add_to_report(
+      x = data,
+      key = "incorrect_subject_id",
+      value = tmp_report
+    )
   }
 
   return(data)
@@ -117,13 +135,14 @@ check_subject_ids <- function(data,
 #' @examples
 #' # detect the incorrect subject ids
 #' dat <- check_subject_ids(
-#'   data           = readRDS(system.file("extdata", "test_df.RDS",
-#'                                        package = "cleanepi")),
+#'   data = readRDS(system.file("extdata", "test_df.RDS",
+#'     package = "cleanepi"
+#'   )),
 #'   target_columns = "study_id",
-#'   prefix         = "PS",
-#'   suffix         = "P2",
-#'   range          = c(1, 100),
-#'   nchar          = 7
+#'   prefix = "PS",
+#'   suffix = "P2",
+#'   range = c(1, 100),
+#'   nchar = 7
 #' )
 #'
 #' # generate the correction table
@@ -139,22 +158,28 @@ check_subject_ids <- function(data,
 #'   correction_table = correction_table
 #' )
 correct_subject_ids <- function(data, target_columns, correction_table) {
-  checkmate::assert_data_frame(correction_table, any.missing = FALSE,
-                               min.rows = 1L, ncols = 2L, null.ok = FALSE,
-                               col.names = "named")
+  checkmate::assert_data_frame(correction_table,
+    any.missing = FALSE,
+    min.rows = 1L, ncols = 2L, null.ok = FALSE,
+    col.names = "named"
+  )
   checkmate::assert_names(names(correction_table),
-                          identical.to = c("from", "to"))
+    identical.to = c("from", "to")
+  )
 
-  stopifnot("Some ids in the correction table were not found in the input data"
-            = all(correction_table[["from"]] %in% data[[target_columns]]))
+  stopifnot(
+    "Some ids in the correction table were not found in the input data" = all(correction_table[["from"]] %in% data[[target_columns]])
+  )
 
   # perform the substitution
-  idx                         <- match(correction_table[["from"]],
-                                       data[[target_columns]])
+  idx <- match(
+    correction_table[["from"]],
+    data[[target_columns]]
+  )
   data[[target_columns]][idx] <- correction_table[["to"]]
 
   # check whether substitution did not introduce any duplicate
-  data                        <- check_subject_ids_oness(data, target_columns)
+  data <- check_subject_ids_oness(data, target_columns)
 
   return(data)
 }
@@ -171,23 +196,29 @@ correct_subject_ids <- function(data, target_columns, correction_table) {
 check_subject_ids_oness <- function(data, id_col_name) {
   # check for missing values in ID column
   if (anyNA(data[[id_col_name]])) {
-    idx                <- which(is.na(data[[id_col_name]]))
+    idx <- which(is.na(data[[id_col_name]]))
     warning("\nMissing values found on ID column in lines: ",
-            paste(idx, sep = ", "), call. = FALSE)
-    data <- add_to_report(x     = data,
-                          key   = "missing_ids",
-                          value = paste(idx, sep = ", "))
+      paste(idx, sep = ", "),
+      call. = FALSE
+    )
+    data <- add_to_report(
+      x = data,
+      key = "missing_ids",
+      value = paste(idx, sep = ", ")
+    )
   }
 
   # check for duplicates ID column
-  duplicated_ids       <- find_duplicates(data, id_col_name)
-  tmp_report           <- attr(duplicated_ids, "report")
+  duplicated_ids <- find_duplicates(data, id_col_name)
+  tmp_report <- attr(duplicated_ids, "report")
   if (!is.null(tmp_report) && "duplicated_rows" %in% names(tmp_report) &&
-      nrow(tmp_report[["duplicated_rows"]]) > 0L) {
-    dups               <- tmp_report[["duplicated_rows"]]
-    data               <- add_to_report(x     = data,
-                                        key   = "duplicated_ids",
-                                        value = dups)
+    nrow(tmp_report[["duplicated_rows"]]) > 0L) {
+    dups <- tmp_report[["duplicated_rows"]]
+    data <- add_to_report(
+      x = data,
+      key = "duplicated_ids",
+      value = dups
+    )
   }
 
   return(data)

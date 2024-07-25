@@ -18,20 +18,25 @@
 #'
 #' @examples
 #' dat <- convert_to_numeric(
-#'   data           = readRDS(system.file("extdata", "messy_data.RDS",
-#'                                        package = "cleanepi")),
+#'   data = readRDS(system.file("extdata", "messy_data.RDS",
+#'     package = "cleanepi"
+#'   )),
 #'   target_columns = "age",
-#'   lang           = "en"
+#'   lang = "en"
 #' )
 convert_to_numeric <- function(data, target_columns = NULL,
                                lang = c("en", "fr", "es")) {
-  checkmate::assert_data_frame(data, min.rows = 1L, min.cols = 1L,
-                               null.ok = FALSE)
-  checkmate::assert_vector(target_columns, any.missing = FALSE, min.len = 0L,
-                           null.ok = TRUE)
+  checkmate::assert_data_frame(data,
+    min.rows = 1L, min.cols = 1L,
+    null.ok = FALSE
+  )
+  checkmate::assert_vector(target_columns,
+    any.missing = FALSE, min.len = 0L,
+    null.ok = TRUE
+  )
   lang <- match.arg(lang)
   if (is.null(target_columns)) {
-    scan_res       <- scan_data(data = data)
+    scan_res <- scan_data(data = data)
     target_columns <- detect_to_numeric_columns(scan_res)
   }
 
@@ -42,11 +47,13 @@ convert_to_numeric <- function(data, target_columns = NULL,
 
   stopifnot("Please specify the target columns." = length(target_columns) > 0L)
   for (col in target_columns) {
-    data[[col]]  <- numberize::numberize(text = data[[col]], lang = lang)
+    data[[col]] <- numberize::numberize(text = data[[col]], lang = lang)
   }
-  data           <- add_to_report(x     = data,
-                                  key   = "converted_into_numeric",
-                                  value = paste(target_columns, sep = ", "))
+  data <- add_to_report(
+    x = data,
+    key = "converted_into_numeric",
+    value = paste(target_columns, sep = ", ")
+  )
   return(data)
 }
 
@@ -60,25 +67,28 @@ convert_to_numeric <- function(data, target_columns = NULL,
 #' @keywords internal
 #'
 detect_to_numeric_columns <- function(scan_res) {
-  checkmate::assert_data_frame(scan_res, min.rows = 1L, min.cols = 1L,
-                               null.ok = FALSE)
+  checkmate::assert_data_frame(scan_res,
+    min.rows = 1L, min.cols = 1L,
+    null.ok = FALSE
+  )
   to_numeric <- vector(mode = "character", length = 0L)
   for (col in scan_res[["Field_names"]]) {
     idx <- match(col, scan_res[["Field_names"]])
-    values        <- scan_res[idx, 2L:ncol(scan_res)]
+    values <- scan_res[idx, 2L:ncol(scan_res)]
     names(values) <- colnames(scan_res)[2L:ncol(scan_res)]
-    values        <- values[which(values > 0L)]
+    values <- values[which(values > 0L)]
     if ("missing" %in% names(values)) {
       values <- values[-(which(names(values) == "missing"))]
     }
     if (length(values) == 2L && "numeric" %in% names(values) &&
-        "character" %in% names(values)) {
+      "character" %in% names(values)) {
       if (values[["numeric"]] > (2.0 * values[["character"]])) {
         to_numeric <- c(to_numeric, col)
       } else if (values[["numeric"]] < (2L * values[["character"]])) {
-          warning(sprintf("In '%s' column, the number of numeric values", col),
-                          " is same as the number of character values",
-                  call. = FALSE)
+        warning(sprintf("In '%s' column, the number of numeric values", col),
+          " is same as the number of character values",
+          call. = FALSE
+        )
       }
     } else {
       next

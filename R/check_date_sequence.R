@@ -37,9 +37,11 @@
 #'   target_columns = c("date_first_pcr_positive_test", "date.of.admission")
 #' )
 check_date_sequence <- function(data, target_columns) {
-  checkmate::assert_vector(target_columns, any.missing = FALSE, min.len = 1L,
-                           max.len = dim(data)[2], null.ok = FALSE,
-                           unique = TRUE)
+  checkmate::assert_vector(target_columns,
+    any.missing = FALSE, min.len = 1L,
+    max.len = dim(data)[2], null.ok = FALSE,
+    unique = TRUE
+  )
   checkmate::assert_data_frame(data, null.ok = FALSE)
 
   # get the correct names in case some have been modified - see the
@@ -52,7 +54,8 @@ check_date_sequence <- function(data, target_columns) {
   # check if all columns are part of the data frame
   if (any(missing_cols)) {
     warning("Removing unrecognised column name: ", target_columns[missing_cols],
-            call. = FALSE)
+      call. = FALSE
+    )
     target_columns <- target_columns[!missing_cols]
     if (length(target_columns) < 2L) {
       stop("\nAt least 2 event dates are required!")
@@ -60,19 +63,22 @@ check_date_sequence <- function(data, target_columns) {
   }
 
   # checking the date sequence
-  tmp_data   <- data %>% dplyr::select(dplyr::all_of(target_columns))
+  tmp_data <- data %>% dplyr::select(dplyr::all_of(target_columns))
   order_date <- apply(tmp_data, 1L, is_date_sequence_ordered)
-  bad_order  <- which(!order_date)
+  bad_order <- which(!order_date)
   if (!all(order_date)) {
     tmp_data <- tmp_data[bad_order, ]
     # adding incorrect records to the report
-    data     <- add_to_report(x     = data,
-                              key   = "incorrect_date_sequence",
-                              value = tmp_data)
+    data <- add_to_report(
+      x = data,
+      key = "incorrect_date_sequence",
+      value = tmp_data
+    )
     warning("Detected ", length(bad_order),
-            " incorrect date sequences at line(s): ",
-            toString(bad_order),
-            call. = FALSE)
+      " incorrect date sequences at line(s): ",
+      toString(bad_order),
+      call. = FALSE
+    )
   }
 
   return(data)

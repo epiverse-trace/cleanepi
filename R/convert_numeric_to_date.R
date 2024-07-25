@@ -23,11 +23,15 @@
 convert_numeric_to_date <- function(data, target_columns, ref_date,
                                     forward = TRUE) {
   if (!checkmate::test_character(ref_date, len = 1L, null.ok = FALSE)) {
-    checkmate::assert_date(ref_date, any.missing = FALSE, min.len = 1L,
-                           max.len = 1L, null.ok = FALSE)
+    checkmate::assert_date(ref_date,
+      any.missing = FALSE, min.len = 1L,
+      max.len = 1L, null.ok = FALSE
+    )
   }
-  checkmate::assert_vector(target_columns, min.len = 1, max.len = ncol(data),
-                           null.ok = FALSE, any.missing = FALSE)
+  checkmate::assert_vector(target_columns,
+    min.len = 1, max.len = ncol(data),
+    null.ok = FALSE, any.missing = FALSE
+  )
   checkmate::assert_data_frame(data, null.ok = FALSE, min.cols = 1L)
 
   # get the correct names in case some have been modified - see the

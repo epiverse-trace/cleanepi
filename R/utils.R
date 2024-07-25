@@ -81,12 +81,14 @@ get_sum <- function(x) {
 #' @examples
 #' # scan through the data
 #' scan_res <- scan_data(data = readRDS(system.file("extdata", "test_df.RDS",
-#'                                                  package = "cleanepi")))
+#'   package = "cleanepi"
+#' )))
 #'
 #' # Perform data cleaning
 #' cleaned_data <- clean_data(
-#'   data   = readRDS(system.file("extdata", "test_df.RDS",
-#'                                package = "cleanepi")),
+#'   data = readRDS(system.file("extdata", "test_df.RDS",
+#'     package = "cleanepi"
+#'   )),
 #'   params = list(
 #'     to_numeric = list(target_columns = "sex", lang = "en"),
 #'     dictionary = NULL
@@ -94,16 +96,20 @@ get_sum <- function(x) {
 #' )
 #'
 #' # add the data scanning result to the report
-#' cleaned_data <- add_to_report(x     = cleaned_data,
-#'                               key   = "scanning_result",
-#'                               value = scan_res)
+#' cleaned_data <- add_to_report(
+#'   x = cleaned_data,
+#'   key = "scanning_result",
+#'   value = scan_res
+#' )
 #'
 add_to_report <- function(x, key, value = NULL) {
   checkmate::assert_data_frame(x, min.rows = 1L, min.cols = 1L, null.ok = FALSE)
-  checkmate::assert_character(key, any.missing = FALSE, len = 1L,
-                              null.ok = FALSE)
-  report                    <- attr(x, "report")
-  report[[key]]             <- value
+  checkmate::assert_character(key,
+    any.missing = FALSE, len = 1L,
+    null.ok = FALSE
+  )
+  report <- attr(x, "report")
+  report[[key]] <- value
   attr(x, which = "report") <- report
   return(x)
 }
@@ -127,17 +133,21 @@ get_target_column_names <- function(data, target_columns, cols) {
 
   # extract column names if target_columns is a vector of column names
   if (length(target_columns) == 1L && target_columns != "linelist_tags") {
-    idx            <- match(target_columns, names(data))
-    stopifnot("Could not find some specified target column names" =
-                !anyNA(idx))
+    idx <- match(target_columns, names(data))
+    stopifnot(
+      "Could not find some specified target column names" =
+        !anyNA(idx)
+    )
     target_columns <- names(data)[idx]
   }
 
   # extract column names if target_columns is a vector of column indexes
   if (is.numeric(target_columns)) {
-    index          <- seq_along(data)
-    stopifnot("Incorrect vector of column name indices provided!" =
-                all(target_columns %in% index))
+    index <- seq_along(data)
+    stopifnot(
+      "Incorrect vector of column name indices provided!" =
+        all(target_columns %in% index)
+    )
     target_columns <- names(data)[target_columns]
   }
 
@@ -148,17 +158,19 @@ get_target_column_names <- function(data, target_columns, cols) {
               column names if you are dealing with a data frame" =
         inherits(data, "linelist")
     )
-    original_tags  <- linelist::tags(data)
+    original_tags <- linelist::tags(data)
     target_columns <- as.character(original_tags)
   }
 
   # check whether target columns are part of the empty or constant columns
   if (!is.null(cols)) {
-    idx              <- match(cols, target_columns)
+    idx <- match(cols, target_columns)
     if (length(idx) > 0L) {
       target_columns <- target_columns[-idx]
-      stopifnot("All specified columns are either constant or empty." =
-                  length(target_columns) > 0L)
+      stopifnot(
+        "All specified columns are either constant or empty." =
+          length(target_columns) > 0L
+      )
     }
   }
 

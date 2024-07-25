@@ -19,31 +19,37 @@
 #' # do not rename 'date.of.admission'
 #' cleaned_data <- standardize_column_names(
 #'   data = readRDS(system.file("extdata", "test_df.RDS",
-#'                              package = "cleanepi")),
+#'     package = "cleanepi"
+#'   )),
 #'   keep = "date.of.admission"
 #' )
 #'
 #' # do not rename 'date.of.admission', but rename 'dateOfBirth' and 'sex' to
 #' # 'DOB' and 'gender' respectively
 #' cleaned_data <- standardize_column_names(
-#'   data   = readRDS(system.file("extdata", "test_df.RDS",
-#'                                package = "cleanepi")),
-#'   keep   = "date.of.admission",
+#'   data = readRDS(system.file("extdata", "test_df.RDS",
+#'     package = "cleanepi"
+#'   )),
+#'   keep = "date.of.admission",
 #'   rename = c(DOB = "dateOfBirth", gender = "sex")
 #' )
 #'
 standardize_column_names <- function(data, keep = NULL, rename = NULL) {
-  checkmate::assert_vector(keep, min.len = 0L, max.len = ncol(data),
-                           null.ok = TRUE,
-                           any.missing = FALSE)
-  checkmate::assert_character(rename, min.len = 0L, null.ok = TRUE,
-                              any.missing = FALSE)
+  checkmate::assert_vector(keep,
+    min.len = 0L, max.len = ncol(data),
+    null.ok = TRUE,
+    any.missing = FALSE
+  )
+  checkmate::assert_character(rename,
+    min.len = 0L, null.ok = TRUE,
+    any.missing = FALSE
+  )
   before <- colnames(data)
 
   # when rename is not NULL, get the indices of the old column names as a vector
   # and name them with the new names
   if (!is.null(rename)) {
-    new_names    <- names(rename)
+    new_names <- names(rename)
     current_names <- unname(rename)
     stopifnot(
       "Unrecognised column names specified in 'rename'" =
@@ -51,7 +57,7 @@ standardize_column_names <- function(data, keep = NULL, rename = NULL) {
       "Replace column names already exists" =
         !any(new_names %in% before)
     )
-    rename        <- match(current_names, before)
+    rename <- match(current_names, before)
     names(rename) <- new_names
   }
 
@@ -59,8 +65,9 @@ standardize_column_names <- function(data, keep = NULL, rename = NULL) {
   # also account for when target columns are provided as a vector or column
   # name or column indices or NULL
   keep <- get_target_column_names(data,
-                                  target_columns = keep,
-                                  cols           = NULL)
+    target_columns = keep,
+    cols           = NULL
+  )
   kept <- before %in% keep
 
   # if they're anything apart from ASCII e.g. arabic, throw error
@@ -71,12 +78,12 @@ standardize_column_names <- function(data, keep = NULL, rename = NULL) {
     sep = "_"
   )
   if (!all(kept)) {
-    after[kept]  <- before[kept]
+    after[kept] <- before[kept]
   }
-  after[rename]  <- names(rename)
+  after[rename] <- names(rename)
   colnames(data) <- after
-  colnames_info  <- data.frame(before, after)
-  data           <- add_to_report(data, "colnames", colnames_info)
+  colnames_info <- data.frame(before, after)
+  data <- add_to_report(data, "colnames", colnames_info)
   return(data)
 }
 
@@ -103,7 +110,7 @@ retrieve_column_names <- function(data, target_columns) {
   }
 
   # extract the report object to make it easily accessible
-  report    <- attr(data, "report")
+  report <- attr(data, "report")
   if (!"colnames" %in% names(report)) {
     return(target_columns)
   }
@@ -115,13 +122,13 @@ retrieve_column_names <- function(data, target_columns) {
 
   # detect the current names
   # identify the old names
-  new_names      <- target_columns[target_columns %in% names(data)]
+  new_names <- target_columns[target_columns %in% names(data)]
   target_columns <- target_columns[!(target_columns %in% names(data))]
   if ("colnames" %in% names(report) &&
-      all(target_columns %in% report[["colnames"]][["before"]])) {
+    all(target_columns %in% report[["colnames"]][["before"]])) {
     all_column_names <- report[["colnames"]]
-    idx              <- match(target_columns, all_column_names[["before"]])
-    new_names        <- c(new_names, all_column_names[["after"]][idx])
+    idx <- match(target_columns, all_column_names[["before"]])
+    new_names <- c(new_names, all_column_names[["after"]][idx])
   }
 
   return(new_names)

@@ -14,7 +14,7 @@ default_cleanepi_settings <- function() {
     standardize_column_names = list(keep = NULL, rename = NULL),
     replace_missing_values = NULL,
     remove_duplicates = list(
-      target_columns   = NULL
+      target_columns = NULL
     ),
     remove_constants = list(cutoff = 1L),
     standardize_dates = NULL,

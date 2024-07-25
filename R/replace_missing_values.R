@@ -1,4 +1,3 @@
-
 #' Replace missing values with `NA`
 #'
 #' @param data A data frame or linelist
@@ -18,10 +17,11 @@
 #'
 #' @examples
 #' cleaned_data <- replace_missing_values(
-#'   data           = readRDS(system.file("extdata", "test_df.RDS",
-#'                                        package = "cleanepi")),
+#'   data = readRDS(system.file("extdata", "test_df.RDS",
+#'     package = "cleanepi"
+#'   )),
 #'   target_columns = "sex",
-#'   na_strings     = "-99"
+#'   na_strings = "-99"
 #' )
 #'
 replace_missing_values <- function(data,
@@ -30,13 +30,13 @@ replace_missing_values <- function(data,
   # get the correct names in case some have been modified - see the
   # `retrieve_column_names()` function for more details
   target_columns <- retrieve_column_names(data, target_columns)
-  cols           <- get_target_column_names(data, target_columns, cols = NULL)
+  cols <- get_target_column_names(data, target_columns, cols = NULL)
 
   # get the indices of the columns that contain the missing value characters
   tmp <- data %>%
     dplyr::select(dplyr::all_of(cols))
   indices <- colSums(apply(tmp, 2, match, na_strings), na.rm = TRUE) > 0
-  cols    <- names(tmp)[indices]
+  cols <- names(tmp)[indices]
 
   # send a warning when none of the columns contains the provided missing value
   # string
@@ -44,16 +44,20 @@ replace_missing_values <- function(data,
     # replace missing values with NA
     data <- data %>%
       dplyr::mutate(dplyr::across(dplyr::all_of(cols), ~
-                                    dplyr::na_if(as.character(.x), na_strings)))
+        dplyr::na_if(as.character(.x), na_strings)))
 
     # make report
-    data <- add_to_report(x     = data,
-                          key   = "missing_values_replaced_at",
-                          value = paste(cols, sep = ", "))
+    data <- add_to_report(
+      x = data,
+      key = "missing_values_replaced_at",
+      value = paste(cols, sep = ", ")
+    )
   } else {
     warning("Could not detect missing value character!",
-            "\nPlease use the appropriate strings that represents the missing",
-            "values from your data.", call. = FALSE)
+      "\nPlease use the appropriate strings that represents the missing",
+      "values from your data.",
+      call. = FALSE
+    )
   }
 
   return(data)
