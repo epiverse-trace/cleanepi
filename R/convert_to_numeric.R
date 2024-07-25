@@ -63,25 +63,19 @@ detect_to_numeric_columns <- function(scan_res) {
   checkmate::assert_data_frame(scan_res, min.rows = 1L, min.cols = 1L,
                                null.ok = FALSE)
   to_numeric <- vector(mode = "character", length = 0L)
-  for (col in scan_res[["Field_names"]]) {
-    idx <- match(col, scan_res[["Field_names"]])
-    values        <- scan_res[idx, 2L:ncol(scan_res)]
-    names(values) <- colnames(scan_res)[2L:ncol(scan_res)]
-    values        <- values[which(values > 0L)]
-    if ("missing" %in% names(values)) {
-      values <- values[-(which(names(values) == "missing"))]
-    }
-    if (length(values) == 2L && "numeric" %in% names(values) &&
-        "character" %in% names(values)) {
-      if (values[["numeric"]] > (2.0 * values[["character"]])) {
+  scan_res <- tibble::column_to_rownames(scan_res, "Field_names")
+  for (col in rownames(scan_res)) {
+    values <- unlist(scan_res[col, ])
+    values <- values[values > 0L]
+    values <- values[names(values) != "missing"]
+    if (setequal(names(values), c("numeric", "character"))) {
+      if (values[["numeric"]] > (2 * values[["character"]])) {
         to_numeric <- c(to_numeric, col)
-      } else if (values[["numeric"]] < (2L * values[["character"]])) {
+      } else if (values[["numeric"]] < (2 * values[["character"]])) {
           warning(sprintf("In '%s' column, the number of numeric values", col),
                           " is same as the number of character values",
                   call. = FALSE)
       }
-    } else {
-      next
     }
   }
   return(to_numeric)
