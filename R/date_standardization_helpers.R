@@ -13,19 +13,19 @@ date_check_timeframe <- function(first_date, last_date) {
   # make sure that they are single character strings in ISO 8601 format.
   iso_8601 <- "[0-9]{4}-(0|1(?=[0-2]))[0-9]-([0-2]|3(?=[0-1]))[0-9]"
 
-  first_date_is_charcater <- is.character(first_date)
+  first_date_is_character <- is.character(first_date)
   first_date_has_len_1    <- length(first_date) == 1L
   first_date_has_iso_8601 <- grepl(iso_8601, first_date, perl = TRUE)
-  verdict <- first_date_is_charcater & first_date_has_len_1 &
+  verdict <- first_date_is_character & first_date_has_len_1 &
     first_date_has_iso_8601
   if (verdict) {
     first_date <- as.Date(first_date, "%Y-%m-%d")
   }
 
-  last_date_is_charcater <- is.character(last_date)
+  last_date_is_character <- is.character(last_date)
   last_date_has_len_1    <- length(last_date) == 1L
   last_date_has_iso_8601 <- grepl(iso_8601, last_date, perl = TRUE)
-  verdict <- last_date_is_charcater & last_date_has_len_1 &
+  verdict <- last_date_is_character & last_date_has_len_1 &
     last_date_has_iso_8601
   if (verdict) {
     last_date <- as.Date(last_date, "%Y-%m-%d")
