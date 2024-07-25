@@ -154,7 +154,7 @@ date_convert_and_update <- function(data, timeframe, new_dates, cols,
                                   cols, data[[cols]])
   na_before       <- sum(is.na(data[[cols]]))
   na_after        <- sum(is.na(new_dates[["new_dates"]]))
-  prop_successful <- (length(data[[cols]]) - na_after) / (length(data[[cols]]) - na_before) # nolint: line_length_linter
+  prop_successful <- (nrow(data) - na_after) / (nrow(data) - na_before)
 
   # shape result depending on whether conversion was successful
   if (prop_successful > (1L - error_tolerance)) {

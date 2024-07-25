@@ -125,7 +125,9 @@ make_readcap_dictionary <- function(metadata,
 #'
 dictionary_make_metadata <- function(x, field_column) {
   splits          <- trimws(unlist(strsplit(x, "|", fixed = TRUE)))
-  combined_splits <- lapply(splits, function(x) { trimws(unlist(strsplit(x, ",", fixed = TRUE))) }) # nolint: line_length_linter
+  combined_splits <- lapply(splits, function(x) {
+    trimws(unlist(strsplit(x, ",", fixed = TRUE)))
+  })
   combined_splits <- do.call(rbind.data.frame, combined_splits)
   res             <- data.frame(options = combined_splits[, 1L],
                                 values  = combined_splits[, 2L],

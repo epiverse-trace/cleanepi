@@ -84,13 +84,11 @@ date_guess <- function(x,
   for (i in seq_along(orders)) {
     # only test the dates if the previous run wasn't successful or the user
     # doesn't want to
-    # create an empty date vector
-    tmp_res  <- rep(as.Date(NA_character_), length(x))
-    keep     <- TRUE
 
     # guess at only the subset of dates
-    res[[i]] <- suppressWarnings(tmp_res[keep] <- as.Date(lubridate::parse_date_time(x[keep], # nolint
-                                                                     orders = orders[[i]]))) # nolint: line_length_linter
+    res[[i]] <- suppressWarnings(
+      as.Date(lubridate::parse_date_time(x, orders = orders[[i]]))
+    )
   }
 
   ## if lubridate fails to do the job, then we should use thibaut's parser.
@@ -155,7 +153,8 @@ date_rescue_lubridate_failures <- function(date_a_frame, original_dates,
   # Find places where all rows are missing
   nas     <- is.na(date_a_frame)
   all_nas <- apply(nas, 1L, all)
-  numbers <- suppressWarnings(!is.na(o_num <- as.integer(original_dates))) # nolint
+  o_num <- suppressWarnings(as.integer(original_dates))
+  numbers <- !is.na(o_num)
   go_tibo <- which(all_nas & !numbers)
   go_exel <- all_nas & numbers
 
