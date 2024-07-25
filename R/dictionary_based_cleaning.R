@@ -68,8 +68,9 @@ construct_misspelled_report <- function(misspelled_options, data) {
     res   <- data.frame(idx    = misspelled_options[[opts]],
                         column = rep(opts, length(misspelled_options[[opts]])),
                         value  = data[[opts]][misspelled_options[[opts]]])
-    result <- rbind(result, res)
+    result <- c(result, list(res))
   }
+  result <- dplyr::bind_rows(result)
   return(result)
 }
 
@@ -106,10 +107,11 @@ make_readcap_dictionary <- function(metadata,
                                    metadata[[field_type]] != "calc"), ]
   dictionary   <- NULL
   for (i in seq_len(nrow(metadata))) {
-    dictionary <- rbind(dictionary,
-                        dictionary_make_metadata(metadata[[opt_column]][i],
-                                                 metadata[[field_column]][i]))
+    dictionary <- c(dictionary,
+                    list(dictionary_make_metadata(metadata[[opt_column]][i],
+                                                  metadata[[field_column]][i])))
   }
+  dictionary <- dplyr::bind_rows(dictionary)
   return(dictionary)
 }
 

@@ -197,17 +197,14 @@ date_guess_convert <- function(data, error_tolerance, timeframe,
 
   # convert characters and factors to date when applicable
   of_interest       <- c(are_characters, are_factors, are_dates, are_posix)
-  multi_forma_dates <- NULL
+  multi_format_dates <- NULL
   for (i in names(of_interest)) {
     date_guess_res    <- date_guess(data[[i]], orders = orders,
                                     modern_excel = modern_excel,
                                     column_name = i)
     new_dates         <- date_guess_res[["res"]]
     multi_format      <- date_guess_res[["multi_format"]]
-    if (nrow(multi_format) > 0L) {
-      multi_forma_dates <- rbind(multi_forma_dates, multi_format)
-                                 # cbind(field = i, multi_format))
-    }
+    multi_format_dates <- c(multi_format_dates, list(multi_format))
 
     if (!all(is.na(new_dates)) && is.null(timeframe)) {
       data[[i]]       <- new_dates
@@ -221,13 +218,14 @@ date_guess_convert <- function(data, error_tolerance, timeframe,
                                        value = res[["outsiders"]])
     }
   }
+  multi_format_dates <- dplyr::bind_rows(multi_format_dates)
 
   # report the multi formatted dates
-  if (!is.null(multi_forma_dates)) {
+  if (!is.null(multi_format_dates)) {
     data            <- add_to_report(
       x     = data,
       key   = "multi_format_dates",
-      value = multi_forma_dates
+      value = multi_format_dates
     )
   }
 
