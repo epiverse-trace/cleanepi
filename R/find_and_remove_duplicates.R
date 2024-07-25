@@ -16,17 +16,17 @@
 #'
 #' @examples
 #' no_dups <- remove_duplicates(
-#'   data           = readRDS(system.file("extdata", "test_linelist.RDS",
-#'                                        package = "cleanepi")),
+#'   data = readRDS(system.file("extdata", "test_linelist.RDS",
+#'     package = "cleanepi"
+#'   )),
 #'   target_columns = "linelist_tags"
 #' )
 #' @importFrom rlang .data
 #'
 remove_duplicates <- function(data, target_columns = NULL) {
-
   # setting up the variables below to NULL to avoid linters
   report <- attr(data, "report")
-  dat    <- data
+  dat <- data
 
   # get the correct names in case some have been modified - see the
   # `retrieve_column_names()` function for more details
@@ -34,13 +34,13 @@ remove_duplicates <- function(data, target_columns = NULL) {
   target_columns <- get_target_column_names(dat, target_columns, cols = NULL)
 
   # find duplicates
-  dups       <- find_duplicates(dat, target_columns)
+  dups <- find_duplicates(dat, target_columns)
   tmp_report <- attr(dups, "report")
   if ("duplicated_rows" %in% names(tmp_report) &&
-      nrow(tmp_report[["duplicated_rows"]]) > 0L) {
-    dups     <- tmp_report[["duplicated_rows"]]
-    report   <- c(report, tmp_report)
-    dat      <- dat %>%
+    nrow(tmp_report[["duplicated_rows"]]) > 0L) {
+    dups <- tmp_report[["duplicated_rows"]]
+    report <- c(report, tmp_report)
+    dat <- dat %>%
       dplyr::mutate(row_id = seq_len(nrow(dat)))
   }
 
@@ -50,10 +50,10 @@ remove_duplicates <- function(data, target_columns = NULL) {
     dplyr::distinct_at({{ target_columns }}, .keep_all = TRUE)
 
   if ("duplicated_rows" %in% names(tmp_report) &&
-      nrow(tmp_report[["duplicated_rows"]]) > 0L) {
+    nrow(tmp_report[["duplicated_rows"]]) > 0L) {
     tmp_target_columns <- c("row_id", target_columns)
-    to_be_removed      <- suppressMessages(dplyr::anti_join(dups, dat) %>%
-        dplyr::select({{ tmp_target_columns }}))
+    to_be_removed <- suppressMessages(dplyr::anti_join(dups, dat) %>%
+      dplyr::select({{ tmp_target_columns }}))
     report[["removed_duplicates"]] <- to_be_removed
   }
 
@@ -86,8 +86,9 @@ remove_duplicates <- function(data, target_columns = NULL) {
 #'
 #' @examples
 #' dups <- find_duplicates(
-#'   data           = readRDS(system.file("extdata", "test_linelist.RDS",
-#'                                        package = "cleanepi")),
+#'   data = readRDS(system.file("extdata", "test_linelist.RDS",
+#'     package = "cleanepi"
+#'   )),
 #'   target_columns = c("dt_onset", "dt_report", "sex", "outcome")
 #' )
 #' @importFrom rlang .data
@@ -111,16 +112,22 @@ find_duplicates <- function(data, target_columns = NULL) {
     dplyr::select("row_id", "group_id", dplyr::everything())
 
   if (nrow(dups) > 0L) {
-    message("Found ", nrow(dups), " duplicated rows. Please consult the report",
-            " for more details.")
+    message(
+      "Found ", nrow(dups), " duplicated rows. Please consult the report",
+      " for more details."
+    )
     to_be_shown <- dups %>%
       dplyr::select(c("row_id", "group_id", {{ target_columns }}))
-    data <- add_to_report(x     = data,
-                          key   = "duplicated_rows",
-                          value = to_be_shown)
-    data <- add_to_report(x     = data,
-                          key   = "duplicates_checked_from",
-                          value = paste(target_columns, sep = ", "))
+    data <- add_to_report(
+      x = data,
+      key = "duplicated_rows",
+      value = to_be_shown
+    )
+    data <- add_to_report(
+      x = data,
+      key = "duplicates_checked_from",
+      value = paste(target_columns, sep = ", ")
+    )
   }
   return(data)
 }

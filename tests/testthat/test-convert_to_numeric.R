@@ -22,29 +22,29 @@ test_that("convert_to_numeric works", {
 
 test_that("convert_to_numeric sends a warning when no column is provided and
           scan_data() does not find a target column", {
-            expect_warning(
-              convert_to_numeric(
-                data           = data,
-                target_columns = NULL
-              ),
-              regexp = cat("'gender' column has similar number of numeric and
+  expect_warning(
+    convert_to_numeric(
+      data           = data,
+      target_columns = NULL
+    ),
+    regexp = cat("'gender' column has similar number of numeric and
                            character values.")
-            )
-          })
+  )
+})
 
 test_that("convert_to_numeric returns NA when the specified language is not
           appropriate.", {
-            dat <- data[1L:10L, ]
-            idx <- which(is.na(suppressWarnings(as.numeric(dat$age))))
-            dat <- convert_to_numeric(
-              data           = dat,
-              target_columns = "age",
-              lang           = "fr"
-            )
-            expect_s3_class(dat, "data.frame")
-            expect_identical(nrow(dat), 10L)
-            expect_true(all(is.na(dat$age[idx])))
-          })
+  dat <- data[1L:10L, ]
+  idx <- which(is.na(suppressWarnings(as.numeric(dat$age))))
+  dat <- convert_to_numeric(
+    data           = dat,
+    target_columns = "age",
+    lang           = "fr"
+  )
+  expect_s3_class(dat, "data.frame")
+  expect_identical(nrow(dat), 10L)
+  expect_true(all(is.na(dat$age[idx])))
+})
 
 scan_res <- scan_data(data)
 test_that("detect_to_numeric_columns works", {
@@ -55,24 +55,24 @@ test_that("detect_to_numeric_columns works", {
 
 test_that("detect_to_numeric_columns sends a warning when no column is provided
           and scan_data() does not find a target column", {
-            expect_warning(
-              detect_to_numeric_columns(
-                scan_res = scan_res
-              ),
-              regexp = cat("'gender' column has similar number of numeric and
+  expect_warning(
+    detect_to_numeric_columns(
+      scan_res = scan_res
+    ),
+    regexp = cat("'gender' column has similar number of numeric and
                            character values.")
-            )
-          })
+  )
+})
 
 data <- readRDS(system.file("extdata", "test_df1.RDS", package = "cleanepi"))
 test_that("detect_to_numeric_columns sends a warning when no column is provided
           and scan_data() does not find a target column", {
-            expect_error(
-              convert_to_numeric(
-                data           = data,
-                target_columns = NULL
-              ),
-              regexp = cat("target_columns not specified and could not be
+  expect_error(
+    convert_to_numeric(
+      data           = data,
+      target_columns = NULL
+    ),
+    regexp = cat("target_columns not specified and could not be
                            identified from scan_data() function.")
-            )
-          })
+  )
+})

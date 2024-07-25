@@ -3,9 +3,11 @@
 ## strings that are frequently encountered. This will be updated as time goes
 ## based on user's suggestions.
 
-common_na_strings <- c(naniar::common_na_strings,
-                       "not available", "Not Available", "NOt available",
-                       "not avail", "Not Avail", "nan", "NAN", "not a number",
-                       "Not A Number")
+common_na_strings <- c(
+  naniar::common_na_strings,
+  "not available", "Not Available", "NOt available",
+  "not avail", "Not Avail", "nan", "NAN", "not a number",
+  "Not A Number"
+)
 
 usethis::use_data(common_na_strings, overwrite = TRUE)

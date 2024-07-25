@@ -62,27 +62,33 @@
 #' replace_missing_values <- list(target_columns = NULL, na_strings = "-99")
 #'
 #' # Parameters for duplicates removal across all columns
-#' remove_duplicates <- list(target_columns   = NULL)
+#' remove_duplicates <- list(target_columns = NULL)
 #'
 #' # Parameters for dates standardization
-#' standardize_dates <- list(target_columns  = NULL,
-#'                           error_tolerance = 0.4,
-#'                           format          = NULL,
-#'                           timeframe       = as.Date(c("1973-05-29",
-#'                                                       "2023-05-29")),
-#'                           orders          = list(
-#'                             world_named_months = c("Ybd", "dby"),
-#'                             world_digit_months = c("dmy", "Ymd"),
-#'                             US_formats         = c("Omdy", "YOmd")
-#'                           ),
-#'                           modern_excel    = TRUE)
+#' standardize_dates <- list(
+#'   target_columns = NULL,
+#'   error_tolerance = 0.4,
+#'   format = NULL,
+#'   timeframe = as.Date(c(
+#'     "1973-05-29",
+#'     "2023-05-29"
+#'   )),
+#'   orders = list(
+#'     world_named_months = c("Ybd", "dby"),
+#'     world_digit_months = c("dmy", "Ymd"),
+#'     US_formats         = c("Omdy", "YOmd")
+#'   ),
+#'   modern_excel = TRUE
+#' )
 #'
 #' # Parameters for subject IDs standardization
-#' standardize_subject_ids <- list(target_columns = "study_id",
-#'                                 prefix         = "PS",
-#'                                 suffix         = "P2",
-#'                                 range          = c(1, 100),
-#'                                 nchar          = 7)
+#' standardize_subject_ids <- list(
+#'   target_columns = "study_id",
+#'   prefix = "PS",
+#'   suffix = "P2",
+#'   range = c(1, 100),
+#'   nchar = 7
+#' )
 #'
 #' to_numeric <- list(target_columns = "sex", lang = "en")
 #'
@@ -90,8 +96,9 @@
 #' # dictionary = NULL the dictionary-based cleaning will not be performed here
 #'
 #' cleaned_data <- clean_data(
-#'   data   = readRDS(system.file("extdata", "test_df.RDS",
-#'                                package = "cleanepi")),
+#'   data = readRDS(system.file("extdata", "test_df.RDS",
+#'     package = "cleanepi"
+#'   )),
 #'   params = list(
 #'     standardize_column_names = standardize_col_names,
 #'     remove_constants         = remove_cte,
@@ -112,10 +119,12 @@ clean_data <- function(data, params = NULL) {
   checkmate::assert_list(params, min.len = 1L, max.len = 10L, null.ok = TRUE)
   checkmate::check_names(
     params,
-    subset.of = c("standardize_column_names", "remove_constants",
-                  "replace_missing_values", "remove_duplicates",
-                  "standardize_dates", "standardize_subject_ids",
-                  "to_numeric", "dictionary", "check_date_sequence", "span")
+    subset.of = c(
+      "standardize_column_names", "remove_constants",
+      "replace_missing_values", "remove_duplicates",
+      "standardize_dates", "standardize_subject_ids",
+      "to_numeric", "dictionary", "check_date_sequence", "span"
+    )
   )
 
   ## -----

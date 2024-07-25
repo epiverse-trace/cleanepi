@@ -11,8 +11,8 @@ vignette: >
 
 ```{r, include = FALSE} 
 knitr::opts_chunk[["set"]](collapse = TRUE, comment = "#>", eval = FALSE,
-                           fig.width = 7L, fig.height = 7L,
-                           fig.align = "center")
+  fig.width = 7L, fig.height = 7L,
+  fig.align = "center")
 row_id <- group_id <- NULL
 ```
 
@@ -51,17 +51,20 @@ The main function in **{cleanepi}** is `clean_data()` that can perform the follo
 ```{r eval=TRUE, comment=""}
 # IMPORTING THE TEST DATASET
 test_data <- readRDS(system.file("extdata", "test_df.RDS",
-                                 package = "cleanepi"))
+  package = "cleanepi"
+))
 ```
 
 ```{r eval=TRUE, echo=FALSE}
 test_data %>%
   kableExtra::kbl() %>%
   kableExtra::kable_paper("striped", font_size = 14, full_width = TRUE) %>%
-  kableExtra::scroll_box(height = "200px", width = "100%",
-                         box_css = "border: 1px solid #ddd; padding: 5px; ",
-                         extra_css = NULL,
-                         fixed_thead = TRUE)
+  kableExtra::scroll_box(
+    height = "200px", width = "100%",
+    box_css = "border: 1px solid #ddd; padding: 5px; ",
+    extra_css = NULL,
+    fixed_thead = TRUE
+  )
 ```
 
 ```{r eval=TRUE, comment=""}
@@ -73,10 +76,12 @@ scan_result <- scan_data(test_data)
 scan_result %>%
   kableExtra::kbl() %>%
   kableExtra::kable_paper("striped", font_size = 14, full_width = FALSE) %>%
-  kableExtra::scroll_box(height = "200px", width = "100%",
-                         box_css = "border: 1px solid #ddd; padding: 5px; ",
-                         extra_css = NULL,
-                         fixed_thead = TRUE)
+  kableExtra::scroll_box(
+    height = "200px", width = "100%",
+    box_css = "border: 1px solid #ddd; padding: 5px; ",
+    extra_css = NULL,
+    fixed_thead = TRUE
+  )
 ```
 
 In **{cleanepi}**, every cleaning operation is encapsulated within a module, with detailed descriptions provided in the package design vignette. Each module also specifies the parameters required for its main function, outlined in the sections below.
@@ -91,31 +96,38 @@ rm_na <- list(target_columns = NULL, na_strings = "-99")
 standardize_col_names <- list(keep = NULL, rename = NULL)
 
 # PARAMETERS FOR DUBLICATES DETECTION AND REMOVAL
-rm_dup <- list(target_columns   = NULL)
+rm_dup <- list(target_columns = NULL)
 
 # PARAMETERS FOR STANDARDING DATES
-stdn_date <- list(target_columns  = NULL,
-                  error_tolerance = 0.4,
-                  format          = NULL,
-                  timeframe       = as.Date(c("1973-05-29", "2023-05-29")),
-                  orders          = list(world_named_months = c("Ybd", "dby"),
-                                         world_digit_months = c("dmy", "Ymd"),
-                                         US_formats       = c("Omdy", "YOmd")),
-                  modern_excel    = TRUE)
+stdn_date <- list(
+  target_columns = NULL,
+  error_tolerance = 0.4,
+  format = NULL,
+  timeframe = as.Date(c("1973-05-29", "2023-05-29")),
+  orders = list(
+    world_named_months = c("Ybd", "dby"),
+    world_digit_months = c("dmy", "Ymd"),
+    US_formats = c("Omdy", "YOmd")
+  ),
+  modern_excel = TRUE
+)
 
 # PARAMETERS FOR STANDARDING SUBJECT IDs
-stdn_ids <- list(target_columns = "study_id",
-                 prefix         = "PS",
-                 suffix         = "P2",
-                 range          = c(1, 100),
-                 nchar          = 7)
+stdn_ids <- list(
+  target_columns = "study_id",
+  prefix = "PS",
+  suffix = "P2",
+  range = c(1, 100),
+  nchar = 7
+)
 
 # PARAMETERS FOR CONSTANT COLUMNS, EMPTY ROWS AND COLUMNS REMOVAL
 remove_cte <- list(cutoff = 1)
 
 # LAOD THE DATA DICTIONARY
 test_dictionary <- readRDS(system.file("extdata", "test_dictionary.RDS",
-                                       package = "cleanepi"))
+  package = "cleanepi"
+))
 
 # DEFINE THE LIST OF PARAMETERS
 params <- list(
@@ -185,18 +197,22 @@ data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi"))
 data$empty_column <- NA
 
 # remove the constant columns, empty rows and columns
-dat <- remove_constants(data   = data,
-                        cutoff = 1)
+dat <- remove_constants(
+  data = data,
+  cutoff = 1
+)
 ```
 
 ```{r echo=FALSE, eval=TRUE}
 dat %>%
   kableExtra::kbl() %>%
   kableExtra::kable_paper("striped", font_size = 14, full_width = TRUE) %>%
-  kableExtra::scroll_box(height = "200px", width = "100%",
-                         box_css = "border: 1px solid #ddd; padding: 5px; ",
-                         extra_css = NULL,
-                         fixed_thead = TRUE)
+  kableExtra::scroll_box(
+    height = "200px", width = "100%",
+    box_css = "border: 1px solid #ddd; padding: 5px; ",
+    extra_css = NULL,
+    fixed_thead = TRUE
+  )
 ```
 
 The `remove_constants()` function returns a dataset where all constant columns, empty rows and columns are removed.
@@ -253,18 +269,20 @@ print(cleanepi::common_na_strings)
 ```{r eval=TRUE, comment="replace_missing"}
 # REPLACE ALL OCCURENCES OF "-99" WITH NA IN THE "sex" COLUMN
 cleaned_data <- replace_missing_values(
-  data           = readRDS(system.file("extdata", "test_df.RDS",
-                                       package = "cleanepi")),
+  data = readRDS(system.file("extdata", "test_df.RDS",
+    package = "cleanepi"
+  )),
   target_columns = "sex",
-  na_strings     = "-99"
+  na_strings = "-99"
 )
 
 # REPLACE ALL OCCURENCES OF "-99" WITH NA FROM ALL COLUMNS
 cleaned_data <- replace_missing_values(
-  data           = readRDS(system.file("extdata", "test_df.RDS",
-                                       package = "cleanepi")),
+  data = readRDS(system.file("extdata", "test_df.RDS",
+    package = "cleanepi"
+  )),
   target_columns = NULL,
-  na_strings     = "-99"
+  na_strings = "-99"
 )
 ```
 
@@ -272,10 +290,12 @@ cleaned_data <- replace_missing_values(
 cleaned_data %>%
   kableExtra::kbl() %>%
   kableExtra::kable_paper("striped", font_size = 14, full_width = TRUE) %>%
-  kableExtra::scroll_box(height = "200px", width = "100%",
-                         box_css = "border: 1px solid #ddd; padding: 5px; ",
-                         extra_css = NULL,
-                         fixed_thead = TRUE)
+  kableExtra::scroll_box(
+    height = "200px", width = "100%",
+    box_css = "border: 1px solid #ddd; padding: 5px; ",
+    extra_css = NULL,
+    fixed_thead = TRUE
+  )
 ```
 
 
@@ -325,20 +345,23 @@ This function provides users with the flexibility to standardize date columns in
 ```{r eval=TRUE, comment="date_standardisation"}
 # STANDARDIZE VALUES IN THE 'date_first_pcr_positive_test' COLUMN
 test_data <- readRDS(system.file("extdata", "test_df.RDS",
-                                 package = "cleanepi"))
+  package = "cleanepi"
+))
 
 head(test_data$date_first_pcr_positive_test)
 
 res <- standardize_dates(
-  data            = test_data,
-  target_columns  = "date_first_pcr_positive_test",
-  format          = NULL,
-  timeframe       = NULL,
+  data = test_data,
+  target_columns = "date_first_pcr_positive_test",
+  format = NULL,
+  timeframe = NULL,
   error_tolerance = 0.4,
-  orders          = list(world_named_months = c("Ybd", "dby"),
-                         world_digit_months = c("dmy", "Ymd"),
-                         US_formats         = c("Omdy", "YOmd")),
-  modern_excel    = TRUE
+  orders = list(
+    world_named_months = c("Ybd", "dby"),
+    world_digit_months = c("dmy", "Ymd"),
+    US_formats = c("Omdy", "YOmd")
+  ),
+  modern_excel = TRUE
 )
 ```
 
@@ -348,10 +371,12 @@ This function returns the input dataset where the (specified) columns are conver
 res %>%
   kableExtra::kbl() %>%
   kableExtra::kable_paper("striped", font_size = 14, full_width = TRUE) %>%
-  kableExtra::scroll_box(height = "200px", width = "100%",
-                         box_css = "border: 1px solid #ddd; padding: 5px; ",
-                         extra_css = NULL,
-                         fixed_thead = TRUE)
+  kableExtra::scroll_box(
+    height = "200px", width = "100%",
+    box_css = "border: 1px solid #ddd; padding: 5px; ",
+    extra_css = NULL,
+    fixed_thead = TRUE
+  )
 ```
 
 It also adds two or three elements to the report object:
@@ -363,15 +388,17 @@ It also adds two or three elements to the report object:
 ```{r echo=FALSE, eval=TRUE}
 # STANDARDIZE VALUES IN ALL COLUMNS
 res <- standardize_dates(
-  data            = test_data,
-  target_columns  = NULL,
-  format          = NULL,
-  timeframe       = NULL,
+  data = test_data,
+  target_columns = NULL,
+  format = NULL,
+  timeframe = NULL,
   error_tolerance = 0.4,
-  orders          = list(world_named_months = c("Ybd", "dby"),
-                         world_digit_months = c("dmy", "Ymd"),
-                         US_formats         = c("Omdy", "YOmd")),
-  modern_excel    = TRUE
+  orders = list(
+    world_named_months = c("Ybd", "dby"),
+    world_digit_months = c("dmy", "Ymd"),
+    US_formats = c("Omdy", "YOmd")
+  ),
+  modern_excel = TRUE
 )
 
 # GET THE REPORT
@@ -381,10 +408,12 @@ report <- attr(res, "report")
 report$multi_format_dates %>%
   kableExtra::kbl() %>%
   kableExtra::kable_paper("striped", font_size = 14, full_width = TRUE) %>%
-  kableExtra::scroll_box(height = "200px", width = "100%",
-                         box_css = "border: 1px solid #ddd; padding: 5px; ",
-                         extra_css = NULL,
-                         fixed_thead = TRUE)
+  kableExtra::scroll_box(
+    height = "200px", width = "100%",
+    box_css = "border: 1px solid #ddd; padding: 5px; ",
+    extra_css = NULL,
+    fixed_thead = TRUE
+  )
 ```
 
 
@@ -407,13 +436,14 @@ By providing these parameters, the function becomes a versatile tool for data cl
 ```{r eval=TRUE, comment="subject_ids_standardisation"}
 # DETECT AND REMOVE INCORRECT SUBJECT IDs
 res <- check_subject_ids(
-  data           = readRDS(system.file("extdata", "test_df.RDS",
-                                       package = "cleanepi")),
+  data = readRDS(system.file("extdata", "test_df.RDS",
+    package = "cleanepi"
+  )),
   target_columns = "study_id",
-  prefix         = "PS",
-  suffix         = "P2",
-  range          = c(1L, 100L),
-  nchar          = 7L
+  prefix = "PS",
+  suffix = "P2",
+  range = c(1L, 100L),
+  nchar = 7L
 )
 
 # EXTRACT REPORT
@@ -442,7 +472,7 @@ data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi"))
 # GENERATE THE CORRECTION TABLE
 correction_table <- data.frame(
   from = c("P0005P2", "PB500P2", "PS004P2-1"),
-  to   = c("PB005P2", "PB050P2", "PS004P2"),
+  to = c("PB005P2", "PB050P2", "PS004P2"),
   stringsAsFactors = FALSE
 )
 
@@ -467,8 +497,9 @@ By utilizing these arguments, the `check_date_sequence()` function facilitates t
 ```{r eval=TRUE, comment="check_date_order"}
 # DETECT ROWS WITH INCORRECT DATE SEQUENCE
 res <- check_date_sequence(
-  data           = readRDS(system.file("extdata", "test_df.RDS",
-                                       package = "cleanepi")),
+  data = readRDS(system.file("extdata", "test_df.RDS",
+    package = "cleanepi"
+  )),
   target_columns = c("date_first_pcr_positive_test", "date.of.admission")
 )
 
@@ -550,16 +581,19 @@ By leveraging the `find_duplicates()` function with appropriate parameters, user
 ```{r eval=TRUE, comment=""}
 # IMPORT A `linelist` DATA
 data <- readRDS(system.file("extdata", "test_linelist.RDS",
-                            package = "cleanepi"))
+  package = "cleanepi"
+))
 
 # SHOW THE TAGGED VARIABLES
 linelist::tags(data)
 
 # FIND DUPLICATES ACROSS ALL COLUMNS EXCEPT THE SUBJECT IDs COLUMN
-all_columns    <- names(data)
+all_columns <- names(data)
 target_columns <- all_columns[all_columns != "id"]
-dups           <- find_duplicates(data           = data,
-                                  target_columns = target_columns)
+dups <- find_duplicates(
+  data = data,
+  target_columns = target_columns
+)
 
 # FIND DUPLICATES ACROSS TAGGED VARIABLES
 dups <- find_duplicates(
@@ -577,15 +611,17 @@ By including these extra columns, users gain insights into the specific rows ide
 
 ```{r eval=TRUE}
 # VISUALIZE THE DUPLICATES
-report     <- attr(dups, "report")
+report <- attr(dups, "report")
 duplicates <- report$duplicated_rows
 duplicates %>%
   kableExtra::kbl() %>%
   kableExtra::kable_paper("striped", font_size = 14, full_width = FALSE) %>%
-  kableExtra::scroll_box(height = "200px", width = "100%",
-                         box_css = "border: 1px solid #ddd; padding: 5px; ",
-                         extra_css = NULL,
-                         fixed_thead = TRUE)
+  kableExtra::scroll_box(
+    height = "200px", width = "100%",
+    box_css = "border: 1px solid #ddd; padding: 5px; ",
+    extra_css = NULL,
+    fixed_thead = TRUE
+  )
 ```
 
 ## Removing duplicates
@@ -598,8 +634,9 @@ To eliminate duplicated rows from a dataset, the `remove_duplicates()` function 
 ```{r eval=TRUE}
 # REMOVE DUPLICATE ACROSS TAGGED COLUMNS ONLY.
 res <- remove_duplicates(
-  data           = readRDS(system.file("extdata", "test_linelist.RDS",
-                                       package = "cleanepi")),
+  data = readRDS(system.file("extdata", "test_linelist.RDS",
+    package = "cleanepi"
+  )),
   target_columns = "linelist_tags"
 )
 ```
@@ -628,13 +665,14 @@ The output from `find_duplicates()` function can also be passed to `remove_dupli
 ```{r eval=TRUE, comment="find_and_remove_dups"}
 # DETECT DUPLICATES FROM TAGGED COLUMNS
 dups <- find_duplicates(
-  data           = readRDS(system.file("extdata", "test_linelist.RDS",
-                                       package = "cleanepi")),
+  data = readRDS(system.file("extdata", "test_linelist.RDS",
+    package = "cleanepi"
+  )),
   target_columns = "linelist_tags"
 )
 
 # EXTRACT THE DUPLICATES
-report     <- attr(dups, "report")
+report <- attr(dups, "report")
 duplicates <- report$duplicated_rows
 
 # REMOVE FIRST OCCURRENCE OF DUPLICATED ROWS
@@ -666,14 +704,16 @@ In the example below, we add `-99` to our test data dictionary, `test_dictionary
 ```{r eval=TRUE}
 # READING IN THE DATA
 data <- readRDS(system.file("extdata", "test_df.RDS",
-                            package = "cleanepi"))
+  package = "cleanepi"
+))
 
 # ADD THE EXTRA OPTION TO THE DICTIONARY
 test_dictionary <- add_to_dictionary(test_dictionary,
-                                      option = "-99",
-                                      value  = "unknow",
-                                      grp    = "sex",
-                                      order  = NULL)
+  option = "-99",
+  value  = "unknow",
+  grp    = "sex",
+  order  = NULL
+)
 ```
 
 ```{r eval=TRUE, echo=FALSE}
@@ -695,10 +735,12 @@ cleaned_df <- clean_using_dictionary(
 cleaned_df %>%
   kableExtra::kbl() %>%
   kableExtra::kable_paper("striped", font_size = 14, full_width = TRUE) %>%
-  kableExtra::scroll_box(height = "200px", width = "100%",
-                         box_css = "border: 1px solid #ddd; padding: 5px; ",
-                         extra_css = NULL,
-                         fixed_thead = TRUE)
+  kableExtra::scroll_box(
+    height = "200px", width = "100%",
+    box_css = "border: 1px solid #ddd; padding: 5px; ",
+    extra_css = NULL,
+    fixed_thead = TRUE
+  )
 ```
 
 ## Calculating time span in different time scales (“years”, “months”, “weeks”, or “days”)
@@ -717,10 +759,14 @@ With these arguments, the function offers flexibility in determining the time sp
 ```{r eval=TRUE}
 # IMPORT DATA, REPLACE MISSING VALUES WITH 'NA' & STANDARDIZE DATES
 data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi")) %>%
-  replace_missing_values(target_columns = "dateOfBirth",
-                         na_strings     = "-99") %>%
-  standardize_dates(target_columns  = "dateOfBirth",
-                    error_tolerance = 0.0)
+  replace_missing_values(
+    target_columns = "dateOfBirth",
+    na_strings = "-99"
+  ) %>%
+  standardize_dates(
+    target_columns = "dateOfBirth",
+    error_tolerance = 0.0
+  )
 
 # CALCULATE INDIVIDUAL AGE IN YEARS FROM THE 'dateOfBirth' COLUMN AND SEND THE
 # REMAINDER IN MONTHS
@@ -736,8 +782,10 @@ age <- timespan(
 # CALCULATE THE TIME SPAN IN YEARS BETWEEN INDIVIDUALS 'dateOfBirth' AND THE DAY
 # THEY TESTED POSITIVE
 data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi")) %>%
-  replace_missing_values(target_columns = "dateOfBirth",
-                         na_strings     = "-99") %>%
+  replace_missing_values(
+    target_columns = "dateOfBirth",
+    na_strings = "-99"
+  ) %>%
   standardize_dates(
     target_columns  = c("dateOfBirth", "date_first_pcr_positive_test"),
     error_tolerance = 0.0
@@ -762,10 +810,12 @@ The `timespan()` function augments the input dataset by adding one or two extra 
 data %>%
   kableExtra::kbl() %>%
   kableExtra::kable_paper("striped", font_size = 14, full_width = TRUE) %>%
-  kableExtra::scroll_box(height = "200px", width = "100%",
-                         box_css = "border: 1px solid #ddd; padding: 5px; ",
-                         extra_css = NULL,
-                         fixed_thead = TRUE)
+  kableExtra::scroll_box(
+    height = "200px", width = "100%",
+    box_css = "border: 1px solid #ddd; padding: 5px; ",
+    extra_css = NULL,
+    fixed_thead = TRUE
+  )
 ```
 
 ## Printing the report

@@ -90,41 +90,51 @@
 #'
 #' # How to use standardize_dates()
 #' dat <- standardize_dates(
-#'   data            = readRDS(system.file("extdata", "test_df.RDS",
-#'                                         package = "cleanepi")),
-#'   target_columns  = "date_first_pcr_positive_test",
-#'   format          = NULL,
-#'   timeframe       = NULL,
+#'   data = readRDS(system.file("extdata", "test_df.RDS",
+#'     package = "cleanepi"
+#'   )),
+#'   target_columns = "date_first_pcr_positive_test",
+#'   format = NULL,
+#'   timeframe = NULL,
 #'   error_tolerance = 0.4,
-#'   orders          = list(world_named_months = c("Ybd", "dby"),
-#'                          world_digit_months = c("dmy", "Ymd"),
-#'                          US_formats         = c("Omdy", "YOmd")),
-#'   modern_excel    = TRUE
+#'   orders = list(
+#'     world_named_months = c("Ybd", "dby"),
+#'     world_digit_months = c("dmy", "Ymd"),
+#'     US_formats = c("Omdy", "YOmd")
+#'   ),
+#'   modern_excel = TRUE
 #' )
 standardize_dates <- function(data,
-                              target_columns  = NULL,
-                              format          = NULL,
-                              timeframe       = NULL,
+                              target_columns = NULL,
+                              format = NULL,
+                              timeframe = NULL,
                               error_tolerance = 0.5,
-                              orders          = list(
+                              orders = list(
                                 world_named_months = c("Ybd", "dby"),
                                 world_digit_months = c("dmy", "Ymd"),
                                 US_formats         = c("Omdy", "YOmd")
                               ),
-                              modern_excel    = TRUE) {
-
+                              modern_excel = TRUE) {
   checkmate::assert_data_frame(data, null.ok = FALSE, min.cols = 1L)
-  checkmate::assert_character(target_columns, null.ok = TRUE,
-                              any.missing = FALSE)
+  checkmate::assert_character(target_columns,
+    null.ok = TRUE,
+    any.missing = FALSE
+  )
   checkmate::assert_character(format, null.ok = TRUE, any.missing = FALSE)
-  checkmate::assert_date(timeframe, any.missing = FALSE,
-                         null.ok = TRUE, len = 2L, unique = TRUE)
-  checkmate::assert_numeric(error_tolerance, lower = 0L, upper = 1L,
-                            max.len = 2L,
-                            any.missing = FALSE, null.ok = TRUE)
+  checkmate::assert_date(timeframe,
+    any.missing = FALSE,
+    null.ok = TRUE, len = 2L, unique = TRUE
+  )
+  checkmate::assert_numeric(error_tolerance,
+    lower = 0L, upper = 1L,
+    max.len = 2L,
+    any.missing = FALSE, null.ok = TRUE
+  )
   checkmate::assert_list(orders, min.len = 1L, null.ok = FALSE)
-  checkmate::assert_logical(modern_excel, len = 1L, null.ok = FALSE,
-                            any.missing = FALSE)
+  checkmate::assert_logical(modern_excel,
+    len = 1L, null.ok = FALSE,
+    any.missing = FALSE
+  )
 
   if (!is.null(target_columns)) {
     # get the correct names in case some have been modified - see the
@@ -139,16 +149,20 @@ standardize_dates <- function(data,
       format <- date_match_format_and_column(target_columns, format)
       for (i in seq_along(target_columns)) {
         data[[target_columns[i]]] <- as.Date(data[[target_columns[i]]],
-                                             format = format[i])
+          format = format[i]
+        )
         # check for outliers and set them to NA
         data <- date_convert(data, target_columns[i], error_tolerance,
-                             timeframe = timeframe, orders = orders,
-                             modern_excel = modern_excel)
+          timeframe = timeframe, orders = orders,
+          modern_excel = modern_excel
+        )
       }
     } else {
       for (cols in target_columns) {
-        sep <- unique(as.character(unlist(lapply(data[[cols]],
-                                                 date_detect_separator))))
+        sep <- unique(as.character(unlist(lapply(
+          data[[cols]],
+          date_detect_separator
+        ))))
         # Guess the date format if it is not provided.
         # This returns NULL if the format is not resolved.
         if (length(sep) > 0L) {
@@ -160,15 +174,17 @@ standardize_dates <- function(data,
           data[[cols]] <- as.Date(data[[cols]], format = format)
         }
         data <- date_convert(data, cols, error_tolerance, timeframe,
-                             orders = orders, modern_excel = modern_excel)
+          orders = orders, modern_excel = modern_excel
+        )
       }
     }
   } else {
-    data     <- date_guess_convert(data,
-                                   error_tolerance = error_tolerance,
-                                   timeframe       = timeframe,
-                                   orders          = orders,
-                                   modern_excel    = modern_excel)
+    data <- date_guess_convert(data,
+      error_tolerance = error_tolerance,
+      timeframe       = timeframe,
+      orders          = orders,
+      modern_excel    = modern_excel
+    )
   }
 
   return(data)
