@@ -69,7 +69,7 @@ scan_lgl_and_fct_columns <- function(x) {
 #'
 scan_columns <- function(x, type) {
   ## The processing path is determine with the logical `verdict`
-  type    <- unlist(strsplit(type, ","))
+  type    <- unlist(strsplit(type, ",", fixed = TRUE))
   verdict <- type %in% c("logical", "factor")
 
   ## logical and factor are processed differently from the other.
