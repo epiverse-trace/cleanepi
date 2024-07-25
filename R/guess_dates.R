@@ -114,7 +114,6 @@ date_guess <- function(x,
 date_choose_first_good <- function(date_a_frame, column_name) {
   multi_format <- NULL
   n            <- nrow(date_a_frame)
-  date_a_frame <- as.matrix(date_a_frame)
   res          <- rep_len(lubridate::NA_Date_, length.out = n)
   for (i in seq_len(n)) {
     # get values that lubridate converted successfully
@@ -125,15 +124,15 @@ date_choose_first_good <- function(date_a_frame, column_name) {
       # detect values that comply with multiple formats. Useful for report.
       tmp_date <- unique(tmp[idx])
       if (length(tmp_date) > 1L) {
-        multi_format <- rbind(multi_format,
-                              cbind(field = column_name, idx = i,
-                                    date_a_frame[i, , drop = FALSE]))
+        multi_format <- c(multi_format,
+                          list(cbind(field = column_name, idx = i,
+                                     date_a_frame[i, , drop = FALSE])))
       }
     }
   }
   return(
     list(res          = res,
-         multi_format = as.data.frame(multi_format))
+         multi_format = dplyr::bind_rows(multi_format))
   )
 }
 
