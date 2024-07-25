@@ -24,7 +24,9 @@
 #'
 #' # Perform data cleaning
 #' cleaned_data <- data %>%
-#'   standardize_column_names(keep = NULL, rename = c("DOB" = "dateOfBirth")) %>%
+#'   standardize_column_names(
+#'     keep = NULL, rename = c("DOB" = "dateOfBirth")
+#'   ) %>%
 #'   replace_missing_values(target_columns = NULL, na_strings = "-99") %>%
 #'   remove_constants(cutoff = 1.0) %>%
 #'   remove_duplicates(target_columns = NULL) %>%

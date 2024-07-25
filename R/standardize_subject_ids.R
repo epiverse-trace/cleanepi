@@ -168,7 +168,8 @@ correct_subject_ids <- function(data, target_columns, correction_table) {
   )
 
   stopifnot(
-    "Some ids in the correction table were not found in the input data" = all(correction_table[["from"]] %in% data[[target_columns]])
+    "Some ids in correction table not found in input data" =
+      all(correction_table[["from"]] %in% data[[target_columns]])
   )
 
   # perform the substitution
