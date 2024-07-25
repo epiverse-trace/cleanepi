@@ -120,7 +120,7 @@ find_duplicates <- function(data, target_columns = NULL) {
                           value = to_be_shown)
     data <- add_to_report(x     = data,
                           key   = "duplicates_checked_from",
-                          value = paste(target_columns, sep = ", "))
+                          value = toString(target_columns))
   }
   return(data)
 }

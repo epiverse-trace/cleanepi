@@ -307,7 +307,7 @@ date_check_column_existence <- function(data, date_column_names) {
   # check whether the provided column name belong to the data
   if (!all(date_column_names %in% names(data))) {
     idx <- which(!(date_column_names %in% names(data)))
-    stop("Can't find columns: ", paste(date_column_names[idx], sep = ", "))
+    stop("Can't find columns: ", toString(date_column_names[idx]))
   }
   return(date_column_names)
 }
