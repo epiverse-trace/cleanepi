@@ -173,10 +173,10 @@ check_subject_ids_oness <- function(data, id_col_name) {
   if (anyNA(data[[id_col_name]])) {
     idx                <- which(is.na(data[[id_col_name]]))
     warning("\nMissing values found on ID column in lines: ",
-            paste(idx, sep = ", "), call. = FALSE)
+            toString(idx), call. = FALSE)
     data <- add_to_report(x     = data,
                           key   = "missing_ids",
-                          value = paste(idx, sep = ", "))
+                          value = toString(idx))
   }
 
   # check for duplicates ID column

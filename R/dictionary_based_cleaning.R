@@ -237,7 +237,7 @@ detect_misspelled_options <- function(data, dictionary) {
 print_misspelled_values <- function(misspelled_options) {
   for (opts in names(misspelled_options)) {
     message("\nDetected misspelled values at lines ",
-            paste(misspelled_options[[opts]], sep = ", "),
+            toString(misspelled_options[[opts]]),
             " of column '", opts, "'")
   }
 }
