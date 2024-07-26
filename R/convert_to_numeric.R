@@ -73,7 +73,8 @@ detect_to_numeric_columns <- function(scan_res) {
         to_numeric <- c(to_numeric, col)
       } else if (values[["numeric"]] < (2 * values[["character"]])) {
           warning(sprintf("In '%s' column, the number of numeric values", col),
-                          " is same as the number of character values",
+                          " is the same or less than twice the number of",
+                          " character values",
                   call. = FALSE)
       }
     }
