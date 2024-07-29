@@ -3,8 +3,8 @@
 \name{scan_columns}
 \alias{scan_columns}
 \title{Calculate the percentage of missing and other data type values in a vector
-containing different data types such as numeric, Date, character, and
-logical.}
+containing different data types such as numeric, Date, character,
+logical, date-time, factor.}
 \usage{
 scan_columns(x, type)
 }
@@ -19,7 +19,7 @@ numeric, date, character, and logical values found in the input vector.
 }
 \description{
 Calculate the percentage of missing and other data type values in a vector
-containing different data types such as numeric, Date, character, and
-logical.
+containing different data types such as numeric, Date, character,
+logical, date-time, factor.
 }
 \keyword{internal}
