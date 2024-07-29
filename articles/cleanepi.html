@@ -722,10 +722,10 @@ using the code below:</p>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">report</span><span class="op">)</span></span>
 <span><span class="co">#&gt;                            Length Class      Mode     </span></span>
 <span><span class="co">#&gt; colnames                   2      data.frame list     </span></span>
-<span><span class="co">#&gt; missing_values_replaced_at 2      -none-     character</span></span>
-<span><span class="co">#&gt; constant_columns           3      -none-     character</span></span>
+<span><span class="co">#&gt; missing_values_replaced_at 1      -none-     character</span></span>
+<span><span class="co">#&gt; constant_columns           1      -none-     character</span></span>
 <span><span class="co">#&gt; out_of_range_dates         3      data.frame list     </span></span>
-<span><span class="co">#&gt; multi_format_dates         5      data.frame list     </span></span>
+<span><span class="co">#&gt; multi_format_dates         5      tbl_df     list     </span></span>
 <span><span class="co">#&gt; incorrect_subject_id       2      data.frame list</span></span></code></pre></div>
 <p>The report can also be displayed in an HTML format using the
 <code><a href="../reference/print_report.html">print_report()</a></code> function as shown below:</p>
@@ -1788,7 +1788,7 @@ one specified format.</li>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
 field
 </th>
-<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
 idx
 </th>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
@@ -1806,7 +1806,7 @@ US_formats
 <td style="text-align:left;">
 date.of.admission
 </td>
-<td style="text-align:left;">
+<td style="text-align:right;">
 1
 </td>
 <td style="text-align:left;">
@@ -1823,7 +1823,7 @@ NA
 <td style="text-align:left;">
 date.of.admission
 </td>
-<td style="text-align:left;">
+<td style="text-align:right;">
 4
 </td>
 <td style="text-align:left;">
@@ -1840,7 +1840,7 @@ NA
 <td style="text-align:left;">
 date.of.admission
 </td>
-<td style="text-align:left;">
+<td style="text-align:right;">
 9
 </td>
 <td style="text-align:left;">
@@ -1857,7 +1857,7 @@ NA
 <td style="text-align:left;">
 date.of.admission
 </td>
-<td style="text-align:left;">
+<td style="text-align:right;">
 10
 </td>
 <td style="text-align:left;">
@@ -1874,7 +1874,7 @@ NA
 <td style="text-align:left;">
 dateOfBirth
 </td>
-<td style="text-align:left;">
+<td style="text-align:right;">
 1
 </td>
 <td style="text-align:left;">
@@ -1891,7 +1891,7 @@ NA
 <td style="text-align:left;">
 dateOfBirth
 </td>
-<td style="text-align:left;">
+<td style="text-align:right;">
 7
 </td>
 <td style="text-align:left;">
@@ -1908,7 +1908,7 @@ NA
 <td style="text-align:left;">
 dateOfBirth
 </td>
-<td style="text-align:left;">
+<td style="text-align:right;">
 8
 </td>
 <td style="text-align:left;">
@@ -1925,7 +1925,7 @@ NA
 <td style="text-align:left;">
 dateOfBirth
 </td>
-<td style="text-align:left;">
+<td style="text-align:right;">
 10
 </td>
 <td style="text-align:left;">
@@ -3492,7 +3492,7 @@ and documentation of the duplicates removal process.</p>
 <span id="cb22-5"><a href="#cb22-5" tabindex="-1"></a><span class="fu">summary</span>(report)</span>
 <span id="cb22-6"><a href="#cb22-6" tabindex="-1"></a>                        Length Class      Mode     </span>
 <span id="cb22-7"><a href="#cb22-7" tabindex="-1"></a>duplicated_rows         <span class="dv">6</span>      grouped_df list     </span>
-<span id="cb22-8"><a href="#cb22-8" tabindex="-1"></a>duplicates_checked_from <span class="dv">4</span>      <span class="sc">-</span>none<span class="sc">-</span>     character</span>
+<span id="cb22-8"><a href="#cb22-8" tabindex="-1"></a>duplicates_checked_from <span class="dv">1</span>      <span class="sc">-</span>none<span class="sc">-</span>     character</span>
 <span id="cb22-9"><a href="#cb22-9" tabindex="-1"></a>removed_duplicates      <span class="dv">5</span>      grouped_df list     </span></code></pre></div>
 <p>Use the <code><a href="../reference/print_report.html">print_report()</a></code> function to display the report
 made from this operation.</p>
