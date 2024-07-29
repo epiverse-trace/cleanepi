@@ -3,7 +3,8 @@
 \name{scan_data}
 \alias{scan_data}
 \title{Scan a data frame to determine the percentage of \code{missing}, \code{numeric},
-\code{Date}, \code{character},  and \code{logical} values in every column.}
+\code{Date}, \code{character}, \code{logical}, \code{date-time}, and \code{factor} values in every
+column.}
 \usage{
 scan_data(data)
 }
@@ -11,17 +12,25 @@ scan_data(data)
 \item{data}{A data frame or linelist}
 }
 \value{
-A  data frame or linelist with the same columns as the input data
-and 5 rows representing the percentage of missing, numeric, date, character,
-and logical values in each column.
+A data frame or linelist with the same number of rows as the number
+of columns of the input data, and 8 column representing the field names,
+the percentage of missing, numeric, date, character, logical, date-time,
+and factor values in each column.
 }
 \description{
 Scan a data frame to determine the percentage of \code{missing}, \code{numeric},
-\code{Date}, \code{character},  and \code{logical} values in every column.
+\code{Date}, \code{character}, \code{logical}, \code{date-time}, and \code{factor} values in every
+column.
+}
+\details{
+For columns of type character, the detected numeric values could actually be
+of type Date or date-time. This is because R coerces some Date values into
+numeric when the date is imported from an MS Excel file.
 }
 \examples{
 scan_result <- scan_data(
   data = readRDS(system.file("extdata", "messy_data.RDS",
                              package = "cleanepi"))
 )
+
 }
