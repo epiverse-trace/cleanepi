@@ -1,7 +1,7 @@
 
 #' Calculate the percentage of missing and other data type values in a vector
-#' containing different data types such as numeric, Date, character, and
-#' logical.
+#' containing different data types such as numeric, Date, character,
+#' logical, date-time, factor.
 #'
 #' @param x A vector of ones or a combination of various data types.
 #' @param type A character with the the vector type.
@@ -21,13 +21,15 @@ scan_columns <- function(x, type) {
 }
 
 #' Scan a data frame to determine the percentage of `missing`, `numeric`,
-#'    `Date`, `character`,  and `logical` values in every column.
+#'    `Date`, `character`, `logical`, `date-time`, and `factor` values in every
+#'    column.
 #'
 #' @param data A data frame or linelist
 #'
-#' @returns A  data frame or linelist with the same columns as the input data
-#'  and 5 rows representing the percentage of missing, numeric, date, character,
-#'   and logical values in each column.
+#' @returns A data frame or linelist with the same number of rows as the number
+#'    of columns of the input data, and 8 column representing the field names,
+#'    the percentage of missing, numeric, date, character, logical, date-time,
+#'    and factor values in each column.
 #'
 #' @export
 #'
@@ -36,6 +38,12 @@ scan_columns <- function(x, type) {
 #'   data = readRDS(system.file("extdata", "messy_data.RDS",
 #'                              package = "cleanepi"))
 #' )
+#'
+#' @details
+#' For columns of type character, the detected numeric values could actually be
+#' of type Date or date-time. This is because R coerces some Date values into
+#' numeric when the date is imported from an MS Excel file.
+#'
 scan_data <- function(data) {
   types       <- vapply(data, typeof, character(1L))
   scan_result <- vapply(seq_len(ncol(data)), function(col_index) {
@@ -178,25 +186,24 @@ scan_in_character <- function(x) {
 
   # get character values and check for the presence of Date and date-time
   characters <- x[is.na(suppressWarnings(as.double(x)))]
-  if (length(characters) > 0L) {
+  if (length(characters) > 0L &&
+      !is.null(lubridate::guess_formats(characters,
+                                        c("ymd", "ydm", "dmy", "mdy", "myd",
+                                          "dym", "Ymd", "Ydm", "dmY", "mdY",
+                                          "mYd", "dYm")))) {
     # get the proportion of date values
-    if (!is.null(lubridate::guess_formats(characters,
-                                          c("ymd", "ydm", "dmy", "mdy", "myd",
-                                            "dym", "Ymd", "Ydm", "dmY", "mdY",
-                                            "mYd", "dYm")))) {
-      tmp    <- suppressWarnings(
-        as.Date(
-          lubridate::parse_date_time(
-            characters,
-            orders = c("ymd", "ydm", "dmy", "mdy", "myd", "dym", "Ymd", "Ydm",
-                       "dmY", "mdY", "mYd", "dYm")
-          )
+    tmp    <- suppressWarnings(
+      as.Date(
+        lubridate::parse_date_time(
+          characters,
+          orders = c("ymd", "ydm", "dmy", "mdy", "myd", "dym", "Ymd", "Ydm",
+                     "dmY", "mdY", "mYd", "dYm")
         )
       )
-      are_date   <- round((sum(!is.na(tmp)) / n_rows), 6L)
-      x          <- x[is.na(tmp)]
-      characters <- characters[is.na(tmp)]
-    }
+    )
+    are_date   <- round((sum(!is.na(tmp)) / n_rows), 6L)
+    x          <- x[is.na(tmp)]
+    characters <- characters[is.na(tmp)]
   }
 
   # get the proportion of logical values
