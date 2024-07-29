@@ -51,8 +51,7 @@ Imports:
     rlang,
     snakecase,
     tibble,
-    utils,
-    withr
+    utils
 Suggests: 
     htmlwidgets,
     kableExtra,

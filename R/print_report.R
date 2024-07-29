@@ -65,11 +65,13 @@ print_report <- function(data,
   # extract report and check whether any cleaning operation has been performed
   report             <- attr(data, "report")
   stopifnot("No report associated with the input data." = !is.null(report))
+  stopifnot("Invalid format: Only 'html' format is currently supported." =
+              format == "html")
 
   # generate output file and directory
   timestamp_string   <- format(Sys.time(), "_%Y-%m-%d%_at_%H%M%S")
   if (is.null(output_file_name)) {
-    output_file_name <- paste0("cleanepi_report_", timestamp_string)
+    output_file_name <- paste0("cleanepi_report_", timestamp_string, ".html")
   }
 
   # this ensures to add the logo to the report
@@ -78,39 +80,16 @@ print_report <- function(data,
   report[["logo"]]         <- system.file(man_path, "logo.svg",
                                           package = "cleanepi")
 
-  # Temporarily copy Rmd file from package library into save_directory so that
-  # intermediate files also get created there.
-  # NOTE: explicitly setting intermediates_dir in rmarkdown::render() to
-  # save_directory or tempdir() causes duplicate chunk label errors when package
-  # is subjected to the github actions on GitHub.
-  withr::with_tempdir(
-    {
-      file.copy(
-        from      = system.file("rmarkdown", "templates", "printing-rmd",
-                                "skeleton", "skeleton.Rmd",
-                                package  = "cleanepi",
-                                mustWork = TRUE),
-        to        = getwd(),
-        overwrite = TRUE
-      )
-
-      file_and_path  <- file.path(getwd(), paste0(output_file_name, ".html"))
-      stopifnot("Invalid format: Only 'html' format is currently supported." =
-                  format == "html")
-      message("Generating html report in ", getwd())
-      rmarkdown::render(
-        input       = file.path(getwd(), "skeleton.Rmd"),
-        output_file = file_and_path,
-        output_dir  = getwd(),
-        params      = report,
-        quiet       = TRUE
-      )
-    },
-    tmpdir  = tempdir(),
-    clean   = FALSE, # when TRUE, the folder is deleted and report is not
-    # printed out
-    fileext = "",
-    pattern = "cleanepi_report_"
+  file_and_path <- file.path(tempdir(), output_file_name)
+  message("Generating html report in ", tempdir())
+  rmarkdown::render(
+    input       = system.file("rmarkdown", "templates", "printing-rmd",
+                              "skeleton", "skeleton.Rmd",
+                              package  = "cleanepi",
+                              mustWork = TRUE),
+    output_file = file_and_path,
+    params      = report,
+    quiet       = TRUE
   )
 
   # print report if specified
