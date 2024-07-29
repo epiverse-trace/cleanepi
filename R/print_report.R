@@ -64,9 +64,11 @@ print_report <- function(data,
 
   # extract report and check whether any cleaning operation has been performed
   report             <- attr(data, "report")
-  stopifnot("No report associated with the input data." = !is.null(report))
-  stopifnot("Invalid format: Only 'html' format is currently supported." =
-              format == "html")
+  stopifnot(
+    "No report associated with the input data." = !is.null(report),
+    "Invalid format: Only 'html' format is currently supported." =
+      format == "html"
+  )
 
   # generate output file and directory
   timestamp_string   <- format(Sys.time(), "_%Y-%m-%d%_at_%H%M%S")
