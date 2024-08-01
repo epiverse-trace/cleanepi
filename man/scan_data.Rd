@@ -2,9 +2,8 @@
 % Please edit documentation in R/clean_data_helpers.R
 \name{scan_data}
 \alias{scan_data}
-\title{Scan a data frame to determine the percentage of \code{missing}, \code{numeric},
-\code{Date}, \code{character}, \code{logical}, \code{date-time}, and \code{factor} values in every
-column.}
+\title{Scan through all character columns of a data frame to determine the
+proportion of \code{missing}, \code{numeric}, \code{Date}, \code{character}, \code{logical}, values.}
 \usage{
 scan_data(data)
 }
@@ -12,25 +11,37 @@ scan_data(data)
 \item{data}{A data frame or linelist}
 }
 \value{
-A data frame or linelist with the same number of rows as the number
-of columns of the input data, and 8 column representing the field names,
-the percentage of missing, numeric, date, character, logical, date-time,
-and factor values in each column.
+A data frame with the same number of rows as the number of character
+columns of the input data, and six (06) columns representing the field
+names, the percentage of missing, numeric, date, character, and logical,
+values in each column.
 }
 \description{
-Scan a data frame to determine the percentage of \code{missing}, \code{numeric},
-\code{Date}, \code{character}, \code{logical}, \code{date-time}, and \code{factor} values in every
-column.
-}
-\details{
-For columns of type character, the detected numeric values could actually be
-of type Date or date-time. This is because R coerces some Date values into
-numeric when the date is imported from an MS Excel file.
+Scan through all character columns of a data frame to determine the
+proportion of \code{missing}, \code{numeric}, \code{Date}, \code{character}, \code{logical}, values.
 }
 \examples{
+# scan through a data frame of characters
 scan_result <- scan_data(
   data = readRDS(system.file("extdata", "messy_data.RDS",
                              package = "cleanepi"))
 )
+
+# scan through a data frame with two character columns
+scan_result <- scan_data(
+  data = readRDS(system.file("extdata", "test_linelist.RDS",
+                             package = "cleanepi"))
+  )
+
+# scan through a data frame with no character columns
+data(iris)
+iris[["fct"]] <- as.factor(sample(c("gray", "orange"), nrow(iris),
+                           replace = TRUE))
+iris[["lgl"]]  <- sample(c(TRUE, FALSE), nrow(iris), replace = TRUE)
+iris[["date"]] <- as.Date(seq.Date(from = as.Date("2024-01-01"),
+                                   to = as.Date("2024-08-30"),
+                                   length.out = nrow(iris)))
+iris[["posit_ct"]] <- as.POSIXct(iris[["date"]])
+scan_result        <- scan_data(data = iris)
 
 }
