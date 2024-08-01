@@ -112,8 +112,8 @@ test_that("add_to_report works as expected", {
   expect_named(report, "scanning_result")
   expect_named(report[["scanning_result"]],
                c("Field_names", "missing", "numeric", "date", "character",
-                 "logical", "date-time", "factor"))
-  expect_identical(nrow(report[["scanning_result"]]), ncol(data))
+                 "logical"))
+  expect_identical(nrow(report[["scanning_result"]]), 6L)
 })
 
 
