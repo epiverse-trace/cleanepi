@@ -1,15 +1,15 @@
 test_that("scan_data works as expected", {
-  dat        <- readRDS(system.file("extdata", "messy_data.RDS",
-                                    package = "cleanepi"))
+  # using a dataset with character columns only
+  dat <- readRDS(system.file("extdata", "messy_data.RDS", package = "cleanepi"))
   scan_result <- scan_data(data = dat)
   expect_s3_class(scan_result, "data.frame")
   expect_named(scan_result, c("Field_names", "missing", "numeric", "date",
-                              "character", "logical", "date-time", "factor"))
-  expect_identical(ncol(scan_result), 8L)
+                              "character", "logical"))
+  expect_identical(ncol(scan_result), 6L)
   expect_identical(nrow(scan_result), ncol(dat))
   expect_identical(scan_result[["Field_names"]], names(dat))
 
-  # using a dataset with many data types
+  # using a dataset with no character column
   data(iris)
   iris[["fct"]]  <- as.factor(sample(c("gray", "orange"), nrow(iris),
                                     replace = TRUE))
@@ -19,14 +19,16 @@ test_that("scan_data works as expected", {
                                      length.out = nrow(iris)))
   iris[["posit_ct"]] <- as.POSIXct(iris[["date"]])
   scan_result        <- scan_data(data = iris)
-  expect_identical(ncol(scan_result), 8L)
-  expect_identical(nrow(scan_result), ncol(iris))
-  expect_identical(scan_result[["Field_names"]], names(iris))
-  expect_identical(sum(scan_result[["numeric"]]), 4)
-  expect_identical(sum(scan_result[["missing"]]), 0)
-  expect_identical(sum(scan_result[["date"]]), 1)
-  expect_identical(sum(scan_result[["character"]]), 0)
-  expect_identical(sum(scan_result[["logical"]]), 1)
-  expect_identical(sum(scan_result[["date-time"]]), 1)
-  expect_identical(sum(scan_result[["factor"]]), 2)
+  expect_identical(scan_result, NA)
+  expect_message(scan_data(data = iris),
+                 "No character column found in the provided data.")
+
+  # using a data with some character columns
+  dat <- readRDS(system.file("extdata", "test_linelist.RDS",
+                             package = "cleanepi"))
+  scan_result <- suppressWarnings(scan_data(data = dat))
+  expect_identical(ncol(scan_result), 6L)
+  expect_identical(nrow(scan_result), 2L)
+  expect_false(nrow(scan_result) == ncol(dat))
+  expect_identical(scan_result[["Field_names"]], c("id", "age_class"))
 })
