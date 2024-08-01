@@ -7,7 +7,7 @@
 scan_in_character(x)
 }
 \arguments{
-\item{x}{The input vector}
+\item{x}{The input character vector}
 }
 \value{
 A numeric vector with the proportion of the different types of data
