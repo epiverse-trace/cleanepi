@@ -62,7 +62,8 @@ print_report <- function(data,
                          format           = "html",
                          print            = TRUE) {
 
-  # extract report and check whether any cleaning operation has been performed
+  # extract report, check whether any cleaning operation has been performed, and
+  # allow for only HTML output format for the report.
   report             <- attr(data, "report")
   stopifnot(
     "No report associated with the input data." = !is.null(report),
@@ -82,6 +83,7 @@ print_report <- function(data,
   report[["logo"]]         <- system.file(man_path, "logo.svg",
                                           package = "cleanepi")
 
+  # render the Rmd file to generate the report
   file_and_path <- file.path(tempdir(), output_file_name)
   message("Generating html report in ", tempdir())
   rmarkdown::render(
