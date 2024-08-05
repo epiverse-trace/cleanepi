@@ -56,7 +56,7 @@ p.compact {
 ## Source data {.tabset}
 
 
-```{r cleanepi-source-data, eval=TRUE, echo=FALSE}
+```{r eval=TRUE, echo=FALSE}
 # EXTRACT THE REPORT SECTIONS
 scanning_result <- params[["scanning_result"]]
 is_data_scanned <- !is.null(scanning_result)
@@ -96,7 +96,7 @@ are_multi_format_dates <- !is.null(multi_format_dates)
 
 ### Data structure
 
-```{r scan_data, eval=is_data_scanned}
+```{r eval=is_data_scanned}
 reactable::reactable( # nolint: cyclocomp_linter
   scanning_result,
   sortable   = TRUE,
@@ -173,7 +173,7 @@ reactable::reactable( # nolint: cyclocomp_linter
 
 ### Standardised column names
 
-```{r column_renamed, eval=are_column_standardised}
+```{r eval=are_column_standardised}
 reactable::reactable(
   standardized_column_names,
   sortable   = TRUE,
@@ -202,7 +202,7 @@ reactable::reactable(
 
 #### Out of range dates
 
-```{r out_of_range_dates, eval=are_out_of_range_dates_found}
+```{r eval=are_out_of_range_dates_found}
 reactable::reactable(
   out_of_range_dates,
   sortable   = TRUE,
@@ -229,7 +229,7 @@ reactable::reactable(
 
 #### Multi-formatted dates
 
-```{r multi_format_dates, eval=are_multi_format_dates}
+```{r eval=are_multi_format_dates}
 multi_format_dates <- multi_format_dates %>%
   dplyr::group_by(field)
 
@@ -267,7 +267,7 @@ reactable::reactable(
 
 ### Incorrect date sequence
 
-```{r incorrect_date_seq, eval=are_incorrect_date_seq_found}
+```{r eval=are_incorrect_date_seq_found}
 reactable::reactable(
   incorrect_date_sequence,
   sortable   = FALSE,
@@ -286,7 +286,7 @@ reactable::reactable(
 
 #### Duplicated rows
 
-```{r duplicates, eval=are_duplicates_found}
+```{r eval=are_duplicates_found}
 duplicated_rows <- duplicated_rows %>% dplyr::relocate(group_id)
 reactable::reactable(
   duplicated_rows,
@@ -337,7 +337,7 @@ reactable::reactable(
 
 #### Removed duplicates
 
-```{r removed_dups, eval=are_duplicates_removed}
+```{r eval=are_duplicates_removed}
 reactable::reactable(
   removed_duplicates,
   sortable   = TRUE,
@@ -374,7 +374,7 @@ reactable::reactable(
 
 #### Constant columns
 
-```{r constant_columns, eval=are_constant_columns_found}
+```{r eval=are_constant_columns_found}
 constant_columns <- glue::glue_collapse(constant_columns, sep = ", ")
 constant_columns <- data.frame(constant_columns)
 colnames(constant_columns)  <- "column names"
@@ -394,7 +394,7 @@ reactable::reactable(
 
 #### Empty columns
 
-```{r empty_columns, eval=are_empty_columns_found}
+```{r eval=are_empty_columns_found}
 empty_columns <- glue::glue_collapse(empty_columns, sep = ", ")
 empty_columns <- data.frame(empty_columns)
 colnames(empty_columns)  <- "column names"
@@ -414,7 +414,7 @@ reactable::reactable(
 
 #### Empty rows
 
-```{r empty_rows, eval=are_empty_rows_found}
+```{r eval=are_empty_rows_found}
 empty_rows <- glue::glue_collapse(empty_rows, sep = ", ")
 empty_rows <- data.frame(empty_rows)
 colnames(empty_rows)  <- "row indices"
@@ -434,7 +434,7 @@ reactable::reactable(
 
 ### Misspelled values
 
-```{r misspelled_values, eval=are_misspelled_values_found}
+```{r eval=are_misspelled_values_found}
 reactable::reactable(
   misspelled_values,
   sortable   = TRUE,
@@ -459,7 +459,7 @@ reactable::reactable(
 
 ### Missing value replaced with NA
 
-```{r use_na, eval=are_missing_values_replaced}
+```{r eval=are_missing_values_replaced}
 missing_values_replaced_at <- glue::glue_collapse(missing_values_replaced_at,
                                                   sep = ", ")
 missing_values_replaced_at <- data.frame(missing_values_replaced_at)
@@ -480,7 +480,7 @@ reactable::reactable(
 
 #### Incorrect subject ids
 
-```{r incorrect_ids, eval=are_incorrect_subject_id}
+```{r eval=are_incorrect_subject_id}
 reactable::reactable(
   incorrect_subject_id,
   sortable   = TRUE,
@@ -518,7 +518,7 @@ reactable::reactable(
 
 #### Missing ids
 
-```{r missing_ids, eval=are_missing_ids}
+```{r eval=are_missing_ids}
 missing_ids            <- data.frame(missing_ids)
 colnames(missing_ids)  <- "row indices"
 row.names(missing_ids) <- "missing ids"
@@ -537,7 +537,7 @@ reactable::reactable(
 
 #### Duplicated ids
 
-```{r duplicated_ids, eval=are_duplicated_ids}
+```{r eval=are_duplicated_ids}
 reactable::reactable(
   duplicated_ids,
   sortable   = TRUE,
