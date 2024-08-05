@@ -17,18 +17,18 @@ print_report <- function(data,
   file_and_path     <- file.path(output_directory,
                                  paste0(output_filename, ".html"))
 
-  # temporarily copy Rmd file from package library into save_directory so that
+  # temporarily copy Rmd file from package library into temp_dirname so that
   # intermediate files also get created there.
   # NOTE: explicitly setting intermediates_dir in rmarkdown::render() to
-  # save_directory or tempdir() causes duplicate chunk label errors when package
+  # temp_dirname or tempdir() causes duplicate chunk label errors when package
   # is run from inside an rmd/qmd
   temp_dirname <- file.path(output_directory,
                             paste0("cleanepi_temp_", timestamp_string))
   dir.create(temp_dirname)
   # consider using 'utils::packageName()' to specify the package name
   file.copy(
-    from      = system.file("rmarkdown", "templates", "test_printing-rmd",
-                            "skeleton", "report_htmldoc.Rmd",
+    from      = system.file("rmarkdown", "templates", "printing-rmd",
+                            "skeleton", "skeleton.Rmd",
                             package  = "cleanepi",
                             mustWork = TRUE),
     to        = temp_dirname,
@@ -42,7 +42,7 @@ print_report <- function(data,
   if (format == "html") {
     message("Generating html report...")
     rmarkdown::render(
-      input       = file.path(temp_dirname, "report_htmldoc.Rmd"),
+      input       = file.path(temp_dirname, "skeleton.Rmd"),
       output_file = paste0(output_filename, ".html"),
       output_dir  = output_directory,
       params      = report,

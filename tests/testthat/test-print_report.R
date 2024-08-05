@@ -35,7 +35,7 @@ test_that("print_report works", {
   test_print_report <- print_report(
     data             = cleaned_data,
     report_title     = "{cleanepi} data cleaning report",
-    output_file_name = NULL,
+    output_filename  = NULL,
     format           = "html",
     print            = FALSE
   )
