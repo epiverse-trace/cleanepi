@@ -3,10 +3,11 @@
 #'
 #' @param data A data frame or linelist
 #'
-#' @returns A data frame with the same number of rows as the number of character
-#'    columns of the input data, and six (06) columns representing the field
-#'    names, the percentage of missing, numeric, date, character, and logical,
-#'    values in each column.
+#' @returns A data frame if the input data contains columns of type character.
+#'    It invisibly returns `NA` otherwise. The returned data frame will have the
+#'    same number of rows as the number of character columns, and six
+#'    columns representing their column names, proportion of missing, numeric,
+#'    date, character, and logical values.
 #'
 #' @export
 #'
