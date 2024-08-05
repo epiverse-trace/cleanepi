@@ -55,7 +55,7 @@ print_report <- function(data,
   message("Report saved to:\n", file_and_path)
 
   # remove temporary directory created earlier
-  unlink(temp_dirname, recursive = TRUE)
+  on.exit(unlink(temp_dirname, recursive = TRUE))
 
   # print report if specified
   if (print) {
