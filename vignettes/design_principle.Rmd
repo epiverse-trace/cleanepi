@@ -24,7 +24,7 @@ Data cleaning is an important phase for ensuring the efficacy of downstream anal
 
 ## Design decisions
 
-The {cleanepi} R package is designed to offer functional programming-style data cleansing tasks. To streamline the organization of data cleaning operations, we have categorized them into distinct groups referred to as **modules**. These modules are based on overarching goals derived from commonly anticipated data cleaning procedures. Each module features a primary function along with additional helper functions tailored to accomplish specific tasks. It's important to note that, except for few cases where the outcome a helper function can impact on the cleaning task, only the main function of each module will be exported. This deliberate choice empowers users to execute individual cleaning tasks as needed, enhancing flexibility and usability.
+The {cleanepi} R package is designed to offer functional programming-style data cleansing tasks. To streamline the organization of data cleaning operations, we have categorized them into distinct groups referred to as **modules**. These modules are based on overarching goals derived from commonly anticipated data cleaning procedures. Each module features a primary function along with additional helper functions tailored to accomplish specific tasks. It's important to note that, except for few cases where the outcome from a helper function can impact on the cleaning task, only the main function of each module will be exported. This deliberate choice empowers users to execute individual cleaning tasks as needed, enhancing flexibility and usability.
 
 ![cleanepi design diagram](../man/figures/cleanepi_design_diagram.drawio.png)
 
@@ -70,7 +70,7 @@ In addition to the target dataset, the core function `clean_data()` accepts a `l
 
 ## Output
 
-Both the primary functions of the modules and the core function `clean_data()` return an object of type `data.frame` or `linelist`, depending on the type of the input dataset. The report generated from all cleaning tasks is attached to this object as an attribute, which can be accessed using the `attr()` function in base R.
+Both the primary functions of the modules and the core function `clean_data()` return an object of type `data.frame` or `linelist`, depending on the type of the input dataset. The report generated from all cleaning tasks is attached to this object as an attribute, which can be accessed using either the `attr()` or `attributes()` functions in base R.
 
 
 ### Modules in {cleanepi}
@@ -115,13 +115,12 @@ This module aims at eliminating irrelevant and redundant rows and columns, inclu
 
 This module is designed to identify and eliminate duplicated rows.
 
-- **Main function:** `find_duplicates(), remove_duplicates()`
+- **Main functions:** `find_duplicates(), remove_duplicates()`
 - **Input:** Accepts a `data.frame` or `linelist` object, along with optional parameters:
   * Vector of target columns (default is to consider all columns; possible to use `linelist_tags` to consider tagged variables only when the input is a linelist object).
 - **Output:** Returns the input object after applying the specified operations.
 - **Report:**
-  * A list with one or two table(s) showcasing found duplicates and removed duplicates (if `remove = TRUE`).
-  * A table detailing the removed duplicates.
+  * A list with one or two table(s) showcasing found duplicates and removed duplicates.
 - **Mode:**
   * explicit
 
@@ -134,7 +133,7 @@ This module aims to standardize and unify the representation of missing values w
 - **Main function:** `replace_missing_values()`
 - **Input:** Accepts a `data.frame` or `linelist` object, along with:
   * A `vector` of column names (if not provided, the operation is performed across all columns)
-  * A string or a vector of strings representing the current missing values (default value is cleanepi::common_na_strings)
+  * A string or a vector of strings representing the current missing values (default value is `cleanepi::common_na_strings`)
 - **Output:** Returns the input object with all missing values represented as `NA`.
 - **Report:** Generates a three-column table featuring index, column, and value for each missing item in the dataset.
 - **Mode:**
@@ -144,7 +143,7 @@ By utilizing the `replace_missing_char()` function, users can ensure consistency
   
 **5. Standardization of date values**
 
-This module is dedicated to convert date values in character columns into `Date` value in `ISO8601` format, and ensuring that all dates fall within the given timeframe.
+This module is dedicated to convert date values in character columns into `ISO8601` `Date` format, and ensuring that all dates fall within the expected user-provided timeframe.
 
 - **Main function:** `standardize_dates()`
 - **Input:** Accepts a `data.frame` or `linelist` object, along with:
@@ -152,11 +151,11 @@ This module is dedicated to convert date values in character columns into `Date`
   * Tolerance threshold that defines the % of missing (out of range values converted to `NA`) values to be allowed in a converted column. When % missing values exceeds or is equal to it, the original values are returned (default value is 40%)
   * format (default value is NULL)
   * timeframe (default value is null)
-- **Output:** Returns the input object with standardized date values in the format of *%Y-%m-%d*.
+- **Output:** Returns the input object with standardized date values formatted as *%Y-%m-%d*.
 - **Report:**
   * A two-column table listing the columns where date values were standardized.
   * A three-column table featuring index, column name, and values that fall outside the specified timeframe.
-  * A data frame featuring date values that can comply with more than one specified format. Users can update the standardized date values with the correct when it's appropriated.
+  * A data frame featuring date values that can comply with more than one specified format. Users can update the standardized date values with the correct ones when it's appropriated.
 - **Mode:**
   * explicit
 
@@ -166,21 +165,26 @@ By employing the `standardize_dates()` function, users can ensure uniformity and
 
 This module is tailored to verify whether the values in the column uniquely identifying subjects adhere to a consistent format. It also offers a functionality that allow users to correct the inconsistent subject ids.
 
-- **Main function:** `check_subject_ids(), correct_subject_ids()`
+- **Main function:** `check_subject_ids()`
 - **Input:** Accepts a `data.frame` or `linelist` object, along with:
   * The name of the ID column
   * Strings for prefix, suffix, and numerical range within the IDs
-  * A logical that determines whether to delete the wrong ids or not.
-- **Output:** Returns the input object with standardized subject IDs.
-- **Report:** Generates a two-column table featuring index and value of each subject ID that deviates from the expected format.
+  * A numeric representing the expected number of characters in the subject ids.
+- **Output:** Returns the input object attached with an attribute called `incorrect_subject_id`.
+- **Report:** Generates a two-column table featuring the index and value of each subject ID that deviates from the expected format.
 - **Mode:**
   * explicit
+
+The `correct_subject_ids()` function can be used to correct the identified incorrect subject ids. In addition to the input data, it expects a data frame with two columns `from` and `to` containing the wrong and the correct ids respectively.  
 
 By utilizing the functions in this module, users can ensure uniformity in the format of subject ids, facilitating accurate tracking and analysis of individual subjects within the dataset.
 
 **7. Dictionary based substitution **
 
 This module facilitates dictionary-based substitution, which involves replacing existing values with predefined ones. It replaces entries in a specific columns to certain values, such as substituting 1 with “male” and 2 with “female” in a gender column. It also interoperates seamlessly with the `get_meta_data()` function from {readepi} R package.
+
+Note that the `clean_using_dictionary()` function will return a warning when it detects unexpected values in the target columns from the data dictionary.
+These unexpected values can be added to the data dictionary using the `add_to_dictionary()` function.
 
 - **Main function:** `clean_using_dictionary()`
 - **Input:** Accepts a `data.frame` or `linelist` object, along with a data dictionary featuring the following column names: _options_, _values_, and _order_.
@@ -191,16 +195,13 @@ This module facilitates dictionary-based substitution, which involves replacing 
 
 By leveraging the `clean_using_dictionary()` function, users can streamline and standardize the values within specific columns based on predefined mappings, enhancing consistency and accuracy in the dataset.
 
-Note that the `clean_using_dictionary()` function will return a warning when it detects unexpected values in the target columns from the data dictionary.
-The unexpected values can be added to the data dictionary using the `add_to_dictionary()` function.
-
 **8. Conversion of values when necessary **
 
-This module is designed to convert numbers written in letters to numerical values, ensuring interoperability with the `{numberize}` package.
+This module is designed to convert numbers written in letters to numerical values, ensuring interoperability with the [{numberize}](https://epiverse-trace.github.io/numberize/) package.
 
 - **Main function:** `convert_to_numeric()`
 - **Input:** Accepts a `data.frame` or `linelist` object, along with:
-  * A vector of column names to be converted into numeric, and
+  * A vector of column names to be converted into numeric. When not provided, the target columns are those returned by the `scan_data()` function
   * A string that denotes the language used in the text. The current version supports `English, French and Spanish`.
 - **Output:** Returns the input object with values in the target columns converted into numeric format.
 - **Report:** Generates a three-column table with index, column, and value for each unrecognized value in the dataset (strings that could not be converted into numeric).
@@ -208,8 +209,6 @@ This module is designed to convert numbers written in letters to numerical value
   * explicit
 
 By employing the `convert_to_numeric()` function, users can seamlessly transform numeric representations written in letters into numerical values, ensuring compatibility with the {numberize} package and promoting accuracy in numerical analysis.
-  
-Note that `convert_to_numeric()` will issue a warning for unexpected values and return them in the report.
 
 **9. Verification of the sequence of date-events **
 
@@ -218,7 +217,7 @@ This module provides functions to verify whether the sequence of date events ali
 - **Main function:** `check_date_sequence()`
 - **Input:** Accepts a `data.frame` or `linelist` object, along with:
   * A vector of date column names to be considered
-- **Output:** Returns the input object with incorrect rows removed if specified.
+- **Output:** Returns the input object where the incorrect rows have been removed.
 - **Report:** Generates a table listing the incorrect rows from the specified columns.
 - **Mode:**
   * explicit
@@ -227,7 +226,7 @@ By using the `check_date_sequence()` function, users can systematically validate
 
 **10. Transformation of selected columns**
 
-This module is dedicated to performing various specialized operations related to epidemiological data analytics, and it currently includes the following functions:
+This module is dedicated to performing various specialized operations related to epidemiological data analytics. In the current version of the package, this module includes the following functions:
 
 - **Main function:** `timespan()`
 - **Input:** Accepts a `data.frame` or `linelist` object, along with:
