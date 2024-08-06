@@ -32,7 +32,7 @@ scan_result <- scan_data(
 scan_result <- scan_data(
   data = readRDS(system.file("extdata", "test_linelist.RDS",
                              package = "cleanepi"))
-  )
+)
 
 # scan through a data frame with no character columns
 data(iris)
