@@ -36,7 +36,7 @@ In addition, this package also has two surrogate functions:
     * character values in a logical column (a `not available` within a column of `TRUE` or `FALSE`),
     * numbers written in letters.
 
-When the input data contains character columns, the function returns a data frame with the same number of row as the character columns and six columns representing their column names, proportion of missing, numeric, date, character, and logical values. For data with many character columns, this format allows for the easy display of the output data frame in the report, where the user will be presented with the first fifteenth rows and buttons to display the subsequent rows.
+When the input data contains character columns, the function returns a data frame with the same number of row as the character columns and six columns representing their column names, proportion of missing, numeric, date, character, and logical values. We transpose the result relative to the input dataset (columns in the input are returned as row) to avoid horizontal scrolling in the case of datasets with a large number of character columns.
 The sum of the proportion across all columns is expected to be 1 as it represent the ratio between the count of each data type and the total number of observations in the data.
 
 > There is no ambiguity for the columns of type Date, logical, and numeric. Values in such columns are expected to be of the same type. Hence, the function will not be applied on columns other than character columns. Consequently, it invisibly returns `NA` when applied on a dataset with no character columns, after printing out a message about the absence of character columns from the input dataset.
