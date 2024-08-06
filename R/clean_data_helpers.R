@@ -22,7 +22,7 @@
 #' scan_result <- scan_data(
 #'   data = readRDS(system.file("extdata", "test_linelist.RDS",
 #'                              package = "cleanepi"))
-#'   )
+#' )
 #'
 #' # scan through a data frame with no character columns
 #' data(iris)
@@ -37,8 +37,8 @@
 #'
 scan_data <- function(data) {
   # scan through all columns of the data and the identify character columns
-  types <- vapply(data, typeof, character(1L))
-  target_columns <- types[types == "character"]
+  types          <- vapply(data, typeof, character(1L))
+  target_columns <- which(types == "character")
 
   # send an message if there is no character column found within the input data
   if (length(target_columns) == 0L) {
@@ -46,14 +46,14 @@ scan_data <- function(data) {
     return(invisible(NA))
   }
 
+  # unclass the data to prevent from warnings when dealing with linelist, and
   # scan through the character columns
-  data <- data[, names(target_columns)]
-  scan_result <- vapply(seq_len(ncol(data)), function(col_index) {
-    scan_in_character(data[[col_index]])
-  }, numeric(5L))
+  data               <- as.data.frame(unclass(data))[, target_columns]
+  scan_result        <- vapply(data, scan_in_character, numeric(5L))
   scan_result        <- as.data.frame(t(scan_result))
   names(scan_result) <- c("missing", "numeric", "date", "character", "logical")
-  scan_result        <- cbind(Field_names = names(data), scan_result)
+  scan_result        <- cbind(Field_names = rownames(scan_result), scan_result)
+  rownames(scan_result)     <- NULL
   return(scan_result)
 }
 
@@ -80,20 +80,20 @@ scan_in_character <- function(x) {
 
   # We will check if there is any Date values within the variable by parsing the
   # values, looking for the ones that fit any of the predefined format.
-  #     When there is one or more Date values, we will convert the variable into
-  # numeric and determine if any of them is a Date (a numeric, which after
-  # conversion to Date, fall within the interval
+  #     When there is one or more Date values, we will convert the remaining
+  # values into numeric and determine if any of them is a Date (a numeric, which
+  # after conversion to Date, fall within the interval
   # [50 years back from today's date, today's date]). That way the Date count is
   # the count of date identified from the parsing + the count of Dates within
   # the numeric values.
   #     When there is no Date values identified from the parsing, the variable
   # is converted into numeric. The numeric count is the sum of numeric values.
   #     The logical count is the number of TRUE and FALSE written in both lower
-  # and upper case within the variable
-  #     The remaining values will be of type character.
+  # and upper cases within the variable.
+  #     The remaining values will be considered of type character.
 
   # parsing the vector, looking for date values
-  tmp <- suppressWarnings(
+  are_date <- suppressWarnings(
     as.Date(
       lubridate::parse_date_time(
         x,
@@ -105,30 +105,28 @@ scan_in_character <- function(x) {
 
   # getting the date and numeric count as describe above
   date_count <- numeric_count <- 0L
-  if (sum(!is.na(tmp)) > 0L) {
+  if (sum(!is.na(are_date)) > 0L) {
     # Setting the first date to 50 years before the current date
-    target_interval <- sort(
-      seq.Date(Sys.Date(), length.out = 2L, by = "-50 years")
-    )
+    oldest_date <- seq.Date(Sys.Date(), length.out = 2L, by = "-50 years")[[2L]]
 
     # get the date count
-    date_count <- date_count + sum(!is.na(tmp))
+    date_count <- date_count + sum(!is.na(are_date))
 
     # convert to numeric and check for the presence of Date among the numeric
-    tmp2 <- x[is.na(tmp)]
-    tmp3 <- suppressWarnings(as.numeric(tmp2))
-    if (sum(!is.na(tmp3)) > 0L) {
+    non_date <- x[is.na(are_date)]
+    are_numeric <- suppressWarnings(as.numeric(non_date))
+    if (sum(!is.na(are_numeric)) > 0L) {
       y <- lubridate::as_date(
-        tmp3[!is.na(tmp3)],
-        origin = target_interval[[1L]]
+        are_numeric[!is.na(are_numeric)],
+        origin = oldest_date
       )
       # second count of date values coming from date within numeric
       date_count <- date_count + sum(!is.na(y))
       numeric_count <- sum(is.na(y))
     }
   } else {
-    tmp <- suppressWarnings(as.numeric(x))
-    numeric_count <- sum(!is.na(tmp))
+    are_numeric <- suppressWarnings(as.numeric(x))
+    numeric_count <- sum(!is.na(are_numeric))
   }
 
   # get logical count
@@ -142,7 +140,8 @@ scan_in_character <- function(x) {
   # transform into proportions
   props <- round(
     c(na_count, numeric_count, date_count, character_count, logical_count) /
-      initial_length, 4L)
+      initial_length, 4L
+  )
 
   return(props)
 }
