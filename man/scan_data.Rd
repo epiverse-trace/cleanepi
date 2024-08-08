@@ -21,6 +21,12 @@ date, character, and logical values.
 Scan through all character columns of a data frame to determine the
 proportion of \code{missing}, \code{numeric}, \code{Date}, \code{character}, \code{logical}, values.
 }
+\details{
+When a numeric value is found in a character column which also contains Date
+values, the numeric ones which are potentially of type Date (a numeric, which
+as well as to the numeric count. For this reason, the sum across rows in the
+output object could be greater than 1.
+}
 \examples{
 # scan through a data frame of characters
 scan_result <- scan_data(
