@@ -48,7 +48,7 @@ scan_data <- function(data) {
 
   # unclass the data to prevent from warnings when dealing with linelist, and
   # scan through the character columns
-  data               <- as.data.frame(unclass(data))[, target_columns]
+  data               <- as.data.frame(data)[, target_columns]
   scan_result        <- vapply(data, scan_in_character, numeric(5L))
   scan_result        <- as.data.frame(t(scan_result))
   names(scan_result) <- c("missing", "numeric", "date", "character", "logical")
