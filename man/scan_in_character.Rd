@@ -4,10 +4,12 @@
 \alias{scan_in_character}
 \title{Scan through a character column}
 \usage{
-scan_in_character(x)
+scan_in_character(x, x_name)
 }
 \arguments{
 \item{x}{The input character vector}
+
+\item{x_name}{The name of the corresponding column}
 }
 \value{
 A numeric vector with the proportion of the different types of data
