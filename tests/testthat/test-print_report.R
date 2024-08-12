@@ -42,13 +42,15 @@ test_that("print_report works", {
 })
 
 test_that("print_report fails when no report is associated to the data", {
-  print_report(
-    data             = test_data,
-    report_title     = "{cleanepi} data cleaning report",
-    output_directory = ".",
-    output_filename  = "template_data_report",
-    format           = "pdf",
-    print            = FALSE
-  ),
-  regexp = cat("The PDF format is not currently supported.")
+  expect_error(
+    print_report(
+      data             = test_data,
+      report_title     = "{cleanepi} data cleaning report",
+      output_directory = ".",
+      output_filename  = "template_data_report",
+      format           = "pdf",
+      print            = FALSE
+    ),
+    regexp = cat("The PDF format is not currently supported.")
+  )
 })
