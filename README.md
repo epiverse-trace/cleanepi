@@ -442,7 +442,7 @@ sex
 # DEFINING THE CLEANING PARAMETERS
 use_na                  <- list(target_columns = NULL, na_strings = "-99")
 remove_duplicates       <- list(target_columns   = NULL)
-standardize_date        <- list(target_columns  = NULL,
+standardize_dates       <- list(target_columns  = NULL,
                                 error_tolerance = 0.4,
                                 format          = NULL,
                                 timeframe       = as.Date(c("1973-05-29",
@@ -460,16 +460,18 @@ standardize_subject_ids <- list(target_columns = "study_id",
                                 nchar          = 7)
 remove_cte              <- list(cutoff = 1)
 standardize_col_names   <- list(keep   = "date.of.admission",
-                                rename = "dateOfBirth = DOB")
+                                rename = c("DOB" = "dateOfBirth"))
+to_numeric              <- list(target_columns = "sex",
+                                lang           = "en")
 
 params <- list(
   standardize_column_names = standardize_col_names,
   remove_constants         = remove_cte,
   replace_missing_values   = use_na, 
   remove_duplicates        = remove_duplicates,
-  standardize_date         = standardize_date,
+  standardize_dates        = standardize_dates,
   standardize_subject_ids  = standardize_subject_ids,
-  to_numeric               = "sex",
+  to_numeric               = to_numeric,
   dictionary               = test_dictionary
 )
 ```
@@ -483,13 +485,13 @@ cleaned_data <- clean_data(
 #> 
 #> cleaning column names
 #> replacing missing values with NA
+#> removing the constant columns, empty rows and columns
 #> removing duplicated rows
 #> standardising date columns
 #> checking subject IDs format
-#> Warning: Detected incorrect subject ids at lines: 5, 7, 3
+#> Warning: Detected incorrect subject ids at lines: 3, 5, 7
 #> Use the correct_subject_ids() function to adjust them.
-#> 
-#> converting sex into numeric
+#> converting sex, en into numeric
 #> performing dictionary-based cleaning
 ```
 
@@ -500,15 +502,6 @@ cleaned_data <- clean_data(
 <tr>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
 study_id
-</th>
-<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-event_name
-</th>
-<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
-country_code
-</th>
-<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-country_name
 </th>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
 date.of.admission
@@ -530,15 +523,6 @@ sex
 PS001P2
 </td>
 <td style="text-align:left;">
-day 0
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-Gambia
-</td>
-<td style="text-align:left;">
 2020-12-01
 </td>
 <td style="text-align:left;">
@@ -554,15 +538,6 @@ male
 <tr>
 <td style="text-align:left;">
 PS002P2
-</td>
-<td style="text-align:left;">
-day 0
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-Gambia
 </td>
 <td style="text-align:left;">
 2021-01-28
@@ -582,15 +557,6 @@ male
 PS004P2-1
 </td>
 <td style="text-align:left;">
-day 0
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-Gambia
-</td>
-<td style="text-align:left;">
 2021-02-15
 </td>
 <td style="text-align:left;">
@@ -606,15 +572,6 @@ NA
 <tr>
 <td style="text-align:left;">
 PS003P2
-</td>
-<td style="text-align:left;">
-day 0
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-Gambia
 </td>
 <td style="text-align:left;">
 2021-02-11
@@ -634,15 +591,6 @@ male
 P0005P2
 </td>
 <td style="text-align:left;">
-day 0
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-Gambia
-</td>
-<td style="text-align:left;">
 2021-02-17
 </td>
 <td style="text-align:left;">
@@ -658,15 +606,6 @@ female
 <tr>
 <td style="text-align:left;">
 PS006P2
-</td>
-<td style="text-align:left;">
-day 0
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-Gambia
 </td>
 <td style="text-align:left;">
 2021-02-17
@@ -686,15 +625,6 @@ female
 PB500P2
 </td>
 <td style="text-align:left;">
-day 0
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-Gambia
-</td>
-<td style="text-align:left;">
 2021-02-28
 </td>
 <td style="text-align:left;">
@@ -710,15 +640,6 @@ male
 <tr>
 <td style="text-align:left;">
 PS008P2
-</td>
-<td style="text-align:left;">
-day 0
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-Gambia
 </td>
 <td style="text-align:left;">
 2021-02-22
@@ -738,15 +659,6 @@ female
 PS010P2
 </td>
 <td style="text-align:left;">
-day 0
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-Gambia
-</td>
-<td style="text-align:left;">
 2021-03-02
 </td>
 <td style="text-align:left;">
@@ -762,15 +674,6 @@ male
 <tr>
 <td style="text-align:left;">
 PS011P2
-</td>
-<td style="text-align:left;">
-day 0
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:left;">
-Gambia
 </td>
 <td style="text-align:left;">
 2021-03-05
@@ -831,17 +734,19 @@ By contributing to this project, you agree to abide by its terms.
 citation("cleanepi")
 #> To cite package 'cleanepi' in publications use:
 #> 
-#>   Mané K, Bah B, Ahadzie B, Mohammed N, Degoot A (2024). _cleanepi:
+#>   Mané K, Degoot A, Ahadzie B, Mohammed N, Bah B (2024). _cleanepi:
 #>   Clean and Standardize Epidemiological Data_.
-#>   <https://epiverse-trace.github.io/cleanepi,https://github.com/epiverse-trace/cleanepi>.
+#>   doi:10.5281/zenodo.11473985
+#>   <https://doi.org/10.5281/zenodo.11473985>,
+#>   <https://epiverse-trace.github.io/cleanepi/>.
 #> 
 #> A BibTeX entry for LaTeX users is
 #> 
 #>   @Manual{,
 #>     title = {cleanepi: Clean and Standardize Epidemiological Data},
-#>     author = {Karim Mané and Bubacarr Bah and Bankolé Ahadzie and Nuredin Mohammed and Abdoelnaser Degoot},
+#>     author = {Karim Mané and Abdoelnaser Degoot and Bankolé Ahadzie and Nuredin Mohammed and Bubacarr Bah},
 #>     year = {2024},
-#>     url = {https://epiverse-trace.github.io/cleanepi,
-#> https://github.com/epiverse-trace/cleanepi},
+#>     doi = {10.5281/zenodo.11473985},
+#>     url = {https://epiverse-trace.github.io/cleanepi/},
 #>   }
 ```
