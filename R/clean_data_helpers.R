@@ -10,12 +10,24 @@
 #'    date, character, and logical values.
 #'
 #' @details
-#' When a numeric value is found in a character column which also contains Date
-#' values, the numeric ones which are potentially of type Date (a numeric, which
-#  after conversion to Date, fall within the interval
-#  [50 years back from today's date, today's date]) will add to the date count
-#' as well as to the numeric count. For this reason, the sum across rows in the
-#' output object could be greater than 1.
+#' How does it work?
+#' The character columns are identified first. When there is no character column
+#' the function returns a message.
+#' For every character column, we look for the presence of date values.
+#' When Date values are found, the first count of dates is recorded. These Date
+#' values will be in turn converted to numeric. If any numeric value is detected
+#' among them, the first count of numeric values is recorded.
+#' The remaining values are then converted to numeric. The second numeric count
+#' will be recorded from this. The detected numeric values will also be
+#' converted into Date to identify the ones which are potentially of type Date
+#' (a numeric, which after conversion to Date, fall within the interval
+#  [50 years back from today's date, today's date]). Those that turns out to be
+#  Date values are counted in the second count of dates.
+#  For this reason, the sum across rows in the output object could be greater
+#  than 1.
+#  In the absence of Date values, the entire column is converted into numeric to
+#  record the numeric count.
+#  The logical and character counts will subsequently be evaluated.
 #'
 #' @export
 #'
@@ -56,7 +68,7 @@ scan_data <- function(data) {
 
   # unclass the data to prevent from warnings when dealing with linelist, and
   # scan through the character columns
-  data               <- as.data.frame(data)[, target_columns]
+  data <- as.data.frame(data)[, target_columns, drop = FALSE]
   scan_result <- vapply(seq_len(ncol(data)), function(col_index) {
     scan_in_character(data[[col_index]], names(data)[[col_index]])
   }, numeric(5L))
@@ -94,13 +106,18 @@ scan_in_character <- function(x, x_name) {
 
   # We will check if there is any Date values within the variable by parsing the
   # values, looking for the ones that fit any of the predefined format.
-  #     When there is one or more Date values, the remaining values are
-  # converted into numeric. The first numeric count is recorded at this point.
+  #     When there is one or more Date values, they will be converted into
+  # numeric. The first numeric count is recorded at this point. The rest of the
+  # values are converted into numeric, and the second count of numeric is
+  # recorded. They will in turn be converted into date.
   # If any of these numeric values is a Date (a numeric, which
   # after conversion to Date, fall within the interval
-  # [50 years back from today's date, today's date]), it will added to the date
-  # count. That way the Date count is the count of date identified from the
-  # parsing + the count of Dates within the numeric values.
+  # [50 years back from today's date, today's date]), it will add to the second
+  # date count.
+  # That way the Date count is the count of date identified from the
+  # parsing + the count of Dates within the numeric values. Similarly, the
+  # numeric count is the count of numeric values within dates values and count
+  # among the non-date values.
   #
   # NOTE: This is what justifies that the sum across rows in the output object
   # could be > 1.
@@ -123,42 +140,62 @@ scan_in_character <- function(x, x_name) {
     )
   )
 
-  # getting the date and numeric count as describe above
-  date_count <- numeric_count <- 0L
+  # when date values are identified, check if they are at the same time numeric
+  # and get the count of ambiguous
+  # convert the rest to numeric and check if they can also translate to data and
+  # get the second count of ambiguous
+  date_count <- ambiguous_count <- numeric_count <- 0L
   if (sum(!is.na(are_date)) > 0L) {
-    # Setting the first date to 50 years before the current date
-    oldest_date <- seq.Date(Sys.Date(), length.out = 2L, by = "-50 years")[[2L]]
-
-    # get the date count
+    # get the date count and the indices of the date values
     date_count <- date_count + sum(!is.na(are_date))
-    character_count <- character_count - date_count
+    are_date_idx <- which(!is.na(are_date))
 
-    # convert to numeric and check for the presence of Date among the numeric
-    non_date <- x[is.na(are_date)]
-    are_numeric <- suppressWarnings(as.numeric(non_date))
-    character_count <- character_count - sum(!is.na(are_numeric))
+    # convert the date values into numeric and check if some of them are also
+    # numeric. If some are, get the first count of ambiguous and numeric values
+    are_numeric_in_dates <- suppressWarnings(as.numeric(x[are_date_idx]))
+    ambiguous_count <- ambiguous_count + sum(!is.na(are_numeric_in_dates))
+    numeric_count <- ambiguous_count
+
+    # getting out of this condition with non-date values
+    character_count <- character_count - date_count
+    x <- x[-are_date_idx]
+
+    # convert the remaining values into numeric.
+    # then check if any of them can be a date value
+    are_numeric <- suppressWarnings(as.numeric(x))
     numeric_count <- numeric_count + sum(!is.na(are_numeric))
-    if (sum(!is.na(are_numeric)) > 0L) {
-      y <- lubridate::as_date(
-        are_numeric[!is.na(are_numeric)],
-        origin = oldest_date
-      )
-      # send a warning to inform about the presence of numeric values that could
-      # potentially be Date
-      if (sum(!is.na(y)) > 0L) {
+    are_numeric_idx <- which(!is.na(are_numeric))
+    if (length(are_numeric_idx) > 0L) {
+      numeric_values <- as.numeric(x[are_numeric_idx])
+      x <- x[-are_numeric_idx]
+      character_count <- character_count - length(are_numeric_idx)
+
+      # convert the numeric values into date.
+      # If some are date, get the second count of ambiguous and date values
+
+      # Setting the first date to 50 years before the current date
+      oldest_date <- seq.Date(
+        Sys.Date(), length.out = 2L, by = "-50 years"
+      )[[2L]]
+
+      date_values <- lubridate::as_date(numeric_values)
+      valid_dates <- date_values >= oldest_date & date_values <= Sys.Date()
+      if (any(valid_dates)) {
         # second count of date values coming from date within numeric
-        date_count <- date_count + sum(!is.na(y))
-        warning(
-          sprintf(
-            "'%s' contains %d numeric values that are potentially of type Date."
-            , x_name,
-            sum(!is.na(y))
-          ),
-          call. = FALSE
-        )
+        date_count <- date_count + sum(valid_dates)
+        ambiguous_count <- ambiguous_count + sum(valid_dates)
       }
     }
+
+    # send a warning about the number of ambiguous values found on that column
+    if (ambiguous_count > 0) {
+      cli::cli_alert_warning(c(
+        "i" = "Found {ambiguous_count} values that can be either numeric or",
+              "date in column `{x_name}`"
+      ))
+    }
   } else {
+    # convert everything to numeric and get numeric count
     are_numeric <- suppressWarnings(as.numeric(x))
     numeric_count <- numeric_count + sum(!is.na(are_numeric))
     character_count <- character_count - numeric_count
