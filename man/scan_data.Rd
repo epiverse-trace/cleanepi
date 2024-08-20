@@ -22,10 +22,17 @@ Scan through all character columns of a data frame to determine the
 proportion of \code{missing}, \code{numeric}, \code{Date}, \code{character}, \code{logical}, values.
 }
 \details{
-When a numeric value is found in a character column which also contains Date
-values, the numeric ones which are potentially of type Date (a numeric, which
-as well as to the numeric count. For this reason, the sum across rows in the
-output object could be greater than 1.
+How does it work?
+The character columns are identified first. When there is no character column
+the function returns a message.
+For every character column, we look for the presence of date values.
+When Date values are found, the first count of dates is recorded. These Date
+values will be in turn converted to numeric. If any numeric value is detected
+among them, the first count of numeric values is recorded.
+The remaining values are then converted to numeric. The second numeric count
+will be recorded from this. The detected numeric values will also be
+converted into Date to identify the ones which are potentially of type Date
+(a numeric, which after conversion to Date, fall within the interval
 }
 \examples{
 # scan through a data frame of characters

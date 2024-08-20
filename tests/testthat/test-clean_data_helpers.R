@@ -26,9 +26,27 @@ test_that("scan_data works as expected", {
   # using a data with some character columns
   dat <- readRDS(system.file("extdata", "test_linelist.RDS",
                              package = "cleanepi"))
-  scan_result <- suppressWarnings(scan_data(data = dat))
+  scan_result <- scan_data(data = dat)
   expect_identical(ncol(scan_result), 6L)
   expect_identical(nrow(scan_result), 2L)
   expect_false(nrow(scan_result) == ncol(dat))
   expect_identical(scan_result[["Field_names"]], c("id", "age_class"))
+
+  # use data where output is easily predictable. the data contains:
+  # 1 character value
+  # 1 date value
+  # 1 numeric value which also corresponds to the date value above, hence the
+  # warning about the presence of ambiguous data
+  dat <- data.frame(col1 = c("20210702", "test"))
+  scan_result <- scan_data(data = dat)
+  expect_identical(as.numeric(scan_result[1L, -1L]), c(0, 0.5, 0.5, 0.5, 0))
+
+  # use data where output is easily predictable. the data contains:
+  # 1 character value
+  # 1 date value
+  # 1 numeric value which also corresponds to the date value above, hence the
+  # warning about the presence of ambiguous data
+  dat <- data.frame(col1 = c(c("20210702", "2021/07/03", "3"), "test"))
+  scan_result <- scan_data(data = dat)
+  expect_identical(as.numeric(scan_result[1L, -1L]), c(0, 0.5, 0.5, 0.25, 0))
 })
