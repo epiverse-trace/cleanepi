@@ -40,6 +40,7 @@ Depends:
 Imports:
     arsenal,
     checkmate,
+    cli,
     dplyr,
     janitor,
     linelist (>= 1.0.0),
