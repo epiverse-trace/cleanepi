@@ -39,6 +39,7 @@ Depends:
     R (>= 4.0.0)
 Imports:
     checkmate,
+    cli,
     dplyr,
     janitor,
     linelist (>= 1.0.0),
