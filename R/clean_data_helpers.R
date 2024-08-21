@@ -189,10 +189,10 @@ scan_in_character <- function(x, x_name) {
 
     # send a warning about the number of ambiguous values found on that column
     if (ambiguous_count > 0) {
-      cli::cli_alert_warning(c(
-        "i" = "Found {ambiguous_count} values that can be either numeric or",
-              "date in column `{x_name}`"
-      ))
+      cli::cli_alert_warning(
+        "Found {ambiguous_count} values that can be either numeric or date in",
+        "column `{x_name}`"
+      )
     }
   } else {
     # convert everything to numeric and get numeric count
