@@ -147,13 +147,13 @@ scan_in_character <- function(x, x_name) {
   date_count <- ambiguous_count <- numeric_count <- 0L
   if (sum(!is.na(are_date)) > 0L) {
     # get the date count and the indices of the date values
-    date_count <- date_count + sum(!is.na(are_date))
+    date_count <- sum(!is.na(are_date))
     are_date_idx <- which(!is.na(are_date))
 
     # convert the date values into numeric and check if some of them are also
     # numeric. If some are, get the first count of ambiguous and numeric values
     are_numeric_in_dates <- suppressWarnings(as.numeric(x[are_date_idx]))
-    ambiguous_count <- ambiguous_count + sum(!is.na(are_numeric_in_dates))
+    ambiguous_count <- sum(!is.na(are_numeric_in_dates))
     numeric_count <- ambiguous_count
 
     # getting out of this condition with non-date values
