@@ -173,11 +173,10 @@ scan_in_character <- function(x, x_name) {
       # convert the numeric values into date.
       # If some are date, get the second count of ambiguous and date values
 
-      # Setting the first date to 50 years before the current date
-      oldest_date <- seq.Date(
-        Sys.Date(), length.out = 2L, by = "-50 years"
-      )[[2L]]
+      # Set the first date to 50 years before the current date
+      oldest_date <- Sys.Date() - lubridate::years(50)
 
+      # identify potential date values and increment date and ambiguous counts
       date_values <- lubridate::as_date(numeric_values)
       valid_dates <- date_values >= oldest_date & date_values <= Sys.Date()
       if (any(valid_dates)) {
