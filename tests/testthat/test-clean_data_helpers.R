@@ -43,8 +43,8 @@ test_that("scan_data works as expected", {
 
   # use data where output is easily predictable. the data contains:
   # 1 character value
-  # 1 date value
-  # 1 numeric value which also corresponds to the date value above, hence the
+  # 2 date values (one of them `20210702` is also numeric)
+  # 2 numeric values in which one is also a date value, hence the
   # warning about the presence of ambiguous data
   dat <- data.frame(col1 = c(c("20210702", "2021/07/03", "3"), "test"))
   scan_result <- scan_data(data = dat)
