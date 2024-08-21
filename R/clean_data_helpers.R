@@ -181,7 +181,8 @@ scan_in_character <- function(x, x_name) {
       date_values <- lubridate::as_date(numeric_values)
       valid_dates <- date_values >= oldest_date & date_values <= Sys.Date()
       if (any(valid_dates)) {
-        # second count of date values coming from date within numeric
+        # get the second count of date and ambiguous values coming from date
+        # within numeric
         date_count <- date_count + sum(valid_dates)
         ambiguous_count <- ambiguous_count + sum(valid_dates)
       }
@@ -194,12 +195,12 @@ scan_in_character <- function(x, x_name) {
         "column `{x_name}`"
       )
     }
-  } else {
-    # convert everything to numeric and get numeric count
-    are_numeric <- suppressWarnings(as.numeric(x))
-    numeric_count <- numeric_count + sum(!is.na(are_numeric))
-    character_count <- character_count - numeric_count
   }
+
+  # convert everything to numeric and get the numeric count
+  are_numeric <- suppressWarnings(as.numeric(x))
+  numeric_count <- numeric_count + sum(!is.na(are_numeric))
+  character_count <- character_count - sum(!is.na(are_numeric))
 
   # get logical count
   logicals <- toupper(x) == "TRUE" | toupper(x) == "FALSE"
