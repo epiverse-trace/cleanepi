@@ -41,10 +41,7 @@ remove_constants <- function(data, cutoff = 1L) {
 
   # report empty rows if found
   if (nrow(data) > nrow(dat)) {
-    add_this <- summary(
-      arsenal::comparedf(data, dat)
-    )[["obs.table"]][["observation"]]
-    report[["empty_rows"]] <- add_this
+    report[["empty_rows"]] <- which(rowSums(is.na(data)) == ncol(data))
   }
 
   # remove constant columns

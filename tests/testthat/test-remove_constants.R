@@ -25,5 +25,5 @@ test_that("remove_constants works", {
   expect_identical(report[["empty_columns"]], "empty_column")
   expect_identical(report[["constant_columns"]],
                    "event_name, country_code, country_name")
-  expect_identical(report[["empty_rows"]], 10L)
+  expect_identical(report[["empty_rows"]], 7L)
 })
