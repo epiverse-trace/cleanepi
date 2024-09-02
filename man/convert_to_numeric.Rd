@@ -21,10 +21,10 @@ or detected columns have been transformed into numeric format.
 }
 \description{
 When the function is invoked without specifying the column names to be
-converted, it automatically scans for columns containing exclusively missing,
-numeric, and character values. Furthermore, it identifies columns where the
-proportion of numeric values is at least twice the percentage of character
-values and performs the conversion in them.
+converted, the target columns are the ones returned by the \code{scan_data()}
+function. Furthermore, it identifies columns where the proportion of numeric
+values is at least twice the percentage of character values and performs the
+conversion in them.
 }
 \examples{
 dat <- convert_to_numeric(

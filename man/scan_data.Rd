@@ -2,8 +2,8 @@
 % Please edit documentation in R/clean_data_helpers.R
 \name{scan_data}
 \alias{scan_data}
-\title{Scan a data frame to determine the percentage of \code{missing}, \code{numeric},
-\code{Date}, \code{character},  and \code{logical} values in every column.}
+\title{Scan through all character columns of a data frame to determine the
+proportion of \code{missing}, \code{numeric}, \code{Date}, \code{character}, \code{logical}, values.}
 \usage{
 scan_data(data)
 }
@@ -11,17 +11,51 @@ scan_data(data)
 \item{data}{A data frame or linelist}
 }
 \value{
-A  data frame or linelist with the same columns as the input data
-and 5 rows representing the percentage of missing, numeric, date, character,
-and logical values in each column.
+A data frame if the input data contains columns of type character.
+It invisibly returns \code{NA} otherwise. The returned data frame will have the
+same number of rows as the number of character columns, and six
+columns representing their column names, proportion of missing, numeric,
+date, character, and logical values.
 }
 \description{
-Scan a data frame to determine the percentage of \code{missing}, \code{numeric},
-\code{Date}, \code{character},  and \code{logical} values in every column.
+Scan through all character columns of a data frame to determine the
+proportion of \code{missing}, \code{numeric}, \code{Date}, \code{character}, \code{logical}, values.
+}
+\details{
+How does it work?
+The character columns are identified first. When there is no character column
+the function returns a message.
+For every character column, we look for the presence of date values.
+When Date values are found, the first count of dates is recorded. These Date
+values will be in turn converted to numeric. If any numeric value is detected
+among them, the first count of numeric values is recorded.
+The remaining values are then converted to numeric. The second numeric count
+will be recorded from this. The detected numeric values will also be
+converted into Date to identify the ones which are potentially of type Date
+(a numeric, which after conversion to Date, fall within the interval
 }
 \examples{
+# scan through a data frame of characters
 scan_result <- scan_data(
   data = readRDS(system.file("extdata", "messy_data.RDS",
                              package = "cleanepi"))
 )
+
+# scan through a data frame with two character columns
+scan_result <- scan_data(
+  data = readRDS(system.file("extdata", "test_linelist.RDS",
+                             package = "cleanepi"))
+)
+
+# scan through a data frame with no character columns
+data(iris)
+iris[["fct"]] <- as.factor(sample(c("gray", "orange"), nrow(iris),
+                           replace = TRUE))
+iris[["lgl"]]  <- sample(c(TRUE, FALSE), nrow(iris), replace = TRUE)
+iris[["date"]] <- as.Date(seq.Date(from = as.Date("2024-01-01"),
+                                   to = as.Date("2024-08-30"),
+                                   length.out = nrow(iris)))
+iris[["posit_ct"]] <- as.POSIXct(iris[["date"]])
+scan_result        <- scan_data(data = iris)
+
 }
