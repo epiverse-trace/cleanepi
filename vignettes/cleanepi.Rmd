@@ -177,7 +177,7 @@ The `remove_constants()` function can be used to remove such “noise”. The fu
 1. **data**: the input data frame or linelist,
 2. **cutoff**: a numeric, between `0` and `1`, to be used when removing empty rows and columns. When provided, only rows and columns where the percent of missing data is greater than this cut-off will removed. Rows and columns with 100% missing values will be remove by default.
 
-```{r echo=FALSE, eval=TRUE}
+```{r eval=TRUE}
 # IMPORT THE INPUT DATA
 data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi"))
 
@@ -390,7 +390,7 @@ report$multi_format_dates %>%
 
 ## Standardizing subject IDs
 
-### Detecting and remove incorrect subject ids
+### Detecting and removing incorrect subject ids
 
 The `check_subject_ids()` function is designed to identify rows from the input dataset where the ids don't comply with the expected subject ids format. It expects the following parameters:
 
