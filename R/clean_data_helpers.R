@@ -62,7 +62,7 @@ scan_data <- function(data) {
 
   # send an message if there is no character column found within the input data
   if (length(target_columns) == 0L) {
-    message("No character column found in the provided data.")
+    cli::cli_alert_info("No character column found in the provided data.")
     return(invisible(NA))
   }
 
@@ -139,7 +139,6 @@ scan_in_character <- function(x, x_name) {
       )
     )
   )
-
   date_count <- sum(!is.na(are_date))
   character_count <- character_count - date_count
 
@@ -147,7 +146,35 @@ scan_in_character <- function(x, x_name) {
   are_numeric <- suppressWarnings(as.numeric(x))
   numeric_count <- sum(!is.na(are_numeric))
 
+  # get the count of ambiguous values
+  # ambiguous here are date values which after conversion to numeric turns out
+  # to be numeric as well
+  are_numeric_and_date <- !is.na(are_date) & !is.na(are_numeric)
   numeric_and_date_count <- sum(!is.na(are_date) & !is.na(are_numeric))
+
+  # subtracting the numeric_and_date_count here as they have already been
+  # counted in the date count
+  character_count <- character_count - (numeric_count - numeric_and_date_count)
+
+  # convert the numeric values into date to detect potential date values within
+  # the numeric. If some are date, get the second count of ambiguous and date
+  # values
+  oldest_date <- Sys.Date() - lubridate::years(50) # Set the first date to 50
+                                                  #years before the current date
+  date_values <- lubridate::as_date(are_numeric)
+
+  # do not account for the previous ambiguous values that have already been
+  # counted
+  date_values[are_numeric_and_date] <- NA
+  valid_dates <- date_values >= oldest_date & date_values <= Sys.Date()
+
+  # converting non-date values to NA to prevent from error in the intersection
+  # below
+  valid_dates[!valid_dates] <- NA
+  numeric_and_date_count <- numeric_and_date_count +
+    sum(!is.na(valid_dates) & !is.na(are_numeric))
+  date_count <- date_count + sum(valid_dates, na.rm = TRUE)
+
 
   if (numeric_and_date_count > 0) {
     cli::cli_alert_warning(
@@ -155,9 +182,6 @@ scan_in_character <- function(x, x_name) {
       date in column `{x_name}`"
     )
   }
-
-  # We don't want to remove numeric_and_date values twice
-  character_count <- character_count - numeric_count + numeric_and_date_count
 
   # get logical count
   logicals <- toupper(x) == "TRUE" | toupper(x) == "FALSE"
