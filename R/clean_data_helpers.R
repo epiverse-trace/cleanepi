@@ -65,7 +65,11 @@ scan_data <- function(data) {
 
   # send an message if there is no character column found within the input data
   if (length(target_columns) == 0L) {
+<<<<<<< HEAD
     cli::cli_alert_info("No character column found from the input data.")
+=======
+    cli::cli_alert_info("No character column found in the provided data.")
+>>>>>>> f0a5d17 (account for possible dates within numeric values)
     return(invisible(NA))
   }
 

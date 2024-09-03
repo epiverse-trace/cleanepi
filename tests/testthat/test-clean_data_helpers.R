@@ -46,7 +46,7 @@ test_that("scan_data works as expected", {
   # 2 date values (one of them `20210702` is also numeric)
   # 2 numeric values in which one is also a date value, hence the
   # warning about the presence of ambiguous data
-  dat <- data.frame(col1 = c(c("20210702", "2021/07/03", "3"), "test"))
+  dat <- data.frame(col1 = c("20210702", "2021/07/03", "3", "test"))
   scan_result <- scan_data(data = dat)
   expect_identical(as.numeric(scan_result[1L, -1L]), c(0, 0.5, 0.5, 0.25, 0))
 })
