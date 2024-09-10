@@ -62,7 +62,7 @@ scan_data <- function(data) {
 
   # send an message if there is no character column found within the input data
   if (length(target_columns) == 0L) {
-    message("No character column found in the provided data.")
+    cli::cli_alert_info("No character column found in the provided data.")
     return(invisible(NA))
   }
 
@@ -130,76 +130,39 @@ scan_in_character <- function(x, x_name) {
   #     The remaining values will be considered of type character.
 
   # parsing the vector, looking for date values
-  are_date <- suppressWarnings(
-    as.Date(
-      lubridate::parse_date_time(
-        x,
-        orders = c("ymd", "ydm", "dmy", "mdy", "myd", "dym", "Ymd", "Ydm",
-                   "dmY", "mdY", "mYd", "dYm")
-      )
-    )
-  )
-
-  # when date values are identified, check if they are at the same time numeric
-  # and get the count of ambiguous
-  # convert the rest to numeric and check if they can also translate to data and
-  # get the second count of ambiguous
-  date_count <- ambiguous_count <- numeric_count <- 0L
-  if (sum(!is.na(are_date)) > 0L) {
-    # get the date count and the indices of the date values
-    date_count <- sum(!is.na(are_date))
-    are_date_idx <- which(!is.na(are_date))
-
-    # convert the date values into numeric and check if some of them are also
-    # numeric. If some are, get the first count of ambiguous and numeric values
-    are_numeric_in_dates <- suppressWarnings(as.numeric(x[are_date_idx]))
-    ambiguous_count <- sum(!is.na(are_numeric_in_dates))
-    numeric_count <- ambiguous_count
-
-    # getting out of this condition with non-date values
-    character_count <- character_count - date_count
-    x <- x[-are_date_idx]
-
-    # convert the remaining values into numeric.
-    # then check if any of them can be a date value
-    are_numeric <- suppressWarnings(as.numeric(x))
-    numeric_count <- numeric_count + sum(!is.na(are_numeric))
-    are_numeric_idx <- which(!is.na(are_numeric))
-    if (length(are_numeric_idx) > 0L) {
-      numeric_values <- as.numeric(x[are_numeric_idx])
-      x <- x[-are_numeric_idx]
-      character_count <- character_count - length(are_numeric_idx)
-
-      # convert the numeric values into date.
-      # If some are date, get the second count of ambiguous and date values
-
-      # Set the first date to 50 years before the current date
-      oldest_date <- Sys.Date() - lubridate::years(50)
-
-      # identify potential date values and increment date and ambiguous counts
-      date_values <- lubridate::as_date(numeric_values)
-      valid_dates <- date_values >= oldest_date & date_values <= Sys.Date()
-      if (any(valid_dates)) {
-        # get the second count of date and ambiguous values coming from date
-        # within numeric
-        date_count <- date_count + sum(valid_dates)
-        ambiguous_count <- ambiguous_count + sum(valid_dates)
-      }
-    }
-
-    # send a warning about the number of ambiguous values found on that column
-    if (ambiguous_count > 0) {
-      cli::cli_alert_warning(
-        "Found {ambiguous_count} values that can be either numeric or date in",
-        "column `{x_name}`"
-      )
-    }
-  }
+  are_date <- date_guess(x, "col")$res
 
   # convert everything to numeric and get the numeric count
   are_numeric <- suppressWarnings(as.numeric(x))
-  numeric_count <- numeric_count + sum(!is.na(are_numeric))
-  character_count <- character_count - sum(!is.na(are_numeric))
+  numeric_count <- sum(!is.na(are_numeric))
+
+  numeric_and_date <- !is.na(are_date) & !is.na(are_numeric)
+
+  # Set the first date to 50 years before the current date
+  oldest_date <- Sys.Date() - lubridate::years(50)
+
+  valid_date_range <- are_date >= oldest_date & are_date <= Sys.Date()
+
+  numeric_and_date_count <- sum(numeric_and_date & valid_date_range)
+
+  if (numeric_and_date_count > 0) {
+    cli::cli_alert_warning(
+      "Found {numeric_and_date_count} value{?s} that can be both numeric and \\
+      date in column `{x_name}`"
+    )
+  }
+
+  # Count dates:
+  # - that are unambiguous
+  # - if they are ambiguous, only if in the valid range
+  date_count <- sum(
+    (!is.na(are_date) & !numeric_and_date) |
+      (numeric_and_date & valid_date_range)
+  )
+
+  # We don't want to remove numeric_and_date values twice
+  character_count <- character_count - date_count
+  character_count <- character_count - (numeric_count - numeric_and_date_count)
 
   # get logical count
   logicals <- toupper(x) == "TRUE" | toupper(x) == "FALSE"
