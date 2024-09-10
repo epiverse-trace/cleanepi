@@ -50,6 +50,11 @@ test_that("scan_data works as expected", {
   scan_result <- scan_data(data = dat)
   expect_identical(as.numeric(scan_result[1L, -1L]), c(0, 0.5, 0.5, 0.25, 0))
 
+  # Dates as numeric from excel should work as well
+  dat <- data.frame(col = c("29372", "Jun /23/Y", "29384", "29509", "3"))
+  scan_result <- scan_data(data = dat)
+  expect_identical(as.numeric(scan_result[1L, -1L]), c(0, 4/5, 3/5, 1/5, 0))
+
   # If ambiguous format, only count date if in valid range.
   # If non-ambiguous, always count
   dat <- data.frame(col1 = c("19210702", "1921/07/03", "3", "test"))
