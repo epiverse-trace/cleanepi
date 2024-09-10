@@ -1,5 +1,9 @@
-#' Scan through all character columns of a data frame to determine the
-#' proportion of `missing`, `numeric`, `Date`, `character`, `logical`, values.
+#' Scan through a data frame and return the proportion of `missing`, `numeric`,
+#' `Date`, `character`, `logical` values.
+#'
+#' The function checks for the existence of character columns in the data. When
+#' found, it reports back the proportion of the data types mentioned above in
+#' those columns. See the details section to know more about how it works.
 #'
 #' @param data A data frame or linelist
 #'
