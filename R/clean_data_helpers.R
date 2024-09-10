@@ -130,15 +130,7 @@ scan_in_character <- function(x, x_name) {
   #     The remaining values will be considered of type character.
 
   # parsing the vector, looking for date values
-  are_date <- suppressWarnings(
-    as.Date(
-      lubridate::parse_date_time(
-        x,
-        orders = c("ymd", "ydm", "dmy", "mdy", "myd", "dym", "Ymd", "Ydm",
-                   "dmY", "mdY", "mYd", "dYm")
-      )
-    )
-  )
+  are_date <- date_guess(x, "col")$res
 
   # convert everything to numeric and get the numeric count
   are_numeric <- suppressWarnings(as.numeric(x))
