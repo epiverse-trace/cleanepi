@@ -61,10 +61,24 @@ date_guess <- function(x,
   ## [1] "Omdy" "YOmd"
   ##
 
-  # Process dates --------------------------------------------------------------
-  x  <- date_process(x)
+  # elements of the 'orders' list represent the date formats which will be used
+  # to infer whether a value is of type date or not.
+  # The order in which the elements are provided matters as every value will be
+  # matched against the first element, then the second, and so on. When a match
+  # is found with more than element, the format of the first match is returned,
+  # and the value will be registered as a multi-formatted date value in the
+  # report object.
+  if (is.null(orders)) {
+    orders <- list(
+      world_digit_months = c("ymd", "ydm", "dmy", "mdy", "myd", "dym",
+                             "Ymd", "Ydm", "dmY", "mdY", "mYd", "dYm"),
+      world_named_months = c("dby", "dyb", "bdy", "byd", "ybd", "ydb",
+                             "dbY", "dYb", "bdY", "bYd", "Ybd", "Ydb"),
+      us_format = c("Omdy", "YOmd")
+    )
+  }
 
-  # Process lubridate order list -----------------------------------------------
+  # Process lubridate order list
   if (!is.list(orders) && is.character(orders)) {
     orders <- list(orders)
   }
@@ -73,23 +87,34 @@ date_guess <- function(x,
     stop("orders must be a list of character vectors")
   }
 
-  # Guess dates ----------------------------------------------------------------
+  # Process dates - here we check whether values in the vector are any of the
+  # following types: "Date", "POSIXt", "aweek".
+  # If the input is a date already: no guessing needed!
+  if (inherits(x, c("Date", "POSIXt", "aweek"))) {
+    x <- as.Date(x)
+    return(x)
+  }
 
+  # Guess dates
   # create output data frame for dates
   res        <- list(rep(as.Date(NA_character_), length(x)))
   res        <- rep(res, length(orders))
   names(res) <- names(orders)
 
-  # loop over each set of lubridate orders and find the dates
+  # parsing the vector, looking for actual (no ambiguity about whether it is a
+  # date or no) date values. Loop over each set of lubridate orders and find
+  # the dates
   for (i in seq_along(orders)) {
-    # only test the dates if the previous run wasn't successful or the user
-    # doesn't want to
-
     # guess at only the subset of dates
     res[[i]] <- suppressWarnings(
       as.Date(lubridate::parse_date_time(x, orders = orders[[i]]))
     )
   }
+  res <- data.frame(res)
+
+
+
+
 
   ## if lubridate fails to do the job, then we should use thibaut's parser.
   x_rescued  <- date_rescue_lubridate_failures(data.frame(res),
@@ -149,25 +174,35 @@ date_choose_first_good <- function(date_a_frame, column_name) {
 #' @keywords internal
 date_rescue_lubridate_failures <- function(date_a_frame, original_dates,
                                            mxl = TRUE) {
-  # Find places where all rows are missing
-  nas     <- is.na(date_a_frame)
+  # find places where all rows are missing i.e. values that lubridate could not
+  # parse.
+  nas <- is.na(date_a_frame)
   all_nas <- apply(nas, 1L, all)
+
+  # convert to numeric to identify numeric values
   o_num <- suppressWarnings(as.integer(original_dates))
   numbers <- !is.na(o_num)
+
+  # find non date and non numeric values (character) values. they will be
+  # subjected to thibault's guesser
   go_tibo <- which(all_nas & !numbers)
+
+  # find non date but numeric. they will be subjected to excel conversion
   go_exel <- all_nas & numbers
 
   # Use Thibaut's guesser
-  tmpbo   <- rep(as.Date(NA_character_), length(go_tibo))
+  tmpbo <- rep(as.Date(NA_character_), length(go_tibo))
   for (i in go_tibo) {
     tmpbo[go_tibo == i] <- date_i_extract_string(original_dates[i])
   }
   date_a_frame[[1L]][go_tibo] <- tmpbo
 
-  # Use the excel guesser
+  # Use the excel guesser on numeric values
   if (sum(go_exel)) {
-    origin <- if (mxl) as.Date("1899-12-30") else as.Date("1904-01-01")
-    tmpxl  <- as.Date(o_num[go_exel], origin = origin)
+    # using the date-time for 1970-01-01 UTC in POSIXct format as origin for
+    # modern exel; "1904-01-01" otherwise.
+    origin <- if (mxl) as.Date(lubridate::origin) else as.Date("1904-01-01")
+    tmpxl <- lubridate::as_date(o_num[go_exel], origin = origin)
     date_a_frame[[1L]][go_exel] <- tmpxl
   }
 
