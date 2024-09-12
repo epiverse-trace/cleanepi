@@ -8,7 +8,8 @@ numbers_only <- function(x) {
   return(!grepl("\\D", x))
 }
 
-#' Get part1 of date value
+#' Split a string based on a pattern and return the first element of the
+#' resulting vector.
 #'
 #' @param x A string of interest
 #' @param sep A separator in the string of interest

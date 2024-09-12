@@ -93,20 +93,23 @@ date_trim_outliers <- function(new_dates, dmin, dmax, cols, original_dates) {
 #'
 date_convert <- function(data, cols, error_tolerance,
                          timeframe = NULL, orders, modern_excel) {
-  # Guess the date using Thibault's parser
-  new_dates           <- data[[cols]]
+  # Guess the date using lubridate (for actual dates and numbers) and the
+  # guesser we developed
+  new_dates <- data[[cols]]
   if (!inherits(data[[cols]], "Date")) {
-    date_guess_res    <- date_guess(new_dates,
-                                    orders       = orders,
-                                    modern_excel = modern_excel,
-                                    column_name  = cols)
-    new_dates         <- date_guess_res[["res"]]
+    date_guess_res <- date_guess(
+      new_dates,
+      orders = orders,
+      modern_excel = modern_excel,
+      column_name = cols
+    )
+    new_dates <- date_guess_res[["res"]]
     multi_format_dates <- date_guess_res[["multi_format"]]
     # report the multi formatted dates
     if (nrow(multi_format_dates)) {
-      data            <- add_to_report(
-        x     = data,
-        key   = "multi_format_dates",
+      data <- add_to_report(
+        x = data,
+        key = "multi_format_dates",
         value = multi_format_dates
       )
     }
@@ -185,18 +188,18 @@ date_convert_and_update <- function(data, timeframe, new_dates, cols,
 date_guess_convert <- function(data, error_tolerance, timeframe,
                                orders, modern_excel) {
   # guess and convert for column of type character, factor and POSIX
-  are_posix      <- which(vapply(data, inherits, logical(1), "POSIXt"))
+  are_posix <- which(vapply(data, inherits, logical(1), "POSIXt"))
   are_characters <- which(vapply(data, inherits, logical(1), "character"))
-  are_factors    <- which(vapply(data, inherits, logical(1), "factor"))
-  are_dates      <- which(vapply(data, inherits, logical(1), "Date"))
+  are_factors <- which(vapply(data, inherits, logical(1), "factor"))
+  are_dates <- which(vapply(data, inherits, logical(1), "Date"))
 
   # convert POSIX to date
   for (i in are_posix) {
-    data[[i]]   <- as.Date(data[[i]])
+    data[[i]] <- as.Date(data[[i]])
   }
 
   # convert characters and factors to date when applicable
-  of_interest       <- c(are_characters, are_factors, are_dates, are_posix)
+  of_interest <- c(are_characters, are_factors, are_dates, are_posix)
   multi_format_dates <- NULL
   for (i in names(of_interest)) {
     date_guess_res    <- date_guess(data[[i]], orders = orders,
@@ -258,10 +261,12 @@ date_detect_complex_format <- function(x) {
     if (is.null(f2)) {
       f2 <- date_detect_day_or_month(p2)
     }
-  } else {
+  }
+
+  if (all(is.null(c(f1, f2)))) {
     return(NULL)
   }
-  format <- date_make_format(f1, f2, tmp_sep)
+  format <- paste(c(f1, f2), collapse = tmp_sep) #date_make_format(f1, f2, tmp_sep)
   return(format)
 }
 
@@ -396,63 +401,73 @@ date_detect_simple_format <- function(x) {
   return(f1)
 }
 
-#' Detect date format from a date column
+#' Infer date format from a vector or characters
 #'
-#' @param data A  data frame
-#' @param date_column_name The name of the date columns of interest
-#' @param sep A separator in the date string
+#' @param x The input character vector
 #'
-#' @return A string with the detected date format
+#' @return A string with the inferred date format
 #' @keywords internal
 #'
-date_get_format <- function(data, date_column_name, sep) {
-  # we will first check if all values in the date column have that separator in
-  # them. If there are some without the separator, we will set
-  # other = index_of_values_without_the_separator and return it. This will be
-  # used to inform the 'date_convert()' function that those values need to
-  # handle differently.
-  tmp_date_column <- data[[date_column_name]]
-  tmp_date_column <- as.character(tmp_date_column)
+date_get_format <- function(x) {
+  # special characters, which usually represent the separator between different
+  # parts of a date value, will be replaced by "-" given that the format is hard
+  # to resolve in presence of multiple special characters and only the first
+  # separator in required to resolve the format.
 
-  # return 'NULL' if there are multiple formats in the date column
-  if (!all(grepl(sep[[1L]], tmp_date_column))) {
+  # define the regular expression used to substitute all occurrences of special
+  # characters with '-'
+  separator <- "[[:punct:][:blank:]]+"
+  x <- gsub(separator, "-", x)
+
+  # only guess the format from values containing '-'
+  idx_potential_dates <- grep("-", x, fixed = TRUE)
+  if (length(idx_potential_dates) == 0) {
     return(NULL)
   }
+  x <- x[idx_potential_dates]
 
-  # investigate the format among the date values that contain the separator
-  tmp_list                 <- strsplit(tmp_date_column,
-                                       sep[[1L]],
-                                       fixed = TRUE)
-  idx                      <- which(is.na(tmp_list))
+  # split by "-" to separate the 3 expected components of a date value
+  tmp_list <- strsplit(x, "-", fixed = TRUE)
+
+  # when there is a missing value (NA), repeat NA to get the same length as in
+  # the other elements of the list
+  idx <- which(is.na(tmp_list))
   if (length(idx) > 0L) {
     tmp_list[[idx]]        <- rep(NA, max(lengths(tmp_list)))
   }
-  part1 <- part2 <- part3 <- rep(NA, length(tmp_date_column))
+
+  # split all elements of the vector based on "-" and store the different parts
+  # in separate object.
+  part1 <- part2 <- part3 <- rep(NA, length(x))
   if (any(lengths(tmp_list) >= 1L)) {
-    part1 <- as.character(unlist(lapply(tmp_date_column,
-                                        date_get_part1,
-                                        sep[[1L]])))
+    part1 <- as.character(
+      unlist(lapply(x, date_get_part1, "-"))
+    )
   }
   if (any(lengths(tmp_list) >= 2L)) {
-    part2 <- as.character(unlist(lapply(tmp_date_column,
-                                        date_get_part2,
-                                        sep[[1L]])))
+    part2 <- as.character(
+      unlist(lapply(x, date_get_part2, "-"))
+    )
   }
   if (any(lengths(tmp_list) >= 3L)) {
-    part3 <- as.character(unlist(lapply(tmp_date_column,
-                                        date_get_part3,
-                                        sep[[1L]])))
+    part3 <- as.character(
+      unlist(lapply(x, date_get_part3, "-"))
+    )
   }
 
-  f1       <- ifelse(all(is.na(part1)), NA, date_detect_format(part1))
-  f2       <- ifelse(all(is.na(part2)), NA, date_detect_format(part2))
-  f3       <- ifelse(all(is.na(part3)), NA, date_detect_format(part3))
-  idx      <- which(is.na(c(f1, f2, f3)))
+  # guess the date format from every part of the vector
+  f1 <- if (all(is.na(part1))) NA else date_detect_format(part1)
+  f2 <- if (all(is.na(part2))) NA else date_detect_format(part2)
+  f3 <- if (all(is.na(part3))) NA else date_detect_format(part3)
+  if (is.null(f1) || is.null(f2) || is.null(f3) || is.na(c(f1, f2, f3))) {
+    return(NULL)
+  }
   format   <- NULL
+  idx      <- which(is.na(c(f1, f2, f3)))
   if (length(idx) == 0L) {
-    format <- paste0(format, f1, sep[[1L]], f2, sep[[1L]], f3)
+    format <- paste0(format, f1, "-", f2, "-", f3)
   } else if (idx == 3L) {
-    format <- paste0(format, f1, sep[[1L]], f2)
+    format <- paste0(format, f1, "-", f2)
   } else if (idx == c(2L, 3L)) {
     format <- paste0(format, f1)
   } else {
@@ -477,9 +492,10 @@ date_get_format <- function(data, date_column_name, sep) {
 #' @keywords internal
 #'
 date_make_format <- function(f1, f2, tmp_sep) {
-  if (is.null(f1) && is.null(f2)) {
-    stop("Unrecognised date format.\n",
-         "Please specify the date format using the 'format' argument.")
+  if (all(is.null(c(f1, f2)))) {
+    # stop("Unrecognised date format.\n",
+    #      "Please specify the date format using the 'format' argument.")
+    return(NULL)
   }
 
   return(paste(c(f1, f2), collapse = tmp_sep))
@@ -526,7 +542,8 @@ date_match_format_and_column <- function(target_columns, format) {
          "format.\nProvide one format per target column, otherwise.")
   }
   if (length(target_columns) >= 1L && length(format) == 1L) {
-    warning("Using ", format, " to standardize all columns...", call. = FALSE)
+    warning("Using ", format, " to standardize target columns...",
+            call. = FALSE)
     format <- rep(format, length(target_columns))
   }
   return(format)

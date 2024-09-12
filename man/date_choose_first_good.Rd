@@ -13,7 +13,8 @@ parsing of the same date vector}
 \item{column_name}{The target column name}
 }
 \value{
-The chosen first date value
+The chosen first date value. When there other possible values for a
+given date, this will be registered in the report object.
 }
 \description{
 Choose the first non-missing date from a data frame of dates

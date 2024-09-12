@@ -2,21 +2,17 @@
 % Please edit documentation in R/date_standardization_helpers.R
 \name{date_get_format}
 \alias{date_get_format}
-\title{Detect date format from a date column}
+\title{Infer date format from a vector or characters}
 \usage{
-date_get_format(data, date_column_name, sep)
+date_get_format(x)
 }
 \arguments{
-\item{data}{A  data frame}
-
-\item{date_column_name}{The name of the date columns of interest}
-
-\item{sep}{A separator in the date string}
+\item{x}{The input character vector}
 }
 \value{
-A string with the detected date format
+A string with the inferred date format
 }
 \description{
-Detect date format from a date column
+Infer date format from a vector or characters
 }
 \keyword{internal}
