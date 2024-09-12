@@ -147,28 +147,17 @@ standardize_dates <- function(data,
       }
     } else {
       for (cols in target_columns) {
-        sep <- unique(as.character(unlist(lapply(data[[cols]],
-                                                 date_detect_separator))))
-        # Guess the date format if it is not provided.
-        # This returns NULL if the format is not resolved.
-        if (length(sep) > 0L) {
-          format <- date_get_format(data, cols, sep)
-        }
-
-        # convert to ISO8601 date
-        if (!is.null(format)) {
-          data[[cols]] <- as.Date(data[[cols]], format = format)
-        }
+        # convert to ISO8601 date using the inferred format
         data <- date_convert(data, cols, error_tolerance, timeframe,
                              orders = orders, modern_excel = modern_excel)
       }
     }
   } else {
-    data     <- date_guess_convert(data,
-                                   error_tolerance = error_tolerance,
-                                   timeframe       = timeframe,
-                                   orders          = orders,
-                                   modern_excel    = modern_excel)
+    data <- date_guess_convert(data,
+                               error_tolerance = error_tolerance,
+                               timeframe       = timeframe,
+                               orders          = orders,
+                               modern_excel    = modern_excel)
   }
 
   return(data)
