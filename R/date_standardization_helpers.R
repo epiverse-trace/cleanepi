@@ -266,7 +266,7 @@ date_detect_complex_format <- function(x) {
   if (all(is.null(c(f1, f2)))) {
     return(NULL)
   }
-  format <- paste(c(f1, f2), collapse = tmp_sep) #date_make_format(f1, f2, tmp_sep)
+  format <- paste(c(f1, f2), collapse = tmp_sep)
   return(format)
 }
 
@@ -459,6 +459,25 @@ date_get_format <- function(x) {
   f1 <- if (all(is.na(part1))) NA else date_detect_format(part1)
   f2 <- if (all(is.na(part2))) NA else date_detect_format(part2)
   f3 <- if (all(is.na(part3))) NA else date_detect_format(part3)
+  format <- date_make_format(f1, f2, f3)
+  return(format)
+}
+
+#' Build the auto-detected format
+#'
+#' Put together the different date format characters that were identified from
+#' the target date column.
+#'
+#' @param f1 The first part of the inferred format
+#' @param f2 The second part of the inferred format
+#' @param f3 The third part of the inferred format
+#'
+#' @return A character string that represent the inferred format from the date
+#'    values. It returns NULL when the format was not resolved.
+#'
+#' @keywords internal
+#'
+date_make_format <- function(f1, f2, f3) {
   if (is.null(f1) || is.null(f2) || is.null(f3) || is.na(c(f1, f2, f3))) {
     return(NULL)
   }
@@ -473,32 +492,6 @@ date_get_format <- function(x) {
   } else {
     return(NULL)
   }
-  return(format)
-}
-
-#' Build the auto-detected format
-#'
-#' Put together the different date format characters that were identified in
-#' the target date column.
-#'
-#' @param f1 The first part of the date values
-#' @param f2 The second part of the date values
-#' @param tmp_sep The character string that separate the first and second parts
-#'    of the date values.
-#'
-#' @return A character string that represent the inferred format of the date
-#'    values.
-#'
-#' @keywords internal
-#'
-date_make_format <- function(f1, f2, tmp_sep) {
-  if (all(is.null(c(f1, f2)))) {
-    # stop("Unrecognised date format.\n",
-    #      "Please specify the date format using the 'format' argument.")
-    return(NULL)
-  }
-
-  return(paste(c(f1, f2), collapse = tmp_sep))
 }
 
 
