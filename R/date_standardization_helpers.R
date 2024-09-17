@@ -386,7 +386,7 @@ date_detect_simple_format <- function(x) {
     f1 <- "%Y" # year with century i.e 4 digits year
   } else if (any(nchar(x) == 4L) && any(nchar(x) == 2L)) {
     stop("Detected different lengths in first digits of date column.\n",
-         "Please use same number of digits or specify the date format with",
+         "Please use same number of digits or specify the date format with \n",
          "the 'format' argument.")
   } else if (all(nchar(x) == 2L)) {
     tmp <- as.numeric(x)
