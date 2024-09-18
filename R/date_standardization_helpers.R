@@ -380,6 +380,9 @@ date_detect_day_or_month <- function(x) {
 #' @keywords internal
 #'
 date_detect_simple_format <- function(x) {
+  if (all(is.na(suppressWarnings(as.numeric(x))))) {
+    return(NULL)
+  }
   f1 <- NULL
   if (is.null(x)) f1 <- NULL
   if (all(nchar(x) == 4L)) {
@@ -424,17 +427,16 @@ date_get_format <- function(x) {
   if (length(idx_potential_dates) == 0) {
     return(NULL)
   }
-  x <- x[idx_potential_dates]
+  x <- unique(x[idx_potential_dates])
 
   # split by "-" to separate the 3 expected components of a date value
   tmp_list <- strsplit(x, "-", fixed = TRUE)
 
-  # when there is a missing value (NA), repeat NA to get the same length as in
-  # the other elements of the list
-  idx <- which(is.na(tmp_list))
-  if (length(idx) > 0L) {
-    tmp_list[[idx]]        <- rep(NA, max(lengths(tmp_list)))
-  }
+  # when there is a missing value (NA) or a shorter element, repeat NA to get
+  # the same length as in the other elements of the list
+  lengths <- as.numeric(lapply(tmp_list, length))
+  add_na <- function(y, n) return(c(y, rep(NA, n - length(y))))
+  tmp_list <- lapply(tmp_list, add_na, max(lengths))
 
   # split all elements of the vector based on "-" and store the different parts
   # in separate object.
@@ -478,7 +480,9 @@ date_get_format <- function(x) {
 #' @keywords internal
 #'
 date_make_format <- function(f1, f2, f3) {
-  if (is.null(f1) || is.null(f2) || is.null(f3) || is.na(c(f1, f2, f3))) {
+  verdict <- is.null(f1) | is.null(f2) | is.null(f3) |
+    length(is.na(c(f1, f2, f3)) >= 2L)
+  if (verdict) {
     return(NULL)
   }
   format   <- NULL
@@ -487,8 +491,6 @@ date_make_format <- function(f1, f2, f3) {
     format <- paste0(format, f1, "-", f2, "-", f3)
   } else if (idx == 3L) {
     format <- paste0(format, f1, "-", f2)
-  } else if (idx == c(2L, 3L)) {
-    format <- paste0(format, f1)
   } else {
     return(NULL)
   }
