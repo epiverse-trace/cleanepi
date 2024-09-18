@@ -95,6 +95,20 @@ date_guess <- function(x,
     return(x)
   }
 
+  # lubridate will replace links with dates founds within them. We are
+  # preventing from this scenario by looking for links in the column and replace
+  # them with NA before the guessing starts.
+  replace_links <- function(y) {
+    regex <- "^(https?://)?(www\\.)?([a-z0-9]([a-z0-9]|(\\-[a-z0-9]))*\\.)+[a-z]+$" # nolint: line_length_linter
+    domain <- strsplit(gsub("^(https?://)?(www\\.)?", "", y),
+                       "/", fixed = TRUE)[[c(1L, 1L)]]
+    if (grepl(regex, domain)) {
+      y <- NA
+    }
+    return(y)
+  }
+  x <- as.character(lapply(x, replace_links))
+
   # TODO: add message about how many values have been guessed
   # add message about the presence of incomplete dates
   #
