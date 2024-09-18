@@ -96,8 +96,8 @@ date_guess <- function(x,
   }
 
   # lubridate will replace links with dates founds within them. We are
-  # preventing from this scenario by looking for links in the column and replace
-  # them with NA before the guessing starts.
+  # preventing from this scenario in columns that contain link by replacing the
+  # link with NA before the guessing starts.
   replace_links <- function(y) {
     regex <- "^(https?://)?(www\\.)?([a-z0-9]([a-z0-9]|(\\-[a-z0-9]))*\\.)+[a-z]+$" # nolint: line_length_linter
     domain <- strsplit(gsub("^(https?://)?(www\\.)?", "", y),

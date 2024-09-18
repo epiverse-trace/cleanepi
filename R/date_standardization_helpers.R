@@ -422,24 +422,38 @@ date_get_format <- function(x) {
   separator <- "[[:punct:][:blank:]]+"
   x <- gsub(separator, "-", x)
 
-  # only guess the format from values containing '-'
+  # only retain values containing '-'.
   idx_potential_dates <- grep("-", x, fixed = TRUE)
   if (length(idx_potential_dates) == 0) {
     return(NULL)
   }
   x <- unique(x[idx_potential_dates])
 
-  # split by "-" to separate the 3 expected components of a date value
+  # split by "-" to separate the values into pieces from which a date format
+  # could be determined. Every piece will be subjected to the guesser that
+  # was built and described below:
   tmp_list <- strsplit(x, "-", fixed = TRUE)
 
-  # when there is a missing value (NA) or a shorter element, repeat NA to get
-  # the same length as in the other elements of the list
+  # when there is a missing value (NA) or a shorter element in the list, repeat
+  # complete it with NA to get the same length across all elements of the list
   lengths <- as.numeric(lapply(tmp_list, length))
   add_na <- function(y, n) return(c(y, rep(NA, n - length(y))))
   tmp_list <- lapply(tmp_list, add_na, max(lengths))
 
-  # split all elements of the vector based on "-" and store the different parts
-  # in separate object.
+  # split all elements of the list based on "-" and store the different parts
+  # in separate object. Each part is subjected to the date guesser:
+  # 1. For numeric dates, it will check whether none of the values is > 12. If
+  # some are > 12, then that part of the split corresponds to the days in the
+  # date value. Otherwise, it is considered to correspond to the months in the
+  # date value. When the values are four digit numbers, then it will consider
+  # them as the year part of the date value.
+  # 2. Similarly, the remaining 2 parts are all subjected to the guesser to
+  # determine the 3 usual components of a date value.
+  # 3. Character values in all the three parts will be checked against the full
+  # and abbreviated month names to detect the corresponding month from the date
+  # value.
+  # 4. When there is some ambiguities or the guesser is not able to resolve the
+  # format, it returns NA for that corresponding part.
   part1 <- part2 <- part3 <- rep(NA, length(x))
   if (any(lengths(tmp_list) >= 1L)) {
     part1 <- as.character(
@@ -481,7 +495,7 @@ date_get_format <- function(x) {
 #'
 date_make_format <- function(f1, f2, f3) {
   verdict <- is.null(f1) | is.null(f2) | is.null(f3) |
-    length(is.na(c(f1, f2, f3)) >= 2L)
+    length(is.na(c(f1, f2, f3))) >= 2L
   if (verdict) {
     return(NULL)
   }
