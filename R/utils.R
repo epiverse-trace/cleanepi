@@ -36,7 +36,12 @@ date_get_part2 <- function(x, sep) {
   if (is.na(x)) {
     return(NA)
   }
-  return(unlist(strsplit(x, sep, fixed = TRUE))[[2L]])
+  xx <- unlist(strsplit(x, sep, fixed = TRUE))
+  if (length(xx) > 1L) {
+    return(xx[[2L]])
+  } else {
+    return(NA)
+  }
 }
 
 #' Get part3 of date value
@@ -52,7 +57,12 @@ date_get_part3 <- function(x, sep) {
   if (is.na(x)) {
     return(NA)
   }
-  return(unlist(strsplit(x, sep, fixed = TRUE))[[3L]])
+  xx <- unlist(strsplit(x, sep, fixed = TRUE))
+  if (length(xx) > 2L) {
+    return(xx[[3L]])
+  } else {
+    return(NA)
+  }
 }
 
 #' Get sum of numbers from a string

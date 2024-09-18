@@ -95,6 +95,10 @@ date_guess <- function(x,
     return(x)
   }
 
+  # TODO: add message about how many values have been guessed
+  # add message about the presence of incomplete dates
+  #
+
   # guess dates
   # create output data frame for dates
   res        <- list(rep(as.Date(NA_character_), length(x)))
