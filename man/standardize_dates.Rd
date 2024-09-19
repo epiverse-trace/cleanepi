@@ -10,8 +10,7 @@ standardize_dates(
   format = NULL,
   timeframe = NULL,
   error_tolerance = 0.5,
-  orders = list(world_named_months = c("Ybd", "dby"), world_digit_months = c("dmy",
-    "Ymd"), US_formats = c("Omdy", "YOmd")),
+  orders = NULL,
   modern_excel = TRUE
 )
 }
@@ -20,10 +19,11 @@ standardize_dates(
 
 \item{target_columns}{A vector of the target date column names. When the
 input data is a \code{linelist} object, this parameter can be set to
-\code{linelist_tags} if you wish to standardize the date columns across tagged
-columns only.}
+\code{linelist_tags} if you wish to standardize the date columns across
+tagged columns only. Default is \code{NULL}.}
 
-\item{format}{A format of the date values in the date columns}
+\item{format}{A vector of the expected formats in the date values from the
+date columns. Default is \code{NULL}.}
 
 \item{timeframe}{A vector of 2 values of type date. If provided, date values
 that do not fall within this timeframe will be set to \code{NA}.}
@@ -33,20 +33,25 @@ entries which cannot be identified as dates to be tolerated; if this
 proportion is exceeded, the original vector is returned, and a message is
 issued; defaults to 0.4 (40 percent).}
 
-\item{orders}{The date codes for fine-grained parsing of dates. This allows
-for parsing of mixed dates. If a list is supplied, that list will be used
-for successive tries in parsing. Default orders are:
+\item{orders}{A list or character vector with the date codes for fine-grained
+parsing of dates. This allows for parsing of mixed dates. If a list is
+supplied, that list will be used for successive tries in parsing. When
+this is not provided (\code{orders = NULL}), the function will use the
+following order defined in the guesser:
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{list(
-  world_named_months = c("Ybd", "dby"),
-  world_digit_months = c("dmy", "Ymd"),
-  US_formats         = c("Omdy", "YOmd")
+  quarter_partial_dates = c("Y", "Ym", "Yq"),
+  world_digit_months = c("Yq", "ymd", "ydm", "dmy", "mdy", "myd", "dym",
+                         "Ymd", "Ydm", "dmY", "mdY", "mYd", "dYm"),
+  world_named_months = c("dby", "dyb", "bdy", "byd", "ybd", "ydb",
+                         "dbY", "dYb", "bdY", "bYd", "Ybd", "Ydb"),
+  us_format = c("Omdy", "YOmd")
 )
 }\if{html}{\out{</div>}}}
 
-\item{modern_excel}{When parsing dates from excel, some dates are stored as
-integers. Modern versions of Excel represent dates as the number of days
-since 1900-01-01, but pre-2011 Excel for OSX have the origin set at
+\item{modern_excel}{When the data is imported from excel, some dates are
+stored as integers. Modern versions of Excel represent dates as the number
+of days since 1900-01-01, but pre-2011 Excel for OSX have the origin set at
 1904-01-01. If this parameter is \code{TRUE} (default), then this assumes that
 all numeric values represent dates from either a Windows version of Excel
 or a 2011 or later version of Excel for OSX. Set this parameter to \code{FALSE}
@@ -62,9 +67,12 @@ also be featured in the report object.
 When the format of the values in a column and/or the target columns are not
 defined, we strongly recommend checking a few converted dates manually to
 make sure that the dates extracted from a \code{character} vector or a \code{factor}
-are correct.
+are correct.\cr
 }
 \details{
+Also check the presence of date values that could have multiple formats
+from the \code{$multi_format_dates} element of the \code{report}.\cr
+
 Converting ambiguous character strings to dates is difficult for
 many reasons:
 \itemize{
