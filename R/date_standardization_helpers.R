@@ -105,8 +105,8 @@ date_convert <- function(data, cols, error_tolerance,
     )
     new_dates <- date_guess_res[["res"]]
     multi_format_dates <- date_guess_res[["multi_format"]]
-    # report the multi formatted dates
-    if (nrow(multi_format_dates)) {
+    # report the multi formatted dates if they were detected
+    if (nrow(multi_format_dates) > 0L) {
       data <- add_to_report(
         x = data,
         key = "multi_format_dates",

@@ -3,34 +3,43 @@
 #' When the format of the values in a column and/or the target columns are not
 #' defined, we strongly recommend checking a few converted dates manually to
 #' make sure that the dates extracted from a `character` vector or a `factor`
-#' are correct.
+#' are correct.\cr
+#'
+#' Also check the presence of date values that could have multiple formats
+#' from the \code{$multi_format_dates} element of the \code{report}.\cr
 #'
 #' @param data A data frame or linelist
 #' @param target_columns A vector of the target date column names. When the
-#'    input data is a `linelist` object, this parameter can be set to
-#'    `linelist_tags` if you wish to standardize the date columns across tagged
-#'    columns only.
-#' @param format A format of the date values in the date columns
+#'    input data is a \code{linelist} object, this parameter can be set to
+#'    \code{linelist_tags} if you wish to standardize the date columns across
+#'    tagged columns only. Default is \code{NULL}.
+#' @param format A vector of the expected formats in the date values from the
+#'    date columns. Default is \code{NULL}.
 #' @param timeframe A vector of 2 values of type date. If provided, date values
 #'    that do not fall within this timeframe will be set to `NA`.
 #' @param error_tolerance A number between 0 and 1 indicating the proportion of
 #'    entries which cannot be identified as dates to be tolerated; if this
 #'    proportion is exceeded, the original vector is returned, and a message is
 #'    issued; defaults to 0.4 (40 percent).
-#' @param orders The date codes for fine-grained parsing of dates. This allows
-#'    for parsing of mixed dates. If a list is supplied, that list will be used
-#'    for successive tries in parsing. Default orders are:
+#' @param orders A list or character vector with the date codes for fine-grained
+#'    parsing of dates. This allows for parsing of mixed dates. If a list is
+#'    supplied, that list will be used for successive tries in parsing. When
+#'    this is not provided (\code{orders = NULL}), the function will use the
+#'    following order defined in the guesser:
 #'
 #' ```
 #' list(
-#'   world_named_months = c("Ybd", "dby"),
-#'   world_digit_months = c("dmy", "Ymd"),
-#'   US_formats         = c("Omdy", "YOmd")
+#'   quarter_partial_dates = c("Y", "Ym", "Yq"),
+#'   world_digit_months = c("Yq", "ymd", "ydm", "dmy", "mdy", "myd", "dym",
+#'                          "Ymd", "Ydm", "dmY", "mdY", "mYd", "dYm"),
+#'   world_named_months = c("dby", "dyb", "bdy", "byd", "ybd", "ydb",
+#'                          "dbY", "dYb", "bdY", "bYd", "Ybd", "Ydb"),
+#'   us_format = c("Omdy", "YOmd")
 #' )
 #' ```
-#' @param modern_excel When parsing dates from excel, some dates are stored as
-#'    integers. Modern versions of Excel represent dates as the number of days
-#'    since 1900-01-01, but pre-2011 Excel for OSX have the origin set at
+#' @param modern_excel When the data is imported from excel, some dates are
+#'    stored as integers. Modern versions of Excel represent dates as the number
+#'    of days since 1900-01-01, but pre-2011 Excel for OSX have the origin set at
 #'    1904-01-01. If this parameter is `TRUE` (default), then this assumes that
 #'    all numeric values represent dates from either a Windows version of Excel
 #'    or a 2011 or later version of Excel for OSX. Set this parameter to `FALSE`
@@ -106,11 +115,7 @@ standardize_dates <- function(data,
                               format          = NULL,
                               timeframe       = NULL,
                               error_tolerance = 0.5,
-                              orders          = list(
-                                world_named_months = c("Ybd", "dby"),
-                                world_digit_months = c("dmy", "Ymd"),
-                                US_formats         = c("Omdy", "YOmd")
-                              ),
+                              orders          = NULL,
                               modern_excel    = TRUE) {
 
   checkmate::assert_data_frame(data, null.ok = FALSE, min.cols = 1L)
@@ -122,7 +127,7 @@ standardize_dates <- function(data,
   checkmate::assert_numeric(error_tolerance, lower = 0L, upper = 1L,
                             max.len = 2L,
                             any.missing = FALSE, null.ok = TRUE)
-  checkmate::assert_list(orders, min.len = 1L, null.ok = FALSE)
+  checkmate::assert_list(orders, min.len = 1L, null.ok = TRUE)
   checkmate::assert_logical(modern_excel, len = 1L, null.ok = FALSE,
                             any.missing = FALSE)
 

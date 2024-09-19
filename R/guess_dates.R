@@ -30,11 +30,7 @@ date_guess <- function(x,
                        column_name,
                        quiet           = TRUE,
                        modern_excel    = TRUE,
-                       orders          = list(
-                         world_named_months = c("Ybd", "dby"),
-                         world_digit_months = c("dmy", "Ymd"),
-                         US_formats         = c("Omdy", "YOmd")
-                        )) {
+                       orders          = NULL) {
 
   ## This function tries converting a single character string into a
   ## well-formatted date, but still returning a character. If it can't convert
@@ -49,12 +45,15 @@ date_guess <- function(x,
   ## To prevent this, `guess_dates()` takes a list of possible date formats and
   ## parses the entire vector of `x` using each element separately.
   ##
-  ## There are three default formats:
+  ## We defined four default formats:
   ##
-  ## $world_named_months
+  ## $quarter_partial_dates (for quarter and partial date values)
+  ## [1] "Y" "Ym" "Yq"
+  ##
+  ## $world_named_months (and other formats derived from them)
   ## [1] "Ybd" "dby"
   ##
-  ## $world_digit_months
+  ## $world_digit_months (and other formats derived from them)
   ## [1] "dmy" "Ymd"
   ##
   ## $US_formats
@@ -70,7 +69,8 @@ date_guess <- function(x,
   # report object.
   if (is.null(orders)) {
     orders <- list(
-      world_digit_months = c("ymd", "ydm", "dmy", "mdy", "myd", "dym",
+      quarter_partial_dates = c("Y", "Ym", "Yq"),
+      world_digit_months = c("Yq", "ymd", "ydm", "dmy", "mdy", "myd", "dym",
                              "Ymd", "Ydm", "dmY", "mdY", "mYd", "dYm"),
       world_named_months = c("dby", "dyb", "bdy", "byd", "ybd", "ydb",
                              "dbY", "dYb", "bdY", "bYd", "Ybd", "Ydb"),
@@ -84,12 +84,12 @@ date_guess <- function(x,
   }
 
   if (!is.list(orders)) {
-    stop("orders must be a list of character vectors")
+    stop("`order` must be either a character or a list of character vectors.")
   }
 
   # Process dates - here we check whether values in the vector are any of the
   # following types: "Date", "POSIXt", "aweek".
-  # If the input is a date already: no guessing needed!
+  # If the input is already a date: no guessing needed!
   if (inherits(x, c("Date", "POSIXt", "aweek"))) {
     x <- as.Date(x)
     return(x)
@@ -137,10 +137,15 @@ date_guess <- function(x,
     mxl = modern_excel
   )
 
-  # select the correct dates and test if we were successful
+  # select the first correct date generated from the formats listed in the
+  # 'orders' argument. If multiple formats are possible, pick the first one and
+  # report the remaining as part of the 'multi_format_dates' element of the
+  # report object.
   new_x <- date_choose_first_good(x_rescued, column_name = column_name)
   return(new_x)
 }
+
+
 
 #' Find the dates that lubridate couldn't
 #'
