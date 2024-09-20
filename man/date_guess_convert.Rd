@@ -35,11 +35,12 @@ following order defined in the guesser:
 
 \item{modern_excel}{When the data is imported from excel, some dates are
 stored as integers. Modern versions of Excel represent dates as the number
-of days since 1900-01-01, but pre-2011 Excel for OSX have the origin set at
-1904-01-01. If this parameter is \code{TRUE} (default), then this assumes that
-all numeric values represent dates from either a Windows version of Excel
-or a 2011 or later version of Excel for OSX. Set this parameter to \code{FALSE}
-if the data came from an OSX version of Excel before 2011.}
+of days since 1900-01-01, but pre-2011 Excel for OSX have the origin set
+at 1904-01-01. If this parameter is \code{TRUE} (default), then this
+assumes that all numeric values represent dates from either a Windows
+version of Excel or a 2011 or later version of Excel for OSX. Set this
+parameter to \code{FALSE} if the data came from an OSX version of Excel
+before 2011.}
 }
 \value{
 The input data frame where the character columns with date values
