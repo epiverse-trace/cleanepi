@@ -5,7 +5,7 @@
 #' make sure that the dates extracted from a `character` vector or a `factor`
 #' are correct.\cr
 #'
-#' Also check the presence of date values that could have multiple formats
+#' Check for the presence of date values that could have multiple formats
 #' from the \code{$multi_format_dates} element of the \code{report}.\cr
 #'
 #' @param data A data frame or linelist
@@ -39,11 +39,12 @@
 #' ```
 #' @param modern_excel When the data is imported from excel, some dates are
 #'    stored as integers. Modern versions of Excel represent dates as the number
-#'    of days since 1900-01-01, but pre-2011 Excel for OSX have the origin set at
-#'    1904-01-01. If this parameter is `TRUE` (default), then this assumes that
-#'    all numeric values represent dates from either a Windows version of Excel
-#'    or a 2011 or later version of Excel for OSX. Set this parameter to `FALSE`
-#'    if the data came from an OSX version of Excel before 2011.
+#'    of days since 1900-01-01, but pre-2011 Excel for OSX have the origin set
+#'    at 1904-01-01. If this parameter is \code{TRUE} (default), then this
+#'    assumes that all numeric values represent dates from either a Windows
+#'    version of Excel or a 2011 or later version of Excel for OSX. Set this
+#'    parameter to \code{FALSE} if the data came from an OSX version of Excel
+#'    before 2011.
 #'
 #' @returns The input dataset where the date columns have been standardized. The
 #'    date values that are out of the specified timeframe will be reported in
