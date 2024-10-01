@@ -10,9 +10,6 @@
 #' (i.e. entries without an identified date) that can be tolerated. If this
 #' threshold is exceeded, the original vector is returned.
 #'
-#'
-#' @author Thibaut Jombart, Zhian N. Kamvar
-#'
 #' @param x A `character` vector or a `factor`
 #' @param quiet A logical indicating if messages should be displayed to the
 #'     console (`TRUE`, default); set to `FALSE` to silence messages
@@ -112,10 +109,6 @@ date_guess <- function(x,
   are_links <- unlist(lapply(x, detect_links))
   are_odd_cases <- are_non_ascii | are_links
   x[are_odd_cases] <- NA
-
-  # TODO: add message about how many values have been guessed
-  # add message about the presence of incomplete dates
-  #
 
   # guess dates
   # create output data frame for dates
