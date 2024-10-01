@@ -95,19 +95,23 @@ date_guess <- function(x,
     return(x)
   }
 
-  # lubridate will replace links with dates founds within them. We are
-  # preventing from this scenario in columns that contain link by replacing the
-  # link with NA before the guessing starts.
-  replace_links <- function(y) {
+  # In this section, we are preventing from the following odd case scenarios:
+  # 1. lubridate replacement of links by the dates founds within them
+  # 2. guessing date from non-ASCII character values
+  # 3. other future odd scenarios
+  # links and non-ASCII characters will be replaced by NA before the guessing
+  # starts.
+  detect_links <- function(y) {
     regex <- "^(https?://)?(www\\.)?([a-z0-9]([a-z0-9]|(\\-[a-z0-9]))*\\.)+[a-z]+$" # nolint: line_length_linter
     domain <- strsplit(gsub("^(https?://)?(www\\.)?", "", y),
                        "/", fixed = TRUE)[[c(1L, 1L)]]
-    if (grepl(regex, domain)) {
-      y <- NA
-    }
-    return(y)
+    grepl(regex, domain)
   }
-  x <- as.character(lapply(x, replace_links))
+
+  are_non_ascii <- grepl("[^ -~]", x)
+  are_links <- unlist(lapply(x, detect_links))
+  are_odd_cases <- are_non_ascii | are_links
+  x[are_odd_cases] <- NA
 
   # TODO: add message about how many values have been guessed
   # add message about the presence of incomplete dates
