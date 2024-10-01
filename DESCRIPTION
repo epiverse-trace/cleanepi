@@ -4,8 +4,8 @@ Version: 1.0.2.9000
 Authors@R: c(
     person("Karim", "Mané", , "karim.mane@lshtm.ac.uk", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-9892-2999")),
-    person("Thibaut", "Jombart", , "thibautjombart@gmail.com", role = "cph",
-           comment = c("Thibault is the owner of the code in guess_dates.R file.")),
+    person("Thibaut", "Jombart", , "thibautjombart@gmail.com", role = "ctb",
+           comment = c("Thibault contributed in development of date_gess().")),
     person("Abdoelnaser", "Degoot", , "abdoelnaser-mahmood.degoot@lshtm.ac.uk", role = "aut", 
           comment = c(ORCID = "0000-0001-8788-2496")),
     person("Bankolé", "Ahadzie", , "Bankole.Ahadzie@lshtm.ac.uk", role = "aut"),

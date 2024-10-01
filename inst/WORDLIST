@@ -24,7 +24,6 @@ knitr
 lang
 lifecycle
 linelist
-linters
 lintr
 lubridate
 magrittr
