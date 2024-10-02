@@ -144,12 +144,19 @@ standardize_dates <- function(data,
       # the entire column, not individual values.
       format <- date_match_format_and_column(target_columns, format)
       for (i in seq_along(target_columns)) {
-        data[[target_columns[i]]] <- as.Date(data[[target_columns[i]]],
-                                             format = format[i])
+        data[[target_columns[i]]] <- as.Date(
+          data[[target_columns[i]]],
+          format = format[i]
+        )
         # check for outliers and set them to NA
-        data <- date_convert(data, target_columns[i], error_tolerance,
-                             timeframe = timeframe, orders = orders,
-                             modern_excel = modern_excel)
+        data <- date_convert(
+          data,
+          cols = target_columns[i],
+          error_tolerance,
+          timeframe = timeframe,
+          orders = orders,
+          modern_excel = modern_excel
+        )
       }
     } else {
       for (cols in target_columns) {
@@ -159,11 +166,13 @@ standardize_dates <- function(data,
       }
     }
   } else {
-    data <- date_guess_convert(data,
-                               error_tolerance = error_tolerance,
-                               timeframe       = timeframe,
-                               orders          = orders,
-                               modern_excel    = modern_excel)
+    data <- date_guess_convert(
+      data,
+      error_tolerance = error_tolerance,
+      timeframe = timeframe,
+      orders = orders,
+      modern_excel = modern_excel
+    )
   }
 
   return(data)

@@ -720,7 +720,8 @@ data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi")) %>%
   replace_missing_values(target_columns = "dateOfBirth",
                          na_strings     = "-99") %>%
   standardize_dates(target_columns  = "dateOfBirth",
-                    error_tolerance = 0.0)
+                    error_tolerance = 0.0,
+                    format = "%m/%d/%Y")
 
 # CALCULATE INDIVIDUAL AGE IN YEARS FROM THE 'dateOfBirth' COLUMN AND SEND THE
 # REMAINDER IN MONTHS
@@ -735,18 +736,22 @@ age <- timespan(
 
 # CALCULATE THE TIME SPAN IN YEARS BETWEEN INDIVIDUALS 'dateOfBirth' AND THE DAY
 # THEY TESTED POSITIVE
-data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi")) %>%
-  replace_missing_values(target_columns = "dateOfBirth",
-                         na_strings     = "-99") %>%
+data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi"))
+data <- data %>%
+  replace_missing_values(
+    target_columns = "dateOfBirth",
+    na_strings = "-99"
+  ) %>%
   standardize_dates(
-    target_columns  = c("dateOfBirth", "date_first_pcr_positive_test"),
-    error_tolerance = 0.0
+    target_columns = c("date_first_pcr_positive_test", "date.of.admission"),
+    error_tolerance = 0.0,
+    format = NULL
   ) %>%
   timespan(
-    target_column       = "dateOfBirth",
-    end_date            = "date_first_pcr_positive_test",
-    span_unit           = "years",
-    span_column_name    = "elapsed_time",
+    target_column = "date.of.admission",
+    end_date = "date_first_pcr_positive_test",
+    span_unit = "years",
+    span_column_name = "elapsed_time",
     span_remainder_unit = NULL
   )
 ```

@@ -95,10 +95,10 @@ date_convert <- function(data, cols, error_tolerance,
                          timeframe = NULL, orders, modern_excel) {
   # Guess the date using lubridate (for actual dates and numbers) and the
   # guesser we developed
-  new_dates <- data[[cols]]
+  old_dates <- new_dates <- data[[cols]]
   if (!inherits(data[[cols]], "Date")) {
     date_guess_res <- date_guess(
-      new_dates,
+      old_dates,
       orders = orders,
       modern_excel = modern_excel,
       column_name = cols
@@ -106,7 +106,7 @@ date_convert <- function(data, cols, error_tolerance,
     new_dates <- date_guess_res[["res"]]
     multi_format_dates <- date_guess_res[["multi_format"]]
     # report the multi formatted dates if they were detected
-    if (nrow(multi_format_dates) > 0L) {
+    if (!is.null(multi_format_dates)) {
       data <- add_to_report(
         x = data,
         key = "multi_format_dates",
@@ -117,21 +117,26 @@ date_convert <- function(data, cols, error_tolerance,
 
   # Trim outliers i.e. date values that are out of the range of the provided
   # timeframe
-  outsiders        <- NULL
   if (!is.null(timeframe)) {
-    res            <- date_convert_and_update(data, timeframe, new_dates, cols,
-                                              error_tolerance)
-    data           <- res[["data"]]
-    outsiders      <- res[["outsiders"]]
-  } else {
-    data[[cols]]   <- new_dates
+    res <- date_check_outsiders(data, timeframe, new_dates, cols)
+    new_dates <- res[["new_date"]]
+    outsiders <- res[["outsiders"]]
+    # report the out of range dates
+    if (!is.null(outsiders)) {
+      data <- add_to_report(
+        x = data,
+        key = "out_of_range_dates",
+        value = outsiders
+      )
+    }
   }
 
-  # report the out of range dates
-  if (!is.null(outsiders)) {
-    data         <- add_to_report(x     = data,
-                                  key   = "out_of_range_dates",
-                                  value = outsiders)
+  # Check whether to tolerate the amount of NA introduced during the process
+  na_before <- sum(is.na(old_dates))
+  na_after <- sum(is.na(new_dates))
+  prop_successful <- (nrow(data) - na_after) / (nrow(data) - na_before)
+  if (prop_successful >= (1L - error_tolerance)) {
+    data[[cols]] <- new_dates
   }
 
   return(data)
@@ -149,31 +154,28 @@ date_convert <- function(data, cols, error_tolerance,
 #'    within the specified timeframe.
 #' @keywords internal
 #'
-date_convert_and_update <- function(data, timeframe, new_dates, cols,
-                                    error_tolerance = 0.5) {
+date_check_outsiders <- function(data, timeframe, new_dates, cols) {
   timeframe <- date_check_timeframe(timeframe[[1L]], timeframe[[2L]])
+  if (!inherits(new_dates, "Date")) {
+    return(list(
+      new_date = new_dates,
+      outsiders = NULL
+    ))
+  }
   new_dates <- date_trim_outliers(new_dates,
                                   timeframe[[1L]], timeframe[[2L]],
                                   cols, data[[cols]])
-  na_before       <- sum(is.na(data[[cols]]))
-  na_after        <- sum(is.na(new_dates[["new_dates"]]))
-  prop_successful <- (nrow(data) - na_after) / (nrow(data) - na_before)
 
-  # shape result depending on whether conversion was successful
-  if (prop_successful > (1L - error_tolerance)) {
-    data[[cols]]   <- new_dates[["new_dates"]]
-  }
-
-  outsiders   <- new_dates[["outsiders"]]
+  outsiders <- new_dates[["outsiders"]]
   if (all(is.na(new_dates[["new_dates"]]))) {
     outsiders <- NULL
   }
-  report      <- attr(data, "report")
+  report <- attr(data, "report")
   if ("out_of_range_dates" %in% names(report)) {
     outsiders <- rbind(report[["out_of_range_dates"]], outsiders)
   }
 
-  return(list(data = data, outsiders = outsiders))
+  return(list(new_date = new_dates[["new_dates"]], outsiders = outsiders))
 }
 
 #' Guess if a character vector contains Date values, and convert them to date
@@ -187,45 +189,60 @@ date_convert_and_update <- function(data, timeframe, new_dates, cols,
 #'
 date_guess_convert <- function(data, error_tolerance, timeframe,
                                orders, modern_excel) {
-  # guess and convert for column of type character, factor and POSIX
+  # detect columns of type character, factor, POSIXt and Date
   are_posix <- which(vapply(data, inherits, logical(1), "POSIXt"))
   are_characters <- which(vapply(data, inherits, logical(1), "character"))
   are_factors <- which(vapply(data, inherits, logical(1), "factor"))
   are_dates <- which(vapply(data, inherits, logical(1), "Date"))
 
-  # convert POSIX to date
+  # POSIXt columns are directly converted into Date
   for (i in are_posix) {
     data[[i]] <- as.Date(data[[i]])
   }
 
-  # convert characters and factors to date when applicable
+  # Both 4 types are subjected to the date guesser
   of_interest <- c(are_characters, are_factors, are_dates, are_posix)
   multi_format_dates <- NULL
   for (i in names(of_interest)) {
-    date_guess_res    <- date_guess(data[[i]], orders = orders,
-                                    modern_excel = modern_excel,
-                                    column_name = i)
-    new_dates         <- date_guess_res[["res"]]
-    multi_format      <- date_guess_res[["multi_format"]]
+    # save the original vector. this will be used later to compare the number
+    # of NA before and after guessing
+    old_dates <- data[[i]]
+
+    # perform date guessing
+    date_guess_res <- date_guess(
+      old_dates,
+      orders = orders,
+      modern_excel = modern_excel,
+      column_name = i
+    )
+    new_dates <- date_guess_res[["res"]]
+    multi_format <- date_guess_res[["multi_format"]]
     multi_format_dates <- c(multi_format_dates, list(multi_format))
 
-    if (!all(is.na(new_dates)) && is.null(timeframe)) {
-      data[[i]]       <- new_dates
-    }
+    # check for dates that are outside of the defined timeframe
     if (!is.null(timeframe)) {
-      res             <- date_convert_and_update(data, timeframe, new_dates, i,
-                                                 error_tolerance)
-      data            <- res[["data"]]
-      data            <- add_to_report(x     = data,
-                                       key   = "out_of_range_dates",
-                                       value = res[["outsiders"]])
+      res <- date_check_outsiders(data, timeframe, new_dates, i)
+      new_dates <- res[["new_date"]]
+      data <- add_to_report(
+        x = data,
+        key = "out_of_range_dates",
+        value = res[["outsiders"]]
+      )
+    }
+
+    # Check whether to tolerate the amount of NA introduced during the process
+    na_before <- sum(is.na(old_dates))
+    na_after <- sum(is.na(new_dates))
+    prop_successful <- (nrow(data) - na_after) / (nrow(data) - na_before)
+    if (prop_successful >= (1L - error_tolerance)) {
+      data[[i]] <- new_dates
     }
   }
-  multi_format_dates <- dplyr::bind_rows(multi_format_dates)
 
   # report the multi formatted dates
   if (!is.null(multi_format_dates)) {
-    data            <- add_to_report(
+    multi_format_dates <- dplyr::bind_rows(multi_format_dates)
+    data <- add_to_report(
       x     = data,
       key   = "multi_format_dates",
       value = multi_format_dates
@@ -547,7 +564,7 @@ date_process <- function(x) {
 #'
 date_match_format_and_column <- function(target_columns, format) {
   if (length(target_columns) > 2L && length(format) == 2L) {
-    stop("Need to specify one format if all target columns have the same",
+    stop("Need to specify one format if all target columns have the same ",
          "format.\nProvide one format per target column, otherwise.")
   }
   if (length(target_columns) >= 1L && length(format) == 1L) {
