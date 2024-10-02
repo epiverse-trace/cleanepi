@@ -72,7 +72,9 @@ The latest development version of **cleanepi** can be installed from
 [GitHub](https://epiverse-trace.github.io/cleanepi/).
 
 ``` r
-if (!require("pak")) install.packages("pak")
+if (!("pak" %in% rownames(installed.packages()))) {
+  install.packages("pak")
+}
 pak::pak("epiverse-trace/cleanepi")
 library(cleanepi)
 ```
@@ -474,7 +476,7 @@ to_numeric              <- list(target_columns = "sex",
 params <- list(
   standardize_column_names = standardize_col_names,
   remove_constants         = remove_cte,
-  replace_missing_values   = use_na, 
+  replace_missing_values   = use_na,
   remove_duplicates        = remove_duplicates,
   standardize_dates        = standardize_dates,
   standardize_subject_ids  = standardize_subject_ids,
@@ -498,7 +500,7 @@ cleaned_data <- clean_data(
 #> checking subject IDs format
 #> Warning: Detected incorrect subject ids at lines: 3, 5, 7
 #> Use the correct_subject_ids() function to adjust them.
-#> convertingsexeninto numeric
+#> converting sex, en into numeric
 #> performing dictionary-based cleaning
 ```
 
