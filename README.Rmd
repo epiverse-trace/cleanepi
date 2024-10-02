@@ -72,7 +72,9 @@ install.packages("cleanepi")
 The latest development version of **{{ packagename }}** can be installed from  [GitHub](https://epiverse-trace.github.io/cleanepi/).
 
 ```{r message=FALSE}
-if (!require("pak")) install.packages("pak")
+if (!("pak" %in% rownames(installed.packages()))) {
+  install.packages("pak")
+}
 pak::pak("{{ gh_repo }}")
 library(cleanepi)
 ```
