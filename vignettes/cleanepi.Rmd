@@ -721,7 +721,7 @@ data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi")) %>%
                          na_strings     = "-99") %>%
   standardize_dates(target_columns  = "dateOfBirth",
                     error_tolerance = 0.0,
-                    format = "%m/%d/%Y")
+                    format = "%m/%d/%Y") # nolint: nonportable_path_linter.
 
 # CALCULATE INDIVIDUAL AGE IN YEARS FROM THE 'dateOfBirth' COLUMN AND SEND THE
 # REMAINDER IN MONTHS
