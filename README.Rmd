@@ -139,7 +139,7 @@ to_numeric              <- list(target_columns = "sex",
 params <- list(
   standardize_column_names = standardize_col_names,
   remove_constants         = remove_cte,
-  replace_missing_values   = use_na, 
+  replace_missing_values   = use_na,
   remove_duplicates        = remove_duplicates,
   standardize_dates        = standardize_dates,
   standardize_subject_ids  = standardize_subject_ids,
