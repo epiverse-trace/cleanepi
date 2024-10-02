@@ -2,7 +2,6 @@ CMD
 Codecov
 DOI
 Epiverse
-Kamvar
 LSHTM
 Lifecycle
 ORCID
@@ -10,12 +9,12 @@ OSX
 Pratik
 Thibault
 Ymd
-Zhian
 analytics
 bookdown
 dplyr
 epiCleanr
 funder
+gess
 gh
 grp
 interoperates
@@ -43,6 +42,7 @@ rmarkdown
 snakecase
 testthat
 tibbles
+tidyverse
 timeframe
 withr
 ️

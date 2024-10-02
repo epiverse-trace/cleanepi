@@ -56,7 +56,4 @@ error threshold can be used to define the maximum number of resulting \code{NA}
 (i.e. entries without an identified date) that can be tolerated. If this
 threshold is exceeded, the original vector is returned.
 }
-\author{
-Thibaut Jombart, Zhian N. Kamvar
-}
 \keyword{internal}

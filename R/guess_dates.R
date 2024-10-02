@@ -99,15 +99,21 @@ date_guess <- function(x,
   # links and non-ASCII characters will be replaced by NA before the guessing
   # starts.
   detect_links <- function(y) {
+    res <- FALSE
     regex <- "^(https?://)?(www\\.)?([a-z0-9]([a-z0-9]|(\\-[a-z0-9]))*\\.)+[a-z]+$" # nolint: line_length_linter
-    domain <- strsplit(gsub("^(https?://)?(www\\.)?", "", y),
-                       "/", fixed = TRUE)[[c(1L, 1L)]]
-    grepl(regex, domain)
+    if (grepl("https?://|www\\.", y)) {
+      domain <- strsplit(
+        gsub("^(https?://)?(www\\.)?", "", y), "/", fixed = TRUE
+      )[[1]][[1]]
+      res <- grepl(regex, domain)
+    }
+    return(res)
   }
 
   are_non_ascii <- grepl("[^ -~]", x)
   are_links <- unlist(lapply(x, detect_links))
   are_odd_cases <- are_non_ascii | are_links
+  tmp_x <- x
   x[are_odd_cases] <- NA
 
   # guess dates
@@ -126,10 +132,21 @@ date_guess <- function(x,
     )
   }
 
+  # For numeric values, when lubridate fails to parse the date, we will consider
+  # that vector as numeric and no guessing is perform on it.
+  res <- data.frame(res)
+  missingness <- rowSums(is.na(res))
+  if (all(missingness == ncol(res))) {
+    return(list(
+      res = tmp_x,
+      multi_format = NULL
+    ))
+  }
+
   # if lubridate fails to do the job for all or some values, then we should use
   # the parser defined in date_get_format
   x_rescued <- date_rescue_lubridate_failures(
-    date_a_frame = data.frame(res),
+    date_a_frame = res,
     original_dates = x,
     mxl = modern_excel
   )
@@ -245,8 +262,11 @@ date_choose_first_good <- function(date_a_frame, column_name) {
       }
     }
   }
+  if (!is.null(multi_format)) {
+    multi_format <- dplyr::bind_rows(multi_format)
+  }
   return(list(
     res = res,
-    multi_format = dplyr::bind_rows(multi_format)
+    multi_format = multi_format
   ))
 }

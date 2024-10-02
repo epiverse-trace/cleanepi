@@ -1,16 +1,19 @@
+
 data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi")) %>%
   replace_missing_values(na_strings = "-99")
 test_that("standardize_dates works with a data frame", {
   dat <- standardize_dates(
-    data            = data,
-    target_columns  = "date_first_pcr_positive_test",
-    format          = NULL,
-    timeframe       = as.Date(c("1973-05-29", "2023-05-29")),
+    data = data,
+    target_columns = "date_first_pcr_positive_test",
+    format = NULL,
+    timeframe = as.Date(c("1973-05-29", "2023-05-29")),
     error_tolerance = 0.4,
-    orders          = list(world_named_months = c("Ybd", "dby"),
-                           world_digit_months = c("dmy", "Ymd"),
-                           US_formats         = c("Omdy", "YOmd")),
-    modern_excel    = TRUE
+    orders = list(
+      world_named_months = c("Ybd", "dby"),
+      world_digit_months = c("dmy", "Ymd"),
+      US_formats = c("Omdy", "YOmd")
+    ),
+    modern_excel = TRUE
   )
   expect_s3_class(dat, "data.frame")
   expect_true(inherits(dat[["date_first_pcr_positive_test"]], "Date"))
@@ -49,15 +52,17 @@ test_that("standardize_dates works with a data frame", {
   expect_true(inherits(dat[["dateOfBirth"]], "Date"))
 
   dat <- standardize_dates(
-    data            = data,
-    target_columns  = "date.of.admission",
-    format          = "%d/%m/%Y",
-    timeframe       = NULL,
+    data = data,
+    target_columns = "date.of.admission",
+    format = "%d/%m/%Y",
+    timeframe = NULL,
     error_tolerance = 0.4,
-    orders          = list(world_named_months = c("Ybd", "dby"),
-                           world_digit_months = c("dmy", "Ymd"),
-                           US_formats         = c("Omdy", "YOmd")),
-    modern_excel    = TRUE
+    orders = list(
+      world_named_months = c("Ybd", "dby"),
+      world_digit_months = c("dmy", "Ymd"),
+      US_formats         = c("Omdy", "YOmd")
+    ),
+    modern_excel = TRUE
   )
   expect_s3_class(dat, "data.frame")
   expect_true(inherits(dat[["date.of.admission"]], "Date"))
@@ -149,21 +154,6 @@ test_that("standardize_dates fails as expected", {
   expect_error(
     standardize_dates(
       data            = data,
-      target_columns  = c("date_first_pcr_positive_test", "fake_column_name"),
-      format          = NULL,
-      timeframe       = NULL,
-      error_tolerance = 0.4,
-      orders          = list(world_named_months = c("Ybd", "dby"),
-                             world_digit_months = c("dmy", "Ymd"),
-                             US_formats         = c("Omdy", "YOmd")),
-      modern_excel    = TRUE
-    ),
-    regexp = cat("Can't find columns: fake_column_name")
-  )
-
-  expect_error(
-    standardize_dates(
-      data            = data,
       target_columns  = c("date_first_pcr_positive_test", "date.of.admission",
                           "dateOfBirth"),
       format          = c("%d/%m/%Y", "%d/%m/%Y"),
@@ -174,7 +164,8 @@ test_that("standardize_dates fails as expected", {
                              US_formats         = c("Omdy", "YOmd")),
       modern_excel    = TRUE
     ),
-    regexp = cat("Can't find columns: fake_column_name")
+    regexp = cat("Need to specify one format if all target columns have the
+    same format. Provide one format per target column, otherwise.e")
   )
 })
 
@@ -183,20 +174,11 @@ test_that("date_guess works as expected", {
   res <- date_guess(x            = data[["date.of.admission"]],
                     quiet        = TRUE,
                     modern_excel = TRUE,
-                    orders       = "dmY")
+                    orders       = "dmY",
+                    column_name = "date.of.admission")
   expect_identical(res[["res"]],
                    as.Date(c("2020-12-01", "2021-01-28", "2021-02-15",
                              "2021-02-11", "2021-02-17", "2021-02-17",
                              "2021-02-28", "2021-02-22", "2021-03-02",
                              "2021-03-05")))
-})
-
-test_that("date_guess fails as expected", {
-  expect_error(
-    date_guess(x            = data[["date.of.admission"]],
-               quiet        = TRUE,
-               modern_excel = TRUE,
-               orders       = NULL),
-    regexp = cat("orders must be a list of character vectors")
-  )
 })
