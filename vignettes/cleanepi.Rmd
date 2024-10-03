@@ -94,14 +94,17 @@ standardize_col_names <- list(keep = NULL, rename = NULL)
 rm_dup <- list(target_columns   = NULL)
 
 # PARAMETERS FOR STANDARDING DATES
-stdn_date <- list(target_columns  = NULL,
-                  error_tolerance = 0.4,
-                  format          = NULL,
-                  timeframe       = as.Date(c("1973-05-29", "2023-05-29")),
-                  orders          = list(world_named_months = c("Ybd", "dby"),
-                                         world_digit_months = c("dmy", "Ymd"),
-                                         US_formats       = c("Omdy", "YOmd")),
-                  modern_excel    = TRUE)
+stdn_date <- list(
+  target_columns = NULL,
+  error_tolerance = 0.4,
+  format = NULL,
+  timeframe = as.Date(c("1973-05-29", "2023-05-29")),
+  orders = list(
+    world_named_months = c("Ybd", "dby"),
+    world_digit_months = c("dmy", "Ymd"),
+    US_formats = c("Omdy", "YOmd")
+  )
+)
 
 # PARAMETERS FOR STANDARDING SUBJECT IDs
 stdn_ids <- list(target_columns = "study_id",
@@ -294,19 +297,20 @@ The function expects the following arguments:
 3. **format**: A format of the values in the specified columns (optional). If not provided, the function will attempt to infer the format.
 4. **timeframe**: The expected time frame within which the date values should fall. Values  outside of this range will be set to `NA` (optional).
 5. **error_tolerance**: The maximum percentage of `NA` values (non date values) that can be allowed in a converted column. Default is 40% i.e. `0.4`.
-6. **orders**: The date codes for fine-grained parsing of dates. It is used for parsing of mixed dates. If a list is supplied, that list will be used for successive tries in parsing. Default is:
+6. **orders**: A character vector or list of codes for fine-grained parsing of dates. It is used for parsing of mixed dates. If a list is supplied, that list will be used for successive tries in parsing. Default is:
 
 ```{r}
 orders <- list(
-  world_named_months = c("Ybd", "dby"),
-  world_digit_months = c("dmy", "Ymd"),
-  US_formats         = c("Omdy", "YOmd")
+  quarter_partial_dates = c("Y", "Ym", "Yq"),
+  world_digit_months = c("ymd", "ydm", "dmy", "mdy", "myd", "dym", "Ymd", "Ydm",
+                         "dmY", "mdY", "mYd", "dYm"),
+  world_named_months = c("dby", "dyb", "bdy", "byd", "ybd", "ydb", "dbY", "dYb",
+                         "bdY", "bYd", "Ybd", "Ydb"),
+  us_format = c("Omdy", "YOmd")
 )
 ```
 
-7. **modern_excel**: A Boolean that determines whether all numeric values represent dates from either a Windows version of Excel or a 2011 or later version of Excel for OSX. Set this parameter to `FALSE` if the data came from an OSX version of Excel before 2011. This is only relevant when parsing dates from excel. Default is `TRUE`.
-
-> ⚠️ The `error_tolerance` must be used with caution. When it is set, and the percentage of non-date values (NA i.e. values that were not converted into date) in a character column is greater than this threshold, the column will be returned as it is.
+> ⚠️ The `error_tolerance` must be used with caution. When it is set, and the percentage of non-date values (NA i.e. values that were not converted into date) in a character column is greater than this threshold, the column will be returned as it is. The values outside of this timeframe can be accessed from the report object via it `out_of_range_dates` element.
 
 > The value for the `orders` argument can be modified to suit the user's needs. Other date formats can be specified too. For instance, if you want to prioritize American-style dates with numeric months, you can switch the second and third elements of the default orders as shown below:
 
@@ -320,7 +324,7 @@ us_ord <- orders[c(1L, 3L, 2L)]
 orders$ymdhms <- c("Ymdhms", "Ymdhm")
 ```
 
-This function provides users with the flexibility to standardize date columns in their dataset according to specified requirements, including format, timeframe, and error tolerance for conversion from character to date columns.
+This function provides users with the flexibility to standardize date columns in their dataset according to specified requirements, including `format`, `timeframe`, and `error tolerance` for conversion from character to date columns.
 
 ```{r eval=TRUE, comment="date_standardisation"}
 # STANDARDIZE VALUES IN THE 'date_first_pcr_positive_test' COLUMN
@@ -337,8 +341,7 @@ res <- standardize_dates(
   error_tolerance = 0.4,
   orders          = list(world_named_months = c("Ybd", "dby"),
                          world_digit_months = c("dmy", "Ymd"),
-                         US_formats         = c("Omdy", "YOmd")),
-  modern_excel    = TRUE
+                         US_formats         = c("Omdy", "YOmd"))
 )
 ```
 
@@ -370,8 +373,7 @@ res <- standardize_dates(
   error_tolerance = 0.4,
   orders          = list(world_named_months = c("Ybd", "dby"),
                          world_digit_months = c("dmy", "Ymd"),
-                         US_formats         = c("Omdy", "YOmd")),
-  modern_excel    = TRUE
+                         US_formats         = c("Omdy", "YOmd"))
 )
 
 # GET THE REPORT

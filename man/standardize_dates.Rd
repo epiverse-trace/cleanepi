@@ -10,8 +10,7 @@ standardize_dates(
   format = NULL,
   timeframe = NULL,
   error_tolerance = 0.5,
-  orders = NULL,
-  modern_excel = TRUE
+  orders = NULL
 )
 }
 \arguments{
@@ -48,15 +47,6 @@ following order defined in the guesser:
   us_format = c("Omdy", "YOmd")
 )
 }\if{html}{\out{</div>}}}
-
-\item{modern_excel}{When the data is imported from excel, some dates are
-stored as integers. Modern versions of Excel represent dates as the number
-of days since 1900-01-01, but pre-2011 Excel for OSX have the origin set
-at 1904-01-01. If this parameter is \code{TRUE} (default), then this
-assumes that all numeric values represent dates from either a Windows
-version of Excel or a 2011 or later version of Excel for OSX. Set this
-parameter to \code{FALSE} if the data came from an OSX version of Excel
-before 2011.}
 }
 \value{
 The input dataset where the date columns have been standardized. The
@@ -129,7 +119,6 @@ dat <- standardize_dates(
   error_tolerance = 0.4,
   orders          = list(world_named_months = c("Ybd", "dby"),
                          world_digit_months = c("dmy", "Ymd"),
-                         US_formats         = c("Omdy", "YOmd")),
-  modern_excel    = TRUE
+                         US_formats         = c("Omdy", "YOmd"))
 )
 }

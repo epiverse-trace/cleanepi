@@ -12,22 +12,22 @@ test_that("standardize_dates works with a data frame", {
       world_named_months = c("Ybd", "dby"),
       world_digit_months = c("dmy", "Ymd"),
       US_formats = c("Omdy", "YOmd")
-    ),
-    modern_excel = TRUE
+    )
   )
   expect_s3_class(dat, "data.frame")
   expect_true(inherits(dat[["date_first_pcr_positive_test"]], "Date"))
 
   dat <- standardize_dates(
-    data            = data,
-    target_columns  = c("date_first_pcr_positive_test", "date.of.admission"),
-    format          = NULL,
-    timeframe       = NULL,
+    data = data,
+    target_columns = c("date_first_pcr_positive_test", "date.of.admission"),
+    format = NULL,
+    timeframe = NULL,
     error_tolerance = 0.4,
-    orders          = list(world_named_months = c("Ybd", "dby"),
-                           world_digit_months = c("dmy", "Ymd"),
-                           US_formats         = c("Omdy", "YOmd")),
-    modern_excel    = TRUE
+    orders = list(
+      world_named_months = c("Ybd", "dby"),
+      world_digit_months = c("dmy", "Ymd"),
+      US_formats = c("Omdy", "YOmd")
+    )
   )
   expect_s3_class(dat, "data.frame")
   expect_true(inherits(dat[["date_first_pcr_positive_test"]], "Date"))
@@ -37,14 +37,15 @@ test_that("standardize_dates works with a data frame", {
     replace_missing_values(target_columns = "dateOfBirth",
                            na_strings = "-99") %>%
     standardize_dates(
-    target_columns  = NULL,
-    format          = NULL,
-    timeframe       = NULL,
+    target_columns = NULL,
+    format = NULL,
+    timeframe = NULL,
     error_tolerance = 0.4,
-    orders          = list(world_named_months = c("Ybd", "dby"),
-                           world_digit_months = c("dmy", "Ymd"),
-                           US_formats         = c("Omdy", "YOmd")),
-    modern_excel    = TRUE
+    orders = list(
+      world_named_months = c("Ybd", "dby"),
+      world_digit_months = c("dmy", "Ymd"),
+      US_formats = c("Omdy", "YOmd")
+    )
   )
   expect_s3_class(dat, "data.frame")
   expect_true(inherits(dat[["date_first_pcr_positive_test"]], "Date"))
@@ -61,22 +62,22 @@ test_that("standardize_dates works with a data frame", {
       world_named_months = c("Ybd", "dby"),
       world_digit_months = c("dmy", "Ymd"),
       US_formats         = c("Omdy", "YOmd")
-    ),
-    modern_excel = TRUE
+    )
   )
   expect_s3_class(dat, "data.frame")
   expect_true(inherits(dat[["date.of.admission"]], "Date"))
 
   dat <- standardize_dates(
-    data            = data,
-    target_columns  = "date.of.admission",
-    format          = "%d/%m/%Y",
-    timeframe       = c(as.Date("2021-01-01"), as.Date("2021-03-01")),
+    data = data,
+    target_columns = "date.of.admission",
+    format = "%d/%m/%Y",
+    timeframe = as.Date(c("2021-01-01", "2021-03-01")),
     error_tolerance = 0.4,
-    orders          = list(world_named_months = c("Ybd", "dby"),
-                           world_digit_months = c("dmy", "Ymd"),
-                           US_formats         = c("Omdy", "YOmd")),
-    modern_excel    = TRUE
+    orders = list(
+      world_named_months = c("Ybd", "dby"),
+      world_digit_months = c("dmy", "Ymd"),
+      US_formats = c("Omdy", "YOmd")
+    )
   )
   expect_s3_class(dat, "data.frame")
   expect_true(inherits(dat[["date.of.admission"]], "Date"))
@@ -92,8 +93,7 @@ test_that("standardize_dates works when the values are already in ISO format", {
     error_tolerance = 0.4,
     orders          = list(world_named_months = c("Ybd", "dby"),
                            world_digit_months = c("dmy", "Ymd"),
-                           US_formats         = c("Omdy", "YOmd")),
-    modern_excel    = TRUE
+                           US_formats         = c("Omdy", "YOmd"))
   )
   dat <- standardize_dates(
     data            = tmp_data,
@@ -103,8 +103,7 @@ test_that("standardize_dates works when the values are already in ISO format", {
     error_tolerance = 0.4,
     orders          = list(world_named_months = c("Ybd", "dby"),
                            world_digit_months = c("dmy", "Ymd"),
-                           US_formats         = c("Omdy", "YOmd")),
-    modern_excel    = TRUE
+                           US_formats         = c("Omdy", "YOmd"))
   )
   expect_s3_class(dat, "data.frame")
   expect_true(inherits(dat[["date.of.admission"]], "Date"))
@@ -120,8 +119,7 @@ test_that("standardize_dates works when the input column is a factor", {
     error_tolerance = 0.4,
     orders          = list(world_named_months = c("Ybd", "dby"),
                            world_digit_months = c("dmy", "Ymd"),
-                           US_formats         = c("Omdy", "YOmd")),
-    modern_excel    = TRUE
+                           US_formats         = c("Omdy", "YOmd"))
   )
   expect_s3_class(dat, "data.frame")
   expect_true(inherits(dat[["date.of.admission"]], "Date"))
@@ -140,8 +138,7 @@ test_that("standardize_dates works with a linelist", {
     error_tolerance = 0.4,
     orders          = list(world_named_months = c("Ybd", "dby"),
                            world_digit_months = c("dmy", "Ymd"),
-                           US_formats         = c("Omdy", "YOmd")),
-    modern_excel    = TRUE
+                           US_formats         = c("Omdy", "YOmd"))
   )
   expect_s3_class(dat, "data.frame")
   expect_true(inherits(dat, "linelist"))
@@ -161,8 +158,7 @@ test_that("standardize_dates fails as expected", {
       error_tolerance = 0.4,
       orders          = list(world_named_months = c("Ybd", "dby"),
                              world_digit_months = c("dmy", "Ymd"),
-                             US_formats         = c("Omdy", "YOmd")),
-      modern_excel    = TRUE
+                             US_formats         = c("Omdy", "YOmd"))
     ),
     regexp = cat("Need to specify one format if all target columns have the
     same format. Provide one format per target column, otherwise.e")
@@ -173,7 +169,6 @@ test_that("date_guess works as expected", {
   data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi"))
   res <- date_guess(x            = data[["date.of.admission"]],
                     quiet        = TRUE,
-                    modern_excel = TRUE,
                     orders       = "dmY",
                     column_name = "date.of.admission")
   expect_identical(res[["res"]],

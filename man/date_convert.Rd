@@ -4,14 +4,7 @@
 \alias{date_convert}
 \title{Convert characters to dates}
 \usage{
-date_convert(
-  data,
-  cols,
-  error_tolerance,
-  timeframe = NULL,
-  orders,
-  modern_excel
-)
+date_convert(data, cols, error_tolerance, timeframe = NULL, orders)
 }
 \arguments{
 \item{data}{A data frame or linelist}
@@ -41,15 +34,6 @@ following order defined in the guesser:
   us_format = c("Omdy", "YOmd")
 )
 }\if{html}{\out{</div>}}}
-
-\item{modern_excel}{When the data is imported from excel, some dates are
-stored as integers. Modern versions of Excel represent dates as the number
-of days since 1900-01-01, but pre-2011 Excel for OSX have the origin set
-at 1904-01-01. If this parameter is \code{TRUE} (default), then this
-assumes that all numeric values represent dates from either a Windows
-version of Excel or a 2011 or later version of Excel for OSX. Set this
-parameter to \code{FALSE} if the data came from an OSX version of Excel
-before 2011.}
 }
 \value{
 A data frame where the specified columns have been converted
