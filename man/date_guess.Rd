@@ -4,7 +4,7 @@
 \alias{date_guess}
 \title{Try and guess dates from a characters}
 \usage{
-date_guess(x, column_name, quiet = TRUE, modern_excel = TRUE, orders = NULL)
+date_guess(x, column_name, quiet = TRUE, orders = NULL)
 }
 \arguments{
 \item{x}{A \code{character} vector or a \code{factor}}
@@ -13,15 +13,6 @@ date_guess(x, column_name, quiet = TRUE, modern_excel = TRUE, orders = NULL)
 
 \item{quiet}{A logical indicating if messages should be displayed to the
 console (\code{TRUE}, default); set to \code{FALSE} to silence messages}
-
-\item{modern_excel}{When the data is imported from excel, some dates are
-stored as integers. Modern versions of Excel represent dates as the number
-of days since 1900-01-01, but pre-2011 Excel for OSX have the origin set
-at 1904-01-01. If this parameter is \code{TRUE} (default), then this
-assumes that all numeric values represent dates from either a Windows
-version of Excel or a 2011 or later version of Excel for OSX. Set this
-parameter to \code{FALSE} if the data came from an OSX version of Excel
-before 2011.}
 
 \item{orders}{A list or character vector with the date codes for fine-grained
 parsing of dates. This allows for parsing of mixed dates. If a list is
