@@ -2,8 +2,8 @@
 % Please edit documentation in R/clean_data_helpers.R
 \name{scan_data}
 \alias{scan_data}
-\title{Scan through all character columns of a data frame to determine the
-proportion of \code{missing}, \code{numeric}, \code{Date}, \code{character}, \code{logical}, values.}
+\title{Scan through a data frame and return the proportion of \code{missing}, \code{numeric},
+\code{Date}, \code{character}, \code{logical} values.}
 \usage{
 scan_data(data)
 }
@@ -12,27 +12,35 @@ scan_data(data)
 }
 \value{
 A data frame if the input data contains columns of type character.
-It invisibly returns \code{NA} otherwise. The returned data frame will have the
-same number of rows as the number of character columns, and six
+It invisibly returns \code{NA} otherwise. The returned data frame will
+have the same number of rows as the number of character columns, and six
 columns representing their column names, proportion of missing, numeric,
 date, character, and logical values.
 }
 \description{
-Scan through all character columns of a data frame to determine the
-proportion of \code{missing}, \code{numeric}, \code{Date}, \code{character}, \code{logical}, values.
+The function checks for the existence of character columns in the data. When
+found, it reports back the proportion of the data types mentioned above in
+those columns. See the details section to know more about how it works.
 }
 \details{
 How does it work?
-The character columns are identified first. When there is no character column
-the function returns a message.
-For every character column, we look for the presence of date values.
-When Date values are found, the first count of dates is recorded. These Date
-values will be in turn converted to numeric. If any numeric value is detected
-among them, the first count of numeric values is recorded.
-The remaining values are then converted to numeric. The second numeric count
-will be recorded from this. The detected numeric values will also be
-converted into Date to identify the ones which are potentially of type Date
-(a numeric, which after conversion to Date, fall within the interval
+The \code{character} columns are identified first. When there is no
+character column the function returns a message.
+For every character column, we count:
+\enumerate{
+\item the number of missing data \code{NA}
+\item count the numeric values. Detect valid dates among the numeric values
+using \code{lubridate::as_date()} and \code{date_guess()} functions. If
+found, a warning is triggered to alert on the presence and ambiguous values.
+NOTE: A date is considered valid in this case if it falls within the interval
+of today's date and 50 years back from today's.
+\item detect the Date values from the non-numeric using the \code{date_guess()}
+function. The date count is the sum of dates identified from numeric and
+non-numeric values. Because of the overlap between numeric and date, the sum
+across the rows in the scanning result might be greater than 1.
+\item count the logical values.
+The remaining values will be those of type characters
+}
 }
 \examples{
 # scan through a data frame of characters
