@@ -198,7 +198,6 @@ date_rescue_lubridate_failures <- function(date_a_frame, original_dates) {
   # ---
   go_excel <- all_nas & numbers
   date_a_frame[[1L]][go_excel] <- lubridate::NA_Date_
-
   return(date_a_frame)
 }
 
@@ -240,10 +239,10 @@ date_choose_first_good <- function(date_a_frame, column_name) {
   res <- rep_len(lubridate::NA_Date_, length.out = n)
   for (i in seq_len(n)) {
     # get values that lubridate and the guesser converted successfully
-    tmp        <- date_a_frame[i, , drop = TRUE]
-    idx        <- which(!is.na(tmp))
+    tmp <- date_a_frame[i, , drop = TRUE]
+    idx <- which(!is.na(tmp))
     if (length(idx) > 0L) {
-      res[i]   <- as.Date(tmp[idx][[1L]])
+      res[i] <- as.Date(tmp[idx][[1L]])
       # detect values that comply with multiple formats. Useful for report.
       tmp_date <- unique(tmp[idx])
       if (length(tmp_date) > 1L) {
