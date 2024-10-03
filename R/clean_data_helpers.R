@@ -8,30 +8,28 @@
 #' @param data A data frame or linelist
 #'
 #' @returns A data frame if the input data contains columns of type character.
-#'    It invisibly returns `NA` otherwise. The returned data frame will have the
-#'    same number of rows as the number of character columns, and six
+#'    It invisibly returns \code{NA} otherwise. The returned data frame will
+#'    have the same number of rows as the number of character columns, and six
 #'    columns representing their column names, proportion of missing, numeric,
 #'    date, character, and logical values.
 #'
 #' @details
 #' How does it work?
-#' The character columns are identified first. When there is no character column
-#' the function returns a message.
-#' For every character column, we look for the presence of date values.
-#' When Date values are found, the first count of dates is recorded. These Date
-#' values will be in turn converted to numeric. If any numeric value is detected
-#' among them, the first count of numeric values is recorded.
-#' The remaining values are then converted to numeric. The second numeric count
-#' will be recorded from this. The detected numeric values will also be
-#' converted into Date to identify the ones which are potentially of type Date
-#' (a numeric, which after conversion to Date, fall within the interval
-#  [50 years back from today's date, today's date]). Those that turns out to be
-#  Date values are counted in the second count of dates.
-#  For this reason, the sum across rows in the output object could be greater
-#  than 1.
-#  In the absence of Date values, the entire column is converted into numeric to
-#  record the numeric count.
-#  The logical and character counts will subsequently be evaluated.
+#' The \code{character} columns are identified first. When there is no
+#' character column the function returns a message.
+#' For every character column, we count:
+#' 1. the number of missing data \code{NA}
+#' 2. count the numeric values. Detect valid dates among the numeric values
+#' using \code{lubridate::as_date()} and \code{date_guess()} functions. If
+#' found, a warning is triggered to alert on the presence and ambiguous values.
+#' NOTE: A date is considered valid in this case if it falls within the interval
+#' of today's date and 50 years back from today's.
+#' 3. detect the Date values from the non-numeric using the \code{date_guess()}
+#' function. The date count is the sum of dates identified from numeric and
+#' non-numeric values. Because of the overlap between numeric and date, the sum
+#' across the rows in the scanning result might be greater than 1.
+#' 4. count the logical values.
+#' The remaining values will be those of type characters
 #'
 #' @export
 #'
@@ -61,12 +59,12 @@
 #'
 scan_data <- function(data) {
   # scan through all columns of the data and the identify character columns
-  types          <- vapply(data, typeof, character(1L))
+  types <- vapply(data, typeof, character(1L))
   target_columns <- which(types == "character")
 
   # send an message if there is no character column found within the input data
   if (length(target_columns) == 0L) {
-    cli::cli_alert_info("No character column found in the provided data.")
+    cli::cli_alert_info("No character column found from the input data.")
     return(invisible(NA))
   }
 
@@ -76,10 +74,10 @@ scan_data <- function(data) {
   scan_result <- vapply(seq_len(ncol(data)), function(col_index) {
     scan_in_character(data[[col_index]], names(data)[[col_index]])
   }, numeric(5L))
-  scan_result        <- as.data.frame(t(scan_result))
+  scan_result <- as.data.frame(t(scan_result))
   names(scan_result) <- c("missing", "numeric", "date", "character", "logical")
-  scan_result        <- cbind(Field_names = names(data), scan_result)
-  rownames(scan_result)     <- NULL
+  scan_result <- cbind(Field_names = names(data), scan_result)
+  rownames(scan_result) <- NULL
   return(scan_result)
 }
 
@@ -105,70 +103,69 @@ scan_in_character <- function(x, x_name) {
 
   # get the count of missing data (NA)
   na_count <- sum(is.na(x))
-  x      <- x[!is.na(x)]
+  x <- x[!is.na(x)]
   character_count <- character_count - na_count
 
-  # We will check if there is any Date values within the variable by parsing the
-  # values, looking for the ones that fit any of the predefined format.
-  #     When there is one or more Date values, they will be converted into
-  # numeric. The first numeric count is recorded at this point. The rest of the
-  # values are converted into numeric, and the second count of numeric is
-  # recorded. They will in turn be converted into date.
-  # If any of these numeric values is a Date (a numeric, which
-  # after conversion to Date, fall within the interval
-  # [50 years back from today's date, today's date]), it will add to the second
-  # date count.
-  # That way the Date count is the count of date identified from the
-  # parsing + the count of Dates within the numeric values. Similarly, the
-  # numeric count is the count of numeric values within dates values and count
-  # among the non-date values.
-  #
-  # NOTE: This is what justifies that the sum across rows in the output object
-  # could be > 1.
-  #
-  #     When there is no Date values identified from the parsing, the variable
-  # is converted into numeric. The final numeric count is the sum of all the
-  # identified numeric values.
-  #     The logical count is the number of TRUE and FALSE written in both lower
-  # and upper cases within the variable.
-  #     The remaining values will be considered of type character.
-
-  # parsing the vector, looking for date values
-  are_date <- date_guess(x, "col")$res
-
-  # convert everything to numeric and get the numeric count
+  # convert to numeric to determine the numeric count
+  # store the index of numeric values for comparison with index of date values
+  # values that are bot numeric and date will be considered as ambiguous and
+  # will trigger a warning
   are_numeric <- suppressWarnings(as.numeric(x))
   numeric_count <- sum(!is.na(are_numeric))
+  character_count <- character_count - numeric_count
 
-  numeric_and_date <- !is.na(are_date) & !is.na(are_numeric)
-
-  # Set the first date to 50 years before the current date
+  # Some numeric values might actually be of type Date. This is the case for
+  # data imported into R from MS Exel. We use:
+  # 1. lubridate parser on these values to convert them into Date using the
+  # date-time for 1900-01-01 UTC in POSIXct format as origin for modern MS Exel.
+  # 2. the date guesser implemented for date standardisation.
+  # Then detect the valid date values. A date is considered valid in this case
+  # if it falls within the interval of today's date and 50 years back from
+  # today's.
+  # Values identified as date will add to the date count as well.
+  from_direct_conversion <- lubridate::as_date(
+    are_numeric[!is.na(are_numeric)],
+    origin = as.Date("1900-01-01")
+  )
+  from_guesser <- date_guess(x[!is.na(are_numeric)], x_name)[["res"]]
+  if (!inherits(from_guesser, "Date")) {
+    from_guesser <- rep(lubridate::NA_Date_, length(from_guesser))
+  }
   oldest_date <- Sys.Date() - lubridate::years(50)
+  conversion_valid_date <- from_direct_conversion >= oldest_date &
+    from_direct_conversion <= Sys.Date()
+  guesser_valid_date <- from_guesser >= oldest_date & from_guesser <= Sys.Date()
+  ambiguous_count <- sum(
+    conversion_valid_date | guesser_valid_date,
+    na.rm = TRUE
+  )
+  # increment the date count by the number of detected date values among the
+  # numeric values
+  x <- x[is.na(are_numeric)]
 
-  valid_date_range <- are_date >= oldest_date & are_date <= Sys.Date()
-
-  numeric_and_date_count <- sum(numeric_and_date & valid_date_range)
-
-  if (numeric_and_date_count > 0) {
+  # send a warning about the presence of ambiguous values found on that column
+  if (ambiguous_count > 0) {
     cli::cli_alert_warning(
-      "Found {numeric_and_date_count} value{?s} that can be both numeric and \\
-      date in column `{x_name}`"
+      "Found {ambiguous_count} numeric values that can also be of type Date \\\
+       in column `{x_name}`."
     )
   }
 
-  # Count dates:
-  # - that are unambiguous
-  # - if they are ambiguous, only if in the valid range
-  date_count <- sum(
-    (!is.na(are_date) & !numeric_and_date) |
-      (numeric_and_date & valid_date_range)
-  )
-
-  # We don't want to remove numeric_and_date values twice
-  character_count <- character_count - date_count
-  character_count <- character_count - (numeric_count - numeric_and_date_count)
+  # We will check if there is any Date values within the remaining character
+  # values by parsing them via the date_guess() used in standardize_dates().
+  pure_date_count <- 0
+  are_date <- date_guess(x, x_name)[["res"]]
+  if (inherits(are_date, "Date")) {
+    pure_date_count <- sum(!is.na(are_date))
+    x <- x[is.na(are_date)]
+    character_count <- character_count - pure_date_count
+  }
+  # the date count is count of actual date and date inferred from numeric
+  date_count <- pure_date_count + ambiguous_count
 
   # get logical count
+  # The logical count is the number of TRUE and FALSE written in both lower
+  # and upper cases within the variable.
   logicals <- toupper(x) == "TRUE" | toupper(x) == "FALSE"
   logical_count <- sum(logicals)
   character_count <- character_count - logical_count

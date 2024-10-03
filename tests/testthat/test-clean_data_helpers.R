@@ -11,17 +11,17 @@ test_that("scan_data works as expected", {
 
   # using a dataset with no character column
   data(iris)
-  iris[["fct"]]  <- as.factor(sample(c("gray", "orange"), nrow(iris),
+  iris[["fct"]] <- as.factor(sample(c("gray", "orange"), nrow(iris),
                                     replace = TRUE))
-  iris[["lgl"]]  <- sample(c(TRUE, FALSE), nrow(iris), replace = TRUE)
+  iris[["lgl"]] <- sample(c(TRUE, FALSE), nrow(iris), replace = TRUE)
   iris[["date"]] <- as.Date(seq.Date(from = as.Date("2024-01-01"),
                                      to = as.Date("2024-08-30"),
                                      length.out = nrow(iris)))
   iris[["posit_ct"]] <- as.POSIXct(iris[["date"]])
-  scan_result        <- scan_data(data = iris)
+  scan_result <- scan_data(data = iris)
   expect_identical(scan_result, NA)
   expect_message(scan_data(data = iris),
-                 "No character column found in the provided data.")
+                 "No character column found from the input data.")
 
   # using a data with some character columns
   dat <- readRDS(system.file("extdata", "test_linelist.RDS",
