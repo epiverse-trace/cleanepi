@@ -121,7 +121,6 @@ standardize_dates       <- list(target_columns  = NULL,
                                 format          = NULL,
                                 timeframe       = as.Date(c("1973-05-29",
                                                             "2023-05-29")),
-                                modern_excel    = TRUE,
                                 orders          = list(
                                   world_named_months = c("Ybd", "dby"),
                                   world_digit_months = c("dmy", "Ymd"),

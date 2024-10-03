@@ -37,14 +37,6 @@
 #'   us_format = c("Omdy", "YOmd")
 #' )
 #' ```
-#' @param modern_excel When the data is imported from excel, some dates are
-#'    stored as integers. Modern versions of Excel represent dates as the number
-#'    of days since 1900-01-01, but pre-2011 Excel for OSX have the origin set
-#'    at 1904-01-01. If this parameter is \code{TRUE} (default), then this
-#'    assumes that all numeric values represent dates from either a Windows
-#'    version of Excel or a 2011 or later version of Excel for OSX. Set this
-#'    parameter to \code{FALSE} if the data came from an OSX version of Excel
-#'    before 2011.
 #'
 #' @returns The input dataset where the date columns have been standardized. The
 #'    date values that are out of the specified timeframe will be reported in
@@ -108,16 +100,14 @@
 #'   error_tolerance = 0.4,
 #'   orders          = list(world_named_months = c("Ybd", "dby"),
 #'                          world_digit_months = c("dmy", "Ymd"),
-#'                          US_formats         = c("Omdy", "YOmd")),
-#'   modern_excel    = TRUE
+#'                          US_formats         = c("Omdy", "YOmd"))
 #' )
 standardize_dates <- function(data,
                               target_columns  = NULL,
                               format          = NULL,
                               timeframe       = NULL,
                               error_tolerance = 0.5,
-                              orders          = NULL,
-                              modern_excel    = TRUE) {
+                              orders          = NULL) {
 
   checkmate::assert_data_frame(data, null.ok = FALSE, min.cols = 1L)
   checkmate::assert_character(target_columns, null.ok = TRUE,
@@ -129,8 +119,6 @@ standardize_dates <- function(data,
                             max.len = 2L,
                             any.missing = FALSE, null.ok = TRUE)
   checkmate::assert_list(orders, min.len = 1L, null.ok = TRUE)
-  checkmate::assert_logical(modern_excel, len = 1L, null.ok = FALSE,
-                            any.missing = FALSE)
 
   if (!is.null(target_columns)) {
     # get the correct names in case some have been modified - see the
@@ -154,15 +142,14 @@ standardize_dates <- function(data,
           cols = target_columns[i],
           error_tolerance,
           timeframe = timeframe,
-          orders = orders,
-          modern_excel = modern_excel
+          orders = orders
         )
       }
     } else {
       for (cols in target_columns) {
         # convert to ISO8601 date using the inferred format
         data <- date_convert(data, cols, error_tolerance, timeframe,
-                             orders = orders, modern_excel = modern_excel)
+                             orders = orders)
       }
     }
   } else {
@@ -170,8 +157,7 @@ standardize_dates <- function(data,
       data,
       error_tolerance = error_tolerance,
       timeframe = timeframe,
-      orders = orders,
-      modern_excel = modern_excel
+      orders = orders
     )
   }
 

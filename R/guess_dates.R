@@ -26,7 +26,6 @@
 date_guess <- function(x,
                        column_name,
                        quiet           = TRUE,
-                       modern_excel    = TRUE,
                        orders          = NULL) {
 
   ## This function tries converting a single character string into a
@@ -67,7 +66,7 @@ date_guess <- function(x,
   if (is.null(orders)) {
     orders <- list(
       quarter_partial_dates = c("Y", "Ym", "Yq"),
-      world_digit_months = c("Yq", "ymd", "ydm", "dmy", "mdy", "myd", "dym",
+      world_digit_months = c("ymd", "ydm", "dmy", "mdy", "myd", "dym",
                              "Ymd", "Ydm", "dmY", "mdY", "mYd", "dYm"),
       world_named_months = c("dby", "dyb", "bdy", "byd", "ybd", "ydb",
                              "dbY", "dYb", "bdY", "bYd", "Ybd", "Ydb"),
@@ -147,8 +146,7 @@ date_guess <- function(x,
   # the parser defined in date_get_format
   x_rescued <- date_rescue_lubridate_failures(
     date_a_frame = res,
-    original_dates = x,
-    mxl = modern_excel
+    original_dates = x
   )
 
   # select the first correct date generated from the formats listed in the
@@ -166,14 +164,11 @@ date_guess <- function(x,
 #' @param date_a_frame A data frame where each column contains a different
 #'    parsing of the same date vector
 #' @param original_dates The vector of original dates.
-#' @param mxl "modern excel" if TRUE, then it uses 1900 as the origin, otherwise
-#'    1904 is used as the origin.
 #'
 #' @returns The input data frame where the values that do not match the proposed
 #'    formats have been converted into Date.
 #' @keywords internal
-date_rescue_lubridate_failures <- function(date_a_frame, original_dates,
-                                           mxl = TRUE) {
+date_rescue_lubridate_failures <- function(date_a_frame, original_dates) {
   # find places where all rows are missing i.e. values that lubridate could not
   # parse.
   nas <- is.na(date_a_frame)
@@ -186,25 +181,23 @@ date_rescue_lubridate_failures <- function(date_a_frame, original_dates,
   # find non date and non numeric values (character) values. they will be
   # subjected to the date guesser for character values
   go_tibo <- which(all_nas & !numbers)
-
-  # find non date but numeric. they will be subjected to excel conversion
-  go_exel <- all_nas & numbers
-
-  # Use the date guesser on character values
-  if (length(go_tibo) && !all(is.na(original_dates[go_tibo]))) {
+  if (length(go_tibo) > 0 && !all(is.na(original_dates[go_tibo]))) {
     date_a_frame[[1L]][go_tibo] <- date_i_guess_and_convert(
       original_dates[go_tibo]
     )
   }
 
-  # Use the excel guesser on numeric values
-  if (sum(go_exel)) {
-    # using the date-time for 1970-01-01 UTC in POSIXct format as origin for
-    # modern exel; "1904-01-01" otherwise.
-    origin <- if (mxl) as.Date(lubridate::origin) else as.Date("1904-01-01")
-    tmpxl <- lubridate::as_date(o_num[go_exel], origin = origin)
-    date_a_frame[[1L]][go_exel] <- tmpxl
-  }
+  # find non date but numeric. they will be subjected to excel conversion
+  # using the date-time for 1970-01-01 UTC in POSIXct format as origin for
+  # modern exel; "1904-01-01" otherwise.
+  # ---
+  # NOTE: guessing whether a numeric value is a date increases the inaccuracy of
+  # the guessing result. We have decided not to perform this conversion anymore.
+  # Instead a note will be sent to the user with a suggestion about how to
+  # convert numeric values that are potentially date.
+  # ---
+  go_exel <- all_nas & numbers
+  date_a_frame[[1L]][go_exel] <- lubridate::NA_Date_
 
   return(date_a_frame)
 }
