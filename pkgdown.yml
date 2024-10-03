@@ -1,10 +1,10 @@
 pandoc: 3.1.11
-pkgdown: 2.1.0
+pkgdown: 2.1.1
 pkgdown_sha: ~
 articles:
   cleanepi: cleanepi.html
   design_principle: design_principle.html
-last_built: 2024-09-02T12:37Z
+last_built: 2024-10-03T10:13Z
 urls:
   reference: https://epiverse-trace.github.io/cleanepi/reference
   article: https://epiverse-trace.github.io/cleanepi/articles

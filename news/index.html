@@ -51,12 +51,26 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.0.2.9000" id="cleanepi-1029000">cleanepi 1.0.2.9000<a class="anchor" aria-label="anchor" href="#cleanepi-1029000"></a></h2>
 <div class="section level3">
-<h3 id="bug-fixes-1-0-2-9000">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-0-2-9000"></a></h3>
-<ul><li>Fixed a bug in the index for empty rows returned by <code><a href="../reference/print_report.html">print_report()</a></code> after <code><a href="../reference/remove_constants.html">remove_constants()</a></code>. It was always returning the number of rows in the original data frame, instead of the index of empty rows (<a href="https://github.com/epiverse-trace/cleanepi/issues/173" class="external-link">#173</a>, <a href="https://github.com/Bisaloo" class="external-link">@Bisaloo</a>).</li>
-</ul></div>
-<div class="section level3">
 <h3 id="new-minor-features-1-0-2-9000">New minor features<a class="anchor" aria-label="anchor" href="#new-minor-features-1-0-2-9000"></a></h3>
 <ul><li>Added a <code>NEWS.md</code> file to track changes to the package.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-1-0-2-9000">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-0-2-9000"></a></h3>
+<ul><li><p>Fixed a bug in the index for empty rows returned by <code><a href="../reference/print_report.html">print_report()</a></code> after <code><a href="../reference/remove_constants.html">remove_constants()</a></code>. It was always returning the number of rows in the original data frame, instead of the index of empty rows (<a href="https://github.com/epiverse-trace/cleanepi/issues/173" class="external-link">#173</a>, <a href="https://github.com/Bisaloo" class="external-link">@Bisaloo</a>).</p></li>
+<li>
+<p>Fixed a bug in the date guesser used by the <code><a href="../reference/standardize_dates.html">standardize_dates()</a></code> function. The followings have been added or corrected (<a href="https://github.com/epiverse-trace/cleanepi/issues/175" class="external-link">#175</a>, <a href="https://github.com/Karim-Mane" class="external-link">@Karim-Mane</a>):</p>
+<ul><li>allow for quarter and partial dates</li>
+<li>account for odd cases before parsing using {lubridate}</li>
+<li>use <code><a href="https://lubridate.tidyverse.org/reference/origin.html" class="external-link">lubridate::origin</a></code> as origin when converting number into dates using <code><a href="https://lubridate.tidyverse.org/reference/as_date.html" class="external-link">lubridate::as_date</a></code>.</li>
+<li>Update the date guesser</li>
+</ul></li>
+</ul></div>
+<div class="section level3">
+<h3 id="enhancements-1-0-2-9000">Enhancements<a class="anchor" aria-label="anchor" href="#enhancements-1-0-2-9000"></a></h3>
+<ul><li><p>Rendering the report no more requires the use of {withr} package. Files generated during this process will be stored in the R temporary directory (<a href="https://github.com/epiverse-trace/cleanepi/issues/165" class="external-link">#165</a>, <a href="https://github.com/Bisaloo" class="external-link">@Bisaloo</a>).</p></li>
+<li><p>Simplification and improvement of code performance across several functions (<a href="https://github.com/epiverse-trace/cleanepi/issues/154" class="external-link">#154</a>, <a href="https://github.com/epiverse-trace/cleanepi/issues/156" class="external-link">#156</a>, <a href="https://github.com/epiverse-trace/cleanepi/issues/162" class="external-link">#162</a>, <a href="https://github.com/Bisaloo" class="external-link">@Bisaloo</a>).</p></li>
+<li><p>Make R version dependency explicit (<a href="https://github.com/epiverse-trace/cleanepi/issues/156" class="external-link">#156</a>, <a href="https://github.com/Bisaloo" class="external-link">@Bisaloo</a>).</p></li>
+<li><p>Replace base R pipe with {tidyverse} pipe (<a href="https://github.com/epiverse-trace/cleanepi/issues/155" class="external-link">#155</a>, <a href="https://github.com/Karim-Mane" class="external-link">@Karim-Mane</a>)</p></li>
 </ul></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -68,7 +82,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer></div>

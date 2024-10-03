@@ -724,8 +724,7 @@ using the code below:</p>
 <span><span class="co">#&gt; colnames                   2      data.frame list     </span></span>
 <span><span class="co">#&gt; missing_values_replaced_at 1      -none-     character</span></span>
 <span><span class="co">#&gt; constant_columns           1      -none-     character</span></span>
-<span><span class="co">#&gt; out_of_range_dates         3      data.frame list     </span></span>
-<span><span class="co">#&gt; multi_format_dates         5      tbl_df     list     </span></span>
+<span><span class="co">#&gt; multi_format_dates         5      data.frame list     </span></span>
 <span><span class="co">#&gt; incorrect_subject_id       2      data.frame list</span></span></code></pre></div>
 <p>The report can also be displayed in an HTML format using the
 <code><a href="../reference/print_report.html">print_report()</a></code> function as shown below:</p>
@@ -4016,7 +4015,9 @@ specific requirements.</p>
 <span>  <span class="fu"><a href="../reference/replace_missing_values.html">replace_missing_values</a></span><span class="op">(</span>target_columns <span class="op">=</span> <span class="st">"dateOfBirth"</span>,</span>
 <span>                         na_strings     <span class="op">=</span> <span class="st">"-99"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/standardize_dates.html">standardize_dates</a></span><span class="op">(</span>target_columns  <span class="op">=</span> <span class="st">"dateOfBirth"</span>,</span>
-<span>                    error_tolerance <span class="op">=</span> <span class="fl">0.0</span><span class="op">)</span></span>
+<span>                    error_tolerance <span class="op">=</span> <span class="fl">0.0</span>,</span>
+<span>                    format <span class="op">=</span> <span class="st">"%m/%d/%Y"</span><span class="op">)</span> <span class="co"># nolint: nonportable_path_linter.</span></span>
+<span><span class="co">#&gt; Warning: Using %m/%d/%Y to standardize target columns...</span></span>
 <span></span>
 <span><span class="co"># CALCULATE INDIVIDUAL AGE IN YEARS FROM THE 'dateOfBirth' COLUMN AND SEND THE</span></span>
 <span><span class="co"># REMAINDER IN MONTHS</span></span>
@@ -4031,18 +4032,22 @@ specific requirements.</p>
 <span></span>
 <span><span class="co"># CALCULATE THE TIME SPAN IN YEARS BETWEEN INDIVIDUALS 'dateOfBirth' AND THE DAY</span></span>
 <span><span class="co"># THEY TESTED POSITIVE</span></span>
-<span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"test_df.RDS"</span>, package <span class="op">=</span> <span class="st">"cleanepi"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="../reference/replace_missing_values.html">replace_missing_values</a></span><span class="op">(</span>target_columns <span class="op">=</span> <span class="st">"dateOfBirth"</span>,</span>
-<span>                         na_strings     <span class="op">=</span> <span class="st">"-99"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"test_df.RDS"</span>, package <span class="op">=</span> <span class="st">"cleanepi"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">data</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../reference/replace_missing_values.html">replace_missing_values</a></span><span class="op">(</span></span>
+<span>    target_columns <span class="op">=</span> <span class="st">"dateOfBirth"</span>,</span>
+<span>    na_strings <span class="op">=</span> <span class="st">"-99"</span></span>
+<span>  <span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/standardize_dates.html">standardize_dates</a></span><span class="op">(</span></span>
-<span>    target_columns  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dateOfBirth"</span>, <span class="st">"date_first_pcr_positive_test"</span><span class="op">)</span>,</span>
-<span>    error_tolerance <span class="op">=</span> <span class="fl">0.0</span></span>
+<span>    target_columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"date_first_pcr_positive_test"</span>, <span class="st">"date.of.admission"</span><span class="op">)</span>,</span>
+<span>    error_tolerance <span class="op">=</span> <span class="fl">0.0</span>,</span>
+<span>    format <span class="op">=</span> <span class="cn">NULL</span></span>
 <span>  <span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/timespan.html">timespan</a></span><span class="op">(</span></span>
-<span>    target_column       <span class="op">=</span> <span class="st">"dateOfBirth"</span>,</span>
-<span>    end_date            <span class="op">=</span> <span class="st">"date_first_pcr_positive_test"</span>,</span>
-<span>    span_unit           <span class="op">=</span> <span class="st">"years"</span>,</span>
-<span>    span_column_name    <span class="op">=</span> <span class="st">"elapsed_time"</span>,</span>
+<span>    target_column <span class="op">=</span> <span class="st">"date.of.admission"</span>,</span>
+<span>    end_date <span class="op">=</span> <span class="st">"date_first_pcr_positive_test"</span>,</span>
+<span>    span_unit <span class="op">=</span> <span class="st">"years"</span>,</span>
+<span>    span_column_name <span class="op">=</span> <span class="st">"elapsed_time"</span>,</span>
 <span>    span_remainder_unit <span class="op">=</span> <span class="cn">NULL</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 <p>The <code><a href="../reference/timespan.html">timespan()</a></code> function augments the input dataset by
@@ -4104,10 +4109,10 @@ day 0
 Gambia
 </td>
 <td style="text-align:left;">
-01/12/2020
+2020-12-01
 </td>
 <td style="text-align:left;">
-1972-01-06
+06/01/1972
 </td>
 <td style="text-align:left;">
 2020-12-01
@@ -4116,7 +4121,7 @@ Gambia
 1
 </td>
 <td style="text-align:right;">
-48.90349
+0.0000000
 </td>
 </tr>
 <tr>
@@ -4133,10 +4138,10 @@ day 0
 Gambia
 </td>
 <td style="text-align:left;">
-28/01/2021
+2021-01-28
 </td>
 <td style="text-align:left;">
-1952-02-20
+02/20/1952
 </td>
 <td style="text-align:left;">
 2021-01-01
@@ -4145,7 +4150,7 @@ Gambia
 1
 </td>
 <td style="text-align:right;">
-68.86516
+-0.0739220
 </td>
 </tr>
 <tr>
@@ -4162,10 +4167,10 @@ day 0
 Gambia
 </td>
 <td style="text-align:left;">
-15/02/2021
+2021-02-15
 </td>
 <td style="text-align:left;">
-1961-06-15
+06/15/1961
 </td>
 <td style="text-align:left;">
 2021-02-11
@@ -4174,7 +4179,7 @@ Gambia
 -99
 </td>
 <td style="text-align:right;">
-59.66051
+-0.0109514
 </td>
 </tr>
 <tr>
@@ -4191,10 +4196,10 @@ day 0
 Gambia
 </td>
 <td style="text-align:left;">
-11/02/2021
+2021-02-11
 </td>
 <td style="text-align:left;">
-1947-11-11
+11/11/1947
 </td>
 <td style="text-align:left;">
 2021-02-01
@@ -4203,7 +4208,7 @@ Gambia
 1
 </td>
 <td style="text-align:right;">
-73.22656
+-0.0273785
 </td>
 </tr>
 <tr>
@@ -4220,10 +4225,10 @@ day 0
 Gambia
 </td>
 <td style="text-align:left;">
-17/02/2021
+2021-02-17
 </td>
 <td style="text-align:left;">
-2000-09-26
+09/26/2000
 </td>
 <td style="text-align:left;">
 2021-02-16
@@ -4232,7 +4237,7 @@ Gambia
 2
 </td>
 <td style="text-align:right;">
-20.39151
+-0.0027379
 </td>
 </tr>
 <tr>
@@ -4249,7 +4254,7 @@ day 0
 Gambia
 </td>
 <td style="text-align:left;">
-17/02/2021
+2021-02-17
 </td>
 <td style="text-align:left;">
 NA
@@ -4261,7 +4266,7 @@ NA
 2
 </td>
 <td style="text-align:right;">
-NA
+0.2026010
 </td>
 </tr>
 <tr>
@@ -4278,10 +4283,10 @@ day 0
 Gambia
 </td>
 <td style="text-align:left;">
-28/02/2021
+2021-02-28
 </td>
 <td style="text-align:left;">
-1989-03-11
+11/03/1989
 </td>
 <td style="text-align:left;">
 2021-02-19
@@ -4290,7 +4295,7 @@ Gambia
 1
 </td>
 <td style="text-align:right;">
-31.94524
+-0.0246407
 </td>
 </tr>
 <tr>
@@ -4307,10 +4312,10 @@ day 0
 Gambia
 </td>
 <td style="text-align:left;">
-22/02/2021
+2021-02-22
 </td>
 <td style="text-align:left;">
-1976-05-10
+10/05/1976
 </td>
 <td style="text-align:left;">
 2021-09-20
@@ -4319,7 +4324,7 @@ Gambia
 2
 </td>
 <td style="text-align:right;">
-45.36345
+0.5749487
 </td>
 </tr>
 <tr>
@@ -4336,10 +4341,10 @@ day 0
 Gambia
 </td>
 <td style="text-align:left;">
-02/03/2021
+2021-03-02
 </td>
 <td style="text-align:left;">
-1991-09-23
+09/23/1991
 </td>
 <td style="text-align:left;">
 2021-02-26
@@ -4348,7 +4353,7 @@ Gambia
 1
 </td>
 <td style="text-align:right;">
-29.42916
+-0.0109514
 </td>
 </tr>
 <tr>
@@ -4365,10 +4370,10 @@ day 0
 Gambia
 </td>
 <td style="text-align:left;">
-05/03/2021
+2021-03-05
 </td>
 <td style="text-align:left;">
-1991-08-02
+02/08/1991
 </td>
 <td style="text-align:left;">
 2021-03-03
@@ -4377,7 +4382,7 @@ Gambia
 2
 </td>
 <td style="text-align:right;">
-29.58522
+-0.0054757
 </td>
 </tr>
 </tbody>
@@ -4409,7 +4414,7 @@ Gambia
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer>
