@@ -115,9 +115,9 @@ scan_in_character <- function(x, x_name) {
   character_count <- character_count - numeric_count
 
   # Some numeric values might actually be of type Date. This is the case for
-  # data imported into R from MS Exel. We use:
+  # data imported into R from MS Excel. We use:
   # 1. lubridate parser on these values to convert them into Date using the
-  # date-time for 1900-01-01 UTC in POSIXct format as origin for modern MS Exel.
+  # date-time for 1900-01-01 UTC in POSIXct format as origin for modern MS Excel.
   # 2. the date guesser implemented for date standardisation.
   # Then detect the valid date values. A date is considered valid in this case
   # if it falls within the interval of today's date and 50 years back from
