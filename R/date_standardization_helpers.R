@@ -92,7 +92,7 @@ date_trim_outliers <- function(new_dates, dmin, dmax, cols, original_dates) {
 #' @keywords internal
 #'
 date_convert <- function(data, cols, error_tolerance,
-                         timeframe = NULL, orders, modern_excel) {
+                         timeframe = NULL, orders) {
   # Guess the date using lubridate (for actual dates and numbers) and the
   # guesser we developed
   old_dates <- new_dates <- data[[cols]]
@@ -100,7 +100,6 @@ date_convert <- function(data, cols, error_tolerance,
     date_guess_res <- date_guess(
       old_dates,
       orders = orders,
-      modern_excel = modern_excel,
       column_name = cols
     )
     new_dates <- date_guess_res[["res"]]
@@ -188,7 +187,7 @@ date_check_outsiders <- function(data, timeframe, new_dates, cols) {
 #' @keywords internal
 #'
 date_guess_convert <- function(data, error_tolerance, timeframe,
-                               orders, modern_excel) {
+                               orders) {
   # detect columns of type character, factor, POSIXt and Date
   are_posix <- which(vapply(data, inherits, logical(1), "POSIXt"))
   are_characters <- which(vapply(data, inherits, logical(1), "character"))
@@ -212,7 +211,6 @@ date_guess_convert <- function(data, error_tolerance, timeframe,
     date_guess_res <- date_guess(
       old_dates,
       orders = orders,
-      modern_excel = modern_excel,
       column_name = i
     )
     new_dates <- date_guess_res[["res"]]

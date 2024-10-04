@@ -74,8 +74,7 @@
 #'                             world_named_months = c("Ybd", "dby"),
 #'                             world_digit_months = c("dmy", "Ymd"),
 #'                             US_formats         = c("Omdy", "YOmd")
-#'                           ),
-#'                           modern_excel    = TRUE)
+#'                           ))
 #'
 #' # Parameters for subject IDs standardization
 #' standardize_subject_ids <- list(target_columns = "study_id",
@@ -186,8 +185,7 @@ clean_data <- function(data, params = NULL) {
       format          = params[["standardize_dates"]][["format"]],
       timeframe       = params[["standardize_dates"]][["timeframe"]],
       error_tolerance = params[["standardize_dates"]][["error_tolerance"]],
-      orders          = params[["standardize_dates"]][["orders"]],
-      modern_excel    = params[["standardize_dates"]][["modern_excel"]]
+      orders          = params[["standardize_dates"]][["orders"]]
     )
   }
 
