@@ -189,15 +189,15 @@ date_rescue_lubridate_failures <- function(date_a_frame, original_dates) {
 
   # find non date but numeric. they will be subjected to excel conversion
   # using the date-time for 1970-01-01 UTC in POSIXct format as origin for
-  # modern exel; "1904-01-01" otherwise.
+  # modern Excel; "1904-01-01" otherwise.
   # ---
   # NOTE: guessing whether a numeric value is a date increases the inaccuracy of
   # the guessing result. We have decided not to perform this conversion anymore.
   # Instead a note will be sent to the user with a suggestion about how to
   # convert numeric values that are potentially date.
   # ---
-  go_exel <- all_nas & numbers
-  date_a_frame[[1L]][go_exel] <- lubridate::NA_Date_
+  go_excel <- all_nas & numbers
+  date_a_frame[[1L]][go_excel] <- lubridate::NA_Date_
 
   return(date_a_frame)
 }

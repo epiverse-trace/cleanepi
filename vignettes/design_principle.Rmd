@@ -36,13 +36,12 @@ In addition, this package also has two surrogate functions:
     * character values in a logical column (a `not available` within a column of `TRUE` or `FALSE`),
     * numbers written in letters.
 
-When the input data contains character columns, the function returns a data frame with the same number of row as the character columns and six columns representing their column names, proportion of missing, numeric, date, character, and logical values. We transpose the result relative to the input dataset (columns in the input are returned as row) to avoid horizontal scrolling in the case of datasets with a large number of character columns.
+When the input data contains character columns, the function returns a data frame with the same number of row as the character columns and six columns representing their column names, proportion of missing, numeric, date, character, and logical values respectively. We transpose the result relative to the input dataset (columns in the input are returned as row) to avoid horizontal scrolling in the case of datasets with a large number of character columns.
 The sum of the proportion across all columns is not always equal to 1 for the reason below:
-    * When a numeric value is found in a character column which also contains Date
-    values, the numeric ones which are potentially of type Date (a numeric, which
-    after conversion to Date, fall within the interval
-    [50 years back from today's date, today's date]) will add to the date count
-    as well as to the numeric count.
+    * When numeric values are found in a character column, they will be subjected to the followings:
+        1. conversion into Date using `lubridate::as_date()` with `origin = as.Date("1900-01-01")`.
+        2. conversion into Date using `date_guess()` function used by the `standardize_dates()` function.
+    Numeric values that are successfully converted into date from either of the methods above are considered as potential dates. They will be added to the date count if they fall within the interval [50 years back from today's date, today's date].
 
 > There is no ambiguity for the columns of type Date, logical, and numeric. Values in such columns are expected to be of the same type. Hence, the function will not be applied on columns other than character columns. Consequently, it invisibly returns `NA` when applied on a dataset with no character columns, after printing out a message about the absence of character columns from the input dataset.
 
