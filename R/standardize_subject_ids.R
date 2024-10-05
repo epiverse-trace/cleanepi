@@ -51,7 +51,7 @@ check_subject_ids <- function(data,
   }
 
   # check for missing and duplicated ids
-  data       <- check_subject_ids_oness(data, target_columns)
+  data <- check_subject_ids_oness(data, target_columns)
 
   # we will use regular expressions to match on prefix and suffix
   regex_match  <- paste0(
@@ -68,7 +68,7 @@ check_subject_ids <- function(data,
   if (!is.null(range)) {
     numbers_in <- as.numeric(unlist(lapply(data[[target_columns]],
                                            readr::parse_number)))
-    bad_rows   <- c(
+    bad_rows <- c(
       bad_rows,
       which(!(numbers_in >= min(range) & numbers_in <= max(range)))
     )
@@ -80,17 +80,21 @@ check_subject_ids <- function(data,
   }
 
   # remove the incorrect rows
-  if (!is.null(bad_rows)) {
-    bad_rows     <- sort(unique(bad_rows))
-    tmp_report   <- data.frame(idx = bad_rows,
-                               ids = data[[target_columns]][bad_rows])
-    bad_rows     <- toString(bad_rows)
+  if (length(bad_rows) > 0) {
+    bad_rows <- sort(unique(bad_rows))
+    tmp_report <- data.frame(
+      idx = bad_rows,
+      ids = data[[target_columns]][bad_rows]
+    )
+    bad_rows <- toString(bad_rows)
     warning("Detected incorrect subject ids at lines: ", bad_rows,
             "\nUse the correct_subject_ids() function to adjust them.\n",
             call. = FALSE)
-    data         <- add_to_report(x     = data,
-                                  key   = "incorrect_subject_id",
-                                  value = tmp_report)
+    data <- add_to_report(
+      x = data,
+      key = "incorrect_subject_id",
+      value = tmp_report
+    )
   }
 
   return(data)
@@ -149,12 +153,11 @@ correct_subject_ids <- function(data, target_columns, correction_table) {
             = all(correction_table[["from"]] %in% data[[target_columns]]))
 
   # perform the substitution
-  idx                         <- match(correction_table[["from"]],
-                                       data[[target_columns]])
+  idx <- match(correction_table[["from"]], data[[target_columns]])
   data[[target_columns]][idx] <- correction_table[["to"]]
 
   # check whether substitution did not introduce any duplicate
-  data                        <- check_subject_ids_oness(data, target_columns)
+  data <- check_subject_ids_oness(data, target_columns)
 
   return(data)
 }
@@ -171,23 +174,34 @@ correct_subject_ids <- function(data, target_columns, correction_table) {
 check_subject_ids_oness <- function(data, id_col_name) {
   # check for missing values in ID column
   if (anyNA(data[[id_col_name]])) {
-    idx                <- which(is.na(data[[id_col_name]]))
-    warning("\nMissing values found on ID column in lines: ",
-            toString(idx), call. = FALSE)
-    data <- add_to_report(x     = data,
-                          key   = "missing_ids",
-                          value = toString(idx))
+    idx <- which(is.na(data[[id_col_name]]))
+    warning(
+      "\nMissing values found on ID column in lines: ",
+      toString(idx),
+      call. = FALSE
+    )
+    data <- add_to_report(
+      x = data,
+      key = "missing_ids",
+      value = toString(idx)
+    )
   }
 
   # check for duplicates ID column
-  duplicated_ids       <- find_duplicates(data, id_col_name)
-  tmp_report           <- attr(duplicated_ids, "report")
-  if (!is.null(tmp_report) && "duplicated_rows" %in% names(tmp_report) &&
-      nrow(tmp_report[["duplicated_rows"]]) > 0L) {
-    dups               <- tmp_report[["duplicated_rows"]]
-    data               <- add_to_report(x     = data,
-                                        key   = "duplicated_ids",
-                                        value = dups)
+  duplicated_ids <- suppressMessages(find_duplicates(data, id_col_name))
+  tmp_report <- attr(duplicated_ids, "report")
+  if (!is.null(tmp_report) &&
+        "duplicated_rows" %in% names(tmp_report) &&
+        nrow(tmp_report[["duplicated_rows"]]) > 0L) {
+    message("Found ", nrow(tmp_report[["duplicated_rows"]]), " duplicated ",
+            "rows in the subject IDs. Please consult the report for ",
+            "more details.")
+    dups <- tmp_report[["duplicated_rows"]]
+    data <- add_to_report(
+      x = data,
+      key = "duplicated_ids",
+      value = dups
+    )
   }
 
   return(data)

@@ -96,7 +96,19 @@ test_that("check_subject_ids sends a message when duplicated IDs are found", {
                       suffix         = "P2",
                       range          = c(1L, 100L),
                       nchar          = 7L),
-    "Found 2 duplicated rows. Please consult the report for more details."
+    regexp = cat("Found 2 duplicated rows in the subject IDs. Please consult",
+                 "the report for more details.")
+  )
+
+  expect_warning(
+    check_subject_ids(data           = data,
+                      target_columns = "study_id",
+                      prefix         = "PS",
+                      suffix         = "P2",
+                      range          = c(1L, 100L),
+                      nchar          = 7L),
+    regexp = cat("Detected incorrect subject ids at lines: 3, 5, 7",
+                 "Use the correct_subject_ids() function to adjust them.")
   )
 })
 
