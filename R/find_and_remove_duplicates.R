@@ -110,8 +110,8 @@ find_duplicates <- function(data, target_columns = NULL) {
     )
 
   if (nrow(dups) > 0L) {
-    message("Found ", nrow(dups), " duplicated rows. Please consult the report",
-            " for more details.")
+    message("Found ", nrow(dups), " duplicated rows in the dataset. Please",
+            " consult the report for more details.")
     to_be_shown <- dups %>%
       dplyr::select(c("row_id", "group_id", {{ target_columns }}))
     data <- add_to_report(x     = data,

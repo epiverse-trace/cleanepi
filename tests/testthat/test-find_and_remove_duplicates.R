@@ -88,6 +88,7 @@ test_that("find_duplicates sends a messages when duplicates are found", {
       data           = data,
       target_columns = "linelist_tags"
     ),
-    "Found 57 duplicated rows. Please consult the report for more details."
+    regexp = cat("Found 57 duplicated rows in the dataset. Please consult the",
+                 " report for more details.")
   )
 })
