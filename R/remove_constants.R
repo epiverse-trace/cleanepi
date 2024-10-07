@@ -1,4 +1,8 @@
-#' Remove empty rows and columns and constant column
+#' Remove constant data i.e. empty rows and columns and constant columns
+#'
+#' The function iteratively removes the constant data until there are not found
+#' anymore. It stores the details about the removed constant data in a form of
+#' a data frame within the report object.
 #'
 #' @param data The input data frame or linelist
 #' @param cutoff The cut-off for empty rows and columns removal. If provided,
@@ -23,36 +27,120 @@
 #'
 #' # check the report to see what has happened
 #' report <- attr(dat, "report")
-#' summary(report)
+#' report$constant_data
 remove_constants <- function(data, cutoff = 1L) {
   checkmate::assert_number(cutoff, lower = 0.0, upper = 1.0, na.ok = FALSE,
                            finite = TRUE, null.ok = FALSE)
-  report  <- attr(data, "report")
+  # extract the current report and save it for later use
+  report <- attr(data, "report")
+
+  # perform the constant data removal once
+  # then iteratively perform constant data removal until the input data is the
+  # same as the output data
+  initial_data <- data
+  i <- 1
+  data <- perform_remove_constants(data, cutoff)
+
+  # save details about removed data for report
+  constant_data_report <- list(
+    iteration_1 = list(c(
+      empty_columns = data[["empty_columns"]],
+      empty_rows = data[["empty_rows"]],
+      constant_columns = data[["constant_columns"]]
+    ))
+  )
+  # iteratively remove constant data
+  if (!identical(initial_data, data[["data"]])) {
+    different <- TRUE
+    while (different) {
+      i <- i + 1
+      tmp_data <- data[["data"]]
+      data <- perform_remove_constants(tmp_data, cutoff)
+      constant_data_report[[paste0("iteration_", i)]] <- list(c(
+        empty_columns = data[["empty_columns"]],
+        empty_rows = data[["empty_rows"]],
+        constant_columns = data[["constant_columns"]]
+      ))
+      if (identical(tmp_data, data[["data"]])) {
+        different <- FALSE
+      }
+    }
+  }
+
+  # make a data frame of the information about the removed constant data
+  constant_data_report <- dplyr::bind_rows(constant_data_report)
+
+  # when some elements of the constant data were not found from a given dataset,
+  # populate those elements with NA. This allows to always return a data frame
+  # with the same columns.
+  expected_columns <- c("empty_columns", "empty_rows", "constant_columns")
+  idx <- expected_columns %in% names(constant_data_report)
+  if (!all(idx)) {
+    constant_data_report[, expected_columns[!idx]] <- NA
+  }
+  constant_data_report <- constant_data_report[, expected_columns]
+
+  # add the iteration numbers to the report for information about what rows and
+  # columns were eliminated at which iteration.
+  constant_data_report <- cbind(
+    iteration = seq_len(nrow(constant_data_report)),
+    constant_data_report
+  )
+
+  # send a message about iterative constant data removal to alert the user
+  if (nrow(constant_data_report) > 1) {
+    message("Constant data was removed after ", nrow(constant_data_report),
+            " iterations. See the report for more details.")
+  }
+
+  data <- data[["data"]]
+  report[["constant_data"]] <- constant_data_report
+  attr(data, "report") <- report
+  return(data)
+}
+
+#' Perform constant data removal.
+#'
+#' This function is called at every iteration of the constant data removal until
+#' no constant data is found.
+#'
+#' @inheritParams remove_constants
+#'
+#' @return A list with the input dataset where all empty rows and columns as
+#'    well as constant columns have been removed.
+#' @keywords internal
+#'
+perform_remove_constants <- function(data, cutoff) {
   # remove the empty rows and columns
-  dat     <- data %>%
+  dat <- data %>%
     janitor::remove_empty(which = c("rows", "cols"), cutoff = cutoff)
 
   # report empty columns if found
+  empty_columns <- NULL
   removed <- setdiff(colnames(data), names(dat))
   if (length(removed) > 0L) {
-    add_this <- toString(removed)
-    report[["empty_columns"]] <- add_this
+    empty_columns <- toString(removed)
   }
 
   # report empty rows if found
+  empty_rows <- NULL
   if (nrow(data) > nrow(dat)) {
-    report[["empty_rows"]] <- which(rowSums(is.na(data)) == ncol(data))
+    empty_rows <- which(rowSums(is.na(data)) == ncol(data))
   }
 
   # remove constant columns
-  data    <- dat
-  dat     <- data %>% janitor::remove_constant()
+  data <- dat
+  dat <- data %>% janitor::remove_constant()
   removed <- setdiff(colnames(data), names(dat))
+  constant_columns <- NULL
   if (length(removed) > 0L) {
-    add_this <- toString(removed)
-    report[["constant_columns"]] <- add_this
+    constant_columns <- toString(removed)
   }
 
-  attr(dat, "report") <- report
-  return(dat)
+  return(list(
+    data = dat,
+    empty_columns = empty_columns,
+    empty_rows = empty_rows,
+    constant_columns = constant_columns
+  ))
 }
