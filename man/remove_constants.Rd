@@ -2,7 +2,7 @@
 % Please edit documentation in R/remove_constants.R
 \name{remove_constants}
 \alias{remove_constants}
-\title{Remove empty rows and columns and constant column}
+\title{Remove constant data i.e. empty rows and columns and constant columns}
 \usage{
 remove_constants(data, cutoff = 1L)
 }
@@ -18,7 +18,9 @@ The input dataset without the empty rows and columns and the
 constant columns.
 }
 \description{
-Remove empty rows and columns and constant column
+The function iteratively removes the constant data until there are not found
+anymore. It stores the details about the removed constant data in a form of
+a data frame within the report object.
 }
 \examples{
 data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi"))
@@ -34,5 +36,5 @@ dat <- remove_constants(
 
 # check the report to see what has happened
 report <- attr(dat, "report")
-summary(report)
+report$constant_data
 }

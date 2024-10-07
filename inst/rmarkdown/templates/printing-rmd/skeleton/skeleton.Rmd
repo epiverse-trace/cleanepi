@@ -7,9 +7,7 @@ params:
   scanning_result: NULL
   colnames: NULL
   missing_values_replaced_at: NULL
-  empty_columns: NULL
-  empty_rows: NULL
-  constant_columns: NULL
+  constant_data: NULL
   duplicated_rows: NULL
   removed_duplicates: NULL
   duplicates_checked_from: NULL
@@ -61,17 +59,13 @@ p.compact {
 scanning_result <- params[["scanning_result"]]
 is_data_scanned <- !is.null(scanning_result)
 standardized_column_names <- params[["colnames"]]
-are_column_standardised   <- !is.null(standardized_column_names)
-out_of_range_dates           <- params[["out_of_range_dates"]]
+are_column_standardised <- !is.null(standardized_column_names)
+out_of_range_dates <- params[["out_of_range_dates"]]
 are_out_of_range_dates_found <- !is.null(out_of_range_dates)
-incorrect_date_sequence      <- params[["incorrect_date_sequence"]]
+incorrect_date_sequence <- params[["incorrect_date_sequence"]]
 are_incorrect_date_seq_found <- !is.null(incorrect_date_sequence)
-empty_columns           <- params[["empty_columns"]]
-are_empty_columns_found <- !is.null(empty_columns)
-empty_rows           <- params[["empty_rows"]]
-are_empty_rows_found <- !is.null(empty_rows)
-constant_columns           <- params[["constant_columns"]]
-are_constant_columns_found <- !is.null(constant_columns)
+constant_data <- params[["constant_data"]]
+are_constant_data_found <- !is.null(constant_data)
 duplicated_rows      <- params[["duplicated_rows"]]
 are_duplicates_found <- !is.null(duplicated_rows)
 removed_duplicates     <- params[["removed_duplicates"]]
@@ -370,65 +364,32 @@ reactable::reactable(
 )
 ```
 
-### Constant data {.tabset}
+### Constant data
 
-#### Constant columns
-
-```{r constant_columns, eval=are_constant_columns_found}
-constant_columns <- glue::glue_collapse(constant_columns, sep = ", ")
-constant_columns <- data.frame(constant_columns)
-colnames(constant_columns)  <- "column names"
-row.names(constant_columns) <- "constant columns"
+```{r constant_data, eval=are_constant_data_found}
 reactable::reactable(
-  constant_columns,
-  sortable   = FALSE,
+  constant_data,
+  sortable   = TRUE,
   filterable = FALSE,
   searchable = FALSE,
-  pagination = FALSE,
-  rownames   = TRUE,
+  rownames   = FALSE,
+  pagination = TRUE,
   striped    = TRUE,
+  highlight  = TRUE,
   compact    = TRUE,
-  fullWidth  = TRUE
-)
-```
-
-#### Empty columns
-
-```{r empty_columns, eval=are_empty_columns_found}
-empty_columns <- glue::glue_collapse(empty_columns, sep = ", ")
-empty_columns <- data.frame(empty_columns)
-colnames(empty_columns)  <- "column names"
-row.names(empty_columns) <- "empty columns"
-reactable::reactable(
-  empty_columns,
-  sortable   = FALSE,
-  filterable = FALSE,
-  searchable = FALSE,
-  pagination = FALSE,
-  rownames   = TRUE,
-  striped    = TRUE,
-  compact    = TRUE,
-  fullWidth  = TRUE
-)
-```
-
-#### Empty rows
-
-```{r empty_rows, eval=are_empty_rows_found}
-empty_rows <- glue::glue_collapse(empty_rows, sep = ", ")
-empty_rows <- data.frame(empty_rows)
-colnames(empty_rows)  <- "row indices"
-row.names(empty_rows) <- "empty rows"
-reactable::reactable(
-  empty_rows,
-  sortable   = FALSE,
-  filterable = FALSE,
-  searchable = FALSE,
-  pagination = FALSE,
-  rownames   = TRUE,
-  striped    = TRUE,
-  compact    = TRUE,
-  fullWidth  = TRUE
+  fullWidth  = TRUE,
+  bordered   = TRUE,
+  resizable  = TRUE,
+  defaultPageSize = 15,
+  columns    = list(
+    iteration = reactable::colDef(name = "iteration", align = "center"),
+    empty_columns = reactable::colDef(name = "empty columns", align = "center"),
+    empty_rows = reactable::colDef(name = "empty rows", align = "center"),
+    constant_columns = reactable::colDef(
+      name = "constant columns",
+      align = "center"
+    )
+  )
 )
 ```
 

@@ -22,7 +22,9 @@ test_that("replace_missing_values works when target_columns is set to NULL", {
   expect_false("-99" %in% cleaned_data[["sex"]])
   expect_false("-99" %in% cleaned_data[["dateOfBirth"]])
   expect_true(all(is.na(cleaned_data[["sex"]][data[["sex"]] == "-99"])))
-  expect_true(all(is.na(cleaned_data[["dateOfBirth"]][data[["dateOfBirth"]] == "-99"]))) # nolint: line_length_linter
+  expect_true(
+    all(is.na(cleaned_data[["dateOfBirth"]][data[["dateOfBirth"]] == "-99"]))
+  )
 })
 
 test_that("replace_missing_values fails as expected", {
