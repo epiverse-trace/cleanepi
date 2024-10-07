@@ -23,3 +23,9 @@
 * Make R version dependency explicit (#156, @Bisaloo).
 
 * Replace base R pipe with {tidyverse} pipe (#155, @Karim-Mane)
+
+* Allow for a vector of character for `na_strings` argument in `replace_missing_values()` (#180, Karim-Mane)
+
+* Differentiate message sent when duplicates are found in subject ids column vs duplicates across several columns (#180, Karim-Mane)
+
+* Allow for iterative constant data removal (#180, Karim-Mane)
