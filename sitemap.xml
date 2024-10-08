@@ -54,12 +54,14 @@
 <url><loc>https://epiverse-trace.github.io/cleanepi/reference/is_date_sequence_ordered.html</loc></url>
 <url><loc>https://epiverse-trace.github.io/cleanepi/reference/make_readcap_dictionary.html</loc></url>
 <url><loc>https://epiverse-trace.github.io/cleanepi/reference/numbers_only.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/cleanepi/reference/perform_remove_constants.html</loc></url>
 <url><loc>https://epiverse-trace.github.io/cleanepi/reference/pipe.html</loc></url>
 <url><loc>https://epiverse-trace.github.io/cleanepi/reference/print_misspelled_values.html</loc></url>
 <url><loc>https://epiverse-trace.github.io/cleanepi/reference/print_report.html</loc></url>
 <url><loc>https://epiverse-trace.github.io/cleanepi/reference/remove_constants.html</loc></url>
 <url><loc>https://epiverse-trace.github.io/cleanepi/reference/remove_duplicates.html</loc></url>
 <url><loc>https://epiverse-trace.github.io/cleanepi/reference/replace_missing_values.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/cleanepi/reference/replace_with_na.html</loc></url>
 <url><loc>https://epiverse-trace.github.io/cleanepi/reference/retrieve_column_names.html</loc></url>
 <url><loc>https://epiverse-trace.github.io/cleanepi/reference/scan_columns.html</loc></url>
 <url><loc>https://epiverse-trace.github.io/cleanepi/reference/scan_data.html</loc></url>

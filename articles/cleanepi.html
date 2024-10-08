@@ -723,7 +723,8 @@ using the code below:</p>
 <span><span class="co">#&gt;                            Length Class      Mode     </span></span>
 <span><span class="co">#&gt; colnames                   2      data.frame list     </span></span>
 <span><span class="co">#&gt; missing_values_replaced_at 1      -none-     character</span></span>
-<span><span class="co">#&gt; constant_columns           1      -none-     character</span></span>
+<span><span class="co">#&gt; constant_data              4      data.frame list     </span></span>
+<span><span class="co">#&gt; out_of_range_dates         3      data.frame list     </span></span>
 <span><span class="co">#&gt; multi_format_dates         5      data.frame list     </span></span>
 <span><span class="co">#&gt; incorrect_subject_id       2      data.frame list</span></span></code></pre></div>
 <p>The report can also be displayed in an HTML format using the
@@ -1106,7 +1107,7 @@ dateOfBirth
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
 date_first_pcr_positive_test
 </th>
-<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
 sex
 </th>
 </tr></thead>
@@ -1133,7 +1134,7 @@ Gambia
 <td style="text-align:left;">
 Dec 01, 2020
 </td>
-<td style="text-align:left;">
+<td style="text-align:right;">
 1
 </td>
 </tr>
@@ -1159,7 +1160,7 @@ Gambia
 <td style="text-align:left;">
 Jan 01, 2021
 </td>
-<td style="text-align:left;">
+<td style="text-align:right;">
 1
 </td>
 </tr>
@@ -1185,7 +1186,7 @@ Gambia
 <td style="text-align:left;">
 Feb 11, 2021
 </td>
-<td style="text-align:left;">
+<td style="text-align:right;">
 NA
 </td>
 </tr>
@@ -1211,7 +1212,7 @@ Gambia
 <td style="text-align:left;">
 Feb 01, 2021
 </td>
-<td style="text-align:left;">
+<td style="text-align:right;">
 1
 </td>
 </tr>
@@ -1237,7 +1238,7 @@ Gambia
 <td style="text-align:left;">
 Feb 16, 2021
 </td>
-<td style="text-align:left;">
+<td style="text-align:right;">
 2
 </td>
 </tr>
@@ -1263,7 +1264,7 @@ NA
 <td style="text-align:left;">
 May 02, 2021
 </td>
-<td style="text-align:left;">
+<td style="text-align:right;">
 2
 </td>
 </tr>
@@ -1289,7 +1290,7 @@ Gambia
 <td style="text-align:left;">
 Feb 19, 2021
 </td>
-<td style="text-align:left;">
+<td style="text-align:right;">
 1
 </td>
 </tr>
@@ -1315,7 +1316,7 @@ Gambia
 <td style="text-align:left;">
 Sep 20, 2021
 </td>
-<td style="text-align:left;">
+<td style="text-align:right;">
 2
 </td>
 </tr>
@@ -1341,7 +1342,7 @@ Gambia
 <td style="text-align:left;">
 Feb 26, 2021
 </td>
-<td style="text-align:left;">
+<td style="text-align:right;">
 1
 </td>
 </tr>
@@ -1367,7 +1368,7 @@ Gambia
 <td style="text-align:left;">
 Mar 03, 2021
 </td>
-<td style="text-align:left;">
+<td style="text-align:right;">
 2
 </td>
 </tr>
@@ -2240,7 +2241,7 @@ tagged variables in a <code>linelist</code> object.</p>
 <span id="cb19-27"><a href="#cb19-27" tabindex="-1"></a>  <span class="at">data           =</span> data,</span>
 <span id="cb19-28"><a href="#cb19-28" tabindex="-1"></a>  <span class="at">target_columns =</span> <span class="st">"linelist_tags"</span></span>
 <span id="cb19-29"><a href="#cb19-29" tabindex="-1"></a>)</span>
-<span id="cb19-30"><a href="#cb19-30" tabindex="-1"></a>Found <span class="dv">57</span> duplicated rows. Please consult the report <span class="cf">for</span> more details.</span></code></pre></div>
+<span id="cb19-30"><a href="#cb19-30" tabindex="-1"></a>Found <span class="dv">57</span> duplicated rows <span class="cf">in</span> the dataset. Please consult the report <span class="cf">for</span> more details.</span></code></pre></div>
 <p>Upon execution, the <code><a href="../reference/find_duplicates.html">find_duplicates()</a></code> function
 identifies all duplicated rows either based on all columns or those
 specified, and stores them in the report. In addition to the existing
@@ -3463,7 +3464,7 @@ variables only.</li>
 <span>                                       package <span class="op">=</span> <span class="st">"cleanepi"</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  target_columns <span class="op">=</span> <span class="st">"linelist_tags"</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; Found 57 duplicated rows. Please consult the report for more details.</span></span></code></pre></div>
+<span><span class="co">#&gt; Found 57 duplicated rows in the dataset. Please consult the report for more details.</span></span></code></pre></div>
 <p>Upon execution, the <code><a href="../reference/remove_duplicates.html">remove_duplicates()</a></code> function returns
 the input dataset without duplicated rows removed (if found). The
 details about the duplicates removal operation are stored in the report
@@ -3504,7 +3505,7 @@ duplicated rows to be removed.</p>
 <span id="cb23-4"><a href="#cb23-4" tabindex="-1"></a>                                       <span class="at">package =</span> <span class="st">"cleanepi"</span>)),</span>
 <span id="cb23-5"><a href="#cb23-5" tabindex="-1"></a>  <span class="at">target_columns =</span> <span class="st">"linelist_tags"</span></span>
 <span id="cb23-6"><a href="#cb23-6" tabindex="-1"></a>)</span>
-<span id="cb23-7"><a href="#cb23-7" tabindex="-1"></a>find_and_remove_dups Found <span class="dv">57</span> duplicated rows. Please consult the report <span class="cf">for</span> more details.</span>
+<span id="cb23-7"><a href="#cb23-7" tabindex="-1"></a>find_and_remove_dups Found <span class="dv">57</span> duplicated rows <span class="cf">in</span> the dataset. Please consult the report <span class="cf">for</span> more details.</span>
 <span id="cb23-8"><a href="#cb23-8" tabindex="-1"></a></span>
 <span id="cb23-9"><a href="#cb23-9" tabindex="-1"></a><span class="co"># EXTRACT THE DUPLICATES</span></span>
 <span id="cb23-10"><a href="#cb23-10" tabindex="-1"></a>report     <span class="ot">&lt;-</span> <span class="fu">attr</span>(dups, <span class="st">"report"</span>)</span>
