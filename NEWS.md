@@ -16,6 +16,9 @@
 
 * Rendering the report no more requires the use of {withr} package. Files generated during this process will be stored in the R temporary directory (#165, @Bisaloo).
 * Simplification and improvement of code performance across several functions (#154, #156, #162, @Bisaloo).
-* Make R version dependency explicit (#156, @Bisaloo).
+
+* Make R version dependency explicit (#156, @Bisaloo)
+
 * Replace base R pipe with {tidyverse} pipe (#155, @Karim-Mane)
-* Stop automatic conversion of numeric values into Date due to unexpected results from date_guess() function (#151, @Karim-Mane).
+
+* Stop automatic conversion of numeric values into Date due to unexpected results from date_guess() function (#151, @Karim-Mane)
