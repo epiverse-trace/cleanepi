@@ -178,3 +178,51 @@ get_target_column_names <- function(data, target_columns, cols) {
 
   return(target_columns)
 }
+
+
+#' Get column names
+#'
+#' When several performing data cleaning operations using the `clean_data()`
+#' function, the input column names might be altered by after the column names
+#' cleaning. As a consequence of this, some cleaning operations will fail due to
+#' the column names mismatch. This function is provided to anticipate on this
+#' scenario, hence providing continuity between the cleaning operations.
+#'
+#' @param data the input data. It can also be a modified data generated in
+#'    intermediate cleaning operations.
+#' @param target_columns a vector of target column names
+#'
+#' @returns a vector of column names to be used for the target cleaning
+#'    operations
+#' @keywords internal
+#'
+retrieve_column_names <- function(data, target_columns) {
+  # when 'linelist_tags' is provided, it will be returned as is
+  if (identical(target_columns, "linelist_tags")) {
+    return(target_columns)
+  }
+
+  # extract the report object to make it easily accessible
+  report    <- attr(data, "report")
+  if (!"colnames" %in% names(report)) {
+    return(target_columns)
+  }
+
+  # when no target column is provided, it will return NULL
+  if (is.null(target_columns)) {
+    return(NULL)
+  }
+
+  # detect the current names
+  # identify the old names
+  new_names      <- target_columns[target_columns %in% names(data)]
+  target_columns <- target_columns[!(target_columns %in% names(data))]
+  if ("colnames" %in% names(report) &&
+      all(target_columns %in% report[["colnames"]][["before"]])) {
+    all_column_names <- report[["colnames"]]
+    idx              <- match(target_columns, all_column_names[["before"]])
+    new_names        <- c(new_names, all_column_names[["after"]][idx])
+  }
+
+  return(new_names)
+}
