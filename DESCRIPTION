@@ -49,7 +49,6 @@ Imports:
     numberize,
     readr,
     rlang,
-    snakecase,
     tibble,
     utils
 Suggests: 

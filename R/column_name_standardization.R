@@ -40,10 +40,12 @@ standardize_column_names <- function(data, keep = NULL, rename = NULL) {
                            any.missing = FALSE)
   checkmate::assert_character(rename, min.len = 0L, null.ok = TRUE,
                               any.missing = FALSE)
+  # save the initial column names for comparison matters
   before <- colnames(data)
 
   # when rename is not NULL, get the indices of the old column names as a vector
   # and name them with the new names
+  idx_rename <- numeric()
   if (!is.null(rename)) {
     new_names <- names(rename)
     current_names <- unname(rename)
@@ -53,7 +55,7 @@ standardize_column_names <- function(data, keep = NULL, rename = NULL) {
       "Replace column names already exists" =
         !any(new_names %in% before)
     )
-    rename <- match(current_names, before)
+    rename <- idx_rename <- match(current_names, before)
     names(rename) <- new_names
   }
 
@@ -62,67 +64,109 @@ standardize_column_names <- function(data, keep = NULL, rename = NULL) {
   # name or column indices or NULL
   keep <- get_target_column_names(data, target_columns = keep, cols = NULL)
   kept <- before %in% keep
+  if (all(kept)) idx_keep <- numeric() else idx_keep <- which(kept)
 
+  # make the column names unique
   # if they're anything apart from ASCII e.g. arabic, throw error
   # TODO replace snakecase with fixed list of diacritics swapable to English
   # TODO e.g. é,ê,è = e
-  after <- make.unique(
-    snakecase::to_snake_case(before, transliterations = "Latin-ASCII"),
-    sep = "_"
-  )
+  # keep and rename must be preserved as requested by the user. for this reason
+  # we set then to "leaveY" before the transformation (where Y represents the
+  # indice from 1 to total number of columns to keep and rename)
+  idx <- unique(c(idx_keep, idx_rename))
+  x <- before
+  x[idx] <- paste0("leave", seq_along(idx))
+  colnames(data) <- x
+  after <- colnames(janitor::clean_names(data))
+
   if (!all(kept)) {
-    after[kept]  <- before[kept]
+    after[kept] <- before[kept]
   }
-  after[rename]  <- names(rename)
+  after[rename] <- names(rename)
+
+  # because of the {janitor} transformation, the resulting names could be
+  # similar to the one we want to keep.
+  # we need to make them unique in order to differentiate them with the one to
+  # be kept or rename
+  after <- make_unique_column_names(after, kept, before, rename)
+
+
+  # apply the new names to the data frame and make the report
   colnames(data) <- after
-  colnames_info  <- data.frame(before, after)
-  data           <- add_to_report(data, "colnames", colnames_info)
+  colnames_info <- data.frame(before, after)
+  data <- add_to_report(data, "colnames", colnames_info)
   return(data)
 }
 
-#' Get column names
+#' Make column names unique when duplicated column names are found after the
+#' transformation
 #'
-#' When performing several data cleaning operations using the `clean_data()`
-#' function, the input column names might be altered by after the column names
-#' cleaning. As a consequence of this, some cleaning operations will fail due to
-#' the column names mismatch. This function is provided to anticipate on this
-#' scenario, hence providing continuity between the cleaning operations.
+#' @param after A vector with the transformed column names
+#' @param kept A logical vector where column names to keep are set to TRUE
+#' @param before A vector with the initial column names
+#' @param rename A vector with the indices of the column names to be renamed
 #'
-#' @param data the input data. It can also be a modified data generated in
-#'    intermediate cleaning operations.
-#' @param target_columns a vector of target column names
-#'
-#' @returns a vector of column names to be used for the target cleaning
-#'    operations
+#' @return An adjusted vector if there were duplicated names introduced due to
+#'    the transformation
 #' @keywords internal
 #'
-retrieve_column_names <- function(data, target_columns) {
-  # when 'linelist_tags' is provided, it will be returned as is
-  if (identical(target_columns, "linelist_tags")) {
-    return(target_columns)
+make_unique_column_names <- function(after, kept, before, rename) {
+  # detect those that are similar to the ones we want to keep or rename
+  # make them unique
+  t <- table(after)
+  duplicates <- names(t[t > 1])
+
+  # do not proceed if there is no duplicates
+  if (length(duplicates) == 0) {
+    return(after)
   }
 
-  # extract the report object to make it easily accessible
-  report    <- attr(data, "report")
-  if (!"colnames" %in% names(report)) {
-    return(target_columns)
+  for (dup in duplicates) {
+    # only consider column names starting with the one of interest
+    are_duplicates <- grepl(sprintf("^%s", dup), after)
+
+    # split them to access the length of each element
+    splits <- strsplit(
+      after[are_duplicates], paste0(dup, "_"), fixed = TRUE
+    )
+    sizes <- as.numeric(lapply(splits, length))
+
+    if (all(sizes == 1)) {
+      # if no element has length > 1, append 1:n to each duplicates
+      after[are_duplicates] <- paste(dup, seq_along(sizes), sep = "_")
+    } else {
+      # if some element has length > 1, identify those where second element is a
+      # number and use that number as a reference.
+      idx <- which(sizes > 1)
+      are_numeric <- suppressWarnings(
+        as.numeric(
+          lapply(splits[idx], function(x) {
+            unlist(x)[[2]]
+          })
+        )
+      )
+
+      # use the numeric values extracted from the splits to choose what number
+      # will be appended to the duplicates
+      if (all(is.na(are_numeric))) {
+        after[are_duplicates][sizes == 1] <- paste(
+          dup, seq_len(sum(sizes == 1)), sep = "_"
+        )
+      } else {
+        reference <- max(are_numeric, na.rm = TRUE)
+        add <- seq_len(sum(sizes == 1) + 1)
+        after[are_duplicates][sizes == 1] <- paste0(
+          dup, "_", add[!(add == reference)]
+        )
+      }
+    }
   }
 
-  # when no target column is provided, it will return NULL
-  if (is.null(target_columns)) {
-    return(NULL)
+  # we want to preserve column names specified in 'keep' and 'rename'
+  if (!all(kept)) {
+    after[kept] <- before[kept]
   }
+  after[rename] <- names(rename)
 
-  # detect the current names
-  # identify the old names
-  new_names      <- target_columns[target_columns %in% names(data)]
-  target_columns <- target_columns[!(target_columns %in% names(data))]
-  if ("colnames" %in% names(report) &&
-      all(target_columns %in% report[["colnames"]][["before"]])) {
-    all_column_names <- report[["colnames"]]
-    idx              <- match(target_columns, all_column_names[["before"]])
-    new_names        <- c(new_names, all_column_names[["after"]][idx])
-  }
-
-  return(new_names)
+  return(after)
 }
