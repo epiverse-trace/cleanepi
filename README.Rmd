@@ -161,7 +161,7 @@ params <- list(
 ```{r eval=TRUE}
 # PERFORMING THE DATA CLEANING
 cleaned_data <- clean_data(
-  data   = test_data,
+  data = test_data,
   params = params
 )
 ```
