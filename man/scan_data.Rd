@@ -29,17 +29,18 @@ character column the function returns a message.
 For every character column, we count:
 \enumerate{
 \item the number of missing data \code{NA}
-\item count the numeric values. Detect valid dates among the numeric values
-using \code{lubridate::as_date()} and \code{date_guess()} functions. If
-found, a warning is triggered to alert on the presence and ambiguous values.
+\item the number of numeric values. A process of detecting valid dates among the
+numeric values is then initiated using \code{lubridate::as_date()} and
+\code{date_guess()} functions. If found, a warning is triggered to alert on
+the presence and ambiguous (numeric values that are potentially date) values.
 NOTE: A date is considered valid in this case if it falls within the interval
-of today's date and 50 years back from today's.
+of today's date and 50 years back from today.
 \item detect the Date values from the non-numeric using the \code{date_guess()}
 function. The date count is the sum of dates identified from numeric and
 non-numeric values. Because of the overlap between numeric and date, the sum
 across the rows in the scanning result might be greater than 1.
 \item count the logical values.
-The remaining values will be those of type characters
+The remaining values will be those of type characters.
 }
 }
 \examples{
