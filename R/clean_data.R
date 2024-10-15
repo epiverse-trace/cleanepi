@@ -109,9 +109,10 @@
 clean_data <- function(data, params) {
   checkmate::assert_data_frame(data, null.ok = FALSE, min.cols = 1L)
   # get the default parameters
-  if (is.null(params)) {
-    params <- get_default_params()
-  }
+  default_params <- get_default_params()
+
+  # modify the default parameters with the user-provided parameters
+  params <- modify_default_params(default_params, params, FALSE)
   checkmate::assert_list(params, min.len = 1L, max.len = 10L, null.ok = TRUE)
   checkmate::check_names(
     params,
