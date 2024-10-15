@@ -36,14 +36,16 @@ the input values of the \code{check_subject_ids()}.
 these columns will be converted into numeric.
 \item \code{dictionary}: A data frame that will be used to substitute the
 current values in the specified columns the those in the dictionary. It
-is the main argument for the \code{clean_using_dictionary()} function.
+is the main argument for the \code{\link{clean_using_dictionary}}
+function.
 \item \code{check_date_sequence}: A list of arguments to be used when
 determining whether the sequence of date events is respected across all
 rows of the input data. The value in this list are the input for the
-\code{check_date_sequence()} function.
+\code{\link{check_date_sequence}} function.
 \item \code{span}: A list with the parameters that define how the time span will
 be calculated between 2 columns of between a column and a Date value.
-These arguments will be used in the \code{span()} function.
+These arguments will be used in the \code{\link{timespan}}
+function.
 }}
 }
 \value{
