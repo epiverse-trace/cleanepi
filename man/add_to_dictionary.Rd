@@ -7,7 +7,7 @@
 add_to_dictionary(dictionary, option, value, grp, order = NULL)
 }
 \arguments{
-\item{dictionary}{A data frame with the data dictionary}
+\item{dictionary}{The data dictionary in a form of a data frame}
 
 \item{option}{A vector of strings with the new options that need to be added
 to the dictionary.}
@@ -29,11 +29,12 @@ Add an element to the data dictionary
 }
 \examples{
 test <- add_to_dictionary(
-  dictionary = readRDS(system.file("extdata", "test_dict.RDS",
-                       package = "cleanepi")),
-  option     = "ml",
-  value      = "male",
-  grp        = "gender",
-  order      = NULL
+  dictionary = readRDS(
+    system.file("extdata", "test_dict.RDS", package = "cleanepi")
+  ),
+  option = "ml",
+  value = "male",
+  grp = "gender",
+  order = NULL
  )
 }

@@ -39,12 +39,13 @@ IDs are found, the function sends a warning and the user can call the
 }
 \examples{
 dat <- check_subject_ids(
-  data           = readRDS(system.file("extdata", "test_df.RDS",
-                                       package = "cleanepi")),
+  data = readRDS(
+    system.file("extdata", "test_df.RDS", package = "cleanepi")
+  ),
   target_columns = "study_id",
-  prefix         = "PS",
-  suffix         = "P2",
-  range          = c(1, 100),
-  nchar          = 7
+  prefix = "PS",
+  suffix = "P2",
+  range = c(1, 100),
+  nchar = 7
 )
 }

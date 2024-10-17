@@ -62,8 +62,9 @@ scan_columns <- function(x) {
 #'
 #' @examples
 #' scan_result <- scan_data(
-#'   data = readRDS(system.file("extdata", "messy_data.RDS",
-#'                              package = "cleanepi"))
+#'   data = readRDS(
+#'     system.file("extdata", "messy_data.RDS", package = "cleanepi")
+#'   )
 #' )
 scan_data <- function(data) {
   scan_result           <- data.frame(t(apply(data, 2L, scan_columns)))

@@ -1,22 +1,23 @@
-#' Check whether the order of the sequence of date-events is valid
+#' Check whether the order of the sequence of date-events is valid.
 #'
-#' @description Checks whether a date sequence in
-#' a vector of  specified columns is in order or not.
+#' @description Checks whether a date sequence in a vector of specified columns
+#' is in order or not.
 #'
-#' @param data A data frame
+#' @param data The input data frame or linelist
 #' @param target_columns A vector of event column names. Users should specify at
 #'    least 2 column names in the expected order. For example:
-#'    target_columns = c("date_symptoms_onset", "date_hospitalization",
-#'    "date_death").
+#'    \code{target_columns = c("date_symptoms_onset", "date_hospitalization",
+#'    "date_death")}.
 #'    When the input data is a `linelist` object, this parameter can be set to
-#'    `linelist_tags` if you wish to the date sequence across tagged columns
-#'    only.
+#'    \code{linelist_tags} if you wish to the date sequence across tagged
+#'    columns only.
 #'    The values in this column should be in the ISO8601 format (2024-12-31).
-#'    Otherwise, use the `standardize_dates()` function to standardize them.
+#'    Otherwise, use the \code{standardize_dates()} function to standardize the
+#'    target columns.
 #'
 #' @returns The input dataset. When found, the incorrect date sequences will be
 #'    stored in the report where they can be accessed using
-#'    `attr(data, "report")`.
+#'    \code{attr(data, "report")}.
 #' @export
 #'
 #' @examples
@@ -28,12 +29,13 @@
 #'   standardize_dates(
 #'     target_columns  = c("date_first_pcr_positive_test", "date.of.admission"),
 #'     error_tolerance = 0.4,
-#'     format          = NULL,
-#'     timeframe       = NULL
+#'     format = NULL,
+#'     timeframe = NULL
 #'   )
 #'
+#' # check the date sequence in two columns
 #' good_date_sequence <- check_date_sequence(
-#'   data           = data,
+#'   data = data,
 #'   target_columns = c("date_first_pcr_positive_test", "date.of.admission")
 #' )
 check_date_sequence <- function(data, target_columns) {

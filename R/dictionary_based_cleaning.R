@@ -1,19 +1,24 @@
 #' Perform dictionary-based cleaning
 #'
-#' @param data A data frame
-#' @param dictionary A data dictionary associated with the input data.
+#' @param data The input data frame or linelist
+#' @param dictionary A data dictionary associated with the input data
+#'
 #' @returns A data frame with cleaned values in the target columns specified
 #'    in the data dictionary.
 #' @export
 #'
 #' @examples
-#' data           <- readRDS(system.file("extdata", "messy_data.RDS",
-#'                                       package = "cleanepi"))
+#' data <- readRDS(
+#'   system.file("extdata", "messy_data.RDS", package = "cleanepi")
+#' )
+#' dictionary <- readRDS(
+#'   system.file("extdata", "test_dict.RDS", package = "cleanepi")
+#' )
+#'
 #' data$gender[2] <- "homme"
-#' cleaned_df     <- clean_using_dictionary(
-#'   data       = data,
-#'   dictionary = readRDS(system.file("extdata", "test_dict.RDS",
-#'                                    package = "cleanepi"))
+#' cleaned_df <- clean_using_dictionary(
+#'   data = data,
+#'   dictionary = dictionary
 #' )
 clean_using_dictionary <- function(data, dictionary) {
   checkmate::assert_data_frame(data, min.rows = 1L, min.cols = 1L,
@@ -142,7 +147,7 @@ dictionary_make_metadata <- function(x, field_column) {
 
 #' Add an element to the data dictionary
 #'
-#' @param dictionary A data frame with the data dictionary
+#' @param dictionary The data dictionary in a form of a data frame
 #' @param option A vector of strings with the new options that need to be added
 #'    to the dictionary.
 #' @param value A vector with the values to be used when replacing the new
@@ -157,12 +162,13 @@ dictionary_make_metadata <- function(x, field_column) {
 #'
 #' @examples
 #' test <- add_to_dictionary(
-#'   dictionary = readRDS(system.file("extdata", "test_dict.RDS",
-#'                        package = "cleanepi")),
-#'   option     = "ml",
-#'   value      = "male",
-#'   grp        = "gender",
-#'   order      = NULL
+#'   dictionary = readRDS(
+#'     system.file("extdata", "test_dict.RDS", package = "cleanepi")
+#'   ),
+#'   option = "ml",
+#'   value = "male",
+#'   grp = "gender",
+#'   order = NULL
 #'  )
 add_to_dictionary <- function(dictionary,
                                option,

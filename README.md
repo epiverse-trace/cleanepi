@@ -91,8 +91,9 @@ function.
 
 ``` r
 # READING IN THE TEST DATASET
-test_data <- readRDS(system.file("extdata", "test_df.RDS",
-                                 package = "cleanepi"))
+test_data <- readRDS(
+  system.file("extdata", "test_df.RDS", package = "cleanepi")
+)
 ```
 
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:200px; overflow-x: scroll; width:100%; ">
@@ -394,8 +395,9 @@ Mar 03, 2021
 
 ``` r
 # READING IN THE DATA DICTIONARY
-test_dictionary <- readRDS(system.file("extdata", "test_dictionary.RDS",
-                                       package = "cleanepi"))
+test_dictionary <- readRDS(
+  system.file("extdata", "test_dictionary.RDS", package = "cleanepi")
+)
 ```
 
 <table class=" lightable-paper lightable-striped" style="font-size: 14px; font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;">
@@ -449,47 +451,48 @@ sex
 
 ``` r
 # DEFINING THE CLEANING PARAMETERS
-use_na                  <- list(target_columns = NULL, na_strings = "-99")
-remove_duplicates       <- list(target_columns   = NULL)
-standardize_dates       <- list(target_columns  = NULL,
-                                error_tolerance = 0.4,
-                                format          = NULL,
-                                timeframe       = as.Date(c("1973-05-29",
-                                                            "2023-05-29")),
-                                modern_excel    = TRUE,
-                                orders          = list(
-                                  world_named_months = c("Ybd", "dby"),
-                                  world_digit_months = c("dmy", "Ymd"),
-                                  US_formats         = c("Omdy", "YOmd")
-                                ))
-standardize_subject_ids <- list(target_columns = "study_id",
-                                prefix         = "PS",
-                                suffix         = "P2",
-                                range          = c(1, 100),
-                                nchar          = 7)
-remove_cte              <- list(cutoff = 1)
-standardize_col_names   <- list(keep   = "date.of.admission",
-                                rename = c(DOB = "dateOfBirth"))
-to_numeric              <- list(target_columns = "sex",
-                                lang           = "en")
-
-params <- list(
-  standardize_column_names = standardize_col_names,
-  remove_constants         = remove_cte,
-  replace_missing_values   = use_na,
-  remove_duplicates        = remove_duplicates,
-  standardize_dates        = standardize_dates,
-  standardize_subject_ids  = standardize_subject_ids,
-  to_numeric               = to_numeric,
-  dictionary               = test_dictionary
+replace_missing_values <- list(target_columns = NULL, na_strings = "-99")
+remove_duplicates <- list(target_columns = NULL)
+standardize_dates <- list(
+  target_columns = NULL,
+  error_tolerance = 0.4,
+  format = NULL,
+  timeframe = as.Date(c("1973-05-29", "2023-05-29")),
+  modern_excel = TRUE,
+  orders = list(
+    world_named_months = c("Ybd", "dby"),
+    world_digit_months = c("dmy", "Ymd"),
+    US_formats = c("Omdy", "YOmd")
+  )
 )
+standardize_subject_ids <- list(
+  target_columns = "study_id",
+  prefix = "PS",
+  suffix = "P2",
+  range = c(1, 100),
+  nchar = 7
+)
+remove_constants <- list(cutoff = 1)
+standardize_column_names <- list(
+  keep = "date.of.admission",
+  rename = c(DOB = "dateOfBirth")
+)
+to_numeric <- list(target_columns = "sex", lang = "en")
 ```
 
 ``` r
 # PERFORMING THE DATA CLEANING
 cleaned_data <- clean_data(
-  data   = test_data,
-  params = params
+  data = test_data,
+  standardize_column_names = standardize_column_names,
+  remove_constants = remove_constants,
+  replace_missing_values = replace_missing_values,
+  remove_duplicates = remove_duplicates,
+  standardize_dates = standardize_dates,
+  standardize_subject_ids = standardize_subject_ids,
+  to_numeric = to_numeric,
+  dictionary = test_dictionary,
+  check_date_sequence = NULL
 )
 #> 
 #> cleaning column names
@@ -741,21 +744,4 @@ By contributing to this project, you agree to abide by its terms.
 
 ``` r
 citation("cleanepi")
-#> To cite package 'cleanepi' in publications use:
-#> 
-#>   Mané K, Degoot A, Ahadzie B, Mohammed N, Bah B (2024). _cleanepi:
-#>   Clean and Standardize Epidemiological Data_.
-#>   doi:10.5281/zenodo.11473985
-#>   <https://doi.org/10.5281/zenodo.11473985>,
-#>   <https://epiverse-trace.github.io/cleanepi/>.
-#> 
-#> A BibTeX entry for LaTeX users is
-#> 
-#>   @Manual{,
-#>     title = {cleanepi: Clean and Standardize Epidemiological Data},
-#>     author = {Karim Mané and Abdoelnaser Degoot and Bankolé Ahadzie and Nuredin Mohammed and Bubacarr Bah},
-#>     year = {2024},
-#>     doi = {10.5281/zenodo.11473985},
-#>     url = {https://epiverse-trace.github.io/cleanepi/},
-#>   }
 ```

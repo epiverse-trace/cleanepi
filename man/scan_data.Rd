@@ -21,7 +21,8 @@ Scan a data frame to determine the percentage of \code{missing}, \code{numeric},
 }
 \examples{
 scan_result <- scan_data(
-  data = readRDS(system.file("extdata", "messy_data.RDS",
-                             package = "cleanepi"))
+  data = readRDS(
+    system.file("extdata", "messy_data.RDS", package = "cleanepi")
+  )
 )
 }

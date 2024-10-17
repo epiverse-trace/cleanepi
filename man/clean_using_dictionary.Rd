@@ -7,9 +7,9 @@
 clean_using_dictionary(data, dictionary)
 }
 \arguments{
-\item{data}{A data frame}
+\item{data}{The input data frame or linelist}
 
-\item{dictionary}{A data dictionary associated with the input data.}
+\item{dictionary}{A data dictionary associated with the input data}
 }
 \value{
 A data frame with cleaned values in the target columns specified
@@ -19,12 +19,16 @@ in the data dictionary.
 Perform dictionary-based cleaning
 }
 \examples{
-data           <- readRDS(system.file("extdata", "messy_data.RDS",
-                                      package = "cleanepi"))
+data <- readRDS(
+  system.file("extdata", "messy_data.RDS", package = "cleanepi")
+)
+dictionary <- readRDS(
+  system.file("extdata", "test_dict.RDS", package = "cleanepi")
+)
+
 data$gender[2] <- "homme"
-cleaned_df     <- clean_using_dictionary(
-  data       = data,
-  dictionary = readRDS(system.file("extdata", "test_dict.RDS",
-                                   package = "cleanepi"))
+cleaned_df <- clean_using_dictionary(
+  data = data,
+  dictionary = dictionary
 )
 }
