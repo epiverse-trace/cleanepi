@@ -4,7 +4,7 @@
 \alias{clean_data}
 \title{Clean and standardize data}
 \usage{
-clean_data(data, params = NULL)
+clean_data(data, params)
 }
 \arguments{
 \item{data}{The input data frame or linelist}
@@ -15,25 +15,26 @@ be applied on the input data. The default parameters are defined in
 \enumerate{
 \item \code{standardize_column_names}: A list with the arguments needed to
 standardize the column names. The elements of this list will be the
-input for the \code{standardize_column_names()} function.
+input for the \code{\link{standardize_column_names}} function.
 \item \code{replace_missing_values}: A list of parameters to be used when
 replacing the missing values by \code{NA}. The elements of the list are the
-inputs for the \code{replace_missing_values()} function.
+inputs for the \code{\link{replace_missing_values}} function.
 \item \code{remove_duplicates}: A list with the arguments that define the
 columns and other parameters to be considered when looking for
-duplicates. They are the input values for the \code{remove_duplicates()}
-function.
+duplicates. They are the input values for the
+\code{\link{remove_duplicates}}function.
 \item \code{remove_constants}: A list with the parameters that define whether to
 remove constant data or not. The values are the input for the
-\code{remove_constants()} function.
+\code{\link{remove_constants}} function.
 \item \code{standardize_dates}: A list of parameters that will be used to
 standardize the date values from the input data. They represent the
-input values for the \code{standardize_dates()} function.
+input values for the \code{\link{standardize_dates}} function.
 \item \code{standardize_subject_ids}: A list of parameters that are needed to
 check the IDs that comply with the expect format. These arguments are
-the input values of the \code{check_subject_ids()}.
-\item \code{to_numeric}: a vector of column names. When provided, the values in
-these columns will be converted into numeric.
+the input values of the \code{\link{check_subject_ids}}.
+\item \code{to_numeric}: A list with the parameters needed to convert the
+specified columns into numeric. When provided, the parameters will be
+the input values for the \code{\link{convert_to_numeric}}
 \item \code{dictionary}: A data frame that will be used to substitute the
 current values in the specified columns the those in the dictionary. It
 is the main argument for the \code{\link{clean_using_dictionary}}
@@ -42,10 +43,6 @@ function.
 determining whether the sequence of date events is respected across all
 rows of the input data. The value in this list are the input for the
 \code{\link{check_date_sequence}} function.
-\item \code{span}: A list with the parameters that define how the time span will
-be calculated between 2 columns of between a column and a Date value.
-These arguments will be used in the \code{\link{timespan}}
-function.
 }}
 }
 \value{
@@ -75,41 +72,45 @@ replace_missing_values <- list(target_columns = NULL, na_strings = "-99")
 remove_duplicates <- list(target_columns   = NULL)
 
 # Parameters for dates standardization
-standardize_dates <- list(target_columns  = NULL,
-                          error_tolerance = 0.4,
-                          format          = NULL,
-                          timeframe       = as.Date(c("1973-05-29",
-                                                      "2023-05-29")),
-                          orders          = list(
-                            world_named_months = c("Ybd", "dby"),
-                            world_digit_months = c("dmy", "Ymd"),
-                            US_formats         = c("Omdy", "YOmd")
-                          ))
+standardize_dates <- list(
+  target_columns = NULL,
+  error_tolerance = 0.4,
+  format = NULL,
+  timeframe = as.Date(c("1973-05-29", "2023-05-29")),
+  orders = list(
+    world_named_months = c("Ybd", "dby"),
+    world_digit_months = c("dmy", "Ymd"),
+    US_formats = c("Omdy", "YOmd")
+  )
+)
 
 # Parameters for subject IDs standardization
-standardize_subject_ids <- list(target_columns = "study_id",
-                                prefix         = "PS",
-                                suffix         = "P2",
-                                range          = c(1, 100),
-                                nchar          = 7)
+standardize_subject_ids <- list(
+  target_columns = "study_id",
+  prefix = "PS",
+  suffix = "P2",
+  range = c(1, 100),
+  nchar = 7
+)
 
 to_numeric <- list(target_columns = "sex", lang = "en")
 
-
-# dictionary = NULL the dictionary-based cleaning will not be performed here
+# the dictionary-based cleaning will not be performed here
+dictionary = NULL
 
 cleaned_data <- clean_data(
-  data   = readRDS(system.file("extdata", "test_df.RDS",
-                               package = "cleanepi")),
+  data = readRDS(
+    system.file("extdata", "test_df.RDS", package = "cleanepi")
+  ),
   params = list(
     standardize_column_names = standardize_col_names,
-    remove_constants         = remove_cte,
-    replace_missing_values   = replace_missing_values,
-    remove_duplicates        = remove_duplicates,
-    standardize_dates        = standardize_dates,
-    standardize_subject_ids  = standardize_subject_ids,
-    to_numeric               = to_numeric,
-    dictionary               = NULL
+    remove_constants = remove_cte,
+    replace_missing_values = replace_missing_values,
+    remove_duplicates = remove_duplicates,
+    standardize_dates = standardize_dates,
+    standardize_subject_ids = standardize_subject_ids,
+    to_numeric = to_numeric,
+    dictionary = dictionary
   )
 )
 
