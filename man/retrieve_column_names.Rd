@@ -17,7 +17,7 @@ a vector of column names to be used for the target cleaning
 operations
 }
 \description{
-When several performing data cleaning operations using the \code{clean_data()}
+When performing several data cleaning operations using the \code{clean_data()}
 function, the input column names might be altered by after the column names
 cleaning. As a consequence of this, some cleaning operations will fail due to
 the column names mismatch. This function is provided to anticipate on this

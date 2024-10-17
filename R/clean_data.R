@@ -8,40 +8,39 @@
 #'    IDs with wrong formats, etc.
 #'
 #' @param data The input data frame or linelist
-#' @param params A list of parameters that define what cleaning operations will
-#'    be applied on the input data. The default parameters are defined in
-#'    \code{cleanepi::default_cleanepi_settings()}. The possible values are:
-#' \enumerate{
-#'   \item `standardize_column_names`: A list with the arguments needed to
-#'      standardize the column names. The elements of this list will be the
-#'      input for the \code{\link{standardize_column_names}} function.
-#'   \item `replace_missing_values`: A list of parameters to be used when
+#' @param ... A list of cleaning operations to be applied on the input data.
+#'    The acceptable arguments for \code{...} are:
+#' \describe{
+#'   \item{`standardize_column_names`}{A list with the arguments needed to
+#'      standardize the column names. The elements of this list are the
+#'      input for the \code{\link{standardize_column_names}} function.}
+#'   \item{`replace_missing_values`}{A list of parameters to be used when
 #'      replacing the missing values by `NA`. The elements of the list are the
-#'      inputs for the \code{\link{replace_missing_values}} function.
-#'   \item `remove_duplicates`: A list with the arguments that define the
+#'      inputs for the \code{\link{replace_missing_values}} function.}
+#'   \item{`remove_duplicates`}{A list with the arguments that define the
 #'      columns and other parameters to be considered when looking for
 #'      duplicates. They are the input values for the
-#'      \code{\link{remove_duplicates}}function.
-#'   \item `remove_constants`: A list with the parameters that define whether to
+#'      \code{\link{remove_duplicates}} function.}
+#'   \item{`remove_constants`}{A list with the parameters that define whether to
 #'      remove constant data or not. The values are the input for the
-#'      \code{\link{remove_constants}} function.
-#'   \item `standardize_dates`: A list of parameters that will be used to
+#'      \code{\link{remove_constants}} function.}
+#'   \item{`standardize_dates`}{A list of parameters that will be used to
 #'      standardize the date values from the input data. They represent the
-#'      input values for the \code{\link{standardize_dates}} function.
-#'   \item `standardize_subject_ids`: A list of parameters that are needed to
+#'      input values for the \code{\link{standardize_dates}} function.}
+#'   \item{`standardize_subject_ids`}{A list of parameters that are needed to
 #'      check the IDs that comply with the expect format. These arguments are
-#'      the input values of the \code{\link{check_subject_ids}}.
-#'   \item `to_numeric`: A list with the parameters needed to convert the
+#'      the input values of the \code{\link{check_subject_ids}}.}
+#'   \item{`to_numeric`}{A list with the parameters needed to convert the
 #'      specified columns into numeric. When provided, the parameters will be
-#'      the input values for the \code{\link{convert_to_numeric}}
-#'   \item `dictionary`: A data frame that will be used to substitute the
+#'      the input values for the \code{\link{convert_to_numeric}}.}
+#'   \item{`dictionary`}{A data frame that will be used to substitute the
 #'      current values in the specified columns the those in the dictionary. It
 #'      is the main argument for the \code{\link{clean_using_dictionary}}
-#'      function.
-#'   \item `check_date_sequence`: A list of arguments to be used when
+#'      function.}
+#'   \item{`check_date_sequence`}{A list of arguments to be used when
 #'      determining whether the sequence of date events is respected across all
 #'      rows of the input data. The value in this list are the input for the
-#'      \code{\link{check_date_sequence}} function.
+#'      \code{\link{check_date_sequence}} function.}
 #'   }
 #'
 #' @returns The cleaned input date according to the user-specified parameters.
@@ -52,10 +51,10 @@
 #'
 #' @examples
 #' # Parameters for column names standardization
-#' standardize_col_names <- list(keep = NULL, rename = NULL)
+#' standardize_column_names <- list(keep = NULL, rename = NULL)
 #'
 #' # parameters to remove constant columns, empty rows and columns
-#' remove_cte <- list(cutoff = 1)
+#' remove_constants <- list(cutoff = 1)
 #'
 #' # Parameters for substituting missing values with NA:
 #' replace_missing_values <- list(target_columns = NULL, na_strings = "-99")
@@ -73,7 +72,8 @@
 #'     world_named_months = c("Ybd", "dby"),
 #'     world_digit_months = c("dmy", "Ymd"),
 #'     US_formats = c("Omdy", "YOmd")
-#'   )
+#'   ),
+#'   modern_excel = TRUE
 #' )
 #'
 #' # Parameters for subject IDs standardization
@@ -85,34 +85,42 @@
 #'   nchar = 7
 #' )
 #'
+#' # convert the 'sex' column into numeric
 #' to_numeric <- list(target_columns = "sex", lang = "en")
 #'
 #' # the dictionary-based cleaning will not be performed here
 #' dictionary = NULL
 #'
+#' # no need to check for the sequence of date events
+#' check_date_sequence <- NULL
+#'
 #' cleaned_data <- clean_data(
 #'   data = readRDS(
 #'     system.file("extdata", "test_df.RDS", package = "cleanepi")
 #'   ),
-#'   params = list(
-#'     standardize_column_names = standardize_col_names,
-#'     remove_constants = remove_cte,
-#'     replace_missing_values = replace_missing_values,
-#'     remove_duplicates = remove_duplicates,
-#'     standardize_dates = standardize_dates,
-#'     standardize_subject_ids = standardize_subject_ids,
-#'     to_numeric = to_numeric,
-#'     dictionary = dictionary
-#'   )
+#'   standardize_column_names = standardize_column_names,
+#'   remove_constants = remove_constants,
+#'   replace_missing_values = replace_missing_values,
+#'   remove_duplicates = remove_duplicates,
+#'   standardize_dates = standardize_dates,
+#'   standardize_subject_ids = standardize_subject_ids,
+#'   to_numeric = to_numeric,
+#'   dictionary = NULL,
+#'   check_date_sequence = NULL
 #' )
 #'
-clean_data <- function(data, params) {
+clean_data <- function(data, ...) {
   checkmate::assert_data_frame(data, null.ok = FALSE, min.cols = 1L)
+  # get the data cleaning operations defined by the user
+  params <- list(...)
+
   # get the default parameters
   default_params <- get_default_params()
 
   # modify the default parameters with the user-provided parameters
   params <- modify_default_params(default_params, params, FALSE)
+
+  # sanity check the list of parameters
   checkmate::assert_list(params, min.len = 1L, max.len = 10L, null.ok = TRUE)
   checkmate::check_names(
     params,

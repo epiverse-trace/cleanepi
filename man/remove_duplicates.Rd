@@ -7,25 +7,27 @@
 remove_duplicates(data, target_columns = NULL)
 }
 \arguments{
-\item{data}{A input data frame or linelist.}
+\item{data}{The input data frame or linelist.}
 
 \item{target_columns}{A vector of column names to use when looking for
 duplicates. When the input data is a \code{linelist} object, this
-parameter can be set to \code{linelist_tags} if you wish to look for duplicates
-on tagged columns only. Default is \code{NULL}.}
+parameter can be set to \code{linelist_tags} if you wish to look for
+duplicates on tagged columns only. Default is \code{NULL}.}
 }
 \value{
-A  data frame or linelist  without the duplicates values and nor
-constant columns.
+A  data frame or linelist  without the duplicated rows identified
+from all or the specified columns.
 }
 \description{
 When removing duplicates, users can specify a set columns to consider with
-the 'target_columns' argument.
+the \code{target_columns} argument.
 }
 \examples{
 no_dups <- remove_duplicates(
-  data           = readRDS(system.file("extdata", "test_linelist.RDS",
-                                       package = "cleanepi")),
+  data = readRDS(
+    system.file("extdata", "test_linelist.RDS", package = "cleanepi")
+  ),
   target_columns = "linelist_tags"
 )
+
 }

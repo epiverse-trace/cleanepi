@@ -13,8 +13,8 @@ print_report(
 )
 }
 \arguments{
-\item{data}{A \code{data.frame} or \code{linelist} object returned from the
-\code{\link[=clean_data]{clean_data()}} or the main functions of each data cleaning module.}
+\item{data}{A data frame or linelist object returned from the
+\code{clean_data()} or the main functions of each data cleaning module.}
 
 \item{report_title}{The title to appear on the report}
 
@@ -26,7 +26,7 @@ automatically generated with the format \code{cleanepi_report_YYMMDD_HHMMSS}.}
 is supported.}
 
 \item{print}{A logical that specifies whether to print the generated HTML
-file or no.}
+file or no. Default is \code{TRUE}.}
 }
 \value{
 A string containing the name and path of the saved report
@@ -37,8 +37,9 @@ Generate report from data cleaning operations
 \examples{
 \donttest{
 data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi"))
-test_dictionary <- readRDS(system.file("extdata", "test_dictionary.RDS",
-                                       package = "cleanepi"))
+test_dictionary <- readRDS(
+  system.file("extdata", "test_dictionary.RDS", package = "cleanepi")
+)
 
 # scan through the data
 scan_res <- scan_data(data)
@@ -62,17 +63,19 @@ cleaned_data <- data \%>\%
  clean_using_dictionary(dictionary = test_dictionary)
 
 # add the data scanning result to the report
-cleaned_data <- add_to_report(x     = cleaned_data,
-                              key   = "scanning_result",
-                              value = scan_res)
+cleaned_data <- add_to_report(
+  x = cleaned_data,
+  key = "scanning_result",
+  value = scan_res
+)
 
 # save a report in the current directory using the previously-created objects
 print_report(
-  data             = cleaned_data,
-  report_title     = "{cleanepi} data cleaning report",
+  data = cleaned_data,
+  report_title = "{cleanepi} data cleaning report",
   output_file_name = NULL,
-  format           = "html",
-  print            = TRUE
+  format = "html",
+  print = TRUE
 )
 }
 

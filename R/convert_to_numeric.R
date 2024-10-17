@@ -8,20 +8,23 @@
 #'
 #' @param data The input data frame or linelist
 #' @param target_columns A vector of the target column names. When the input
-#'    data is a `linelist` object, this parameter can be set to `linelist_tags`
-#'    if the tagged columns are those to be converted into numeric.
-#' @param lang The text's language. Currently one of `"en" | "fr" | "es"`.
+#'    data is a `linelist` object, this parameter can be set to
+#'    \code{linelist_tags} if the tagged columns are those to be converted into
+#'    numeric.
+#' @param lang The text's language. Currently one of \code{"en"}, \code{"fr"},
+#'    \code{"es"}.
 #'
-#' @returns A data frame after the conversion process, wherein all the specified
-#'    or detected columns have been transformed into numeric format.
+#' @returns A data frame wherein all the specified or detected columns have been
+#'    transformed into numeric format after the conversion process.
 #' @export
 #'
 #' @examples
 #' dat <- convert_to_numeric(
-#'   data           = readRDS(system.file("extdata", "messy_data.RDS",
-#'                                        package = "cleanepi")),
+#'   data = readRDS(
+#'     system.file("extdata", "messy_data.RDS", package = "cleanepi")
+#'   ),
 #'   target_columns = "age",
-#'   lang           = "en"
+#'   lang = "en"
 #' )
 convert_to_numeric <- function(data, target_columns = NULL,
                                lang = c("en", "fr", "es")) {

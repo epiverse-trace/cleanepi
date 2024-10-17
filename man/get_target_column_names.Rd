@@ -10,7 +10,7 @@ get_target_column_names(data, target_columns, cols)
 \item{data}{A data frame or linelist}
 
 \item{target_columns}{A vector of column names. For linelist data, this can
-be 'linelist_tags'}
+be \code{linelist_tags}}
 
 \item{cols}{A vector of empty and constant columns}
 }

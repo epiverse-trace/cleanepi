@@ -37,8 +37,9 @@
 #' @examples
 #' # scan through a data frame of characters
 #' scan_result <- scan_data(
-#'   data = readRDS(system.file("extdata", "messy_data.RDS",
-#'                              package = "cleanepi"))
+#'   data = readRDS(
+#'     system.file("extdata", "messy_data.RDS", package = "cleanepi")
+#'   )
 #' )
 #'
 #' # scan through a data frame with two character columns

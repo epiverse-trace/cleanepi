@@ -17,13 +17,13 @@ timespan(
 \item{data}{The input data frame or linelist}
 
 \item{target_column}{A string used to specify the name of the date column of
-interest. The values in this column should be of type 'Date' in ISO
+interest. The values in this column should be of type 'Date' in ISO8601
 format ("2024-01-31").}
 
 \item{end_date}{An end date. It can be either a character that is the name of
 another column of type 'Date' from the input data or a vector of Dates or
-a single Date value. This should also be in the ISO format ("2024-01-31").
-Default is today's date \code{Sys.Date()}.}
+a single Date value. This should also be in the ISO8601 format
+("2024-01-31"). Default is today's date \code{Sys.Date()}.}
 
 \item{span_unit}{A string that specifies the units in which the time span
 between the dates will be returned. The possible units are: 'years',
@@ -35,7 +35,7 @@ store the calculated time span in the input data frame.}
 \item{span_remainder_unit}{A string for the unit in which the remainder of
 the time span should be calculated. May be one of "months", "weeks",
 and "days". Remainders requested in the same unit as the age will return
-values of 0. Default is NULL for decimal time span.}
+values of 0. Default is \code{NULL} for decimal time span.}
 }
 \value{
 The input data frame with one or two additional columns:
@@ -60,17 +60,17 @@ Calculate time span between dates
 data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi"))
 data <- data \%>\%
   replace_missing_values(target_columns = "dateOfBirth",
-                         na_strings     = "-99") \%>\%
-  standardize_dates(target_columns  = "dateOfBirth",
+                         na_strings = "-99") \%>\%
+  standardize_dates(target_columns = "dateOfBirth",
                     error_tolerance = 0.0)
 
 # calculate the age in 'years' and return the remainder in 'months'
 age <- timespan(
-  data                = data,
-  target_column       = "dateOfBirth",
-  end_date            = Sys.Date(),
-  span_unit           = "years",
-  span_column_name    = "age_in_years",
+  data = data,
+  target_column = "dateOfBirth",
+  end_date = Sys.Date(),
+  span_unit = "years",
+  span_column_name = "age_in_years",
   span_remainder_unit = "months"
 )
 }

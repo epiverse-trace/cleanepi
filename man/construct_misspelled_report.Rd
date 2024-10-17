@@ -11,7 +11,7 @@ construct_misspelled_report(misspelled_options, data)
 \item{misspelled_options}{A list with the detected misspelled values in the
 columns of interest.}
 
-\item{data}{A data frame}
+\item{data}{The input data frame or linelist}
 }
 \value{
 A data frame the details about where in the input data the

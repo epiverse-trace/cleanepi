@@ -1,15 +1,15 @@
 #' Standardize column names of a data frame or linelist
 #'
-#' All columns names will be reformatted to use the snake case. When the
-#' conversion to snake case does not work as expected, use the `keep` and/or
-#' `rename` arguments to reformat the column name properly.
+#' All columns names will be reformatted to use the snakecase. When the
+#' conversion to snakecase does not work as expected, use the \code{keep} and/or
+#' \code{rename} arguments to reformat the column name properly.
 #'
 #' @param data The input data frame or linelist.
 #' @param keep A vector of column names to maintain as they are. When dealing
-#'    with a linelist, this can be set to `linelist_tags`, to maintain the
+#'    with a linelist, this can be set to \code{linelist_tags}, to maintain the
 #'    tagged column names. The Default is `NULL`.
 #' @param rename A named vector of column names to be renamed. This should be in
-#'    the form of `c(new_name1 = "old_name1", new_name2 = "old_name2")` for
+#'    the form of \code{c(new_name1 = "old_name1", new_name2 = "old_name2")} for
 #'    example.
 #'
 #' @returns A data frame or linelist with easy to work with column names.
@@ -18,17 +18,19 @@
 #' @examples
 #' # do not rename 'date.of.admission'
 #' cleaned_data <- standardize_column_names(
-#'   data = readRDS(system.file("extdata", "test_df.RDS",
-#'                              package = "cleanepi")),
+#'   data = readRDS(
+#'     system.file("extdata", "test_df.RDS", package = "cleanepi")
+#'   ),
 #'   keep = "date.of.admission"
 #' )
 #'
 #' # do not rename 'date.of.admission', but rename 'dateOfBirth' and 'sex' to
 #' # 'DOB' and 'gender' respectively
 #' cleaned_data <- standardize_column_names(
-#'   data   = readRDS(system.file("extdata", "test_df.RDS",
-#'                                package = "cleanepi")),
-#'   keep   = "date.of.admission",
+#'   data = readRDS(
+#'     system.file("extdata", "test_df.RDS", package = "cleanepi")
+#'   ),
+#'   keep = "date.of.admission",
 #'   rename = c(DOB = "dateOfBirth", gender = "sex")
 #' )
 #'
@@ -43,7 +45,7 @@ standardize_column_names <- function(data, keep = NULL, rename = NULL) {
   # when rename is not NULL, get the indices of the old column names as a vector
   # and name them with the new names
   if (!is.null(rename)) {
-    new_names    <- names(rename)
+    new_names <- names(rename)
     current_names <- unname(rename)
     stopifnot(
       "Unrecognised column names specified in 'rename'" =
@@ -51,16 +53,14 @@ standardize_column_names <- function(data, keep = NULL, rename = NULL) {
       "Replace column names already exists" =
         !any(new_names %in% before)
     )
-    rename        <- match(current_names, before)
+    rename <- match(current_names, before)
     names(rename) <- new_names
   }
 
   # when keep is 'linelist_tags', keep the tagged variables
   # also account for when target columns are provided as a vector or column
   # name or column indices or NULL
-  keep <- get_target_column_names(data,
-                                  target_columns = keep,
-                                  cols           = NULL)
+  keep <- get_target_column_names(data, target_columns = keep, cols = NULL)
   kept <- before %in% keep
 
   # if they're anything apart from ASCII e.g. arabic, throw error
@@ -82,7 +82,7 @@ standardize_column_names <- function(data, keep = NULL, rename = NULL) {
 
 #' Get column names
 #'
-#' When several performing data cleaning operations using the `clean_data()`
+#' When performing several data cleaning operations using the `clean_data()`
 #' function, the input column names might be altered by after the column names
 #' cleaning. As a consequence of this, some cleaning operations will fail due to
 #' the column names mismatch. This function is provided to anticipate on this
