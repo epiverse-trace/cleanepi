@@ -54,8 +54,8 @@ date_check_timeframe <- function(first_date, last_date) {
 #' @param original_dates A vector of the original date values
 #'
 #' @returns A list of 2 elements: the update input vector where date values that
-#'    are out of the boundaries are replaced by `NA`, and a vector of the out of
-#'    boundaries values.
+#'    are out of the boundaries are replaced by \code{NA}, and a vector of the
+#'    out of boundaries values.
 #' @keywords internal
 #'
 date_trim_outliers <- function(new_dates, dmin, dmax, cols, original_dates) {

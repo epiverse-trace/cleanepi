@@ -11,8 +11,7 @@ test_that("is_date_sequence_ordered works as expected", {
 })
 
 # import the data
-data <- readRDS(system.file("extdata", "test_df.RDS",
-                            package = "cleanepi"))
+data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi"))
 
 # standardize the date values
 data <- data %>%

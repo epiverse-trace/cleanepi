@@ -28,17 +28,19 @@ conversion to snakecase does not work as expected, use the \code{keep} and/or
 \examples{
 # do not rename 'date.of.admission'
 cleaned_data <- standardize_column_names(
-  data = readRDS(system.file("extdata", "test_df.RDS",
-                             package = "cleanepi")),
+  data = readRDS(
+    system.file("extdata", "test_df.RDS", package = "cleanepi")
+  ),
   keep = "date.of.admission"
 )
 
 # do not rename 'date.of.admission', but rename 'dateOfBirth' and 'sex' to
 # 'DOB' and 'gender' respectively
 cleaned_data <- standardize_column_names(
-  data   = readRDS(system.file("extdata", "test_df.RDS",
-                               package = "cleanepi")),
-  keep   = "date.of.admission",
+  data = readRDS(
+    system.file("extdata", "test_df.RDS", package = "cleanepi")
+  ),
+  keep = "date.of.admission",
   rename = c(DOB = "dateOfBirth", gender = "sex")
 )
 
