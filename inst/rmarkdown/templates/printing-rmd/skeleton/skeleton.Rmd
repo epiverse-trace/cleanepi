@@ -57,7 +57,7 @@ p.compact {
 ```{r cleanepi-source-data, eval=TRUE, echo=FALSE}
 # EXTRACT THE REPORT SECTIONS
 scanning_result <- params[["scanning_result"]]
-is_data_scanned <- !is.null(scanning_result)
+is_data_scanned <- !is.na(scanning_result)
 standardized_column_names <- params[["colnames"]]
 are_column_standardised <- !is.null(standardized_column_names)
 out_of_range_dates <- params[["out_of_range_dates"]]

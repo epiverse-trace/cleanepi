@@ -2,8 +2,8 @@
 % Please edit documentation in R/clean_data_helpers.R
 \name{scan_data}
 \alias{scan_data}
-\title{Scan a data frame to determine the percentage of \code{missing}, \code{numeric},
-\code{Date}, \code{character},  and \code{logical} values in every column.}
+\title{Scan through a data frame and return the proportion of \code{missing}, \code{numeric},
+\code{Date}, \code{character}, \code{logical} values.}
 \usage{
 scan_data(data)
 }
@@ -11,17 +11,60 @@ scan_data(data)
 \item{data}{A data frame or linelist}
 }
 \value{
-A  data frame or linelist with the same columns as the input data
-and 5 rows representing the percentage of missing, numeric, date, character,
-and logical values in each column.
+A data frame if the input data contains columns of type character.
+It invisibly returns \code{NA} otherwise. The returned data frame will
+have the same number of rows as the number of character columns, and six
+columns representing their column names, proportion of missing, numeric,
+date, character, and logical values.
 }
 \description{
-Scan a data frame to determine the percentage of \code{missing}, \code{numeric},
-\code{Date}, \code{character},  and \code{logical} values in every column.
+The function checks for the existence of character columns in the data. When
+found, it reports back the proportion of the data types mentioned above in
+those columns. See the details section to know more about how it works.
+}
+\details{
+How does it work?
+The \code{character} columns are identified first. When there is no
+character column the function returns a message.
+For every character column, we count:
+\enumerate{
+\item the number of missing data \code{NA}
+\item the number of numeric values. A process of detecting valid dates among the
+numeric values is then initiated using \code{lubridate::as_date()} and
+\code{date_guess()} functions. If found, a warning is triggered to alert on
+the presence and ambiguous (numeric values that are potentially date) values.
+NOTE: A date is considered valid in this case if it falls within the interval
+of today's date and 50 years back from today.
+\item detect the Date values from the non-numeric using the \code{date_guess()}
+function. The date count is the sum of dates identified from numeric and
+non-numeric values. Because of the overlap between numeric and date, the sum
+across the rows in the scanning result might be greater than 1.
+\item count the logical values.
+The remaining values will be those of type characters.
+}
 }
 \examples{
+# scan through a data frame of characters
 scan_result <- scan_data(
   data = readRDS(system.file("extdata", "messy_data.RDS",
                              package = "cleanepi"))
 )
+
+# scan through a data frame with two character columns
+scan_result <- scan_data(
+  data = readRDS(system.file("extdata", "test_linelist.RDS",
+                             package = "cleanepi"))
+)
+
+# scan through a data frame with no character columns
+data(iris)
+iris[["fct"]] <- as.factor(sample(c("gray", "orange"), nrow(iris),
+                           replace = TRUE))
+iris[["lgl"]]  <- sample(c(TRUE, FALSE), nrow(iris), replace = TRUE)
+iris[["date"]] <- as.Date(seq.Date(from = as.Date("2024-01-01"),
+                                   to = as.Date("2024-08-30"),
+                                   length.out = nrow(iris)))
+iris[["posit_ct"]] <- as.POSIXct(iris[["date"]])
+scan_result        <- scan_data(data = iris)
+
 }
