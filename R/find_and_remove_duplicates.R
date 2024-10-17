@@ -2,24 +2,26 @@
 #'
 #' @description
 #' When removing duplicates, users can specify a set columns to consider with
-#' the 'target_columns' argument.
+#' the \code{target_columns} argument.
 #'
-#' @param data A input data frame or linelist.
+#' @param data The input data frame or linelist.
 #' @param target_columns A vector of column names to use when looking for
 #'    duplicates. When the input data is a `linelist` object, this
-#'    parameter can be set to `linelist_tags` if you wish to look for duplicates
-#'    on tagged columns only. Default is `NULL`.
+#'    parameter can be set to \code{linelist_tags} if you wish to look for
+#'    duplicates on tagged columns only. Default is \code{NULL}.
 #'
-#' @returns A  data frame or linelist  without the duplicates values and nor
-#'    constant columns.
+#' @returns A  data frame or linelist  without the duplicated rows identified
+#'    from all or the specified columns.
 #' @export
 #'
 #' @examples
 #' no_dups <- remove_duplicates(
-#'   data           = readRDS(system.file("extdata", "test_linelist.RDS",
-#'                                        package = "cleanepi")),
+#'   data = readRDS(
+#'     system.file("extdata", "test_linelist.RDS", package = "cleanepi")
+#'   ),
 #'   target_columns = "linelist_tags"
 #' )
+#'
 #' @importFrom rlang .data
 #'
 remove_duplicates <- function(data, target_columns = NULL) {
@@ -68,9 +70,9 @@ remove_duplicates <- function(data, target_columns = NULL) {
 #' @param data A data frame or linelist.
 #' @param target_columns A vector of columns names or indices to consider when
 #'    looking for duplicates. When the input data is a `linelist` object, this
-#'    parameter can be set to `tags`from which duplicates to be removed.
-#'    Its default value is `NULL`, which considers duplicates across all
-#'    columns.
+#'    parameter can be set to \code{linelist_tags} from which duplicates to be
+#'    removed. Its default value is \code{NULL}, which considers duplicates
+#'    across all columns.
 #'
 #' @returns A data frame or linelist of all duplicated rows with following 2
 #'    additional columns:
@@ -86,8 +88,9 @@ remove_duplicates <- function(data, target_columns = NULL) {
 #'
 #' @examples
 #' dups <- find_duplicates(
-#'   data           = readRDS(system.file("extdata", "test_linelist.RDS",
-#'                                        package = "cleanepi")),
+#'   data = readRDS(
+#'     system.file("extdata", "test_linelist.RDS", package = "cleanepi")
+#'   ),
 #'   target_columns = c("dt_onset", "dt_report", "sex", "outcome")
 #' )
 #' @importFrom rlang .data

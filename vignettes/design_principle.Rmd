@@ -69,12 +69,12 @@ By compartmentalizing these operations into modules, {cleanepi} offers users a s
 
 The primary functions of the modules, as well as the core function `clean_data()`, accept input in the form of a `data.frame` or `linelist`. This offers flexibility for users regarding where they want to position {cleanepi} within the R package ecosystem for epidemic analysis pipelines, either to clean data before or after converting it to a `linelist`.
 
-In addition to the target dataset, the core function `clean_data()` accepts a `list` of operations to be executed on the dataset. It subsequently invokes the primary functions specified for each module. 
+In addition to the target dataset, the core function `clean_data()` accepts other parameters which are specific to the cleaning module. Most of these parameters are provided in a form of a `list`. It subsequently invokes the primary functions specified for each module. 
 
 
 ## Output
 
-Both the primary functions of the modules and the core function `clean_data()` return an object of type `data.frame` or `linelist`, depending on the type of the input dataset. The report generated from all cleaning tasks is attached to this object as an attribute, which can be accessed using either the `attr()` or `attributes()` functions in base R.
+Both the primary functions of the modules and the core function `clean_data()` return an object of the same type as the input dataset. Every cleaning operations applied to the input dataset can add an element to the report. The report generated from all cleaning tasks is attached to the output object as an attribute. It can be accessed using the `attr()` function in base R.
 
 
 ### Modules in {cleanepi}
@@ -105,13 +105,14 @@ By incorporating the `standardize_column_names()` function, {cleanepi} streamlin
 **2. Removal of empty rows and columns and constant columns**
 
 This module aims at eliminating irrelevant and redundant rows and columns, including empty rows and columns as well as constant columns.
+The process of removing constant data is performed iteratively until there is no constant data.
 
 - **Main function:** `remove_constants()`
 - **Input:** Accepts a `data.frame` or `linelist` object, along with:
   * A cut-off that determines the percent of missing values beyond which a row or column should be deleted.
 - **Output:** Returns the input object after applying the specified operations.
 - **Report:**
-  * A list with one or two or three vector(s) showcasing detected empty rows, empty columns and constant columns.
+  * A data frame with four columns showcasing detected empty and columns and constant columns at every iteration.
 - **Mode:**
   * explicit
   
@@ -124,7 +125,8 @@ This module is designed to identify and eliminate duplicated rows.
   * Vector of target columns (default is to consider all columns; possible to use `linelist_tags` to consider tagged variables only when the input is a linelist object).
 - **Output:** Returns the input object after applying the specified operations.
 - **Report:**
-  * A list with one or two table(s) showcasing found duplicates and removed duplicates.
+  * Two table(s) showcasing the found and removed duplicates.
+  * A character vector with the columns used during duplicates removal.
 - **Mode:**
   * explicit
 
@@ -167,15 +169,16 @@ By employing the `standardize_dates()` function, users can ensure uniformity and
 
 **6. Standardization of subject IDs**
 
-This module is tailored to verify whether the values in the column uniquely identifying subjects adhere to a consistent format. It also offers a functionality that allow users to correct the inconsistent subject ids.
+This module is tailored to verify whether the values in the column uniquely identifying subjects adhere to a consistent format. It also offers a functionality that allows users to correct the inconsistent subject ids.
 
 - **Main function:** `check_subject_ids()`
 - **Input:** Accepts a `data.frame` or `linelist` object, along with:
   * The name of the ID column
-  * Strings for prefix, suffix, and numerical range within the IDs
-  * A numeric representing the expected number of characters in the subject ids.
-- **Output:** Returns the input object attached with an attribute called `incorrect_subject_id`.
-- **Report:** Generates a two-column table featuring the index and value of each subject ID that deviates from the expected format.
+  * Strings for prefix, suffix,
+  * A numerical range within the IDs
+  * An integer representing the expected number of characters in a subject id.
+- **Output:** Returns the input object with standardized subject IDs.
+- **Report:** Generates a two-column table featuring index and value of each subject ID that deviates from the expected format.
 - **Mode:**
   * explicit
 
@@ -221,7 +224,7 @@ This module provides functions to verify whether the sequence of date events ali
 - **Main function:** `check_date_sequence()`
 - **Input:** Accepts a `data.frame` or `linelist` object, along with:
   * A vector of date column names to be considered
-- **Output:** Returns the input object where the incorrect rows have been removed.
+- **Output:** Returns the input object and sends a message to inform about the presence of rows where the expected sequence of dates is not respected.
 - **Report:** Generates a table listing the incorrect rows from the specified columns.
 - **Mode:**
   * explicit
@@ -247,7 +250,7 @@ By leveraging the `timespan()` function, users can efficiently compute and integ
 
 ### Surrogate functions
 
-1. `scan_data()`: This function is designed to generate a quick summary of the dataset, offering insights into the composition of each column. It calculates the percentage of values belonging to different data types such as character, numeric, missing, logical, and date. This summary can help analysts and data scientists understand the structure and content of the dataset at a glance.
+1. `scan_data()`: This function is designed to generate a quick summary of the dataset, offering insights into the composition of each character column. It calculates the percentage of values belonging to different data types such as character, numeric, missing, logical, and date. This summary can help analysts and data scientists understand the structure and content of the dataset at a glance.
 
 2. `print_report()`: This function is used for displaying the report detailing the result of the cleaning operations executed on the dataset. It likely presents information about the data cleaning processes performed, such as handling missing values, correcting data types, removing duplicates, and any other transformations applied to ensure data quality and integrity.
 
@@ -261,8 +264,6 @@ These surrogate functions play crucial roles in the data analysis and cleaning w
 [{naniar}](https://CRAN.R-project.org/package=naniar),
 [{daiquiri}](https://CRAN.R-project.org/package=daiquiri)
 [{epiCleanr}](https://CRAN.R-project.org/package=epiCleanr)
-[{matchmaker}](https://CRAN.R-project.org/package=matchmaker)
-
 
 
 ## Dependencies

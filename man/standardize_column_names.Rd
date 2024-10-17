@@ -21,24 +21,26 @@ example.}
 A data frame or linelist with easy to work with column names.
 }
 \description{
-All columns names will be reformatted to use the snake case. When the
-conversion to snake case does not work as expected, use the \code{keep} and/or
+All columns names will be reformatted to use the snakecase. When the
+conversion to snakecase does not work as expected, use the \code{keep} and/or
 \code{rename} arguments to reformat the column name properly.
 }
 \examples{
 # do not rename 'date.of.admission'
 cleaned_data <- standardize_column_names(
-  data = readRDS(system.file("extdata", "test_df.RDS",
-                             package = "cleanepi")),
+  data = readRDS(
+    system.file("extdata", "test_df.RDS", package = "cleanepi")
+  ),
   keep = "date.of.admission"
 )
 
 # do not rename 'date.of.admission', but rename 'dateOfBirth' and 'sex' to
 # 'DOB' and 'gender' respectively
 cleaned_data <- standardize_column_names(
-  data   = readRDS(system.file("extdata", "test_df.RDS",
-                               package = "cleanepi")),
-  keep   = "date.of.admission",
+  data = readRDS(
+    system.file("extdata", "test_df.RDS", package = "cleanepi")
+  ),
+  keep = "date.of.admission",
   rename = c(DOB = "dateOfBirth", gender = "sex")
 )
 

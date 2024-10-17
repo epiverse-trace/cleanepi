@@ -111,14 +111,18 @@ as.Date(lubridate::parse_date_time(x, orders = c("dmy", "Ymd")))
 
 # How to use standardize_dates()
 dat <- standardize_dates(
-  data            = readRDS(system.file("extdata", "test_df.RDS",
-                                        package = "cleanepi")),
-  target_columns  = "date_first_pcr_positive_test",
-  format          = NULL,
-  timeframe       = NULL,
+  data = readRDS(
+    system.file("extdata", "test_df.RDS", package = "cleanepi")
+  ),
+  target_columns = "date_first_pcr_positive_test",
+  format = NULL,
+  timeframe = NULL,
   error_tolerance = 0.4,
-  orders          = list(world_named_months = c("Ybd", "dby"),
-                         world_digit_months = c("dmy", "Ymd"),
-                         US_formats         = c("Omdy", "YOmd"))
+  orders = list(
+    world_named_months = c("Ybd", "dby"),
+    world_digit_months = c("dmy", "Ymd"),
+    US_format = c("Omdy", "YOmd")
+  ),
+  modern_excel = TRUE
 )
 }

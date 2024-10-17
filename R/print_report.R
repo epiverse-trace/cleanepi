@@ -1,7 +1,7 @@
 #' Generate report from data cleaning operations
 #'
-#' @param data A `data.frame` or `linelist` object returned from the
-#'    [clean_data()] or the main functions of each data cleaning module.
+#' @param data A data frame or linelist object returned from the
+#'    \code{clean_data()} or the main functions of each data cleaning module.
 #' @param report_title The title to appear on the report
 #' @param output_file_name A string specifying the name of the report file,
 #'    excluding any file extension. If no file name is supplied, one will be
@@ -9,14 +9,15 @@
 #' @param format The file format of the report. Currently only `"html"`
 #'    is supported.
 #' @param print A logical that specifies whether to print the generated HTML
-#'    file or no.
+#'    file or no. Default is \code{TRUE}.
 #'
 #' @returns A string containing the name and path of the saved report
 #' @examples
 #' \donttest{
 #' data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi"))
-#' test_dictionary <- readRDS(system.file("extdata", "test_dictionary.RDS",
-#'                                        package = "cleanepi"))
+#' test_dictionary <- readRDS(
+#'   system.file("extdata", "test_dictionary.RDS", package = "cleanepi")
+#' )
 #'
 #' # scan through the data
 #' scan_res <- scan_data(data)
@@ -40,27 +41,29 @@
 #'  clean_using_dictionary(dictionary = test_dictionary)
 #'
 #' # add the data scanning result to the report
-#' cleaned_data <- add_to_report(x     = cleaned_data,
-#'                               key   = "scanning_result",
-#'                               value = scan_res)
+#' cleaned_data <- add_to_report(
+#'   x = cleaned_data,
+#'   key = "scanning_result",
+#'   value = scan_res
+#' )
 #'
 #' # save a report in the current directory using the previously-created objects
 #' print_report(
-#'   data             = cleaned_data,
-#'   report_title     = "{cleanepi} data cleaning report",
+#'   data = cleaned_data,
+#'   report_title = "{cleanepi} data cleaning report",
 #'   output_file_name = NULL,
-#'   format           = "html",
-#'   print            = TRUE
+#'   format = "html",
+#'   print = TRUE
 #' )
 #' }
 #'
 #' @export
 #' @importFrom utils browseURL
 print_report <- function(data,
-                         report_title     = "{cleanepi} data cleaning report",
+                         report_title = "{cleanepi} data cleaning report",
                          output_file_name = NULL,
-                         format           = "html",
-                         print            = TRUE) {
+                         format = "html",
+                         print = TRUE) {
 
   # extract report, check whether any cleaning operation has been performed, and
   # allow for only HTML output format for the report.

@@ -10,14 +10,16 @@ convert_to_numeric(data, target_columns = NULL, lang = c("en", "fr", "es"))
 \item{data}{The input data frame or linelist}
 
 \item{target_columns}{A vector of the target column names. When the input
-data is a \code{linelist} object, this parameter can be set to \code{linelist_tags}
-if the tagged columns are those to be converted into numeric.}
+data is a \code{linelist} object, this parameter can be set to
+\code{linelist_tags} if the tagged columns are those to be converted into
+numeric.}
 
-\item{lang}{The text's language. Currently one of \code{"en" | "fr" | "es"}.}
+\item{lang}{The text's language. Currently one of \code{"en"}, \code{"fr"},
+\code{"es"}.}
 }
 \value{
-A data frame after the conversion process, wherein all the specified
-or detected columns have been transformed into numeric format.
+A data frame wherein all the specified or detected columns have been
+transformed into numeric format after the conversion process.
 }
 \description{
 When the function is invoked without specifying the column names to be
@@ -28,9 +30,10 @@ conversion in them.
 }
 \examples{
 dat <- convert_to_numeric(
-  data           = readRDS(system.file("extdata", "messy_data.RDS",
-                                       package = "cleanepi")),
+  data = readRDS(
+    system.file("extdata", "messy_data.RDS", package = "cleanepi")
+  ),
   target_columns = "age",
-  lang           = "en"
+  lang = "en"
 )
 }

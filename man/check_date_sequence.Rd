@@ -2,22 +2,23 @@
 % Please edit documentation in R/check_date_sequence.R
 \name{check_date_sequence}
 \alias{check_date_sequence}
-\title{Check whether the order of the sequence of date-events is valid}
+\title{Check whether the order of the sequence of date-events is valid.}
 \usage{
 check_date_sequence(data, target_columns)
 }
 \arguments{
-\item{data}{A data frame}
+\item{data}{The input data frame or linelist}
 
 \item{target_columns}{A vector of event column names. Users should specify at
 least 2 column names in the expected order. For example:
-target_columns = c("date_symptoms_onset", "date_hospitalization",
-"date_death").
+\code{target_columns = c("date_symptoms_onset", "date_hospitalization",
+   "date_death")}.
 When the input data is a \code{linelist} object, this parameter can be set to
-\code{linelist_tags} if you wish to the date sequence across tagged columns
-only.
+\code{linelist_tags} if you wish to the date sequence across tagged
+columns only.
 The values in this column should be in the ISO8601 format (2024-12-31).
-Otherwise, use the \code{standardize_dates()} function to standardize them.}
+Otherwise, use the \code{standardize_dates()} function to standardize the
+target columns.}
 }
 \value{
 The input dataset. When found, the incorrect date sequences will be
@@ -25,8 +26,8 @@ stored in the report where they can be accessed using
 \code{attr(data, "report")}.
 }
 \description{
-Checks whether a date sequence in
-a vector of  specified columns is in order or not.
+Checks whether a date sequence in a vector of specified columns
+is in order or not.
 }
 \examples{
 # import the data
@@ -37,12 +38,13 @@ data <- data \%>\%
   standardize_dates(
     target_columns  = c("date_first_pcr_positive_test", "date.of.admission"),
     error_tolerance = 0.4,
-    format          = NULL,
-    timeframe       = NULL
+    format = NULL,
+    timeframe = NULL
   )
 
+# check the date sequence in two columns
 good_date_sequence <- check_date_sequence(
-  data           = data,
+  data = data,
   target_columns = c("date_first_pcr_positive_test", "date.of.admission")
 )
 }

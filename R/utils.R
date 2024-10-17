@@ -2,7 +2,8 @@
 #'
 #' @param x A string of numbers
 #'
-#' @returns `TRUE` if the string only contains numbers, `FALSE` otherwise
+#' @returns \code{TRUE} if the string only contains numbers, \code{FALSE}
+#'    otherwise
 #' @keywords internal
 numbers_only <- function(x) {
   return(!grepl("\\D", x))
@@ -15,7 +16,7 @@ numbers_only <- function(x) {
 #' @param sep A separator in the string of interest
 #'
 #' @returns A string with the first element of the vector returned by the
-#'    `strsplit()` function.
+#'    \code{strsplit()} function.
 #' @keywords internal
 date_get_part1 <- function(x, sep) {
   if (is.na(x)) {
@@ -30,7 +31,7 @@ date_get_part1 <- function(x, sep) {
 #' @param sep A separator in the string of interest
 #'
 #' @returns A string with the second element of the vector returned by the
-#'    `strsplit()` function.
+#'    \code{strsplit()} function.
 #' @keywords internal
 date_get_part2 <- function(x, sep) {
   if (is.na(x)) {
@@ -50,7 +51,7 @@ date_get_part2 <- function(x, sep) {
 #' @param sep A separator in the string of interest
 #'
 #' @returns A string with the third element of the vector returned by the
-#'    `strsplit()` function.
+#'    \code{strsplit()} function.
 #' @keywords internal
 #'
 date_get_part3 <- function(x, sep) {
@@ -91,23 +92,25 @@ get_sum <- function(x) {
 #'
 #' @examples
 #' # scan through the data
-#' scan_res <- scan_data(data = readRDS(system.file("extdata", "test_df.RDS",
-#'                                                  package = "cleanepi")))
+#' scan_res <- scan_data(
+#'   data = readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi"))
+#' )
 #'
 #' # Perform data cleaning
 #' cleaned_data <- clean_data(
-#'   data   = readRDS(system.file("extdata", "test_df.RDS",
-#'                                package = "cleanepi")),
-#'   params = list(
-#'     to_numeric = list(target_columns = "sex", lang = "en"),
-#'     dictionary = NULL
-#'   )
+#'   data = readRDS(
+#'     system.file("extdata", "test_df.RDS", package = "cleanepi")
+#'   ),
+#'   to_numeric = list(target_columns = "sex", lang = "en"),
+#'   dictionary = NULL
 #' )
 #'
 #' # add the data scanning result to the report
-#' cleaned_data <- add_to_report(x     = cleaned_data,
-#'                               key   = "scanning_result",
-#'                               value = scan_res)
+#' cleaned_data <- add_to_report(
+#'   x = cleaned_data,
+#'   key = "scanning_result",
+#'   value = scan_res
+#' )
 #'
 add_to_report <- function(x, key, value = NULL) {
   checkmate::assert_data_frame(x, min.rows = 1L, min.cols = 1L, null.ok = FALSE)
@@ -123,7 +126,7 @@ add_to_report <- function(x, key, value = NULL) {
 #'
 #' @param data A data frame or linelist
 #' @param target_columns A vector of column names. For linelist data, this can
-#'    be 'linelist_tags'
+#'    be \code{linelist_tags}
 #' @param cols A vector of empty and constant columns
 #'
 #' @returns A vector with the target column names or indexes

@@ -7,9 +7,9 @@
 detect_misspelled_options(data, dictionary)
 }
 \arguments{
-\item{data}{A data frame}
+\item{data}{The input data frame or linelist}
 
-\item{dictionary}{A data dictionary associated with the input data.}
+\item{dictionary}{A data dictionary associated with the input data}
 }
 \value{
 A list with the indexes of the misspelled values in every column
