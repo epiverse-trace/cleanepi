@@ -109,12 +109,14 @@ groups referred to as <strong>modules</strong>. These modules are based
 on overarching goals derived from commonly anticipated data cleaning
 procedures. Each module features a primary function along with
 additional helper functions tailored to accomplish specific tasks. It’s
-important to note that, except for few cases where the outcome a helper
-function can impact on the cleaning task, only the main function of each
-module will be exported. This deliberate choice empowers users to
-execute individual cleaning tasks as needed, enhancing flexibility and
-usability.</p>
-<p><img src="../reference/figures/cleanepi_design_diagram.drawio.png"><!-- --></p>
+important to note that, except for few cases where the outcome from a
+helper function can impact on the cleaning task, only the main function
+of each module will be exported. This deliberate choice empowers users
+to execute individual cleaning tasks as needed, enhancing flexibility
+and usability.</p>
+<div class="float">
+<img src="../reference/figures/cleanepi_design_diagram.drawio.png" alt="cleanepi design diagram"><div class="figcaption">cleanepi design diagram</div>
+</div>
 <p>At the core of {cleanepi}, the pivotal function
 <code><a href="../reference/clean_data.html">clean_data()</a></code> serves as a wrapper encapsulating all the
 modules, as illustrated in the figure above. This function is intended
@@ -126,8 +128,51 @@ multiple cleaning operations can be performed sequentially using the
 has two surrogate functions:</p>
 <ol style="list-style-type: decimal">
 <li>
-<code><a href="../reference/scan_data.html">scan_data()</a></code>: This function enables users to assess the
-data types present in each column of their dataset.</li>
+<code><a href="../reference/scan_data.html">scan_data()</a></code>: Columns of type <code>character</code>
+might contain values of other types such as <code>numeric</code>,
+<code>date</code>, <code>logical</code>. This function enables users to
+assess the data types present in each character column of their dataset.
+The composition in data types of character columns will inform the user
+about what actions need to be performed on the data. Most frequent
+scenarios involve the presence of:
+<ul>
+<li>
+<code>date</code> values in either <code>Date</code> or
+<code>numeric</code> format (when date column is imported from MS
+Excel),</li>
+<li>character values in a logical column (a <code>not available</code>
+within a column of <code>TRUE</code> or <code>FALSE</code>),</li>
+<li>numbers written in letters.</li>
+</ul>
+</li>
+</ol>
+<p>When the input data contains character columns, the function returns
+a data frame with the same number of row as the character columns and
+six columns representing their column names, proportion of missing,
+numeric, date, character, and logical values respectively. We transpose
+the result relative to the input dataset (columns in the input are
+returned as row) to avoid horizontal scrolling in the case of datasets
+with a large number of character columns. The sum of the proportion
+across all columns is not always equal to 1 for the reason below: * When
+numeric values are found in a character column, they will be subjected
+to the followings: 1. conversion into Date using
+<code><a href="https://lubridate.tidyverse.org/reference/as_date.html" class="external-link">lubridate::as_date()</a></code> with
+<code>origin = as.Date("1900-01-01")</code>. 2. conversion into Date
+using <code><a href="../reference/date_guess.html">date_guess()</a></code> function used by the
+<code><a href="../reference/standardize_dates.html">standardize_dates()</a></code> function. Numeric values that are
+successfully converted into date from either of the methods above are
+considered as potential dates. They will be added to the date count if
+they fall within the interval [50 years back from today’s date, today’s
+date].</p>
+<blockquote>
+<p>There is no ambiguity for the columns of type Date, logical, and
+numeric. Values in such columns are expected to be of the same type.
+Hence, the function will not be applied on columns other than character
+columns. Consequently, it invisibly returns <code>NA</code> when applied
+on a dataset with no character columns, after printing out a message
+about the absence of character columns from the input dataset.</p>
+</blockquote>
+<ol start="2" style="list-style-type: decimal">
 <li>
 <code><a href="../reference/print_report.html">print_report()</a></code>: By utilizing this function, users can
 visualize the report generated from each applied cleaning task,
@@ -182,8 +227,9 @@ functions specified for each module.</p>
 <code><a href="../reference/clean_data.html">clean_data()</a></code> return an object of type
 <code>data.frame</code> or <code>linelist</code>, depending on the type
 of the input dataset. The report generated from all cleaning tasks is
-attached to this object as an attribute, which can be accessed using the
-<code><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr()</a></code> function in base R.</p>
+attached to this object as an attribute, which can be accessed using
+either the <code><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr()</a></code> or <code><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes()</a></code> functions in
+base R.</p>
 <div class="section level3">
 <h3 id="modules-in-cleanepi">Modules in {cleanepi}<a class="anchor" aria-label="anchor" href="#modules-in-cleanepi"></a>
 </h3>
@@ -272,7 +318,7 @@ rows, empty columns and constant columns.</li>
 rows.</p>
 <ul>
 <li>
-<strong>Main function:</strong>
+<strong>Main functions:</strong>
 <code>find_duplicates(), remove_duplicates()</code>
 </li>
 <li>
@@ -291,8 +337,7 @@ specified operations.</li>
 <strong>Report:</strong>
 <ul>
 <li>A list with one or two table(s) showcasing found duplicates and
-removed duplicates (if <code>remove = TRUE</code>).</li>
-<li>A table detailing the removed duplicates.</li>
+removed duplicates.</li>
 </ul>
 </li>
 <li>
@@ -321,7 +366,7 @@ missing values within the dataset.</p>
 <li>A <code>vector</code> of column names (if not provided, the
 operation is performed across all columns)</li>
 <li>A string or a vector of strings representing the current missing
-values (default value is cleanepi::common_na_strings)</li>
+values (default value is <code><a href="../reference/common_na_strings.html">cleanepi::common_na_strings</a></code>)</li>
 </ul>
 </li>
 <li>
@@ -342,8 +387,8 @@ can ensure consistency in handling missing values across their dataset,
 facilitating accurate analysis and interpretation of the data.</p>
 <p><strong>5. Standardization of date values</strong></p>
 <p>This module is dedicated to convert date values in character columns
-into <code>Date</code> value in <code>ISO8601</code> format, and
-ensuring that all dates fall within the given timeframe.</p>
+into <code>ISO8601</code> <code>Date</code> format, and ensuring that
+all dates fall within the expected user-provided timeframe.</p>
 <ul>
 <li>
 <strong>Main function:</strong>
@@ -365,7 +410,7 @@ values are returned (default value is 40%)</li>
 </li>
 <li>
 <strong>Output:</strong> Returns the input object with standardized
-date values in the format of <em>%Y-%m-%d</em>.</li>
+date values formatted as <em>%Y-%m-%d</em>.</li>
 <li>
 <strong>Report:</strong>
 <ul>
@@ -375,7 +420,7 @@ standardized.</li>
 fall outside the specified timeframe.</li>
 <li>A data frame featuring date values that can comply with more than
 one specified format. Users can update the standardized date values with
-the correct when it’s appropriated.</li>
+the correct ones when it’s appropriated.</li>
 </ul>
 </li>
 <li>
@@ -397,7 +442,7 @@ subject ids.</p>
 <ul>
 <li>
 <strong>Main function:</strong>
-<code>check_subject_ids(), correct_subject_ids()</code>
+<code><a href="../reference/check_subject_ids.html">check_subject_ids()</a></code>
 </li>
 <li>
 <strong>Input:</strong> Accepts a <code>data.frame</code> or
@@ -405,15 +450,15 @@ subject ids.</p>
 <ul>
 <li>The name of the ID column</li>
 <li>Strings for prefix, suffix, and numerical range within the IDs</li>
-<li>A logical that determines whether to delete the wrong ids or
-not.</li>
+<li>A numeric representing the expected number of characters in the
+subject ids.</li>
 </ul>
 </li>
 <li>
-<strong>Output:</strong> Returns the input object with standardized
-subject IDs.</li>
+<strong>Output:</strong> Returns the input object attached with an
+attribute called <code>incorrect_subject_id</code>.</li>
 <li>
-<strong>Report:</strong> Generates a two-column table featuring
+<strong>Report:</strong> Generates a two-column table featuring the
 index and value of each subject ID that deviates from the expected
 format.</li>
 <li>
@@ -423,6 +468,11 @@ format.</li>
 </ul>
 </li>
 </ul>
+<p>The <code><a href="../reference/correct_subject_ids.html">correct_subject_ids()</a></code> function can be used to
+correct the identified incorrect subject ids. In addition to the input
+data, it expects a data frame with two columns <code>from</code> and
+<code>to</code> containing the wrong and the correct ids
+respectively.</p>
 <p>By utilizing the functions in this module, users can ensure
 uniformity in the format of subject ids, facilitating accurate tracking
 and analysis of individual subjects within the dataset.</p>
@@ -433,6 +483,10 @@ specific columns to certain values, such as substituting 1 with “male”
 and 2 with “female” in a gender column. It also interoperates seamlessly
 with the <code>get_meta_data()</code> function from {readepi} R
 package.</p>
+<p>Note that the <code><a href="../reference/clean_using_dictionary.html">clean_using_dictionary()</a></code> function will
+return a warning when it detects unexpected values in the target columns
+from the data dictionary. These unexpected values can be added to the
+data dictionary using the <code><a href="../reference/add_to_dictionary.html">add_to_dictionary()</a></code> function.</p>
 <ul>
 <li>
 <strong>Main function:</strong>
@@ -461,14 +515,10 @@ column.</li>
 users can streamline and standardize the values within specific columns
 based on predefined mappings, enhancing consistency and accuracy in the
 dataset.</p>
-<p>Note that the <code><a href="../reference/clean_using_dictionary.html">clean_using_dictionary()</a></code> function will
-return a warning when it detects unexpected values in the target columns
-from the data dictionary. The unexpected values can be added to the data
-dictionary using the <code><a href="../reference/add_to_dictionary.html">add_to_dictionary()</a></code> function.</p>
 <p><strong>8. Conversion of values when necessary </strong></p>
 <p>This module is designed to convert numbers written in letters to
-numerical values, ensuring interoperability with the
-<a href="https://github.com/epiverse-trace/numberize" class="external-link">numberize</a> package.</p>
+numerical values, ensuring interoperability with the <a href="https://epiverse-trace.github.io/numberize/" class="external-link">{numberize}</a>
+package.</p>
 <ul>
 <li>
 <strong>Main function:</strong>
@@ -478,7 +528,9 @@ numerical values, ensuring interoperability with the
 <strong>Input:</strong> Accepts a <code>data.frame</code> or
 <code>linelist</code> object, along with:
 <ul>
-<li>A vector of column names to be converted into numeric, and</li>
+<li>A vector of column names to be converted into numeric. When not
+provided, the target columns are those returned by the
+<code><a href="../reference/scan_data.html">scan_data()</a></code> function</li>
 <li>A string that denotes the language used in the text. The current
 version supports <code>English, French and Spanish</code>.</li>
 </ul>
@@ -501,8 +553,6 @@ that could not be converted into numeric).</li>
 can seamlessly transform numeric representations written in letters into
 numerical values, ensuring compatibility with the {numberize} package
 and promoting accuracy in numerical analysis.</p>
-<p>Note that <code><a href="../reference/convert_to_numeric.html">convert_to_numeric()</a></code> will issue a warning for
-unexpected values and return them in the report.</p>
 <p><strong>9. Verification of the sequence of date-events </strong></p>
 <p>This module provides functions to verify whether the sequence of date
 events aligns with expectations. For instance, it can flag rows where
@@ -521,8 +571,8 @@ birth.</p>
 </ul>
 </li>
 <li>
-<strong>Output:</strong> Returns the input object with incorrect
-rows removed if specified.</li>
+<strong>Output:</strong> Returns the input object where the
+incorrect rows have been removed.</li>
 <li>
 <strong>Report:</strong> Generates a table listing the incorrect
 rows from the specified columns.</li>
@@ -539,8 +589,8 @@ within their dataset, promoting accuracy and reliability in subsequent
 analyses.</p>
 <p><strong>10. Transformation of selected columns</strong></p>
 <p>This module is dedicated to performing various specialized operations
-related to epidemiological data analytics, and it currently includes the
-following functions:</p>
+related to epidemiological data analytics. In the current version of the
+package, this module includes the following functions:</p>
 <ul>
 <li>
 <strong>Main function:</strong> <code><a href="../reference/timespan.html">timespan()</a></code>

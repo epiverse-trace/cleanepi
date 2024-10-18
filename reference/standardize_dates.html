@@ -70,8 +70,7 @@ are correct.<br></p>
 <span>  format <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  timeframe <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  error_tolerance <span class="op">=</span> <span class="fl">0.5</span>,</span>
-<span>  orders <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  modern_excel <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  orders <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -121,17 +120,6 @@ following order defined in the guesser:</p>
 <span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>                         <span class="st">"dbY"</span>, <span class="st">"dYb"</span>, <span class="st">"bdY"</span>, <span class="st">"bYd"</span>, <span class="st">"Ybd"</span>, <span class="st">"Ydb"</span>),</span>
 <span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>  <span class="at">us_format =</span> <span class="fu">c</span>(<span class="st">"Omdy"</span>, <span class="st">"YOmd"</span>)</span>
 <span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a>)</span></code></pre><p></p></div></dd>
-
-
-<dt id="arg-modern-excel">modern_excel<a class="anchor" aria-label="anchor" href="#arg-modern-excel"></a></dt>
-<dd><p>When the data is imported from excel, some dates are
-stored as integers. Modern versions of Excel represent dates as the number
-of days since 1900-01-01, but pre-2011 Excel for OSX have the origin set
-at 1904-01-01. If this parameter is <code>TRUE</code> (default), then this
-assumes that all numeric values represent dates from either a Windows
-version of Excel or a 2011 or later version of Excel for OSX. Set this
-parameter to <code>FALSE</code> if the data came from an OSX version of Excel
-before 2011.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -200,8 +188,7 @@ customized for your situation.</p>
 <span class="r-in"><span>  error_tolerance <span class="op">=</span> <span class="fl">0.4</span>,</span></span>
 <span class="r-in"><span>  orders          <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>world_named_months <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Ybd"</span>, <span class="st">"dby"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>                         world_digit_months <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dmy"</span>, <span class="st">"Ymd"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>                         US_formats         <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Omdy"</span>, <span class="st">"YOmd"</span><span class="op">)</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  modern_excel    <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span>                         US_formats         <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Omdy"</span>, <span class="st">"YOmd"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>

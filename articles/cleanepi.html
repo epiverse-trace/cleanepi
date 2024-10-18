@@ -512,26 +512,6 @@ event_name
 </tr>
 <tr>
 <td style="text-align:left;">
-country_code
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-1.0
-</td>
-<td style="text-align:right;">
-0.0
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
 country_name
 </td>
 <td style="text-align:right;">
@@ -610,26 +590,6 @@ date_first_pcr_positive_test
 0
 </td>
 </tr>
-<tr>
-<td style="text-align:left;">
-sex
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-1.0
-</td>
-<td style="text-align:right;">
-0.0
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
-</td>
-</tr>
 </tbody>
 </table>
 </div>
@@ -650,14 +610,17 @@ we want to perform on the input data.</p>
 <span><span class="va">rm_dup</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>target_columns   <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># PARAMETERS FOR STANDARDING DATES</span></span>
-<span><span class="va">stdn_date</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>target_columns  <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>                  error_tolerance <span class="op">=</span> <span class="fl">0.4</span>,</span>
-<span>                  format          <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>                  timeframe       <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"1973-05-29"</span>, <span class="st">"2023-05-29"</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>                  orders          <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>world_named_months <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Ybd"</span>, <span class="st">"dby"</span><span class="op">)</span>,</span>
-<span>                                         world_digit_months <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dmy"</span>, <span class="st">"Ymd"</span><span class="op">)</span>,</span>
-<span>                                         US_formats       <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Omdy"</span>, <span class="st">"YOmd"</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>                  modern_excel    <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">stdn_date</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>  target_columns <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  error_tolerance <span class="op">=</span> <span class="fl">0.4</span>,</span>
+<span>  format <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  timeframe <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"1973-05-29"</span>, <span class="st">"2023-05-29"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  orders <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>    world_named_months <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Ybd"</span>, <span class="st">"dby"</span><span class="op">)</span>,</span>
+<span>    world_digit_months <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dmy"</span>, <span class="st">"Ymd"</span><span class="op">)</span>,</span>
+<span>    US_formats <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Omdy"</span>, <span class="st">"YOmd"</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># PARAMETERS FOR STANDARDING SUBJECT IDs</span></span>
 <span><span class="va">stdn_ids</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>target_columns <span class="op">=</span> <span class="st">"study_id"</span>,</span>
@@ -703,11 +666,12 @@ cleaning operations to be performed.</li>
 <span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>replacing missing values with <span class="cn">NA</span></span>
 <span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>removing the constant columns, empty rows and columns</span>
 <span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>removing duplicated rows</span>
-<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>standardising date columns</span>
-<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a>checking subject IDs format</span>
-<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a>Warning<span class="sc">:</span> Detected incorrect subject ids at lines<span class="sc">:</span> <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">7</span></span>
-<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a>Use the <span class="fu">correct_subject_ids</span>() <span class="cf">function</span> to adjust them.</span>
-<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a>performing dictionary<span class="sc">-</span>based cleaning</span></code></pre></div>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>No duplicates were found.</span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a>standardising date columns</span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a>checking subject IDs format</span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a>Warning<span class="sc">:</span> Detected incorrect subject ids at lines<span class="sc">:</span> <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">7</span></span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a>Use the <span class="fu">correct_subject_ids</span>() <span class="cf">function</span> to adjust them.</span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a>performing dictionary<span class="sc">-</span>based cleaning</span></code></pre></div>
 <p>It returns the cleaned dataset. The report generated from the data
 cleaning operations is a <code>list object</code> that is attached to
 the cleaned data and can be accessed using the <code><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr()</a></code>
@@ -1416,30 +1380,27 @@ date values should fall. Values outside of this range will be set to
 <code>NA</code> values (non date values) that can be allowed in a
 converted column. Default is 40% i.e. <code>0.4</code>.</li>
 <li>
-<strong>orders</strong>: The date codes for fine-grained parsing of
-dates. It is used for parsing of mixed dates. If a list is supplied,
-that list will be used for successive tries in parsing. Default is:</li>
+<strong>orders</strong>: A character vector or list of codes for
+fine-grained parsing of dates. It is used for parsing of mixed dates. If
+a list is supplied, that list will be used for successive tries in
+parsing. Default is:</li>
 </ol>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">orders</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span>  world_named_months <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Ybd"</span>, <span class="st">"dby"</span><span class="op">)</span>,</span>
-<span>  world_digit_months <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dmy"</span>, <span class="st">"Ymd"</span><span class="op">)</span>,</span>
-<span>  US_formats         <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Omdy"</span>, <span class="st">"YOmd"</span><span class="op">)</span></span>
+<span>  quarter_partial_dates <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Y"</span>, <span class="st">"Ym"</span>, <span class="st">"Yq"</span><span class="op">)</span>,</span>
+<span>  world_digit_months <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ymd"</span>, <span class="st">"ydm"</span>, <span class="st">"dmy"</span>, <span class="st">"mdy"</span>, <span class="st">"myd"</span>, <span class="st">"dym"</span>, <span class="st">"Ymd"</span>, <span class="st">"Ydm"</span>,</span>
+<span>                         <span class="st">"dmY"</span>, <span class="st">"mdY"</span>, <span class="st">"mYd"</span>, <span class="st">"dYm"</span><span class="op">)</span>,</span>
+<span>  world_named_months <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dby"</span>, <span class="st">"dyb"</span>, <span class="st">"bdy"</span>, <span class="st">"byd"</span>, <span class="st">"ybd"</span>, <span class="st">"ydb"</span>, <span class="st">"dbY"</span>, <span class="st">"dYb"</span>,</span>
+<span>                         <span class="st">"bdY"</span>, <span class="st">"bYd"</span>, <span class="st">"Ybd"</span>, <span class="st">"Ydb"</span><span class="op">)</span>,</span>
+<span>  us_format <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Omdy"</span>, <span class="st">"YOmd"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<ol start="7" style="list-style-type: decimal">
-<li>
-<strong>modern_excel</strong>: A Boolean that determines whether all
-numeric values represent dates from either a Windows version of Excel or
-a 2011 or later version of Excel for OSX. Set this parameter to
-<code>FALSE</code> if the data came from an OSX version of Excel before
-2011. This is only relevant when parsing dates from excel. Default is
-<code>TRUE</code>.</li>
-</ol>
 <blockquote>
 <p>⚠️ The <code>error_tolerance</code> must be used with caution. When
 it is set, and the percentage of non-date values (NA i.e. values that
 were not converted into date) in a character column is greater than this
-threshold, the column will be returned as it is.</p>
+threshold, the column will be returned as it is. The values outside of
+this timeframe can be accessed from the report object via it
+<code>out_of_range_dates</code> element.</p>
 </blockquote>
 <blockquote>
 <p>The value for the <code>orders</code> argument can be modified to
@@ -1458,8 +1419,9 @@ orders as shown below:</p>
 <span><span class="va">orders</span><span class="op">$</span><span class="va">ymdhms</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Ymdhms"</span>, <span class="st">"Ymdhm"</span><span class="op">)</span></span></code></pre></div>
 <p>This function provides users with the flexibility to standardize date
 columns in their dataset according to specified requirements, including
-format, timeframe, and error tolerance for conversion from character to
-date columns.</p>
+<code>format</code>, <code>timeframe</code>, and
+<code>error tolerance</code> for conversion from character to date
+columns.</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="co"># STANDARDIZE VALUES IN THE 'date_first_pcr_positive_test' COLUMN</span></span>
 <span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>test_data <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="fu">system.file</span>(<span class="st">"extdata"</span>, <span class="st">"test_df.RDS"</span>,</span>
 <span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>                                 <span class="at">package =</span> <span class="st">"cleanepi"</span>))</span>
@@ -1476,9 +1438,8 @@ date columns.</p>
 <span id="cb13-14"><a href="#cb13-14" tabindex="-1"></a>  <span class="at">error_tolerance =</span> <span class="fl">0.4</span>,</span>
 <span id="cb13-15"><a href="#cb13-15" tabindex="-1"></a>  <span class="at">orders          =</span> <span class="fu">list</span>(<span class="at">world_named_months =</span> <span class="fu">c</span>(<span class="st">"Ybd"</span>, <span class="st">"dby"</span>),</span>
 <span id="cb13-16"><a href="#cb13-16" tabindex="-1"></a>                         <span class="at">world_digit_months =</span> <span class="fu">c</span>(<span class="st">"dmy"</span>, <span class="st">"Ymd"</span>),</span>
-<span id="cb13-17"><a href="#cb13-17" tabindex="-1"></a>                         <span class="at">US_formats         =</span> <span class="fu">c</span>(<span class="st">"Omdy"</span>, <span class="st">"YOmd"</span>)),</span>
-<span id="cb13-18"><a href="#cb13-18" tabindex="-1"></a>  <span class="at">modern_excel    =</span> <span class="cn">TRUE</span></span>
-<span id="cb13-19"><a href="#cb13-19" tabindex="-1"></a>)</span></code></pre></div>
+<span id="cb13-17"><a href="#cb13-17" tabindex="-1"></a>                         <span class="at">US_formats         =</span> <span class="fu">c</span>(<span class="st">"Omdy"</span>, <span class="st">"YOmd"</span>))</span>
+<span id="cb13-18"><a href="#cb13-18" tabindex="-1"></a>)</span></code></pre></div>
 <p>This function returns the input dataset where the (specified) columns
 are converted into Date if the condition is met.</p>
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:200px; overflow-x: scroll; width:100%; ">
@@ -2235,13 +2196,14 @@ tagged variables in a <code>linelist</code> object.</p>
 <span id="cb19-21"><a href="#cb19-21" tabindex="-1"></a>target_columns <span class="ot">&lt;-</span> all_columns[all_columns <span class="sc">!=</span> <span class="st">"id"</span>]</span>
 <span id="cb19-22"><a href="#cb19-22" tabindex="-1"></a>dups           <span class="ot">&lt;-</span> <span class="fu">find_duplicates</span>(<span class="at">data           =</span> data,</span>
 <span id="cb19-23"><a href="#cb19-23" tabindex="-1"></a>                                  <span class="at">target_columns =</span> target_columns)</span>
-<span id="cb19-24"><a href="#cb19-24" tabindex="-1"></a></span>
-<span id="cb19-25"><a href="#cb19-25" tabindex="-1"></a><span class="co"># FIND DUPLICATES ACROSS TAGGED VARIABLES</span></span>
-<span id="cb19-26"><a href="#cb19-26" tabindex="-1"></a>dups <span class="ot">&lt;-</span> <span class="fu">find_duplicates</span>(</span>
-<span id="cb19-27"><a href="#cb19-27" tabindex="-1"></a>  <span class="at">data           =</span> data,</span>
-<span id="cb19-28"><a href="#cb19-28" tabindex="-1"></a>  <span class="at">target_columns =</span> <span class="st">"linelist_tags"</span></span>
-<span id="cb19-29"><a href="#cb19-29" tabindex="-1"></a>)</span>
-<span id="cb19-30"><a href="#cb19-30" tabindex="-1"></a>Found <span class="dv">57</span> duplicated rows <span class="cf">in</span> the dataset. Please consult the report <span class="cf">for</span> more details.</span></code></pre></div>
+<span id="cb19-24"><a href="#cb19-24" tabindex="-1"></a>No duplicates were found.</span>
+<span id="cb19-25"><a href="#cb19-25" tabindex="-1"></a></span>
+<span id="cb19-26"><a href="#cb19-26" tabindex="-1"></a><span class="co"># FIND DUPLICATES ACROSS TAGGED VARIABLES</span></span>
+<span id="cb19-27"><a href="#cb19-27" tabindex="-1"></a>dups <span class="ot">&lt;-</span> <span class="fu">find_duplicates</span>(</span>
+<span id="cb19-28"><a href="#cb19-28" tabindex="-1"></a>  <span class="at">data           =</span> data,</span>
+<span id="cb19-29"><a href="#cb19-29" tabindex="-1"></a>  <span class="at">target_columns =</span> <span class="st">"linelist_tags"</span></span>
+<span id="cb19-30"><a href="#cb19-30" tabindex="-1"></a>)</span>
+<span id="cb19-31"><a href="#cb19-31" tabindex="-1"></a>Found <span class="dv">57</span> duplicated rows <span class="cf">in</span> the dataset. Please consult the report <span class="cf">for</span> more details.</span></code></pre></div>
 <p>Upon execution, the <code><a href="../reference/find_duplicates.html">find_duplicates()</a></code> function
 identifies all duplicated rows either based on all columns or those
 specified, and stores them in the report. In addition to the existing

@@ -79,7 +79,7 @@ threshold is exceeded, the original vector is returned.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">date_guess</span><span class="op">(</span><span class="va">x</span>, <span class="va">column_name</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span>, modern_excel <span class="op">=</span> <span class="cn">TRUE</span>, orders <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">date_guess</span><span class="op">(</span><span class="va">x</span>, <span class="va">column_name</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span>, orders <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -97,17 +97,6 @@ threshold is exceeded, the original vector is returned.</p>
 <dt id="arg-quiet">quiet<a class="anchor" aria-label="anchor" href="#arg-quiet"></a></dt>
 <dd><p>A logical indicating if messages should be displayed to the
 console (<code>TRUE</code>, default); set to <code>FALSE</code> to silence messages</p></dd>
-
-
-<dt id="arg-modern-excel">modern_excel<a class="anchor" aria-label="anchor" href="#arg-modern-excel"></a></dt>
-<dd><p>When the data is imported from excel, some dates are
-stored as integers. Modern versions of Excel represent dates as the number
-of days since 1900-01-01, but pre-2011 Excel for OSX have the origin set
-at 1904-01-01. If this parameter is <code>TRUE</code> (default), then this
-assumes that all numeric values represent dates from either a Windows
-version of Excel or a 2011 or later version of Excel for OSX. Set this
-parameter to <code>FALSE</code> if the data came from an OSX version of Excel
-before 2011.</p></dd>
 
 
 <dt id="arg-orders">orders<a class="anchor" aria-label="anchor" href="#arg-orders"></a></dt>

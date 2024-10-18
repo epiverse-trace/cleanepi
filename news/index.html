@@ -61,8 +61,6 @@
 <p>Fixed a bug in the date guesser used by the <code><a href="../reference/standardize_dates.html">standardize_dates()</a></code> function. The followings have been added or corrected (<a href="https://github.com/epiverse-trace/cleanepi/issues/175" class="external-link">#175</a>, <a href="https://github.com/Karim-Mane" class="external-link">@Karim-Mane</a>):</p>
 <ul><li>allow for quarter and partial dates</li>
 <li>account for odd cases before parsing using {lubridate}</li>
-<li>use <code><a href="https://lubridate.tidyverse.org/reference/origin.html" class="external-link">lubridate::origin</a></code> as origin when converting number into dates using <code><a href="https://lubridate.tidyverse.org/reference/as_date.html" class="external-link">lubridate::as_date</a></code>.</li>
-<li>Update the date guesser</li>
 </ul></li>
 </ul></div>
 <div class="section level3">
@@ -71,9 +69,11 @@
 <li><p>Simplification and improvement of code performance across several functions (<a href="https://github.com/epiverse-trace/cleanepi/issues/154" class="external-link">#154</a>, <a href="https://github.com/epiverse-trace/cleanepi/issues/156" class="external-link">#156</a>, <a href="https://github.com/epiverse-trace/cleanepi/issues/162" class="external-link">#162</a>, <a href="https://github.com/Bisaloo" class="external-link">@Bisaloo</a>).</p></li>
 <li><p>Make R version dependency explicit (<a href="https://github.com/epiverse-trace/cleanepi/issues/156" class="external-link">#156</a>, <a href="https://github.com/Bisaloo" class="external-link">@Bisaloo</a>).</p></li>
 <li><p>Replace base R pipe with {tidyverse} pipe (<a href="https://github.com/epiverse-trace/cleanepi/issues/155" class="external-link">#155</a>, <a href="https://github.com/Karim-Mane" class="external-link">@Karim-Mane</a>)</p></li>
+<li><p>Stop automatic conversion of numeric values into Date due to unexpected results from date_guess() function (<a href="https://github.com/epiverse-trace/cleanepi/issues/151" class="external-link">#151</a>, <a href="https://github.com/Karim-Mane" class="external-link">@Karim-Mane</a>).</p></li>
 <li><p>Allow for a vector of character for <code>na_strings</code> argument in <code><a href="../reference/replace_missing_values.html">replace_missing_values()</a></code> (<a href="https://github.com/epiverse-trace/cleanepi/issues/180" class="external-link">#180</a>, Karim-Mane)</p></li>
 <li><p>Differentiate message sent when duplicates are found in subject ids column vs duplicates across several columns (<a href="https://github.com/epiverse-trace/cleanepi/issues/180" class="external-link">#180</a>, Karim-Mane)</p></li>
 <li><p>Allow for iterative constant data removal (<a href="https://github.com/epiverse-trace/cleanepi/issues/180" class="external-link">#180</a>, Karim-Mane)</p></li>
+<li><p><code><a href="../reference/scan_data.html">scan_data()</a></code> now makes use of <code><a href="../reference/date_guess.html">date_guess()</a></code> to parse date from characters and <code><a href="https://lubridate.tidyverse.org/reference/as_date.html" class="external-link">lubridate::as_date()</a></code> to parse dates from numeric. More importantly, the function now only operates on character columns only.</p></li>
 </ul></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
