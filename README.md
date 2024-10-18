@@ -72,7 +72,7 @@ The latest development version of **cleanepi** can be installed from
 [GitHub](https://epiverse-trace.github.io/cleanepi/).
 
 ``` r
-if (!("pak" %in% rownames(installed.packages()))) {
+if (!require("pak")) {
   install.packages("pak")
 }
 pak::pak("epiverse-trace/cleanepi")
@@ -750,4 +750,22 @@ By contributing to this project, you agree to abide by its terms.
 
 ``` r
 citation("cleanepi")
+#> 
+#> To cite package 'cleanepi' in publications use:
+#> 
+#>   Mané K, Degoot A, Ahadzie B, Mohammed N, Bah B (2024).
+#>   _cleanepi: Clean and Standardize Epidemiological Data_.
+#>   doi:10.5281/zenodo.11473985
+#>   <https://doi.org/10.5281/zenodo.11473985>,
+#>   <https://epiverse-trace.github.io/cleanepi/>.
+#> 
+#> A BibTeX entry for LaTeX users is
+#> 
+#>   @Manual{,
+#>     title = {cleanepi: Clean and Standardize Epidemiological Data},
+#>     author = {Karim Mané and Abdoelnaser Degoot and Bankolé Ahadzie and Nuredin Mohammed and Bubacarr Bah},
+#>     year = {2024},
+#>     doi = {10.5281/zenodo.11473985},
+#>     url = {https://epiverse-trace.github.io/cleanepi/},
+#>   }
 ```
