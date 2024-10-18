@@ -29,3 +29,5 @@
 * Differentiate message sent when duplicates are found in subject ids column vs duplicates across several columns (#180, Karim-Mane)
 
 * Allow for iterative constant data removal (#180, Karim-Mane)
+
+* `scan_data()` now makes use of `date_guess()` to parse date from characters and `lubridate::as_date()` to parse dates from numeric. More importantly, the function now only operates on character columns only.
