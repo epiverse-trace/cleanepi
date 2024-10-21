@@ -4,7 +4,7 @@
 \alias{remove_constants}
 \title{Remove constant data i.e. empty rows and columns and constant columns}
 \usage{
-remove_constants(data, cutoff = 1L)
+remove_constants(data, cutoff = 1)
 }
 \arguments{
 \item{data}{The input data frame or linelist}
