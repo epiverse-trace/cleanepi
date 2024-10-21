@@ -7,7 +7,7 @@
 #' @param data The input data frame or linelist.
 #' @param keep A vector of column names to maintain as they are. When dealing
 #'    with a linelist, this can be set to \code{linelist_tags}, to maintain the
-#'    tagged column names. The Default is `NULL`.
+#'    tagged column names. The Default is \code{NULL}.
 #' @param rename A named vector of column names to be renamed. This should be in
 #'    the form of \code{c(new_name1 = "old_name1", new_name2 = "old_name2")} for
 #'    example.
@@ -67,12 +67,9 @@ standardize_column_names <- function(data, keep = NULL, rename = NULL) {
   if (all(kept)) idx_keep <- numeric() else idx_keep <- which(kept)
 
   # make the column names unique
-  # if they're anything apart from ASCII e.g. arabic, throw error
-  # TODO replace snakecase with fixed list of diacritics swapable to English
-  # TODO e.g. é,ê,è = e
   # keep and rename must be preserved as requested by the user. for this reason
-  # we set then to "leaveY" before the transformation (where Y represents the
-  # indice from 1 to total number of columns to keep and rename)
+  # we set them to "leaveY" before the transformation (where Y represents the
+  # indices from 1 to total number of columns to keep and rename)
   idx <- unique(c(idx_keep, idx_rename))
   x <- before
   x[idx] <- paste0("leave", seq_along(idx))
