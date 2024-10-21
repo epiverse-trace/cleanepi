@@ -9,7 +9,7 @@
 #'    \code{target_columns = c("date_symptoms_onset", "date_hospitalization",
 #'    "date_death")}.
 #'    When the input data is a `linelist` object, this parameter can be set to
-#'    \code{linelist_tags} if you wish to the date sequence across tagged
+#'    \code{linelist_tags} if you wish to use the date sequence across only the tagged columns
 #'    columns only.
 #'    The values in this column should be in the ISO8601 format (2024-12-31).
 #'    Otherwise, use the \code{standardize_dates()} function to standardize the
