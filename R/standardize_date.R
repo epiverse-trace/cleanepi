@@ -103,8 +103,7 @@
 #'     world_named_months = c("Ybd", "dby"),
 #'     world_digit_months = c("dmy", "Ymd"),
 #'     US_format = c("Omdy", "YOmd")
-#'   ),
-#'   modern_excel = TRUE
+#'   )
 #' )
 standardize_dates <- function(data,
                               target_columns  = NULL,

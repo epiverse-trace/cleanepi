@@ -10,7 +10,7 @@ numbers_only(x)
 \item{x}{A string of numbers}
 }
 \value{
-\code{TRUE} if the string contains only numbers, \code{FALSE}
+\code{TRUE} if the string only contains numbers, \code{FALSE}
 otherwise
 }
 \description{
