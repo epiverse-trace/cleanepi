@@ -4,7 +4,7 @@
 #' is in order or not.
 #'
 #' @param data The input data frame or linelist
-#' @param target_columns A vector of event column names. Users should specify at
+#' @param target_columns A vector of column names for events. Users should specify at
 #'    least 2 column names in the expected order. For example:
 #'    \code{target_columns = c("date_symptoms_onset", "date_hospitalization",
 #'    "date_death")}.
