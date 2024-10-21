@@ -69,7 +69,7 @@
 
 
 <dl><dt id="arg-data">data<a class="anchor" aria-label="anchor" href="#arg-data"></a></dt>
-<dd><p>A <code>data.frame</code> or <code>linelist</code> object returned from the
+<dd><p>A data frame or linelist object returned from the
 <code><a href="clean_data.html">clean_data()</a></code> or the main functions of each data cleaning module.</p></dd>
 
 
@@ -90,7 +90,7 @@ is supported.</p></dd>
 
 <dt id="arg-print">print<a class="anchor" aria-label="anchor" href="#arg-print"></a></dt>
 <dd><p>A logical that specifies whether to print the generated HTML
-file or no.</p></dd>
+file or no. Default is <code>TRUE</code>.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -102,8 +102,9 @@ file or no.</p></dd>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"test_df.RDS"</span>, package <span class="op">=</span> <span class="st">"cleanepi"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">test_dictionary</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"test_dictionary.RDS"</span>,</span></span>
-<span class="r-in"><span>                                       package <span class="op">=</span> <span class="st">"cleanepi"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">test_dictionary</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"test_dictionary.RDS"</span>, package <span class="op">=</span> <span class="st">"cleanepi"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># scan through the data</span></span></span>
 <span class="r-in"><span><span class="va">scan_res</span> <span class="op">&lt;-</span> <span class="fu"><a href="scan_data.html">scan_data</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span></span></span>
@@ -130,20 +131,22 @@ file or no.</p></dd>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> Use the correct_subject_ids() function to adjust them.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># add the data scanning result to the report</span></span></span>
-<span class="r-in"><span><span class="va">cleaned_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="add_to_report.html">add_to_report</a></span><span class="op">(</span>x     <span class="op">=</span> <span class="va">cleaned_data</span>,</span></span>
-<span class="r-in"><span>                              key   <span class="op">=</span> <span class="st">"scanning_result"</span>,</span></span>
-<span class="r-in"><span>                              value <span class="op">=</span> <span class="va">scan_res</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">cleaned_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="add_to_report.html">add_to_report</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  x <span class="op">=</span> <span class="va">cleaned_data</span>,</span></span>
+<span class="r-in"><span>  key <span class="op">=</span> <span class="st">"scanning_result"</span>,</span></span>
+<span class="r-in"><span>  value <span class="op">=</span> <span class="va">scan_res</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># save a report in the current directory using the previously-created objects</span></span></span>
 <span class="r-in"><span><span class="fu">print_report</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  data             <span class="op">=</span> <span class="va">cleaned_data</span>,</span></span>
-<span class="r-in"><span>  report_title     <span class="op">=</span> <span class="st">"{cleanepi} data cleaning report"</span>,</span></span>
+<span class="r-in"><span>  data <span class="op">=</span> <span class="va">cleaned_data</span>,</span></span>
+<span class="r-in"><span>  report_title <span class="op">=</span> <span class="st">"{cleanepi} data cleaning report"</span>,</span></span>
 <span class="r-in"><span>  output_file_name <span class="op">=</span> <span class="cn">NULL</span>,</span></span>
-<span class="r-in"><span>  format           <span class="op">=</span> <span class="st">"html"</span>,</span></span>
-<span class="r-in"><span>  print            <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span>  format <span class="op">=</span> <span class="st">"html"</span>,</span></span>
+<span class="r-in"><span>  print <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Generating html report in /tmp/Rtmpaa8kX3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/Rtmpaa8kX3/cleanepi_report__2024-10-21Mont_125453.html"</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Generating html report in /tmp/RtmpyyoKBS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/RtmpyyoKBS/cleanepi_report__2024-10-21Mont_141413.html"</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>

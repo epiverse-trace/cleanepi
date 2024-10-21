@@ -216,20 +216,20 @@ within the R package ecosystem for epidemic analysis pipelines, either
 to clean data before or after converting it to a
 <code>linelist</code>.</p>
 <p>In addition to the target dataset, the core function
-<code><a href="../reference/clean_data.html">clean_data()</a></code> accepts a <code>list</code> of operations to
-be executed on the dataset. It subsequently invokes the primary
-functions specified for each module.</p>
+<code><a href="../reference/clean_data.html">clean_data()</a></code> accepts other parameters which are specific to
+the cleaning module. Most of these parameters are provided in a form of
+a <code>list</code>. It subsequently invokes the primary functions
+specified for each module.</p>
 </div>
 <div class="section level2">
 <h2 id="output">Output<a class="anchor" aria-label="anchor" href="#output"></a>
 </h2>
 <p>Both the primary functions of the modules and the core function
-<code><a href="../reference/clean_data.html">clean_data()</a></code> return an object of type
-<code>data.frame</code> or <code>linelist</code>, depending on the type
-of the input dataset. The report generated from all cleaning tasks is
-attached to this object as an attribute, which can be accessed using
-either the <code><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr()</a></code> or <code><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes()</a></code> functions in
-base R.</p>
+<code><a href="../reference/clean_data.html">clean_data()</a></code> return an object of the same type as the input
+dataset. Every cleaning operations applied to the input dataset can add
+an element to the report. The report generated from all cleaning tasks
+is attached to the output object as an attribute. It can be accessed
+using the <code><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr()</a></code> function in base R.</p>
 <div class="section level3">
 <h3 id="modules-in-cleanepi">Modules in {cleanepi}<a class="anchor" aria-label="anchor" href="#modules-in-cleanepi"></a>
 </h3>
@@ -282,8 +282,9 @@ organization and readability of the dataset.</p>
 <p><strong>2. Removal of empty rows and columns and constant
 columns</strong></p>
 <p>This module aims at eliminating irrelevant and redundant rows and
-columns, including empty rows and columns as well as constant
-columns.</p>
+columns, including empty rows and columns as well as constant columns.
+The process of removing constant data is performed iteratively until
+there is no constant data.</p>
 <ul>
 <li>
 <strong>Main function:</strong> <code><a href="../reference/remove_constants.html">remove_constants()</a></code>
@@ -302,8 +303,8 @@ specified operations.</li>
 <li>
 <strong>Report:</strong>
 <ul>
-<li>A list with one or two or three vector(s) showcasing detected empty
-rows, empty columns and constant columns.</li>
+<li>A data frame with four columns showcasing detected empty and columns
+and constant columns at every iteration.</li>
 </ul>
 </li>
 <li>
@@ -336,8 +337,9 @@ specified operations.</li>
 <li>
 <strong>Report:</strong>
 <ul>
-<li>A list with one or two table(s) showcasing found duplicates and
-removed duplicates.</li>
+<li>Two table(s) showcasing the found and removed duplicates.</li>
+<li>A character vector with the columns used during duplicates
+removal.</li>
 </ul>
 </li>
 <li>
@@ -437,7 +439,7 @@ defined timeframe.</p>
 <p><strong>6. Standardization of subject IDs</strong></p>
 <p>This module is tailored to verify whether the values in the column
 uniquely identifying subjects adhere to a consistent format. It also
-offers a functionality that allow users to correct the inconsistent
+offers a functionality that allows users to correct the inconsistent
 subject ids.</p>
 <ul>
 <li>
@@ -449,16 +451,17 @@ subject ids.</p>
 <code>linelist</code> object, along with:
 <ul>
 <li>The name of the ID column</li>
-<li>Strings for prefix, suffix, and numerical range within the IDs</li>
-<li>A numeric representing the expected number of characters in the
-subject ids.</li>
+<li>Strings for prefix, suffix,</li>
+<li>A numerical range within the IDs</li>
+<li>An integer representing the expected number of characters in a
+subject id.</li>
 </ul>
 </li>
 <li>
-<strong>Output:</strong> Returns the input object attached with an
-attribute called <code>incorrect_subject_id</code>.</li>
+<strong>Output:</strong> Returns the input object with standardized
+subject IDs.</li>
 <li>
-<strong>Report:</strong> Generates a two-column table featuring the
+<strong>Report:</strong> Generates a two-column table featuring
 index and value of each subject ID that deviates from the expected
 format.</li>
 <li>
@@ -571,8 +574,9 @@ birth.</p>
 </ul>
 </li>
 <li>
-<strong>Output:</strong> Returns the input object where the
-incorrect rows have been removed.</li>
+<strong>Output:</strong> Returns the input object and sends a
+message to inform about the presence of rows where the expected sequence
+of dates is not respected.</li>
 <li>
 <strong>Report:</strong> Generates a table listing the incorrect
 rows from the specified columns.</li>
@@ -630,10 +634,10 @@ analytics capabilities of the dataset.</p>
 <ol style="list-style-type: decimal">
 <li><p><code><a href="../reference/scan_data.html">scan_data()</a></code>: This function is designed to generate a
 quick summary of the dataset, offering insights into the composition of
-each column. It calculates the percentage of values belonging to
-different data types such as character, numeric, missing, logical, and
-date. This summary can help analysts and data scientists understand the
-structure and content of the dataset at a glance.</p></li>
+each character column. It calculates the percentage of values belonging
+to different data types such as character, numeric, missing, logical,
+and date. This summary can help analysts and data scientists understand
+the structure and content of the dataset at a glance.</p></li>
 <li><p><code><a href="../reference/print_report.html">print_report()</a></code>: This function is used for displaying
 the report detailing the result of the cleaning operations executed on
 the dataset. It likely presents information about the data cleaning
@@ -652,7 +656,7 @@ analysis or modelling.</p>
 </h2>
 <p><a href="https://CRAN.R-project.org/package=janitor" class="external-link">{janitor}</a>,
 <a href="https://CRAN.R-project.org/package=matchmaker" class="external-link">{matchmaker}</a>,
-<a href="https://CRAN.R-project.org/package=naniar" class="external-link">{naniar}</a>, <a href="https://CRAN.R-project.org/package=daiquiri" class="external-link">{daiquiri}</a> <a href="https://CRAN.R-project.org/package=epiCleanr" class="external-link">{epiCleanr}</a> <a href="https://CRAN.R-project.org/package=matchmaker" class="external-link">{matchmaker}</a></p>
+<a href="https://CRAN.R-project.org/package=naniar" class="external-link">{naniar}</a>, <a href="https://CRAN.R-project.org/package=daiquiri" class="external-link">{daiquiri}</a> <a href="https://CRAN.R-project.org/package=epiCleanr" class="external-link">{epiCleanr}</a></p>
 </div>
 <div class="section level2">
 <h2 id="dependencies">Dependencies<a class="anchor" aria-label="anchor" href="#dependencies"></a>

@@ -75,15 +75,15 @@
 
 <dt id="arg-target-column">target_column<a class="anchor" aria-label="anchor" href="#arg-target-column"></a></dt>
 <dd><p>A string used to specify the name of the date column of
-interest. The values in this column should be of type 'Date' in ISO
+interest. The values in this column should be of type 'Date' in ISO8601
 format ("2024-01-31").</p></dd>
 
 
 <dt id="arg-end-date">end_date<a class="anchor" aria-label="anchor" href="#arg-end-date"></a></dt>
 <dd><p>An end date. It can be either a character that is the name of
 another column of type 'Date' from the input data or a vector of Dates or
-a single Date value. This should also be in the ISO format ("2024-01-31").
-Default is today's date <code><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date()</a></code>.</p></dd>
+a single Date value. This should also be in the ISO8601 format
+("2024-01-31"). Default is today's date <code><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date()</a></code>.</p></dd>
 
 
 <dt id="arg-span-unit">span_unit<a class="anchor" aria-label="anchor" href="#arg-span-unit"></a></dt>
@@ -101,7 +101,7 @@ store the calculated time span in the input data frame.</p></dd>
 <dd><p>A string for the unit in which the remainder of
 the time span should be calculated. May be one of "months", "weeks",
 and "days". Remainders requested in the same unit as the age will return
-values of 0. Default is NULL for decimal time span.</p></dd>
+values of 0. Default is <code>NULL</code> for decimal time span.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -124,17 +124,17 @@ days or weeks or months depending on the value of the
 <span class="r-in"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"test_df.RDS"</span>, package <span class="op">=</span> <span class="st">"cleanepi"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">data</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="replace_missing_values.html">replace_missing_values</a></span><span class="op">(</span>target_columns <span class="op">=</span> <span class="st">"dateOfBirth"</span>,</span></span>
-<span class="r-in"><span>                         na_strings     <span class="op">=</span> <span class="st">"-99"</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="standardize_dates.html">standardize_dates</a></span><span class="op">(</span>target_columns  <span class="op">=</span> <span class="st">"dateOfBirth"</span>,</span></span>
+<span class="r-in"><span>                         na_strings <span class="op">=</span> <span class="st">"-99"</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="standardize_dates.html">standardize_dates</a></span><span class="op">(</span>target_columns <span class="op">=</span> <span class="st">"dateOfBirth"</span>,</span></span>
 <span class="r-in"><span>                    error_tolerance <span class="op">=</span> <span class="fl">0.0</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># calculate the age in 'years' and return the remainder in 'months'</span></span></span>
 <span class="r-in"><span><span class="va">age</span> <span class="op">&lt;-</span> <span class="fu">timespan</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  data                <span class="op">=</span> <span class="va">data</span>,</span></span>
-<span class="r-in"><span>  target_column       <span class="op">=</span> <span class="st">"dateOfBirth"</span>,</span></span>
-<span class="r-in"><span>  end_date            <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  span_unit           <span class="op">=</span> <span class="st">"years"</span>,</span></span>
-<span class="r-in"><span>  span_column_name    <span class="op">=</span> <span class="st">"age_in_years"</span>,</span></span>
+<span class="r-in"><span>  data <span class="op">=</span> <span class="va">data</span>,</span></span>
+<span class="r-in"><span>  target_column <span class="op">=</span> <span class="st">"dateOfBirth"</span>,</span></span>
+<span class="r-in"><span>  end_date <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  span_unit <span class="op">=</span> <span class="st">"years"</span>,</span></span>
+<span class="r-in"><span>  span_column_name <span class="op">=</span> <span class="st">"age_in_years"</span>,</span></span>
 <span class="r-in"><span>  span_remainder_unit <span class="op">=</span> <span class="st">"months"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 </code></pre></div>

@@ -103,7 +103,9 @@
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"cleanepi"</span><span class="op">)</span></span></code></pre></div>
 <p>The latest development version of <strong>cleanepi</strong> can be installed from <a href="https://epiverse-trace.github.io/cleanepi/">GitHub</a>.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://pak.r-lib.org/" class="external-link">"pak"</a></span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"pak"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="op">(</span><span class="st">"pak"</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/installed.packages.html" class="external-link">installed.packages</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"pak"</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
 <span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"epiverse-trace/cleanepi"</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://epiverse-trace.github.io/cleanepi/">cleanepi</a></span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -461,13 +463,14 @@ sex
 </table>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># DEFINING THE CLEANING PARAMETERS</span></span>
-<span><span class="va">use_na</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>target_columns <span class="op">=</span> <span class="cn">NULL</span>, na_strings <span class="op">=</span> <span class="st">"-99"</span><span class="op">)</span></span>
-<span><span class="va">remove_duplicates</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>target_columns   <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
+<span><span class="va">replace_missing_values</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>target_columns <span class="op">=</span> <span class="cn">NULL</span>, na_strings <span class="op">=</span> <span class="st">"-99"</span><span class="op">)</span></span>
+<span><span class="va">remove_duplicates</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>target_columns <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span><span class="va">standardize_dates</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>  target_columns <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  error_tolerance <span class="op">=</span> <span class="fl">0.4</span>,</span>
 <span>  format <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  timeframe <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"1973-05-29"</span>, <span class="st">"2023-05-29"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  modern_excel <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  orders <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>    world_named_months <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Ybd"</span>, <span class="st">"dby"</span><span class="op">)</span>,</span>
 <span>    world_digit_months <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dmy"</span>, <span class="st">"Ymd"</span><span class="op">)</span>,</span>
@@ -481,38 +484,31 @@ sex
 <span>  range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">100</span><span class="op">)</span>,</span>
 <span>  nchar <span class="op">=</span> <span class="fl">7</span></span>
 <span><span class="op">)</span></span>
-<span><span class="va">remove_cte</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>cutoff <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
-<span><span class="va">standardize_col_names</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span><span class="va">remove_constants</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>cutoff <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="va">standardize_column_names</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>  keep <span class="op">=</span> <span class="st">"date.of.admission"</span>,</span>
 <span>  rename <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>DOB <span class="op">=</span> <span class="st">"dateOfBirth"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
-<span><span class="va">to_numeric</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span>  target_columns <span class="op">=</span> <span class="st">"sex"</span>,</span>
-<span>  lang <span class="op">=</span> <span class="st">"en"</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">params</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span>  standardize_column_names <span class="op">=</span> <span class="va">standardize_col_names</span>,</span>
-<span>  remove_constants <span class="op">=</span> <span class="va">remove_cte</span>,</span>
-<span>  replace_missing_values <span class="op">=</span> <span class="va">use_na</span>,</span>
-<span>  remove_duplicates <span class="op">=</span> <span class="va">remove_duplicates</span>,</span>
-<span>  standardize_dates <span class="op">=</span> <span class="va">standardize_dates</span>,</span>
-<span>  standardize_subject_ids <span class="op">=</span> <span class="va">standardize_subject_ids</span>,</span>
-<span>  to_numeric <span class="op">=</span> <span class="va">to_numeric</span>,</span>
-<span>  dictionary <span class="op">=</span> <span class="va">test_dictionary</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">to_numeric</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>target_columns <span class="op">=</span> <span class="st">"sex"</span>, lang <span class="op">=</span> <span class="st">"en"</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># PERFORMING THE DATA CLEANING</span></span>
 <span><span class="va">cleaned_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/clean_data.html">clean_data</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">test_data</span>,</span>
-<span>  params <span class="op">=</span> <span class="va">params</span></span>
+<span>  standardize_column_names <span class="op">=</span> <span class="va">standardize_column_names</span>,</span>
+<span>  remove_constants <span class="op">=</span> <span class="va">remove_constants</span>,</span>
+<span>  replace_missing_values <span class="op">=</span> <span class="va">replace_missing_values</span>,</span>
+<span>  remove_duplicates <span class="op">=</span> <span class="va">remove_duplicates</span>,</span>
+<span>  standardize_dates <span class="op">=</span> <span class="va">standardize_dates</span>,</span>
+<span>  standardize_subject_ids <span class="op">=</span> <span class="va">standardize_subject_ids</span>,</span>
+<span>  to_numeric <span class="op">=</span> <span class="va">to_numeric</span>,</span>
+<span>  dictionary <span class="op">=</span> <span class="va">test_dictionary</span>,</span>
+<span>  check_date_sequence <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; cleaning column names</span></span>
 <span><span class="co">#&gt; replacing missing values with NA</span></span>
 <span><span class="co">#&gt; removing the constant columns, empty rows and columns</span></span>
 <span><span class="co">#&gt; removing duplicated rows</span></span>
-<span><span class="co">#&gt; No duplicates were found.</span></span>
 <span><span class="co">#&gt; standardising date columns</span></span>
 <span><span class="co">#&gt; checking subject IDs format</span></span>
 <span><span class="co">#&gt; Warning: Detected incorrect subject ids at lines: 3, 5, 7</span></span>
@@ -744,24 +740,7 @@ female
 <h2 id="citing-this-package">Citing this package<a class="anchor" aria-label="anchor" href="#citing-this-package"></a>
 </h2>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/citation.html" class="external-link">citation</a></span><span class="op">(</span><span class="st">"cleanepi"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; To cite package 'cleanepi' in publications use:</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;   Mané K, Degoot A, Ahadzie B, Mohammed N, Bah B (2024). _cleanepi:</span></span>
-<span><span class="co">#&gt;   Clean and Standardize Epidemiological Data_.</span></span>
-<span><span class="co">#&gt;   doi:10.5281/zenodo.11473985</span></span>
-<span><span class="co">#&gt;   &lt;https://doi.org/10.5281/zenodo.11473985&gt;,</span></span>
-<span><span class="co">#&gt;   &lt;https://epiverse-trace.github.io/cleanepi/&gt;.</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; A BibTeX entry for LaTeX users is</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;   @Manual{,</span></span>
-<span><span class="co">#&gt;     title = {cleanepi: Clean and Standardize Epidemiological Data},</span></span>
-<span><span class="co">#&gt;     author = {Karim Mané and Abdoelnaser Degoot and Bankolé Ahadzie and Nuredin Mohammed and Bubacarr Bah},</span></span>
-<span><span class="co">#&gt;     year = {2024},</span></span>
-<span><span class="co">#&gt;     doi = {10.5281/zenodo.11473985},</span></span>
-<span><span class="co">#&gt;     url = {https://epiverse-trace.github.io/cleanepi/},</span></span>
-<span><span class="co">#&gt;   }</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/citation.html" class="external-link">citation</a></span><span class="op">(</span><span class="st">"cleanepi"</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">

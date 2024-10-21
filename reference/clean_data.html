@@ -70,7 +70,7 @@ IDs with wrong formats, etc.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">clean_data</span><span class="op">(</span><span class="va">data</span>, <span class="va">params</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">clean_data</span><span class="op">(</span><span class="va">data</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -81,40 +81,58 @@ IDs with wrong formats, etc.</p>
 <dd><p>The input data frame or linelist</p></dd>
 
 
-<dt id="arg-params">params<a class="anchor" aria-label="anchor" href="#arg-params"></a></dt>
-<dd><p>A list of parameters that define what cleaning operations will
-be applied on the input data. The default parameters are defined in
-<code>cleanepi::default_cleanepi_settings()</code>. The possible values are:</p><ol><li><p><code>standardize_column_names</code>: A list with the arguments needed to
-standardize the column names. The elements of this list will be the
-input for the <code><a href="standardize_column_names.html">standardize_column_names</a></code> function.</p></li>
-<li><p><code>replace_missing_values</code>: A list of parameters to be used when
+<dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
+<dd><p>A list of cleaning operations to be applied on the input data.
+The acceptable arguments for <code>...</code> are:</p><dl><dt><code>standardize_column_names</code></dt>
+<dd><p>A list with the arguments needed to
+standardize the column names. The elements of this list are the
+input for the <code><a href="standardize_column_names.html">standardize_column_names</a></code> function.</p></dd>
+
+<dt><code>replace_missing_values</code></dt>
+<dd><p>A list of parameters to be used when
 replacing the missing values by <code>NA</code>. The elements of the list are the
-inputs for the <code><a href="replace_missing_values.html">replace_missing_values</a></code> function.</p></li>
-<li><p><code>remove_duplicates</code>: A list with the arguments that define the
+inputs for the <code><a href="replace_missing_values.html">replace_missing_values</a></code> function.</p></dd>
+
+<dt><code>remove_duplicates</code></dt>
+<dd><p>A list with the arguments that define the
 columns and other parameters to be considered when looking for
 duplicates. They are the input values for the
-<code><a href="remove_duplicates.html">remove_duplicates</a></code>function.</p></li>
-<li><p><code>remove_constants</code>: A list with the parameters that define whether to
+<code><a href="remove_duplicates.html">remove_duplicates</a></code> function.</p></dd>
+
+<dt><code>remove_constants</code></dt>
+<dd><p>A list with the parameters that define whether to
 remove constant data or not. The values are the input for the
-<code><a href="remove_constants.html">remove_constants</a></code> function.</p></li>
-<li><p><code>standardize_dates</code>: A list of parameters that will be used to
+<code><a href="remove_constants.html">remove_constants</a></code> function.</p></dd>
+
+<dt><code>standardize_dates</code></dt>
+<dd><p>A list of parameters that will be used to
 standardize the date values from the input data. They represent the
-input values for the <code><a href="standardize_dates.html">standardize_dates</a></code> function.</p></li>
-<li><p><code>standardize_subject_ids</code>: A list of parameters that are needed to
+input values for the <code><a href="standardize_dates.html">standardize_dates</a></code> function.</p></dd>
+
+<dt><code>standardize_subject_ids</code></dt>
+<dd><p>A list of parameters that are needed to
 check the IDs that comply with the expect format. These arguments are
-the input values of the <code><a href="check_subject_ids.html">check_subject_ids</a></code>.</p></li>
-<li><p><code>to_numeric</code>: A list with the parameters needed to convert the
+the input values of the <code><a href="check_subject_ids.html">check_subject_ids</a></code>.</p></dd>
+
+<dt><code>to_numeric</code></dt>
+<dd><p>A list with the parameters needed to convert the
 specified columns into numeric. When provided, the parameters will be
-the input values for the <code><a href="convert_to_numeric.html">convert_to_numeric</a></code></p></li>
-<li><p><code>dictionary</code>: A data frame that will be used to substitute the
+the input values for the <code><a href="convert_to_numeric.html">convert_to_numeric</a></code>.</p></dd>
+
+<dt><code>dictionary</code></dt>
+<dd><p>A data frame that will be used to substitute the
 current values in the specified columns the those in the dictionary. It
 is the main argument for the <code><a href="clean_using_dictionary.html">clean_using_dictionary</a></code>
-function.</p></li>
-<li><p><code>check_date_sequence</code>: A list of arguments to be used when
+function.</p></dd>
+
+<dt><code>check_date_sequence</code></dt>
+<dd><p>A list of arguments to be used when
 determining whether the sequence of date events is respected across all
 rows of the input data. The value in this list are the input for the
-<code><a href="check_date_sequence.html">check_date_sequence</a></code> function.</p></li>
-</ol></dd>
+<code><a href="check_date_sequence.html">check_date_sequence</a></code> function.</p></dd>
+
+
+</dl></dd>
 
 </dl></div>
     <div class="section level2">
@@ -127,10 +145,10 @@ This is associated with a data cleaning report that can be accessed using
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Parameters for column names standardization</span></span></span>
-<span class="r-in"><span><span class="va">standardize_col_names</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>keep <span class="op">=</span> <span class="cn">NULL</span>, rename <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">standardize_column_names</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>keep <span class="op">=</span> <span class="cn">NULL</span>, rename <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># parameters to remove constant columns, empty rows and columns</span></span></span>
-<span class="r-in"><span><span class="va">remove_cte</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>cutoff <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">remove_constants</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>cutoff <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Parameters for substituting missing values with NA:</span></span></span>
 <span class="r-in"><span><span class="va">replace_missing_values</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>target_columns <span class="op">=</span> <span class="cn">NULL</span>, na_strings <span class="op">=</span> <span class="st">"-99"</span><span class="op">)</span></span></span>
@@ -160,25 +178,28 @@ This is associated with a data cleaning report that can be accessed using
 <span class="r-in"><span>  nchar <span class="op">=</span> <span class="fl">7</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># convert the 'sex' column into numeric</span></span></span>
 <span class="r-in"><span><span class="va">to_numeric</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>target_columns <span class="op">=</span> <span class="st">"sex"</span>, lang <span class="op">=</span> <span class="st">"en"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># the dictionary-based cleaning will not be performed here</span></span></span>
 <span class="r-in"><span><span class="va">dictionary</span> <span class="op">=</span> <span class="cn">NULL</span></span></span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># no need to check for the sequence of date events</span></span></span>
+<span class="r-in"><span><span class="va">check_date_sequence</span> <span class="op">&lt;-</span> <span class="cn">NULL</span></span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">cleaned_data</span> <span class="op">&lt;-</span> <span class="fu">clean_data</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"test_df.RDS"</span>, package <span class="op">=</span> <span class="st">"cleanepi"</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span>,</span></span>
-<span class="r-in"><span>  params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>    standardize_column_names <span class="op">=</span> <span class="va">standardize_col_names</span>,</span></span>
-<span class="r-in"><span>    remove_constants <span class="op">=</span> <span class="va">remove_cte</span>,</span></span>
-<span class="r-in"><span>    replace_missing_values <span class="op">=</span> <span class="va">replace_missing_values</span>,</span></span>
-<span class="r-in"><span>    remove_duplicates <span class="op">=</span> <span class="va">remove_duplicates</span>,</span></span>
-<span class="r-in"><span>    standardize_dates <span class="op">=</span> <span class="va">standardize_dates</span>,</span></span>
-<span class="r-in"><span>    standardize_subject_ids <span class="op">=</span> <span class="va">standardize_subject_ids</span>,</span></span>
-<span class="r-in"><span>    to_numeric <span class="op">=</span> <span class="va">to_numeric</span>,</span></span>
-<span class="r-in"><span>    dictionary <span class="op">=</span> <span class="va">dictionary</span></span></span>
-<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span>  standardize_column_names <span class="op">=</span> <span class="va">standardize_column_names</span>,</span></span>
+<span class="r-in"><span>  remove_constants <span class="op">=</span> <span class="va">remove_constants</span>,</span></span>
+<span class="r-in"><span>  replace_missing_values <span class="op">=</span> <span class="va">replace_missing_values</span>,</span></span>
+<span class="r-in"><span>  remove_duplicates <span class="op">=</span> <span class="va">remove_duplicates</span>,</span></span>
+<span class="r-in"><span>  standardize_dates <span class="op">=</span> <span class="va">standardize_dates</span>,</span></span>
+<span class="r-in"><span>  standardize_subject_ids <span class="op">=</span> <span class="va">standardize_subject_ids</span>,</span></span>
+<span class="r-in"><span>  to_numeric <span class="op">=</span> <span class="va">to_numeric</span>,</span></span>
+<span class="r-in"><span>  dictionary <span class="op">=</span> <span class="cn">NULL</span>,</span></span>
+<span class="r-in"><span>  check_date_sequence <span class="op">=</span> <span class="cn">NULL</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> cleaning column names</span>
