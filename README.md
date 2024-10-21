@@ -72,9 +72,7 @@ The latest development version of **cleanepi** can be installed from
 [GitHub](https://epiverse-trace.github.io/cleanepi/).
 
 ``` r
-if (!require("pak")) {
-  install.packages("pak")
-}
+if (!require("pak")) install.packages("pak")
 pak::pak("epiverse-trace/cleanepi")
 library(cleanepi)
 ```
