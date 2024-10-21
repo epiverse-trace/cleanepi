@@ -4,16 +4,16 @@
 #' is in order or not.
 #'
 #' @param data The input data frame or linelist
-#' @param target_columns A vector of column names for events. Users should specify at
-#'    least 2 column names in the expected order. For example:
+#' @param target_columns A vector of column names for events. Users should
+#'    specify at least 2 column names in the expected order. For example:
 #'    \code{target_columns = c("date_symptoms_onset", "date_hospitalization",
 #'    "date_death")}.
 #'    When the input data is a `linelist` object, this parameter can be set to
-#'    \code{linelist_tags} if you wish to use the date sequence across only the tagged columns
-#'    columns only.
-#'    The date values in the target columns should be in the ISO8601 format (2024-12-31).
-#'    Otherwise, use the \code{standardize_dates()} function to standardize the
-#'    target columns.
+#'    \code{linelist_tags} if you wish to use the date sequence across only the
+#'    tagged columns columns only.
+#'    The date values in the target columns should be in the ISO8601 format
+#'    (2024-12-31). Otherwise, use the \code{standardize_dates()} function to
+#'    standardize the target columns.
 #'
 #' @returns The input dataset. When found, the incorrect date sequences will be
 #'    stored in the report and can be accessed using
