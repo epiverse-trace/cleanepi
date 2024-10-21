@@ -11,7 +11,7 @@ perform_remove_constants(data, cutoff)
 
 \item{cutoff}{The cut-off for empty rows and columns removal. If provided,
 only rows and columns where the percent of missing data is greater than
-this cut-off will removed.}
+this cut-off will removed. Default is 1.}
 }
 \value{
 A list with the input dataset where all empty rows and columns as

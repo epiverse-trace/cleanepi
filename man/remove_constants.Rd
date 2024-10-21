@@ -11,7 +11,7 @@ remove_constants(data, cutoff = 1L)
 
 \item{cutoff}{The cut-off for empty rows and columns removal. If provided,
 only rows and columns where the percent of missing data is greater than
-this cut-off will removed.}
+this cut-off will removed. Default is 1.}
 }
 \value{
 The input dataset without the empty rows and columns and the
@@ -28,10 +28,18 @@ data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi"))
 # introduce an empty column
 data$empty_column <- NA
 
-# remove the constant columns, empty rows and columns
+# remove the constant columns, empty rows and columns where empty rows and
+# columns are defined as those with 100\% NA.
 dat <- remove_constants(
-  data   = data,
+  data = data,
   cutoff = 1
+)
+
+# remove the constant columns, empty rows and columns where empty rows and
+# columns are defined as those with 50\% NA.
+dat <- remove_constants(
+  data = data,
+  cutoff = 0.5
 )
 
 # check the report to see what has happened

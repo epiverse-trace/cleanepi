@@ -7,7 +7,7 @@
 #' @param data The input data frame or linelist
 #' @param cutoff The cut-off for empty rows and columns removal. If provided,
 #'    only rows and columns where the percent of missing data is greater than
-#'    this cut-off will removed.
+#'    this cut-off will removed. Default is 1.
 #'
 #' @returns The input dataset without the empty rows and columns and the
 #'    constant columns.
@@ -19,16 +19,24 @@
 #' # introduce an empty column
 #' data$empty_column <- NA
 #'
-#' # remove the constant columns, empty rows and columns
+#' # remove the constant columns, empty rows and columns where empty rows and
+#' # columns are defined as those with 100% NA.
 #' dat <- remove_constants(
-#'   data   = data,
+#'   data = data,
 #'   cutoff = 1
+#' )
+#'
+#' # remove the constant columns, empty rows and columns where empty rows and
+#' # columns are defined as those with 50% NA.
+#' dat <- remove_constants(
+#'   data = data,
+#'   cutoff = 0.5
 #' )
 #'
 #' # check the report to see what has happened
 #' report <- attr(dat, "report")
 #' report$constant_data
-remove_constants <- function(data, cutoff = 1L) {
+remove_constants <- function(data, cutoff = 1.0) {
   checkmate::assert_number(cutoff, lower = 0.0, upper = 1.0, na.ok = FALSE,
                            finite = TRUE, null.ok = FALSE)
   # extract the current report and save it for later use
@@ -111,9 +119,21 @@ remove_constants <- function(data, cutoff = 1L) {
 #' @keywords internal
 #'
 perform_remove_constants <- function(data, cutoff) {
-  # remove the empty rows and columns
-  dat <- data %>%
-    janitor::remove_empty(which = c("rows", "cols"), cutoff = cutoff)
+  # remove the empty rows
+  missingness <- rowSums(is.na(data)) / ncol(data)
+  to_remove <- missingness >= cutoff
+  dat <- data[!to_remove, ]
+
+  # report empty rows if found
+  empty_rows <- NULL
+  if (nrow(data) > nrow(dat)) {
+    empty_rows <- toString(which(rowSums(is.na(data)) / ncol(data) >= cutoff))
+  }
+
+  # remove the empty columns
+  missingness <- colSums(is.na(dat)) / nrow(dat)
+  to_remove <- missingness >= cutoff
+  dat <- dat[, !to_remove]
 
   # report empty columns if found
   empty_columns <- NULL
@@ -122,15 +142,14 @@ perform_remove_constants <- function(data, cutoff) {
     empty_columns <- toString(removed)
   }
 
-  # report empty rows if found
-  empty_rows <- NULL
-  if (nrow(data) > nrow(dat)) {
-    empty_rows <- which(rowSums(is.na(data)) == ncol(data))
-  }
-
   # remove constant columns
   data <- dat
-  dat <- data %>% janitor::remove_constant()
+  are_constant <- apply(
+    dat,
+    2,
+    function(x) as.numeric(length(unique(x[!is.na(x)]))) <= 1
+  )
+  dat <- dat[, !are_constant, drop = FALSE]
   removed <- setdiff(colnames(data), names(dat))
   constant_columns <- NULL
   if (length(removed) > 0L) {
