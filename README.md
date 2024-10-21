@@ -748,11 +748,10 @@ By contributing to this project, you agree to abide by its terms.
 
 ``` r
 citation("cleanepi")
-#> 
 #> To cite package 'cleanepi' in publications use:
 #> 
-#>   Mané K, Degoot A, Ahadzie B, Mohammed N, Bah B (2024).
-#>   _cleanepi: Clean and Standardize Epidemiological Data_.
+#>   Mané K, Degoot A, Ahadzie B, Mohammed N, Bah B (2024). _cleanepi:
+#>   Clean and Standardize Epidemiological Data_.
 #>   doi:10.5281/zenodo.11473985
 #>   <https://doi.org/10.5281/zenodo.11473985>,
 #>   <https://epiverse-trace.github.io/cleanepi/>.
