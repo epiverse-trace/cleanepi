@@ -63,7 +63,7 @@ test_that("remove_constants works", {
 
   expect_s3_class(dat, class = "data.frame")
   expect_identical(ncol(dat), 2L)
-  expect_false(nrow(data) == 2L)
+  expect_true(nrow(dat) == 2L)
   dat <- data.frame(dat)
   expect_identical(
     dat,
@@ -89,10 +89,44 @@ test_that("remove_constants works", {
   )
   expect_identical(
     constant_data[["constant_columns"]],
-    c("invariant", "invariant2")
+    c("invariant, invariant2", NA_character_)
   )
-  expect_identical(constant_data[["empty_rows"]], c("6", NA_character_))
+  expect_identical(constant_data[["empty_rows"]], c("6", "3, 4, 5"))
   expect_identical(constant_data[["iteration"]], c(1L, 2L))
+})
+
+
+test_that("remove_constants works as expected", {
+  dat <- df %>%
+    cleanepi::remove_constants(cutoff = 0.5)
+  report <- attr(dat, "report")
+
+  expect_s3_class(dat, class = "data.frame")
+  expect_identical(ncol(dat), 2L)
+  expect_true(nrow(dat) == 2L)
+  dat <- data.frame(dat)
+  expect_identical(
+    dat,
+    data.frame(
+      x = as.double(1:2),
+      y = as.double(c(1, 3))
+    )
+  )
+
+  expect_type(report, "list")
+  expect_length(report, 1L)
+  expect_named(report, "constant_data")
+  constant_data <- report[["constant_data"]]
+  expect_true(nrow(constant_data) == 1)
+  expect_true(ncol(constant_data) == 4)
+  expect_identical(
+    names(constant_data),
+    c("iteration", "empty_columns", "empty_rows", "constant_columns")
+  )
+  expect_identical(constant_data[["empty_columns"]], "empty1, empty2, empty3")
+  expect_identical(constant_data[["constant_columns"]], "invariant, invariant2")
+  expect_identical(constant_data[["empty_rows"]], "3, 4, 5, 6")
+  expect_identical(constant_data[["iteration"]], 1L)
 })
 
 test_that("remove_constants returns the expected message", {
