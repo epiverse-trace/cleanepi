@@ -22,6 +22,7 @@ Authors@R: c(
            comment = c(ORCID = "0000-0001-5218-3046")),
     person("Chris", "Hartgerink", , "chris@data.org", role = "rev",
            comment = c(ORCID = "0000-0003-1050-6809")),
+    person("Andree", "Valle-Campos", , "avallecam@gmail.com", role = c("rev", "ctb")),
     person("London School of Hygiene and Tropical Medicine, LSHTM", role = "cph"),
     person("data.org", role = "fnd")
   )
@@ -41,7 +42,6 @@ Imports:
     checkmate,
     cli,
     dplyr,
-    janitor,
     linelist (>= 1.0.0),
     lubridate,
     magrittr,
