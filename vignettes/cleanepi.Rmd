@@ -357,8 +357,7 @@ res <- standardize_dates(
     world_named_months = c("Ybd", "dby"),
     world_digit_months = c("dmy", "Ymd"),
     US_formats = c("Omdy", "YOmd")
-  ),
-  modern_excel = TRUE
+  )
 )
 ```
 
@@ -392,8 +391,7 @@ res <- standardize_dates(
     world_named_months = c("Ybd", "dby"),
     world_digit_months = c("dmy", "Ymd"),
     US_formats = c("Omdy", "YOmd")
-  ),
-  modern_excel = TRUE
+  )
 )
 
 # GET THE REPORT

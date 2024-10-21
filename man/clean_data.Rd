@@ -80,8 +80,7 @@ standardize_dates <- list(
     world_named_months = c("Ybd", "dby"),
     world_digit_months = c("dmy", "Ymd"),
     US_formats = c("Omdy", "YOmd")
-  ),
-  modern_excel = TRUE
+  )
 )
 
 # Parameters for subject IDs standardization

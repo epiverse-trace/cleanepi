@@ -34,8 +34,7 @@ standardize_dates <- list(
     named_months = c("Ybd", "dby"),
     digit_months = c("dmy", "Ymd"),
     US_formats = c("Omdy", "YOmd")
-  ),
-  modern_excel = TRUE
+  )
 )
 standardize_subject_ids <- list(
   target_columns = "study_id",
