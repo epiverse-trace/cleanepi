@@ -2,7 +2,7 @@
 % Please edit documentation in R/check_date_sequence.R
 \name{check_date_sequence}
 \alias{check_date_sequence}
-\title{Check whether the order of the sequence of date-events is valid.}
+\title{Check whether the sequence of date events is in the correct order..}
 \usage{
 check_date_sequence(data, target_columns)
 }
