@@ -33,7 +33,7 @@ library("cleanepi")
 
 The main function in **{cleanepi}** is `clean_data()` that can perform the following tasks:
 
-1. Clean up column names and convert them to more intuitive formats. This includes many sub-tasks such as replacing a space, dot, or hyphen between two words with underscore; converting camel-cases to snake-cases; substituting foreign characters with their corresponding English characters; and splitting a long word into multiple short words by capital characters within, if any, and connecting them with underscores.   
+1. Clean up column names and convert them to more readable formats. This includes many sub-tasks such as replacing a space, dot, or hyphen between two words with underscore; converting camel-cases to snake-cases; substituting foreign characters with their corresponding English characters; and splitting a long word into multiple short words by capital characters within, if any, and connecting them with underscores.   
 2. Find and remove duplicated rows across all columns or some specific columns.
 3. Remove empty rows and columns as well as constant columns, i.e. columns with the same value across all rows.   
 4. Replace missing entries with `NA`. 
