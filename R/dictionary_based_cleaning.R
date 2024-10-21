@@ -147,7 +147,7 @@ dictionary_make_metadata <- function(x, field_column) {
 
 #' Add an element to the data dictionary
 #'
-#' @param dictionary The data dictionary in a form of a data frame
+#' @param dictionary A data dictionary in a form of a data frame
 #' @param option A vector of strings with the new options that need to be added
 #'    to the dictionary.
 #' @param value A vector with the values to be used when replacing the new
