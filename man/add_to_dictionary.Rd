@@ -7,7 +7,7 @@
 add_to_dictionary(dictionary, option, value, grp, order = NULL)
 }
 \arguments{
-\item{dictionary}{The data dictionary in a form of a data frame}
+\item{dictionary}{A data dictionary in a form of a data frame}
 
 \item{option}{A vector of strings with the new options that need to be added
 to the dictionary.}
