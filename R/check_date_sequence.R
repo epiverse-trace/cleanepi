@@ -16,7 +16,7 @@
 #'    target columns.
 #'
 #' @returns The input dataset. When found, the incorrect date sequences will be
-#'    stored in the report where they can be accessed using
+#'    stored in the report and can be accessed using
 #'    \code{attr(data, "report")}.
 #' @export
 #'
