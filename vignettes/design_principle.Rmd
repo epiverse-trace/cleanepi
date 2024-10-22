@@ -278,7 +278,8 @@ The modules and surrogate functions will depend mainly on the following packages
   [{lubridate}](https://CRAN.R-project.org/package=dplyr) used to create, handle, and manipulate objects of type Date,
   [{reactable}](https://CRAN.R-project.org/package=reactable) mainly used here to customize the data cleaning report,
   [{withr}](https://CRAN.R-project.org/package=withr) utilized to handle the creation of temporary files and directory relevant for `print_report()` and,
-  [{readr}](https://CRAN.R-project.org/package=readr) used to import data.
+  [{readr}](https://CRAN.R-project.org/package=readr) used to import data,
+  [{janitor}](https://CRAN.R-project.org/package=janitor) used to standardize column names in `standardize_column_names()`.
   
 The functions will require all other packages that needed in the package development process including:    
 

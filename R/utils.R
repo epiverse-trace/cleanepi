@@ -182,7 +182,7 @@ get_target_column_names <- function(data, target_columns, cols) {
 
 #' Get column names
 #'
-#' When several performing data cleaning operations using the `clean_data()`
+#' When performing several data cleaning operations using the `clean_data()`
 #' function, the input column names might be altered by after the column names
 #' cleaning. As a consequence of this, some cleaning operations will fail due to
 #' the column names mismatch. This function is provided to anticipate on this
