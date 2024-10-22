@@ -140,6 +140,18 @@ references:
   year: '2024'
   doi: 10.32614/CRAN.package.dplyr
 - type: software
+  title: janitor
+  abstract: 'janitor: Simple Tools for Examining and Cleaning Dirty Data'
+  notes: Imports
+  url: https://sfirke.github.io/janitor/
+  repository: https://CRAN.R-project.org/package=janitor
+  authors:
+  - family-names: Firke
+    given-names: Sam
+    email: samuel.firke@gmail.com
+  year: '2024'
+  doi: 10.32614/CRAN.package.janitor
+- type: software
   title: linelist
   abstract: 'linelist: Tagging and Validating Epidemiological Data'
   notes: Imports
@@ -248,18 +260,6 @@ references:
     email: hadley@posit.co
   year: '2024'
   doi: 10.32614/CRAN.package.rlang
-- type: software
-  title: snakecase
-  abstract: 'snakecase: Convert Strings into any Case'
-  notes: Imports
-  url: https://github.com/Tazinho/snakecase
-  repository: https://CRAN.R-project.org/package=snakecase
-  authors:
-  - family-names: Grosser
-    given-names: Malte
-    email: malte.grosser@gmail.com
-  year: '2024'
-  doi: 10.32614/CRAN.package.snakecase
 - type: software
   title: tibble
   abstract: 'tibble: Simple Data Frames'
