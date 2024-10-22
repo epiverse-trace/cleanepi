@@ -215,7 +215,7 @@ retrieve_column_names <- function(data, target_columns) {
 
   # detect the current names
   # identify the old names
-  new_names      <- target_columns[target_columns %in% names(data)]
+  new_names <- target_columns[target_columns %in% names(data)]
   target_columns <- target_columns[!(target_columns %in% names(data))]
   if ("colnames" %in% names(report) &&
       all(target_columns %in% report[["colnames"]][["before"]])) {
