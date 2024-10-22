@@ -220,7 +220,7 @@ retrieve_column_names <- function(data, target_columns) {
   if ("colnames" %in% names(report) &&
       all(target_columns %in% report[["colnames"]][["before"]])) {
     all_column_names <- report[["colnames"]]
-    idx              <- match(target_columns, all_column_names[["before"]])
+    idx <- match(target_columns, all_column_names[["before"]])
     new_names        <- c(new_names, all_column_names[["after"]][idx])
   }
 
