@@ -36,4 +36,4 @@
 
 * Replace `snakecase::to_snake_case()` with `janitor::clean_names()` and make sure variable names specified in `keep` and `rename` are preserved after applying `janitor::clean_names()` (#180, Karim-Mane).
 
-* Function documentations have been updated. The `clean_data()` no longer takes the `params` arguments. Instead, it takes many other arguments that are described in the function documentation and the package vignettes (#184, Karim-Mane).
+* Function documentations have been updated. The `clean_data()` no longer takes the `params` argument. Instead, it takes many other arguments that are described in the function documentation and the package vignettes (#184, Karim-Mane).
