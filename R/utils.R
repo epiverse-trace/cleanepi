@@ -203,7 +203,7 @@ retrieve_column_names <- function(data, target_columns) {
   }
 
   # extract the report object to make it easily accessible
-  report    <- attr(data, "report")
+  report <- attr(data, "report")
   if (!"colnames" %in% names(report)) {
     return(target_columns)
   }
