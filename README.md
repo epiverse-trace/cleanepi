@@ -72,9 +72,7 @@ The latest development version of **cleanepi** can be installed from
 [GitHub](https://epiverse-trace.github.io/cleanepi/).
 
 ``` r
-if (!("pak" %in% rownames(installed.packages()))) {
-  install.packages("pak")
-}
+if (!require("pak")) install.packages("pak")
 pak::pak("epiverse-trace/cleanepi")
 library(cleanepi)
 ```
@@ -458,7 +456,6 @@ standardize_dates <- list(
   error_tolerance = 0.4,
   format = NULL,
   timeframe = as.Date(c("1973-05-29", "2023-05-29")),
-  modern_excel = TRUE,
   orders = list(
     world_named_months = c("Ybd", "dby"),
     world_digit_months = c("dmy", "Ymd"),
@@ -499,6 +496,7 @@ cleaned_data <- clean_data(
 #> replacing missing values with NA
 #> removing the constant columns, empty rows and columns
 #> removing duplicated rows
+#> No duplicates were found.
 #> standardising date columns
 #> checking subject IDs format
 #> Warning: Detected incorrect subject ids at lines: 3, 5, 7
@@ -744,4 +742,22 @@ By contributing to this project, you agree to abide by its terms.
 
 ``` r
 citation("cleanepi")
+#> 
+#> To cite package 'cleanepi' in publications use:
+#> 
+#>   Mané K, Degoot A, Ahadzie B, Mohammed N, Bah B (2024).
+#>   _cleanepi: Clean and Standardize Epidemiological Data_.
+#>   doi:10.5281/zenodo.11473985
+#>   <https://doi.org/10.5281/zenodo.11473985>,
+#>   <https://epiverse-trace.github.io/cleanepi/>.
+#> 
+#> A BibTeX entry for LaTeX users is
+#> 
+#>   @Manual{,
+#>     title = {cleanepi: Clean and Standardize Epidemiological Data},
+#>     author = {Karim Mané and Abdoelnaser Degoot and Bankolé Ahadzie and Nuredin Mohammed and Bubacarr Bah},
+#>     year = {2024},
+#>     doi = {10.5281/zenodo.11473985},
+#>     url = {https://epiverse-trace.github.io/cleanepi/},
+#>   }
 ```
