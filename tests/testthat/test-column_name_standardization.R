@@ -92,3 +92,30 @@ test_that("standardize_column_names fails when wrong column names are
                            kept.")
   )
 })
+
+test_that("standardize_column_names works as expected", {
+  dat <- tibble::tibble(
+    "...1" = -1,
+    "1" = 0,
+    "x1" = 0.5,
+    "x 1" = 1,
+    "x_1" = 2,
+    "x  1" = 3,
+  )
+  test <- dat %>%
+    cleanepi::standardize_column_names()
+
+  cleaned_data <- dat %>%
+    cleanepi::standardize_column_names(keep = "x_1")
+
+  # without 'keep = "x_1"', this column would have been renamed as "x_1_2"
+  # this demonstrate the use of 'make_unique_column_names' to preserve columns
+  # in 'keep' and 'rename' in case duplicated names are generated during the
+  # process.
+  expect_s3_class(cleaned_data, "data.frame")
+  expect_named(
+    cleaned_data,
+    expected = c("x1", "x1_2", "x1_3", "x_1_1", "x_1", "x_1_2")
+  )
+  expect_false(identical(names(test), names(cleaned_data)))
+})
