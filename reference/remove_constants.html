@@ -61,7 +61,7 @@ a data frame within the report object.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">remove_constants</span><span class="op">(</span><span class="va">data</span>, cutoff <span class="op">=</span> <span class="fl">1L</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">remove_constants</span><span class="op">(</span><span class="va">data</span>, cutoff <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -75,7 +75,7 @@ a data frame within the report object.</p>
 <dt id="arg-cutoff">cutoff<a class="anchor" aria-label="anchor" href="#arg-cutoff"></a></dt>
 <dd><p>The cut-off for empty rows and columns removal. If provided,
 only rows and columns where the percent of missing data is greater than
-this cut-off will removed.</p></dd>
+this cut-off will removed. Default is 1.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -91,10 +91,18 @@ constant columns.</p>
 <span class="r-in"><span><span class="co"># introduce an empty column</span></span></span>
 <span class="r-in"><span><span class="va">data</span><span class="op">$</span><span class="va">empty_column</span> <span class="op">&lt;-</span> <span class="cn">NA</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># remove the constant columns, empty rows and columns</span></span></span>
+<span class="r-in"><span><span class="co"># remove the constant columns, empty rows and columns where empty rows and</span></span></span>
+<span class="r-in"><span><span class="co"># columns are defined as those with 100% NA.</span></span></span>
 <span class="r-in"><span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu">remove_constants</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  data   <span class="op">=</span> <span class="va">data</span>,</span></span>
+<span class="r-in"><span>  data <span class="op">=</span> <span class="va">data</span>,</span></span>
 <span class="r-in"><span>  cutoff <span class="op">=</span> <span class="fl">1</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># remove the constant columns, empty rows and columns where empty rows and</span></span></span>
+<span class="r-in"><span><span class="co"># columns are defined as those with 50% NA.</span></span></span>
+<span class="r-in"><span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu">remove_constants</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  data <span class="op">=</span> <span class="va">data</span>,</span></span>
+<span class="r-in"><span>  cutoff <span class="op">=</span> <span class="fl">0.5</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># check the report to see what has happened</span></span></span>
