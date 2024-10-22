@@ -109,9 +109,9 @@ test_that("standardize_column_names works as expected", {
     cleanepi::standardize_column_names(keep = "x_1")
 
   # without 'keep = "x_1"', this column would have been renamed as "x_1_2"
-  # this demonstrate the use of 'make_unique_column_names' to preserve columns
-  # in 'keep' and 'rename' in case duplicated names are generated during the
-  # process.
+  # this demonstrates the use of the internal 'make_unique_column_names()'
+  # function to preserve columns in 'keep' and 'rename' in case duplicated names
+  # are generated during the process.
   expect_s3_class(cleaned_data, "data.frame")
   expect_named(
     cleaned_data,
