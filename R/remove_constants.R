@@ -19,7 +19,7 @@
 #' # introduce an empty column
 #' data$empty_column <- NA
 #'
-#' # remove the constant columns, empty rows and columns where empty rows and
+#' # remove The constant columns, empty rows and columns where empty rows and
 #' # columns are defined as those with 100% NA.
 #' dat <- remove_constants(
 #'   data = data,
