@@ -105,14 +105,15 @@ By incorporating the `standardize_column_names()` function, {cleanepi} streamlin
 **2. Removal of empty rows and columns and constant columns**
 
 This module aims at eliminating irrelevant and redundant rows and columns, including empty rows and columns as well as constant columns.
-The process of removing constant data is performed iteratively until there is no constant data.
+The main function was initially (i.e. up to `version 1.0.2`) built based on the {janitor} R package. We used `janitor::remove_empty()` and `janitor::remove_conatant()` to remove empty rows and columns and constant columns respectively. In `janitor::remove_empty()`, the empty rows are removed first, then the empty columns. This maximizes the chance of keeping more columns after this operation.
+As we noticed that the removal of the constant data might still result in a dataset with some empty row and/or columns and constant columns, we introduced the concept of iterative constant data removal in more recent versions of the package (`> v.1.0.2`). This means that the process of removing constant data is performed iteratively until there is no constant data. The report made from this operation informs about what rows and columns were removed at every iteration.
 
 - **Main function:** `remove_constants()`
 - **Input:** Accepts a `data.frame` or `linelist` object, along with:
   * A cut-off that determines the percent of missing values beyond which a row or column should be deleted.
 - **Output:** Returns the input object after applying the specified operations.
 - **Report:**
-  * A data frame with four columns showcasing detected empty and columns and constant columns at every iteration.
+  * A data frame with four columns showcasing the removed empty and columns and constant columns at every iteration.
 - **Mode:**
   * explicit
   

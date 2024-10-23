@@ -218,6 +218,7 @@ dat %>%
 ```
 
 The `remove_constants()` function returns a dataset where all constant columns, empty rows and columns are removed.
+Note that when the first iteration of constant data removal results in a dataset with empty rows and/or columns and constant columns, this process will be carried on several times until there is no more constant data. Rows and columns that were deleted at any iterations will be reported in the report object.
 
 
 ## Cleaning column names
