@@ -18,23 +18,44 @@
 #'
 #' # introduce an empty column
 #' data$empty_column <- NA
+
+#' # introduce some missing values across some columns
+#' data$study_id[3] = NA_character_
+#' data$date.of.admission[3] = NA_character_
+#' data$date.of.admission[4] = NA_character_
+#' data$dateOfBirth[3] = NA_character_
+#' data$dateOfBirth[4] = NA_character_
+#' data$dateOfBirth[5] = NA_character_
 #'
-#' # remove the constant columns, empty rows and columns where empty rows and
-#' # columns are defined as those with 100% NA.
-#' dat <- remove_constants(
+#' # with cutoff = 1, line 3, 4, and 5 are not removed
+#' test <- cleanepi::remove_constants(
 #'   data = data,
 #'   cutoff = 1
 #' )
 #'
-#' # remove the constant columns, empty rows and columns where empty rows and
-#' # columns are defined as those with 50% NA.
-#' dat <- remove_constants(
-#'   data = data,
+#' # drop rows or columns with a percent of constant values equal to or more
+#' # than 50%
+#' test <- cleanepi::remove_constants(
+#'   data = test,
 #'   cutoff = 0.5
 #' )
 #'
+#' # drop rows or columns with a percent of constant values equal to or more
+#' # than 25%
+#' test <- cleanepi::remove_constants(
+#'   data = test,
+#'   cutoff = 0.25
+#' )
+#'
+#' # drop rows or columns with a percent of constant values equal to or more
+#' # than 15%
+#' test <- cleanepi::remove_constants(
+#'   data = test,
+#'   cutoff = 0.15
+#' )
+#'
 #' # check the report to see what has happened
-#' report <- attr(dat, "report")
+#' report <- attr(test, "report")
 #' report$constant_data
 remove_constants <- function(data, cutoff = 1.0) {
   checkmate::assert_number(cutoff, lower = 0.0, upper = 1.0, na.ok = FALSE,
