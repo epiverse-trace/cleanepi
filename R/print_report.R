@@ -28,15 +28,19 @@
 #'  replace_missing_values(target_columns = NULL, na_strings = "-99") %>%
 #'  remove_constants(cutoff = 1.0) %>%
 #'  remove_duplicates(target_columns = NULL) %>%
-#'  standardize_dates(target_columns  = NULL,
-#'                    error_tolerance = 0.4,
-#'                    format          = NULL,
-#'                    timeframe   = as.Date(c("1973-05-29", "2023-05-29"))) %>%
-#'  check_subject_ids(target_columns = "study_id",
-#'                    prefix         = "PS",
-#'                    suffix         = "P2",
-#'                    range          = c(1L, 100L),
-#'                    nchar          = 7L) %>%
+#'  standardize_dates(
+#'    target_columns = NULL,
+#'    error_tolerance = 0.4,
+#'    format = NULL,
+#'    timeframe = as.Date(c("1973-05-29", "2023-05-29"))
+#'  ) %>%
+#'  check_subject_ids(
+#'    target_columns = "study_id",
+#'    prefix = "PS",
+#'    suffix = "P2",
+#'    range = c(1L, 100L),
+#'    nchar = 7L
+#'  ) %>%
 #'  convert_to_numeric(target_columns = "sex", lang = "en") %>%
 #'  clean_using_dictionary(dictionary = test_dictionary)
 #'
@@ -67,36 +71,43 @@ print_report <- function(data,
 
   # extract report, check whether any cleaning operation has been performed, and
   # allow for only HTML output format for the report.
-  report             <- attr(data, "report")
+  report <- attr(data, "report")
   stopifnot(
     "No report associated with the input data." = !is.null(report),
     "Invalid format: Only 'html' format is currently supported." =
       format == "html"
   )
 
+  # set the report from scan_data() function to NA if no data scanning was
+  # performed. NA because the function returns NA if no character column was
+  # found in the input data
+  if (!("scanning_result" %in% names(report))) {
+    report[["scanning_result"]] <- NA
+  }
+
   # generate output file and directory
-  timestamp_string   <- format(Sys.time(), "_%Y-%m-%d%_at_%H%M%S")
+  timestamp_string <- format(Sys.time(), "_%Y-%m-%d%_at_%H%M%S")
   if (is.null(output_file_name)) {
     output_file_name <- paste0("cleanepi_report_", timestamp_string, ".html")
   }
 
   # this ensures to add the logo to the report
   report[["report_title"]] <- report_title
-  man_path                 <- file.path("man", "figures")
-  report[["logo"]]         <- system.file(man_path, "logo.svg",
-                                          package = "cleanepi")
+  man_path <- file.path("man", "figures")
+  report[["logo"]] <- system.file(man_path, "logo.svg", package = "cleanepi")
 
   # render the Rmd file to generate the report
   file_and_path <- file.path(tempdir(), output_file_name)
   message("Generating html report in ", tempdir())
   rmarkdown::render(
-    input       = system.file("rmarkdown", "templates", "printing-rmd",
-                              "skeleton", "skeleton.Rmd",
-                              package  = "cleanepi",
-                              mustWork = TRUE),
+    input = system.file(
+      "rmarkdown", "templates", "printing-rmd", "skeleton", "skeleton.Rmd",
+      package = "cleanepi",
+      mustWork = TRUE
+    ),
     output_file = file_and_path,
-    params      = report,
-    quiet       = TRUE
+    params = report,
+    quiet = TRUE
   )
 
   # print report if specified

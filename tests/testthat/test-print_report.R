@@ -4,8 +4,7 @@ test_data <- readRDS(
 )
 
 test_dictionary <- readRDS(
-  system.file("extdata", "test_dictionary.RDS",
-  package = "cleanepi")
+  system.file("extdata", "test_dictionary.RDS", package = "cleanepi")
 )
 
 cleaned_data <- test_data %>%
@@ -44,11 +43,11 @@ test_that("print_report works", {
   testthat::skip_on_cran()
   testthat::skip_on_covr()
   test_print_report <- print_report(
-    data             = cleaned_data,
-    report_title     = "{cleanepi} data cleaning report",
+    data = cleaned_data,
+    report_title = "{cleanepi} data cleaning report",
     output_file_name = NULL,
-    format           = "html",
-    print            = FALSE
+    format = "html",
+    print = FALSE
   )
   expect_type(test_print_report, "character")
   expect_true(file.exists(test_print_report))
@@ -61,24 +60,23 @@ test_that("print_report fails when no report is associated to the data", {
   testthat::skip_on_covr()
   expect_error(
     print_report(
-      data             = test_data,
-      report_title     = "{cleanepi} data cleaning report",
+      data = test_data,
+      report_title = "{cleanepi} data cleaning report",
       output_file_name = NULL,
-      format           = "html",
-      print            = FALSE
+      format = "html",
+      print = FALSE
     ),
-    regexp = cat("The input data for 'print_report()' must be subjected to
-                 some cleaning operations to have a report associated to it.")
+    regexp = cat("No report associated with the input data.")
   )
 
   expect_error(
     print_report(
-      data             = test_data,
-      report_title     = "{cleanepi} data cleaning report",
+      data = test_data,
+      report_title = "{cleanepi} data cleaning report",
       output_file_name = NULL,
-      format           = "pdf",
-      print            = FALSE
+      format = "pdf",
+      print = FALSE
     ),
-    regexp = cat("The PDF format is not currently supported.")
+    regexp = cat("Invalid format: Only 'html' format is currently supported.")
   )
 })
