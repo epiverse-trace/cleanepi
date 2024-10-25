@@ -33,7 +33,7 @@
 #'   cutoff = 1
 #' )
 #'
-#' # drop rows or columns with a percentage of constant values 
+#' # drop rows or columns with a percentage of constant values
 #' # equal to or more than 50%
 #' test <- cleanepi::remove_constants(
 #'   data = test,
