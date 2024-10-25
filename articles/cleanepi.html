@@ -972,7 +972,12 @@ Mar 03, 2021
 </table>
 </div>
 <p>The <code><a href="../reference/remove_constants.html">remove_constants()</a></code> function returns a dataset where
-all constant columns, empty rows and columns are removed.</p>
+all constant columns, empty rows and columns are iteratively removed.
+Note that when the first iteration of constant data removal results in a
+dataset with new empty rows and/or columns and constant columns, this
+process will be carried on several times until there is no more constant
+data. Rows and columns that were deleted at any iterations will be
+reported in the report object.</p>
 </div>
 <div class="section level3">
 <h3 id="cleaning-column-names">Cleaning column names<a class="anchor" aria-label="anchor" href="#cleaning-column-names"></a>

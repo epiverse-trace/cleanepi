@@ -283,8 +283,21 @@ organization and readability of the dataset.</p>
 columns</strong></p>
 <p>This module aims at eliminating irrelevant and redundant rows and
 columns, including empty rows and columns as well as constant columns.
-The process of removing constant data is performed iteratively until
-there is no constant data.</p>
+The main function was initially (i.e. up to <code>version 1.0.2</code>)
+built based on the {janitor} R package. We used
+<code><a href="https://sfirke.github.io/janitor/reference/remove_empty.html" class="external-link">janitor::remove_empty()</a></code> and
+<code>janitor::remove_conatant()</code> to remove empty rows and columns
+and constant columns respectively. In
+<code><a href="https://sfirke.github.io/janitor/reference/remove_empty.html" class="external-link">janitor::remove_empty()</a></code>, the empty rows are removed first,
+then the empty columns. This maximizes the chance of keeping more
+columns after this operation. As we noticed that the removal of the
+constant data might still result in a dataset with some empty row and/or
+columns and constant columns, we introduced the concept of iterative
+constant data removal in more recent versions of the package
+(<code>&gt; v.1.0.2</code>). This means that the process of removing
+constant data is performed iteratively until there is no constant data.
+The report made from this operation informs about what rows and columns
+were removed at every iteration.</p>
 <ul>
 <li>
 <strong>Main function:</strong> <code><a href="../reference/remove_constants.html">remove_constants()</a></code>
@@ -303,8 +316,8 @@ specified operations.</li>
 <li>
 <strong>Report:</strong>
 <ul>
-<li>A data frame with four columns showcasing detected empty and columns
-and constant columns at every iteration.</li>
+<li>A data frame with four columns showcasing the removed empty and
+columns and constant columns at every iteration.</li>
 </ul>
 </li>
 <li>

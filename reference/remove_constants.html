@@ -90,26 +90,46 @@ constant columns.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># introduce an empty column</span></span></span>
 <span class="r-in"><span><span class="va">data</span><span class="op">$</span><span class="va">empty_column</span> <span class="op">&lt;-</span> <span class="cn">NA</span></span></span>
+<span class="r-in"><span><span class="co"># introduce some missing values across some columns</span></span></span>
+<span class="r-in"><span><span class="va">data</span><span class="op">$</span><span class="va">study_id</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span> <span class="op">=</span> <span class="cn">NA_character_</span></span></span>
+<span class="r-in"><span><span class="va">data</span><span class="op">$</span><span class="va">date.of.admission</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span> <span class="op">=</span> <span class="cn">NA_character_</span></span></span>
+<span class="r-in"><span><span class="va">data</span><span class="op">$</span><span class="va">date.of.admission</span><span class="op">[</span><span class="fl">4</span><span class="op">]</span> <span class="op">=</span> <span class="cn">NA_character_</span></span></span>
+<span class="r-in"><span><span class="va">data</span><span class="op">$</span><span class="va">dateOfBirth</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span> <span class="op">=</span> <span class="cn">NA_character_</span></span></span>
+<span class="r-in"><span><span class="va">data</span><span class="op">$</span><span class="va">dateOfBirth</span><span class="op">[</span><span class="fl">4</span><span class="op">]</span> <span class="op">=</span> <span class="cn">NA_character_</span></span></span>
+<span class="r-in"><span><span class="va">data</span><span class="op">$</span><span class="va">dateOfBirth</span><span class="op">[</span><span class="fl">5</span><span class="op">]</span> <span class="op">=</span> <span class="cn">NA_character_</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># remove the constant columns, empty rows and columns where empty rows and</span></span></span>
-<span class="r-in"><span><span class="co"># columns are defined as those with 100% NA.</span></span></span>
-<span class="r-in"><span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu">remove_constants</span><span class="op">(</span></span></span>
+<span class="r-in"><span><span class="co"># with cutoff = 1, line 3, 4, and 5 are not removed</span></span></span>
+<span class="r-in"><span><span class="va">test</span> <span class="op">&lt;-</span> <span class="fu">cleanepi</span><span class="fu">::</span><span class="fu">remove_constants</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  data <span class="op">=</span> <span class="va">data</span>,</span></span>
 <span class="r-in"><span>  cutoff <span class="op">=</span> <span class="fl">1</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># remove the constant columns, empty rows and columns where empty rows and</span></span></span>
-<span class="r-in"><span><span class="co"># columns are defined as those with 50% NA.</span></span></span>
-<span class="r-in"><span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu">remove_constants</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  data <span class="op">=</span> <span class="va">data</span>,</span></span>
+<span class="r-in"><span><span class="co"># drop rows or columns with a percentage of constant values</span></span></span>
+<span class="r-in"><span><span class="co"># equal to or more than 50%</span></span></span>
+<span class="r-in"><span><span class="va">test</span> <span class="op">&lt;-</span> <span class="fu">cleanepi</span><span class="fu">::</span><span class="fu">remove_constants</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  data <span class="op">=</span> <span class="va">test</span>,</span></span>
 <span class="r-in"><span>  cutoff <span class="op">=</span> <span class="fl">0.5</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># drop rows or columns with a percentage of constant values</span></span></span>
+<span class="r-in"><span><span class="co"># equal to or more than 25%</span></span></span>
+<span class="r-in"><span><span class="va">test</span> <span class="op">&lt;-</span> <span class="fu">cleanepi</span><span class="fu">::</span><span class="fu">remove_constants</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  data <span class="op">=</span> <span class="va">test</span>,</span></span>
+<span class="r-in"><span>  cutoff <span class="op">=</span> <span class="fl">0.25</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># drop rows or columns with a percentage of constant values</span></span></span>
+<span class="r-in"><span><span class="co"># equal to or more than 15%</span></span></span>
+<span class="r-in"><span><span class="va">test</span> <span class="op">&lt;-</span> <span class="fu">cleanepi</span><span class="fu">::</span><span class="fu">remove_constants</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  data <span class="op">=</span> <span class="va">test</span>,</span></span>
+<span class="r-in"><span>  cutoff <span class="op">=</span> <span class="fl">0.15</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># check the report to see what has happened</span></span></span>
-<span class="r-in"><span><span class="va">report</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">dat</span>, <span class="st">"report"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">report</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">test</span>, <span class="st">"report"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">report</span><span class="op">$</span><span class="va">constant_data</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   iteration empty_columns empty_rows                       constant_columns</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1         1  empty_column         NA event_name, country_code, country_name</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   iteration empty_columns empty_rows constant_columns</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1         1            NA          3               NA</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
