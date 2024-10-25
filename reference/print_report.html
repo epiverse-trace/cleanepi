@@ -115,15 +115,19 @@ file or no. Default is <code>TRUE</code>.</p></dd>
 <span class="r-in"><span> <span class="fu"><a href="replace_missing_values.html">replace_missing_values</a></span><span class="op">(</span>target_columns <span class="op">=</span> <span class="cn">NULL</span>, na_strings <span class="op">=</span> <span class="st">"-99"</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
 <span class="r-in"><span> <span class="fu"><a href="remove_constants.html">remove_constants</a></span><span class="op">(</span>cutoff <span class="op">=</span> <span class="fl">1.0</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
 <span class="r-in"><span> <span class="fu"><a href="remove_duplicates.html">remove_duplicates</a></span><span class="op">(</span>target_columns <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
-<span class="r-in"><span> <span class="fu"><a href="standardize_dates.html">standardize_dates</a></span><span class="op">(</span>target_columns  <span class="op">=</span> <span class="cn">NULL</span>,</span></span>
-<span class="r-in"><span>                   error_tolerance <span class="op">=</span> <span class="fl">0.4</span>,</span></span>
-<span class="r-in"><span>                   format          <span class="op">=</span> <span class="cn">NULL</span>,</span></span>
-<span class="r-in"><span>                   timeframe   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"1973-05-29"</span>, <span class="st">"2023-05-29"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
-<span class="r-in"><span> <span class="fu"><a href="check_subject_ids.html">check_subject_ids</a></span><span class="op">(</span>target_columns <span class="op">=</span> <span class="st">"study_id"</span>,</span></span>
-<span class="r-in"><span>                   prefix         <span class="op">=</span> <span class="st">"PS"</span>,</span></span>
-<span class="r-in"><span>                   suffix         <span class="op">=</span> <span class="st">"P2"</span>,</span></span>
-<span class="r-in"><span>                   range          <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1L</span>, <span class="fl">100L</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>                   nchar          <span class="op">=</span> <span class="fl">7L</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span> <span class="fu"><a href="standardize_dates.html">standardize_dates</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>   target_columns <span class="op">=</span> <span class="cn">NULL</span>,</span></span>
+<span class="r-in"><span>   error_tolerance <span class="op">=</span> <span class="fl">0.4</span>,</span></span>
+<span class="r-in"><span>   format <span class="op">=</span> <span class="cn">NULL</span>,</span></span>
+<span class="r-in"><span>   timeframe <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"1973-05-29"</span>, <span class="st">"2023-05-29"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span> <span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span> <span class="fu"><a href="check_subject_ids.html">check_subject_ids</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>   target_columns <span class="op">=</span> <span class="st">"study_id"</span>,</span></span>
+<span class="r-in"><span>   prefix <span class="op">=</span> <span class="st">"PS"</span>,</span></span>
+<span class="r-in"><span>   suffix <span class="op">=</span> <span class="st">"P2"</span>,</span></span>
+<span class="r-in"><span>   range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1L</span>, <span class="fl">100L</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>   nchar <span class="op">=</span> <span class="fl">7L</span></span></span>
+<span class="r-in"><span> <span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
 <span class="r-in"><span> <span class="fu"><a href="convert_to_numeric.html">convert_to_numeric</a></span><span class="op">(</span>target_columns <span class="op">=</span> <span class="st">"sex"</span>, lang <span class="op">=</span> <span class="st">"en"</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
 <span class="r-in"><span> <span class="fu"><a href="clean_using_dictionary.html">clean_using_dictionary</a></span><span class="op">(</span>dictionary <span class="op">=</span> <span class="va">test_dictionary</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> No duplicates were found.</span>
@@ -145,8 +149,8 @@ file or no. Default is <code>TRUE</code>.</p></dd>
 <span class="r-in"><span>  format <span class="op">=</span> <span class="st">"html"</span>,</span></span>
 <span class="r-in"><span>  print <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Generating html report in /tmp/RtmpulzLLk</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/RtmpulzLLk/cleanepi_report__2024-10-25Frit_104018.html"</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Generating html report in /tmp/RtmpiUEp14</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/RtmpiUEp14/cleanepi_report__2024-10-25Frit_151242.html"</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
