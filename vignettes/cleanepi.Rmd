@@ -193,7 +193,7 @@ The `remove_constants()` function can be used to remove such “noise”. The fu
 1. **data**: the input data frame or linelist,
 2. **cutoff**: a numeric, between `0` and `1`, to be used when removing empty rows and columns. When provided, only rows and columns where the percent of missing data is greater than this cut-off will removed. Rows and columns with 100% missing values will be remove by default.
 
-```{r echo=FALSE, eval=TRUE}
+```{r echo=TRUE, eval=TRUE}
 # IMPORT THE INPUT DATA
 data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi"))
 
@@ -241,7 +241,7 @@ cleaned_data <- standardize_column_names(
   data = data,
   keep = "date.of.admission"
 )
-print(colnames(data))
+print(colnames(cleaned_data))
 
 # KEEP 'date.of.admission' AS IS, BUT RENAME 'dateOfBirth' AND 'sex' TO
 # 'DOB' AND 'gender' RESPECTIVELY
@@ -250,7 +250,7 @@ cleaned_data <- standardize_column_names(
   keep = "date.of.admission",
   rename = c(DOB = "dateOfBirth", gender = "sex")
 )
-print(colnames(data))
+print(colnames(cleaned_data))
 ```
 
 By providing the function with these parameters, the users can redefine the name of the columns and get easy to work with column names. This enables a more comprehensive naming system that is tailored to the needs of the user.
@@ -380,7 +380,7 @@ It also adds two or three elements to the report object:
 * A data frame with the values that fall outside of the specified timeframe,
 * A data frame featuring date values that can comply with more than one specified format.
 
-```{r echo=FALSE, eval=TRUE}
+```{r echo=TRUE, eval=TRUE}
 # STANDARDIZE VALUES IN ALL COLUMNS
 res <- standardize_dates(
   data = test_data,
@@ -397,7 +397,11 @@ res <- standardize_dates(
 
 # GET THE REPORT
 report <- attr(res, "report")
+```
 
+Below are the possible formats for the date columns based on the specified potential formats from the `orders` argument.
+
+```{r echo=FALSE}
 # DISPLAY DATE VALUES THAT COMPLY WITH MULTIPLE FORMATS
 report$multi_format_dates %>%
   kableExtra::kbl() %>%
@@ -605,6 +609,9 @@ By including these extra columns, users gain insights into the specific rows ide
 # VISUALIZE THE DUPLICATES
 report <- attr(dups, "report")
 duplicates <- report$duplicated_rows
+```
+
+```{r echo=FALSE}
 duplicates %>%
   kableExtra::kbl() %>%
   kableExtra::kable_paper("striped", font_size = 14, full_width = FALSE) %>%
@@ -769,8 +776,8 @@ age <- timespan(
   span_remainder_unit = "months"
 )
 
-# CALCULATE THE TIME SPAN IN YEARS BETWEEN INDIVIDUALS 'dateOfBirth' AND THE DAY
-# THEY TESTED POSITIVE
+# CALCULATE THE TIME SPAN IN DAYS BETWEEN INDIVIDUALS DATE OF ADMISSION AND THE
+# DAY THEY TESTED POSITIVE
 data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi"))
 data <- data %>%
   replace_missing_values(
@@ -783,9 +790,9 @@ data <- data %>%
     format = NULL
   ) %>%
   timespan(
-    target_column = "date.of.admission",
-    end_date = "date_first_pcr_positive_test",
-    span_unit = "years",
+    target_column = "date_first_pcr_positive_test",
+    end_date = "date.of.admission",
+    span_unit = "days",
     span_column_name = "elapsed_time",
     span_remainder_unit = NULL
   )
