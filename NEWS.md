@@ -46,3 +46,5 @@
 
 * `date_guess()` and related functions now returns a list of two elements: the converted values and a boolean that informs about the presence of numeric values
 that can also be of type Date.
+
+* Update the package vignette to account for the improvements made in the different PRs (#194, Karim-Mane).
