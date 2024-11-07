@@ -25,22 +25,23 @@ data <- data %>%
 
 test_that("check_date_sequence sends a warning when incorrect column nams are
           found", {
-            expect_warning(
+            expect_message(
               check_date_sequence(
                 data           = data,
                 target_columns = c("date_first_pcr_positive_test",
                                    "date.of.admission", "fake_name")
               ),
-              regexp = cat("Removing unrecognised column name: fake_name")
+              regexp = cat("Found the following unrecognised column name:
+                           `fake_name`")
             )
 
-            expect_warning(
+            expect_message(
               check_date_sequence(
                 data           = data,
                 target_columns = c("date_first_pcr_positive_test",
                                    "date.of.admission")              ),
               regexp = cat("Detected 2 incorrect date sequences at
-                           line(s): 6, 8")
+                           lines: `6, 8`")
             )
 
             expect_error(
@@ -48,7 +49,7 @@ test_that("check_date_sequence sends a warning when incorrect column nams are
                 data           = data,
                 target_columns = c("date_first_pcr_positive_test",
                                    "fake_name")),
-              regexp = cat("At least 2 event dates are required!")
+              regexp = cat("Insufficient number of columns to compare.")
             )
 })
 
