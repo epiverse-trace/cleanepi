@@ -66,7 +66,9 @@ scan_data <- function(data) {
 
   # send an message if there is no character column found within the input data
   if (length(target_columns) == 0L) {
-    cli::cli_alert_info("No character column found from the input data.")
+    cli::cli_alert_info(
+      tr_("No character column found from the input data.")
+    )
     return(invisible(NA))
   }
 
@@ -145,8 +147,7 @@ scan_in_character <- function(x, x_name) {
   # send a warning about the presence of ambiguous values found on that column
   if (ambiguous_count > 0) {
     cli::cli_alert_warning(
-      "Found {ambiguous_count} numeric values that can also be of type Date \\\
-       in column `{x_name}`."
+      tr_("Found {ambiguous_count} numeric value{?s} that can also be of type Date in column {.code {x_name}}.") # nolint: line_length_linter
     )
   }
   x <- x[is.na(are_numeric)]
