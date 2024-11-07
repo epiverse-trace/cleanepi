@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: cleanepi 1.0.2.9000\n"
-"POT-Creation-Date: 2024-11-07 12:38+0000\n"
+"POT-Creation-Date: 2024-11-07 16:06+0000\n"
 "PO-Revision-Date: 2024-11-07 12:38+0000\n"
 "Last-Translator: Karim Mané\n"
 "Language-Team: none\n"
@@ -123,8 +123,8 @@ msgid ""
 "To rename columns, use: `rename = c(new_name1 = 'old_name1', new_name2 = "
 "'old_name2')`."
 msgstr ""
-"Les noms de colonnes peuvent être renommer comme suit: "
-"`rename = c(nouveau_nom1 = 'ancien_nom1', nouveau_nom2 = 'ancien_nom2')`."
+"Les noms de colonnes peuvent être renommer comme suit: `rename = "
+"c(nouveau_nom1 = 'ancien_nom1', nouveau_nom2 = 'ancien_nom2')`."
 
 #: column_name_standardization.R:65
 msgid "Provided replace column names already exist."
@@ -133,3 +133,73 @@ msgstr "Les noms utilisés pour renommer certaines colonnes existent déjà."
 #: column_name_standardization.R:66
 msgid "All new names must be different from existing column names."
 msgstr "Tout nouveau nom doit être différent des noms qui existent déjà."
+
+#: convert_to_numeric.R:40
+msgid "Automatic detection of columns to convert into numeric failed."
+msgstr "Impossible de détecter automatiquement les colonnes à convertir."
+
+#: convert_to_numeric.R:41
+msgid "No character column with numeric values found by `scan_data()`."
+msgstr ""
+"Aucune colonne de type charactère contenant des chiffres n'a été identifiée "
+"par `scan_data()`."
+
+#: convert_to_numeric.R:42 convert_to_numeric.R:65
+msgid ""
+"Please specify names of the columns to convert into numeric using "
+"`target_columns`."
+msgstr "Veuillez entrer les noms des colonnes à convertir en chiffre."
+
+#: convert_to_numeric.R:63
+msgid ""
+"Found one or more columns with insuffisient numeric values for automatic " "conversion."
+msgstr "Des colonnes avec un nombre insuffisant de valeures numériques ont été "
+"identifiées."
+
+#: convert_to_numeric.R:64
+msgid ""
+"%character values must be < 2 * %numeric values for a column to be "
+"considered for automatic conversion."
+msgstr "Le % de valeures de type charactères doit être < 2 * le % de valeures "
+"numériques pour qu'une colonne soit convertie automatiquement."
+
+#: convert_to_numeric.R:105
+msgid "Found {.code {num_values}} numeric value{?s} in {.code {col}}."
+msgstr ""
+"{.code {num_values}} valeures de type numérique ont été identifiées dans la "
+"colonne: {.code {col}}."
+
+#: convert_to_numeric.R:106
+msgid ""
+"Consider converting characters into numeric or replacing the numeric values "
+"by `NA` using the `replace_missing_values()` function."
+msgstr ""
+"Vous pouvez soit convertir les valeures de type charactères en chiffre ou "
+"remplacer les valeures numériques avec `NA` via la fonction "
+"`replace_missing_values()`."
+
+#: convert_to_numeric.R:113
+msgid ""
+"The following colonne{?s} will be converted into numeric: {.code "
+"{to_numeric}}."
+msgstr ""
+"Les colonnes suivantes seront converties en numérique: {.code {to_numeric}}."
+
+#~ msgid "Unrecognised target column names."
+#~ msgstr ""
+#~ "Certains noms de colonnes fournis dans `target_column_names` ne sont pas "
+#~ "reconnus."
+
+#~ msgid "Only column names from the input data are accepted."
+#~ msgstr ""
+#~ "Seuls les noms de colonnes figurants dans votre donnée sont acceptés."
+
+#~ msgid "Did you enter an incorrect column name?"
+#~ msgstr "Avez-vous fourni un nom de colonne incorrect?"
+
+#~ msgid ""
+#~ "The number of character values in {.code {col}} is equal or less than "
+#~ "twice as the number of numeric values."
+#~ msgstr ""
+#~ "Le nombre de valeures de type charactère dans la colonne {.code {col}} "
+#~ "est égal ou fait moins du double du nombre de chiffres."
