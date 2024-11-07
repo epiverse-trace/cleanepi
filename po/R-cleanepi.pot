@@ -1,0 +1,119 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: cleanepi 1.0.2.9000\n"
+"POT-Creation-Date: 2024-11-07 12:38+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: check_date_sequence.R:57
+msgid ""
+"Found the following unrecognised column name{?s}: {.code "
+"{target_columns[missing_cols]}}."
+msgstr ""
+
+#: check_date_sequence.R:65
+msgid "Insufficient number of columns to compare."
+msgstr ""
+
+#: check_date_sequence.R:66
+msgid "At least two columns of type Date are required for this operation."
+msgstr ""
+
+#: check_date_sequence.R:67
+msgid "Did you enter an incorrect correct name?"
+msgstr ""
+
+#: check_date_sequence.R:83
+msgid ""
+"Detected {.code {length(bad_order)}} incorrect date sequence{?s} at line{?"
+"s}: {.code {toString(bad_order)}}."
+msgstr ""
+
+#: clean_data.R:139
+msgid "cleaning column names"
+msgstr ""
+
+#: clean_data.R:156
+msgid "replacing missing values with NA"
+msgstr ""
+
+#: clean_data.R:170
+msgid "removing the constant columns, empty rows and columns"
+msgstr ""
+
+#: clean_data.R:187
+msgid "removing duplicated rows"
+msgstr ""
+
+#: clean_data.R:202
+msgid "standardizing Date columns"
+msgstr ""
+
+#: clean_data.R:223
+msgid "checking subject IDs format"
+msgstr ""
+
+#: clean_data.R:227
+msgid "You did not specify a value for `target_columns`."
+msgstr ""
+
+#: clean_data.R:228
+msgid ""
+"Here `target_columns` is the name of the column that unique identifies the "
+"individuals in your data."
+msgstr ""
+
+#: clean_data.R:229
+msgid ""
+"Type {.code ?check_subject_ids} to see the help on the corresponding "
+"function."
+msgstr ""
+
+#: clean_data.R:250
+msgid "converting {.code {toString(target_columns)}} into numeric"
+msgstr ""
+
+#: clean_data.R:266
+msgid "performing dictionary-based cleaning"
+msgstr ""
+
+#: clean_data.R:278
+msgid "checking whether date sequences are respected"
+msgstr ""
+
+#: clean_data_helpers.R:70
+msgid "No character column found from the input data."
+msgstr ""
+
+#: clean_data_helpers.R:150
+msgid ""
+"Found {ambiguous_count} numeric value{?s} that can also be of type Date in "
+"column {.code {x_name}}."
+msgstr ""
+
+#: column_name_standardization.R:56
+msgid "Unrecognised column names specified in `rename`."
+msgstr ""
+
+#: column_name_standardization.R:57
+msgid "Make sure that the columns to be renamed are part of the input data."
+msgstr ""
+
+#: column_name_standardization.R:58
+msgid ""
+"To rename columns, use: `rename = c(new_name1 = 'old_name1', new_name2 = "
+"'old_name2')`."
+msgstr ""
+
+#: column_name_standardization.R:65
+msgid "Provided replace column names already exist."
+msgstr ""
+
+#: column_name_standardization.R:66
+msgid "All new names must be different from existing column names."
+msgstr ""

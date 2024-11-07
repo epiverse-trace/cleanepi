@@ -1,0 +1,135 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: cleanepi 1.0.2.9000\n"
+"POT-Creation-Date: 2024-11-07 12:38+0000\n"
+"PO-Revision-Date: 2024-11-07 12:38+0000\n"
+"Last-Translator: Karim Mané\n"
+"Language-Team: none\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: check_date_sequence.R:57
+msgid ""
+"Found the following unrecognised column name{?s}: {.code "
+"{target_columns[missing_cols]}}."
+msgstr ""
+"Les colonnes suivantes ne sont pas reconnues: {.code "
+"{target_columns[missing_cols]}}."
+
+#: check_date_sequence.R:65
+msgid "Insufficient number of columns to compare."
+msgstr "Le nombre de colonne à comparer est insuffisant."
+
+#: check_date_sequence.R:66
+msgid "At least two columns of type Date are required for this operation."
+msgstr "Cette opération nécessite au moins deux noms de colonnes de type Date."
+
+#: check_date_sequence.R:67
+msgid "Did you enter an incorrect correct name?"
+msgstr "Avez-vous fourni un nom de colonne incorrect?"
+
+#: check_date_sequence.R:83
+msgid ""
+"Detected {.code {length(bad_order)}} incorrect date sequence{?s} at line{?"
+"s}: {.code {toString(bad_order)}}."
+msgstr ""
+"La séquence des dates est incorrecte à travers les {.code "
+"{length(bad_order)}} lignes suivantes: {.code {toString(bad_order)}}."
+
+#: clean_data.R:139
+msgid "cleaning column names"
+msgstr "nettoyage des noms de colonnes"
+
+#: clean_data.R:156
+msgid "replacing missing values with NA"
+msgstr "remplacement des données manquantes par NA"
+
+#: clean_data.R:170
+msgid "removing the constant columns, empty rows and columns"
+msgstr "suppression des colonnes invariables, des lignes et colonnes vides"
+
+#: clean_data.R:187
+msgid "removing duplicated rows"
+msgstr "suppression des lignes redondantes"
+
+#: clean_data.R:202
+msgid "standardizing Date columns"
+msgstr "standardisation des colonnes de type Date"
+
+#: clean_data.R:223
+msgid "checking subject IDs format"
+msgstr ""
+"vérification du format de la colonne contenant l'identifiant des individus"
+
+#: clean_data.R:227
+msgid "You did not specify a value for `target_columns`."
+msgstr "Vous n'avez pas donné la valeur de `target_columns`"
+
+#: clean_data.R:228
+msgid ""
+"Here `target_columns` is the name of the column that unique identifies the "
+"individuals in your data."
+msgstr ""
+"Ici, `target_columns` est le nom de la colonne avec les identifiants des "
+"individus."
+
+#: clean_data.R:229
+msgid ""
+"Type {.code ?check_subject_ids} to see the help on the corresponding "
+"function."
+msgstr ""
+"Veuillez entrer {.code ?check_subject_ids} pour plus d'information sur la "
+"function correspondante."
+
+#: clean_data.R:250
+msgid "converting {.code {toString(target_columns)}} into numeric"
+msgstr "conversion de {.code {toString(target_columns)}} en numérique"
+
+#: clean_data.R:266
+msgid "performing dictionary-based cleaning"
+msgstr "substitution de valeurs via dictionnaire des données"
+
+#: clean_data.R:278
+msgid "checking whether date sequences are respected"
+msgstr "vérification de la séquence des dates"
+
+#: clean_data_helpers.R:70
+msgid "No character column found from the input data."
+msgstr "Aucune colonne de type charactère n'a été identifiée"
+
+#: clean_data_helpers.R:150
+msgid ""
+"Found {ambiguous_count} numeric value{?s} that can also be of type Date in "
+"column {.code {x_name}}."
+msgstr ""
+"{ambiguous_count} valeures numériques pouvant aussi être de type Date ont "
+"été identifiées à la colonne {.code {x_name}}."
+
+#: column_name_standardization.R:56
+msgid "Unrecognised column names specified in `rename`."
+msgstr "Certains noms de colonnes fournis dans `rename` ne sont pas reconnus."
+
+#: column_name_standardization.R:57
+msgid "Make sure that the columns to be renamed are part of the input data."
+msgstr ""
+"Assurez-vous que toutes les colonnes à renommer fassent parti des données "
+"d'entrée."
+
+#: column_name_standardization.R:58
+msgid ""
+"To rename columns, use: `rename = c(new_name1 = 'old_name1', new_name2 = "
+"'old_name2')`."
+msgstr ""
+"Les noms de colonnes peuvent être renommer comme suit: "
+"`rename = c(nouveau_nom1 = 'ancien_nom1', nouveau_nom2 = 'ancien_nom2')`."
+
+#: column_name_standardization.R:65
+msgid "Provided replace column names already exist."
+msgstr "Les noms utilisés pour renommer certaines colonnes existent déjà."
+
+#: column_name_standardization.R:66
+msgid "All new names must be different from existing column names."
+msgstr "Tout nouveau nom doit être différent des noms qui existent déjà."
