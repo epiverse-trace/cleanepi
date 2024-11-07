@@ -1,7 +1,7 @@
 #' Convert columns into numeric
 #'
 #' When the function is invoked without specifying the column names to be
-#' converted, the target columns are the ones returned by the `scan_data()`
+#' converted, the target columns are the ones returned by the \code{scan_data()}
 #' function. Furthermore, it identifies columns where the proportion of numeric
 #' values is at least twice the percentage of character values and performs the
 #' conversion in them.
@@ -34,9 +34,17 @@ convert_to_numeric <- function(data, target_columns = NULL,
                            null.ok = TRUE)
   lang <- match.arg(lang)
   if (is.null(target_columns)) {
-    scan_res       <- scan_data(data = data)
-    stopifnot("Please specify the target column names." = !is.na(scan_res))
-    target_columns <- detect_to_numeric_columns(scan_res)
+    scan_res <- scan_data(data = data)
+    if (!is.data.frame(scan_res)) {
+      cli::cli_abort(c(
+        tr_("Automatic detection of columns to convert into numeric failed."),
+        x = tr_("No character column with numeric values found by `scan_data()`."),
+        i = tr_("Please specify names of the columns to convert into numeric using `target_columns`.") # nolint: line_length_linter
+      ))
+    }
+    # detect_to_numeric_columns() returns a vector of zero length when no
+    # target column is identified.
+    target_columns <- detect_to_numeric_columns(scan_res, data)
   }
 
   # get the correct names in case some have been modified - see the
@@ -44,26 +52,42 @@ convert_to_numeric <- function(data, target_columns = NULL,
   target_columns <- retrieve_column_names(data, target_columns)
   target_columns <- get_target_column_names(data, target_columns, cols = NULL)
 
-  stopifnot("Please specify the target columns." = length(target_columns) > 0L)
+  # scan_data() might find columns where the %character is equal or less than
+  # twice the %numeric. Such columns will be considered as the target columns.
+  # When the %character > 2*%numeric, a warning is triggered about the presence
+  # of numeric values in that column.
+  # We abort here due to the zero length vector got from
+  # detect_to_numeric_columns()
+  if (length(target_columns) == 0) {
+    cli::cli_abort(c(
+      tr_("Found one or more columns with insuffisient numeric values for automatic conversion."),
+      i = tr_("%character values must be < 2 * %numeric values for a column to be considered for automatic conversion."), # nolint: line_length_linter
+      i = tr_("Please specify names of the columns to convert into numeric using `target_columns`.") # nolint: line_length_linter
+    ))
+  }
+
   for (col in target_columns) {
     data[[col]]  <- numberize::numberize(text = data[[col]], lang = lang)
   }
-  data           <- add_to_report(x     = data,
-                                  key   = "converted_into_numeric",
-                                  value = toString(target_columns))
+  data <- add_to_report(
+    x = data,
+    key = "converted_into_numeric",
+    value = toString(target_columns)
+  )
   return(data)
 }
 
 #' Detect the numeric columns that appears as characters due to the presence of
 #' some character values in the column.
 #'
-#' @param scan_res a data frame that corresponds to the result from the
+#' @param scan_res A data frame that corresponds to the result from the
 #'    `scan_data()` function
+#' @param data The input data from which 'scan_res' was generated.
 #'
 #' @returns a vector of column names to be converted into numeric
 #' @keywords internal
 #'
-detect_to_numeric_columns <- function(scan_res) {
+detect_to_numeric_columns <- function(scan_res, data) {
   checkmate::assert_data_frame(scan_res, min.rows = 1L, min.cols = 1L,
                                null.ok = FALSE)
   to_numeric <- vector(mode = "character", length = 0L)
@@ -73,15 +97,22 @@ detect_to_numeric_columns <- function(scan_res) {
     values <- values[values > 0L]
     values <- values[names(values) != "missing"]
     if (setequal(names(values), c("numeric", "character"))) {
-      if (values[["numeric"]] > (2 * values[["character"]])) {
+      if (values[["character"]] <= (2 * values[["numeric"]])) {
         to_numeric <- c(to_numeric, col)
-      } else if (values[["numeric"]] < (2 * values[["character"]])) {
-          warning(sprintf("In '%s' column, the number of numeric values", col),
-                          " is the same or less than twice the number of",
-                          " character values",
-                  call. = FALSE)
+      } else if (values[["numeric"]] > 0) {
+        num_values <- values[["numeric"]]
+        num_values <- num_values * nrow(data)
+        cli::cli_alert_warning(c(
+          tr_("Found {.code {num_values}} numeric value{?s} in {.code {col}}. "), # nolint: line_length_linter
+          i = tr_("Consider converting characters into numeric or replacing the numeric values by `NA` using the `replace_missing_values()` function.") # nolint: line_length_linter
+        ), wrap = TRUE)
       }
     }
+  }
+  if (length(to_numeric) > 0) {
+    cli::cli_alert_info(
+      tr_("The following colonne{?s} will be converted into numeric: {.code {to_numeric}}.") # nolint: line_length_linter
+    )
   }
   return(to_numeric)
 }
