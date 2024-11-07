@@ -9,5 +9,5 @@
 #' vignette of the \code{{potools}} package.
 #'
 tr_ <- function(...) {
-  enc2utf8(gettext(paste0(...), domain = "R-pockage"))
+  enc2utf8(gettext(paste0(...), domain = "R-cleanepi"))
 }
