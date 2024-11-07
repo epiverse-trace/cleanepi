@@ -135,7 +135,9 @@ clean_data <- function(data, ...) {
   ## | Column names in 'keep' will not be modified.
   ## -----
   if (!is.null(params[["standardize_column_names"]])) {
-    message("\ncleaning column names\n")
+    cli::cli_alert_info(
+      tr_("\ncleaning column names")
+    )
     data <- standardize_column_names(
       data   = data,
       keep   = params[["standardize_column_names"]][["keep"]],
@@ -150,7 +152,9 @@ clean_data <- function(data, ...) {
   ## | user if known, or inferred internally otherwise.
   ## -----
   if (!is.null(params[["replace_missing_values"]])) {
-    message("replacing missing values with NA\n")
+    cli::cli_alert_info(
+      tr_("\nreplacing missing values with NA")
+    )
     data <- replace_missing_values(
       data           = data,
       target_columns = params[["replace_missing_values"]][["target_columns"]],
@@ -162,7 +166,9 @@ clean_data <- function(data, ...) {
   ## | we can choose to remove the constant columns, the empty rows and columns
   ## -----
   if (!is.null(params[["remove_constants"]])) {
-    message("removing the constant columns, empty rows and columns\n")
+    cli::cli_alert_info(
+      tr_("\nremoving the constant columns, empty rows and columns")
+    )
     data <- remove_constants(
       data   = data,
       cutoff = params[["remove_constants"]][["cutoff"]]
@@ -177,7 +183,9 @@ clean_data <- function(data, ...) {
   ## | duplicates will only be considered from the specified columns.
   ## -----
   if (!is.null(params[["remove_duplicates"]])) {
-    message("removing duplicated rows\n")
+    cli::cli_alert_info(
+      tr_("\nremoving duplicated rows")
+    )
     data <- remove_duplicates(
       data,
       target_columns = params[["remove_duplicates"]][["target_columns"]]
@@ -190,7 +198,9 @@ clean_data <- function(data, ...) {
   ## | easy to apply the functions that operate on variables of type Date.
   ## -----
   if (!is.null(params[["standardize_dates"]])) {
-    message("standardising date columns\n")
+    cli::cli_alert_info(
+      tr_("\nstandardizing Date columns")
+    )
     data <- standardize_dates(
       data            = data,
       target_columns  = params[["standardize_dates"]][["target_columns"]],
@@ -209,11 +219,16 @@ clean_data <- function(data, ...) {
   ## | redundant subject ID.
   ## -----
   if (!is.null(params[["standardize_subject_ids"]])) {
-    message("checking subject IDs format\n")
-    stopifnot(
-      "'target_columns' must be provided." =
-        !is.null(params[["standardize_subject_ids"]][["target_columns"]])
+    cli::cli_alert_info(
+      tr_("\nchecking subject IDs format")
     )
+    if (is.null(params[["standardize_subject_ids"]][["target_columns"]])) {
+      cli::cli_abort(c(
+        tr_("You did not specify a value for `target_columns`."),
+        "*" = tr_("Here `target_columns` is the name of the column that unique identifies the individuals in your data."), # nolint: line_length_linter
+        "*" = tr_("Type {.code ?check_subject_ids} to see the help on the corresponding function.") # nolint: line_length_linter
+      ))
+    }
     data <- check_subject_ids(
       data           = data,
       target_columns = params[["standardize_subject_ids"]][["target_columns"]],
@@ -230,14 +245,13 @@ clean_data <- function(data, ...) {
   ## | homogeneous.
   ## -----
   if (!is.null(params[["to_numeric"]])) {
-    message(
-      "converting ",
-      toString(params[["to_numeric"]]),
-      " into numeric\n"
+    target_columns <- params[["to_numeric"]][["target_columns"]]
+    cli::cli_alert_info(
+      tr_("\nconverting {.code {toString(target_columns)}} into numeric")
     )
     data <- convert_to_numeric(
       data           = data,
-      target_columns = params[["to_numeric"]][["target_columns"]],
+      target_columns = target_columns,
       lang           = params[["to_numeric"]][["lang"]]
     )
   }
@@ -248,7 +262,9 @@ clean_data <- function(data, ...) {
   ## replace these coded values with the exact values from the data dictionary.
   ## -----
   if (!is.null(params[["dictionary"]])) {
-    message("performing dictionary-based cleaning\n")
+    cli::cli_alert_info(
+      tr_("\nperforming dictionary-based cleaning")
+    )
     data <- clean_using_dictionary(data, params[["dictionary"]])
   }
 
@@ -258,7 +274,9 @@ clean_data <- function(data, ...) {
   ## will be flagged out.
   ## -----
   if (!is.null(params[["check_date_sequence"]])) {
-    message("checking whether date the sequences are respected\n")
+    cli::cli_alert_info(
+      tr_("\nchecking whether date sequences are respected")
+    )
     data <- check_date_sequence(
       data           = data,
       target_columns = params[["check_date_sequence"]][["target_columns"]]
