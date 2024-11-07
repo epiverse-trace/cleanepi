@@ -49,15 +49,23 @@ check_date_sequence <- function(data, target_columns) {
   target_columns <- retrieve_column_names(data, target_columns)
   target_columns <- get_target_column_names(data, target_columns, cols = NULL)
 
-
   missing_cols <- !target_columns %in% names(data)
   # check if all columns are part of the data frame
   if (any(missing_cols)) {
-    warning("Removing unrecognised column name: ", target_columns[missing_cols],
-            call. = FALSE)
+    # send a warning if some columns are not part of the data
+    cli::cli_alert_info(
+      tr_("Found the following unrecognised column name{?s}: {.code {target_columns[missing_cols]}}."), # nolint: line_length_linter
+      wrap = TRUE
+    )
     target_columns <- target_columns[!missing_cols]
+    # After removing unrecognized column names, the process shall be stopped if
+    # there is only one colonne left in `target_columns`
     if (length(target_columns) < 2L) {
-      stop("\nAt least 2 event dates are required!")
+      cli::cli_abort(c(
+        tr_("Insufficient number of columns to compare."),
+        x = tr_("At least two columns of type Date are required for this operation."), # nolint: line_length_linter
+        i = tr_("Did you enter an incorrect correct name?")
+      ), call = NULL)
     }
   }
 
@@ -71,10 +79,10 @@ check_date_sequence <- function(data, target_columns) {
     data     <- add_to_report(x     = data,
                               key   = "incorrect_date_sequence",
                               value = tmp_data)
-    warning("Detected ", length(bad_order),
-            " incorrect date sequences at line(s): ",
-            toString(bad_order),
-            call. = FALSE)
+    cli::cli_alert_info(
+      tr_("Detected {.code {length(bad_order)}} incorrect date sequence{?s} at line{?s}: {.code {toString(bad_order)}}."), # nolint: line_length_linter
+      wrap = TRUE
+    )
   }
 
   return(data)
