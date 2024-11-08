@@ -61,7 +61,7 @@ convert_to_numeric <- function(data, target_columns = NULL,
   if (length(target_columns) == 0) {
     cli::cli_abort(c(
       tr_("Found one or more columns with insuffisient numeric values for automatic conversion."),
-      i = tr_("%character values must be < 2 * %numeric values for a column to be considered for automatic conversion."), # nolint: line_length_linter
+      i = tr_("The percent of character values must be less than twice the numeric values for a column to be considered for automatic conversion."), # nolint: line_length_linter
       i = tr_("Please specify names of the columns to convert into numeric using `target_columns`.") # nolint: line_length_linter
     ))
   }
