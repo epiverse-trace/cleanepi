@@ -17,4 +17,7 @@ specified by the user will not be performed. The default cleaning operations
 include: i) standardizing column names, ii) detecting and removing
 duplicates, and iii) removing constant data.
 }
-\keyword{internal}
+\examples{
+default_params <- get_default_params()
+
+}
