@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: cleanepi 1.0.2.9000\n"
-"POT-Creation-Date: 2024-11-07 16:06+0000\n"
+"POT-Creation-Date: 2024-11-08 16:46+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -140,22 +140,97 @@ msgstr ""
 
 #: convert_to_numeric.R:64
 msgid ""
-"%character values must be < 2 * %numeric values for a column to be "
-"considered for automatic conversion."
-msgstr ""
-
-#: convert_to_numeric.R:105
-msgid "Found {.code {num_values}} numeric value{?s} in {.code {col}}."
+"The percent of character values must be less than twice the numeric values "
+"for a column to be considered for automatic conversion."
 msgstr ""
 
 #: convert_to_numeric.R:106
+msgid "Found {.code {num_values}} numeric value{?s} in {.code {col}}."
+msgstr ""
+
+#: convert_to_numeric.R:107
 msgid ""
 "Consider converting characters into numeric or replacing the numeric values "
 "by `NA` using the `replace_missing_values()` function."
 msgstr ""
 
-#: convert_to_numeric.R:113
+#: convert_to_numeric.R:114
 msgid ""
 "The following colonne{?s} will be converted into numeric: {.code "
 "{to_numeric}}."
+msgstr ""
+
+#: date_standardization_helpers.R:48
+msgid "Unexpected format in the function arguments."
+msgstr ""
+
+#: date_standardization_helpers.R:49
+msgid ""
+"`first_date` and `last_date` must be of type Date or character written in "
+"ISO8601 format ('2024-12-31' for December 31, 2024)."
+msgstr ""
+
+#: date_standardization_helpers.R:393
+msgid "Expected values with the same format."
+msgstr ""
+
+#: date_standardization_helpers.R:394
+msgid "You've tried to convert values in different formats into Date."
+msgstr ""
+
+#: date_standardization_helpers.R:395
+msgid ""
+"Please specify the formats encountered in your column of interest via the "
+"`format` argument."
+msgstr ""
+
+#: date_standardization_helpers.R:536
+msgid "Unexpected data type provided to `date_guess()` function."
+msgstr ""
+
+#: date_standardization_helpers.R:537
+msgid "You can convert the values into character to enable format guessing."
+msgstr ""
+
+#: date_standardization_helpers.R:538
+msgid ""
+"You've tried to guess the date format from values of type other than Date "
+"and character."
+msgstr ""
+
+#: date_standardization_helpers.R:557
+msgid "Unable to match formats to target columns."
+msgstr ""
+
+#: date_standardization_helpers.R:558
+msgid ""
+"The number of target columns does not match the number of specified formats."
+msgstr ""
+
+#: date_standardization_helpers.R:559
+msgid ""
+"Only one format is needed if all target columns contain values of the same "
+"format. Otherwise, one format per target column must be provided."
+msgstr ""
+
+#: date_standardization_helpers.R:564
+msgid ""
+"Target columns will be standardized using the following format: {.code "
+"{format}}."
+msgstr ""
+
+#: default_cleanepi_settings.R:48
+msgid ""
+"Found the following unrecognised arguments to `clean_data()`: {.code "
+"{toString(extra)}}."
+msgstr ""
+
+#: default_cleanepi_settings.R:49
+msgid ""
+"`clean_data()` does not support arguments other than the defaults. Run "
+"get_default_params() to display the list of default parameters."
+msgstr ""
+
+#: default_cleanepi_settings.R:50
+msgid "You provided more arguments than expected."
 msgstr ""
