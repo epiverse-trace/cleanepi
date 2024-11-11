@@ -9,7 +9,19 @@ detect_misspelled_options(data, dictionary)
 \arguments{
 \item{data}{The input data frame or linelist}
 
-\item{dictionary}{A data dictionary associated with the input data}
+\item{dictionary}{A data frame with the dictionary associated with the input
+data. This is expected to be compatible with the \{matchmaker\} package
+and must contain the following four columns:
+\describe{
+\item{\code{options}}{This column contains the current values used to
+represent the different groups in the input data frame (required).}
+\item{\code{values}}{The values that will be used to replace the current
+options (required).}
+\item{\code{grp}}{The name of the columns where every option belongs to
+(required).}
+\item{\code{orders}}{This defines the user-defined order of different options
+(optional).}
+}}
 }
 \value{
 A list with the indexes of the misspelled values in every column

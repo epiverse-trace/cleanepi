@@ -9,11 +9,23 @@ clean_using_dictionary(data, dictionary)
 \arguments{
 \item{data}{The input data frame or linelist}
 
-\item{dictionary}{A data dictionary associated with the input data}
+\item{dictionary}{A data frame with the dictionary associated with the input
+data. This is expected to be compatible with the \{matchmaker\} package
+and must contain the following four columns:
+\describe{
+\item{\code{options}}{This column contains the current values used to
+represent the different groups in the input data frame (required).}
+\item{\code{values}}{The values that will be used to replace the current
+options (required).}
+\item{\code{grp}}{The name of the columns where every option belongs to
+(required).}
+\item{\code{orders}}{This defines the user-defined order of different options
+(optional).}
+}}
 }
 \value{
-A data frame with cleaned values in the target columns specified
-in the data dictionary.
+A data frame where the target options have been replaced with their
+corresponding values in the columns specified in the data dictionary.
 }
 \description{
 Perform dictionary-based cleaning
@@ -26,6 +38,8 @@ dictionary <- readRDS(
   system.file("extdata", "test_dict.RDS", package = "cleanepi")
 )
 
+# adding an option that is not defined in the dictionary to the 'gender'
+# column
 data$gender[2] <- "homme"
 cleaned_df <- clean_using_dictionary(
   data = data,

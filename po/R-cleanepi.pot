@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: cleanepi 1.0.2.9000\n"
-"POT-Creation-Date: 2024-11-08 16:46+0000\n"
+"POT-Creation-Date: 2024-11-11 17:12+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -233,4 +233,50 @@ msgstr ""
 
 #: default_cleanepi_settings.R:50
 msgid "You provided more arguments than expected."
+msgstr ""
+
+#: dictionary_based_cleaning.R:46
+msgid "Incorrect data dictionary."
+msgstr ""
+
+#: dictionary_based_cleaning.R:47
+msgid ""
+"The value for the `dictionary` argument must a data frame with the following "
+"columns: `options`, `values`, `grp`, and `orders`."
+msgstr ""
+
+#: dictionary_based_cleaning.R:48
+msgid "The following columns are mandatory: `options`, `values`, and `grp`."
+msgstr ""
+
+#: dictionary_based_cleaning.R:56
+msgid "Incorrect column names provided in column `grp` of the data dictionary."
+msgstr ""
+
+#: dictionary_based_cleaning.R:57
+msgid ""
+"Columns in `grp` column of the data dictionary must be found in the input "
+"data frame."
+msgstr ""
+
+#: dictionary_based_cleaning.R:58
+msgid "Did you enter an incorrect column name?"
+msgstr ""
+
+#: dictionary_based_cleaning.R:69
+msgid "You can either:"
+msgstr ""
+
+#: dictionary_based_cleaning.R:70
+msgid "correct the misspelled options from the input data, or"
+msgstr ""
+
+#: dictionary_based_cleaning.R:71
+msgid "add them to the dictionary using the `add_to_dictionary()` function."
+msgstr ""
+
+#: dictionary_based_cleaning.R:296
+msgid ""
+"Can not replace the following values found in column {.code {opts}} but not "
+"defined in the dictionary: {.code {undefined_opts}}."
 msgstr ""
