@@ -1,10 +1,22 @@
 #' Perform dictionary-based cleaning
 #'
 #' @param data The input data frame or linelist
-#' @param dictionary A data dictionary associated with the input data
+#' @param dictionary A data frame with the dictionary associated with the input
+#'    data. This is expected to be compatible with the \{matchmaker\} package
+#'    and must contain the following four columns:
+#'    \describe{
+#'      \item{`options`}{This column contains the current values used to
+#'          represent the different groups in the input data frame (required).}
+#'      \item{`values`}{The values that will be used to replace the current
+#'          options (required).}
+#'      \item{`grp`}{The name of the columns where every option belongs to
+#'          (required).}
+#'      \item{`orders`}{This defines the user-defined order of different options
+#'          (optional).}
+#'    }
 #'
-#' @returns A data frame with cleaned values in the target columns specified
-#'    in the data dictionary.
+#' @returns A data frame where the target options have been replaced with their
+#'    corresponding values in the columns specified in the data dictionary.
 #' @export
 #'
 #' @examples
@@ -15,6 +27,8 @@
 #'   system.file("extdata", "test_dict.RDS", package = "cleanepi")
 #' )
 #'
+#' # adding an option that is not defined in the dictionary to the 'gender'
+#' # column
 #' data$gender[2] <- "homme"
 #' cleaned_df <- clean_using_dictionary(
 #'   data = data,
@@ -25,30 +39,53 @@ clean_using_dictionary <- function(data, dictionary) {
                                null.ok = FALSE)
   checkmate::assert_data_frame(dictionary, min.rows = 1L, max.cols = 4L,
                                null.ok = FALSE)
-  stopifnot(all(c("options", "values", "grp") %in% names(dictionary)),
-            all(unique(dictionary[["grp"]]) %in% names(data)))
+  # abort if the provided data dictionary does not contain the following three
+  # column names: options, values, grp.
+  if (!all(c("options", "values", "grp") %in% names(dictionary))) {
+    cli::cli_abort(c(
+      tr_("Incorrect data dictionary."),
+      "*" = tr_("The value for the `dictionary` argument must a data frame with the following columns: `options`, `values`, `grp`, and `orders`."), # nolint: line_length_linter
+      "*" = tr_("The following columns are mandatory: `options`, `values`, and `grp`.") # nolint: line_length_linter
+    ))
+  }
+
+  # abort if the specified column names in the 'grp' column are not found in the
+  # input data
+  if (!all(unique(dictionary[["grp"]]) %in% names(data))) {
+    cli::cli_abort(c(
+      tr_("Incorrect column names provided in column `grp` of the data dictionary."), # nolint: line_length_linter
+      x = tr_("Columns in `grp` column of the data dictionary must be found in the input data frame."), # nolint: line_length_linter
+      i = tr_("Did you enter an incorrect column name?")
+    ))
+  }
 
   # detect misspelled options in the columns to clean
   misspelled_options <- detect_misspelled_options(data, dictionary)
 
   # correct the misspelled options if they exist
   if (length(misspelled_options) > 0L) {
-    print_misspelled_values(misspelled_options)
-    message("Please add the misspelled options to the data dictionary using",
-            " the add_to_dictionary() function.")
+    print_misspelled_values(data, misspelled_options)
+    cli::cli_inform(c(
+      i = tr_("You can either: "),
+      "*" = tr_("correct the misspelled options from the input data, or"),
+      "*" = tr_("add them to the dictionary using the `add_to_dictionary()` function.") # nolint: line_length_linter)
+    ))
     misspelled_report <- construct_misspelled_report(misspelled_options, data)
     # add the result to the reporting object
-    data              <- add_to_report(x     = data,
-                                       key   = "misspelled_values",
-                                       value = misspelled_report)
+    data <- add_to_report(
+      x = data,
+      key = "misspelled_values",
+     value = misspelled_report
+    )
   }
   # perform the dictionary-based cleaning
-  data                <- suppressWarnings(
-    matchmaker::match_df(data,
-                         dictionary = dictionary,
-                         from       = "options",
-                         to         = "values",
-                         by         = "grp")
+  data <- suppressWarnings(
+    matchmaker::match_df(
+      data,
+      dictionary = dictionary,
+      from = "options",
+      to = "values",
+      by = "grp")
   )
 
   return(data)
@@ -68,11 +105,13 @@ clean_using_dictionary <- function(data, dictionary) {
 #'
 construct_misspelled_report <- function(misspelled_options, data) {
   checkmate::assert_list(misspelled_options, null.ok = FALSE)
-  result  <- NULL
+  result <- NULL
   for (opts in names(misspelled_options)) {
-    res   <- data.frame(idx    = misspelled_options[[opts]],
-                        column = rep(opts, length(misspelled_options[[opts]])),
-                        value  = data[[opts]][misspelled_options[[opts]]])
+    res <- data.frame(
+      idx = misspelled_options[[opts]],
+      column = rep(opts, length(misspelled_options[[opts]])),
+      value = data[[opts]][misspelled_options[[opts]]]
+    )
     result <- c(result, list(res))
   }
   result <- dplyr::bind_rows(result)
@@ -89,7 +128,7 @@ construct_misspelled_report <- function(misspelled_options, data) {
 #' @param opt_column The name of the column, in the input dictionary, that
 #'    contains the definition of the choices in every column of the Redcap
 #'    project data
-#' @param field_type A `character` with the name of the column that contains the
+#' @param field_type A character with the name of the column that contains the
 #'    field type information
 #'
 #' @returns A data frame with 4 columns. This is in the format required by the
@@ -108,13 +147,17 @@ make_readcap_dictionary <- function(metadata,
 
   stopifnot(opt_column %in% names(metadata))
 
-  metadata     <- metadata[which(!is.na(metadata[[opt_column]]) &
-                                   metadata[[field_type]] != "calc"), ]
-  dictionary   <- NULL
+  metadata <- metadata[which(!is.na(metadata[[opt_column]]) &
+                               metadata[[field_type]] != "calc"), ]
+  dictionary <- NULL
   for (i in seq_len(nrow(metadata))) {
-    dictionary <- c(dictionary,
-                    list(dictionary_make_metadata(metadata[[opt_column]][i],
-                                                  metadata[[field_column]][i])))
+    dictionary <- c(
+      dictionary,
+      list(dictionary_make_metadata(
+        metadata[[opt_column]][i],
+        metadata[[field_column]][i]
+      ))
+    )
   }
   dictionary <- dplyr::bind_rows(dictionary)
   return(dictionary)
@@ -131,17 +174,18 @@ make_readcap_dictionary <- function(metadata,
 #' @keywords internal
 #'
 dictionary_make_metadata <- function(x, field_column) {
-  splits          <- trimws(unlist(strsplit(x, "|", fixed = TRUE)))
+  splits <- trimws(unlist(strsplit(x, "|", fixed = TRUE)))
   combined_splits <- lapply(splits, function(x) {
     trimws(unlist(strsplit(x, ",", fixed = TRUE)))
   })
   combined_splits <- do.call(rbind.data.frame, combined_splits)
-  res             <- data.frame(options = combined_splits[, 1L],
-                                values  = combined_splits[, 2L],
-                                grp     = rep(field_column,
-                                              nrow(combined_splits)),
-                                orders  = seq_len(nrow(combined_splits)))
-  rownames(res)   <- NULL
+  res <- data.frame(
+    options = combined_splits[, 1L],
+    values = combined_splits[, 2L],
+    grp = rep(field_column, nrow(combined_splits)),
+    orders = seq_len(nrow(combined_splits))
+  )
+  rownames(res) <- NULL
   return(res)
 }
 
@@ -186,26 +230,28 @@ add_to_dictionary <- function(dictionary,
 
   # select the lines in the data dictionary where the column name is the same as
   # the value of the grp argument
-  max_order      <- max(dictionary[["orders"]])
+  max_order <- max(dictionary[["orders"]])
   tmp_dictionary <- dictionary %>%
     dplyr::filter(.data$grp == grp)
 
-  dictionary     <- dictionary %>%
+  dictionary <- dictionary %>%
     dplyr::filter(.data$grp != grp)
 
   # make the new order
-  new_order      <- order
+  new_order <- order
   if (is.null(order)) {
-    new_order    <- max_order + seq_along(option)
+    new_order <- max_order + seq_along(option)
   }
 
   # make the data frame with the new option
-  new_option     <- data.frame(options = option,
-                               values  = value,
-                               grp     = grp,
-                               orders  = new_order)
+  new_option <- data.frame(
+    options = option,
+    values = value,
+    grp = grp,
+    orders = new_order
+  )
   tmp_dictionary <- rbind(tmp_dictionary, new_option)
-  dictionary     <- rbind(dictionary, tmp_dictionary)
+  dictionary <- rbind(dictionary, tmp_dictionary)
   return(dictionary)
 }
 
@@ -218,14 +264,14 @@ add_to_dictionary <- function(dictionary,
 #' @keywords internal
 #'
 detect_misspelled_options <- function(data, dictionary) {
-  cols_to_modify  <- unique(dictionary[["grp"]])
-  outliers        <- list()
+  cols_to_modify <- unique(dictionary[["grp"]])
+  outliers <- list()
   for (col in cols_to_modify) {
     unique_values <- unique(data[[col]])[!is.na(unique(data[[col]]))]
-    temp_dict     <- dictionary %>%
+    temp_dict <- dictionary %>%
       dplyr::filter(.data$grp == col)
-    opts          <- c(temp_dict[["options"]], unique(temp_dict[["values"]]))
-    m             <- match(unique_values, opts)
+    opts <- c(temp_dict[["options"]], unique(temp_dict[["values"]]))
+    m <- match(unique_values, opts)
     if (anyNA(m)) {
       outliers[[col]] <- which(data[[col]] == unique_values[is.na(m)])
     }
@@ -236,16 +282,18 @@ detect_misspelled_options <- function(data, dictionary) {
 
 #' Print the detected misspelled values
 #'
+#' @inheritParams clean_using_dictionary
 #' @param misspelled_options A list with the misspelled values found in
 #'    the different columns of the input data.
 #'
 #' @returns Prints out the misspelled values from the column of interest
 #' @keywords internal
 #'
-print_misspelled_values <- function(misspelled_options) {
+print_misspelled_values <- function(data, misspelled_options) {
   for (opts in names(misspelled_options)) {
-    message("\nDetected misspelled values at lines ",
-            toString(misspelled_options[[opts]]),
-            " of column '", opts, "'")
+    undefined_opts <- toString(data[[opts]][[misspelled_options[[opts]]]]) # nolint: object_usage_linter
+    cli::cli_alert_warning(
+      tr_("Can not replace the following values found in column {.code {opts}} but not defined in the dictionary: {.code {undefined_opts}}.") # nolint: line_length_linter
+    )
   }
 }

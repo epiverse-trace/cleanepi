@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: cleanepi 1.0.2.9000\n"
-"POT-Creation-Date: 2024-11-08 16:32+0000\n"
+"POT-Creation-Date: 2024-11-11 17:12+0000\n"
 "PO-Revision-Date: 2024-11-07 12:38+0000\n"
 "Last-Translator: Karim Mané\n"
 "Language-Team: none\n"
@@ -278,10 +278,68 @@ msgstr ""
 msgid ""
 "`clean_data()` does not support arguments other than the defaults. Run "
 "get_default_params() to display the list of default parameters."
-msgstr "`clean_data()` ne prend pas d'arguments autre que ceux qui sont "
-"définis par défault. Entrez get_default_params() pour consulter la list des "
-"arguments prédéfinis."
+msgstr ""
+"`clean_data()` ne prend pas d'arguments autre que ceux qui sont définis par "
+"défault. Entrez get_default_params() pour consulter la list des arguments "
+"prédéfinis."
 
 #: default_cleanepi_settings.R:50
 msgid "You provided more arguments than expected."
 msgstr "Vous avez fourni plus d'arguments que prévu."
+
+#: dictionary_based_cleaning.R:46
+msgid "Incorrect data dictionary."
+msgstr "Dictionnaire de données incorrect."
+
+#: dictionary_based_cleaning.R:47
+msgid ""
+"The value for the `dictionary` argument must a data frame with the following "
+"columns: `options`, `values`, `grp`, and `orders`."
+msgstr ""
+"La valeur fournie a l'argument `dictionary` doit être un data frame avec les "
+"colonnes suivantes: `options`, `values`, `grp`, et `orders`."
+
+#: dictionary_based_cleaning.R:48
+msgid "The following columns are mandatory: `options`, `values`, and `grp`."
+msgstr "Les colonnes suivantes sont obligatoires: `options`, `values`, `grp`."
+
+#: dictionary_based_cleaning.R:56
+msgid "Incorrect column names provided in column `grp` of the data dictionary."
+msgstr ""
+"Des noms de colonnes incorrects ont été trouvés dans la colonne `grp` du "
+"dictionnaire de données."
+
+#: dictionary_based_cleaning.R:57
+msgid ""
+"Columns in `grp` column of the data dictionary must be found in the input "
+"data frame."
+msgstr ""
+"Les noms de colonnes fournies dans la colonne `grp` du dictionnaire de "
+"données doivent figurer dans les données d'entrée."
+
+#: dictionary_based_cleaning.R:58
+msgid "Did you enter an incorrect column name?"
+msgstr "Avez-vous fourni un nom de colonne incorrect?"
+
+#: dictionary_based_cleaning.R:69
+msgid "You can either:"
+msgstr "Vous pouvez soit:"
+
+#: dictionary_based_cleaning.R:70
+msgid "correct the misspelled options from the input data, or"
+msgstr "corriger les options mal écrites, ou"
+
+#: dictionary_based_cleaning.R:71
+msgid "add them to the dictionary using the `add_to_dictionary()` function."
+msgstr ""
+"les ajouter au dictionnaire de données en utilisant la fonction "
+"`add_to_dictionary()`."
+
+#: dictionary_based_cleaning.R:296
+msgid ""
+"Can not replace the following values found in column {.code {opts}} but not "
+"defined in the dictionary: {.code {undefined_opts}}."
+msgstr ""
+"Les valeures suivantes retrouvées dans la colonne {.code {opts}} et non "
+"définies dans le dictionnaire de données ne peuvent pas être remplacées: {."
+"code {undefined_opts}}."

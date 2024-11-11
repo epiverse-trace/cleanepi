@@ -4,9 +4,11 @@
 \alias{print_misspelled_values}
 \title{Print the detected misspelled values}
 \usage{
-print_misspelled_values(misspelled_options)
+print_misspelled_values(data, misspelled_options)
 }
 \arguments{
+\item{data}{The input data frame or linelist}
+
 \item{misspelled_options}{A list with the misspelled values found in
 the different columns of the input data.}
 }

@@ -1,12 +1,13 @@
-test_dictionary <- readRDS(system.file("extdata", "test_dict.RDS",
-                                       package = "cleanepi"))
+test_dictionary <- readRDS(
+  system.file("extdata", "test_dict.RDS", package = "cleanepi")
+)
 test_that("add_to_dictionary works when adding only one element", {
   test <- add_to_dictionary(
     dictionary = test_dictionary,
-    option     = "ml",
-    value      = "male",
-    grp        = "gender",
-    order      = NULL
+    option = "ml",
+    value = "male",
+    grp = "gender",
+    order = NULL
   )
   expect_s3_class(test, "data.frame")
   expect_false(identical(test_dictionary, test))
@@ -17,10 +18,10 @@ test_that("add_to_dictionary works when adding only one element", {
 test_that("add_to_dictionary works when adding multiple elements", {
   test <- add_to_dictionary(
     dictionary = test_dictionary,
-    option     = c("homme", "femme"),
-    value      = c("male", "female"),
-    grp        = "gender",
-    order      = NULL
+    option = c("homme", "femme"),
+    value = c("male", "female"),
+    grp = "gender",
+    order = NULL
   )
   expect_s3_class(test, "data.frame")
   expect_false(identical(test_dictionary, test))
@@ -29,10 +30,10 @@ test_that("add_to_dictionary works when adding multiple elements", {
 
   test <- add_to_dictionary(
     dictionary = test_dictionary,
-    option     = "homme",
-    value      = "male",
-    grp        = "gender",
-    order      = NULL
+    option = "homme",
+    value = "male",
+    grp = "gender",
+    order = NULL
   )
   expect_s3_class(test, "data.frame")
   expect_false(identical(test_dictionary, test))
@@ -43,10 +44,10 @@ test_that("add_to_dictionary works when adding multiple elements", {
 test_that("add_to_dictionary works when order is not NULL", {
   test <- add_to_dictionary(
     dictionary = test_dictionary,
-    option     = c("homme", "femme"),
-    value      = c("male", "female"),
-    grp        = "gender",
-    order      = 7L:8L
+    option = c("homme", "femme"),
+    value = c("male", "female"),
+    grp = "gender",
+    order = 7L:8L
   )
   expect_s3_class(test, "data.frame")
   expect_false(identical(test_dictionary, test))
@@ -61,14 +62,14 @@ data[["gender"]][sample(1L:nrow(data), 10L, replace = FALSE)] <- "homme"
 # update the data dictionary
 test_dictionary <- add_to_dictionary(
   dictionary = test_dictionary,
-  option     = "homme",
-  value      = "male",
-  grp        = "gender",
-  order      = NULL
+  option = "homme",
+  value = "male",
+  grp = "gender",
+  order = NULL
 )
 test_that("clean_using_dictionary works", {
-  cleaned_df     <- clean_using_dictionary(
-    data       = data,
+  cleaned_df <- clean_using_dictionary(
+    data = data,
     dictionary = test_dictionary
   )
   expect_s3_class(cleaned_df, "data.frame")
@@ -79,17 +80,22 @@ test_that("clean_using_dictionary works", {
 # introduce a new option
 data[["gender"]][2L] <- "femme"
 test_that("clean_using_dictionary works with misspelled values", {
-  cleaned_df     <- clean_using_dictionary(
-    data       = data,
+  cleaned_df <- clean_using_dictionary(
+    data = data,
     dictionary = test_dictionary
   )
   expect_s3_class(cleaned_df, "data.frame")
   expect_identical(ncol(data), ncol(cleaned_df))
   expect_false("homme" %in% cleaned_df[["gender"]])
   expect_true("femme" %in% cleaned_df[["gender"]])
-  expect_message(clean_using_dictionary(data       = data,
-                                        dictionary = test_dictionary),
-                 "misspelled values at lines 2 of column 'gender'")
+  expect_message(
+    clean_using_dictionary(
+      data = data,
+      dictionary = test_dictionary
+    ),
+    regexp = cat("Can not replace the following values found in column ",
+                 "`gender` but not defined in the dictionary: `femme`.")
+  )
 })
 
 test_that("construct_misspelled_report works", {
@@ -108,12 +114,15 @@ test_that("construct_misspelled_report works", {
 
 # testing internal functions
 test_that("make_readcap_dictionary works as expected", {
-  test_data <- readRDS(system.file("extdata", "test_readcap_dictionary.RDS",
-                                   package = "cleanepi"))
-  res <- make_readcap_dictionary(metadata     = test_data,
-                                 field_column = "field_name",
-                                 opt_column = "select_choices_or_calculations",
-                                 field_type   = "field_type")
+  test_data <- readRDS(
+    system.file("extdata", "test_readcap_dictionary.RDS", package = "cleanepi")
+  )
+  res <- make_readcap_dictionary(
+    metadata = test_data,
+    field_column = "field_name",
+    opt_column = "select_choices_or_calculations",
+    field_type = "field_type"
+  )
   expect_s3_class(res, "data.frame")
   expect_identical(ncol(res), 4L)
   expect_identical(nrow(res), 11L)
@@ -123,10 +132,12 @@ test_that("make_readcap_dictionary works as expected", {
 test_that("make_readcap_dictionary fails when the column with the options does
           not exist", {
             expect_error(
-              make_readcap_dictionary(metadata     = test_data,
-                                      field_column = "field_name",
-                                      opt_column = "fake_column_name",
-                                      field_type   = "field_type"),
+              make_readcap_dictionary(
+                metadata = test_data,
+                field_column = "field_name",
+                opt_column = "fake_column_name",
+                field_type = "field_type"
+              ),
               regexp = cat("Unrecognised column name: 'fake_column_name'")
             )
 })
