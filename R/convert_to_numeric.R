@@ -38,7 +38,7 @@ convert_to_numeric <- function(data, target_columns = NULL,
     if (!is.data.frame(scan_res)) {
       cli::cli_abort(c(
         tr_("Automatic detection of columns to convert into numeric failed."),
-        x = tr_("No character column with numeric values found by `scan_data()`."),
+        x = tr_("No character column with numeric values found by `scan_data()`."), # nolint: line_length_linter
         i = tr_("Please specify names of the columns to convert into numeric using `target_columns`.") # nolint: line_length_linter
       ))
     }
@@ -56,11 +56,10 @@ convert_to_numeric <- function(data, target_columns = NULL,
   # twice the %numeric. Such columns will be considered as the target columns.
   # When the %character > 2*%numeric, a warning is triggered about the presence
   # of numeric values in that column.
-  # We abort here due to the zero length vector got from
-  # detect_to_numeric_columns()
+  # We abort here due to the zero length vector from detect_to_numeric_columns()
   if (length(target_columns) == 0) {
     cli::cli_abort(c(
-      tr_("Found one or more columns with insuffisient numeric values for automatic conversion."),
+      tr_("Found one or more columns with insuffisient numeric values for automatic conversion."), # nolint: line_length_linter
       i = tr_("The percent of character values must be less than twice the numeric values for a column to be considered for automatic conversion."), # nolint: line_length_linter
       i = tr_("Please specify names of the columns to convert into numeric using `target_columns`.") # nolint: line_length_linter
     ))
