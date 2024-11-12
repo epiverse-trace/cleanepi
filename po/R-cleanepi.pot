@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: cleanepi 1.0.2.9000\n"
-"POT-Creation-Date: 2024-11-12 13:40+0000\n"
+"POT-Creation-Date: 2024-11-12 16:13+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,13 +26,20 @@ msgid ""
 msgstr ""
 
 #: check_date_sequence.R:67
-msgid "Did you enter an incorrect correct name?"
+msgid "Have you provided an incorrect column name?"
 msgstr ""
 
-#: check_date_sequence.R:85
+#: check_date_sequence.R:91
 msgid ""
 "Detected {.val {length(bad_order)}} incorrect date sequence{?s} at line{?s}: "
 "{.val {toString(bad_order)}}."
+msgstr ""
+
+#: check_date_sequence.R:92
+msgid ""
+"Enter {.code attr(dat, \"report\")[[\"incorrect_date_sequence\"]]} to access "
+"them, where {.val dat} is the object used to store the output from this "
+"operation."
 msgstr ""
 
 #: clean_data.R:139
