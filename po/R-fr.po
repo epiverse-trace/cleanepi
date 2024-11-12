@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: cleanepi 1.0.2.9000\n"
-"POT-Creation-Date: 2024-11-12 02:47+0000\n"
+"POT-Creation-Date: 2024-11-12 04:07+0000\n"
 "PO-Revision-Date: 2024-11-07 12:38+0000\n"
 "Last-Translator: Karim Mané\n"
 "Language-Team: none\n"
@@ -443,12 +443,75 @@ msgstr "Le type de la valeure de l'argument {.emph end_date} est incorrecte."
 #: span.R:86
 msgid ""
 "You provided a name of a column of type {.cls {class(data[[end_date]])}}."
-msgstr " Vous avez fourni le nom d'une colonne de type "
-"{.cls {class(data[[end_date]])}}."
+msgstr ""
+" Vous avez fourni le nom d'une colonne de type {.cls "
+"{class(data[[end_date]])}}."
 
 #: span.R:87
 msgid ""
 "The value for {.emph end_date} argument must be of type {.cls Date} in "
 "ISO8601 format."
-msgstr "La valeure de l'argument {.emph end_date} doit être de type {.cls Date}"
-" dans un format ISO8601."
+msgstr ""
+"La valeure de l'argument {.emph end_date} doit être de type {.cls Date} dans "
+"un format ISO8601."
+
+#: utils.R:147
+msgid ""
+"Could not find the following column names: {.val {target_columns[is."
+"na(idx)]}}"
+msgstr ""
+"Le données ne contiennet pas les noms de colonnes suivantes: {.code "
+"{target_columns[missing_cols]}}."
+
+#: utils.R:148
+msgid ""
+"Please make sure that all specified target columns belong to the input data."
+msgstr ""
+"Assurez-vous que toutes les colonnes cibles fassent parti des données "
+"d'entrée."
+
+#: utils.R:159
+msgid "Some column indices are out of bound."
+msgstr "Certains numéros de colonne sont hors de la limite."
+
+#: utils.R:160
+msgid "Column indices must be between {.val {1}} and {.val {ncol(data)}}."
+msgstr ""
+"Les numéro des colonnes cibles doivent être compris entre {.val {1}} et {."
+"val {ncol(data)}}."
+
+#: utils.R:161
+msgid "You provided indices for columns that do not exist."
+msgstr ""
+"Vous avez fourni des numéros de colonne supérieurs au nombre total de "
+"colonnes de vos données."
+
+#: utils.R:171
+msgid "Invalid value for {.emph target_columns}."
+msgstr ""
+"La valeure fournie pour l'argument {.emph target_columns} est invalide."
+
+#: utils.R:172
+msgid ""
+"{.val linelist_tags} only works on {.cls linelist} objects. You can provide "
+"a {.cls vector} of column names for inputs of class {.cls data.frame}."
+msgstr ""
+"{.val linelist_tags} doit être utilisé pour des objects de class {.cls "
+"linelist} uniquement. Vous pour fournir un {.cls vector} de noms de colonnes "
+"pour les données de class {.cls data.frame}."
+
+#: utils.R:186
+msgid "The specified target columns are either constant or empty."
+msgstr "Les colonnes cibles fournies sont soit constantes ou vides."
+
+#: utils.R:187
+msgid "Please consider using:"
+msgstr "Veuillez considérer d'utiliser:"
+
+#: utils.R:188
+msgid "the names of columns that are neither constant or empty, or"
+msgstr "des noms de colonnes qui sont ni vides ni constantes, ou bien"
+
+#: utils.R:189
+msgid "{.fn remove_constants} prior to this cleaning operation."
+msgstr "la fonction {.fn remove_constants} avant cette opération."

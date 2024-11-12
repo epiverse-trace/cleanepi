@@ -116,8 +116,8 @@ add_to_report <- function(x, key, value = NULL) {
   checkmate::assert_data_frame(x, min.rows = 1L, min.cols = 1L, null.ok = FALSE)
   checkmate::assert_character(key, any.missing = FALSE, len = 1L,
                               null.ok = FALSE)
-  report                    <- attr(x, "report")
-  report[[key]]             <- value
+  report <- attr(x, "report")
+  report[[key]] <- value
   attr(x, which = "report") <- report
   return(x)
 }
@@ -141,38 +141,54 @@ get_target_column_names <- function(data, target_columns, cols) {
 
   # extract column names if target_columns is a vector of column names
   if (length(target_columns) == 1L && target_columns != "linelist_tags") {
-    idx            <- match(target_columns, names(data))
-    stopifnot("Could not find some specified target column names" =
-                !anyNA(idx))
+    idx <- match(target_columns, names(data))
+    if (anyNA(idx)) {
+      cli::cli_abort(c(
+        tr_("Could not find the following column names: {.val {target_columns[is.na(idx)]}}"), # nolint: line_length_linter
+        i = tr_("Please make sure that all specified target columns belong to the input data.") # nolint: line_length_linter
+      ))
+    }
     target_columns <- names(data)[idx]
   }
 
   # extract column names if target_columns is a vector of column indexes
   if (is.numeric(target_columns)) {
-    index          <- seq_along(data)
-    stopifnot("Incorrect vector of column name indices provided!" =
-                all(target_columns %in% index))
+    index <- seq_along(data)
+    if (!all(target_columns %in% index)) {
+      cli::cli_abort(c(
+        tr_("Some column indices are out of bound."),
+        i = tr_("Column indices must be between {.val {1}} and {.val {ncol(data)}}."), # nolint: line_length_linter
+        x = tr_("You provided indices for columns that do not exist.")
+      ))
+    }
     target_columns <- names(data)[target_columns]
   }
 
   # check for linelist object if target_columns='tags'
   if (identical(target_columns, "linelist_tags")) {
-    stopifnot(
-      "'linelist_tags' only works on linelist object. Please provide a vector of
-              column names if you are dealing with a data frame" =
-        inherits(data, "linelist")
-    )
-    original_tags  <- linelist::tags(data)
+    if (!inherits(data, "linelist")) {
+      cli::cli_abort(c(
+        tr_("Invalid value for {.emph target_columns}."),
+        i = tr_("{.val linelist_tags} only works on {.cls linelist} objects. You can provide a {.cls vector} of column names for inputs of class {.cls data.frame}.") # nolint: line_length_linter
+      ))
+    }
+    original_tags <- linelist::tags(data)
     target_columns <- as.character(original_tags)
   }
 
   # check whether target columns are part of the empty or constant columns
   if (!is.null(cols)) {
-    idx              <- match(cols, target_columns)
+    idx <- match(cols, target_columns)
     if (length(idx) > 0L) {
       target_columns <- target_columns[-idx]
-      stopifnot("All specified columns are either constant or empty." =
-                  length(target_columns) > 0L)
+      if (length(target_columns) == 0) {
+        cli::cli_abort(c(
+          tr_("The specified target columns are either constant or empty."),
+          i = tr_("Please consider using:"),
+          "*" = tr_("the names of columns that are neither constant or empty, or"), # nolint: line_length_linter
+          "*" = tr_("{.fn remove_constants} prior to this cleaning operation.")
+        ))
+      }
     }
   }
 
@@ -182,17 +198,18 @@ get_target_column_names <- function(data, target_columns, cols) {
 
 #' Get column names
 #'
-#' When performing several data cleaning operations using the `clean_data()`
-#' function, the input column names might be altered by after the column names
-#' cleaning. As a consequence of this, some cleaning operations will fail due to
-#' the column names mismatch. This function is provided to anticipate on this
-#' scenario, hence providing continuity between the cleaning operations.
+#' When performing several data cleaning operations using the
+#' \code{clean_data()} function, the input column names might be altered by
+#' after the column names cleaning. As a consequence of this, some cleaning
+#' operations will fail due to the column names mismatch. This function is
+#' provided to anticipate on this scenario, hence providing continuity between
+#' the cleaning operations.
 #'
-#' @param data the input data. It can also be a modified data generated in
+#' @param data The input data. It can also be a modified data generated in
 #'    intermediate cleaning operations.
-#' @param target_columns a vector of target column names
+#' @param target_columns A vector of target column names
 #'
-#' @returns a vector of column names to be used for the target cleaning
+#' @returns A vector of column names to be used for the target cleaning
 #'    operations
 #' @keywords internal
 #'
