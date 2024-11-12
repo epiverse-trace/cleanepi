@@ -25,8 +25,8 @@
 #'
 date_guess <- function(x,
                        column_name,
-                       quiet           = TRUE,
-                       orders          = NULL) {
+                       quiet = TRUE,
+                       orders = NULL) {
 
   ## This function tries converting a single character string into a
   ## well-formatted date, but still returning a character. If it can't convert
@@ -80,7 +80,10 @@ date_guess <- function(x,
   }
 
   if (!is.list(orders)) {
-    stop("`order` must be either a character or a list of character vectors.")
+    cli::cli_abort(c(
+      tr_("Incorrect value provided to the `order` argument."),
+      i = tr_("Value for `order` argument must be either a character or a list of character vectors.") # nolint: line_length_linter
+    ))
   }
 
   # Process dates - here we check whether values in the vector are any of the
@@ -117,8 +120,8 @@ date_guess <- function(x,
 
   # guess dates
   # create output data frame for dates
-  res        <- list(rep(as.Date(NA_character_), length(x)))
-  res        <- rep(res, length(orders))
+  res <- list(rep(as.Date(NA_character_), length(x)))
+  res <- rep(res, length(orders))
   names(res) <- names(orders)
 
   # parsing the vector, looking for actual (no ambiguity about whether it is a

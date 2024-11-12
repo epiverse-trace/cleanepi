@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: cleanepi 1.0.2.9000\n"
-"POT-Creation-Date: 2024-11-11 23:49+0000\n"
+"POT-Creation-Date: 2024-11-12 00:12+0000\n"
 "PO-Revision-Date: 2024-11-07 12:38+0000\n"
 "Last-Translator: Karim Mané\n"
 "Language-Team: none\n"
@@ -352,10 +352,22 @@ msgstr "Ces données contiennent {.code {nrow(dups)}} lignes redondantes."
 msgid ""
 "Use `attr(dat, \"report\")[[\"duplicated_rows\"]]` to access them, where "
 "`dat` is the object used to store the output from this operation."
-msgstr "Veuillez entrer `attr(dat, \"report\")[[\"duplicated_rows\"]]` pour y "
-"accéder. `dat` represente ici l'object créé pour stocker le résultat de cette "
-"opération."
+msgstr ""
+"Veuillez entrer `attr(dat, \"report\")[[\"duplicated_rows\"]]` pour y "
+"accéder. `dat` represente ici l'object créé pour stocker le résultat de "
+"cette opération."
 
 #: find_and_remove_duplicates.R:134
 msgid "No duplicates were found."
 msgstr "Aucune lignes redondantes n'a été détectée."
+
+#: guess_dates.R:84
+msgid "Incorrect value provided to the `order` argument."
+msgstr "La valeure fournie à l'argument `order` est incorrecte."
+
+#: guess_dates.R:85
+msgid ""
+"Value for `order` argument must be either a character or a list of character "
+"vectors."
+msgstr "L'argument `order` prend comme valeure un vecteur de charactère ou une "
+"liste d'un ou plusieurs vecteurs de charactère."
