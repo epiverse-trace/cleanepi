@@ -45,9 +45,9 @@ modify_default_params <- function(defaults, params, strict = TRUE) {
   extra <- setdiff(names(params), names(defaults))
   if (strict && (length(extra) > 0L)) {
     cli::cli_abort(c(
-      tr_("Found the following unrecognised arguments to `clean_data()`: {.code {toString(extra)}}."), # nolint: line_length_linter
-      i = tr_("`clean_data()` does not support arguments other than the defaults. Run get_default_params() to display the list of default parameters."), # nolint: line_length_linter
-      x = tr_("You provided more arguments than expected.")
+      tr_("Found the following unrecognised arguments to {.fn clean_data}: {.emph {toString(extra)}}."), # nolint: line_length_linter
+      i = tr_("{.fn clean_data} does not support arguments other than the defaults. Run {.code get_default_params()} to display the list of default parameters."), # nolint: line_length_linter
+      x = tr_("You provided unexpected arguments.")
     ))
   }
   # keep.null is needed here
