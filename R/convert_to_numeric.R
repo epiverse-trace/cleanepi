@@ -37,9 +37,9 @@ convert_to_numeric <- function(data, target_columns = NULL,
     scan_res <- scan_data(data = data)
     if (!is.data.frame(scan_res)) {
       cli::cli_abort(c(
-        tr_("Automatic detection of columns to convert into numeric failed."),
-        x = tr_("No character column with numeric values found by `scan_data()`."), # nolint: line_length_linter
-        i = tr_("Please specify names of the columns to convert into numeric using `target_columns`.") # nolint: line_length_linter
+        tr_("Automatic detection of columns to convert into numeric failed."), # nolint: line_length_linter
+        x = tr_("No character column with numeric values found by {.fn scan_data}."), # nolint: line_length_linter
+        i = tr_("Please specify names of the columns to convert into numeric using {.emph target_columns}.") # nolint: line_length_linter
       ))
     }
     # detect_to_numeric_columns() returns a vector of zero length when no
@@ -61,7 +61,7 @@ convert_to_numeric <- function(data, target_columns = NULL,
     cli::cli_abort(c(
       tr_("Found one or more columns with insuffisient numeric values for automatic conversion."), # nolint: line_length_linter
       i = tr_("The percent of character values must be less than twice the numeric values for a column to be considered for automatic conversion."), # nolint: line_length_linter
-      i = tr_("Please specify names of the columns to convert into numeric using `target_columns`.") # nolint: line_length_linter
+      i = tr_("Please specify names of the columns to convert into numeric using {.emph target_columns}.") # nolint: line_length_linter
     ))
   }
 
@@ -101,16 +101,18 @@ detect_to_numeric_columns <- function(scan_res, data) {
       } else if (values[["numeric"]] > 0) {
         num_values <- values[["numeric"]]
         num_values <- num_values * nrow(data)
-        cli::cli_alert_warning(c(
-          tr_("Found {.code {num_values}} numeric value{?s} in {.code {col}}. "), # nolint: line_length_linter
-          i = tr_("Consider converting characters into numeric or replacing the numeric values by `NA` using the `replace_missing_values()` function.") # nolint: line_length_linter
+        cli::cli_inform(c(
+          "!" = tr_("Found {.val {num_values}} numeric value{?s} in {.field {col}}. "), # nolint: line_length_linter
+          i = tr_("Please consider the followings:"),
+          "*" = tr_("converting characters into numeric, or"),
+          "*" = tr_("replacing the numeric values by {.val NA} using the {.fn replace_missing_values} function.") # nolint: line_length_linter
         ), wrap = TRUE)
       }
     }
   }
   if (length(to_numeric) > 0) {
     cli::cli_alert_info(
-      tr_("The following colonne{?s} will be converted into numeric: {.code {to_numeric}}.") # nolint: line_length_linter
+      tr_("The following colonne{?s} will be converted into numeric: {.field {to_numeric}}.") # nolint: line_length_linter
     )
   }
   return(to_numeric)

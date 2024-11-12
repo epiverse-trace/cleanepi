@@ -2,8 +2,8 @@
 #'
 #' @param data The input data frame or linelist
 #' @param target_columns A vector of columns names to be converted from numeric
-#'    to date. When the input data is a `linelist` object, this parameter can be
-#'    set to \code{linelist_tags} if you wish to only convert the tagged
+#'    to date. When the input data is a \code{linelist} object, this parameter
+#'    can be set to \code{linelist_tags} if you wish to only convert the tagged
 #'    columns.
 #' @param ref_date A reference date. This can also be a character string with
 #'    the name of the reference column.
