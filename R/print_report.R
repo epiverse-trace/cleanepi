@@ -77,7 +77,7 @@ print_report <- function(data,
     cli::cli_abort(c(
       tr_("No report associated with the input data."),
       x = tr_("At least one data cleaning operation must be applied to this data before calling {.fn print_report}."), # nolint: line_length_linter
-      i = tr_("The list of functions in {.pkg cleanepi} can be found at: {.url https://epiverse-trace.github.io/cleanepi/reference/index.html}.")
+      i = tr_("The list of functions in {.pkg cleanepi} can be found at: {.url https://epiverse-trace.github.io/cleanepi/reference/index.html}.") # nolint: line_length_linter
     ), call = NULL)
   }
   if (format != "html") {
