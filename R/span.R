@@ -19,14 +19,14 @@
 #'    values of 0. Default is \code{NULL} for decimal time span.
 #'
 #' @returns The input data frame with one or two additional columns:
-#' \enumerate{
-#'   \item "span" or any other name chosen by the user. This will contain the
-#'      calculated time span in the desired units.
-#'   \item "*_remainder": a column with the number of the remaining
+#' \describe{
+#'   \item{span}{or any other name chosen by the user. This will contain the
+#'      calculated time span in the desired units.}
+#'   \item{"*_remainder"}{a column with the number of the remaining
 #'         days or weeks or months depending on the value of the
-#'         'span_remainder_unit' parameter. Here '*' represents the value of the
-#'         'span_column_name' argument.
-#'   }
+#'         'span_remainder_unit' parameter. The star represents here the value
+#'         of the 'span_column_name' argument.}
+#' }
 #' @export
 #'
 #' @examples
@@ -66,7 +66,7 @@ timespan <- function(data,
   }
   checkmate::assert_character(span_column_name, len = 1L, null.ok = FALSE,
                               any.missing = FALSE)
-  span_unit           <- match.arg(span_unit)
+  span_unit <- match.arg(span_unit)
   checkmate::assert_choice(span_remainder_unit,
                            choices = c("months", "weeks", "days"),
                            null.ok = TRUE)
@@ -80,9 +80,13 @@ timespan <- function(data,
   # a vector of Date values with the same length as number of row in data or
   # a Date value
   if (is.character(end_date)) {
-    stopifnot("The columns specified in 'end_date' argument should be of type
-              Date in ISO8601 format." = end_date %in% colnames(data),
-              inherits(data[[end_date]], "Date"))
+    if (end_date %in% colnames(data) && !inherits(data[[end_date]], "Date")) {
+      cli::cli_abort(c(
+        tr_("Unexpect type in the value for argument {.emph end_date}."),
+        x = tr_("You provided a name of a column of type {.cls {class(data[[end_date]])}}."), # nolint: line_length_linter
+        i = tr_("The value for {.emph end_date} argument must be of type {.cls Date} in ISO8601 format.") # nolint: line_length_linter
+      ))
+    }
     end_date <- data[[end_date]]
   }
 
@@ -90,27 +94,29 @@ timespan <- function(data,
   # NOTE: default divisor unit is 'years'
   divisor_age <- switch(
     span_unit,
-    years  = lubridate::years(1L),
+    years = lubridate::years(1L),
     months = months(1L), # from base, lubridate provides method returning period
-    weeks  = lubridate::weeks(1L),
-    days   = lubridate::days(1)
+    weeks = lubridate::weeks(1L),
+    days = lubridate::days(1)
   )
 
   # calculate the time difference, convert to numeric or period, and get the
   # quotient and remainder
   time_diff <- lubridate::as.period(end_date - data[[target_column]])
   if (is.null(span_remainder_unit)) {
-    data[, span_column_name] <- lubridate::time_length(time_diff,
-                                                       unit = span_unit)
+    data[, span_column_name] <- lubridate::time_length(
+      time_diff,
+      unit = span_unit
+    )
   } else {
     data[, span_column_name] <- time_diff %/% divisor_age
 
     # switch divisor for remainder based on requested unit
-    divisor_remainder        <- switch(
+    divisor_remainder <- switch(
       span_remainder_unit,
       months = months(1L), # from base as above
-      weeks  = lubridate::weeks(1L),
-      days   = lubridate::days(1)
+      weeks = lubridate::weeks(1L),
+      days = lubridate::days(1)
     )
     data[, sprintf("remainder_%s", span_remainder_unit)] <-
       (time_diff %% divisor_age) %/% divisor_remainder
