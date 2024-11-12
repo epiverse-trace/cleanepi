@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils-potools.R
 \name{tr_}
 \alias{tr_}
-\title{Flag out what message will be translated using {potools}}
+\title{Flag out what message will be translated using \{potools\}}
 \usage{
 tr_(...)
 }
@@ -13,7 +13,7 @@ tr_(...)
 The input object
 }
 \description{
-Flag out what message will be translated using {potools}
+Flag out what message will be translated using \{potools\}
 }
 \details{
 This function was taken from the \verb{Translation for package developers}

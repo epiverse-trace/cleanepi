@@ -1,4 +1,4 @@
-#' Flag out what message will be translated using {potools}
+#' Flag out what message will be translated using \{potools\}
 #'
 #' @param ... A character string. This represents the message to be translated
 #'
