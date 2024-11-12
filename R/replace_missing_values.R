@@ -31,7 +31,7 @@ replace_missing_values <- function(data,
   # get the correct names in case some have been modified - see the
   # `retrieve_column_names()` function for more details
   target_columns <- retrieve_column_names(data, target_columns)
-  cols           <- get_target_column_names(data, target_columns, cols = NULL)
+  cols <- get_target_column_names(data, target_columns, cols = NULL)
 
   # identify the columns containing the specified missing value characters
   tmp <- data %>%
@@ -52,9 +52,10 @@ replace_missing_values <- function(data,
       value = toString(cols)
     )
   } else {
-    warning("Could not detect missing value character!",
-            "\nPlease use the appropriate strings that represents the missing",
-            "values from your data.", call. = FALSE)
+    cli::cli_inform(c(
+      "!" = tr_("Could not detect the provided missing value character."),
+      i = tr_("Does your data contain missing value characters other than the specified ones?") # nolint: line_length_linter
+    ))
   }
 
   return(data)

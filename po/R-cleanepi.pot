@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: cleanepi 1.0.2.9000\n"
-"POT-Creation-Date: 2024-11-12 01:25+0000\n"
+"POT-Creation-Date: 2024-11-12 02:09+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -331,4 +331,27 @@ msgstr ""
 
 #: print_report.R:112
 msgid "Generating html report in {.file {temp_dir}}."
+msgstr ""
+
+#: remove_constants.R:122
+msgid ""
+"Constant data was removed after {.val {nrow(constant_data_report)}} "
+"iterations."
+msgstr ""
+
+#: remove_constants.R:123
+msgid ""
+"Enter {.code attr(dat, \"report\")[[\"constant_data\"]]} for more "
+"information, where {.val dat} represents the object used to store the output "
+"from {.fn remove_constants}."
+msgstr ""
+
+#: replace_missing_values.R:56
+msgid "Could not detect the provided missing value character."
+msgstr ""
+
+#: replace_missing_values.R:57
+msgid ""
+"Does your data contain missing value characters other than the specified "
+"ones?"
 msgstr ""
