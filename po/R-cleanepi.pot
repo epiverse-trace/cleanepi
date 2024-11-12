@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: cleanepi 1.0.2.9000\n"
-"POT-Creation-Date: 2024-11-11 23:49+0000\n"
+"POT-Creation-Date: 2024-11-12 00:12+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -293,4 +293,14 @@ msgstr ""
 
 #: find_and_remove_duplicates.R:134
 msgid "No duplicates were found."
+msgstr ""
+
+#: guess_dates.R:84
+msgid "Incorrect value provided to the `order` argument."
+msgstr ""
+
+#: guess_dates.R:85
+msgid ""
+"Value for `order` argument must be either a character or a list of character "
+"vectors."
 msgstr ""
