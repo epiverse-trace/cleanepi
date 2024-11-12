@@ -186,7 +186,7 @@ get_target_column_names <- function(data, target_columns, cols) {
           tr_("The specified target columns are either constant or empty."),
           i = tr_("Please consider using:"),
           "*" = tr_("the names of columns that are neither constant or empty, or"), # nolint: line_length_linter
-          "*" = tr_("{.fn remove_constants} prior to this cleaning operation.")
+          "*" = tr_("{.fn remove_constants} prior to this cleaning operation.") # nolint: duplicate_argument_linter
         ))
       }
     }
