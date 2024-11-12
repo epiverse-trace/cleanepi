@@ -9,7 +9,7 @@ date_convert(data, cols, error_tolerance, timeframe = NULL, orders)
 \arguments{
 \item{data}{A data frame or linelist}
 
-\item{cols}{date column name(s)}
+\item{cols}{A Date column name(s)}
 
 \item{error_tolerance}{A number between 0 and 1 indicating the proportion of
 entries which cannot be identified as dates to be tolerated; if this
