@@ -6,7 +6,7 @@
 #'
 #' @param data The input data frame or linelist.
 #' @param target_columns A vector of column names to use when looking for
-#'    duplicates. When the input data is a `linelist` object, this
+#'    duplicates. When the input data is a \code{linelist} object, this
 #'    parameter can be set to \code{linelist_tags} if you wish to look for
 #'    duplicates on tagged columns only. Default is \code{NULL}.
 #'
@@ -28,7 +28,7 @@ remove_duplicates <- function(data, target_columns = NULL) {
 
   # setting up the variables below to NULL to avoid linters
   report <- attr(data, "report")
-  dat    <- data
+  dat <- data
 
   # get the correct names in case some have been modified - see the
   # `retrieve_column_names()` function for more details
@@ -36,13 +36,13 @@ remove_duplicates <- function(data, target_columns = NULL) {
   target_columns <- get_target_column_names(dat, target_columns, cols = NULL)
 
   # find duplicates
-  dups       <- find_duplicates(dat, target_columns)
+  dups <- find_duplicates(dat, target_columns)
   tmp_report <- attr(dups, "report")
   if ("duplicated_rows" %in% names(tmp_report) &&
       nrow(tmp_report[["duplicated_rows"]]) > 0L) {
-    dups     <- tmp_report[["duplicated_rows"]]
-    report   <- c(report, tmp_report)
-    dat      <- dat %>%
+    dups <- tmp_report[["duplicated_rows"]]
+    report <- c(report, tmp_report)
+    dat <- dat %>%
       dplyr::mutate(row_id = seq_len(nrow(dat)))
   }
 
@@ -54,7 +54,7 @@ remove_duplicates <- function(data, target_columns = NULL) {
   if ("duplicated_rows" %in% names(tmp_report) &&
       nrow(tmp_report[["duplicated_rows"]]) > 0L) {
     tmp_target_columns <- c("row_id", target_columns)
-    to_be_removed      <- suppressMessages(dplyr::anti_join(dups, dat) %>%
+    to_be_removed <- suppressMessages(dplyr::anti_join(dups, dat) %>%
         dplyr::select({{ tmp_target_columns }}))
     report[["removed_duplicates"]] <- to_be_removed
   }
@@ -69,19 +69,19 @@ remove_duplicates <- function(data, target_columns = NULL) {
 #'
 #' @param data A data frame or linelist.
 #' @param target_columns A vector of columns names or indices to consider when
-#'    looking for duplicates. When the input data is a `linelist` object, this
-#'    parameter can be set to \code{linelist_tags} from which duplicates to be
-#'    removed. Its default value is \code{NULL}, which considers duplicates
-#'    across all columns.
+#'    looking for duplicates. When the input data is a \code{linelist} object,
+#'    this parameter can be set to \code{linelist_tags} from which duplicates
+#'    to be removed. Its default value is \code{NULL}, which considers
+#'    duplicates across all columns.
 #'
 #' @returns A data frame or linelist of all duplicated rows with following 2
 #'    additional columns:
-#'    \enumerate{
-#'      \item `row_id`: the indices of the duplicated rows from the input data.
+#'    \describe{
+#'      \item{row_id}{The indices of the duplicated rows from the input data.
 #'          Users can choose from these indices, which row they consider as
-#'          redundant in each group of duplicates.
-#'      \item `group_id`: a unique identifier associated to each group of
-#'          duplicates.
+#'          redundant in each group of duplicates.}
+#'      \item{group_id}{a unique identifier associated to each group of
+#'          duplicates.}
 #'    }
 #'
 #' @export
@@ -113,18 +113,26 @@ find_duplicates <- function(data, target_columns = NULL) {
     )
 
   if (nrow(dups) > 0L) {
-    message("Found ", nrow(dups), " duplicated rows in the dataset. Please",
-            " consult the report for more details.")
+    cli::cli_inform(c(
+      "!" = tr_("Found {.code {nrow(dups)}} duplicated rows in the dataset."),
+      i = tr_("Use `attr(dat, \"report\")[[\"duplicated_rows\"]]` to access them, where `dat` is the object used to store the output from this operation.") # nolint: line_length_linter
+    ))
     to_be_shown <- dups %>%
       dplyr::select(c("row_id", "group_id", {{ target_columns }}))
-    data <- add_to_report(x     = data,
-                          key   = "duplicated_rows",
-                          value = to_be_shown)
-    data <- add_to_report(x     = data,
-                          key   = "duplicates_checked_from",
-                          value = toString(target_columns))
+    data <- add_to_report(
+      x = data,
+      key = "duplicated_rows",
+      value = to_be_shown
+    )
+    data <- add_to_report(
+      x = data,
+      key = "duplicates_checked_from",
+      value = toString(target_columns)
+    )
   } else {
-    message("No duplicates were found.")
+    cli::cli_alert_info(
+      tr_("No duplicates were found.")
+    )
   }
   return(data)
 }

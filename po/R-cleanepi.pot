@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: cleanepi 1.0.2.9000\n"
-"POT-Creation-Date: 2024-11-11 17:12+0000\n"
+"POT-Creation-Date: 2024-11-11 23:49+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -126,35 +126,35 @@ msgstr ""
 msgid "No character column with numeric values found by `scan_data()`."
 msgstr ""
 
-#: convert_to_numeric.R:42 convert_to_numeric.R:65
+#: convert_to_numeric.R:42 convert_to_numeric.R:64
 msgid ""
 "Please specify names of the columns to convert into numeric using "
 "`target_columns`."
 msgstr ""
 
-#: convert_to_numeric.R:63
+#: convert_to_numeric.R:62
 msgid ""
 "Found one or more columns with insuffisient numeric values for automatic "
 "conversion."
 msgstr ""
 
-#: convert_to_numeric.R:64
+#: convert_to_numeric.R:63
 msgid ""
 "The percent of character values must be less than twice the numeric values "
 "for a column to be considered for automatic conversion."
 msgstr ""
 
-#: convert_to_numeric.R:106
+#: convert_to_numeric.R:105
 msgid "Found {.code {num_values}} numeric value{?s} in {.code {col}}."
 msgstr ""
 
-#: convert_to_numeric.R:107
+#: convert_to_numeric.R:106
 msgid ""
 "Consider converting characters into numeric or replacing the numeric values "
 "by `NA` using the `replace_missing_values()` function."
 msgstr ""
 
-#: convert_to_numeric.R:114
+#: convert_to_numeric.R:113
 msgid ""
 "The following colonne{?s} will be converted into numeric: {.code "
 "{to_numeric}}."
@@ -279,4 +279,18 @@ msgstr ""
 msgid ""
 "Can not replace the following values found in column {.code {opts}} but not "
 "defined in the dictionary: {.code {undefined_opts}}."
+msgstr ""
+
+#: find_and_remove_duplicates.R:117
+msgid "Found {.code {nrow(dups)}} duplicated rows in the dataset."
+msgstr ""
+
+#: find_and_remove_duplicates.R:118
+msgid ""
+"Use `attr(dat, \"report\")[[\"duplicated_rows\"]]` to access them, where "
+"`dat` is the object used to store the output from this operation."
+msgstr ""
+
+#: find_and_remove_duplicates.R:134
+msgid "No duplicates were found."
 msgstr ""
