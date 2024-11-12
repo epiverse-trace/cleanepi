@@ -53,9 +53,9 @@ standardize_column_names <- function(data, keep = NULL, rename = NULL) {
     # input data frame
     if (!all(current_names %in% before)) {
       cli::cli_abort(c(
-        tr_("Unrecognised column names specified in `rename`."),
+        tr_("Unrecognised column names specified in {.emph rename}."),
         i = tr_("Make sure that the columns to be renamed are part of the input data."), # nolint: line_length_linter
-        i = tr_("To rename columns, use: `rename = c(new_name1 = 'old_name1', new_name2 = 'old_name2')`.") # nolint: line_length_linter
+        i = tr_("To rename columns, use: {.emph rename = c(new_name1 = 'old_name1', new_name2 = 'old_name2')}.") # nolint: line_length_linter
       ), call = NULL)
     }
     # abort if any of the new name is already a column name in the input data
