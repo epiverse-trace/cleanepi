@@ -114,8 +114,8 @@ find_duplicates <- function(data, target_columns = NULL) {
 
   if (nrow(dups) > 0L) {
     cli::cli_inform(c(
-      "!" = tr_("Found {.code {nrow(dups)}} duplicated rows in the dataset."),
-      i = tr_("Use `attr(dat, \"report\")[[\"duplicated_rows\"]]` to access them, where `dat` is the object used to store the output from this operation.") # nolint: line_length_linter
+      "!" = tr_("Found {.val {nrow(dups)}} duplicated rows in the dataset."),
+      i = tr_("Use {.code attr(dat, \"report\")[[\"duplicated_rows\"]]} to access them, where {.val dat} is the object used to store the output from this operation.") # nolint: line_length_linter
     ))
     to_be_shown <- dups %>%
       dplyr::select(c("row_id", "group_id", {{ target_columns }}))
