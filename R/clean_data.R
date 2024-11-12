@@ -224,8 +224,8 @@ clean_data <- function(data, ...) {
     )
     if (is.null(params[["standardize_subject_ids"]][["target_columns"]])) {
       cli::cli_abort(c(
-        tr_("You did not specify a value for `target_columns`."),
-        "*" = tr_("Here `target_columns` is the name of the column that unique identifies the individuals in your data."), # nolint: line_length_linter
+        tr_("You did not specify a value for {.emph target_columns}."),
+        "*" = tr_("Here {.emph target_columns} is the name of the column that unique identifies the individuals in your data."), # nolint: line_length_linter
         "*" = tr_("Type {.code ?check_subject_ids} to see the help on the corresponding function.") # nolint: line_length_linter
       ))
     }
