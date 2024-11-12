@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: cleanepi 1.0.2.9000\n"
-"POT-Creation-Date: 2024-11-12 00:12+0000\n"
+"POT-Creation-Date: 2024-11-12 01:05+0000\n"
 "PO-Revision-Date: 2024-11-07 12:38+0000\n"
 "Last-Translator: Karim Mané\n"
 "Language-Team: none\n"
@@ -369,5 +369,37 @@ msgstr "La valeure fournie à l'argument `order` est incorrecte."
 msgid ""
 "Value for `order` argument must be either a character or a list of character "
 "vectors."
-msgstr "L'argument `order` prend comme valeure un vecteur de charactère ou une "
-"liste d'un ou plusieurs vecteurs de charactère."
+msgstr ""
+"L'argument `order` prend comme valeure un vecteur de charactère ou une liste "
+"d'un ou plusieurs vecteurs de charactère."
+
+#: print_report.R:78
+msgid "No report associated with the input data."
+msgstr "Aucun rapport n'est associé à ce jeu de données."
+
+#: print_report.R:79
+msgid ""
+"At least one data cleaning operation must be applied to this data before "
+"calling {.fn print_report}."
+msgstr "Au moins une opération de nettoyage de données doit être appliquée aux "
+"données avant d'évoquer la fonction {.fn print_report}."
+
+#: print_report.R:80
+msgid ""
+"The list of functions in {.pkg cleanepi} can be found at: {.url https://"
+"epiverse-trace.github.io/cleanepi/reference/index.html}."
+msgstr "Veuillez consulter la liste des fonction disponibles dans "
+"{.pkg cleanepi} à travers le lien suivant: "
+"{.url https://epiverse-trace.github.io/cleanepi/reference/index.html}."
+
+#: print_report.R:85
+msgid "Invalid output format!"
+msgstr "Format invalide!"
+
+#: print_report.R:86
+msgid "Only {.val html} format is currently supported."
+msgstr "Seul le format {.val html} est accepté pour le moment."
+
+#: print_report.R:112
+msgid "Generating html report in {.file {temp_dir}}."
+msgstr "Creation du rapport en format html dans {.file {temp_dir}}."
