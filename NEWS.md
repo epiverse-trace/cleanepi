@@ -38,4 +38,4 @@
 
 * Function documentations have been updated. The `clean_data()` no longer takes the `params` argument. Instead, it takes many other arguments that are described in the function documentation and the package vignettes (#184, Karim-Mane).
 
-* Update the package vignette to account for the improvements made in the different PRs (#194, Karim-Mane).
+* Update the package vignette to account for the improvements made in the different pull requests (#194, Karim-Mane).
