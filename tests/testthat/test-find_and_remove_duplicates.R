@@ -1,10 +1,11 @@
-data <- readRDS(system.file("extdata", "test_linelist.RDS",
-                            package = "cleanepi"))
+data <- readRDS(
+  system.file("extdata", "test_linelist.RDS", package = "cleanepi")
+)
 
 test_that("remove_duplicates works with 'linelist_tags'", {
   no_dups <- remove_duplicates(
-    data             = data,
-    target_columns   = "linelist_tags"
+    data = data,
+    target_columns = "linelist_tags"
   )
   expect_s3_class(no_dups, "data.frame")
   expect_false(nrow(no_dups) == nrow(data))
@@ -25,8 +26,8 @@ test_that("remove_duplicates works with 'linelist_tags'", {
 
 test_that("remove_duplicates works with 'linelist_tags'", {
   no_dups <- remove_duplicates(
-    data             = data,
-    target_columns   = c("dt_onset", "dt_report", "sex", "outcome")
+    data = data,
+    target_columns = c("dt_onset", "dt_report", "sex", "outcome")
   )
   expect_s3_class(no_dups, "data.frame")
   expect_false(nrow(no_dups) == nrow(data))
@@ -47,7 +48,7 @@ test_that("remove_duplicates works with 'linelist_tags'", {
 
 test_that("find_duplicates works with a vector of column names", {
   dups <- find_duplicates(
-    data           = data,
+    data = data,
     target_columns = c("dt_onset", "dt_report", "sex", "outcome")
   )
   report <- attr(dups, "report")
@@ -61,7 +62,7 @@ test_that("find_duplicates works with a vector of column names", {
 
 test_that("find_duplicates works with 'linelist_tags'", {
   dups <- find_duplicates(
-    data           = data,
+    data = data,
     target_columns = "linelist_tags"
   )
   report <- attr(dups, "report")
@@ -75,7 +76,7 @@ test_that("find_duplicates works with 'linelist_tags'", {
 
 test_that("find_duplicates works when target_columns = NULL", {
   dups <- find_duplicates(
-    data           = data,
+    data = data,
     target_columns = NULL
   )
   report <- attr(dups, "report")
@@ -85,10 +86,9 @@ test_that("find_duplicates works when target_columns = NULL", {
 test_that("find_duplicates sends a messages when duplicates are found", {
   expect_message(
     find_duplicates(
-      data           = data,
+      data = data,
       target_columns = "linelist_tags"
     ),
-    regexp = cat("Found 57 duplicated rows in the dataset. Please consult the",
-                 " report for more details.")
+    regexp = cat("Found 57 duplicated rows in the dataset.")
   )
 })
