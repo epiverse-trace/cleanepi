@@ -52,12 +52,12 @@
 #' data(iris)
 #' iris[["fct"]] <- as.factor(sample(c("gray", "orange"), nrow(iris),
 #'                            replace = TRUE))
-#' iris[["lgl"]]  <- sample(c(TRUE, FALSE), nrow(iris), replace = TRUE)
+#' iris[["lgl"]] <- sample(c(TRUE, FALSE), nrow(iris), replace = TRUE)
 #' iris[["date"]] <- as.Date(seq.Date(from = as.Date("2024-01-01"),
 #'                                    to = as.Date("2024-08-30"),
 #'                                    length.out = nrow(iris)))
 #' iris[["posit_ct"]] <- as.POSIXct(iris[["date"]])
-#' scan_result        <- scan_data(data = iris)
+#' scan_result <- scan_data(data = iris)
 #'
 scan_data <- function(data) {
   # scan through all columns of the data and the identify character columns
@@ -147,7 +147,7 @@ scan_in_character <- function(x, x_name) {
   # send a warning about the presence of ambiguous values found on that column
   if (ambiguous_count > 0) {
     cli::cli_alert_warning(
-      tr_("Found {ambiguous_count} numeric value{?s} that can also be of type Date in column {.code {x_name}}.") # nolint: line_length_linter
+      tr_("Found {.val {ambiguous_count}} {.cls numeric} value{?s} that can also be of type {.cls Date} in column {.field {x_name}}.") # nolint: line_length_linter
     )
   }
   x <- x[is.na(are_numeric)]
