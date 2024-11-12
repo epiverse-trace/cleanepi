@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: cleanepi 1.0.2.9000\n"
-"POT-Creation-Date: 2024-11-12 04:07+0000\n"
+"POT-Creation-Date: 2024-11-12 12:25+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -12,7 +12,7 @@ msgstr ""
 
 #: check_date_sequence.R:57
 msgid ""
-"Found the following unrecognised column name{?s}: {.code "
+"Found the following unrecognised column name{?s}: {.field "
 "{target_columns[missing_cols]}}."
 msgstr ""
 
@@ -21,17 +21,18 @@ msgid "Insufficient number of columns to compare."
 msgstr ""
 
 #: check_date_sequence.R:66
-msgid "At least two columns of type Date are required for this operation."
+msgid ""
+"At least two columns of type {.cls Date} are required for this operation."
 msgstr ""
 
 #: check_date_sequence.R:67
 msgid "Did you enter an incorrect correct name?"
 msgstr ""
 
-#: check_date_sequence.R:83
+#: check_date_sequence.R:85
 msgid ""
-"Detected {.code {length(bad_order)}} incorrect date sequence{?s} at line{?"
-"s}: {.code {toString(bad_order)}}."
+"Detected {.val {length(bad_order)}} incorrect date sequence{?s} at line{?s}: "
+"{.val {toString(bad_order)}}."
 msgstr ""
 
 #: clean_data.R:139
@@ -59,13 +60,13 @@ msgid "checking subject IDs format"
 msgstr ""
 
 #: clean_data.R:227
-msgid "You did not specify a value for `target_columns`."
+msgid "You did not specify a value for {.emph target_columns}."
 msgstr ""
 
 #: clean_data.R:228
 msgid ""
-"Here `target_columns` is the name of the column that unique identifies the "
-"individuals in your data."
+"Here {.emph target_columns} is the name of the column that unique identifies "
+"the individuals in your data."
 msgstr ""
 
 #: clean_data.R:229
@@ -92,12 +93,12 @@ msgstr ""
 
 #: clean_data_helpers.R:150
 msgid ""
-"Found {ambiguous_count} numeric value{?s} that can also be of type Date in "
-"column {.code {x_name}}."
+"Found {.val {ambiguous_count}} {.cls numeric} value{?s} that can also be of "
+"type {.cls Date} in column {.field {x_name}}."
 msgstr ""
 
 #: column_name_standardization.R:56
-msgid "Unrecognised column names specified in `rename`."
+msgid "Unrecognised column names specified in {.emph rename}."
 msgstr ""
 
 #: column_name_standardization.R:57
@@ -106,8 +107,8 @@ msgstr ""
 
 #: column_name_standardization.R:58
 msgid ""
-"To rename columns, use: `rename = c(new_name1 = 'old_name1', new_name2 = "
-"'old_name2')`."
+"To rename columns, use: {.emph rename = c(new_name1 = 'old_name1', new_name2 "
+"= 'old_name2')}."
 msgstr ""
 
 #: column_name_standardization.R:65
@@ -123,13 +124,13 @@ msgid "Automatic detection of columns to convert into numeric failed."
 msgstr ""
 
 #: convert_to_numeric.R:41
-msgid "No character column with numeric values found by `scan_data()`."
+msgid "No character column with numeric values found by {.fn scan_data}."
 msgstr ""
 
 #: convert_to_numeric.R:42 convert_to_numeric.R:64
 msgid ""
-"Please specify names of the columns to convert into numeric using "
-"`target_columns`."
+"Please specify names of the columns to convert into numeric using {.emph "
+"target_columns}."
 msgstr ""
 
 #: convert_to_numeric.R:62
@@ -145,18 +146,26 @@ msgid ""
 msgstr ""
 
 #: convert_to_numeric.R:105
-msgid "Found {.code {num_values}} numeric value{?s} in {.code {col}}."
+msgid "Found {.val {num_values}} numeric value{?s} in {.field {col}}."
 msgstr ""
 
 #: convert_to_numeric.R:106
-msgid ""
-"Consider converting characters into numeric or replacing the numeric values "
-"by `NA` using the `replace_missing_values()` function."
+msgid "Please consider the followings:"
 msgstr ""
 
-#: convert_to_numeric.R:113
+#: convert_to_numeric.R:107
+msgid "converting characters into numeric, or"
+msgstr ""
+
+#: convert_to_numeric.R:108
 msgid ""
-"The following colonne{?s} will be converted into numeric: {.code "
+"replacing the numeric values by {.val NA} using the {.fn "
+"replace_missing_values} function."
+msgstr ""
+
+#: convert_to_numeric.R:115
+msgid ""
+"The following colonne{?s} will be converted into numeric: {.field "
 "{to_numeric}}."
 msgstr ""
 
@@ -166,8 +175,9 @@ msgstr ""
 
 #: date_standardization_helpers.R:49
 msgid ""
-"`first_date` and `last_date` must be of type Date or character written in "
-"ISO8601 format ('2024-12-31' for December 31, 2024)."
+"{.emph first_date} and {.emph last_date} must be of type {.cls Date} or {."
+"cls character} written in {.emph ISO8601} format ('2024-12-31' for December "
+"31, 2024)."
 msgstr ""
 
 #: date_standardization_helpers.R:393
@@ -175,21 +185,22 @@ msgid "Expected values with the same format."
 msgstr ""
 
 #: date_standardization_helpers.R:394
-msgid "You've tried to convert values in different formats into Date."
+msgid "You've tried to convert values in different formats into {.cls Date}."
 msgstr ""
 
 #: date_standardization_helpers.R:395
 msgid ""
-"Please specify the formats encountered in your column of interest via the "
-"`format` argument."
+"Please specify the formats encountered in your column of interest via the {."
+"emph format} argument."
 msgstr ""
 
 #: date_standardization_helpers.R:536
-msgid "Unexpected data type provided to `date_guess()` function."
+msgid "Unexpected data type provided to {.fn date_guess} function."
 msgstr ""
 
 #: date_standardization_helpers.R:537
-msgid "You can convert the values into character to enable format guessing."
+msgid ""
+"You can convert the values into {.cls character} to enable format guessing."
 msgstr ""
 
 #: date_standardization_helpers.R:538
@@ -215,80 +226,83 @@ msgstr ""
 
 #: date_standardization_helpers.R:564
 msgid ""
-"Target columns will be standardized using the following format: {.code "
+"Target columns will be standardized using the following format: {.val "
 "{format}}."
 msgstr ""
 
 #: default_cleanepi_settings.R:48
 msgid ""
-"Found the following unrecognised arguments to `clean_data()`: {.code "
+"Found the following unrecognised arguments to {.fn clean_data}: {.emph "
 "{toString(extra)}}."
 msgstr ""
 
 #: default_cleanepi_settings.R:49
 msgid ""
-"`clean_data()` does not support arguments other than the defaults. Run "
-"get_default_params() to display the list of default parameters."
+"{.fn clean_data} does not support arguments other than the defaults. Run {."
+"code get_default_params()} to display the list of default parameters."
 msgstr ""
 
 #: default_cleanepi_settings.R:50
-msgid "You provided more arguments than expected."
-msgstr ""
-
-#: dictionary_based_cleaning.R:46
-msgid "Incorrect data dictionary."
-msgstr ""
-
-#: dictionary_based_cleaning.R:47
-msgid ""
-"The value for the `dictionary` argument must a data frame with the following "
-"columns: `options`, `values`, `grp`, and `orders`."
+msgid "You provided unexpected arguments."
 msgstr ""
 
 #: dictionary_based_cleaning.R:48
-msgid "The following columns are mandatory: `options`, `values`, and `grp`."
+msgid "Incorrect data dictionary."
 msgstr ""
 
-#: dictionary_based_cleaning.R:56
-msgid "Incorrect column names provided in column `grp` of the data dictionary."
-msgstr ""
-
-#: dictionary_based_cleaning.R:57
+#: dictionary_based_cleaning.R:49
 msgid ""
-"Columns in `grp` column of the data dictionary must be found in the input "
-"data frame."
+"The value for the {.emph dictionary} argument must a {.cls data.frame} with "
+"the following columns: {.field {toString(all_columns)}}."
+msgstr ""
+
+#: dictionary_based_cleaning.R:50
+msgid ""
+"The following columns are mandatory: {.field {toString(mandatory_columns)}}."
 msgstr ""
 
 #: dictionary_based_cleaning.R:58
+msgid ""
+"Incorrect column names provided in column {.field grp} of the data "
+"dictionary."
+msgstr ""
+
+#: dictionary_based_cleaning.R:59
+msgid ""
+"Values in {.field grp} column of the data dictionary must be found in the "
+"input data frame."
+msgstr ""
+
+#: dictionary_based_cleaning.R:60
 msgid "Did you enter an incorrect column name?"
 msgstr ""
 
-#: dictionary_based_cleaning.R:69
+#: dictionary_based_cleaning.R:71
 msgid "You can either:"
 msgstr ""
 
-#: dictionary_based_cleaning.R:70
+#: dictionary_based_cleaning.R:72
 msgid "correct the misspelled options from the input data, or"
 msgstr ""
 
-#: dictionary_based_cleaning.R:71
-msgid "add them to the dictionary using the `add_to_dictionary()` function."
+#: dictionary_based_cleaning.R:73
+msgid "add them to the dictionary using the {.fn add_to_dictionary} function."
 msgstr ""
 
-#: dictionary_based_cleaning.R:296
+#: dictionary_based_cleaning.R:298
 msgid ""
-"Can not replace the following values found in column {.code {opts}} but not "
-"defined in the dictionary: {.code {undefined_opts}}."
+"Can not replace the following values found in column {.field {opts}} but not "
+"defined in the dictionary: {.val {undefined_opts}}."
 msgstr ""
 
 #: find_and_remove_duplicates.R:117
-msgid "Found {.code {nrow(dups)}} duplicated rows in the dataset."
+msgid "Found {.val {nrow(dups)}} duplicated rows in the dataset."
 msgstr ""
 
 #: find_and_remove_duplicates.R:118
 msgid ""
-"Use `attr(dat, \"report\")[[\"duplicated_rows\"]]` to access them, where "
-"`dat` is the object used to store the output from this operation."
+"Use {.code attr(dat, \"report\")[[\"duplicated_rows\"]]} to access them, "
+"where {.val dat} is the object used to store the output from this operation."
 msgstr ""
 
 #: find_and_remove_duplicates.R:134
@@ -296,13 +310,13 @@ msgid "No duplicates were found."
 msgstr ""
 
 #: guess_dates.R:84
-msgid "Incorrect value provided to the `order` argument."
+msgid "Incorrect value provided to the {.emph order} argument."
 msgstr ""
 
 #: guess_dates.R:85
 msgid ""
-"Value for `order` argument must be either a character or a list of character "
-"vectors."
+"Value for {.emph order} argument must be either a {.cls character} or a {."
+"cls list} of character vectors."
 msgstr ""
 
 #: print_report.R:78
