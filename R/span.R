@@ -84,7 +84,7 @@ timespan <- function(data,
       cli::cli_abort(c(
         tr_("Unexpect type in the value for argument {.emph end_date}."),
         x = tr_("You provided a name of a column of type {.cls {class(data[[end_date]])}}."), # nolint: line_length_linter
-        i = tr_("The value for {.emph end_date} argument must be of type {.cls Date} in ISO8601 format.") # nolint: line_length_linter
+        i = tr_("The value for {.emph end_date} argument must be of type {.cls Date} in {.emph ISO8601} format.") # nolint: line_length_linter
       ))
     }
     end_date <- data[[end_date]]
