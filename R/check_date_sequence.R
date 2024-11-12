@@ -8,9 +8,9 @@
 #'    specify at least 2 column names in the expected order. For example:
 #'    \code{target_columns = c("date_symptoms_onset", "date_hospitalization",
 #'    "date_death")}.
-#'    When the input data is a `linelist` object, this parameter can be set to
-#'    \code{linelist_tags} if you wish to use the date sequence across only the
-#'    tagged columns columns only.
+#'    When the input data is a \code{linelist} object, this parameter can be set
+#'    to \code{linelist_tags} if you wish to use the date sequence across only
+#'    the tagged columns columns only.
 #'    The date values in the target columns should be in the ISO8601 format
 #'    (2024-12-31). Otherwise, use the \code{standardize_dates()} function to
 #'    standardize the target columns.
@@ -54,7 +54,7 @@ check_date_sequence <- function(data, target_columns) {
   if (any(missing_cols)) {
     # send a warning if some columns are not part of the data
     cli::cli_alert_info(
-      tr_("Found the following unrecognised column name{?s}: {.code {target_columns[missing_cols]}}."), # nolint: line_length_linter
+      tr_("Found the following unrecognised column name{?s}: {.field {target_columns[missing_cols]}}."), # nolint: line_length_linter
       wrap = TRUE
     )
     target_columns <- target_columns[!missing_cols]
@@ -63,24 +63,26 @@ check_date_sequence <- function(data, target_columns) {
     if (length(target_columns) < 2L) {
       cli::cli_abort(c(
         tr_("Insufficient number of columns to compare."),
-        x = tr_("At least two columns of type Date are required for this operation."), # nolint: line_length_linter
+        x = tr_("At least two columns of type {.cls Date} are required for this operation."), # nolint: line_length_linter
         i = tr_("Did you enter an incorrect correct name?")
       ), call = NULL)
     }
   }
 
   # checking the date sequence
-  tmp_data   <- data %>% dplyr::select(dplyr::all_of(target_columns))
+  tmp_data <- data %>% dplyr::select(dplyr::all_of(target_columns))
   order_date <- apply(tmp_data, 1L, is_date_sequence_ordered)
-  bad_order  <- which(!order_date)
+  bad_order <- which(!order_date)
   if (!all(order_date)) {
     tmp_data <- tmp_data[bad_order, ]
     # adding incorrect records to the report
-    data     <- add_to_report(x     = data,
-                              key   = "incorrect_date_sequence",
-                              value = tmp_data)
+    data <- add_to_report(
+      x = data,
+      key = "incorrect_date_sequence",
+      value = tmp_data
+    )
     cli::cli_alert_info(
-      tr_("Detected {.code {length(bad_order)}} incorrect date sequence{?s} at line{?s}: {.code {toString(bad_order)}}."), # nolint: line_length_linter
+      tr_("Detected {.val {length(bad_order)}} incorrect date sequence{?s} at line{?s}: {.val {toString(bad_order)}}."), # nolint: line_length_linter
       wrap = TRUE
     )
   }
