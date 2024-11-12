@@ -6,7 +6,7 @@
 #' @keywords internal
 #' @details
 #' This function was taken from the `Translation for package developers`
-#' vignette of the \code{{potools}} package.
+#' vignette of the \code{\{potools\}} package.
 #'
 tr_ <- function(...) {
   enc2utf8(gettext(paste0(...), domain = "R-cleanepi"))

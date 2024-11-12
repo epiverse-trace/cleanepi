@@ -17,6 +17,6 @@ Flag out what message will be translated using {potools}
 }
 \details{
 This function was taken from the \verb{Translation for package developers}
-vignette of the \code{{potools}} package.
+vignette of the \code{\{potools\}} package.
 }
 \keyword{internal}
