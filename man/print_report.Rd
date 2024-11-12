@@ -20,7 +20,8 @@ print_report(
 
 \item{output_file_name}{A string specifying the name of the report file,
 excluding any file extension. If no file name is supplied, one will be
-automatically generated with the format \code{cleanepi_report_YYMMDD_HHMMSS}.}
+automatically generated with the format
+\code{cleanepi_report_YYMMDD_HHMMSS}.}
 
 \item{format}{The file format of the report. Currently only \code{"html"}
 is supported.}
