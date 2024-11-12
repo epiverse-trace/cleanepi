@@ -5,8 +5,9 @@
 #' @param report_title The title to appear on the report
 #' @param output_file_name A string specifying the name of the report file,
 #'    excluding any file extension. If no file name is supplied, one will be
-#'    automatically generated with the format `cleanepi_report_YYMMDD_HHMMSS`.
-#' @param format The file format of the report. Currently only `"html"`
+#'    automatically generated with the format
+#'    \code{cleanepi_report_YYMMDD_HHMMSS}.
+#' @param format The file format of the report. Currently only \code{"html"}
 #'    is supported.
 #' @param print A logical that specifies whether to print the generated HTML
 #'    file or no. Default is \code{TRUE}.
@@ -72,11 +73,19 @@ print_report <- function(data,
   # extract report, check whether any cleaning operation has been performed, and
   # allow for only HTML output format for the report.
   report <- attr(data, "report")
-  stopifnot(
-    "No report associated with the input data." = !is.null(report),
-    "Invalid format: Only 'html' format is currently supported." =
-      format == "html"
-  )
+  if (is.null(report)) {
+    cli::cli_abort(c(
+      tr_("No report associated with the input data."),
+      x = tr_("At least one data cleaning operation must be applied to this data before calling {.fn print_report}."), # nolint: line_length_linter
+      i = tr_("The list of functions in {.pkg cleanepi} can be found at: {.url https://epiverse-trace.github.io/cleanepi/reference/index.html}.")
+    ), call = NULL)
+  }
+  if (format != "html") {
+    cli::cli_abort(c(
+      tr_("Invalid output format!"),
+      i = tr_("Only {.val html} format is currently supported.")
+    ), call = NULL)
+  }
 
   # set the report from scan_data() function to NA if no data scanning was
   # performed. NA because the function returns NA if no character column was
@@ -97,8 +106,11 @@ print_report <- function(data,
   report[["logo"]] <- system.file(man_path, "logo.svg", package = "cleanepi")
 
   # render the Rmd file to generate the report
-  file_and_path <- file.path(tempdir(), output_file_name)
-  message("Generating html report in ", tempdir())
+  temp_dir <- tempdir()
+  file_and_path <- file.path(temp_dir, output_file_name)
+  cli::cli_alert_info(
+    tr_("Generating html report in {.file {temp_dir}}.")
+  )
   rmarkdown::render(
     input = system.file(
       "rmarkdown", "templates", "printing-rmd", "skeleton", "skeleton.Rmd",
