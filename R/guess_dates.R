@@ -81,8 +81,8 @@ date_guess <- function(x,
 
   if (!is.list(orders)) {
     cli::cli_abort(c(
-      tr_("Incorrect value provided to the `order` argument."),
-      i = tr_("Value for `order` argument must be either a character or a list of character vectors.") # nolint: line_length_linter
+      tr_("Incorrect value provided to the {.emph order} argument."),
+      i = tr_("Value for {.emph order} argument must be either a {.cls character} or a {.cls list} of character vectors.") # nolint: line_length_linter
     ))
   }
 
