@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: cleanepi 1.0.2.9000\n"
-"POT-Creation-Date: 2024-11-12 12:25+0000\n"
+"POT-Creation-Date: 2024-11-12 13:40+0000\n"
 "PO-Revision-Date: 2024-11-07 12:38+0000\n"
 "Last-Translator: Karim Mané\n"
 "Language-Team: none\n"
@@ -100,7 +100,7 @@ msgstr "vérification de la séquence des dates"
 
 #: clean_data_helpers.R:70
 msgid "No character column found from the input data."
-msgstr "Aucune colonne de type charactère n'a été identifiée"
+msgstr "Aucune colonne de type charactère n'a été identifiée."
 
 #: clean_data_helpers.R:150
 msgid ""
@@ -367,10 +367,8 @@ msgstr ""
 "val {undefined_opts}}."
 
 #: find_and_remove_duplicates.R:117
-#, fuzzy
-#| msgid "Found {.code {nrow(dups)}} duplicated rows in the dataset."
 msgid "Found {.val {nrow(dups)}} duplicated rows in the dataset."
-msgstr "Ces données contiennent {.code {nrow(dups)}} lignes redondantes."
+msgstr "Ces données contiennent {.val {nrow(dups)}} lignes redondantes."
 
 #: find_and_remove_duplicates.R:118
 msgid ""
@@ -473,18 +471,66 @@ msgstr ""
 
 #: span.R:87
 msgid ""
-"The value for {.emph end_date} argument must be of type {.cls Date} in "
-"ISO8601 format."
+"The value for {.emph end_date} argument must be of type {.cls Date} in {."
+"emph ISO8601} format."
 msgstr ""
 "La valeure de l'argument {.emph end_date} doit être de type {.cls Date} dans "
-"un format ISO8601."
+"un format {.emph ISO8601}."
+
+#: standardize_subject_ids.R:92
+msgid "Detected incorrect subject ids at lines: {.val {bad_rows}}."
+msgstr ""
+"Des identifiants incorrects ont été détectés aux lignes: {.val {bad_rows}}."
+
+#: standardize_subject_ids.R:93
+msgid "You can use the {.fn correct_subject_ids} function to correct them."
+msgstr ""
+"Vous pouvez les corriger en utilisant la fonction {.fn correct_subject_ids}."
+
+#: standardize_subject_ids.R:156
+msgid ""
+"Some ids specified in the correction table were not found in the input data."
+msgstr ""
+"Certains identifiants fournis dans la table de correction ne figurent pas "
+"dans les données d'entrée."
+
+#: standardize_subject_ids.R:157
+msgid ""
+"Values in the {.field from} column of the correction table must be part of "
+"the detected incorrect subject ids."
+msgstr ""
+"Les valeures fournies à la colonne {.field from} de la table de correction "
+"doivent être parmi les identifiants incorrects qui ont été détectés."
+
+#: standardize_subject_ids.R:185
+msgid ""
+"Missing values found in {.field {id_col_name}} column at lines: {.val "
+"{toString(idx)}}."
+msgstr ""
+"Données manquantes retrouvées à la colonne {.field {id_col_name}} aux "
+"lignes: {.val {toString(idx)}}."
+
+#: standardize_subject_ids.R:202
+msgid "Found {.val {num_dup_rows}} duplicated rows in the subject IDs."
+msgstr ""
+"Ces données contiennent {.val {nrow(dups)}} lignes redondantes dans la "
+"colonne contenant les identifiants des individus."
+
+#: standardize_subject_ids.R:203
+msgid ""
+"Enter {.code attr(dat, \"report\")[[\"duplicated_rows\"]]} to access them, "
+"where {.val dat} is the object used to store the output from this operation."
+msgstr ""
+"Veuillez entrer {.code attr(dat, \"report\")[[\"duplicated_rows\"]]} pour y "
+"accéder. {.val dat} represente ici l'object créé pour stocker le résultat de "
+"cette opération."
 
 #: utils.R:147
 msgid ""
-"Could not find the following column names: {.val {target_columns[is."
+"Could not find the following column names: {.field {target_columns[is."
 "na(idx)]}}"
 msgstr ""
-"Le données ne contiennet pas les noms de colonnes suivantes: {.code "
+"Le données ne contiennet pas les noms de colonnes suivantes: {.field "
 "{target_columns[missing_cols]}}."
 
 #: utils.R:148

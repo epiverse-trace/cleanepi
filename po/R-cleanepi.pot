@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: cleanepi 1.0.2.9000\n"
-"POT-Creation-Date: 2024-11-12 12:25+0000\n"
+"POT-Creation-Date: 2024-11-12 13:40+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -381,13 +381,48 @@ msgstr ""
 
 #: span.R:87
 msgid ""
-"The value for {.emph end_date} argument must be of type {.cls Date} in "
-"ISO8601 format."
+"The value for {.emph end_date} argument must be of type {.cls Date} in {."
+"emph ISO8601} format."
+msgstr ""
+
+#: standardize_subject_ids.R:92
+msgid "Detected incorrect subject ids at lines: {.val {bad_rows}}."
+msgstr ""
+
+#: standardize_subject_ids.R:93
+msgid "You can use the {.fn correct_subject_ids} function to correct them."
+msgstr ""
+
+#: standardize_subject_ids.R:156
+msgid ""
+"Some ids specified in the correction table were not found in the input data."
+msgstr ""
+
+#: standardize_subject_ids.R:157
+msgid ""
+"Values in the {.field from} column of the correction table must be part of "
+"the detected incorrect subject ids."
+msgstr ""
+
+#: standardize_subject_ids.R:185
+msgid ""
+"Missing values found in {.field {id_col_name}} column at lines: {.val "
+"{toString(idx)}}."
+msgstr ""
+
+#: standardize_subject_ids.R:202
+msgid "Found {.val {num_dup_rows}} duplicated rows in the subject IDs."
+msgstr ""
+
+#: standardize_subject_ids.R:203
+msgid ""
+"Enter {.code attr(dat, \"report\")[[\"duplicated_rows\"]]} to access them, "
+"where {.val dat} is the object used to store the output from this operation."
 msgstr ""
 
 #: utils.R:147
 msgid ""
-"Could not find the following column names: {.val {target_columns[is."
+"Could not find the following column names: {.field {target_columns[is."
 "na(idx)]}}"
 msgstr ""
 
