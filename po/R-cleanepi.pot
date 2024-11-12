@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: cleanepi 1.0.2.9000\n"
-"POT-Creation-Date: 2024-11-12 02:09+0000\n"
+"POT-Creation-Date: 2024-11-12 02:47+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -354,4 +354,19 @@ msgstr ""
 msgid ""
 "Does your data contain missing value characters other than the specified "
 "ones?"
+msgstr ""
+
+#: span.R:85
+msgid "Unexpect type in the value for argument {.emph end_date}."
+msgstr ""
+
+#: span.R:86
+msgid ""
+"You provided a name of a column of type {.cls {class(data[[end_date]])}}."
+msgstr ""
+
+#: span.R:87
+msgid ""
+"The value for {.emph end_date} argument must be of type {.cls Date} in "
+"ISO8601 format."
 msgstr ""

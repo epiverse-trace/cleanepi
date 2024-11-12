@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: cleanepi 1.0.2.9000\n"
-"POT-Creation-Date: 2024-11-12 02:09+0000\n"
+"POT-Creation-Date: 2024-11-12 02:47+0000\n"
 "PO-Revision-Date: 2024-11-07 12:38+0000\n"
 "Last-Translator: Karim Mané\n"
 "Language-Team: none\n"
@@ -432,5 +432,23 @@ msgstr "Impossible de détecter la valeure représentant les données manquantes
 msgid ""
 "Does your data contain missing value characters other than the specified "
 "ones?"
-msgstr "Vos données contaiennent-elles d'autres valeures utilisées pour "
-"désigner les données manquantes?"
+msgstr ""
+"Vos données contiennent-elles d'autres valeures utilisées pour désigner les "
+"données manquantes?"
+
+#: span.R:85
+msgid "Unexpect type in the value for argument {.emph end_date}."
+msgstr "Le type de la valeure de l'argument {.emph end_date} est incorrecte."
+
+#: span.R:86
+msgid ""
+"You provided a name of a column of type {.cls {class(data[[end_date]])}}."
+msgstr " Vous avez fourni le nom d'une colonne de type "
+"{.cls {class(data[[end_date]])}}."
+
+#: span.R:87
+msgid ""
+"The value for {.emph end_date} argument must be of type {.cls Date} in "
+"ISO8601 format."
+msgstr "La valeure de l'argument {.emph end_date} doit être de type {.cls Date}"
+" dans un format ISO8601."
