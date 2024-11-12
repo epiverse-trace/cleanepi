@@ -46,7 +46,7 @@ date_check_timeframe <- function(first_date, last_date) {
   if (!inherits(first_date, "Date") || !inherits(last_date, "Date")) {
     cli::cli_abort(c(
       tr_("Unexpected format in the function arguments."),
-      i = tr_("`first_date` and `last_date` must be of type Date or character written in ISO8601 format ('2024-12-31' for December 31, 2024).") # nolint: line_length_linter
+      i = tr_("{.emph first_date} and {.emph last_date} must be of type {.cls Date} or {.cls character} written in {.emph ISO8601} format ('2024-12-31' for December 31, 2024).") # nolint: line_length_linter
     ))
     stop("")
   }
@@ -94,7 +94,7 @@ date_trim_outliers <- function(new_dates, dmin, dmax, cols, original_dates) {
 #' Convert characters to dates
 #'
 #' @inheritParams standardize_dates
-#' @param cols  date column name(s)
+#' @param cols A Date column name(s)
 #'
 #' @returns A data frame where the specified columns have been converted
 #'    into Date.
@@ -391,8 +391,8 @@ date_detect_simple_format <- function(x) {
   } else if (any(nchar(x) == 4L) && any(nchar(x) == 2L)) {
     cli::cli_abort(c(
       tr_("Expected values with the same format."),
-      x = tr_("You've tried to convert values in different formats into Date."), # nolint: line_length_linter
-      i = tr_("Please specify the formats encountered in your column of interest via the `format` argument.") # nolint: line_length_linter
+      x = tr_("You've tried to convert values in different formats into {.cls Date}."), # nolint: line_length_linter
+      i = tr_("Please specify the formats encountered in your column of interest via the {.emph format} argument.") # nolint: line_length_linter
     ))
   } else if (all(nchar(x) == 2L)) {
     tmp <- as.numeric(x)
@@ -533,8 +533,8 @@ date_process <- function(x) {
 
   if (!is.character(x)) {
     cli::cli_abort(c(
-      tr_("Unexpected data type provided to `date_guess()` function."),
-      i = tr_("You can convert the values into character to enable format guessing."), # nolint: line_length_linter
+      tr_("Unexpected data type provided to {.fn date_guess} function."),
+      i = tr_("You can convert the values into {.cls character} to enable format guessing."), # nolint: line_length_linter
       x = tr_("You've tried to guess the date format from values of type other than Date and character.") # nolint: line_length_linter
     ))
   }
@@ -561,7 +561,7 @@ date_match_format_and_column <- function(target_columns, format) {
   }
   if (length(target_columns) >= 1L && length(format) == 1L) {
     cli::cli_alert_info(
-      tr_("Target columns will be standardized using the following format: {.code {format}}.") # nolint: line_length_linter
+      tr_("Target columns will be standardized using the following format: {.val {format}}.") # nolint: line_length_linter
     )
     format <- rep(format, length(target_columns))
   }
