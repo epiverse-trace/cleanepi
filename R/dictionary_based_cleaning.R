@@ -42,10 +42,12 @@ clean_using_dictionary <- function(data, dictionary) {
   # abort if the provided data dictionary does not contain the following three
   # column names: options, values, grp.
   if (!all(c("options", "values", "grp") %in% names(dictionary))) {
+    all_columns <- c("options", "values", "grp", "orders") # nolint: object_usage_linter
+    mandatory_columns <- c("options", "values", "grp") # nolint: object_usage_linter
     cli::cli_abort(c(
       tr_("Incorrect data dictionary."),
-      "*" = tr_("The value for the `dictionary` argument must a data frame with the following columns: `options`, `values`, `grp`, and `orders`."), # nolint: line_length_linter
-      "*" = tr_("The following columns are mandatory: `options`, `values`, and `grp`.") # nolint: line_length_linter
+      "*" = tr_("The value for the {.emph dictionary} argument must a {.cls data.frame} with the following columns: {.field {toString(all_columns)}}."), # nolint: line_length_linter
+      "*" = tr_("The following columns are mandatory: {.field {toString(mandatory_columns)}}.") # nolint: line_length_linter
     ))
   }
 
@@ -53,8 +55,8 @@ clean_using_dictionary <- function(data, dictionary) {
   # input data
   if (!all(unique(dictionary[["grp"]]) %in% names(data))) {
     cli::cli_abort(c(
-      tr_("Incorrect column names provided in column `grp` of the data dictionary."), # nolint: line_length_linter
-      x = tr_("Columns in `grp` column of the data dictionary must be found in the input data frame."), # nolint: line_length_linter
+      tr_("Incorrect column names provided in column {.field grp} of the data dictionary."), # nolint: line_length_linter
+      x = tr_("Values in {.field grp} column of the data dictionary must be found in the input data frame."), # nolint: line_length_linter
       i = tr_("Did you enter an incorrect column name?")
     ))
   }
@@ -68,7 +70,7 @@ clean_using_dictionary <- function(data, dictionary) {
     cli::cli_inform(c(
       i = tr_("You can either: "),
       "*" = tr_("correct the misspelled options from the input data, or"),
-      "*" = tr_("add them to the dictionary using the `add_to_dictionary()` function.") # nolint: line_length_linter)
+      "*" = tr_("add them to the dictionary using the {.fn add_to_dictionary} function.") # nolint: line_length_linter)
     ))
     misspelled_report <- construct_misspelled_report(misspelled_options, data)
     # add the result to the reporting object
@@ -293,7 +295,7 @@ print_misspelled_values <- function(data, misspelled_options) {
   for (opts in names(misspelled_options)) {
     undefined_opts <- toString(data[[opts]][[misspelled_options[[opts]]]]) # nolint: object_usage_linter
     cli::cli_alert_warning(
-      tr_("Can not replace the following values found in column {.code {opts}} but not defined in the dictionary: {.code {undefined_opts}}.") # nolint: line_length_linter
+      tr_("Can not replace the following values found in column {.field {opts}} but not defined in the dictionary: {.val {undefined_opts}}.") # nolint: line_length_linter
     )
   }
 }
