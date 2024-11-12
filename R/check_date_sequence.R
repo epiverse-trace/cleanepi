@@ -64,7 +64,7 @@ check_date_sequence <- function(data, target_columns) {
       cli::cli_abort(c(
         tr_("Insufficient number of columns to compare."),
         x = tr_("At least two columns of type {.cls Date} are required for this operation."), # nolint: line_length_linter
-        i = tr_("Did you enter an incorrect correct name?")
+        i = tr_("Have you provided an incorrect column name?")
       ), call = NULL)
     }
   }
@@ -75,16 +75,22 @@ check_date_sequence <- function(data, target_columns) {
   bad_order <- which(!order_date)
   if (!all(order_date)) {
     tmp_data <- tmp_data[bad_order, ]
+    # add the row numbers of incorrect records to the report
+    tmp_data <- data.frame(
+      cbind(row_id = bad_order, tmp_data)
+    )
     # adding incorrect records to the report
     data <- add_to_report(
       x = data,
       key = "incorrect_date_sequence",
       value = tmp_data
     )
-    cli::cli_alert_info(
-      tr_("Detected {.val {length(bad_order)}} incorrect date sequence{?s} at line{?s}: {.val {toString(bad_order)}}."), # nolint: line_length_linter
-      wrap = TRUE
-    )
+
+    # send a message about the presence of incorrect date sequence
+    cli::cli_inform(c(
+      "!" = tr_("Detected {.val {length(bad_order)}} incorrect date sequence{?s} at line{?s}: {.val {toString(bad_order)}}."), # nolint: line_length_linter
+      i = tr_("Enter {.code attr(dat, \"report\")[[\"incorrect_date_sequence\"]]} to access them, where {.val dat} is the object used to store the output from this operation.") # nolint: line_length_linter
+    ))
   }
 
   return(data)

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: cleanepi 1.0.2.9000\n"
-"POT-Creation-Date: 2024-11-12 13:40+0000\n"
+"POT-Creation-Date: 2024-11-12 16:07+0000\n"
 "PO-Revision-Date: 2024-11-07 12:38+0000\n"
 "Last-Translator: Karim Mané\n"
 "Language-Team: none\n"
@@ -30,16 +30,26 @@ msgstr ""
 "Cette opération nécessite au moins deux noms de colonnes de type {.cls Date}."
 
 #: check_date_sequence.R:67
-msgid "Did you enter an incorrect correct name?"
+msgid "Have you provided an incorrect column name?"
 msgstr "Avez-vous fourni un nom de colonne incorrect?"
 
-#: check_date_sequence.R:85
+#: check_date_sequence.R:91
 msgid ""
 "Detected {.val {length(bad_order)}} incorrect date sequence{?s} at line{?s}: "
 "{.val {toString(bad_order)}}."
 msgstr ""
 "La séquence des dates est incorrecte à travers les {.val "
 "{length(bad_order)}} lignes suivantes: {.val {toString(bad_order)}}."
+
+#: check_date_sequence.R:92
+msgid ""
+"Enter {.code attr(dat, \"report\")[[\"incorrect_date_sequence\"]]} to access "
+"them, where {.val dat} is the object used to store the output from this "
+"operation."
+msgstr ""
+"Veuillez entrer {.code attr(dat, \"report\")[[\"incorrect_date_sequence\"]]} "
+"pour y accéder. {.val dat} represente ici l'object créé pour stocker le "
+"résultat de cette opération."
 
 #: clean_data.R:139
 msgid "cleaning column names"
