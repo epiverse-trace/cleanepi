@@ -104,8 +104,8 @@ detect_to_numeric_columns <- function(scan_res, data) {
         cli::cli_inform(c(
           "!" = tr_("Found {.val {num_values}} numeric value{?s} in {.field {col}}. "), # nolint: line_length_linter
           i = tr_("Please consider the followings:"),
-          "*" = tr_("converting characters into numeric, or"),
-          "*" = tr_("replacing the numeric values by {.val NA} using the {.fn replace_missing_values} function.") # nolint: line_length_linter
+          "*" = tr_("Converting characters into numeric"),
+          "*" = tr_("Replacing the numeric values by {.val NA} using the {.fn replace_missing_values} function.") # nolint: line_length_linter
         ), wrap = TRUE)
       }
     }
