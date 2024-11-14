@@ -82,7 +82,7 @@ timespan <- function(data,
   if (is.character(end_date)) {
     if (end_date %in% colnames(data) && !inherits(data[[end_date]], "Date")) {
       cli::cli_abort(c(
-        tr_("Unexpect type in the value for argument {.emph end_date}."),
+        tr_("Unexpected type in the value for argument {.emph end_date}."),
         x = tr_("You provided a name of a column of type {.cls {class(data[[end_date]])}}."), # nolint: line_length_linter
         i = tr_("The value for {.emph end_date} argument must be of type {.cls Date} in {.emph ISO8601} format.") # nolint: line_length_linter
       ))
@@ -97,7 +97,7 @@ timespan <- function(data,
     years = lubridate::years(1L),
     months = months(1L), # from base, lubridate provides method returning period
     weeks = lubridate::weeks(1L),
-    days = lubridate::days(1)
+    days = lubridate::days(1L)
   )
 
   # calculate the time difference, convert to numeric or period, and get the
@@ -116,7 +116,7 @@ timespan <- function(data,
       span_remainder_unit,
       months = months(1L), # from base as above
       weeks = lubridate::weeks(1L),
-      days = lubridate::days(1)
+      days = lubridate::days(1L)
     )
     data[, sprintf("remainder_%s", span_remainder_unit)] <-
       (time_diff %% divisor_age) %/% divisor_remainder
