@@ -62,7 +62,7 @@ standardize_column_names <- function(data, keep = NULL, rename = NULL) {
     # frame
     if (any(new_names %in% before)) {
       cli::cli_abort(c(
-        tr_("Provided replace column names already exist."),
+        tr_("Some replacement column names already exist."),
         i = tr_("All new names must be different from existing column names.")
       ), call = NULL)
     }
