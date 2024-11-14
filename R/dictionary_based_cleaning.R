@@ -46,7 +46,7 @@ clean_using_dictionary <- function(data, dictionary) {
     mandatory_columns <- c("options", "values", "grp") # nolint: object_usage_linter
     cli::cli_abort(c(
       tr_("Incorrect data dictionary."),
-      "*" = tr_("The value for the {.emph dictionary} argument must a {.cls data.frame} with the following columns: {.field {toString(all_columns)}}."), # nolint: line_length_linter
+      "*" = tr_("The value for the {.emph dictionary} argument must be a {.cls data.frame} with the following columns: {.field {toString(all_columns)}}."), # nolint: line_length_linter
       "*" = tr_("The following columns are mandatory: {.field {toString(mandatory_columns)}}.") # nolint: line_length_linter
     ))
   }
@@ -55,7 +55,7 @@ clean_using_dictionary <- function(data, dictionary) {
   # input data
   if (!all(unique(dictionary[["grp"]]) %in% names(data))) {
     cli::cli_abort(c(
-      tr_("Incorrect column names provided in column {.field grp} of the data dictionary."), # nolint: line_length_linter
+      tr_("Incorrect column names {.field grp} in the data dictionary."), # nolint: line_length_linter
       x = tr_("Values in {.field grp} column of the data dictionary must be found in the input data frame."), # nolint: line_length_linter
       i = tr_("Did you enter an incorrect column name?")
     ))
@@ -295,7 +295,7 @@ print_misspelled_values <- function(data, misspelled_options) {
   for (opts in names(misspelled_options)) {
     undefined_opts <- toString(data[[opts]][[misspelled_options[[opts]]]]) # nolint: object_usage_linter
     cli::cli_alert_warning(
-      tr_("Can not replace the following values found in column {.field {opts}} but not defined in the dictionary: {.val {undefined_opts}}.") # nolint: line_length_linter
+      tr_("Cannot replace the following values found in column {.field {opts}} but not defined in the dictionary: {.val {undefined_opts}}.") # nolint: line_length_linter
     )
   }
 }
