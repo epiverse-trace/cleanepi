@@ -1,11 +1,11 @@
 #' Check date time frame
 #'
 #' @param first_date A Date object specifying the first valid date.
-#'    The arbitrary default value is fifty years before the \code{last_date}.
-#'    This can also be a character in ISO8601 format i.e. "2024-12-31".
+#' Default is fifty years before the \code{last_date}.
+#' This can also be a character in ISO8601 format i.e. "2024-12-31".
 #' @param last_date A Date object specifying the last valid date.
-#'    The defaults value is the current date. This can also be a character in
-#'    ISO8601 format i.e. "2024-12-31".
+#' Default is the current date. This can also be a character in
+#' ISO8601 format i.e. "2024-12-31".
 #'
 #' @returns A list with the first and last dates
 #' @keywords internal
@@ -561,7 +561,7 @@ date_match_format_and_column <- function(target_columns, format) {
   }
   if (length(target_columns) >= 1L && length(format) == 1L) {
     cli::cli_alert_info(
-      tr_("Target columns will be standardized using the following format: {.val {format}}.") # nolint: line_length_linter
+      tr_("Target columns will be standardized using the format: {.val {format}}.") # nolint: line_length_linter
     )
     format <- rep(format, length(target_columns))
   }
