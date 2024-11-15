@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: cleanepi 1.0.2.9000\n"
-"POT-Creation-Date: 2024-11-12 16:13+0000\n"
+"POT-Creation-Date: 2024-11-15 10:07+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -118,12 +118,18 @@ msgid ""
 "= 'old_name2')}."
 msgstr ""
 
-#: column_name_standardization.R:65
+#: column_name_standardization.R:66
 msgid "Provided replace column names already exist."
 msgstr ""
 
-#: column_name_standardization.R:66
+#: column_name_standardization.R:67
 msgid "All new names must be different from existing column names."
+msgstr ""
+
+#: column_name_standardization.R:68
+msgid ""
+"You must use a different name for the following columns: {.field "
+"{toString(existing_cols)}}."
 msgstr ""
 
 #: convert_to_numeric.R:40
@@ -187,51 +193,51 @@ msgid ""
 "31, 2024)."
 msgstr ""
 
-#: date_standardization_helpers.R:393
+#: date_standardization_helpers.R:392
 msgid "Expected values with the same format."
 msgstr ""
 
-#: date_standardization_helpers.R:394
+#: date_standardization_helpers.R:393
 msgid "You've tried to convert values in different formats into {.cls Date}."
 msgstr ""
 
-#: date_standardization_helpers.R:395
+#: date_standardization_helpers.R:394
 msgid ""
 "Please specify the formats encountered in your column of interest via the {."
 "emph format} argument."
 msgstr ""
 
-#: date_standardization_helpers.R:536
+#: date_standardization_helpers.R:535
 msgid "Unexpected data type provided to {.fn date_guess} function."
 msgstr ""
 
-#: date_standardization_helpers.R:537
+#: date_standardization_helpers.R:536
 msgid ""
 "You can convert the values into {.cls character} to enable format guessing."
 msgstr ""
 
-#: date_standardization_helpers.R:538
+#: date_standardization_helpers.R:537
 msgid ""
 "You've tried to guess the date format from values of type other than Date "
 "and character."
 msgstr ""
 
-#: date_standardization_helpers.R:557
+#: date_standardization_helpers.R:556
 msgid "Unable to match formats to target columns."
 msgstr ""
 
-#: date_standardization_helpers.R:558
+#: date_standardization_helpers.R:557
 msgid ""
 "The number of target columns does not match the number of specified formats."
 msgstr ""
 
-#: date_standardization_helpers.R:559
+#: date_standardization_helpers.R:558
 msgid ""
 "Only one format is needed if all target columns contain values of the same "
 "format. Otherwise, one format per target column must be provided."
 msgstr ""
 
-#: date_standardization_helpers.R:564
+#: date_standardization_helpers.R:563
 msgid ""
 "Target columns will be standardized using the following format: {.val "
 "{format}}."
@@ -244,13 +250,16 @@ msgid ""
 msgstr ""
 
 #: default_cleanepi_settings.R:49
-msgid ""
-"{.fn clean_data} does not support arguments other than the defaults. Run {."
-"code get_default_params()} to display the list of default parameters."
+msgid "{.fn clean_data} does not support arguments other than the defaults."
 msgstr ""
 
 #: default_cleanepi_settings.R:50
 msgid "You provided unexpected arguments."
+msgstr ""
+
+#: default_cleanepi_settings.R:51
+msgid ""
+"Run {.code get_default_params()} to display the list of default parameters."
 msgstr ""
 
 #: dictionary_based_cleaning.R:48
