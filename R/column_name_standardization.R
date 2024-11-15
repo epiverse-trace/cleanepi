@@ -61,9 +61,11 @@ standardize_column_names <- function(data, keep = NULL, rename = NULL) {
     # abort if any of the new name is already a column name in the input data
     # frame
     if (any(new_names %in% before)) {
+      existing_cols <- new_names[which(new_names %in% before)] # nolint: object_usage_linter
       cli::cli_abort(c(
-        tr_("Some replacement column names already exist."),
-        i = tr_("All new names must be different from existing column names.")
+        tr_("Provided replace column names already exist."),
+        i = tr_("All new names must be different from existing column names."),
+        "x" = tr_("You must use a different name for the following columns: {.field {toString(existing_cols)}}.") # nolint: line_length_linter
       ), call = NULL)
     }
     rename <- idx_rename <- match(current_names, before)
