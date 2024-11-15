@@ -279,8 +279,8 @@ The modules and surrogate functions will depend mainly on the following packages
   [{lubridate}](https://CRAN.R-project.org/package=dplyr) used to create, handle, and manipulate objects of type Date,
   [{reactable}](https://CRAN.R-project.org/package=reactable) mainly used here to customize the data cleaning report,
   [{cli}](https://CRAN.R-project.org/package=cli) utilized to reformat all the messages in the package,
-  [{potools}](https://CRAN.R-project.org/package=cli) specifically used to translate all the messages in the package into other languages such as French, Spanish, etc,
-  [{rlang}](https://CRAN.R-project.org/package=cli) mainly used here for its `.data` functionality to retrieves data-variables from the data frame,
+  [{potools}](https://CRAN.R-project.org/package=potools) specifically used to translate all the messages in the package into other languages such as French, Spanish, etc,
+  [{rlang}](https://CRAN.R-project.org/package=rlang) mainly used here for its `.data` functionality to retrieves data-variables from the data frame,
   [{readr}](https://CRAN.R-project.org/package=readr) used to import data,
   [{janitor}](https://CRAN.R-project.org/package=janitor) used to standardize column names in `standardize_column_names()`.
   
