@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: cleanepi 1.0.2.9000\n"
-"POT-Creation-Date: 2024-11-12 16:07+0000\n"
+"POT-Creation-Date: 2024-11-15 10:07+0000\n"
 "PO-Revision-Date: 2024-11-07 12:38+0000\n"
 "Last-Translator: Karim Mané\n"
 "Language-Team: none\n"
@@ -139,13 +139,21 @@ msgstr ""
 "Les noms de colonnes peuvent être renommer comme suit: {.emph rename = "
 "c(nouveau_nom1 = 'ancien_nom1', nouveau_nom2 = 'ancien_nom2')}."
 
-#: column_name_standardization.R:65
+#: column_name_standardization.R:66
 msgid "Provided replace column names already exist."
 msgstr "Les noms utilisés pour renommer certaines colonnes existent déjà."
 
-#: column_name_standardization.R:66
+#: column_name_standardization.R:67
 msgid "All new names must be different from existing column names."
 msgstr "Tout nouveau nom doit être différent des noms qui existent déjà."
+
+#: column_name_standardization.R:68
+msgid ""
+"You must use a different name for the following columns: {.field "
+"{toString(existing_cols)}}."
+msgstr ""
+"Vous devez fournir des noms différents pour les colonnes suivantes: {.field "
+"{toString(existing_cols)}}."
 
 #: convert_to_numeric.R:40
 msgid "Automatic detection of columns to convert into numeric failed."
@@ -226,17 +234,17 @@ msgstr ""
 "{.emph first_date} et {.emph last_date} doivent être de type {.cls Date} ou "
 "charactère au format {.emph ISO8601} ('2024-12-31' pour 31 Décembre 2024)."
 
-#: date_standardization_helpers.R:393
+#: date_standardization_helpers.R:392
 msgid "Expected values with the same format."
 msgstr "Les valeures devaient avoir le même format."
 
-#: date_standardization_helpers.R:394
+#: date_standardization_helpers.R:393
 msgid "You've tried to convert values in different formats into {.cls Date}."
 msgstr ""
 "You avez essayé de convertir en {.cls Date} des valeures ayant differents "
 "formats."
 
-#: date_standardization_helpers.R:395
+#: date_standardization_helpers.R:394
 msgid ""
 "Please specify the formats encountered in your column of interest via the {."
 "emph format} argument."
@@ -244,20 +252,20 @@ msgstr ""
 "Veuillez fournir les formats retrouvés dans la colonne d'intéret via le "
 "paramètre {.emph format}."
 
-#: date_standardization_helpers.R:536
+#: date_standardization_helpers.R:535
 msgid "Unexpected data type provided to {.fn date_guess} function."
 msgstr ""
 "Le type de donnée fourni à la fonction {.fn date_guess} est différent du "
 "type que la fonction devait prendre."
 
-#: date_standardization_helpers.R:537
+#: date_standardization_helpers.R:536
 msgid ""
 "You can convert the values into {.cls character} to enable format guessing."
 msgstr ""
 "Vous pouvez convertir les valeures en {.cls charactère} pour détecter leur "
 "format."
 
-#: date_standardization_helpers.R:538
+#: date_standardization_helpers.R:537
 msgid ""
 "You've tried to guess the date format from values of type other than Date "
 "and character."
@@ -265,19 +273,19 @@ msgstr ""
 "Vous avez tenté de détecter le format de valeures qui ne sont ni de type "
 "Date ou charactère."
 
-#: date_standardization_helpers.R:557
+#: date_standardization_helpers.R:556
 msgid "Unable to match formats to target columns."
 msgstr ""
 "Impossible d'établir la correspondence entre formats et colonnes ciblées."
 
-#: date_standardization_helpers.R:558
+#: date_standardization_helpers.R:557
 msgid ""
 "The number of target columns does not match the number of specified formats."
 msgstr ""
 "Le nombre de colonnes ciblées ne correspond pas au nombre de formats qui "
 "sont forunis"
 
-#: date_standardization_helpers.R:559
+#: date_standardization_helpers.R:558
 msgid ""
 "Only one format is needed if all target columns contain values of the same "
 "format. Otherwise, one format per target column must be provided."
@@ -285,7 +293,7 @@ msgstr ""
 "Seul un format est requis si les colonnes ciblées ont des valeures du même "
 "format. Sinon, vous devez fornir un format par colonne cible."
 
-#: date_standardization_helpers.R:564
+#: date_standardization_helpers.R:563
 msgid ""
 "Target columns will be standardized using the following format: {.val "
 "{format}}."
@@ -302,17 +310,21 @@ msgstr ""
 "{toString(extra)}}."
 
 #: default_cleanepi_settings.R:49
-msgid ""
-"{.fn clean_data} does not support arguments other than the defaults. Run {."
-"code get_default_params()} to display the list of default parameters."
+msgid "{.fn clean_data} does not support arguments other than the defaults."
 msgstr ""
 "{.fn clean_data} ne prend pas d'arguments autre que ceux qui sont définis "
-"par défault. Entrez {.code get_default_params()} pour consulter la list des "
-"arguments prédéfinis."
+"par défault."
 
 #: default_cleanepi_settings.R:50
 msgid "You provided unexpected arguments."
 msgstr "Vous avez fourni des arguments qui ne sont pas prévus."
+
+#: default_cleanepi_settings.R:51
+msgid ""
+"Run {.code get_default_params()} to display the list of default parameters."
+msgstr ""
+"Entrez {.code get_default_params()} pour consulter la list des "
+"arguments prédéfinis."
 
 #: dictionary_based_cleaning.R:48
 msgid "Incorrect data dictionary."
