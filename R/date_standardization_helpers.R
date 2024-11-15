@@ -48,7 +48,6 @@ date_check_timeframe <- function(first_date, last_date) {
       tr_("Unexpected format in the function arguments."),
       i = tr_("{.emph first_date} and {.emph last_date} must be of type {.cls Date} or {.cls character} written in {.emph ISO8601} format ('2024-12-31' for December 31, 2024).") # nolint: line_length_linter
     ))
-    stop("")
   }
   return(list(first_date, last_date))
 }
