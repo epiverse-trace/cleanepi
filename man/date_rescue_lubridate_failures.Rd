@@ -4,17 +4,21 @@
 \alias{date_rescue_lubridate_failures}
 \title{Find the dates that lubridate couldn't}
 \usage{
-date_rescue_lubridate_failures(date_a_frame, original_dates)
+date_rescue_lubridate_failures(date_a_frame, original_dates, column_name)
 }
 \arguments{
 \item{date_a_frame}{A data frame where each column contains a different
 parsing of the same date vector}
 
-\item{original_dates}{The vector of original dates.}
+\item{original_dates}{The vector of original dates}
+
+\item{column_name}{The target column name}
 }
 \value{
-The input data frame where the values that do not match the proposed
-formats have been converted into Date.
+A list with the following two elements: the input data frame where
+the values that do not match the proposed formats have been converted into
+Date, and a boolean that informs about the presence of ambiguous values or
+not.
 }
 \description{
 Find the dates that lubridate couldn't
