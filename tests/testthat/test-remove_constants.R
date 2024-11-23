@@ -132,7 +132,6 @@ test_that("remove_constants works as expected", {
 test_that("remove_constants returns the expected message", {
   expect_message(
     remove_constants(df),
-    regexp = cat("Constant data was removed after 2 iterations. See the report
-                 for more details.")
+    regexp = cat("Constant data was removed after 2 iterations.")
   )
 })

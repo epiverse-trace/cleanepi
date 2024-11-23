@@ -167,13 +167,15 @@ test_that("standardize_dates fails as expected", {
 
 test_that("date_guess works as expected", {
   data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi"))
-  res <- date_guess(x            = data[["date.of.admission"]],
-                    quiet        = TRUE,
-                    orders       = "dmY",
+  res <- date_guess(x = data[["date.of.admission"]],
+                    quiet = TRUE,
+                    orders = "dmY",
                     column_name = "date.of.admission")
   expect_identical(res[["res"]],
                    as.Date(c("2020-12-01", "2021-01-28", "2021-02-15",
                              "2021-02-11", "2021-02-17", "2021-02-17",
                              "2021-02-28", "2021-02-22", "2021-03-02",
                              "2021-03-05")))
+  expect_true(is.null(res[["multi_format"]]))
+  expect_false(res[["found_ambiguous"]])
 })

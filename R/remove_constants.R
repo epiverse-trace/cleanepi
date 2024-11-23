@@ -28,28 +28,28 @@
 #' data$dateOfBirth[5] = NA_character_
 #'
 #' # with cutoff = 1, line 3, 4, and 5 are not removed
-#' test <- cleanepi::remove_constants(
+#' test <- remove_constants(
 #'   data = data,
 #'   cutoff = 1
 #' )
 #'
 #' # drop rows or columns with a percentage of constant values
 #' # equal to or more than 50%
-#' test <- cleanepi::remove_constants(
+#' test <- remove_constants(
 #'   data = test,
 #'   cutoff = 0.5
 #' )
 #'
 #' # drop rows or columns with a percentage of constant values
 #' # equal to or more than 25%
-#' test <- cleanepi::remove_constants(
+#' test <- remove_constants(
 #'   data = test,
 #'   cutoff = 0.25
 #' )
 #'
 #' # drop rows or columns with a percentage of constant values
 #' # equal to or more than 15%
-#' test <- cleanepi::remove_constants(
+#' test <- remove_constants(
 #'   data = test,
 #'   cutoff = 0.15
 #' )
@@ -118,8 +118,10 @@ remove_constants <- function(data, cutoff = 1.0) {
 
   # send a message about iterative constant data removal to alert the user
   if (nrow(constant_data_report) > 1) {
-    message("Constant data was removed after ", nrow(constant_data_report),
-            " iterations. See the report for more details.")
+    cli::cli_inform(c(
+      "!" = tr_("Constant data was removed after {.val {nrow(constant_data_report)}} iterations."), # nolint: line_length_linter
+      i = tr_("Enter {.code attr(dat, \"report\")[[\"constant_data\"]]} for more information, where {.val dat} represents the object used to store the output from {.fn remove_constants}.") # nolint: line_length_linter
+    ))
   }
 
   data <- data[["data"]]

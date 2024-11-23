@@ -17,7 +17,7 @@ contains the field names in of the Redcap project data}
 contains the definition of the choices in every column of the Redcap
 project data}
 
-\item{field_type}{A \code{character} with the name of the column that contains the
+\item{field_type}{A character with the name of the column that contains the
 field type information}
 }
 \value{

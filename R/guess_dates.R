@@ -16,17 +16,18 @@
 #' @param column_name The target column name
 #' @inheritParams standardize_dates
 #'
-#' @returns A list of following two elements: a vector of the newly reformatted
-#'    dates and a data frame with the date values that were converted from more
-#'    than one format. If all values comply with only one format, the later
-#'    element will be NULL.
+#' @returns A list of following three elements: a vector of the newly
+#'    reformatted dates, a data frame with the date values that were converted
+#'    based on more than one format, and a Boolean that specifies whether
+#'    ambiguous values were found or not. If all values comply with only one
+#'    format, the second element will be NULL.
 #'
 #' @keywords internal
 #'
 date_guess <- function(x,
                        column_name,
-                       quiet           = TRUE,
-                       orders          = NULL) {
+                       quiet = TRUE,
+                       orders = NULL) {
 
   ## This function tries converting a single character string into a
   ## well-formatted date, but still returning a character. If it can't convert
@@ -80,7 +81,10 @@ date_guess <- function(x,
   }
 
   if (!is.list(orders)) {
-    stop("`order` must be either a character or a list of character vectors.")
+    cli::cli_abort(c(
+      tr_("Incorrect value provided to the {.emph order} argument."),
+      i = tr_("Value for {.emph order} argument must be either a {.cls character} or a {.cls list} of character vectors.") # nolint: line_length_linter
+    ))
   }
 
   # Process dates - here we check whether values in the vector are any of the
@@ -117,8 +121,8 @@ date_guess <- function(x,
 
   # guess dates
   # create output data frame for dates
-  res        <- list(rep(as.Date(NA_character_), length(x)))
-  res        <- rep(res, length(orders))
+  res <- list(rep(as.Date(NA_character_), length(x)))
+  res <- rep(res, length(orders))
   names(res) <- names(orders)
 
   # parsing the vector, looking for actual (no ambiguity about whether it is a
@@ -138,22 +142,27 @@ date_guess <- function(x,
   if (all(missingness == ncol(res))) {
     return(list(
       res = tmp_x,
-      multi_format = NULL
+      multi_format = NULL,
+      found_ambiguous = FALSE
     ))
   }
 
   # if lubridate fails to do the job for all or some values, then we should use
   # the parser defined in date_get_format
-  x_rescued <- date_rescue_lubridate_failures(
+
+  res <- date_rescue_lubridate_failures(
     date_a_frame = res,
-    original_dates = x
+    original_dates = x,
+    column_name = column_name
   )
+  x_rescued <- res[["date_a_frame"]]
 
   # select the first correct date generated from the formats listed in the
   # 'orders' argument. If multiple formats are possible, pick the first one and
   # report the remaining as part of the 'multi_format_dates' element of the
   # report object.
   new_x <- date_choose_first_good(x_rescued, column_name = column_name)
+  new_x[["found_ambiguous"]] <- res[["alert_on_ambiguous"]]
   return(new_x)
 }
 
@@ -163,12 +172,16 @@ date_guess <- function(x,
 #'
 #' @param date_a_frame A data frame where each column contains a different
 #'    parsing of the same date vector
-#' @param original_dates The vector of original dates.
+#' @param original_dates The vector of original dates
+#' @param column_name The target column name
 #'
-#' @returns The input data frame where the values that do not match the proposed
-#'    formats have been converted into Date.
+#' @returns A list with the following two elements: the input data frame where
+#'    the values that do not match the proposed formats have been converted into
+#'    Date, and a boolean that informs about the presence of ambiguous values or
+#'    not.
 #' @keywords internal
-date_rescue_lubridate_failures <- function(date_a_frame, original_dates) {
+date_rescue_lubridate_failures <- function(date_a_frame, original_dates,
+                                           column_name) {
   # find places where all rows are missing i.e. values that lubridate could not
   # parse.
   nas <- is.na(date_a_frame)
@@ -197,8 +210,16 @@ date_rescue_lubridate_failures <- function(date_a_frame, original_dates) {
   # convert numeric values that are potentially date.
   # ---
   go_excel <- all_nas & numbers
+  alert_on_ambiguous <- FALSE
+  if (sum(go_excel) > 0) {
+    alert_on_ambiguous <- TRUE
+  }
   date_a_frame[[1L]][go_excel] <- lubridate::NA_Date_
-  return(date_a_frame)
+
+  return(list(
+    date_a_frame = date_a_frame,
+    alert_on_ambiguous = alert_on_ambiguous
+  ))
 }
 
 #' Extract date from a character vector

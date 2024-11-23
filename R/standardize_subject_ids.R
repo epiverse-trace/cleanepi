@@ -88,9 +88,10 @@ check_subject_ids <- function(data,
       ids = data[[target_columns]][bad_rows]
     )
     bad_rows <- toString(bad_rows)
-    warning("Detected incorrect subject ids at lines: ", bad_rows,
-            "\nUse the correct_subject_ids() function to adjust them.\n",
-            call. = FALSE)
+    cli::cli_inform(c(
+      "!" = tr_("Detected incorrect subject ids at lines: {.val {bad_rows}}."),
+      i = tr_("You can use the {.fn correct_subject_ids} function to correct them.") # nolint: line_length_linter
+    ))
     data <- add_to_report(
       x = data,
       key = "incorrect_subject_id",
@@ -109,10 +110,10 @@ check_subject_ids <- function(data,
 #'
 #' @inheritParams check_subject_ids
 #' @param correction_table A data frame with the following two columns:
-#'  \enumerate{
-#'    \item `from`: a column with the wrong subject IDs,
-#'    \item `to`: a column with the values to be used to substitute the
-#'        incorrect ids.
+#'  \describe{
+#'    \item{from}{a column with the wrong subject IDs}
+#'    \item{to}{a column with the values to be used to substitute the
+#'        incorrect ids.}
 #'  }
 #'
 #' @returns The input dataset where all subject ids comply with the expected
@@ -150,9 +151,12 @@ correct_subject_ids <- function(data, target_columns, correction_table) {
                                col.names = "named")
   checkmate::assert_names(names(correction_table),
                           identical.to = c("from", "to"))
-
-  stopifnot("Some ids in the correction table were not found in the input data"
-            = all(correction_table[["from"]] %in% data[[target_columns]]))
+  if (!all(correction_table[["from"]] %in% data[[target_columns]])) {
+    cli::cli_abort(c(
+      tr_("Some ids specified in the correction table were not found in the input data."), # nolint: line_length_linter
+      i = tr_("Values in the {.field from} column of the correction table must be part of the detected incorrect subject ids.") # nolint: line_length_linter
+    ))
+  }
 
   # perform the substitution
   idx <- match(correction_table[["from"]], data[[target_columns]])
@@ -177,10 +181,8 @@ check_subject_ids_oness <- function(data, id_col_name) {
   # check for missing values in ID column
   if (anyNA(data[[id_col_name]])) {
     idx <- which(is.na(data[[id_col_name]]))
-    warning(
-      "\nMissing values found on ID column in lines: ",
-      toString(idx),
-      call. = FALSE
+    cli::cli_alert_warning(
+      tr_("Missing values found in {.field {id_col_name}} column at lines: {.val {toString(idx)}}.") # nolint: object_usage_linter
     )
     data <- add_to_report(
       x = data,
@@ -195,9 +197,11 @@ check_subject_ids_oness <- function(data, id_col_name) {
   if (!is.null(tmp_report) &&
         "duplicated_rows" %in% names(tmp_report) &&
         nrow(tmp_report[["duplicated_rows"]]) > 0L) {
-    message("Found ", nrow(tmp_report[["duplicated_rows"]]), " duplicated ",
-            "rows in the subject IDs. Please consult the report for ",
-            "more details.")
+    num_dup_rows <- nrow(tmp_report[["duplicated_rows"]]) # nolint: object_usage_linter
+    cli::cli_inform(c(
+      "!" = tr_("Found {.val {num_dup_rows}} duplicated rows in the subject IDs."), # nolint: line_length_linter
+      i = tr_("Enter {.code attr(dat, \"report\")[[\"duplicated_rows\"]]} to access them, where {.val dat} is the object used to store the output from this operation.") # nolint: line_length_linter
+    ))
     dups <- tmp_report[["duplicated_rows"]]
     data <- add_to_report(
       x = data,

@@ -9,7 +9,7 @@ standardize_dates(
   target_columns = NULL,
   format = NULL,
   timeframe = NULL,
-  error_tolerance = 0.5,
+  error_tolerance = 0.4,
   orders = NULL
 )
 }

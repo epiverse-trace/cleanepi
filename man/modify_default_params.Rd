@@ -14,7 +14,7 @@ modify_default_params(defaults, params, strict = TRUE)
 
 \item{strict}{A boolean that specified whether to trigger an error or not
 when there is a difference between the list of default arguments and
-list of the arguments provided by the user.}
+list of the arguments provided by the user. Default is \code{TRUE}.}
 }
 \value{
 The updated list of parameters that will be used to perform the data

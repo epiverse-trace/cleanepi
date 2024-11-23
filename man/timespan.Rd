@@ -39,13 +39,13 @@ values of 0. Default is \code{NULL} for decimal time span.}
 }
 \value{
 The input data frame with one or two additional columns:
-\enumerate{
-\item "span" or any other name chosen by the user. This will contain the
-calculated time span in the desired units.
-\item "\emph{_remainder": a column with the number of the remaining
+\describe{
+\item{span}{or any other name chosen by the user. This will contain the
+calculated time span in the desired units.}
+\item{"*_remainder"}{a column with the number of the remaining
 days or weeks or months depending on the value of the
-'span_remainder_unit' parameter. Here '}' represents the value of the
-'span_column_name' argument.
+'span_remainder_unit' parameter. The star represents here the value
+of the 'span_column_name' argument.}
 }
 }
 \description{

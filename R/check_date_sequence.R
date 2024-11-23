@@ -8,9 +8,9 @@
 #'    specify at least 2 column names in the expected order. For example:
 #'    \code{target_columns = c("date_symptoms_onset", "date_hospitalization",
 #'    "date_death")}.
-#'    When the input data is a `linelist` object, this parameter can be set to
-#'    \code{linelist_tags} if you wish to use the date sequence across only the
-#'    tagged columns columns only.
+#'    When the input data is a \code{linelist} object, this parameter can be set
+#'    to \code{linelist_tags} if you wish to use the date sequence across only
+#'    the tagged columns columns only.
 #'    The date values in the target columns should be in the ISO8601 format
 #'    (2024-12-31). Otherwise, use the \code{standardize_dates()} function to
 #'    standardize the target columns.
@@ -49,32 +49,48 @@ check_date_sequence <- function(data, target_columns) {
   target_columns <- retrieve_column_names(data, target_columns)
   target_columns <- get_target_column_names(data, target_columns, cols = NULL)
 
-
   missing_cols <- !target_columns %in% names(data)
   # check if all columns are part of the data frame
   if (any(missing_cols)) {
-    warning("Removing unrecognised column name: ", target_columns[missing_cols],
-            call. = FALSE)
+    # send a warning if some columns are not part of the data
+    cli::cli_alert_info(
+      tr_("Found the following unrecognised column name{?s}: {.field {target_columns[missing_cols]}}."), # nolint: line_length_linter
+      wrap = TRUE
+    )
     target_columns <- target_columns[!missing_cols]
+    # After removing unrecognized column names, the process shall be stopped if
+    # there is only one colonne left in `target_columns`
     if (length(target_columns) < 2L) {
-      stop("\nAt least 2 event dates are required!")
+      cli::cli_abort(c(
+        tr_("Insufficient number of columns to compare."),
+        x = tr_("At least two columns of type {.cls Date} are required for this operation."), # nolint: line_length_linter
+        i = tr_("Have you provided an incorrect column name?")
+      ), call = NULL)
     }
   }
 
   # checking the date sequence
-  tmp_data   <- data %>% dplyr::select(dplyr::all_of(target_columns))
+  tmp_data <- data %>% dplyr::select(dplyr::all_of(target_columns))
   order_date <- apply(tmp_data, 1L, is_date_sequence_ordered)
-  bad_order  <- which(!order_date)
+  bad_order <- which(!order_date)
   if (!all(order_date)) {
     tmp_data <- tmp_data[bad_order, ]
+    # add the row numbers of incorrect records to the report
+    tmp_data <- data.frame(
+      cbind(row_id = bad_order, tmp_data)
+    )
     # adding incorrect records to the report
-    data     <- add_to_report(x     = data,
-                              key   = "incorrect_date_sequence",
-                              value = tmp_data)
-    warning("Detected ", length(bad_order),
-            " incorrect date sequences at line(s): ",
-            toString(bad_order),
-            call. = FALSE)
+    data <- add_to_report(
+      x = data,
+      key = "incorrect_date_sequence",
+      value = tmp_data
+    )
+
+    # send a message about the presence of incorrect date sequence
+    cli::cli_inform(c(
+      "!" = tr_("Detected {.val {length(bad_order)}} incorrect date sequence{?s} at line{?s}: {.val {toString(bad_order)}}."), # nolint: line_length_linter
+      i = tr_("Enter {.code attr(dat, \"report\")[[\"incorrect_date_sequence\"]]} to access them, where {.val dat} is the object used to store the output from this operation.") # nolint: line_length_linter
+    ))
   }
 
   return(data)

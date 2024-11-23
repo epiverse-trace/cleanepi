@@ -31,10 +31,11 @@ following order defined in the guesser:
 }\if{html}{\out{</div>}}}
 }
 \value{
-A list of following two elements: a vector of the newly reformatted
-dates and a data frame with the date values that were converted from more
-than one format. If all values comply with only one format, the later
-element will be NULL.
+A list of following three elements: a vector of the newly
+reformatted dates, a data frame with the date values that were converted
+based on more than one format, and a Boolean that specifies whether
+ambiguous values were found or not. If all values comply with only one
+format, the second element will be NULL.
 }
 \description{
 Note that THIS FEATURE IS STILL EXPERIMENTAL: we strongly recommend checking

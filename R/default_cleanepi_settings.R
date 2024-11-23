@@ -8,7 +8,10 @@
 #' duplicates, and iii) removing constant data.
 #'
 #' @return The list of the default cleaning parameters.
-#' @keywords internal
+#' @export
+#'
+#' @examples
+#' default_params <- get_default_params()
 #'
 get_default_params <- function() {
   params <- list(
@@ -32,7 +35,7 @@ get_default_params <- function() {
 #' @param params A list with the user-specified arguments
 #' @param strict A boolean that specified whether to trigger an error or not
 #'    when there is a difference between the list of default arguments and
-#'    list of the arguments provided by the user.
+#'    list of the arguments provided by the user. Default is \code{TRUE}.
 #'
 #' @return The updated list of parameters that will be used to perform the data
 #'    cleaning.
@@ -41,7 +44,12 @@ get_default_params <- function() {
 modify_default_params <- function(defaults, params, strict = TRUE) {
   extra <- setdiff(names(params), names(defaults))
   if (strict && (length(extra) > 0L)) {
-    stop("Additional invalid options: ", toString(extra))
+    cli::cli_abort(c(
+      tr_("Found the following unrecognised arguments to {.fn clean_data}: {.emph {toString(extra)}}."), # nolint: line_length_linter
+      i = tr_("{.fn clean_data} does not support arguments other than the defaults."), # nolint: line_length_linter
+      x = tr_("You provided unexpected arguments."),
+      "*" = tr_("Run {.code get_default_params()} to display the list of default parameters.") # nolint: line_length_linter
+    ))
   }
   # keep.null is needed here
   return(utils::modifyList(defaults, params, keep.null = TRUE))

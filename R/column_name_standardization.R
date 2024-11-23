@@ -49,12 +49,25 @@ standardize_column_names <- function(data, keep = NULL, rename = NULL) {
   if (!is.null(rename)) {
     new_names <- names(rename)
     current_names <- unname(rename)
-    stopifnot(
-      "Unrecognised column names specified in 'rename'" =
-        all(current_names %in% before),
-      "Replace column names already exists" =
-        !any(new_names %in% before)
-    )
+    # abort if any of the specified column to be renamed are not part of the
+    # input data frame
+    if (!all(current_names %in% before)) {
+      cli::cli_abort(c(
+        tr_("Unrecognised column names specified in {.emph rename}."),
+        i = tr_("Make sure that the columns to be renamed are part of the input data."), # nolint: line_length_linter
+        i = tr_("To rename columns, use: {.emph rename = c(new_name1 = 'old_name1', new_name2 = 'old_name2')}.") # nolint: line_length_linter
+      ), call = NULL)
+    }
+    # abort if any of the new name is already a column name in the input data
+    # frame
+    if (any(new_names %in% before)) {
+      existing_cols <- new_names[which(new_names %in% before)] # nolint: object_usage_linter
+      cli::cli_abort(c(
+        tr_("Provided replace column names already exist."),
+        i = tr_("All new names must be different from existing column names."),
+        "x" = tr_("You must use a different name for the following columns: {.field {toString(existing_cols)}}.") # nolint: line_length_linter
+      ), call = NULL)
+    }
     rename <- idx_rename <- match(current_names, before)
     names(rename) <- new_names
   }
