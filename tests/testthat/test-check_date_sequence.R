@@ -1,15 +1,3 @@
-test_that("is_date_sequence_ordered works as expected", {
-  x <- as.Date(c("2023-10-02", "2023-10-10", "2023-10-20"))
-  res <- is_date_sequence_ordered(x)
-  expect_true(res)
-})
-
-test_that("is_date_sequence_ordered works as expected", {
-  x <- as.Date(c("2023-10-02", "2023-10-20", "2023-10-10"))
-  res <- is_date_sequence_ordered(x)
-  expect_false(res)
-})
-
 # import the data
 data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi"))
 
@@ -21,6 +9,18 @@ data <- data %>%
     format = NULL,
     timeframe = NULL
   )
+
+test_that("is_date_sequence_ordered works as expected", {
+  x <- as.Date(c("2023-10-02", "2023-10-10", "2023-10-20"))
+  res <- is_date_sequence_ordered(x)
+  expect_true(res)
+})
+
+test_that("is_date_sequence_ordered works as expected", {
+  x <- as.Date(c("2023-10-02", "2023-10-20", "2023-10-10"))
+  res <- is_date_sequence_ordered(x)
+  expect_false(res)
+})
 
 test_that("check_date_sequence sends a warning when incorrect column nams are
           found", {

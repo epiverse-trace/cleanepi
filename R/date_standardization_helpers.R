@@ -104,6 +104,7 @@ date_convert <- function(data, cols, error_tolerance,
                          timeframe = NULL, orders) {
   # Guess the date using lubridate (for actual dates and numbers) and the
   # guesser we developed
+  has_ambiguous_values <- FALSE
   old_dates <- new_dates <- data[[cols]]
   if (!inherits(data[[cols]], "Date")) {
     date_guess_res <- date_guess(
@@ -113,6 +114,7 @@ date_convert <- function(data, cols, error_tolerance,
     )
     new_dates <- date_guess_res[["res"]]
     multi_format_dates <- date_guess_res[["multi_format"]]
+    has_ambiguous_values <- date_guess_res[["found_ambiguous"]]
     # report the multi formatted dates if they were detected
     if (!is.null(multi_format_dates)) {
       data <- add_to_report(
@@ -147,7 +149,10 @@ date_convert <- function(data, cols, error_tolerance,
     data[[cols]] <- new_dates
   }
 
-  return(data)
+  return(list(
+    data = data,
+    has_ambiguous_values = has_ambiguous_values
+  ))
 }
 
 
@@ -211,6 +216,9 @@ date_guess_convert <- function(data, error_tolerance, timeframe,
   # Both 4 types are subjected to the date guesser
   of_interest <- c(are_characters, are_factors, are_dates, are_posix)
   multi_format_dates <- NULL
+
+  # set the variable to store the ambiguous column
+  ambiguous_cols <- NULL
   for (i in names(of_interest)) {
     # save the original vector. this will be used later to compare the number
     # of NA before and after guessing
@@ -225,6 +233,9 @@ date_guess_convert <- function(data, error_tolerance, timeframe,
     new_dates <- date_guess_res[["res"]]
     multi_format <- date_guess_res[["multi_format"]]
     multi_format_dates <- c(multi_format_dates, list(multi_format))
+    if (date_guess_res[["found_ambiguous"]]) {
+      ambiguous_cols <- c(ambiguous_cols, i)
+    }
 
     # check for dates that are outside of the defined timeframe
     if (!is.null(timeframe)) {
@@ -256,7 +267,10 @@ date_guess_convert <- function(data, error_tolerance, timeframe,
     )
   }
 
-  return(data)
+  return(list(
+    data = data,
+    ambiguous_cols = ambiguous_cols
+  ))
 }
 
 #' Detect complex date format

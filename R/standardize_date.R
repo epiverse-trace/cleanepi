@@ -106,11 +106,11 @@
 #'   )
 #' )
 standardize_dates <- function(data,
-                              target_columns  = NULL,
-                              format          = NULL,
-                              timeframe       = NULL,
-                              error_tolerance = 0.5,
-                              orders          = NULL) {
+                              target_columns = NULL,
+                              format = NULL,
+                              timeframe = NULL,
+                              error_tolerance = 0.4,
+                              orders = NULL) {
 
   checkmate::assert_data_frame(data, null.ok = FALSE, min.cols = 1L)
   checkmate::assert_character(target_columns, null.ok = TRUE,
@@ -123,6 +123,8 @@ standardize_dates <- function(data,
                             any.missing = FALSE, null.ok = TRUE)
   checkmate::assert_list(orders, min.len = 1L, null.ok = TRUE)
 
+  # set the variable to store the ambiguous column
+  ambiguous_cols <- NULL
   if (!is.null(target_columns)) {
     # get the correct names in case some have been modified - see the
     # `retrieve_column_names()` function for more details
@@ -134,34 +136,55 @@ standardize_dates <- function(data,
       # have the same format. Date standardization will be performed considering
       # the entire column, not individual values.
       format <- date_match_format_and_column(target_columns, format)
+
+      # loop through the target columns to standardise them
       for (i in seq_along(target_columns)) {
         data[[target_columns[i]]] <- as.Date(
           data[[target_columns[i]]],
           format = format[i]
         )
         # check for outliers and set them to NA
-        data <- date_convert(
+        res <- date_convert(
           data,
           cols = target_columns[i],
           error_tolerance,
           timeframe = timeframe,
           orders = orders
         )
+        data <- res[["data"]]
+        if (res[["has_ambiguous_values"]]) {
+          ambiguous_cols <- c(ambiguous_cols, target_columns[i])
+        }
       }
     } else {
       for (cols in target_columns) {
         # convert to ISO8601 date using the inferred format
-        data <- date_convert(data, cols, error_tolerance, timeframe,
-                             orders = orders)
+        res <- date_convert(data, cols, error_tolerance, timeframe,
+                            orders = orders)
+        data <- res[["data"]]
+        if (res[["has_ambiguous_values"]]) {
+          ambiguous_cols <- c(ambiguous_cols, cols)
+        }
       }
     }
   } else {
-    data <- date_guess_convert(
+    res <- date_guess_convert(
       data,
       error_tolerance = error_tolerance,
       timeframe = timeframe,
       orders = orders
     )
+    data <- res[["data"]]
+    ambiguous_cols <- res[["ambiguous_cols"]]
+  }
+
+  # alert on the presence of ambiguous values in some target columns
+  if (length(ambiguous_cols) > 0) {
+    cli::cli_inform(c(
+      "!" = tr_("Found {.cls numeric} values that could also be of type {.cls Date} in column: {.field {toString(ambiguous_cols)}}."), # nolint: line_length_linter
+      i = tr_("They can be converted into {.cls Date} using: {.code lubridate::as_date(x, origin = as.Date(\"1900-01-01\"))}"), # nolint: line_length_linter
+      "*" = tr_("where {.val x} represents here the vector of values from these columns ({.code data$target_column}).") # nolint: line_length_linter
+    ))
   }
 
   return(data)

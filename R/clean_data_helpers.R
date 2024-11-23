@@ -77,11 +77,24 @@ scan_data <- function(data) {
   data <- as.data.frame(data)[, target_columns, drop = FALSE]
   scan_result <- vapply(seq_len(ncol(data)), function(col_index) {
     scan_in_character(data[[col_index]], names(data)[[col_index]])
-  }, numeric(5L))
+  }, numeric(6L))
   scan_result <- as.data.frame(t(scan_result))
-  names(scan_result) <- c("missing", "numeric", "date", "character", "logical")
+  names(scan_result) <- c("missing", "numeric", "date", "character", "logical",
+                          "ambiguous")
   scan_result <- cbind(Field_names = names(data), scan_result)
+
+  # send a message if some columns contain ambiguous values
+  ambiguous <- scan_result[["ambiguous"]] == 100
+  if (sum(ambiguous) > 0) {
+    ambiguous_cols <- toString(scan_result[["Field_names"]][ambiguous]) # nolint: object_usage_linter
+    cli::cli_inform(c(
+      "!" = tr_("Found {.cls numeric} values that can also be of type {.cls Date} in: {.field {ambiguous_cols}}."), # nolint: line_length_linter
+      i = tr_("They can be converted into {.cls Date} using: {.code lubridate::as_date(x, origin = as.Date(\"1900-01-01\"))}"), # nolint: line_length_linter
+      "*" = tr_("where {.val x} represents here the vector of values from these columns ({.code data$target_column}).") # nolint: line_length_linter
+    ))
+  }
   rownames(scan_result) <- NULL
+  scan_result[["ambiguous"]] <- NULL
   return(scan_result)
 }
 
@@ -132,7 +145,8 @@ scan_in_character <- function(x, x_name) {
     are_numeric[!is.na(are_numeric)],
     origin = as.Date("1900-01-01")
   )
-  from_guesser <- date_guess(x[!is.na(are_numeric)], x_name)[["res"]]
+  guess_res <- date_guess(x[!is.na(are_numeric)], x_name)
+  from_guesser <- guess_res[["res"]]
   if (!inherits(from_guesser, "Date")) {
     from_guesser <- rep(lubridate::NA_Date_, length(from_guesser))
   }
@@ -144,12 +158,6 @@ scan_in_character <- function(x, x_name) {
     conversion_valid_date | guesser_valid_date,
     na.rm = TRUE
   )
-  # send a warning about the presence of ambiguous values found on that column
-  if (ambiguous_count > 0) {
-    cli::cli_alert_warning(
-      tr_("Found {.val {ambiguous_count}} {.cls numeric} value{?s} that can also be of type {.cls Date} in column {.field {x_name}}.") # nolint: line_length_linter
-    )
-  }
   x <- x[is.na(are_numeric)]
 
   # We will check if there is any Date values within the remaining character
@@ -176,6 +184,11 @@ scan_in_character <- function(x, x_name) {
     c(na_count, numeric_count, date_count, character_count, logical_count) /
       initial_length, 4L
   )
+
+  # add 100 to the `props` vector if there were ambiguous values on that column,
+  # -1 otherwise
+  ambiguous_signal <- ifelse(ambiguous_count > 0, 100, -1)
+  props <- c(props, ambiguous_signal)
 
   return(props)
 }
