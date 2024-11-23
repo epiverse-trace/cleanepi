@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: cleanepi 1.0.2.9000\n"
-"POT-Creation-Date: 2024-11-15 10:07+0000\n"
+"POT-Creation-Date: 2024-11-23 10:58+0000\n"
 "PO-Revision-Date: 2024-11-07 12:38+0000\n"
 "Last-Translator: Karim Mané\n"
 "Language-Team: none\n"
@@ -52,29 +52,29 @@ msgstr ""
 "résultat de cette opération."
 
 #: clean_data.R:139
-msgid "cleaning column names"
-msgstr "nettoyage des noms de colonnes"
+msgid "Cleaning column names"
+msgstr "Nettoyage des noms de colonnes"
 
 #: clean_data.R:156
-msgid "replacing missing values with NA"
-msgstr "remplacement des données manquantes par NA"
+msgid "Replacing missing values with NA"
+msgstr "Remplacement des données manquantes par NA"
 
 #: clean_data.R:170
-msgid "removing the constant columns, empty rows and columns"
-msgstr "suppression des colonnes invariables, des lignes et colonnes vides"
+msgid "Removing constant columns and empty rows"
+msgstr "Suppression des colonnes invariables, des lignes et colonnes vides"
 
 #: clean_data.R:187
-msgid "removing duplicated rows"
-msgstr "suppression des lignes redondantes"
+msgid "Removing duplicated rows"
+msgstr "Suppression des lignes redondantes"
 
 #: clean_data.R:202
-msgid "standardizing Date columns"
-msgstr "standardisation des colonnes de type Date"
+msgid "Standardizing Date columns"
+msgstr "Standardisation des colonnes de type Date"
 
 #: clean_data.R:223
-msgid "checking subject IDs format"
+msgid "Checking subject IDs format"
 msgstr ""
-"vérification du format de la colonne contenant l'identifiant des individus"
+"Vérification du format de la colonne contenant l'identifiant des individus"
 
 #: clean_data.R:227
 msgid "You did not specify a value for {.emph target_columns}."
@@ -82,8 +82,8 @@ msgstr "Vous n'avez pas donné la valeur de {.emph target_columns}."
 
 #: clean_data.R:228
 msgid ""
-"Here {.emph target_columns} is the name of the column that unique identifies "
-"the individuals in your data."
+"Here {.emph target_columns} is the name of the column that uniquely "
+"identifies the individuals in your data."
 msgstr ""
 "Ici, {.emph target_columns} est le nom de la colonne avec les identifiants "
 "des individus."
@@ -97,28 +97,44 @@ msgstr ""
 "function correspondante."
 
 #: clean_data.R:250
-msgid "converting {.code {toString(target_columns)}} into numeric"
-msgstr "conversion de {.code {toString(target_columns)}} en numérique"
+msgid "Converting {.code {toString(target_columns)}} into numeric"
+msgstr "Conversion de {.code {toString(target_columns)}} en numérique"
 
 #: clean_data.R:266
-msgid "performing dictionary-based cleaning"
-msgstr "substitution de valeurs via dictionnaire des données"
+msgid "Performing dictionary-based cleaning"
+msgstr "Substitution de valeurs via dictionnaire des données"
 
 #: clean_data.R:278
-msgid "checking whether date sequences are respected"
-msgstr "vérification de la séquence des dates"
+msgid "Checking whether date sequences are respected"
+msgstr "Vérification de la séquence des dates"
 
 #: clean_data_helpers.R:70
 msgid "No character column found from the input data."
 msgstr "Aucune colonne de type charactère n'a été identifiée."
 
-#: clean_data_helpers.R:150
+#: clean_data_helpers.R:91
 msgid ""
-"Found {.val {ambiguous_count}} {.cls numeric} value{?s} that can also be of "
-"type {.cls Date} in column {.field {x_name}}."
+"Found {.cls numeric} values that can also be of type {.cls Date} in: {.field "
+"{ambiguous_cols}}."
 msgstr ""
-"{.val {ambiguous_count}} valeures {.cls numériques} pouvant aussi être de "
-"type {.cls Date} ont été identifiées à la colonne {.field {x_name}}."
+"Des valeures {.cls numériques} pouvant aussi être de type {.cls Date} ont "
+"été identifiées dans: {.field {ambiguous_cols}}."
+
+#: clean_data_helpers.R:92 standardize_date.R:185
+msgid ""
+"They can be converted into {.cls Date} using: {.code lubridate::as_date(x, "
+"origin = as.Date(\"1900-01-01\"))}"
+msgstr ""
+"Veuillez utiliser {.code lubridate::as_date(x, origin = as."
+"Date(\"1900-01-01\"))} pour les convertir en {.cls Date}"
+
+#: clean_data_helpers.R:93 standardize_date.R:186
+msgid ""
+"where {.val x} represents here the vector of values from these columns ({."
+"code data$target_column})."
+msgstr ""
+"où {.val x} représente le vecteur des valeurs issues des colonnes cibles ({."
+"code data$target_column})."
 
 #: column_name_standardization.R:56
 msgid "Unrecognised column names specified in {.emph rename}."
@@ -201,16 +217,15 @@ msgid "Please consider the followings:"
 msgstr "Veuillez considérer les options suivantes:"
 
 #: convert_to_numeric.R:107
-msgid "converting characters into numeric, or"
-msgstr ""
-"convertir les colonnes {.field {toString(target_columns)}} en numérique, ou"
+msgid "Converting characters into numeric"
+msgstr "Convertir les charactère en numérique"
 
 #: convert_to_numeric.R:108
 msgid ""
-"replacing the numeric values by {.val NA} using the {.fn "
+"Replacing the numeric values by {.val NA} using the {.fn "
 "replace_missing_values} function."
 msgstr ""
-"remplacer les valeures numériques avec {.val NA} via la fonction {.fn "
+"Remplacer les valeures numériques avec {.val NA} via la fonction {.fn "
 "replace_missing_values}."
 
 #: convert_to_numeric.R:115
@@ -234,17 +249,17 @@ msgstr ""
 "{.emph first_date} et {.emph last_date} doivent être de type {.cls Date} ou "
 "charactère au format {.emph ISO8601} ('2024-12-31' pour 31 Décembre 2024)."
 
-#: date_standardization_helpers.R:392
+#: date_standardization_helpers.R:406
 msgid "Expected values with the same format."
 msgstr "Les valeures devaient avoir le même format."
 
-#: date_standardization_helpers.R:393
+#: date_standardization_helpers.R:407
 msgid "You've tried to convert values in different formats into {.cls Date}."
 msgstr ""
 "You avez essayé de convertir en {.cls Date} des valeures ayant differents "
 "formats."
 
-#: date_standardization_helpers.R:394
+#: date_standardization_helpers.R:408
 msgid ""
 "Please specify the formats encountered in your column of interest via the {."
 "emph format} argument."
@@ -252,20 +267,20 @@ msgstr ""
 "Veuillez fournir les formats retrouvés dans la colonne d'intéret via le "
 "paramètre {.emph format}."
 
-#: date_standardization_helpers.R:535
+#: date_standardization_helpers.R:549
 msgid "Unexpected data type provided to {.fn date_guess} function."
 msgstr ""
 "Le type de donnée fourni à la fonction {.fn date_guess} est différent du "
 "type que la fonction devait prendre."
 
-#: date_standardization_helpers.R:536
+#: date_standardization_helpers.R:550
 msgid ""
 "You can convert the values into {.cls character} to enable format guessing."
 msgstr ""
 "Vous pouvez convertir les valeures en {.cls charactère} pour détecter leur "
 "format."
 
-#: date_standardization_helpers.R:537
+#: date_standardization_helpers.R:551
 msgid ""
 "You've tried to guess the date format from values of type other than Date "
 "and character."
@@ -273,19 +288,19 @@ msgstr ""
 "Vous avez tenté de détecter le format de valeures qui ne sont ni de type "
 "Date ou charactère."
 
-#: date_standardization_helpers.R:556
+#: date_standardization_helpers.R:570
 msgid "Unable to match formats to target columns."
 msgstr ""
 "Impossible d'établir la correspondence entre formats et colonnes ciblées."
 
-#: date_standardization_helpers.R:557
+#: date_standardization_helpers.R:571
 msgid ""
 "The number of target columns does not match the number of specified formats."
 msgstr ""
 "Le nombre de colonnes ciblées ne correspond pas au nombre de formats qui "
 "sont forunis"
 
-#: date_standardization_helpers.R:558
+#: date_standardization_helpers.R:572
 msgid ""
 "Only one format is needed if all target columns contain values of the same "
 "format. Otherwise, one format per target column must be provided."
@@ -293,12 +308,10 @@ msgstr ""
 "Seul un format est requis si les colonnes ciblées ont des valeures du même "
 "format. Sinon, vous devez fornir un format par colonne cible."
 
-#: date_standardization_helpers.R:563
-msgid ""
-"Target columns will be standardized using the following format: {.val "
-"{format}}."
+#: date_standardization_helpers.R:577
+msgid "Target columns will be standardized using the format: {.val {format}}."
 msgstr ""
-"Les colonnes ciblée seront standardisées en utilisant le format suivant: {."
+"Les colonnes ciblées seront standardisées en utilisant le format suivant: {."
 "val {format}}."
 
 #: default_cleanepi_settings.R:48
@@ -323,8 +336,8 @@ msgstr "Vous avez fourni des arguments qui ne sont pas prévus."
 msgid ""
 "Run {.code get_default_params()} to display the list of default parameters."
 msgstr ""
-"Entrez {.code get_default_params()} pour consulter la list des "
-"arguments prédéfinis."
+"Entrez {.code get_default_params()} pour consulter la list des arguments "
+"prédéfinis."
 
 #: dictionary_based_cleaning.R:48
 msgid "Incorrect data dictionary."
@@ -332,8 +345,8 @@ msgstr "Dictionnaire de données incorrect."
 
 #: dictionary_based_cleaning.R:49
 msgid ""
-"The value for the {.emph dictionary} argument must a {.cls data.frame} with "
-"the following columns: {.field {toString(all_columns)}}."
+"The value for the {.emph dictionary} argument must be a {.cls data.frame} "
+"with the following columns: {.field {toString(all_columns)}}."
 msgstr ""
 "La valeur fournie a l'argument {.emph dictionary} doit être un {.cls data."
 "frame} contenant les colonnes suivantes: {.field {toString(all_columns)}}."
@@ -346,9 +359,7 @@ msgstr ""
 "{toString(mandatory_columns)}}."
 
 #: dictionary_based_cleaning.R:58
-msgid ""
-"Incorrect column names provided in column {.field grp} of the data "
-"dictionary."
+msgid "Incorrect column names {.field grp} in the data dictionary."
 msgstr ""
 "Des noms de colonnes incorrects ont été trouvés dans la colonne {.field grp} "
 "du dictionnaire de données."
@@ -381,7 +392,7 @@ msgstr ""
 
 #: dictionary_based_cleaning.R:298
 msgid ""
-"Can not replace the following values found in column {.field {opts}} but not "
+"Cannot replace the following values found in column {.field {opts}} but not "
 "defined in the dictionary: {.val {undefined_opts}}."
 msgstr ""
 "Les valeures suivantes retrouvées dans la colonne {.field {opts}} et non "
@@ -405,11 +416,11 @@ msgstr ""
 msgid "No duplicates were found."
 msgstr "Aucune lignes redondantes n'a été détectée."
 
-#: guess_dates.R:84
+#: guess_dates.R:85
 msgid "Incorrect value provided to the {.emph order} argument."
 msgstr "La valeure fournie à l'argument {.emph order} est incorrecte."
 
-#: guess_dates.R:85
+#: guess_dates.R:86
 msgid ""
 "Value for {.emph order} argument must be either a {.cls character} or a {."
 "cls list} of character vectors."
@@ -481,7 +492,7 @@ msgstr ""
 "données manquantes?"
 
 #: span.R:85
-msgid "Unexpect type in the value for argument {.emph end_date}."
+msgid "Unexpected type in the value for argument {.emph end_date}."
 msgstr "Le type de la valeure de l'argument {.emph end_date} est incorrecte."
 
 #: span.R:86
@@ -498,6 +509,31 @@ msgid ""
 msgstr ""
 "La valeure de l'argument {.emph end_date} doit être de type {.cls Date} dans "
 "un format {.emph ISO8601}."
+
+#: standardize_date.R:184
+msgid ""
+"Found {.cls numeric} values that could also be of type {.cls Date} in "
+"column: {.field {toString(ambiguous_cols)}}."
+msgstr ""
+"{.val {ambiguous_count}} valeures {.cls numériques} pouvant aussi être de "
+"type {.cls Date} ont été identifiées dans: {.field "
+"{toString(ambiguous_cols)}}."
+
+#: standardize_date.R:185
+msgid ""
+"They can be converted into {.cls Date} using: {.code lubridate::as_date(x, "
+"origin = as.Date(\"1900-01-01\"))}."
+msgstr ""
+"Veuillez utiliser {.code lubridate::as_date(x, origin = as."
+"Date(\"1900-01-01\"))} pour les convertir en {.cls Date}."
+
+#: standardize_date.R:186
+msgid ""
+"where {.val x} represents the vector of values from these columns ({.code "
+"data$target_column})."
+msgstr ""
+"où {.val x} représente le vecteur des valeurs issues des colonnes cibles ({."
+"code data$target_column})."
 
 #: standardize_subject_ids.R:92
 msgid "Detected incorrect subject ids at lines: {.val {bad_rows}}."
