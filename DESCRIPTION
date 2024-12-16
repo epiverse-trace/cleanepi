@@ -58,7 +58,6 @@ Suggests:
     knitr,
     lintr,
     markdown,
-    potools,
     reactable,
     rmarkdown,
     spelling,
