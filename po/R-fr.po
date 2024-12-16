@@ -111,7 +111,8 @@ msgstr "Vérification de la séquence des dates"
 
 #: clean_data_helpers.R:70
 msgid "No character column found from the input data."
-msgstr "Aucune colonne de type caractère n’a été identifiée."
+msgstr "Aucune colonne avec des valeurs de type chaîne de caractères n’a été "
+"identifiée."
 
 #: clean_data_helpers.R:91
 msgid ""
@@ -192,8 +193,8 @@ msgstr ""
 #: convert_to_numeric.R:41
 msgid "No character column with numeric values found by {.fn scan_data}."
 msgstr ""
-"Aucune colonne de type caractère contenant des valeurs numériques n’a été "
-"identifiée par {.fn scan_data}."
+"Aucune colonne de type chaîne de caractères (character) contenant des valeurs "
+"numériques n’a été identifiée par {.fn scan_data}."
 
 #: convert_to_numeric.R:42 convert_to_numeric.R:64
 msgid ""
@@ -216,9 +217,9 @@ msgid ""
 "The percent of character values must be less than twice the numeric values "
 "for a column to be considered for automatic conversion."
 msgstr ""
-"Le pourcentage de valeurs de type caractère doit faire moins du double de "
-"celui des valeurs numériques pour qu’une colonne soit automatiquement "
-"convertie."
+"Le pourcentage de valeurs de type chaîne de caractères doit faire moins du "
+"double de celui des valeurs numériques pour qu’une colonne soit "
+"automatiquement convertie."
 
 #: convert_to_numeric.R:105
 msgid "Found {.val {num_values}} numeric value{?s} in {.field {col}}."
@@ -232,7 +233,7 @@ msgstr "Veuillez considérer les options suivantes :"
 
 #: convert_to_numeric.R:107
 msgid "Converting characters into numeric"
-msgstr "Convertir les caractères en numériques"
+msgstr "Convertir les chaînes de caractères en numériques"
 
 #: convert_to_numeric.R:108
 msgid ""
@@ -262,8 +263,8 @@ msgid ""
 "31, 2024)."
 msgstr ""
 "{.emph first_date} et {.emph last_date} doivent être de type {.cls Date} ou "
-"{.cls caractère} au format {.emph ISO8601} ('2024-12-31' pour 31 Décembre "
-"2024)."
+"{.cls chaîne de caractères (character)} au format {.emph ISO8601} "
+"('2024-12-31' pour 31 Décembre 2024)."
 
 #: date_standardization_helpers.R:410
 msgid "Expected values with the same format."
@@ -293,8 +294,8 @@ msgstr ""
 msgid ""
 "You can convert the values into {.cls character} to enable format guessing."
 msgstr ""
-"Vous pouvez convertir les valeurs en {.cls caractère} pour permettre la "
-"détection automatique de leurs formats."
+"Vous pouvez convertir les valeurs en {.cls chaîne de caractères (character)} "
+"pour permettre la détection automatique de leurs formats."
 
 #: date_standardization_helpers.R:555
 msgid ""
@@ -302,7 +303,7 @@ msgid ""
 "and character."
 msgstr ""
 "Vous avez tenté de détecter le format de valeurs qui ne sont ni de type Date "
-"ou caractère."
+"ou chaîne de caractères."
 
 #: date_standardization_helpers.R:574
 msgid "Unable to match formats to target columns."
@@ -453,8 +454,9 @@ msgid ""
 "Value for {.emph order} argument must be either a {.cls character} or a {."
 "cls list} of character vectors."
 msgstr ""
-"L’argument {.emph order} prend comme valeur un {.cls vecteur} de caractères "
-"ou une {.cls liste} d’un ou plusieurs vecteurs de caractères."
+"L’argument {.emph order} prend comme valeur un {.cls vecteur} de chaînes de "
+"caractères ou une {.cls liste} d’un ou plusieurs vecteurs de chaînes de "
+"caractères."
 
 #: print_report.R:78
 msgid "No report associated with the input data."
@@ -520,7 +522,7 @@ msgid ""
 "Does your data contain missing value characters other than the specified "
 "ones?"
 msgstr ""
-"Vos données contiennent-elles d’autres chaînes de caractère utilisées pour  "
+"Vos données contiennent-elles d’autres chaînes de caractères utilisées pour  "
 "représenter les valeurs manquantes ?"
 
 #: span.R:85
