@@ -176,6 +176,6 @@ test_that("date_guess works as expected", {
                              "2021-02-11", "2021-02-17", "2021-02-17",
                              "2021-02-28", "2021-02-22", "2021-03-02",
                              "2021-03-05")))
-  expect_true(is.null(res[["multi_format"]]))
+  expect_null(res[["multi_format"]])
   expect_false(res[["found_ambiguous"]])
 })
