@@ -224,7 +224,7 @@ clean_data <- function(data, ...) {
     )
     if (is.null(params[["standardize_subject_ids"]][["target_columns"]])) {
       cli::cli_abort(c(
-        tr_("You must specify the name of the column that uniquely identifies the individuals via the {.emph target_columns} argument."),
+        tr_("You must specify the name of the column that uniquely identifies the individuals via the {.emph target_columns} argument."), # nolint: line_length_linter
         "*" = tr_("Type {.code ?check_subject_ids} to see the help on the corresponding function.") # nolint: line_length_linter
       ))
     }
@@ -246,7 +246,7 @@ clean_data <- function(data, ...) {
   if (!is.null(params[["to_numeric"]])) {
     target_columns <- params[["to_numeric"]][["target_columns"]]
     cli::cli_alert_info(
-      tr_("Converting the following {cli::qty(length(target_columns))} column{?s} into numeric: {.field {toString(target_columns)}}")
+      tr_("Converting the following {cli::qty(length(target_columns))} column{?s} into numeric: {.field {toString(target_columns)}}") # nolint: line_length_linter
     )
     data <- convert_to_numeric(
       data = data,
