@@ -64,7 +64,7 @@ check_date_sequence <- function(data, target_columns) {
       cli::cli_abort(c(
         tr_("Insufficient number of columns to compare."),
         x = tr_("At least two columns of type {.cls Date} are required for this operation."), # nolint: line_length_linter
-        i = tr_("Have you provided an incorrect column name?")
+        i = tr_("Have you provided an invalid column name?")
       ), call = NULL)
     }
   }

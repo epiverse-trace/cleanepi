@@ -144,7 +144,7 @@ get_target_column_names <- function(data, target_columns, cols) {
     idx <- match(target_columns, names(data))
     if (anyNA(idx)) {
       cli::cli_abort(c(
-        tr_("Could not find the following column names: {.field {target_columns[is.na(idx)]}}"), # nolint: line_length_linter
+        tr_("Could not find the following column name{?s}: {.field {target_columns[is.na(idx)]}}"), # nolint: line_length_linter
         i = tr_("Please make sure that all specified target columns belong to the input data.") # nolint: line_length_linter
       ))
     }

@@ -22,7 +22,6 @@
 #'   target_columns = "linelist_tags"
 #' )
 #'
-#' @importFrom rlang .data
 #'
 remove_duplicates <- function(data, target_columns = NULL) {
 
@@ -93,7 +92,6 @@ remove_duplicates <- function(data, target_columns = NULL) {
 #'   ),
 #'   target_columns = c("dt_onset", "dt_report", "sex", "outcome")
 #' )
-#' @importFrom rlang .data
 #'
 find_duplicates <- function(data, target_columns = NULL) {
   # get the target column names
@@ -114,7 +112,7 @@ find_duplicates <- function(data, target_columns = NULL) {
 
   if (nrow(dups) > 0L) {
     cli::cli_inform(c(
-      "!" = tr_("Found {.val {nrow(dups)}} duplicated rows in the dataset."),
+      "!" = tr_("Found {.val {nrow(dups)}} duplicated row{?s} in the dataset."),
       i = tr_("Use {.code attr(dat, \"report\")[[\"duplicated_rows\"]]} to access them, where {.val dat} is the object used to store the output from this operation.") # nolint: line_length_linter
     ))
     to_be_shown <- dups %>%

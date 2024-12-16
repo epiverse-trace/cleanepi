@@ -51,9 +51,11 @@ standardize_column_names <- function(data, keep = NULL, rename = NULL) {
     current_names <- unname(rename)
     # abort if any of the specified column to be renamed are not part of the
     # input data frame
-    if (!all(current_names %in% before)) {
+    are_cols_present <- current_names %in% before
+    if (!all(are_cols_present)) {
+      incorrect_col_names <- current_names[!are_cols_present]
       cli::cli_abort(c(
-        tr_("Unrecognised column names specified in {.emph rename}."),
+        tr_("Cannot rename {cli::qty(length(incorrect_col_names))} {?an/ } unrecognised column name{?s} specified in {.emph rename} argument: {.val {toString(incorrect_col_names)}}."), # nolint: line_length_linter
         i = tr_("Make sure that the columns to be renamed are part of the input data."), # nolint: line_length_linter
         i = tr_("To rename columns, use: {.emph rename = c(new_name1 = 'old_name1', new_name2 = 'old_name2')}.") # nolint: line_length_linter
       ), call = NULL)
@@ -63,10 +65,10 @@ standardize_column_names <- function(data, keep = NULL, rename = NULL) {
     if (any(new_names %in% before)) {
       existing_cols <- new_names[which(new_names %in% before)] # nolint: object_usage_linter
       cli::cli_abort(c(
-        tr_("Provided replace column names already exist."),
+        tr_("The provided replace column {cli::qty(length(existing_cols))} name{?s} already exist."), # nolint: line_length_linter
         i = tr_("All new names must be different from existing column names."),
-        "x" = tr_("You must use a different name for the following columns: {.field {toString(existing_cols)}}.") # nolint: line_length_linter
-      ), call = NULL)
+        "x" = tr_("You must use {cli::qty(length(existing_cols))} {?a/ } different name{?s} for the following column{?s}: {.field {toString(existing_cols)}}.") # nolint: line_length_linter
+      ))
     }
     rename <- idx_rename <- match(current_names, before)
     names(rename) <- new_names

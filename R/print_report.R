@@ -76,13 +76,13 @@ print_report <- function(data,
   if (is.null(report)) {
     cli::cli_abort(c(
       tr_("No report associated with the input data."),
-      x = tr_("At least one data cleaning operation must be applied to this data before calling {.fn print_report}."), # nolint: line_length_linter
+      x = tr_("At least one data cleaning operation must be applied to the data before calling {.fn print_report}."), # nolint: line_length_linter
       i = tr_("The list of functions in {.pkg cleanepi} can be found at: {.url https://epiverse-trace.github.io/cleanepi/reference/index.html}.") # nolint: line_length_linter
     ), call = NULL)
   }
   if (format != "html") {
     cli::cli_abort(c(
-      tr_("Invalid output format!"),
+      tr_("Incorrect value provided for {.emph format} argument!"),
       i = tr_("Only {.val html} format is currently supported.")
     ), call = NULL)
   }

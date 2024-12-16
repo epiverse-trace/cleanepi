@@ -95,8 +95,10 @@ date_trim_outliers <- function(new_dates, dmin, dmax, cols, original_dates) {
 #' @inheritParams standardize_dates
 #' @param cols A Date column name(s)
 #'
-#' @returns A data frame where the specified columns have been converted
-#'    into Date.
+#' @returns A list with the following two elements: a data frame where the
+#'    specified columns have been converted into Date, a boolean that tells
+#'    whether numeric values that can also be of type Date are found in the
+#'    specified columns.
 #'
 #' @keywords internal
 #'
@@ -196,8 +198,10 @@ date_check_outsiders <- function(data, timeframe, new_dates, cols) {
 #' @param data A data frame
 #' @inheritParams standardize_dates
 #'
-#' @returns The input data frame where the character columns with date values
-#'    have been converted into Date.
+#' @returns A list with the following two elements: the input data frame where
+#'    the character columns with date values have been converted into Date, and
+#'    a vector of column names where there are numeric values that can also be
+#'    of type Date.
 #' @keywords internal
 #'
 date_guess_convert <- function(data, error_tolerance, timeframe,
@@ -574,7 +578,7 @@ date_match_format_and_column <- function(target_columns, format) {
   }
   if (length(target_columns) >= 1L && length(format) == 1L) {
     cli::cli_alert_info(
-      tr_("Target columns will be standardized using the format: {.val {format}}.") # nolint: line_length_linter
+      tr_("The target {cli::qty(length(target_columns))} column{?s} will be standardized using the format: {.val {format}}.") # nolint: line_length_linter
     )
     format <- rep(format, length(target_columns))
   }
