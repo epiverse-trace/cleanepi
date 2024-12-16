@@ -181,8 +181,8 @@ standardize_dates <- function(data,
   # alert on the presence of ambiguous values in some target columns
   if (length(ambiguous_cols) > 0) {
     cli::cli_inform(c(
-      "!" = tr_("Found {.cls numeric} values that could also be of type {.cls Date} in column: {.field {toString(ambiguous_cols)}}."), # nolint: line_length_linter
-      i = tr_("They can be converted into {.cls Date} using: {.code lubridate::as_date(x, origin = as.Date(\"1900-01-01\"))}"), # nolint: line_length_linter
+      "!" = tr_("Found {.cls numeric} values that could also be of type {.cls Date} in {cli::qty(length(ambiguous_cols))} column{?s}: {.field {toString(ambiguous_cols)}}."), # nolint: line_length_linter
+      i = tr_("It is possible to convert them into {.cls Date} using: {.code lubridate::as_date(x, origin = as.Date(\"1900-01-01\"))}"), # nolint: line_length_linter
       "*" = tr_("where {.val x} represents here the vector of values from these columns ({.code data$target_column}).") # nolint: line_length_linter
     ))
   }

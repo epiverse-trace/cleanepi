@@ -87,10 +87,9 @@ check_subject_ids <- function(data,
       idx = bad_rows,
       ids = data[[target_columns]][bad_rows]
     )
-    bad_rows <- toString(bad_rows)
     cli::cli_inform(c(
-      "!" = tr_("Detected incorrect subject ids at lines: {.val {bad_rows}}."),
-      i = tr_("You can use the {.fn correct_subject_ids} function to correct them.") # nolint: line_length_linter
+      "!" = tr_("Detected invalid subject {cli::qty(length(bad_rows))} id{?s} at line{?s}: {.val {toString(bad_rows)}}."), # nolint: line_length_linter
+      i = tr_("You can use the {.fn correct_subject_ids} function to correct {cli::qty(length(bad_rows))} {?it/them}.") # nolint: line_length_linter
     ))
     data <- add_to_report(
       x = data,
@@ -182,7 +181,7 @@ check_subject_ids_oness <- function(data, id_col_name) {
   if (anyNA(data[[id_col_name]])) {
     idx <- which(is.na(data[[id_col_name]]))
     cli::cli_alert_warning(
-      tr_("Missing values found in {.field {id_col_name}} column at lines: {.val {toString(idx)}}.") # nolint: object_usage_linter
+      tr_("Missing {cli::qty(length(idx))} value{?s} found in {.field {id_col_name}} column at line{?s}: {.val {toString(idx)}}.") # nolint: object_usage_linter
     )
     data <- add_to_report(
       x = data,
@@ -199,7 +198,7 @@ check_subject_ids_oness <- function(data, id_col_name) {
         nrow(tmp_report[["duplicated_rows"]]) > 0L) {
     num_dup_rows <- nrow(tmp_report[["duplicated_rows"]]) # nolint: object_usage_linter
     cli::cli_inform(c(
-      "!" = tr_("Found {.val {num_dup_rows}} duplicated rows in the subject IDs."), # nolint: line_length_linter
+      "!" = tr_("Found {.val {num_dup_rows}} duplicated value{?s} in the subject ids."), # nolint: line_length_linter
       i = tr_("Enter {.code attr(dat, \"report\")[[\"duplicated_rows\"]]} to access them, where {.val dat} is the object used to store the output from this operation.") # nolint: line_length_linter
     ))
     dups <- tmp_report[["duplicated_rows"]]

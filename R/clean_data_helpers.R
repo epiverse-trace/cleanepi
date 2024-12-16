@@ -86,11 +86,11 @@ scan_data <- function(data) {
   # send a message if some columns contain ambiguous values
   ambiguous <- scan_result[["ambiguous"]] == 100
   if (sum(ambiguous) > 0) {
-    ambiguous_cols <- toString(scan_result[["Field_names"]][ambiguous]) # nolint: object_usage_linter
+    ambiguous_cols <- scan_result[["Field_names"]][ambiguous] # nolint: object_usage_linter
     cli::cli_inform(c(
-      "!" = tr_("Found {.cls numeric} values that can also be of type {.cls Date} in: {.field {ambiguous_cols}}."), # nolint: line_length_linter
+      "!" = tr_("Found {.cls numeric} values that can also be of type {.cls Date} in the following {cli::qty(length(ambiguous_cols))} column{?s}: {.field {toString(ambiguous_cols)}}."), # nolint: line_length_linter
       i = tr_("They can be converted into {.cls Date} using: {.code lubridate::as_date(x, origin = as.Date(\"1900-01-01\"))}"), # nolint: line_length_linter
-      "*" = tr_("where {.val x} represents here the vector of values from these columns ({.code data$target_column}).") # nolint: line_length_linter
+      "*" = tr_("where {.val x} represents here the vector of values from the corresponding column ({.code data$target_column}).") # nolint: line_length_linter
     ))
   }
   rownames(scan_result) <- NULL

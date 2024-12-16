@@ -2,7 +2,7 @@
 #'
 #' @param data The input data frame or linelist
 #' @param dictionary A data frame with the dictionary associated with the input
-#'    data. This is expected to be compatible with the \{matchmaker\} package
+#'    data. This is expected to be compatible with the \pkg{matchmaker} package
 #'    and must contain the following four columns:
 #'    \describe{
 #'      \item{`options`}{This column contains the current values used to
@@ -42,10 +42,10 @@ clean_using_dictionary <- function(data, dictionary) {
   # abort if the provided data dictionary does not contain the following three
   # column names: options, values, grp.
   if (!all(c("options", "values", "grp") %in% names(dictionary))) {
-    all_columns <- c("options", "values", "grp", "orders") # nolint: object_usage_linter
     mandatory_columns <- c("options", "values", "grp") # nolint: object_usage_linter
+    all_columns <- c(mandatory_columns, "orders") # nolint: object_usage_linter
     cli::cli_abort(c(
-      tr_("Incorrect data dictionary."),
+      tr_("Incorrect data dictionary format."),
       "*" = tr_("The value for the {.emph dictionary} argument must be a {.cls data.frame} with the following columns: {.field {toString(all_columns)}}."), # nolint: line_length_linter
       "*" = tr_("The following columns are mandatory: {.field {toString(mandatory_columns)}}.") # nolint: line_length_linter
     ))
@@ -55,7 +55,7 @@ clean_using_dictionary <- function(data, dictionary) {
   # input data
   if (!all(unique(dictionary[["grp"]]) %in% names(data))) {
     cli::cli_abort(c(
-      tr_("Incorrect column names {.field grp} in the data dictionary."), # nolint: line_length_linter
+      tr_("Incorrect column names specified in column {.field grp} of the data dictionary."), # nolint: line_length_linter
       x = tr_("Values in {.field grp} column of the data dictionary must be found in the input data frame."), # nolint: line_length_linter
       i = tr_("Did you enter an incorrect column name?")
     ))
@@ -69,8 +69,8 @@ clean_using_dictionary <- function(data, dictionary) {
     print_misspelled_values(data, misspelled_options)
     cli::cli_inform(c(
       i = tr_("You can either: "),
-      "*" = tr_("correct the misspelled options from the input data, or"),
-      "*" = tr_("add them to the dictionary using the {.fn add_to_dictionary} function.") # nolint: line_length_linter)
+      "*" = tr_("correct the misspelled {cli::qty(length(misspelled_options))} option{?s} from the input data, or"), # nolint: line_length_linter
+      "*" = tr_("add {cli::qty(length(misspelled_options))} {?it/them} to the dictionary using the {.fn add_to_dictionary} function.") # nolint: line_length_linter
     ))
     misspelled_report <- construct_misspelled_report(misspelled_options, data)
     # add the result to the reporting object
@@ -121,7 +121,7 @@ construct_misspelled_report <- function(misspelled_options, data) {
 }
 
 
-#' Convert Redcap data dictionary into \{matchmaker\} dictionary format
+#' Convert Redcap data dictionary into \pkg{matchmaker} dictionary format
 #'
 #' @param metadata A data frame with the data dictionary associated to a
 #'    Redcap project
@@ -134,7 +134,7 @@ construct_misspelled_report <- function(misspelled_options, data) {
 #'    field type information
 #'
 #' @returns A data frame with 4 columns. This is in the format required by the
-#'    \{matchmaker\} R package for dictionary-based cleaning.
+#'    \pkg{matchmaker} R package for dictionary-based cleaning.
 #' @keywords internal
 #'
 make_readcap_dictionary <- function(metadata,
@@ -172,7 +172,7 @@ make_readcap_dictionary <- function(metadata,
 #'    choices are made.
 #'
 #' @returns A data frame with the dictionary in the format that is accepted by
-#'    the \{matchmaker\} package.
+#'    the \pkg{matchmaker} package.
 #' @keywords internal
 #'
 dictionary_make_metadata <- function(x, field_column) {
@@ -293,9 +293,9 @@ detect_misspelled_options <- function(data, dictionary) {
 #'
 print_misspelled_values <- function(data, misspelled_options) {
   for (opts in names(misspelled_options)) {
-    undefined_opts <- toString(data[[opts]][[misspelled_options[[opts]]]]) # nolint: object_usage_linter
+    undefined_opts <- data[[opts]][[misspelled_options[[opts]]]] # nolint: object_usage_linter
     cli::cli_alert_warning(
-      tr_("Cannot replace the following values found in column {.field {opts}} but not defined in the dictionary: {.val {undefined_opts}}.") # nolint: line_length_linter
+      tr_("Cannot replace {.val {toString(undefined_opts)}} present in column {.field {opts}} but not defined in the dictionary.") # nolint: line_length_linter
     )
   }
 }

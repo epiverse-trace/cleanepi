@@ -103,7 +103,7 @@ detect_to_numeric_columns <- function(scan_res, data) {
         num_values <- num_values * nrow(data)
         cli::cli_inform(c(
           "!" = tr_("Found {.val {num_values}} numeric value{?s} in {.field {col}}. "), # nolint: line_length_linter
-          i = tr_("Please consider the followings:"),
+          i = tr_("Please consider the following options:"),
           "*" = tr_("Converting characters into numeric"),
           "*" = tr_("Replacing the numeric values by {.val NA} using the {.fn replace_missing_values} function.") # nolint: line_length_linter
         ), wrap = TRUE)
@@ -112,7 +112,7 @@ detect_to_numeric_columns <- function(scan_res, data) {
   }
   if (length(to_numeric) > 0) {
     cli::cli_alert_info(
-      tr_("The following colonne{?s} will be converted into numeric: {.field {to_numeric}}.") # nolint: line_length_linter
+      tr_("The following column{?s} will be converted into numeric: {.field {to_numeric}}.") # nolint: line_length_linter
     )
   }
   return(to_numeric)
