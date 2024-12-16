@@ -53,7 +53,7 @@ standardize_column_names <- function(data, keep = NULL, rename = NULL) {
     # input data frame
     are_cols_present <- current_names %in% before
     if (!all(are_cols_present)) {
-      incorrect_col_names <- current_names[!are_cols_present]
+      incorrect_col_names <- current_names[!are_cols_present] # nolint: object_usage_linter
       cli::cli_abort(c(
         tr_("Cannot rename {cli::qty(length(incorrect_col_names))} {?an/ } unrecognised column name{?s} specified in {.emph rename} argument: {.val {toString(incorrect_col_names)}}."), # nolint: line_length_linter
         i = tr_("Make sure that the columns to be renamed are part of the input data."), # nolint: line_length_linter
