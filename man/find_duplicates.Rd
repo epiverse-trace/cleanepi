@@ -36,4 +36,5 @@ dups <- find_duplicates(
   ),
   target_columns = c("dt_onset", "dt_report", "sex", "outcome")
 )
+
 }

@@ -10,7 +10,7 @@ clean_using_dictionary(data, dictionary)
 \item{data}{The input data frame or linelist}
 
 \item{dictionary}{A data frame with the dictionary associated with the input
-data. This is expected to be compatible with the \{matchmaker\} package
+data. This is expected to be compatible with the \pkg{matchmaker} package
 and must contain the following four columns:
 \describe{
 \item{\code{options}}{This column contains the current values used to
