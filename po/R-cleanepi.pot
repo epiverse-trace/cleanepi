@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: cleanepi 1.0.2.9000\n"
-"POT-Creation-Date: 2024-12-16 11:57+0000\n"
+"POT-Creation-Date: 2024-12-16 17:36+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
