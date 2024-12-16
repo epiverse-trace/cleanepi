@@ -34,8 +34,10 @@ following order defined in the guesser:
 }\if{html}{\out{</div>}}}
 }
 \value{
-The input data frame where the character columns with date values
-have been converted into Date.
+A list with the following two elements: the input data frame where
+the character columns with date values have been converted into Date, and
+a vector of column names where there are numeric values that can also be
+of type Date.
 }
 \description{
 Guess if a character vector contains Date values, and convert them to date

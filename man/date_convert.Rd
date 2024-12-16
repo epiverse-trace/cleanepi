@@ -36,8 +36,10 @@ following order defined in the guesser:
 }\if{html}{\out{</div>}}}
 }
 \value{
-A data frame where the specified columns have been converted
-into Date.
+A list with the following two elements: a data frame where the
+specified columns have been converted into Date, a boolean that tells
+whether numeric values that can also be of type Date are found in the
+specified columns.
 }
 \description{
 Convert characters to dates

@@ -19,7 +19,7 @@ the input data is a \code{linelist} object, this parameter can be set to
 \code{linelist_tags} if you wish to replace missing values with \code{NA}
 on tagged columns only.}
 
-\item{na_strings}{This is a vector of strings that represents the missing
+\item{na_strings}{A vector of strings that represents the missing
 values in the columns of interest. By default, it utilizes
 \code{cleanepi::common_na_strings}. However, if the missing values string
 in the columns of interest is not included in this predefined vector,
