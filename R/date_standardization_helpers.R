@@ -1,9 +1,11 @@
 #' Check date time frame
 #'
 #' @param first_date A Date object specifying the first valid date.
-#'    The arbitrary default value is fifty years before the `last_date`.
+#' Default is fifty years before the \code{last_date}.
+#' This can also be a character in ISO8601 format i.e. "2024-12-31".
 #' @param last_date A Date object specifying the last valid date.
-#'    The defaults value is the current date.
+#' Default is the current date. This can also be a character in
+#' ISO8601 format i.e. "2024-12-31".
 #'
 #' @returns A list with the first and last dates
 #' @keywords internal
@@ -13,8 +15,10 @@ date_check_timeframe <- function(first_date, last_date) {
   # make sure that they are single character strings in ISO 8601 format.
   iso_8601 <- "[0-9]{4}-(0|1(?=[0-2]))[0-9]-([0-2]|3(?=[0-1]))[0-9]"
 
+  # convert 'first_date' into Date in cases where it is provided as a
+  # character.
   first_date_is_character <- is.character(first_date)
-  first_date_has_len_1    <- length(first_date) == 1L
+  first_date_has_len_1 <- length(first_date) == 1L
   first_date_has_iso_8601 <- grepl(iso_8601, first_date, perl = TRUE)
   verdict <- first_date_is_character & first_date_has_len_1 &
     first_date_has_iso_8601
@@ -22,8 +26,10 @@ date_check_timeframe <- function(first_date, last_date) {
     first_date <- as.Date(first_date, "%Y-%m-%d")
   }
 
+  # convert 'last_date' into Date in cases where it is provided as a
+  # character.
   last_date_is_character <- is.character(last_date)
-  last_date_has_len_1    <- length(last_date) == 1L
+  last_date_has_len_1 <- length(last_date) == 1L
   last_date_has_iso_8601 <- grepl(iso_8601, last_date, perl = TRUE)
   verdict <- last_date_is_character & last_date_has_len_1 &
     last_date_has_iso_8601
@@ -31,14 +37,17 @@ date_check_timeframe <- function(first_date, last_date) {
     last_date <- as.Date(last_date, "%Y-%m-%d")
   }
 
-  # Set the first date to 50 years before the last date if it's not set
+  # When 'first_date' is not provided, set it to 50 years before the last date
   if (is.null(first_date) && inherits(last_date, "Date")) {
-    first_date <- min(seq.Date(last_date, length.out = 2L, by = "-50 years"))
+    first_date <- last_date - lubridate::years(50)
   }
 
+  # both 'first_date' and 'last_date' are expected to be of type Date
   if (!inherits(first_date, "Date") || !inherits(last_date, "Date")) {
-    stop("first_date and last_date must be Date objects or characters in",
-         "yyyy-mm-dd format.")
+    cli::cli_abort(c(
+      tr_("Unexpected format in the function arguments."),
+      i = tr_("{.emph first_date} and {.emph last_date} must be of type {.cls Date} or {.cls character} written in {.emph ISO8601} format ('2024-12-31' for December 31, 2024).") # nolint: line_length_linter
+    ))
   }
   return(list(first_date, last_date))
 }
@@ -68,8 +77,8 @@ date_trim_outliers <- function(new_dates, dmin, dmax, cols, original_dates) {
   out_of_boundaries <- NULL
   if (any(outsiders)) {
     idx <- which(outsiders)
-    out_of_boundaries <- data.frame(idx            = idx,
-                                    column         = rep(cols, length(idx)),
+    out_of_boundaries <- data.frame(idx = idx,
+                                    column = rep(cols, length(idx)),
                                     original_value = original_dates[idx])
   }
   # mark the bad dates as NA
@@ -84,10 +93,12 @@ date_trim_outliers <- function(new_dates, dmin, dmax, cols, original_dates) {
 #' Convert characters to dates
 #'
 #' @inheritParams standardize_dates
-#' @param cols  date column name(s)
+#' @param cols A Date column name(s)
 #'
-#' @returns A data frame where the specified columns have been converted
-#'    into Date.
+#' @returns A list with the following two elements: a data frame where the
+#'    specified columns have been converted into Date, a boolean that tells
+#'    whether numeric values that can also be of type Date are found in the
+#'    specified columns.
 #'
 #' @keywords internal
 #'
@@ -95,6 +106,7 @@ date_convert <- function(data, cols, error_tolerance,
                          timeframe = NULL, orders) {
   # Guess the date using lubridate (for actual dates and numbers) and the
   # guesser we developed
+  has_ambiguous_values <- FALSE
   old_dates <- new_dates <- data[[cols]]
   if (!inherits(data[[cols]], "Date")) {
     date_guess_res <- date_guess(
@@ -104,6 +116,7 @@ date_convert <- function(data, cols, error_tolerance,
     )
     new_dates <- date_guess_res[["res"]]
     multi_format_dates <- date_guess_res[["multi_format"]]
+    has_ambiguous_values <- date_guess_res[["found_ambiguous"]]
     # report the multi formatted dates if they were detected
     if (!is.null(multi_format_dates)) {
       data <- add_to_report(
@@ -138,7 +151,10 @@ date_convert <- function(data, cols, error_tolerance,
     data[[cols]] <- new_dates
   }
 
-  return(data)
+  return(list(
+    data = data,
+    has_ambiguous_values = has_ambiguous_values
+  ))
 }
 
 
@@ -182,8 +198,10 @@ date_check_outsiders <- function(data, timeframe, new_dates, cols) {
 #' @param data A data frame
 #' @inheritParams standardize_dates
 #'
-#' @returns The input data frame where the character columns with date values
-#'    have been converted into Date.
+#' @returns A list with the following two elements: the input data frame where
+#'    the character columns with date values have been converted into Date, and
+#'    a vector of column names where there are numeric values that can also be
+#'    of type Date.
 #' @keywords internal
 #'
 date_guess_convert <- function(data, error_tolerance, timeframe,
@@ -202,6 +220,9 @@ date_guess_convert <- function(data, error_tolerance, timeframe,
   # Both 4 types are subjected to the date guesser
   of_interest <- c(are_characters, are_factors, are_dates, are_posix)
   multi_format_dates <- NULL
+
+  # set the variable to store the ambiguous column
+  ambiguous_cols <- NULL
   for (i in names(of_interest)) {
     # save the original vector. this will be used later to compare the number
     # of NA before and after guessing
@@ -216,6 +237,9 @@ date_guess_convert <- function(data, error_tolerance, timeframe,
     new_dates <- date_guess_res[["res"]]
     multi_format <- date_guess_res[["multi_format"]]
     multi_format_dates <- c(multi_format_dates, list(multi_format))
+    if (date_guess_res[["found_ambiguous"]]) {
+      ambiguous_cols <- c(ambiguous_cols, i)
+    }
 
     # check for dates that are outside of the defined timeframe
     if (!is.null(timeframe)) {
@@ -241,13 +265,16 @@ date_guess_convert <- function(data, error_tolerance, timeframe,
   if (!is.null(multi_format_dates)) {
     multi_format_dates <- dplyr::bind_rows(multi_format_dates)
     data <- add_to_report(
-      x     = data,
-      key   = "multi_format_dates",
+      x = data,
+      key = "multi_format_dates",
       value = multi_format_dates
     )
   }
 
-  return(data)
+  return(list(
+    data = data,
+    ambiguous_cols = ambiguous_cols
+  ))
 }
 
 #' Detect complex date format
@@ -306,30 +333,6 @@ date_detect_format <- function(x) {
   return(f1)
 }
 
-#' Check if date column exists in the given dataset
-#'
-#' @param data The input data frame
-#' @param date_column_names A vector with the name of the columns to check
-#'
-#' @returns The input vector if all column names are part of the input data, an
-#'    error is issued otherwise.
-#' @keywords internal
-#'
-date_check_column_existence <- function(data, date_column_names) {
-  # convert to vector if comma-separated list of names is provided
-  if (is.character(date_column_names)) {
-    date_column_names <- unlist(strsplit(date_column_names, ",", fixed = TRUE))
-    date_column_names <- trimws(date_column_names)
-  }
-
-  # check whether the provided column name belong to the data
-  if (!all(date_column_names %in% names(data))) {
-    idx <- which(!(date_column_names %in% names(data)))
-    stop("Can't find columns: ", toString(date_column_names[idx]))
-  }
-  return(date_column_names)
-}
-
 #' Detect the special character that is the separator in the date values
 #'
 #' @param x A string of interest
@@ -339,7 +342,7 @@ date_check_column_existence <- function(data, date_column_names) {
 #' @keywords internal
 #'
 date_detect_separator <- function(x) {
-  sep                <- NULL
+  sep <- NULL
   special_characters <- c("-", "/", ",", " ")
   if (!is.na(x)) {
     sep <- NULL
@@ -366,14 +369,14 @@ date_detect_day_or_month <- function(x) {
                  "Friday", "Saturday", "Sunday")
   abreviated_days <- c("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
   all_full_months <- c(month.name, toupper(month.name), tolower(month.name))
-  all_abb_months  <- c(month.abb, toupper(month.abb), tolower(month.abb))
-  all_full_days   <- c(full_days, toupper(full_days), tolower(full_days))
-  all_abb_days    <- c(abreviated_days, toupper(abreviated_days),
+  all_abb_months <- c(month.abb, toupper(month.abb), tolower(month.abb))
+  all_full_days <- c(full_days, toupper(full_days), tolower(full_days))
+  all_abb_days <- c(abreviated_days, toupper(abreviated_days),
                        tolower(abreviated_days))
-  in_full_month   <- x %in% all_full_months
-  in_abb_month    <- x %in% all_abb_months
-  in_full_day     <- x %in% all_full_days
-  in_abb_day      <- x %in% all_abb_days
+  in_full_month <- x %in% all_full_months
+  in_abb_month <- x %in% all_abb_months
+  in_full_day <- x %in% all_full_days
+  in_abb_day <- x %in% all_abb_days
   if (all(in_full_month)) {
     f1 <- "%B"
   } else if (all(in_abb_month)) {
@@ -403,9 +406,11 @@ date_detect_simple_format <- function(x) {
   if (all(nchar(x) == 4L)) {
     f1 <- "%Y" # year with century i.e 4 digits year
   } else if (any(nchar(x) == 4L) && any(nchar(x) == 2L)) {
-    stop("Different lengths detected in the first digits of the date column.\n",
-         "Please use the same number of digits for all entries or specify the",
-         "expected format via the 'format' argument.")
+    cli::cli_abort(c(
+      tr_("Expected values with the same format."),
+      x = tr_("You've tried to convert values in different formats into {.cls Date}."), # nolint: line_length_linter
+      i = tr_("Please specify the formats encountered in your column of interest via the {.emph format} argument.") # nolint: line_length_linter
+    ))
   } else if (all(nchar(x) == 2L)) {
     tmp <- as.numeric(x)
     if (all(tmp <= 12L)) {
@@ -514,8 +519,8 @@ date_make_format <- function(f1, f2, f3) {
   if (verdict) {
     return(NULL)
   }
-  format   <- NULL
-  idx      <- which(is.na(c(f1, f2, f3)))
+  format <- NULL
+  idx <- which(is.na(c(f1, f2, f3)))
   if (length(idx) == 0L) {
     format <- paste0(format, f1, "-", f2, "-", f3)
   } else if (idx == 3L) {
@@ -536,8 +541,7 @@ date_make_format <- function(f1, f2, f3) {
 date_process <- function(x) {
   # If the input is a date already: no guessing needed!
   if (inherits(x, c("Date", "POSIXt", "aweek"))) {
-    x <- as.Date(x)
-    return(x)
+    return(as.Date(x))
   }
 
   if (is.factor(x) || is.numeric(x)) {
@@ -545,7 +549,11 @@ date_process <- function(x) {
   }
 
   if (!is.character(x)) {
-    stop("guess dates will only work for characters and factors")
+    cli::cli_abort(c(
+      tr_("Unexpected data type provided to {.fn date_guess} function."),
+      i = tr_("You can convert the values into {.cls character} to enable format guessing."), # nolint: line_length_linter
+      x = tr_("You've tried to guess the date format from values of type other than Date and character.") # nolint: line_length_linter
+    ))
   }
 
   return(x)
@@ -562,12 +570,16 @@ date_process <- function(x) {
 #'
 date_match_format_and_column <- function(target_columns, format) {
   if (length(target_columns) > 2L && length(format) == 2L) {
-    stop("Need to specify one format if all target columns have the same ",
-         "format.\nProvide one format per target column, otherwise.")
+    cli::cli_abort(c(
+      tr_("Unable to match formats to target columns."),
+      x = tr_("The number of target columns does not match the number of specified formats."), # nolint: line_length_linter
+      i = tr_("Only one format is needed if all target columns contain values of the same format. Otherwise, one format per target column must be provided.") # nolint: line_length_linter
+    ))
   }
   if (length(target_columns) >= 1L && length(format) == 1L) {
-    warning("Using ", format, " to standardize target columns...",
-            call. = FALSE)
+    cli::cli_alert_info(
+      tr_("The target {cli::qty(length(target_columns))} column{?s} will be standardized using the format: {.val {format}}.") # nolint: line_length_linter
+    )
     format <- rep(format, length(target_columns))
   }
   return(format)

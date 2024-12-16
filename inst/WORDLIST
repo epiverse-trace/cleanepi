@@ -11,6 +11,7 @@ Valle
 Ymd
 analytics
 bookdown
+cli
 dplyr
 epiCleanr
 funder
@@ -32,10 +33,12 @@ naniar
 nchar
 numberize
 packagename
+potools
 reactable
 readepi
 readr
 repo
+rlang
 rmarkdown
 snakecase
 testthat

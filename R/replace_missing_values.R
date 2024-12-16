@@ -7,7 +7,7 @@
 #'    the input data is a \code{linelist} object, this parameter can be set to
 #'    \code{linelist_tags} if you wish to replace missing values with \code{NA}
 #'    on tagged columns only.
-#' @param na_strings This is a vector of strings that represents the missing
+#' @param na_strings A vector of strings that represents the missing
 #'    values in the columns of interest. By default, it utilizes
 #'    \code{cleanepi::common_na_strings}. However, if the missing values string
 #'    in the columns of interest is not included in this predefined vector,
@@ -31,7 +31,7 @@ replace_missing_values <- function(data,
   # get the correct names in case some have been modified - see the
   # `retrieve_column_names()` function for more details
   target_columns <- retrieve_column_names(data, target_columns)
-  cols           <- get_target_column_names(data, target_columns, cols = NULL)
+  cols <- get_target_column_names(data, target_columns, cols = NULL)
 
   # identify the columns containing the specified missing value characters
   tmp <- data %>%
@@ -52,9 +52,10 @@ replace_missing_values <- function(data,
       value = toString(cols)
     )
   } else {
-    warning("Could not detect missing value character!",
-            "\nPlease use the appropriate strings that represents the missing",
-            "values from your data.", call. = FALSE)
+    cli::cli_inform(c(
+      "!" = tr_("Could not detect the provided missing value {cli::qty(length(na_strings))} character{?s}."), # nolint: line_length_linter
+      i = tr_("Does your data contain missing value characters other than the specified ones?") # nolint: line_length_linter
+    ))
   }
 
   return(data)

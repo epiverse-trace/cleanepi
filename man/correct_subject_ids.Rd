@@ -12,10 +12,10 @@ correct_subject_ids(data, target_columns, correction_table)
 \item{target_columns}{A vector of column names with the subject ids.}
 
 \item{correction_table}{A data frame with the following two columns:
-\enumerate{
-\item \code{from}: a column with the wrong subject IDs,
-\item \code{to}: a column with the values to be used to substitute the
-incorrect ids.
+\describe{
+\item{from}{a column with the wrong subject IDs}
+\item{to}{a column with the values to be used to substitute the
+incorrect ids.}
 }}
 }
 \value{

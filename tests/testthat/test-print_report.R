@@ -69,6 +69,11 @@ test_that("print_report fails when no report is associated to the data", {
     regexp = cat("No report associated with the input data.")
   )
 
+  test_data <- add_to_report(
+    x = test_data,
+    key = "scanning_result",
+    value = scan_res
+  )
   expect_error(
     print_report(
       data = test_data,
@@ -77,6 +82,6 @@ test_that("print_report fails when no report is associated to the data", {
       format = "pdf",
       print = FALSE
     ),
-    regexp = cat("Invalid format: Only 'html' format is currently supported.")
+    regexp = cat("Invalid output format!.")
   )
 })

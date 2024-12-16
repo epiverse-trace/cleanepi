@@ -7,20 +7,21 @@
 retrieve_column_names(data, target_columns)
 }
 \arguments{
-\item{data}{the input data. It can also be a modified data generated in
+\item{data}{The input data. It can also be a modified data generated in
 intermediate cleaning operations.}
 
-\item{target_columns}{a vector of target column names}
+\item{target_columns}{A vector of target column names}
 }
 \value{
-a vector of column names to be used for the target cleaning
+A vector of column names to be used for the target cleaning
 operations
 }
 \description{
-When performing several data cleaning operations using the \code{clean_data()}
-function, the input column names might be altered by after the column names
-cleaning. As a consequence of this, some cleaning operations will fail due to
-the column names mismatch. This function is provided to anticipate on this
-scenario, hence providing continuity between the cleaning operations.
+When performing several data cleaning operations using the
+\code{clean_data()} function, the input column names might be altered by
+after the column names cleaning. As a consequence of this, some cleaning
+operations will fail due to the column names mismatch. This function is
+provided to anticipate on this scenario, hence providing continuity between
+the cleaning operations.
 }
 \keyword{internal}

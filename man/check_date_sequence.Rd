@@ -13,9 +13,9 @@ check_date_sequence(data, target_columns)
 specify at least 2 column names in the expected order. For example:
 \code{target_columns = c("date_symptoms_onset", "date_hospitalization",
    "date_death")}.
-When the input data is a \code{linelist} object, this parameter can be set to
-\code{linelist_tags} if you wish to use the date sequence across only the
-tagged columns columns only.
+When the input data is a \code{linelist} object, this parameter can be set
+to \code{linelist_tags} if you wish to use the date sequence across only
+the tagged columns columns only.
 The date values in the target columns should be in the ISO8601 format
 (2024-12-31). Otherwise, use the \code{standardize_dates()} function to
 standardize the target columns.}

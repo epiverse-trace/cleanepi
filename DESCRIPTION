@@ -66,6 +66,7 @@ VignetteBuilder:
     knitr
 Config/Needs/website: epiverse-trace/epiversetheme
 Config/testthat/edition: 3
+Config/potools/style: explicit
 Encoding: UTF-8
 Language: en-US
 LazyData: true

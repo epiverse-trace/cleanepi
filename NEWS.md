@@ -37,3 +37,12 @@
 * Replace `snakecase::to_snake_case()` with `janitor::clean_names()` and make sure variable names specified in `keep` and `rename` are preserved after applying `janitor::clean_names()` (#180, Karim-Mane).
 
 * Function documentations have been updated. The `clean_data()` no longer takes the `params` argument. Instead, it takes many other arguments that are described in the function documentation and the package vignettes (#184, Karim-Mane).
+
+* Use {cli} package for formatting messages in the package (#196, Karim-Mane).
+
+* Translate messages in the package into French using {potools} package (#196, Karim-Mane).
+
+* An additional column (**row_id**) with the row indices where the incorrect date sequences are found is now added to the report made from the `check_date_sequence()` function (#196, Karim-Mane).
+
+* `date_guess()` and related functions now returns a list of two elements: the converted values and a boolean that informs about the presence of numeric values
+that can also be of type Date.

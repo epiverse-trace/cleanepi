@@ -22,13 +22,15 @@ test_that("convert_to_numeric works", {
 
 test_that("convert_to_numeric sends a warning when no column is provided and
           scan_data() does not find a target column", {
-            expect_warning(
+            expect_message(
               convert_to_numeric(
                 data           = data,
                 target_columns = NULL
               ),
-              regexp = cat("'gender' column has similar number of numeric and
-                           character values.")
+              regexp = cat("Found `3750` numeric values in `test`. Consider
+                           converting characters into numeric or replacing the
+                           numeric values by `NA` using the
+                           `replace_missing_values()` function.")
             )
           })
 
@@ -48,19 +50,22 @@ test_that("convert_to_numeric returns NA when the specified language is not
 
 scan_res <- scan_data(data)
 test_that("detect_to_numeric_columns works", {
-  to_numeric <- detect_to_numeric_columns(scan_res = scan_res)
+  to_numeric <- detect_to_numeric_columns(scan_res = scan_res, data)
   expect_type(to_numeric, "character")
   expect_identical(to_numeric, "age")
 })
 
 test_that("detect_to_numeric_columns sends a warning when no column is provided
           and scan_data() does not find a target column", {
-            expect_warning(
+            expect_message(
               detect_to_numeric_columns(
-                scan_res = scan_res
+                scan_res = scan_res,
+                data = data
               ),
-              regexp = cat("'gender' column has similar number of numeric and
-                           character values.")
+              regexp = cat("Found `3750` numeric values in `test`. Consider
+                           converting characters into numeric or replacing the
+                           numeric values by `NA` using the
+                           `replace_missing_values()` function.")
             )
           })
 
