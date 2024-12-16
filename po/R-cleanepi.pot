@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: cleanepi 1.0.2.9000\n"
-"POT-Creation-Date: 2024-11-23 10:58+0000\n"
+"POT-Creation-Date: 2024-12-16 11:57+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,7 +26,7 @@ msgid ""
 msgstr ""
 
 #: check_date_sequence.R:67
-msgid "Have you provided an incorrect column name?"
+msgid "Have you provided an invalid column name?"
 msgstr ""
 
 #: check_date_sequence.R:91
@@ -67,30 +67,28 @@ msgid "Checking subject IDs format"
 msgstr ""
 
 #: clean_data.R:227
-msgid "You did not specify a value for {.emph target_columns}."
+msgid ""
+"You must specify the name of the column that uniquely identifies the "
+"individuals via the {.emph target_columns} argument."
 msgstr ""
 
 #: clean_data.R:228
-msgid ""
-"Here {.emph target_columns} is the name of the column that uniquely "
-"identifies the individuals in your data."
-msgstr ""
-
-#: clean_data.R:229
 msgid ""
 "Type {.code ?check_subject_ids} to see the help on the corresponding "
 "function."
 msgstr ""
 
-#: clean_data.R:250
-msgid "Converting {.code {toString(target_columns)}} into numeric"
+#: clean_data.R:249
+msgid ""
+"Converting the following {cli::qty(length(target_columns))} column{?s} into "
+"numeric: {.field {toString(target_columns)}}"
 msgstr ""
 
-#: clean_data.R:266
+#: clean_data.R:265
 msgid "Performing dictionary-based cleaning"
 msgstr ""
 
-#: clean_data.R:278
+#: clean_data.R:277
 msgid "Checking whether date sequences are respected"
 msgstr ""
 
@@ -100,48 +98,54 @@ msgstr ""
 
 #: clean_data_helpers.R:91
 msgid ""
-"Found {.cls numeric} values that can also be of type {.cls Date} in: {.field "
-"{ambiguous_cols}}."
+"Found {.cls numeric} values that can also be of type {.cls Date} in the "
+"following {cli::qty(length(ambiguous_cols))} column{?s}: {.field "
+"{toString(ambiguous_cols)}}."
 msgstr ""
 
-#: clean_data_helpers.R:92 standardize_date.R:185
+#: clean_data_helpers.R:92
 msgid ""
 "They can be converted into {.cls Date} using: {.code lubridate::as_date(x, "
 "origin = as.Date(\"1900-01-01\"))}"
 msgstr ""
 
-#: clean_data_helpers.R:93 standardize_date.R:186
+#: clean_data_helpers.R:93
 msgid ""
-"where {.val x} represents here the vector of values from these columns ({."
-"code data$target_column})."
-msgstr ""
-
-#: column_name_standardization.R:56
-msgid "Unrecognised column names specified in {.emph rename}."
-msgstr ""
-
-#: column_name_standardization.R:57
-msgid "Make sure that the columns to be renamed are part of the input data."
+"where {.val x} represents here the vector of values from the corresponding "
+"column ({.code data$target_column})."
 msgstr ""
 
 #: column_name_standardization.R:58
+msgid ""
+"Cannot rename {cli::qty(length(incorrect_col_names))} {?an/ } unrecognised "
+"column name{?s} specified in {.emph rename} argument: {.val "
+"{toString(incorrect_col_names)}}."
+msgstr ""
+
+#: column_name_standardization.R:59
+msgid "Make sure that the columns to be renamed are part of the input data."
+msgstr ""
+
+#: column_name_standardization.R:60
 msgid ""
 "To rename columns, use: {.emph rename = c(new_name1 = 'old_name1', new_name2 "
 "= 'old_name2')}."
 msgstr ""
 
-#: column_name_standardization.R:66
-msgid "Provided replace column names already exist."
+#: column_name_standardization.R:68
+msgid ""
+"The provided replace column {cli::qty(length(existing_cols))} name{?s} "
+"already exist."
 msgstr ""
 
-#: column_name_standardization.R:67
+#: column_name_standardization.R:69
 msgid "All new names must be different from existing column names."
 msgstr ""
 
-#: column_name_standardization.R:68
+#: column_name_standardization.R:70
 msgid ""
-"You must use a different name for the following columns: {.field "
-"{toString(existing_cols)}}."
+"You must use {cli::qty(length(existing_cols))} {?a/ } different name{?s} for "
+"the following column{?s}: {.field {toString(existing_cols)}}."
 msgstr ""
 
 #: convert_to_numeric.R:40
@@ -175,7 +179,7 @@ msgid "Found {.val {num_values}} numeric value{?s} in {.field {col}}."
 msgstr ""
 
 #: convert_to_numeric.R:106
-msgid "Please consider the followings:"
+msgid "Please consider the following options:"
 msgstr ""
 
 #: convert_to_numeric.R:107
@@ -190,7 +194,7 @@ msgstr ""
 
 #: convert_to_numeric.R:115
 msgid ""
-"The following colonne{?s} will be converted into numeric: {.field "
+"The following column{?s} will be converted into numeric: {.field "
 "{to_numeric}}."
 msgstr ""
 
@@ -205,58 +209,60 @@ msgid ""
 "31, 2024)."
 msgstr ""
 
-#: date_standardization_helpers.R:406
+#: date_standardization_helpers.R:410
 msgid "Expected values with the same format."
 msgstr ""
 
-#: date_standardization_helpers.R:407
+#: date_standardization_helpers.R:411
 msgid "You've tried to convert values in different formats into {.cls Date}."
 msgstr ""
 
-#: date_standardization_helpers.R:408
+#: date_standardization_helpers.R:412
 msgid ""
 "Please specify the formats encountered in your column of interest via the {."
 "emph format} argument."
 msgstr ""
 
-#: date_standardization_helpers.R:549
+#: date_standardization_helpers.R:553
 msgid "Unexpected data type provided to {.fn date_guess} function."
 msgstr ""
 
-#: date_standardization_helpers.R:550
+#: date_standardization_helpers.R:554
 msgid ""
 "You can convert the values into {.cls character} to enable format guessing."
 msgstr ""
 
-#: date_standardization_helpers.R:551
+#: date_standardization_helpers.R:555
 msgid ""
 "You've tried to guess the date format from values of type other than Date "
 "and character."
 msgstr ""
 
-#: date_standardization_helpers.R:570
+#: date_standardization_helpers.R:574
 msgid "Unable to match formats to target columns."
 msgstr ""
 
-#: date_standardization_helpers.R:571
+#: date_standardization_helpers.R:575
 msgid ""
 "The number of target columns does not match the number of specified formats."
 msgstr ""
 
-#: date_standardization_helpers.R:572
+#: date_standardization_helpers.R:576
 msgid ""
 "Only one format is needed if all target columns contain values of the same "
 "format. Otherwise, one format per target column must be provided."
 msgstr ""
 
-#: date_standardization_helpers.R:577
-msgid "Target columns will be standardized using the format: {.val {format}}."
+#: date_standardization_helpers.R:581
+msgid ""
+"The target {cli::qty(length(target_columns))} column{?s} will be "
+"standardized using the format: {.val {format}}."
 msgstr ""
 
 #: default_cleanepi_settings.R:48
 msgid ""
-"Found the following unrecognised arguments to {.fn clean_data}: {.emph "
-"{toString(extra)}}."
+"Found the following unrecognised {cli::qty(length(extra))} argument{?s} to {."
+"fn clean_data}: {.emph {toString(extra)}}."
 msgstr ""
 
 #: default_cleanepi_settings.R:49
@@ -264,16 +270,15 @@ msgid "{.fn clean_data} does not support arguments other than the defaults."
 msgstr ""
 
 #: default_cleanepi_settings.R:50
-msgid "You provided unexpected arguments."
+msgid "You provided {cli::qty(length(extra))} {?an/ } unexpected argument{?s}."
 msgstr ""
 
 #: default_cleanepi_settings.R:51
-msgid ""
-"Run {.code get_default_params()} to display the list of default parameters."
+msgid "Run {.fn get_default_params} to display the list of default parameters."
 msgstr ""
 
 #: dictionary_based_cleaning.R:48
-msgid "Incorrect data dictionary."
+msgid "Incorrect data dictionary format."
 msgstr ""
 
 #: dictionary_based_cleaning.R:49
@@ -288,7 +293,9 @@ msgid ""
 msgstr ""
 
 #: dictionary_based_cleaning.R:58
-msgid "Incorrect column names {.field grp} in the data dictionary."
+msgid ""
+"Incorrect column names specified in column {.field grp} of the data "
+"dictionary."
 msgstr ""
 
 #: dictionary_based_cleaning.R:59
@@ -306,30 +313,34 @@ msgid "You can either:"
 msgstr ""
 
 #: dictionary_based_cleaning.R:72
-msgid "correct the misspelled options from the input data, or"
+msgid ""
+"correct the misspelled {cli::qty(length(misspelled_options))} option{?s} "
+"from the input data, or"
 msgstr ""
 
 #: dictionary_based_cleaning.R:73
-msgid "add them to the dictionary using the {.fn add_to_dictionary} function."
+msgid ""
+"add {cli::qty(length(misspelled_options))} {?it/them} to the dictionary "
+"using the {.fn add_to_dictionary} function."
 msgstr ""
 
 #: dictionary_based_cleaning.R:298
 msgid ""
-"Cannot replace the following values found in column {.field {opts}} but not "
-"defined in the dictionary: {.val {undefined_opts}}."
+"Cannot replace {.val {toString(undefined_opts)}} present in column {.field "
+"{opts}} but not defined in the dictionary."
 msgstr ""
 
-#: find_and_remove_duplicates.R:117
-msgid "Found {.val {nrow(dups)}} duplicated rows in the dataset."
+#: find_and_remove_duplicates.R:115
+msgid "Found {.val {nrow(dups)}} duplicated row{?s} in the dataset."
 msgstr ""
 
-#: find_and_remove_duplicates.R:118
+#: find_and_remove_duplicates.R:116
 msgid ""
 "Use {.code attr(dat, \"report\")[[\"duplicated_rows\"]]} to access them, "
 "where {.val dat} is the object used to store the output from this operation."
 msgstr ""
 
-#: find_and_remove_duplicates.R:134
+#: find_and_remove_duplicates.R:132
 msgid "No duplicates were found."
 msgstr ""
 
@@ -349,7 +360,7 @@ msgstr ""
 
 #: print_report.R:79
 msgid ""
-"At least one data cleaning operation must be applied to this data before "
+"At least one data cleaning operation must be applied to the data before "
 "calling {.fn print_report}."
 msgstr ""
 
@@ -360,7 +371,7 @@ msgid ""
 msgstr ""
 
 #: print_report.R:85
-msgid "Invalid output format!"
+msgid "Incorrect value provided for {.emph format} argument!"
 msgstr ""
 
 #: print_report.R:86
@@ -374,7 +385,7 @@ msgstr ""
 #: remove_constants.R:122
 msgid ""
 "Constant data was removed after {.val {nrow(constant_data_report)}} "
-"iterations."
+"iteration{?s}."
 msgstr ""
 
 #: remove_constants.R:123
@@ -385,7 +396,9 @@ msgid ""
 msgstr ""
 
 #: replace_missing_values.R:56
-msgid "Could not detect the provided missing value character."
+msgid ""
+"Could not detect the provided missing value {cli::qty(length(na_strings))} "
+"character{?s}."
 msgstr ""
 
 #: replace_missing_values.R:57
@@ -411,52 +424,56 @@ msgstr ""
 
 #: standardize_date.R:184
 msgid ""
-"Found {.cls numeric} values that could also be of type {.cls Date} in "
-"column: {.field {toString(ambiguous_cols)}}."
+"Found {.cls numeric} values that could also be of type {.cls Date} in {cli::"
+"qty(length(ambiguous_cols))} column{?s}: {.field {toString(ambiguous_cols)}}."
 msgstr ""
 
 #: standardize_date.R:185
 msgid ""
-"They can be converted into {.cls Date} using: {.code "
-"lubridate::as_date(x, origin = as.Date(\"1900-01-01\"))}."
+"It is possible to convert them into {.cls Date} using: {.code lubridate::"
+"as_date(x, origin = as.Date(\"1900-01-01\"))}"
 msgstr ""
 
 #: standardize_date.R:186
 msgid ""
-"where {.val x} represents the vector of values from these columns "
-"({.code data$target_column})."
+"where {.val x} represents here the vector of values from these columns ({."
+"code data$target_column})."
+msgstr ""
+
+#: standardize_subject_ids.R:91
+msgid ""
+"Detected invalid subject {cli::qty(length(bad_rows))} id{?s} at line{?s}: {."
+"val {toString(bad_rows)}}."
 msgstr ""
 
 #: standardize_subject_ids.R:92
-msgid "Detected incorrect subject ids at lines: {.val {bad_rows}}."
+msgid ""
+"You can use the {.fn correct_subject_ids} function to correct {cli::"
+"qty(length(bad_rows))} {?it/them}."
 msgstr ""
 
-#: standardize_subject_ids.R:93
-msgid "You can use the {.fn correct_subject_ids} function to correct them."
-msgstr ""
-
-#: standardize_subject_ids.R:156
+#: standardize_subject_ids.R:155
 msgid ""
 "Some ids specified in the correction table were not found in the input data."
 msgstr ""
 
-#: standardize_subject_ids.R:157
+#: standardize_subject_ids.R:156
 msgid ""
 "Values in the {.field from} column of the correction table must be part of "
 "the detected incorrect subject ids."
 msgstr ""
 
-#: standardize_subject_ids.R:185
+#: standardize_subject_ids.R:184
 msgid ""
-"Missing values found in {.field {id_col_name}} column at lines: {.val "
-"{toString(idx)}}."
+"Missing {cli::qty(length(idx))} value{?s} found in {.field {id_col_name}} "
+"column at line{?s}: {.val {toString(idx)}}."
+msgstr ""
+
+#: standardize_subject_ids.R:201
+msgid "Found {.val {num_dup_rows}} duplicated value{?s} in the subject ids."
 msgstr ""
 
 #: standardize_subject_ids.R:202
-msgid "Found {.val {num_dup_rows}} duplicated rows in the subject IDs."
-msgstr ""
-
-#: standardize_subject_ids.R:203
 msgid ""
 "Enter {.code attr(dat, \"report\")[[\"duplicated_rows\"]]} to access them, "
 "where {.val dat} is the object used to store the output from this operation."
@@ -464,7 +481,7 @@ msgstr ""
 
 #: utils.R:147
 msgid ""
-"Could not find the following column names: {.field {target_columns[is."
+"Could not find the following column name{?s}: {.field {target_columns[is."
 "na(idx)]}}"
 msgstr ""
 
