@@ -14,8 +14,8 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
-<link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Package Design vignette for {cleanepi}">
 <!-- Google tag (gtag.js) --><script async src="https://www.googletagmanager.com/gtag/js?id=G-XZ471458FQ"></script><script>
   window.dataLayer = window.dataLayer || [];
@@ -683,9 +683,10 @@ here for its <code>%&gt;%</code> operator, <a href="https://CRAN.R-project.org/p
 to perform some operations on linelist-type input objects, <a href="https://CRAN.R-project.org/package=matchmaker" class="external-link">{matchmaker}</a>
 utilized to perform the dictionary-based cleaning, <a href="https://CRAN.R-project.org/package=dplyr" class="external-link">{lubridate}</a> used to
 create, handle, and manipulate objects of type Date, <a href="https://CRAN.R-project.org/package=reactable" class="external-link">{reactable}</a>
-mainly used here to customize the data cleaning report, <a href="https://CRAN.R-project.org/package=withr" class="external-link">{withr}</a> utilized to
-handle the creation of temporary files and directory relevant for
-<code><a href="../reference/print_report.html">print_report()</a></code> and, <a href="https://CRAN.R-project.org/package=readr" class="external-link">{readr}</a> used to
+mainly used here to customize the data cleaning report, <a href="https://CRAN.R-project.org/package=cli" class="external-link">{cli}</a> utilized to
+reformat all the messages in the package, <a href="https://CRAN.R-project.org/package=rlang" class="external-link">{rlang}</a> used here
+for its <code>.data</code> functionality to retrieve data-variables from
+the data frame, <a href="https://CRAN.R-project.org/package=readr" class="external-link">{readr}</a> used to
 import data, <a href="https://CRAN.R-project.org/package=janitor" class="external-link">{janitor}</a> used to
 standardize column names in <code><a href="../reference/standardize_column_names.html">standardize_column_names()</a></code>.</p>
 <p>The functions will require all other packages that needed in the

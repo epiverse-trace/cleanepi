@@ -21,7 +21,6 @@
 <url><loc>https://epiverse-trace.github.io/cleanepi/reference/convert_numeric_to_date.html</loc></url>
 <url><loc>https://epiverse-trace.github.io/cleanepi/reference/convert_to_numeric.html</loc></url>
 <url><loc>https://epiverse-trace.github.io/cleanepi/reference/correct_subject_ids.html</loc></url>
-<url><loc>https://epiverse-trace.github.io/cleanepi/reference/date_check_column_existence.html</loc></url>
 <url><loc>https://epiverse-trace.github.io/cleanepi/reference/date_check_outsiders.html</loc></url>
 <url><loc>https://epiverse-trace.github.io/cleanepi/reference/date_check_timeframe.html</loc></url>
 <url><loc>https://epiverse-trace.github.io/cleanepi/reference/date_choose_first_good.html</loc></url>
@@ -70,5 +69,6 @@
 <url><loc>https://epiverse-trace.github.io/cleanepi/reference/standardize_column_names.html</loc></url>
 <url><loc>https://epiverse-trace.github.io/cleanepi/reference/standardize_dates.html</loc></url>
 <url><loc>https://epiverse-trace.github.io/cleanepi/reference/timespan.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/cleanepi/reference/tr_.html</loc></url>
 </urlset>
 
