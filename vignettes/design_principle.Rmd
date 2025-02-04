@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 ```
 
 ## Concept and motivation
-
+{cleanepi} is an R package crafted to clean, curate, and standardize tabular datasets, with a particular focus on epidemiological data.
 Data cleaning is an important phase for ensuring the efficacy of downstream analysis. The procedures entailed in the cleaning process may differ based on the data type and research objectives. Nonetheless, certain steps can be applied universally across diverse data types, irrespective of their origin.
 
 In this document, we outline the design decisions that have steered the development strategies of the {cleanepi} R package, along with the rationale behind each decision and the potential advantages and disadvantages associated with them.
@@ -44,7 +44,7 @@ The composition in data types of character columns will inform the user about wh
 When the input data contains character columns, `scan_data()` returns a data frame with the same number of row as the character columns and six columns representing: The given names, proportion of missing, numeric, date, character, and logical values, respectively, for the character-valued columns. We transpose the result relative to the input dataset (columns in the input are returned as row) to avoid horizontal scrolling in the case of datasets with a large number of character columns. The sum of the proportion across all columns is not always equal to `1`; because when numeric values are found in a character column, they will be subjected to the followings:
 
 a.  Conversion into Date using `lubridate::as_date()` with `origin = as.Date("1900-01-01")`.
-b.  conversion into Date using `date_guess()` function used by the `standardize_dates()` function.
+b.  Conversion into Date using `date_guess()` function used by the `standardize_dates()` function.
 
 Numeric values that are successfully converted into date from either of the methods above are considered as potential dates. They will be added to the date count if they fall within the interval 50 years back from the date of the process.
 
@@ -55,25 +55,25 @@ Numeric values that are successfully converted into date from either of the meth
 
 ## Scope
 
-{cleanepi} is an R package crafted to clean, curate, and standardize tabular datasets, with a particular focus on epidemiological data. In the architecture of {cleanepi}, the data cleaning operations are categorized into modules, each provides a specific data cleaning task. The modules in the current version of {cleanepi} encompass the:
+ The data cleaning operations are categorized into modules, each provides a specific data cleaning task. The modules in the current version of {cleanepi} include:
 
 -   standardization of column names,
 -   detection and removal of duplicates,
 -   replacement of missing values with `NA`,
 -   standardization of subject IDs,
--   standardization of date values,
--   replacement of existing values with predefined ones (dictionary based substitutions),
+-   standardization of date format,
+-   replacement of existing values with predefined ones (dictionary-based substitutions),
 -   conversion of values when necessary,
 -   verification of the sequence order of date-events, and
 -   transformation of selected columns.
 
-By compartmentalizing these operations into modules, {cleanepi} offers users a systematic and adaptable framework to address diverse data cleaning needs, especially within the realm of epidemiological datasets.
+By putting these operations into modules, {cleanepi} offers users a systematic and adaptable framework to address diverse data cleaning needs, especially within the realm of epidemiological datasets.
 
 ## Input
 
-The primary functions of the modules, as well as the core function `clean_data()`, accept input in the form of a `data.frame` or `linelist`. This offers flexibility for users regarding where they want to position {cleanepi} within the R package ecosystem for epidemic analysis pipelines, either to clean data before or after converting it to a `linelist`.
+The primary function of each module, as well as the core function `clean_data()`, accept input in the form of a `data.frame` or `linelist`. This offers flexibility for users regarding where they want to position {cleanepi} within the R package ecosystem for epidemic analysis pipelines, either to clean data before or after converting it to a `linelist`.
 
-In addition to the target dataset, the core function `clean_data()` accepts other parameters which are specific to the cleaning module. Most of these parameters are provided in a form of a `list`. It subsequently invokes the primary functions specified for each module.
+In addition to the target dataset, the core function `clean_data()` accepts other parameters that are specific to the cleaning module. Most of these parameters are provided in a form of a `list`. It subsequently invokes the primary functions specified in each module.
 
 ## Output
 
@@ -89,7 +89,7 @@ This module is designed to standardize the style and format of column names with
 
 -   focal columns to preserve in their original format, and
 
--   columns to be renamed i.e. given a new name chosen by the user.
+-   columns to be renamed, i.e., given a new name chosen by the user.
 
 -   **Main function:** `standardize_column_names()`
 
@@ -110,7 +110,7 @@ This module is designed to standardize the style and format of column names with
 
     -   Explicit
 
-By incorporating the `standardize_column_names()` function, {cleanepi} streamlines the process of ensuring consistency and clarity in column naming conventions, thereby enhancing the overall organization and readability of the dataset.
+The function provides means to keep column naming conventions, and thereby enhancing the  readability of the dataset.
 
 **2. Removal of empty rows and columns and constant columns**
 
