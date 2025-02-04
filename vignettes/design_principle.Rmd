@@ -18,9 +18,11 @@ knitr::opts_chunk$set(
 
 ## Concept and motivation
 
-In this document, we will outline the design decisions that have steered the development strategies of the {cleanepi} R package, along with the rationale behind each decision and the potential advantages and disadvantages associated with them.
-
 Data cleaning is an important phase for ensuring the efficacy of downstream analysis. The procedures entailed in the cleaning process may differ based on the data type and research objectives. Nonetheless, certain steps can be applied universally across diverse data types, irrespective of their origin.
+
+In this document, we outline the design decisions that have steered the development strategies of the {cleanepi} R package, along with the rationale behind each decision and the potential advantages and disadvantages associated with them.
+
+
 
 ## Design decisions
 
