@@ -217,10 +217,10 @@ dictionary_make_metadata <- function(x, field_column) {
 #'   order = NULL
 #'  )
 add_to_dictionary <- function(dictionary,
-                               option,
-                               value,
-                               grp,
-                               order = NULL) {
+                              option,
+                              value,
+                              grp,
+                              order = NULL) {
   checkmate::assert_vector(option, min.len = 1L, null.ok = FALSE,
                            any.missing = FALSE)
   checkmate::assert_vector(value, min.len = 1L, null.ok = FALSE,
