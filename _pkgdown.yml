@@ -14,6 +14,7 @@ reference:
   - add_to_report
   - get_sum
   - numbers_only
+  - retrieve_column_names
 
 - subtitle: Clean data
   desc: Performs several cleaning operations at once
