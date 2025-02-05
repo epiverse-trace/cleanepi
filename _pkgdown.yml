@@ -13,6 +13,7 @@ reference:
   - get_target_column_names
   - add_to_report
   - numbers_only
+  - retrieve_column_names
 
 - subtitle: Clean data
   desc: Performs several cleaning operations at once
