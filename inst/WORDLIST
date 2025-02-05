@@ -42,6 +42,7 @@ rlang
 rmarkdown
 snakecase
 testthat
+tibble
 tibbles
 tidyverse
 timeframe
