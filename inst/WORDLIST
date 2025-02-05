@@ -12,6 +12,7 @@ Ymd
 analytics
 bookdown
 cli
+dateOfBirth
 dplyr
 epiCleanr
 funder
@@ -19,6 +20,7 @@ gh
 grp
 interoperates
 iteratively
+jsq
 kableExtra
 knitr
 lang
@@ -33,6 +35,7 @@ naniar
 nchar
 numberize
 packagename
+pcr
 potools
 reactable
 readepi
