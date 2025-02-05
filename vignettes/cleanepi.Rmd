@@ -442,7 +442,7 @@ res <- check_subject_ids(
 # EXTRACT REPORT
 report <- attr(res, "report")
 
-# DISPLAY THE INCORRECT SUBJECT IDs 
+# DISPLAY THE INCORRECT SUBJECT IDs
 print(report$incorrect_subject_id)
 ```
 
