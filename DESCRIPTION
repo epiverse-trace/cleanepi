@@ -23,7 +23,8 @@ Authors@R: c(
     person("Chris", "Hartgerink", , "chris@data.org", role = "rev",
            comment = c(ORCID = "0000-0003-1050-6809")),
     person("Andree", "Valle-Campos", , "avallecam@gmail.com", role = c("rev", "ctb")),
-    person("London School of Hygiene and Tropical Medicine, LSHTM", role = "cph"),
+    person("London School of Hygiene and Tropical Medicine, LSHTM", role = "cph",
+           comment = c(ROR = "00a0jsq62")),
     person("data.org", role = "fnd")
   )
 Description: Cleaning and standardizing tabular data package, tailored
