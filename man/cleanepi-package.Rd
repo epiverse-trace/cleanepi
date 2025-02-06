@@ -37,7 +37,7 @@ Other contributors:
   \item Joshua W. Lambert \email{joshua.lambert@lshtm.ac.uk} (\href{https://orcid.org/0000-0001-5218-3046}{ORCID}) [reviewer]
   \item Chris Hartgerink \email{chris@data.org} (\href{https://orcid.org/0000-0003-1050-6809}{ORCID}) [reviewer]
   \item Andree Valle-Campos \email{avallecam@gmail.com} [reviewer, contributor]
-  \item London School of Hygiene and Tropical Medicine, LSHTM [copyright holder]
+  \item London School of Hygiene and Tropical Medicine, LSHTM (00a0jsq62) [copyright holder]
   \item data.org [funder]
 }
 

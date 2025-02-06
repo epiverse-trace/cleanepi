@@ -103,7 +103,7 @@ find_duplicates <- function(data, target_columns = NULL) {
   dups <- data %>%
     dplyr::mutate(row_id = seq_len(nrow(data)), .before = 1) %>%
     dplyr::filter(dplyr::n() > 1L, .by = dplyr::all_of(target_columns)) %>%
-    dplyr::arrange(dplyr::pick(target_columns)) %>%
+    dplyr::arrange(dplyr::pick(dplyr::all_of(target_columns))) %>%
     dplyr::group_by(dplyr::across(dplyr::all_of(target_columns))) %>%
     dplyr::mutate(
       group_id = dplyr::cur_group_id(),
