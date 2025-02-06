@@ -110,35 +110,3 @@ test_that("construct_misspelled_report works", {
   expect_identical(res[["column"]], "gender")
   expect_identical(res[["value"]], "femme")
 })
-
-
-# testing internal functions
-test_that("make_readcap_dictionary works as expected", {
-  test_data <- readRDS(
-    system.file("extdata", "test_readcap_dictionary.RDS", package = "cleanepi")
-  )
-  res <- make_readcap_dictionary(
-    metadata = test_data,
-    field_column = "field_name",
-    opt_column = "select_choices_or_calculations",
-    field_type = "field_type"
-  )
-  expect_s3_class(res, "data.frame")
-  expect_identical(ncol(res), 4L)
-  expect_identical(nrow(res), 11L)
-  expect_named(res, c("options", "values", "grp", "orders"))
-})
-
-test_that("make_readcap_dictionary fails when the column with the options does
-          not exist", {
-            expect_error(
-              make_readcap_dictionary(
-                metadata = test_data,
-                field_column = "field_name",
-                opt_column = "fake_column_name",
-                field_type = "field_type"
-              ),
-              regexp = cat("Unrecognised column name: 'fake_column_name'")
-            )
-})
-

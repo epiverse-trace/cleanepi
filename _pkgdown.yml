@@ -12,7 +12,6 @@ reference:
 - contents:
   - get_target_column_names
   - add_to_report
-  - get_sum
   - numbers_only
 
 - subtitle: Clean data

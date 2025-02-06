@@ -142,11 +142,6 @@ test_that("date_get_part3 works as expected", {
   expect_identical(res, "28")
 })
 
-test_that("get_sum works as expected", {
-  res <- get_sum("28")
-  expect_identical(res, 10)
-})
-
 test_that("get_target_column_names fails as expected", {
   data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi"))
   expect_error(

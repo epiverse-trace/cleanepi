@@ -66,21 +66,6 @@ date_get_part3 <- function(x, sep) {
   }
 }
 
-#' Get sum of numbers from a string
-#'
-#' @param x A string of interest
-#'
-#' @returns A numeric that correspond to the sum of every digit in the provided
-#'    string.
-#' @keywords internal
-#'
-get_sum <- function(x) {
-  if (nchar(x) == 2L) {
-    x <- sum(as.numeric(substr(x, 1L, 1L)), as.numeric(substr(x, 2L, 2L)))
-  }
-  return(x)
-}
-
 #' Add an element to the report object
 #'
 #' @param x A data frame  or linelist
