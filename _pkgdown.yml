@@ -15,6 +15,7 @@ reference:
   - get_sum
   - numbers_only
   - retrieve_column_names
+  - tr_
 
 - subtitle: Clean data
   desc: Performs several cleaning operations at once
@@ -22,7 +23,7 @@ reference:
   - clean_data
 
 - subtitle: Check data structure
-  desc: Scan through the input data to determine its composition
+  desc: Scan through the input data to determine the composition of character columns
 - contents:
   - scan_data
   - starts_with("scan_", internal = TRUE)
@@ -34,7 +35,8 @@ reference:
 - subtitle: Standardise column names
   desc: Harmonise on the usage of English characters in column names
 - contents:
-  - ends_with("_column_names")
+  - standardize_column_names
+  - make_unique_column_names
 
 - subtitle: Retrieve Date from numeric values
 - contents:
@@ -43,15 +45,13 @@ reference:
 - subtitle: Convert numbers written in letters into numeric
 - contents:
   - ends_with("_to_numeric")
-  - starts_with("to_numeric_")
   - detect_to_numeric_columns
 
-- subtitle: Standardise dates
+- subtitle: Standardize dates
   desc: Coerce date values to the ISO format `Ymd` (2024-31-01)
 - contents:
   - standardize_dates
   - starts_with("date_", internal = TRUE)
-  - ends_with("_date", internal = TRUE)
 
 - subtitle: Dictionary-based substitution
   desc: Substitute given options from columns in a data frame with their
@@ -70,11 +70,11 @@ reference:
 - subtitle: Remove constant data
   desc: Remove constant columns, empty rows and columns
 - contents:
-  - remove_constants
+  - ends_with("_constants", internal = TRUE)
 
 - subtitle: Replace missing values with NA
 - contents:
-  - replace_missing_values
+  - starts_with("replace_", internal = TRUE)
 
 - subtitle: Calculate time span between the variables of type Date
 - contents:
@@ -83,6 +83,7 @@ reference:
 - subtitle: Detect incorrect subject ids and correct them if required
 - contents:
   - matches("subject_ids")
+  - check_subject_ids_oness
 
 - subtitle: Check sequence of date events
 - contents:
