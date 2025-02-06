@@ -72,26 +72,34 @@ check_date_sequence <- function(data, target_columns) {
   # checking the date sequence
   tmp_data <- data %>% dplyr::select(dplyr::all_of(target_columns))
   order_date <- apply(tmp_data, 1L, is_date_sequence_ordered)
-  bad_order <- which(!order_date)
-  if (!all(order_date)) {
-    tmp_data <- tmp_data[bad_order, ]
-    # add the row numbers of incorrect records to the report
-    tmp_data <- data.frame(
-      cbind(row_id = bad_order, tmp_data)
-    )
-    # adding incorrect records to the report
-    data <- add_to_report(
-      x = data,
-      key = "incorrect_date_sequence",
-      value = tmp_data
-    )
 
-    # send a message about the presence of incorrect date sequence
-    cli::cli_inform(c(
-      "!" = tr_("Detected {.val {length(bad_order)}} incorrect date sequence{?s} at line{?s}: {.val {toString(bad_order)}}."), # nolint: line_length_linter
-      i = tr_("Enter {.code attr(dat, \"report\")[[\"incorrect_date_sequence\"]]} to access them, where {.val dat} is the object used to store the output from this operation.") # nolint: line_length_linter
-    ))
+  # when everything is in order,
+  # send a message that no incorrect sequence of event was found
+  if (all(order_date)) {
+    cli::cli_alert_info(
+      tr_("Detected 0 incorrect date sequence.")
+    )
+    return(data)
   }
+
+  # flag out the row indices of the incorrect sequence of events
+  bad_order <- which(!order_date)
+  tmp_data <- tmp_data[bad_order, ]
+  # add the row numbers of incorrect records to the report
+  tmp_data <- data.frame(
+    cbind(row_id = bad_order, tmp_data)
+  )
+  # adding incorrect records to the report
+  data <- add_to_report(
+    x = data,
+    key = "incorrect_date_sequence",
+    value = tmp_data
+  )
+  # send a message about the presence of incorrect date sequence
+  cli::cli_inform(c(
+    "!" = tr_("Detected {.val {length(bad_order)}} incorrect date sequence{?s} at line{?s}: {.val {toString(bad_order)}}."), # nolint: line_length_linter
+    i = tr_("Enter {.code attr(dat, \"report\")[[\"incorrect_date_sequence\"]]} to access them, where {.val dat} is the object used to store the output from this operation.") # nolint: line_length_linter
+  ))
 
   return(data)
 }
