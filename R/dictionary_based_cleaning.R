@@ -120,51 +120,6 @@ construct_misspelled_report <- function(misspelled_options, data) {
   return(result)
 }
 
-
-#' Convert Redcap data dictionary into \pkg{matchmaker} dictionary format
-#'
-#' @param metadata A data frame with the data dictionary associated to a
-#'    Redcap project
-#' @param field_column The name of the column, in the input dictionary, that
-#'    contains the field names in of the Redcap project data
-#' @param opt_column The name of the column, in the input dictionary, that
-#'    contains the definition of the choices in every column of the Redcap
-#'    project data
-#' @param field_type A character with the name of the column that contains the
-#'    field type information
-#'
-#' @returns A data frame with 4 columns. This is in the format required by the
-#'    \pkg{matchmaker} R package for dictionary-based cleaning.
-#' @keywords internal
-#'
-make_readcap_dictionary <- function(metadata,
-                                    field_column,
-                                    opt_column,
-                                    field_type) {
-  checkmate::assert_data_frame(metadata, min.rows = 1L, min.cols = 1L,
-                               null.ok = FALSE)
-  checkmate::assert_character(opt_column, len = 1L, null.ok = FALSE)
-  checkmate::assert_character(field_type, len = 1L, null.ok = FALSE)
-  checkmate::assert_character(field_column, len = 1L, null.ok = FALSE)
-
-  stopifnot(opt_column %in% names(metadata))
-
-  metadata <- metadata[which(!is.na(metadata[[opt_column]]) &
-                               metadata[[field_type]] != "calc"), ]
-  dictionary <- NULL
-  for (i in seq_len(nrow(metadata))) {
-    dictionary <- c(
-      dictionary,
-      list(dictionary_make_metadata(
-        metadata[[opt_column]][i],
-        metadata[[field_column]][i]
-      ))
-    )
-  }
-  dictionary <- dplyr::bind_rows(dictionary)
-  return(dictionary)
-}
-
 #' Make data dictionary for 1 field
 #'
 #' @param x A vector choices from the input data
