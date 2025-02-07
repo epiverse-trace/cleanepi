@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: cleanepi 1.0.2.9000\n"
-"POT-Creation-Date: 2024-12-16 17:36+0000\n"
+"POT-Creation-Date: 2025-02-07 11:26+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,13 +29,17 @@ msgstr ""
 msgid "Have you provided an invalid column name?"
 msgstr ""
 
-#: check_date_sequence.R:91
+#: check_date_sequence.R:80
+msgid "No incorrect date sequence was detected."
+msgstr ""
+
+#: check_date_sequence.R:100
 msgid ""
 "Detected {.val {length(bad_order)}} incorrect date sequence{?s} at line{?s}: "
 "{.val {toString(bad_order)}}."
 msgstr ""
 
-#: check_date_sequence.R:92
+#: check_date_sequence.R:101
 msgid ""
 "Enter {.code attr(dat, \"report\")[[\"incorrect_date_sequence\"]]} to access "
 "them, where {.val dat} is the object used to store the output from this "
@@ -440,40 +444,44 @@ msgid ""
 "code data$target_column})."
 msgstr ""
 
-#: standardize_subject_ids.R:91
-msgid ""
-"Detected invalid subject {cli::qty(length(bad_rows))} id{?s} at line{?s}: {."
-"val {toString(bad_rows)}}."
+#: standardize_subject_ids.R:87
+msgid "No incorrect subject id was detected."
 msgstr ""
 
-#: standardize_subject_ids.R:92
+#: standardize_subject_ids.R:100
+msgid ""
+"Detected {.val {length(bad_rows)}} invalid subject id{?s} at line{?s}: {.val "
+"{toString(bad_rows)}}."
+msgstr ""
+
+#: standardize_subject_ids.R:101
 msgid ""
 "You can use the {.fn correct_subject_ids} function to correct {cli::"
 "qty(length(bad_rows))} {?it/them}."
 msgstr ""
 
-#: standardize_subject_ids.R:155
+#: standardize_subject_ids.R:163
 msgid ""
 "Some ids specified in the correction table were not found in the input data."
 msgstr ""
 
-#: standardize_subject_ids.R:156
+#: standardize_subject_ids.R:164
 msgid ""
 "Values in the {.field from} column of the correction table must be part of "
 "the detected incorrect subject ids."
 msgstr ""
 
-#: standardize_subject_ids.R:184
+#: standardize_subject_ids.R:192
 msgid ""
 "Missing {cli::qty(length(idx))} value{?s} found in {.field {id_col_name}} "
 "column at line{?s}: {.val {toString(idx)}}."
 msgstr ""
 
-#: standardize_subject_ids.R:201
+#: standardize_subject_ids.R:209
 msgid "Found {.val {num_dup_rows}} duplicated value{?s} in the subject ids."
 msgstr ""
 
-#: standardize_subject_ids.R:202
+#: standardize_subject_ids.R:210
 msgid ""
 "Enter {.code attr(dat, \"report\")[[\"duplicated_rows\"]]} to access them, "
 "where {.val dat} is the object used to store the output from this operation."

@@ -77,7 +77,7 @@ check_date_sequence <- function(data, target_columns) {
   # send a message that no incorrect sequence of event was found
   if (all(order_date)) {
     cli::cli_alert_info(
-      tr_("Detected 0 incorrect date sequence.")
+      tr_("No incorrect date sequence was detected.")
     )
     return(data)
   }
