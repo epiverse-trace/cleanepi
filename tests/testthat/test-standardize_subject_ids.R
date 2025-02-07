@@ -116,7 +116,7 @@ test_that("check_subject_ids sends a message when duplicated IDs are found", {
   )
 })
 
-test_that("check_subject_ids when the id column is numeric", {
+test_that("check_subject_ids works when the id column is numeric", {
   data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi"))
   data[["case_id"]] <- seq_len(nrow(data))
   dat <- check_subject_ids(data = data,
@@ -124,6 +124,15 @@ test_that("check_subject_ids when the id column is numeric", {
   expect_s3_class(dat, "data.frame")
   expect_false(identical(data, dat))
   expect_true(nrow(data) == nrow(dat))
+})
+
+test_that("check_subject_ids sends a message when no incorrect id was found", {
+  data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi"))
+  data[["case_id"]] <- seq_len(nrow(data))
+  expect_message(
+    check_subject_ids(data = data, target_columns = "case_id"),
+    regexp = cat("No incorrect subject id was detected.")
+  )
 })
 
 data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi"))

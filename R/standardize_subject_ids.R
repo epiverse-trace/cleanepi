@@ -80,23 +80,31 @@ check_subject_ids <- function(data,
     bad_rows <- c(bad_rows, which(!nchar(data[[target_columns]]) == nchar))
   }
 
-  # remove the incorrect rows
-  if (length(bad_rows) > 0) {
-    bad_rows <- sort(unique(bad_rows))
-    tmp_report <- data.frame(
-      idx = bad_rows,
-      ids = data[[target_columns]][bad_rows]
+  # when all subject ids comply with the expected format,
+  # send a message that no incorrect subject ids was found
+  if (length(bad_rows) == 0) {
+    cli::cli_alert_info(
+      tr_("No incorrect subject id was detected.")
     )
-    cli::cli_inform(c(
-      "!" = tr_("Detected invalid subject {cli::qty(length(bad_rows))} id{?s} at line{?s}: {.val {toString(bad_rows)}}."), # nolint: line_length_linter
-      i = tr_("You can use the {.fn correct_subject_ids} function to correct {cli::qty(length(bad_rows))} {?it/them}.") # nolint: line_length_linter
-    ))
-    data <- add_to_report(
-      x = data,
-      key = "incorrect_subject_id",
-      value = tmp_report
-    )
+    return(data)
   }
+
+  # determine row indices with incorrect subject ids, and
+  # report them
+  bad_rows <- sort(unique(bad_rows))
+  tmp_report <- data.frame(
+    idx = bad_rows,
+    ids = data[[target_columns]][bad_rows]
+  )
+  cli::cli_inform(c(
+    "!" = tr_("Detected {.val {length(bad_rows)}} invalid subject id{?s} at line{?s}: {.val {toString(bad_rows)}}."), # nolint: line_length_linter
+    i = tr_("You can use the {.fn correct_subject_ids} function to correct {cli::qty(length(bad_rows))} {?it/them}.") # nolint: line_length_linter
+  ))
+  data <- add_to_report(
+    x = data,
+    key = "incorrect_subject_id",
+    value = tmp_report
+  )
 
   return(data)
 }
