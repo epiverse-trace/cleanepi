@@ -207,6 +207,18 @@
 
         </dt>
         <dd>Detects whether a string contains only numbers or not.</dd>
+      </dl><dl><dt>
+
+          <code><a href="retrieve_column_names.html">retrieve_column_names()</a></code>
+
+        </dt>
+        <dd>Get column names</dd>
+      </dl><dl><dt>
+
+          <code><a href="tr_.html">tr_()</a></code>
+
+        </dt>
+        <dd>Flag out what message will be translated using the <span class="pkg">potools</span> package</dd>
       </dl></div><div class="section level2">
 
       <h3 id="clean-data">Clean data<a class="anchor" aria-label="anchor" href="#clean-data"></a></h3>
@@ -227,7 +239,7 @@
       </dl></div><div class="section level2">
 
       <h3 id="check-data-structure">Check data structure<a class="anchor" aria-label="anchor" href="#check-data-structure"></a></h3>
-      <div class="section-desc"><p>Scan through the input data to determine its composition</p></div>
+      <div class="section-desc"><p>Scan through the input data to determine the composition of character columns</p></div>
 
 
     </div><div class="section level2">
@@ -281,6 +293,12 @@
 
         </dt>
         <dd>Standardize column names of a data frame or linelist</dd>
+      </dl><dl><dt>
+
+          <code><a href="make_unique_column_names.html">make_unique_column_names()</a></code>
+
+        </dt>
+        <dd>Make column names unique when duplicated column names are found after the transformation</dd>
       </dl></div><div class="section level2">
 
       <h3 id="retrieve-date-from-numeric-values">Retrieve Date from numeric values<a class="anchor" aria-label="anchor" href="#retrieve-date-from-numeric-values"></a></h3>
@@ -323,7 +341,7 @@
         <dd>Detect the numeric columns that appears as characters due to the presence of some character values in the column.</dd>
       </dl></div><div class="section level2">
 
-      <h3 id="standardise-dates">Standardise dates<a class="anchor" aria-label="anchor" href="#standardise-dates"></a></h3>
+      <h3 id="standardize-dates">Standardize dates<a class="anchor" aria-label="anchor" href="#standardize-dates"></a></h3>
       <div class="section-desc"><p>Coerce date values to the ISO format <code>Ymd</code> (2024-31-01)</p></div>
 
 
@@ -464,12 +482,6 @@
 
         </dt>
         <dd>Trim dates outside of the defined boundaries</dd>
-      </dl><dl><dt>
-
-          <code><a href="convert_numeric_to_date.html">convert_numeric_to_date()</a></code>
-
-        </dt>
-        <dd>Convert numeric to date</dd>
       </dl></div><div class="section level2">
 
       <h3 id="dictionary-based-substitution">Dictionary-based substitution<a class="anchor" aria-label="anchor" href="#dictionary-based-substitution"></a></h3>
@@ -553,6 +565,12 @@
 
       <dl><dt>
 
+          <code><a href="perform_remove_constants.html">perform_remove_constants()</a></code>
+
+        </dt>
+        <dd>Perform constant data removal.</dd>
+      </dl><dl><dt>
+
           <code><a href="remove_constants.html">remove_constants()</a></code>
 
         </dt>
@@ -574,6 +592,12 @@
 
         </dt>
         <dd>Replace missing values with <code>NA</code></dd>
+      </dl><dl><dt>
+
+          <code><a href="replace_with_na.html">replace_with_na()</a></code>
+
+        </dt>
+        <dd>Detect and replace values with <code>NA</code> from a vector</dd>
       </dl></div><div class="section level2">
 
       <h3 id="calculate-time-span-between-the-variables-of-type-date">Calculate time span between the variables of type Date<a class="anchor" aria-label="anchor" href="#calculate-time-span-between-the-variables-of-type-date"></a></h3>
@@ -614,6 +638,12 @@
 
         </dt>
         <dd>Correct the wrong subject IDs based on the user-provided values.</dd>
+      </dl><dl><dt>
+
+          <code><a href="check_subject_ids_oness.html">check_subject_ids_oness()</a></code>
+
+        </dt>
+        <dd>Checks the uniqueness in values of the sample IDs column</dd>
       </dl></div><div class="section level2">
 
       <h3 id="check-sequence-of-date-events">Check sequence of date events<a class="anchor" aria-label="anchor" href="#check-sequence-of-date-events"></a></h3>
