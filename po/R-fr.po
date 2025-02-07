@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: cleanepi 1.0.2.9000\n"
-"POT-Creation-Date: 2024-12-16 11:57+0000\n"
+"POT-Creation-Date: 2025-02-07 11:26+0000\n"
 "PO-Revision-Date: 2024-11-07 12:38+0000\n"
 "Last-Translator: Karim Mané\n"
 "Language-Team: none\n"
@@ -33,7 +33,11 @@ msgstr ""
 msgid "Have you provided an invalid column name?"
 msgstr "Avez-vous fourni un nom de colonne incorrect ?"
 
-#: check_date_sequence.R:91
+#: check_date_sequence.R:80
+msgid "No incorrect date sequence was detected."
+msgstr "Aucune séquence de date invalide n'a été détectée."
+
+#: check_date_sequence.R:100
 msgid ""
 "Detected {.val {length(bad_order)}} incorrect date sequence{?s} at line{?s}: "
 "{.val {toString(bad_order)}}."
@@ -42,7 +46,7 @@ msgstr ""
 "détectée{?s} à {?la/aux} ligne{?s} suivante{?s}: {.val "
 "{toString(bad_order)}}."
 
-#: check_date_sequence.R:92
+#: check_date_sequence.R:101
 msgid ""
 "Enter {.code attr(dat, \"report\")[[\"incorrect_date_sequence\"]]} to access "
 "them, where {.val dat} is the object used to store the output from this "
@@ -111,7 +115,8 @@ msgstr "Vérification de la séquence des dates"
 
 #: clean_data_helpers.R:70
 msgid "No character column found from the input data."
-msgstr "Aucune colonne avec des valeurs de type chaîne de caractères n’a été "
+msgstr ""
+"Aucune colonne avec des valeurs de type chaîne de caractères n’a été "
 "identifiée."
 
 #: clean_data_helpers.R:91
@@ -193,8 +198,8 @@ msgstr ""
 #: convert_to_numeric.R:41
 msgid "No character column with numeric values found by {.fn scan_data}."
 msgstr ""
-"Aucune colonne de type chaîne de caractères (character) contenant des valeurs "
-"numériques n’a été identifiée par {.fn scan_data}."
+"Aucune colonne de type chaîne de caractères (character) contenant des "
+"valeurs numériques n’a été identifiée par {.fn scan_data}."
 
 #: convert_to_numeric.R:42 convert_to_numeric.R:64
 msgid ""
@@ -569,15 +574,20 @@ msgstr ""
 "où {.val x} représente le vecteur des valeurs issues des colonnes cibles ({."
 "code data$target_column})."
 
-#: standardize_subject_ids.R:91
-msgid ""
-"Detected invalid subject {cli::qty(length(bad_rows))} id{?s} at line{?s}: {."
-"val {toString(bad_rows)}}."
-msgstr ""
-"{cli::qty(length(bad_rows))}{?Un/Des} identifiant{?s} invalide{?s} {?a/ont} "
-"été détecté{?s} {?à la/aux} ligne{?s} : {.val {toString(bad_rows)}}."
+#: standardize_subject_ids.R:87
+msgid "No incorrect subject id was detected."
+msgstr "Aucun identifiant invalide n'a été détecté."
 
-#: standardize_subject_ids.R:92
+#: standardize_subject_ids.R:100
+msgid ""
+"Detected {.val {length(bad_rows)}} invalid subject id{?s} at line{?s}: {.val "
+"{toString(bad_rows)}}."
+msgstr ""
+"{.val {length(bad_order)}} séquence{?s} de dates invalide{?s} {?a/ont} été "
+"détectée{?s} à {?la/aux} ligne{?s} suivante{?s}: {.val "
+"{toString(bad_order)}}."
+
+#: standardize_subject_ids.R:101
 msgid ""
 "You can use the {.fn correct_subject_ids} function to correct {cli::"
 "qty(length(bad_rows))} {?it/them}."
@@ -585,14 +595,14 @@ msgstr ""
 "Vous pouvez {cli::qty(length(bad_rows))} le{?s} corriger en utilisant la "
 "fonction {.fn correct_subject_ids}."
 
-#: standardize_subject_ids.R:155
+#: standardize_subject_ids.R:163
 msgid ""
 "Some ids specified in the correction table were not found in the input data."
 msgstr ""
 "Certains identifiants fournis dans la table de correction ne figurent pas "
 "dans les données d’entrée."
 
-#: standardize_subject_ids.R:156
+#: standardize_subject_ids.R:164
 msgid ""
 "Values in the {.field from} column of the correction table must be part of "
 "the detected incorrect subject ids."
@@ -600,7 +610,7 @@ msgstr ""
 "Les valeurs fournies à la colonne {.field from} de la table de correction "
 "doivent être parmi les identifiants incorrects qui ont été détectés."
 
-#: standardize_subject_ids.R:184
+#: standardize_subject_ids.R:192
 msgid ""
 "Missing {cli::qty(length(idx))} value{?s} found in {.field {id_col_name}} "
 "column at line{?s}: {.val {toString(idx)}}."
@@ -609,13 +619,13 @@ msgstr ""
 "retrouvée{?s} à la colonne {.field {id_col_name}} {cli::qty(length(idx))}{?à "
 "la/aux} ligne{?s} : {.val {toString(idx)}}."
 
-#: standardize_subject_ids.R:201
+#: standardize_subject_ids.R:209
 msgid "Found {.val {num_dup_rows}} duplicated value{?s} in the subject ids."
 msgstr ""
 "{.val {num_dup_rows}} valeur{?s} redondante{?s} {?a/ont} été retrouvée{?s} "
 "dans la colonne contenant les identifiants des individus."
 
-#: standardize_subject_ids.R:202
+#: standardize_subject_ids.R:210
 msgid ""
 "Enter {.code attr(dat, \"report\")[[\"duplicated_rows\"]]} to access them, "
 "where {.val dat} is the object used to store the output from this operation."
@@ -684,3 +694,10 @@ msgstr "des noms de colonnes qui sont ni vides ni constantes, ou bien"
 #: utils.R:189
 msgid "{.fn remove_constants} prior to this cleaning operation."
 msgstr "la fonction {.fn remove_constants} avant cette opération."
+
+#~ msgid ""
+#~ "Detected invalid subject {cli::qty(length(bad_rows))} id{?s} at line{?s}: "
+#~ "{.val {toString(bad_rows)}}."
+#~ msgstr ""
+#~ "{cli::qty(length(bad_rows))}{?Un/Des} identifiant{?s} invalide{?s} {?a/"
+#~ "ont} été détecté{?s} {?à la/aux} ligne{?s} : {.val {toString(bad_rows)}}."

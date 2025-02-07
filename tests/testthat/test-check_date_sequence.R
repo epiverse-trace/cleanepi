@@ -79,3 +79,21 @@ test_that("check_date_sequence works as expected when target_column is provided
                 c("row_id", "date_first_pcr_positive_test", "date.of.admission")
               )
 })
+
+test_that("check_date_sequence sends a message when no incorrect incorrec
+          sequence of date was found", {
+            data_good <- tibble::tribble(
+              ~case_id, ~date_of_infection, ~date_of_onset,
+              "53371b",       "2014-04-09",   "2014-04-15",
+              "f5c3d8",       "2014-04-18",   "2014-04-21",
+              "0f58c4",       "2014-04-22",   "2014-04-26"
+            )
+
+            expect_message(
+              check_date_sequence(
+                data = data_good,
+                target_columns = c("date_of_infection", "date_of_onset")
+              ),
+              regexp = cat("No incorrect date sequence was detected.")
+            )
+})
