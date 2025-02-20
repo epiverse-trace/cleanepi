@@ -59,7 +59,7 @@ check_date_sequence <- function(data, target_columns) {
     )
     target_columns <- target_columns[!missing_cols]
     # After removing unrecognized column names, the process shall be stopped if
-    # there is only one colonne left in `target_columns`
+    # there is only one column left in `target_columns`
     if (length(target_columns) < 2L) {
       cli::cli_abort(c(
         tr_("Insufficient number of columns to compare."),
