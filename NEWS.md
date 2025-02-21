@@ -1,8 +1,12 @@
+# cleanepi 1.0.0 (development version)
+
+* development of data cleaning modules
+
+# cleanepi 1.0.1 to 1.0.2
+
+* minor version releases of {cleanepi} containing various minor improvements requested during the CRAN submission process.
+
 # cleanepi 1.0.2.9000
-
-## New minor features
-
-* Added a `NEWS.md` file to track changes to the package.
 
 ## Bug fixes
 
@@ -48,3 +52,7 @@
 that can also be of type Date.
 
 * Update the package vignette to account for the improvements made in the different pull requests (#194, Karim-Mane).
+
+## Deprecated and defunct
+
+* `clean_data()` no longer uses the `params` arguments. It has been replaced with other arguments documented in the function documentation
