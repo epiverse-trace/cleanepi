@@ -7,14 +7,14 @@
 date_choose_first_good(date_a_frame, column_name)
 }
 \arguments{
-\item{date_a_frame}{A data frame where each column contains a different
-parsing of the same date vector}
+\item{date_a_frame}{A \code{<data.frame>} where each column contains a
+different parsing of the same date vector}
 
-\item{column_name}{The target column name}
+\item{column_name}{A \code{<character>} with the target column name}
 }
 \value{
-The chosen first date value. When there other possible values for a
-given date, this will be registered in the report object.
+The chosen first \code{<Date>} value. When there other possible
+values for a given date, this will be registered in the report object.
 }
 \description{
 Choose the first non-missing date from a data frame of dates

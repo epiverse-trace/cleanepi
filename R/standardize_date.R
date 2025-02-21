@@ -8,24 +8,26 @@
 #' Check for the presence of date values that could have multiple formats
 #' from the \code{$multi_format_dates} element of the \code{report}.\cr
 #'
-#' @param data A data frame or linelist
-#' @param target_columns A vector of the target date column names. When the
-#'    input data is a \code{linelist} object, this parameter can be set to
+#' @param data The input \code{<data.frame>} or \code{<linelist>}
+#' @param target_columns A \code{<vector>} of the target date column names. When
+#'    the input data is a \code{<linelist>} object, this parameter can be set to
 #'    \code{linelist_tags} if you wish to standardize the date columns across
 #'    tagged columns only. Default is \code{NULL}.
-#' @param format A vector of the expected formats in the date values from the
-#'    date columns. Default is \code{NULL}.
-#' @param timeframe A vector of 2 values of type date. If provided, date values
-#'    that do not fall within this timeframe will be set to `NA`.
-#' @param error_tolerance A number between 0 and 1 indicating the proportion of
-#'    entries which cannot be identified as dates to be tolerated; if this
-#'    proportion is exceeded, the original vector is returned, and a message is
-#'    issued; defaults to 0.4 (40 percent).
-#' @param orders A list or character vector with the date codes for fine-grained
-#'    parsing of dates. This allows for parsing of mixed dates. If a list is
-#'    supplied, that list will be used for successive tries in parsing. When
-#'    this is not provided (\code{orders = NULL}), the function will use the
-#'    following order defined in the guesser:
+#' @param format A \code{<vector>} of the expected formats in the date values
+#'    from the date columns. Default is \code{NULL}.
+#' @param timeframe A \code{<vector>} of 2 values of type \code{<Date>}. If
+#'    provided, date values that do not fall within this timeframe will be set
+#'    to \code{NA}.
+#' @param error_tolerance A \code{<numeric>} between 0 and 1 indicating the
+#'    proportion of entries which cannot be identified as dates to be tolerated;
+#'    if this proportion is exceeded, the original vector is returned, and a
+#'    message is issued; defaults to 0.4 (40 percent).
+#' @param orders A \code{<list>} or \code{<vector>} of characters with the date
+#'    codes for fine-grained parsing of dates. This allows for parsing of mixed
+#'    dates. If a \code{<list>} is supplied, that \code{<list>} will be used for
+#'    successive tries in parsing. When this is not provided
+#'    (\code{orders = NULL}), the function will use the following order defined
+#'    in the guesser:
 #'
 #' ```
 #' list(

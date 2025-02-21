@@ -7,19 +7,20 @@
 convert_to_numeric(data, target_columns = NULL, lang = c("en", "fr", "es"))
 }
 \arguments{
-\item{data}{The input data frame or linelist}
+\item{data}{The input \code{<data.frame>} or \code{<linelist>}}
 
-\item{target_columns}{A vector of the target column names. When the input
-data is a \code{linelist} object, this parameter can be set to
+\item{target_columns}{A \code{<vector>} of the target column names. When the
+input data is a \code{<linelist>} object, this parameter can be set to
 \code{linelist_tags} if the tagged columns are those to be converted into
 numeric.}
 
-\item{lang}{The text's language. Currently one of \code{"en"}, \code{"fr"},
-\code{"es"}.}
+\item{lang}{A \code{<character>} with the text's language. Currently one of
+\code{"en"}, \code{"fr"}, \code{"es"}.}
 }
 \value{
-A data frame wherein all the specified or detected columns have been
-transformed into numeric format after the conversion process.
+A \code{<data.frame>} or \code{<linelist>} wherein all the specified
+or detected columns have been transformed into numeric format after the
+conversion process.
 }
 \description{
 When the function is invoked without specifying the column names to be

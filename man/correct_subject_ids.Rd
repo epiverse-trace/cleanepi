@@ -7,11 +7,11 @@
 correct_subject_ids(data, target_columns, correction_table)
 }
 \arguments{
-\item{data}{The input data frame or linelist}
+\item{data}{The input \code{<data.frame>} or \code{<linelist>}}
 
-\item{target_columns}{A vector of column names with the subject ids.}
+\item{target_columns}{A \code{<vector>} of column names with the subject ids.}
 
-\item{correction_table}{A data frame with the following two columns:
+\item{correction_table}{A \code{<data.frame>} with the following two columns:
 \describe{
 \item{from}{a column with the wrong subject IDs}
 \item{to}{a column with the values to be used to substitute the

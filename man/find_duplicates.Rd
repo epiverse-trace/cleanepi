@@ -7,17 +7,17 @@
 find_duplicates(data, target_columns = NULL)
 }
 \arguments{
-\item{data}{A data frame or linelist.}
+\item{data}{The input \code{<data.frame>} or \code{<linelist>}.}
 
-\item{target_columns}{A vector of columns names or indices to consider when
-looking for duplicates. When the input data is a \code{linelist} object,
-this parameter can be set to \code{linelist_tags} from which duplicates
-to be removed. Its default value is \code{NULL}, which considers
-duplicates across all columns.}
+\item{target_columns}{A \code{<vector>} of columns names or indices to
+consider when looking for duplicates. When the input data is a
+\code{<linelist>} object, this parameter can be set to
+\code{linelist_tags} from which duplicates to be removed. Its default
+value is \code{NULL}, which considers duplicates across all columns.}
 }
 \value{
-A data frame or linelist of all duplicated rows with following 2
-additional columns:
+A \code{<data.frame>} or \code{<linelist>} of all duplicated rows
+with following 2 additional columns:
 \describe{
 \item{row_id}{The indices of the duplicated rows from the input data.
 Users can choose from these indices, which row they consider as

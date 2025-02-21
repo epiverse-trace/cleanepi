@@ -7,13 +7,13 @@
 scan_in_character(x, x_name)
 }
 \arguments{
-\item{x}{The input character vector}
+\item{x}{The input \code{<vector>} of characters}
 
 \item{x_name}{The name of the corresponding column}
 }
 \value{
-A numeric vector with the proportion of the different types of data
-that were detected within the input vector.
+A \code{<vector>} of \code{<numeric>} with the proportion of the
+different types of data that were detected within the input vector.
 }
 \description{
 Scan through a character column

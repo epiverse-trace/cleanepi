@@ -8,17 +8,19 @@ transformation}
 make_unique_column_names(after, kept, before, rename)
 }
 \arguments{
-\item{after}{A vector with the transformed column names}
+\item{after}{A \code{<vector>} with the transformed column names}
 
-\item{kept}{A logical vector where column names to keep are set to TRUE}
+\item{kept}{A \code{<logical>} vector where column names to keep are set to
+TRUE}
 
-\item{before}{A vector with the initial column names}
+\item{before}{A \code{<vector>} with the initial column names}
 
-\item{rename}{A vector with the indices of the column names to be renamed}
+\item{rename}{A \code{<vector>} with the indices of the column names to be
+renamed}
 }
 \value{
-An adjusted vector if there were duplicated names introduced due to
-the transformation
+An adjusted \code{<vector>} if there were duplicated names introduced
+due to the transformation
 }
 \description{
 Make column names unique when duplicated column names are found after the

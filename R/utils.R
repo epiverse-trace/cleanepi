@@ -1,6 +1,6 @@
 #' Detects whether a string contains only numbers or not.
 #'
-#' @param x A string of numbers
+#' @param x A \code{<character>} value
 #'
 #' @returns \code{TRUE} if the string only contains numbers, \code{FALSE}
 #'    otherwise
@@ -12,11 +12,11 @@ numbers_only <- function(x) {
 #' Split a string based on a pattern and return the first element of the
 #' resulting vector.
 #'
-#' @param x A string of interest
-#' @param sep A separator in the string of interest
+#' @param x A \code{<character>} or \code{<Date>} value
+#' @param sep A \code{<character>} with the separator identified in 'x'
 #'
-#' @returns A string with the first element of the vector returned by the
-#'    \code{strsplit()} function.
+#' @returns A \code{<character>} with the first element of the vector returned
+#'    by the \code{strsplit()} function.
 #' @keywords internal
 date_get_part1 <- function(x, sep) {
   if (is.na(x)) {
@@ -27,11 +27,11 @@ date_get_part1 <- function(x, sep) {
 
 #' Get part2 of date value
 #'
-#' @param x A string of interest
-#' @param sep A separator in the string of interest
+#' @param x A \code{<character>} or \code{<Date>} value
+#' @param sep A \code{<character>} with the separator identified in 'x'
 #'
-#' @returns A string with the second element of the vector returned by the
-#'    \code{strsplit()} function.
+#' @returns A \code{<character>} with the second element of the vector returned
+#'    by the \code{strsplit()} function.
 #' @keywords internal
 date_get_part2 <- function(x, sep) {
   if (is.na(x)) {
@@ -47,11 +47,11 @@ date_get_part2 <- function(x, sep) {
 
 #' Get part3 of date value
 #'
-#' @param x A string of interest
-#' @param sep A separator in the string of interest
+#' @param x \code{<character>} or \code{<Date>} value
+#' @param sep A \code{<character>} with the separator identified in 'x'
 #'
-#' @returns A string with the third element of the vector returned by the
-#'    \code{strsplit()} function.
+#' @returns A \code{<character>} with the third element of the vector returned
+#'    by the \code{strsplit()} function.
 #' @keywords internal
 #'
 date_get_part3 <- function(x, sep) {
@@ -68,11 +68,12 @@ date_get_part3 <- function(x, sep) {
 
 #' Add an element to the report object
 #'
-#' @param x A data frame  or linelist
-#' @param key The name of the cleaning operation
+#' @param x A \code{<data.frame>} or \code{<linelist>}
+#' @param key A \code{<character>} with the name of the cleaning operation
 #' @param value The object to add to the report object
 #'
-#' @returns The input report object with an additional element
+#' @returns The input \code{<data.frame>} or \code{<linelist>} with an
+#'    additional element to the report.
 #' @export
 #'
 #' @examples
@@ -109,12 +110,12 @@ add_to_report <- function(x, key, value = NULL) {
 
 #' Get the names of the columns from which duplicates will be found
 #'
-#' @param data A data frame or linelist
-#' @param target_columns A vector of column names. For linelist data, this can
-#'    be \code{linelist_tags}
-#' @param cols A vector of empty and constant columns
+#' @inheritParams clean_data
+#' @param target_columns A \code{<vector>} of column names. For
+#'    \code{<linelist>} data, this can be set to \code{linelist_tags}
+#' @param cols A \code{<vector>} of empty and constant columns
 #'
-#' @returns A vector with the target column names or indexes
+#' @returns A \code{<vector>} with the target column names or indexes
 #'
 #' @keywords internal
 #'
@@ -190,11 +191,11 @@ get_target_column_names <- function(data, target_columns, cols) {
 #' provided to anticipate on this scenario, hence providing continuity between
 #' the cleaning operations.
 #'
-#' @param data The input data. It can also be a modified data generated in
-#'    intermediate cleaning operations.
-#' @param target_columns A vector of target column names
+#' @inheritParams clean_data
+#' @param target_columns A \code{<vector>} of column names. For
+#'    \code{<linelist>} data, this can be set to \code{linelist_tags}
 #'
-#' @returns A vector of column names to be used for the target cleaning
+#' @returns A \code{<vector>} of column names to be used for the target cleaning
 #'    operations
 #' @keywords internal
 #'

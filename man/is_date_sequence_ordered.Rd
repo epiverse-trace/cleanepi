@@ -7,7 +7,7 @@
 is_date_sequence_ordered(x)
 }
 \arguments{
-\item{x}{A vector of Date values}
+\item{x}{A \code{<vector>} of \code{<Date>} values}
 }
 \value{
 \code{TRUE} if elements of the vector are ordered, \code{FALSE} otherwise.

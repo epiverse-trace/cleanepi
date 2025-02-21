@@ -7,21 +7,34 @@
 add_to_dictionary(dictionary, option, value, grp, order = NULL)
 }
 \arguments{
-\item{dictionary}{A data dictionary in a form of a data frame}
+\item{dictionary}{A \code{<data.frame>} with the dictionary associated with
+the input data. This is expected to be compatible with the
+\pkg{matchmaker} package and must contain the following four columns:
+\describe{
+\item{\code{options}}{This column contains the current values used to
+represent the different groups in the input data frame (required).}
+\item{\code{values}}{The values that will be used to replace the current
+options (required).}
+\item{\code{grp}}{The name of the columns where every option belongs to
+(required).}
+\item{\code{orders}}{This defines the user-defined order of different options
+(optional).}
+}}
 
-\item{option}{A vector of strings with the new options that need to be added
-to the dictionary.}
+\item{option}{A \code{<vector>} of characters with the new options that need
+to be added to the dictionary.}
 
-\item{value}{A vector with the values to be used when replacing the new
-options.}
+\item{value}{A \code{<vector>} of characters with the values to be used when
+replacing the new options.}
 
-\item{grp}{A vector with the name of the column that contains the option
-of interest.}
+\item{grp}{A \code{<vector>} of characters with the name of the column that
+contains the option of interest.}
 
-\item{order}{A numeric with the order of the new option.}
+\item{order}{A \code{<vector>} of numeric values with the order of the new
+option.}
 }
 \value{
-An object of type data frame. This is the new data dictionary with
+A \code{<data.frame>}. This is the new data dictionary with
 an additional line that contains the details about the new options.
 }
 \description{

@@ -13,24 +13,27 @@ print_report(
 )
 }
 \arguments{
-\item{data}{A data frame or linelist object returned from the
-\code{clean_data()} or the main functions of each data cleaning module.}
+\item{data}{A \code{<data.frame>} or \code{<linelist>} object returned from
+the \code{\link{clean_data}} or the main functions of each data cleaning
+module.}
 
-\item{report_title}{The title to appear on the report}
+\item{report_title}{A \code{<character>} with the title that will appear on
+the report}
 
-\item{output_file_name}{A string specifying the name of the report file,
-excluding any file extension. If no file name is supplied, one will be
-automatically generated with the format
+\item{output_file_name}{A \code{<character>} used to specify the name of the
+report file, excluding any file extension. If no file name is supplied,
+one will be automatically generated with the format
 \code{cleanepi_report_YYMMDD_HHMMSS}.}
 
-\item{format}{The file format of the report. Currently only \code{"html"}
-is supported.}
+\item{format}{A \code{<character>} with the file format of the report.
+Currently only \code{"html"} is supported.}
 
-\item{print}{A logical that specifies whether to print the generated HTML
-file or no. Default is \code{TRUE}.}
+\item{print}{A \code{<logical>} that specifies whether to print the generated
+HTML file or no. Default is \code{TRUE}.}
 }
 \value{
-A string containing the name and path of the saved report
+A \code{<character>} containing the name and path of the saved
+report
 }
 \description{
 Generate report from data cleaning operations

@@ -7,13 +7,13 @@
 date_get_part3(x, sep)
 }
 \arguments{
-\item{x}{A string of interest}
+\item{x}{\code{<character>} or \code{<Date>} value}
 
-\item{sep}{A separator in the string of interest}
+\item{sep}{A \code{<character>} with the separator identified in 'x'}
 }
 \value{
-A string with the third element of the vector returned by the
-\code{strsplit()} function.
+A \code{<character>} with the third element of the vector returned
+by the \code{strsplit()} function.
 }
 \description{
 Get part3 of date value

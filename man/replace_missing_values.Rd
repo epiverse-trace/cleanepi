@@ -11,15 +11,15 @@ replace_missing_values(
 )
 }
 \arguments{
-\item{data}{A data frame or linelist}
+\item{data}{The input \code{<data.frame>} or \code{<linelist>}}
 
-\item{target_columns}{A vector of column names. If provided, the substitution
-of missing values will only be executed in those specified columns. When
-the input data is a \code{linelist} object, this parameter can be set to
-\code{linelist_tags} if you wish to replace missing values with \code{NA}
-on tagged columns only.}
+\item{target_columns}{A \code{<vector>} of column names. If provided, the
+substitution of missing values will only be executed in those specified
+columns. When the input data is a \code{<linelist>} object, this parameter
+can be set to \code{linelist_tags} if you wish to replace missing values
+with \code{NA} on tagged columns only.}
 
-\item{na_strings}{A vector of strings that represents the missing
+\item{na_strings}{A \code{<vector>} of characters that represent the missing
 values in the columns of interest. By default, it utilizes
 \code{cleanepi::common_na_strings}. However, if the missing values string
 in the columns of interest is not included in this predefined vector,

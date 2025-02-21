@@ -1,24 +1,27 @@
 #' Calculate time span between dates
 #'
-#' @param data The input data frame or linelist
-#' @param target_column A string used to specify the name of the date column of
-#'    interest. The values in this column should be of type 'Date' in ISO8601
-#'    format ("2024-01-31").
-#' @param end_date An end date. It can be either a character that is the name of
-#'    another column of type 'Date' from the input data or a vector of Dates or
-#'    a single Date value. This should also be in the ISO8601 format
-#'    ("2024-01-31"). Default is today's date \code{Sys.Date()}.
-#' @param span_unit A string that specifies the units in which the time span
-#'    between the dates will be returned. The possible units are: 'years',
-#'    'months', 'weeks' or 'days'.
-#' @param span_column_name A string for the name of the new column to be used to
-#'    store the calculated time span in the input data frame.
-#' @param span_remainder_unit A string for the unit in which the remainder of
-#'    the time span should be calculated. May be one of "months", "weeks",
-#'    and "days". Remainders requested in the same unit as the age will return
-#'    values of 0. Default is \code{NULL} for decimal time span.
+#' @param data The input \code{<data.frame>} or \code{<linelist>}
+#' @param target_column A \code{<vector>} of character used to specify the name
+#'    of the date column of interest. The values in this column should be of
+#'    type 'Date' in ISO8601 format ("2024-01-31").
+#' @param end_date The end date. It can be either a \code{<character>} that is
+#'    the name of another column of type \code{<Date>} from the input data or a
+#'    \code{<vector>} of Dates or a single \code{<Date>} value. This should also
+#'    be in the ISO8601 format ("2024-01-31"). Default is today's date
+#'    \code{Sys.Date()}.
+#' @param span_unit A \code{<character>} that specifies the units in which the
+#'    time span between the dates will be returned. The possible units are:
+#'    'years', 'months', 'weeks' or 'days'.
+#' @param span_column_name A \code{<character>} that specifies the name of the
+#'    new column to be used to store the calculated time span in the input data
+#'    frame.
+#' @param span_remainder_unit A \code{<character>} that specifies the unit in
+#'    which the remainder of the time span should be calculated. May be one of
+#'    "months", "weeks", and "days". Remainders requested in the same unit as
+#'    the age will return values of 0. Default is \code{NULL} for decimal
+#'    time span.
 #'
-#' @returns The input data frame with one or two additional columns:
+#' @returns The input \code{<data.frame>} with one or two additional columns:
 #' \describe{
 #'   \item{span}{or any other name chosen by the user. This will contain the
 #'      calculated time span in the desired units.}

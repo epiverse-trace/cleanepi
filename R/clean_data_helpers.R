@@ -5,19 +5,19 @@
 #' found, it reports back the proportion of the data types mentioned above in
 #' those columns. See the details section to know more about how it works.
 #'
-#' @param data A data frame or linelist
+#' @param data A \code{<data.frame>} or \code{<linelist>}
 #'
-#' @returns A data frame if the input data contains columns of type character.
-#'    It invisibly returns \code{NA} otherwise. The returned data frame will
-#'    have the same number of rows as the number of character columns, and six
-#'    columns representing their column names, proportion of missing, numeric,
-#'    date, character, and logical values.
+#' @returns A \code{<data.frame>} if the input data contains columns of type
+#'    character. It invisibly returns \code{NA} otherwise. The returned data
+#'    frame will have the same number of rows as the number of character
+#'    columns, and six columns representing their column names, proportion of
+#'    missing, numeric, date, character, and logical values.
 #'
 #' @details
 #' How does it work?
-#' The \code{character} columns are identified first. When there is no
-#' character column the function returns a message.
-#' For every character column, we count:
+#' The \code{<character>} columns are identified first. When there is no
+#' \code{<character>} column the function returns a message.
+#' For every \code{<character>} column, we count:
 #' 1. the number of missing data \code{NA}
 #' 2. the number of numeric values. A process of detecting valid dates among the
 #' numeric values is then initiated using \code{lubridate::as_date()} and
@@ -25,12 +25,13 @@
 #' the presence and ambiguous (numeric values that are potentially date) values.
 #' NOTE: A date is considered valid in this case if it falls within the interval
 #' of today's date and 50 years back from today.
-#' 3. detect the Date values from the non-numeric using the \code{date_guess()}
-#' function. The date count is the sum of dates identified from numeric and
-#' non-numeric values. Because of the overlap between numeric and date, the sum
-#' across the rows in the scanning result might be greater than 1.
-#' 4. count the logical values.
-#' The remaining values will be those of type characters.
+#' 3. detect the \code{<Date>} values from the non-numeric using the
+#' \code{date_guess()} function. The date count is the sum of dates identified
+#' from numeric and non-numeric values. Because of the overlap between numeric
+#' and date, the sum across the rows in the scanning result might be greater
+#' than 1.
+#' 4. count the \code{<logical>} values.
+#' The remaining values will be those of type \code{<character>}.
 #'
 #' @export
 #'
@@ -100,11 +101,11 @@ scan_data <- function(data) {
 
 #' Scan through a character column
 #'
-#' @param x The input character vector
+#' @param x The input \code{<vector>} of characters
 #' @param x_name The name of the corresponding column
 #'
-#' @return A numeric vector with the proportion of the different types of data
-#'    that were detected within the input vector.
+#' @return A \code{<vector>} of \code{<numeric>} with the proportion of the
+#'    different types of data that were detected within the input vector.
 #' @keywords internal
 #'
 scan_in_character <- function(x, x_name) {

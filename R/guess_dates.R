@@ -10,13 +10,14 @@
 #' (i.e. entries without an identified date) that can be tolerated. If this
 #' threshold is exceeded, the original vector is returned.
 #'
-#' @param x A `character` vector or a `factor`
-#' @param quiet A logical indicating if messages should be displayed to the
-#'     console (`TRUE`, default); set to `FALSE` to silence messages
-#' @param column_name The target column name
+#' @param x A \code{<vector>} of characters or factors
+#' @param quiet A \code{<logical>} indicating if messages should be displayed to
+#'     the console. Default is \code{TRUE}; set to \code{FALSE} to silence
+#'     messages
+#' @param column_name A \code{<character>} with the target column name
 #' @inheritParams standardize_dates
 #'
-#' @returns A list of following three elements: a vector of the newly
+#' @returns A \code{<list>} of following three elements: a vector of the newly
 #'    reformatted dates, a data frame with the date values that were converted
 #'    based on more than one format, and a Boolean that specifies whether
 #'    ambiguous values were found or not. If all values comply with only one
@@ -170,15 +171,15 @@ date_guess <- function(x,
 
 #' Find the dates that lubridate couldn't
 #'
-#' @param date_a_frame A data frame where each column contains a different
-#'    parsing of the same date vector
-#' @param original_dates The vector of original dates
-#' @param column_name The target column name
+#' @param date_a_frame A \code{<data.frame>} where each column contains a
+#'    different parsing of the same date vector
+#' @param original_dates A \code{<vector>} of original dates
+#' @param column_name A \code{<character>} with the target column name
 #'
-#' @returns A list with the following two elements: the input data frame where
-#'    the values that do not match the proposed formats have been converted into
-#'    Date, and a boolean that informs about the presence of ambiguous values or
-#'    not.
+#' @returns A \code{<list>} with the following two elements: the input data
+#'    frame where the values that do not match the proposed formats have been
+#'    converted into Date, and a boolean that informs about the presence of
+#'    ambiguous values or not.
 #' @keywords internal
 date_rescue_lubridate_failures <- function(date_a_frame, original_dates,
                                            column_name) {
@@ -228,10 +229,11 @@ date_rescue_lubridate_failures <- function(date_a_frame, original_dates,
 #' well-formatted date, but still returning a character. If it can't convert
 #' it, it returns NA.
 #'
-#' @param x A character vector
+#' @param x A \code{<vector>} of characters
 #'
-#' @returns If the format cannot be resolved, the function returns NA; if a
-#'    matching format is found, it returns the converted values.
+#' @returns If the format cannot be resolved, the function returns \code{NA}; if
+#'    a matching format is found, it returns the \code{<vector>} of the
+#'    converted values.
 #' @keywords internal
 date_i_guess_and_convert <- function(x) {
   x <- as.character(x)
@@ -246,12 +248,12 @@ date_i_guess_and_convert <- function(x) {
 
 #' Choose the first non-missing date from a data frame of dates
 #'
-#' @param date_a_frame A data frame where each column contains a different
-#'    parsing of the same date vector
-#' @param column_name The target column name
+#' @param date_a_frame A \code{<data.frame>} where each column contains a
+#'    different parsing of the same date vector
+#' @param column_name A \code{<character>} with the target column name
 #'
-#' @returns The chosen first date value. When there other possible values for a
-#'    given date, this will be registered in the report object.
+#' @returns The chosen first \code{<Date>} value. When there other possible
+#'    values for a given date, this will be registered in the report object.
 #' @keywords internal
 #'
 date_choose_first_good <- function(date_a_frame, column_name) {

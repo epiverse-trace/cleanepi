@@ -7,13 +7,13 @@
 replace_with_na(x, na_strings)
 }
 \arguments{
-\item{x}{The input vector}
+\item{x}{A \code{<vector>} of numeric or character values}
 
-\item{na_strings}{A vector of the values to be replaced}
+\item{na_strings}{A \code{<vector>} of the values to be replaced}
 }
 \value{
-A vector where the specified values were replaced with \code{NA} if
-found.
+A \code{<vector>} where the specified values were replaced with
+\code{NA} if found.
 }
 \description{
 Detect and replace values with \code{NA} from a vector

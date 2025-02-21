@@ -1,9 +1,9 @@
 #' Perform dictionary-based cleaning
 #'
-#' @param data The input data frame or linelist
-#' @param dictionary A data frame with the dictionary associated with the input
-#'    data. This is expected to be compatible with the \pkg{matchmaker} package
-#'    and must contain the following four columns:
+#' @param data The input \code{<data.frame>} or \code{<linelist>}
+#' @param dictionary A \code{<data.frame>} with the dictionary associated with
+#'    the input data. This is expected to be compatible with the
+#'    \pkg{matchmaker} package and must contain the following four columns:
 #'    \describe{
 #'      \item{`options`}{This column contains the current values used to
 #'          represent the different groups in the input data frame (required).}
@@ -15,8 +15,9 @@
 #'          (optional).}
 #'    }
 #'
-#' @returns A data frame where the target options have been replaced with their
-#'    corresponding values in the columns specified in the data dictionary.
+#' @returns A \code{<data.frame>} or \code{<linelist>} where the target options
+#'    have been replaced with their corresponding values in the columns
+#'    specified in the data dictionary.
 #' @export
 #'
 #' @examples
@@ -97,11 +98,11 @@ clean_using_dictionary <- function(data, dictionary) {
 #' Build the report for the detected misspelled values during dictionary-based
 #' data cleaning operation
 #'
-#' @param misspelled_options A list with the detected misspelled values in the
-#'    columns of interest.
+#' @param misspelled_options A \code{<list>} with the detected misspelled values
+#'    in the columns of interest.
 #' @inheritParams clean_using_dictionary
 #'
-#' @returns A data frame the details about where in the input data the
+#' @returns A \code{<data.frame>} the details about where in the input data the
 #'    misspelled values were found.
 #' @keywords internal
 #'
@@ -122,12 +123,12 @@ construct_misspelled_report <- function(misspelled_options, data) {
 
 #' Make data dictionary for 1 field
 #'
-#' @param x A vector choices from the input data
-#' @param field_column A character with the name of the field where the
+#' @param x A \code{<vector>} of choices from the input data
+#' @param field_column A \code{<character>} with the name of the field where the
 #'    choices are made.
 #'
-#' @returns A data frame with the dictionary in the format that is accepted by
-#'    the \pkg{matchmaker} package.
+#' @returns A \code{<data.frame>} with the dictionary in the format that is
+#'    accepted by the \pkg{matchmaker} package.
 #' @keywords internal
 #'
 dictionary_make_metadata <- function(x, field_column) {
@@ -148,16 +149,17 @@ dictionary_make_metadata <- function(x, field_column) {
 
 #' Add an element to the data dictionary
 #'
-#' @param dictionary A data dictionary in a form of a data frame
-#' @param option A vector of strings with the new options that need to be added
-#'    to the dictionary.
-#' @param value A vector with the values to be used when replacing the new
-#'    options.
-#' @param grp A vector with the name of the column that contains the option
-#'    of interest.
-#' @param order A numeric with the order of the new option.
+#' @inheritParams clean_using_dictionary
+#' @param option A \code{<vector>} of characters with the new options that need
+#'    to be added to the dictionary.
+#' @param value A \code{<vector>} of characters with the values to be used when
+#'    replacing the new options.
+#' @param grp A \code{<vector>} of characters with the name of the column that
+#'    contains the option of interest.
+#' @param order A \code{<vector>} of numeric values with the order of the new
+#'    option.
 #'
-#' @returns An object of type data frame. This is the new data dictionary with
+#' @returns A \code{<data.frame>}. This is the new data dictionary with
 #'    an additional line that contains the details about the new options.
 #' @export
 #'
@@ -216,8 +218,8 @@ add_to_dictionary <- function(dictionary,
 #'
 #' @inheritParams clean_using_dictionary
 #'
-#' @returns A list with the indexes of the misspelled values in every column
-#'    that needs to be cleaned.
+#' @returns A \code{<list>} with the indexes of the misspelled values in every
+#'    column that needs to be cleaned.
 #' @keywords internal
 #'
 detect_misspelled_options <- function(data, dictionary) {
@@ -240,7 +242,7 @@ detect_misspelled_options <- function(data, dictionary) {
 #' Print the detected misspelled values
 #'
 #' @inheritParams clean_using_dictionary
-#' @param misspelled_options A list with the misspelled values found in
+#' @param misspelled_options A \code{<list>} with the misspelled values found in
 #'    the different columns of the input data.
 #'
 #' @returns Prints out the misspelled values from the column of interest

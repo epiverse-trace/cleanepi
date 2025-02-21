@@ -7,15 +7,15 @@
 perform_remove_constants(data, cutoff)
 }
 \arguments{
-\item{data}{The input data frame or linelist}
+\item{data}{The input \code{<data.frame>} or \code{<linelist>}}
 
-\item{cutoff}{The cut-off for empty rows and columns removal. If provided,
-only rows and columns where the percent of missing data is greater than
-this cut-off will removed. Default is 1.}
+\item{cutoff}{A \code{<numeric>} with the cut-off for empty rows and columns
+removal. If provided, only rows and columns where the percent of missing
+data is greater than this cut-off will removed. Default is 1.}
 }
 \value{
-A list with the input dataset where all empty rows and columns as
-well as constant columns have been removed.
+A \code{<list>} with the input dataset where all empty rows and
+columns as well as constant columns have been removed.
 }
 \description{
 This function is called at every iteration of the constant data removal until

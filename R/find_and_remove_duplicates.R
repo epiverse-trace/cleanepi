@@ -4,14 +4,14 @@
 #' When removing duplicates, users can specify a set columns to consider with
 #' the \code{target_columns} argument.
 #'
-#' @param data The input data frame or linelist.
-#' @param target_columns A vector of column names to use when looking for
-#'    duplicates. When the input data is a \code{linelist} object, this
+#' @param data The input \code{<data.frame>} or \code{<linelist>}.
+#' @param target_columns A \code{<vector>} of column names to use when looking
+#'    for duplicates. When the input data is a \code{linelist} object, this
 #'    parameter can be set to \code{linelist_tags} if you wish to look for
 #'    duplicates on tagged columns only. Default is \code{NULL}.
 #'
-#' @returns A  data frame or linelist  without the duplicated rows identified
-#'    from all or the specified columns.
+#' @returns The input data \code{<data.frame>} or \code{<linelist>} without the
+#'    duplicated rows identified from all or the specified columns.
 #' @export
 #'
 #' @examples
@@ -66,15 +66,15 @@ remove_duplicates <- function(data, target_columns = NULL) {
 
 #' Identify and return duplicated rows in a data frame or linelist.
 #'
-#' @param data A data frame or linelist.
-#' @param target_columns A vector of columns names or indices to consider when
-#'    looking for duplicates. When the input data is a \code{linelist} object,
-#'    this parameter can be set to \code{linelist_tags} from which duplicates
-#'    to be removed. Its default value is \code{NULL}, which considers
-#'    duplicates across all columns.
+#' @inheritParams remove_duplicates
+#' @param target_columns A \code{<vector>} of columns names or indices to
+#'    consider when looking for duplicates. When the input data is a
+#'    \code{<linelist>} object, this parameter can be set to
+#'    \code{linelist_tags} from which duplicates to be removed. Its default
+#'    value is \code{NULL}, which considers duplicates across all columns.
 #'
-#' @returns A data frame or linelist of all duplicated rows with following 2
-#'    additional columns:
+#' @returns A \code{<data.frame>} or \code{<linelist>} of all duplicated rows
+#'    with following 2 additional columns:
 #'    \describe{
 #'      \item{row_id}{The indices of the duplicated rows from the input data.
 #'          Users can choose from these indices, which row they consider as

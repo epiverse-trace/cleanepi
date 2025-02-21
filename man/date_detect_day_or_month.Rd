@@ -7,11 +7,11 @@
 date_detect_day_or_month(x)
 }
 \arguments{
-\item{x}{The input string}
+\item{x}{A \code{<character>} with the input string}
 }
 \value{
-A string with abbreviation used to distinguish the written day or
-month
+A \code{<character>} with the abbreviation used to designate the
+written day or month
 }
 \description{
 Detect the appropriate abbreviation for day or month value

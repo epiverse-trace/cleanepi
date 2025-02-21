@@ -2,26 +2,26 @@
 % Please edit documentation in R/default_cleanepi_settings.R
 \name{modify_default_params}
 \alias{modify_default_params}
-\title{Update \code{clean_data()} default argument's values with the user-provided
-values}
+\title{Update \code{\link{clean_data}} default argument's values with the
+user-provided values.}
 \usage{
 modify_default_params(defaults, params, strict = TRUE)
 }
 \arguments{
-\item{defaults}{A list with the default arguments}
+\item{defaults}{A \code{<list>} with the default arguments}
 
-\item{params}{A list with the user-specified arguments}
+\item{params}{A \code{<list>} with the user-specified arguments}
 
-\item{strict}{A boolean that specified whether to trigger an error or not
-when there is a difference between the list of default arguments and
-list of the arguments provided by the user. Default is \code{TRUE}.}
+\item{strict}{A \code{<logical>} that specified whether to trigger an error
+or not when there is a difference between the list of default arguments
+and list of the arguments provided by the user. Default is \code{TRUE}.}
 }
 \value{
-The updated list of parameters that will be used to perform the data
-cleaning.
+The updated \code{<list>} of parameters that will be used to perform
+the data cleaning.
 }
 \description{
-Update \code{clean_data()} default argument's values with the user-provided
-values
+Update \code{\link{clean_data}} default argument's values with the
+user-provided values.
 }
 \keyword{internal}

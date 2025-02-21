@@ -7,14 +7,14 @@
 dictionary_make_metadata(x, field_column)
 }
 \arguments{
-\item{x}{A vector choices from the input data}
+\item{x}{A \code{<vector>} of choices from the input data}
 
-\item{field_column}{A character with the name of the field where the
+\item{field_column}{A \code{<character>} with the name of the field where the
 choices are made.}
 }
 \value{
-A data frame with the dictionary in the format that is accepted by
-the \pkg{matchmaker} package.
+A \code{<data.frame>} with the dictionary in the format that is
+accepted by the \pkg{matchmaker} package.
 }
 \description{
 Make data dictionary for 1 field

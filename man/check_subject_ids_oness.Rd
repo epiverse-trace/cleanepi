@@ -7,13 +7,14 @@
 check_subject_ids_oness(data, id_col_name)
 }
 \arguments{
-\item{data}{the input data frame}
+\item{data}{The input \code{<data.frame>} or \code{<linelist>}}
 
-\item{id_col_name}{the name of the column that contains the sample IDs}
+\item{id_col_name}{A \code{<character>} with the name of the column that
+contains the sample IDs}
 }
 \value{
-the input data frame with and extra element in its attributes when
-there are missing or duplicated IDs.
+the input \code{<data.frame>} with and extra element in its
+attributes when there are missing or duplicated IDs.
 }
 \description{
 Checks the uniqueness in values of the sample IDs column

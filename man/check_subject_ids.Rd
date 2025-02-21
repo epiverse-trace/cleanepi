@@ -4,7 +4,7 @@
 \alias{check_subject_ids}
 \title{Check whether the subject IDs comply with the expected format. When incorrect
 IDs are found, the function sends a warning and the user can call the
-\code{correct_subject_ids()} function to correct them.}
+\code{\link{correct_subject_ids}} function to correct them.}
 \usage{
 check_subject_ids(
   data,
@@ -16,18 +16,18 @@ check_subject_ids(
 )
 }
 \arguments{
-\item{data}{The input data frame or linelist}
+\item{data}{The input \code{<data.frame>} or \code{<linelist>}}
 
-\item{target_columns}{A vector of column names with the subject ids.}
+\item{target_columns}{A \code{<vector>} of column names with the subject ids.}
 
-\item{prefix}{A prefix used in the subject IDs}
+\item{prefix}{A \code{<character>} with the prefix used in the subject IDs}
 
-\item{suffix}{A suffix used in the subject IDs}
+\item{suffix}{A \code{<character>} with the suffix used in the subject IDs}
 
-\item{range}{A vector with the range of numbers in the sample IDs}
+\item{range}{A \code{<vector>} with the range of numbers in the sample IDs}
 
-\item{nchar}{An integer that represents the expected number of characters in
-the subject ids.}
+\item{nchar}{An \code{<integer>} that represents the expected number of
+characters in the subject ids.}
 }
 \value{
 The input dataset with a warning if incorrect subject ids were found
@@ -35,7 +35,7 @@ The input dataset with a warning if incorrect subject ids were found
 \description{
 Check whether the subject IDs comply with the expected format. When incorrect
 IDs are found, the function sends a warning and the user can call the
-\code{correct_subject_ids()} function to correct them.
+\code{\link{correct_subject_ids}} function to correct them.
 }
 \examples{
 dat <- check_subject_ids(

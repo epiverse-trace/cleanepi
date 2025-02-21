@@ -8,14 +8,14 @@
 scan_data(data)
 }
 \arguments{
-\item{data}{A data frame or linelist}
+\item{data}{A \code{<data.frame>} or \code{<linelist>}}
 }
 \value{
-A data frame if the input data contains columns of type character.
-It invisibly returns \code{NA} otherwise. The returned data frame will
-have the same number of rows as the number of character columns, and six
-columns representing their column names, proportion of missing, numeric,
-date, character, and logical values.
+A \code{<data.frame>} if the input data contains columns of type
+character. It invisibly returns \code{NA} otherwise. The returned data
+frame will have the same number of rows as the number of character
+columns, and six columns representing their column names, proportion of
+missing, numeric, date, character, and logical values.
 }
 \description{
 The function checks for the existence of character columns in the data. When
@@ -24,9 +24,9 @@ those columns. See the details section to know more about how it works.
 }
 \details{
 How does it work?
-The \code{character} columns are identified first. When there is no
-character column the function returns a message.
-For every character column, we count:
+The \code{<character>} columns are identified first. When there is no
+\code{<character>} column the function returns a message.
+For every \code{<character>} column, we count:
 \enumerate{
 \item the number of missing data \code{NA}
 \item the number of numeric values. A process of detecting valid dates among the
@@ -35,12 +35,13 @@ numeric values is then initiated using \code{lubridate::as_date()} and
 the presence and ambiguous (numeric values that are potentially date) values.
 NOTE: A date is considered valid in this case if it falls within the interval
 of today's date and 50 years back from today.
-\item detect the Date values from the non-numeric using the \code{date_guess()}
-function. The date count is the sum of dates identified from numeric and
-non-numeric values. Because of the overlap between numeric and date, the sum
-across the rows in the scanning result might be greater than 1.
-\item count the logical values.
-The remaining values will be those of type characters.
+\item detect the \code{<Date>} values from the non-numeric using the
+\code{date_guess()} function. The date count is the sum of dates identified
+from numeric and non-numeric values. Because of the overlap between numeric
+and date, the sum across the rows in the scanning result might be greater
+than 1.
+\item count the \code{<logical>} values.
+The remaining values will be those of type \code{<character>}.
 }
 }
 \examples{

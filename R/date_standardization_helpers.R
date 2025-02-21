@@ -1,13 +1,13 @@
 #' Check date time frame
 #'
-#' @param first_date A Date object specifying the first valid date.
+#' @param first_date A \code{<Date>} object specifying the first valid date.
 #' Default is fifty years before the \code{last_date}.
 #' This can also be a character in ISO8601 format i.e. "2024-12-31".
-#' @param last_date A Date object specifying the last valid date.
+#' @param last_date A \code{<Date>} object specifying the last valid date.
 #' Default is the current date. This can also be a character in
 #' ISO8601 format i.e. "2024-12-31".
 #'
-#' @returns A list with the first and last dates
+#' @returns A \code{<list>} with the first and last dates
 #' @keywords internal
 #'
 date_check_timeframe <- function(first_date, last_date) {
@@ -54,17 +54,17 @@ date_check_timeframe <- function(first_date, last_date) {
 
 #' Trim dates outside of the defined boundaries
 #'
-#' @param new_dates A vector of the new date values
-#' @param dmin A minimum date
-#' @param dmax A maximum date
-#' @param original_dates A vector of original dates (to be collected
+#' @param new_dates A \code{<vector>} of the new date values
+#' @param dmin A \code{<Date>} value with the minimum date
+#' @param dmax A \code{<Date>} value with the maximum date
+#' @param original_dates A \code{<vector>} of original dates (to be collected
 #'    for errors)
-#' @param cols The name of the date column of interest
-#' @param original_dates A vector of the original date values
+#' @param cols A \code{<character>} with the name of the date column of interest
+#' @param original_dates A \code{<vector>} of the original date values
 #'
-#' @returns A list of 2 elements: the update input vector where date values that
-#'    are out of the boundaries are replaced by \code{NA}, and a vector of the
-#'    out of boundaries values.
+#' @returns A \code{<list>} of 2 elements: the update input vector where date
+#'    values that are out of the boundaries are replaced by \code{NA}, and a
+#'    vector of the out of boundaries values.
 #' @keywords internal
 #'
 date_trim_outliers <- function(new_dates, dmin, dmax, cols, original_dates) {
@@ -93,10 +93,10 @@ date_trim_outliers <- function(new_dates, dmin, dmax, cols, original_dates) {
 #' Convert characters to dates
 #'
 #' @inheritParams standardize_dates
-#' @param cols A Date column name(s)
+#' @param cols A \code{<Date>} column name(s)
 #'
-#' @returns A list with the following two elements: a data frame where the
-#'    specified columns have been converted into Date, a boolean that tells
+#' @returns A \code{<list>} with the following two elements: a data frame where
+#'    the specified columns have been converted into Date, a boolean that tells
 #'    whether numeric values that can also be of type Date are found in the
 #'    specified columns.
 #'
@@ -161,12 +161,13 @@ date_convert <- function(data, cols, error_tolerance,
 #' Convert and update the date values
 #'
 #' @inheritParams standardize_dates
-#' @param new_dates A vector of the converted date values
-#' @param cols The names of the date column been converted
+#' @param new_dates A \code{<vector>} of the converted date values
+#' @param cols A \code{<character>} with the names of the date column to be
+#'    converted
 #'
-#' @returns A list of 2 data frames: the updated input data (if some columns
-#'    were converted to Date) and a data frame of date values that are not
-#'    within the specified timeframe.
+#' @returns A \code{<list>} of 2 data frames: the updated input data (if some
+#'    columns were converted to Date) and a data frame of date values that are
+#'    not within the specified timeframe.
 #' @keywords internal
 #'
 date_check_outsiders <- function(data, timeframe, new_dates, cols) {
@@ -195,13 +196,13 @@ date_check_outsiders <- function(data, timeframe, new_dates, cols) {
 
 #' Guess if a character vector contains Date values, and convert them to date
 #'
-#' @param data A data frame
+#' @param data A \code{<data.frame>}
 #' @inheritParams standardize_dates
 #'
-#' @returns A list with the following two elements: the input data frame where
-#'    the character columns with date values have been converted into Date, and
-#'    a vector of column names where there are numeric values that can also be
-#'    of type Date.
+#' @returns A \code{<list>} with the following two elements: the input data
+#'    frame where the character columns with date values have been converted
+#'    into Date, and a vector of column names where there are numeric values
+#'    that can also be of type Date.
 #' @keywords internal
 #'
 date_guess_convert <- function(data, error_tolerance, timeframe,
@@ -279,9 +280,9 @@ date_guess_convert <- function(data, error_tolerance, timeframe,
 
 #' Detect complex date format
 #'
-#' @param x A string of interest
+#' @param x A \code{<character>} with the string of interest
 #'
-#' @returns A string with the inferred format.
+#' @returns A \code{<character>} with the inferred format.
 #' @keywords internal
 #'
 date_detect_complex_format <- function(x) {
@@ -314,9 +315,9 @@ date_detect_complex_format <- function(x) {
 
 #' Detect a date format with only 1 separator
 #'
-#' @param x A string of interest
+#' @param x A \code{<character>} with the string of interest
 #'
-#' @returns A string with the identified format.
+#' @returns A \code{<character>} with the identified format.
 #' @keywords internal
 #'
 date_detect_format <- function(x) {
@@ -335,10 +336,10 @@ date_detect_format <- function(x) {
 
 #' Detect the special character that is the separator in the date values
 #'
-#' @param x A string of interest
-#' @returns A detected separator
+#' @param x A \code{<character>} with the string of interest
+#' @returns A \code{<character>} with the detected separator
 #'
-#' @returns A vector of the identified special characters.
+#' @returns A \code{<vector>} of the identified special characters.
 #' @keywords internal
 #'
 date_detect_separator <- function(x) {
@@ -357,10 +358,10 @@ date_detect_separator <- function(x) {
 
 #' Detect the appropriate abbreviation for day or month value
 #'
-#' @param x The input string
+#' @param x A \code{<character>} with the input string
 #'
-#' @returns A string with abbreviation used to distinguish the written day or
-#'    month
+#' @returns A \code{<character>} with the abbreviation used to designate the
+#'    written day or month
 #' @keywords internal
 #'
 date_detect_day_or_month <- function(x) {
@@ -392,9 +393,10 @@ date_detect_day_or_month <- function(x) {
 
 #' Get format from a simple Date value
 #'
-#' @param x A string with the date value of interest
+#' @param x A \code{<character>} with the date value of interest
 #'
-#' @returns A string with the abbreviation that correspond to the Date value
+#' @returns A \code{<character>} with the abbreviation that correspond to the
+#'    Date value
 #' @keywords internal
 #'
 date_detect_simple_format <- function(x) {
@@ -426,9 +428,9 @@ date_detect_simple_format <- function(x) {
 
 #' Infer date format from a vector or characters
 #'
-#' @param x The input character vector
+#' @param x A \code{<vector>} of characters
 #'
-#' @return A string with the inferred date format
+#' @return A \code{<character>} with the inferred date format
 #' @keywords internal
 #'
 date_get_format <- function(x) {
@@ -504,12 +506,13 @@ date_get_format <- function(x) {
 #' Put together the different date format characters that were identified from
 #' the target date column.
 #'
-#' @param f1 The first part of the inferred format
-#' @param f2 The second part of the inferred format
-#' @param f3 The third part of the inferred format
+#' @param f1 A \code{<character>} with the first part of the inferred format
+#' @param f2 A \code{<character>} with the second part of the inferred format
+#' @param f3 A \code{<character>} with the third part of the inferred format
 #'
-#' @return A character string that represent the inferred format from the date
-#'    values. It returns NULL when the format was not resolved.
+#' @return A \code{<character>} that represents the inferred format from the
+#'    provided elements. It returns \code{<NULL>} when the format was not
+#'    resolved.
 #'
 #' @keywords internal
 #'
@@ -533,9 +536,9 @@ date_make_format <- function(f1, f2, f3) {
 
 #' Process date variable
 #'
-#' @param x A object of class Date
+#' @param x A \code{<Date>} object
 #'
-#' @return The converted input value into Date or character
+#' @return The converted input value into \code{<Date>} or \code{<character>}
 #' @keywords internal
 #'
 date_process <- function(x) {
@@ -562,10 +565,11 @@ date_process <- function(x) {
 #' Check whether the number of provided formats matches the number of target
 #' columns to be standardized.
 #'
-#' @param target_columns A vector of column names to be standardized
-#' @param format A vector of formats to be used when standardizing the columns
+#' @param target_columns A \code{<vector>} of column names to be standardized
+#' @param format A \code{<vector>} of formats to be used when standardizing the
+#'    columns
 #'
-#' @return A vector of format
+#' @return A \code{<vector>} of characters with the validated formats
 #' @keywords internal
 #'
 date_match_format_and_column <- function(target_columns, format) {

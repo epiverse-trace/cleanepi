@@ -7,22 +7,23 @@
 convert_numeric_to_date(data, target_columns, ref_date, forward = TRUE)
 }
 \arguments{
-\item{data}{The input data frame or linelist}
+\item{data}{The input \code{<data.frame>} or \code{<linelist>}}
 
-\item{target_columns}{A vector of columns names to be converted from numeric
-to date. When the input data is a \code{linelist} object, this parameter
-can be set to \code{linelist_tags} if you wish to only convert the tagged
-columns.}
+\item{target_columns}{A \code{<vector>} of columns names to be converted from
+numeric to date. When the input data is a \code{<linelist>} object, this
+parameter can be set to \code{linelist_tags} if you wish to only convert
+the tagged columns.}
 
-\item{ref_date}{A reference date. This can also be a character string with
-the name of the reference column.}
+\item{ref_date}{A \code{<Date>} value with reference date. This can also be a
+character string with the name of the reference column.}
 
-\item{forward}{A Boolean to indicate whether the counts started after the
-reference date (\code{TRUE}) or not (\code{FALSE}). The default is
-\code{TRUE}.}
+\item{forward}{A \code{<logical>} to indicate whether the counts started
+after the reference date (\code{TRUE}) or not (\code{FALSE}). The default
+is \code{TRUE}.}
 }
 \value{
-A data frame where the column of interest are updated
+A \code{<data.frame>} or \code{<linelist>} where the column of
+interest are updated
 }
 \description{
 Convert numeric to date

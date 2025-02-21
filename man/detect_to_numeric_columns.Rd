@@ -8,13 +8,13 @@ some character values in the column.}
 detect_to_numeric_columns(scan_res, data)
 }
 \arguments{
-\item{scan_res}{A data frame that corresponds to the result from the
-\code{scan_data()} function}
+\item{scan_res}{A \code{<data.frame>} that corresponds to the result from the
+\code{\link{scan_data}} function}
 
-\item{data}{The input data from which 'scan_res' was generated.}
+\item{data}{The input \code{<data.frame>} or \code{<linelist>}}
 }
 \value{
-a vector of column names to be converted into numeric
+a \code{<vector>} of column names to be converted into numeric
 }
 \description{
 Detect the numeric columns that appears as characters due to the presence of

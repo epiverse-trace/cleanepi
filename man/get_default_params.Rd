@@ -2,12 +2,12 @@
 % Please edit documentation in R/default_cleanepi_settings.R
 \name{get_default_params}
 \alias{get_default_params}
-\title{Set and return \code{clean_data()} default parameters}
+\title{Set and return \code{\link{clean_data}} default parameters}
 \usage{
 get_default_params()
 }
 \value{
-The list of the default cleaning parameters.
+A \code{<list>} of the default cleaning parameters.
 }
 \description{
 When \code{clean_data()} function is called without any argument, these
