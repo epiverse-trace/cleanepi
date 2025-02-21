@@ -1,18 +1,19 @@
-#' Standardize column names of a data frame or linelist
+#' Standardize column names of a data frame or line list
 #'
 #' All columns names will be reformatted to use the snakecase. When the
 #' conversion to snakecase does not work as expected, use the \code{keep} and/or
 #' \code{rename} arguments to reformat the column name properly.
 #'
-#' @param data The input data frame or linelist.
-#' @param keep A vector of column names to maintain as they are. When dealing
-#'    with a linelist, this can be set to \code{linelist_tags}, to maintain the
-#'    tagged column names. The Default is \code{NULL}.
-#' @param rename A named vector of column names to be renamed. This should be in
-#'    the form of \code{c(new_name1 = "old_name1", new_name2 = "old_name2")} for
-#'    example.
+#' @param data The input \code{<data.frame>} or \code{<linelist>}.
+#' @param keep A \code{<vector>} of column names to maintain as they are. When
+#'    dealing with a \code{<linelist>}, this can be set to \code{linelist_tags},
+#'    to maintain the tagged column names. The Default is \code{NULL}.
+#' @param rename A named \code{<vector>} of column names to be renamed. This
+#'    should be in the form of
+#'    \code{c(new_name1 = "old_name1", new_name2 = "old_name2")} for example.
 #'
-#' @returns A data frame or linelist with easy to work with column names.
+#' @returns A \code{<data.frame>} or \code{<linelist>} with easy to work with
+#'    column names.
 #'
 #' @export
 #' @examples
@@ -113,13 +114,15 @@ standardize_column_names <- function(data, keep = NULL, rename = NULL) {
 #' Make column names unique when duplicated column names are found after the
 #' transformation
 #'
-#' @param after A vector with the transformed column names
-#' @param kept A logical vector where column names to keep are set to TRUE
-#' @param before A vector with the initial column names
-#' @param rename A vector with the indices of the column names to be renamed
+#' @param after A \code{<vector>} with the transformed column names
+#' @param kept A \code{<logical>} vector where column names to keep are set to
+#'    TRUE
+#' @param before A \code{<vector>} with the initial column names
+#' @param rename A \code{<vector>} with the indices of the column names to be
+#'    renamed
 #'
-#' @return An adjusted vector if there were duplicated names introduced due to
-#'    the transformation
+#' @return An adjusted \code{<vector>} if there were duplicated names introduced
+#'    due to the transformation
 #' @keywords internal
 #'
 make_unique_column_names <- function(after, kept, before, rename) {

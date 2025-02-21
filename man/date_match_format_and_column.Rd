@@ -8,12 +8,13 @@ columns to be standardized.}
 date_match_format_and_column(target_columns, format)
 }
 \arguments{
-\item{target_columns}{A vector of column names to be standardized}
+\item{target_columns}{A \code{<vector>} of column names to be standardized}
 
-\item{format}{A vector of formats to be used when standardizing the columns}
+\item{format}{A \code{<vector>} of formats to be used when standardizing the
+columns}
 }
 \value{
-A vector of format
+A \code{<vector>} of characters with the validated formats
 }
 \description{
 Check whether the number of provided formats matches the number of target

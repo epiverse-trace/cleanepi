@@ -7,13 +7,13 @@
 retrieve_column_names(data, target_columns)
 }
 \arguments{
-\item{data}{The input data. It can also be a modified data generated in
-intermediate cleaning operations.}
+\item{data}{The input \code{<data.frame>} or \code{<linelist>}}
 
-\item{target_columns}{A vector of target column names}
+\item{target_columns}{A \code{<vector>} of column names. For
+\code{<linelist>} data, this can be set to \code{linelist_tags}}
 }
 \value{
-A vector of column names to be used for the target cleaning
+A \code{<vector>} of column names to be used for the target cleaning
 operations
 }
 \description{

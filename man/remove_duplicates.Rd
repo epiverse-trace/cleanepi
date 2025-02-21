@@ -7,16 +7,16 @@
 remove_duplicates(data, target_columns = NULL)
 }
 \arguments{
-\item{data}{The input data frame or linelist.}
+\item{data}{The input \code{<data.frame>} or \code{<linelist>}.}
 
-\item{target_columns}{A vector of column names to use when looking for
-duplicates. When the input data is a \code{linelist} object, this
+\item{target_columns}{A \code{<vector>} of column names to use when looking
+for duplicates. When the input data is a \code{linelist} object, this
 parameter can be set to \code{linelist_tags} if you wish to look for
 duplicates on tagged columns only. Default is \code{NULL}.}
 }
 \value{
-A  data frame or linelist  without the duplicated rows identified
-from all or the specified columns.
+The input data \code{<data.frame>} or \code{<linelist>} without the
+duplicated rows identified from all or the specified columns.
 }
 \description{
 When removing duplicates, users can specify a set columns to consider with

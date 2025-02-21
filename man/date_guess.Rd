@@ -7,18 +7,20 @@
 date_guess(x, column_name, quiet = TRUE, orders = NULL)
 }
 \arguments{
-\item{x}{A \code{character} vector or a \code{factor}}
+\item{x}{A \code{<vector>} of characters or factors}
 
-\item{column_name}{The target column name}
+\item{column_name}{A \code{<character>} with the target column name}
 
-\item{quiet}{A logical indicating if messages should be displayed to the
-console (\code{TRUE}, default); set to \code{FALSE} to silence messages}
+\item{quiet}{A \code{<logical>} indicating if messages should be displayed to
+the console. Default is \code{TRUE}; set to \code{FALSE} to silence
+messages}
 
-\item{orders}{A list or character vector with the date codes for fine-grained
-parsing of dates. This allows for parsing of mixed dates. If a list is
-supplied, that list will be used for successive tries in parsing. When
-this is not provided (\code{orders = NULL}), the function will use the
-following order defined in the guesser:
+\item{orders}{A \code{<list>} or \code{<vector>} of characters with the date
+codes for fine-grained parsing of dates. This allows for parsing of mixed
+dates. If a \code{<list>} is supplied, that \code{<list>} will be used for
+successive tries in parsing. When this is not provided
+(\code{orders = NULL}), the function will use the following order defined
+in the guesser:
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{list(
   quarter_partial_dates = c("Y", "Ym", "Yq"),
@@ -31,7 +33,7 @@ following order defined in the guesser:
 }\if{html}{\out{</div>}}}
 }
 \value{
-A list of following three elements: a vector of the newly
+A \code{<list>} of following three elements: a vector of the newly
 reformatted dates, a data frame with the date values that were converted
 based on more than one format, and a Boolean that specifies whether
 ambiguous values were found or not. If all values comply with only one

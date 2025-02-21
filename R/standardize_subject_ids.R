@@ -1,14 +1,14 @@
 #' Check whether the subject IDs comply with the expected format. When incorrect
 #' IDs are found, the function sends a warning and the user can call the
-#' \code{correct_subject_ids()} function to correct them.
+#' \code{\link{correct_subject_ids}} function to correct them.
 #'
-#' @param data The input data frame or linelist
-#' @param target_columns A vector of column names with the subject ids.
-#' @param prefix A prefix used in the subject IDs
-#' @param suffix A suffix used in the subject IDs
-#' @param range A vector with the range of numbers in the sample IDs
-#' @param nchar An integer that represents the expected number of characters in
-#'    the subject ids.
+#' @param data The input \code{<data.frame>} or \code{<linelist>}
+#' @param target_columns A \code{<vector>} of column names with the subject ids.
+#' @param prefix A \code{<character>} with the prefix used in the subject IDs
+#' @param suffix A \code{<character>} with the suffix used in the subject IDs
+#' @param range A \code{<vector>} with the range of numbers in the sample IDs
+#' @param nchar An \code{<integer>} that represents the expected number of
+#'    characters in the subject ids.
 #'
 #' @returns The input dataset with a warning if incorrect subject ids were found
 #'
@@ -116,7 +116,7 @@ check_subject_ids <- function(data,
 #' substitution.
 #'
 #' @inheritParams check_subject_ids
-#' @param correction_table A data frame with the following two columns:
+#' @param correction_table A \code{<data.frame>} with the following two columns:
 #'  \describe{
 #'    \item{from}{a column with the wrong subject IDs}
 #'    \item{to}{a column with the values to be used to substitute the
@@ -177,11 +177,12 @@ correct_subject_ids <- function(data, target_columns, correction_table) {
 
 #' Checks the uniqueness in values of the sample IDs column
 #'
-#' @param data the input data frame
-#' @param id_col_name the name of the column that contains the sample IDs
+#' @inheritParams check_subject_ids
+#' @param id_col_name A \code{<character>} with the name of the column that
+#'    contains the sample IDs
 #'
-#' @returns the input data frame with and extra element in its attributes when
-#'    there are missing or duplicated IDs.
+#' @returns the input \code{<data.frame>} with and extra element in its
+#'    attributes when there are missing or duplicated IDs.
 #' @keywords internal
 #'
 check_subject_ids_oness <- function(data, id_col_name) {

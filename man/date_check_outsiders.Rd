@@ -7,19 +7,21 @@
 date_check_outsiders(data, timeframe, new_dates, cols)
 }
 \arguments{
-\item{data}{A data frame or linelist}
+\item{data}{The input \code{<data.frame>} or \code{<linelist>}}
 
-\item{timeframe}{A vector of 2 values of type date. If provided, date values
-that do not fall within this timeframe will be set to \code{NA}.}
+\item{timeframe}{A \code{<vector>} of 2 values of type \code{<Date>}. If
+provided, date values that do not fall within this timeframe will be set
+to \code{NA}.}
 
-\item{new_dates}{A vector of the converted date values}
+\item{new_dates}{A \code{<vector>} of the converted date values}
 
-\item{cols}{The names of the date column been converted}
+\item{cols}{A \code{<character>} with the names of the date column to be
+converted}
 }
 \value{
-A list of 2 data frames: the updated input data (if some columns
-were converted to Date) and a data frame of date values that are not
-within the specified timeframe.
+A \code{<list>} of 2 data frames: the updated input data (if some
+columns were converted to Date) and a data frame of date values that are
+not within the specified timeframe.
 }
 \description{
 Convert and update the date values

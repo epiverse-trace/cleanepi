@@ -7,10 +7,10 @@
 date_detect_complex_format(x)
 }
 \arguments{
-\item{x}{A string of interest}
+\item{x}{A \code{<character>} with the string of interest}
 }
 \value{
-A string with the inferred format.
+A \code{<character>} with the inferred format.
 }
 \description{
 Detect complex date format

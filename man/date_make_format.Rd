@@ -7,15 +7,16 @@
 date_make_format(f1, f2, f3)
 }
 \arguments{
-\item{f1}{The first part of the inferred format}
+\item{f1}{A \code{<character>} with the first part of the inferred format}
 
-\item{f2}{The second part of the inferred format}
+\item{f2}{A \code{<character>} with the second part of the inferred format}
 
-\item{f3}{The third part of the inferred format}
+\item{f3}{A \code{<character>} with the third part of the inferred format}
 }
 \value{
-A character string that represent the inferred format from the date
-values. It returns NULL when the format was not resolved.
+A \code{<character>} that represents the inferred format from the
+provided elements. It returns \code{<NULL>} when the format was not
+resolved.
 }
 \description{
 Put together the different date format characters that were identified from

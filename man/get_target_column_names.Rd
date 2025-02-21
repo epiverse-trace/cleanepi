@@ -7,15 +7,15 @@
 get_target_column_names(data, target_columns, cols)
 }
 \arguments{
-\item{data}{A data frame or linelist}
+\item{data}{The input \code{<data.frame>} or \code{<linelist>}}
 
-\item{target_columns}{A vector of column names. For linelist data, this can
-be \code{linelist_tags}}
+\item{target_columns}{A \code{<vector>} of column names. For
+\code{<linelist>} data, this can be set to \code{linelist_tags}}
 
-\item{cols}{A vector of empty and constant columns}
+\item{cols}{A \code{<vector>} of empty and constant columns}
 }
 \value{
-A vector with the target column names or indexes
+A \code{<vector>} with the target column names or indexes
 }
 \description{
 Get the names of the columns from which duplicates will be found

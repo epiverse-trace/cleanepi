@@ -7,12 +7,12 @@
 date_detect_separator(x)
 }
 \arguments{
-\item{x}{A string of interest}
+\item{x}{A \code{<character>} with the string of interest}
 }
 \value{
-A detected separator
+A \code{<character>} with the detected separator
 
-A vector of the identified special characters.
+A \code{<vector>} of the identified special characters.
 }
 \description{
 Detect the special character that is the separator in the date values

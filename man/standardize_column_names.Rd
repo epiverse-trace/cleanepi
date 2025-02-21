@@ -2,23 +2,24 @@
 % Please edit documentation in R/column_name_standardization.R
 \name{standardize_column_names}
 \alias{standardize_column_names}
-\title{Standardize column names of a data frame or linelist}
+\title{Standardize column names of a data frame or line list}
 \usage{
 standardize_column_names(data, keep = NULL, rename = NULL)
 }
 \arguments{
-\item{data}{The input data frame or linelist.}
+\item{data}{The input \code{<data.frame>} or \code{<linelist>}.}
 
-\item{keep}{A vector of column names to maintain as they are. When dealing
-with a linelist, this can be set to \code{linelist_tags}, to maintain the
-tagged column names. The Default is \code{NULL}.}
+\item{keep}{A \code{<vector>} of column names to maintain as they are. When
+dealing with a \code{<linelist>}, this can be set to \code{linelist_tags},
+to maintain the tagged column names. The Default is \code{NULL}.}
 
-\item{rename}{A named vector of column names to be renamed. This should be in
-the form of \code{c(new_name1 = "old_name1", new_name2 = "old_name2")} for
-example.}
+\item{rename}{A named \code{<vector>} of column names to be renamed. This
+should be in the form of
+\code{c(new_name1 = "old_name1", new_name2 = "old_name2")} for example.}
 }
 \value{
-A data frame or linelist with easy to work with column names.
+A \code{<data.frame>} or \code{<linelist>} with easy to work with
+column names.
 }
 \description{
 All columns names will be reformatted to use the snakecase. When the

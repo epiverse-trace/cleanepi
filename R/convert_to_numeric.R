@@ -6,16 +6,17 @@
 #' values is at least twice the percentage of character values and performs the
 #' conversion in them.
 #'
-#' @param data The input data frame or linelist
-#' @param target_columns A vector of the target column names. When the input
-#'    data is a `linelist` object, this parameter can be set to
+#' @param data The input \code{<data.frame>} or \code{<linelist>}
+#' @param target_columns A \code{<vector>} of the target column names. When the
+#'    input data is a \code{<linelist>} object, this parameter can be set to
 #'    \code{linelist_tags} if the tagged columns are those to be converted into
 #'    numeric.
-#' @param lang The text's language. Currently one of \code{"en"}, \code{"fr"},
-#'    \code{"es"}.
+#' @param lang A \code{<character>} with the text's language. Currently one of
+#'    \code{"en"}, \code{"fr"}, \code{"es"}.
 #'
-#' @returns A data frame wherein all the specified or detected columns have been
-#'    transformed into numeric format after the conversion process.
+#' @returns A \code{<data.frame>} or \code{<linelist>} wherein all the specified
+#'    or detected columns have been transformed into numeric format after the
+#'    conversion process.
 #' @export
 #'
 #' @examples
@@ -79,11 +80,11 @@ convert_to_numeric <- function(data, target_columns = NULL,
 #' Detect the numeric columns that appears as characters due to the presence of
 #' some character values in the column.
 #'
-#' @param scan_res A data frame that corresponds to the result from the
-#'    `scan_data()` function
-#' @param data The input data from which 'scan_res' was generated.
+#' @inheritParams convert_to_numeric
+#' @param scan_res A \code{<data.frame>} that corresponds to the result from the
+#'    \code{\link{scan_data}} function
 #'
-#' @returns a vector of column names to be converted into numeric
+#' @returns a \code{<vector>} of column names to be converted into numeric
 #' @keywords internal
 #'
 detect_to_numeric_columns <- function(scan_res, data) {

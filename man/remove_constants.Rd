@@ -7,11 +7,11 @@
 remove_constants(data, cutoff = 1)
 }
 \arguments{
-\item{data}{The input data frame or linelist}
+\item{data}{The input \code{<data.frame>} or \code{<linelist>}}
 
-\item{cutoff}{The cut-off for empty rows and columns removal. If provided,
-only rows and columns where the percent of missing data is greater than
-this cut-off will removed. Default is 1.}
+\item{cutoff}{A \code{<numeric>} with the cut-off for empty rows and columns
+removal. If provided, only rows and columns where the percent of missing
+data is greater than this cut-off will removed. Default is 1.}
 }
 \value{
 The input dataset without the empty rows and columns and the

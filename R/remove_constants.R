@@ -4,10 +4,10 @@
 #' anymore. It stores the details about the removed constant data in a form of
 #' a data frame within the report object.
 #'
-#' @param data The input data frame or linelist
-#' @param cutoff The cut-off for empty rows and columns removal. If provided,
-#'    only rows and columns where the percent of missing data is greater than
-#'    this cut-off will removed. Default is 1.
+#' @param data The input \code{<data.frame>} or \code{<linelist>}
+#' @param cutoff A \code{<numeric>} with the cut-off for empty rows and columns
+#'    removal. If provided, only rows and columns where the percent of missing
+#'    data is greater than this cut-off will removed. Default is 1.
 #'
 #' @returns The input dataset without the empty rows and columns and the
 #'    constant columns.
@@ -137,8 +137,8 @@ remove_constants <- function(data, cutoff = 1.0) {
 #'
 #' @inheritParams remove_constants
 #'
-#' @return A list with the input dataset where all empty rows and columns as
-#'    well as constant columns have been removed.
+#' @return A \code{<list>} with the input dataset where all empty rows and
+#'    columns as well as constant columns have been removed.
 #' @keywords internal
 #'
 perform_remove_constants <- function(data, cutoff) {

@@ -1,4 +1,4 @@
-#' Set and return \code{clean_data()} default parameters
+#' Set and return \code{\link{clean_data}} default parameters
 #'
 #' When \code{clean_data()} function is called without any argument, these
 #' default values provided to the function's arguments will be applied on the
@@ -7,7 +7,7 @@
 #' include: i) standardizing column names, ii) detecting and removing
 #' duplicates, and iii) removing constant data.
 #'
-#' @return The list of the default cleaning parameters.
+#' @return A \code{<list>} of the default cleaning parameters.
 #' @export
 #'
 #' @examples
@@ -28,17 +28,17 @@ get_default_params <- function() {
   return(params)
 }
 
-#' Update \code{clean_data()} default argument's values with the user-provided
-#' values
+#' Update \code{\link{clean_data}} default argument's values with the
+#' user-provided values.
 #'
-#' @param defaults A list with the default arguments
-#' @param params A list with the user-specified arguments
-#' @param strict A boolean that specified whether to trigger an error or not
-#'    when there is a difference between the list of default arguments and
-#'    list of the arguments provided by the user. Default is \code{TRUE}.
+#' @param defaults A \code{<list>} with the default arguments
+#' @param params A \code{<list>} with the user-specified arguments
+#' @param strict A \code{<logical>} that specified whether to trigger an error
+#'    or not when there is a difference between the list of default arguments
+#'    and list of the arguments provided by the user. Default is \code{TRUE}.
 #'
-#' @return The updated list of parameters that will be used to perform the data
-#'    cleaning.
+#' @return The updated \code{<list>} of parameters that will be used to perform
+#'    the data cleaning.
 #' @keywords internal
 #'
 modify_default_params <- function(defaults, params, strict = TRUE) {

@@ -7,10 +7,10 @@
 date_process(x)
 }
 \arguments{
-\item{x}{A object of class Date}
+\item{x}{A \code{<Date>} object}
 }
 \value{
-The converted input value into Date or character
+The converted input value into \code{<Date>} or \code{<character>}
 }
 \description{
 Process date variable

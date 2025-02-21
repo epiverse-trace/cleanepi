@@ -1,13 +1,12 @@
-
 #' Replace missing values with \code{NA}
 #'
-#' @param data A data frame or linelist
-#' @param target_columns A vector of column names. If provided, the substitution
-#'    of missing values will only be executed in those specified columns. When
-#'    the input data is a \code{linelist} object, this parameter can be set to
-#'    \code{linelist_tags} if you wish to replace missing values with \code{NA}
-#'    on tagged columns only.
-#' @param na_strings A vector of strings that represents the missing
+#' @param data The input \code{<data.frame>} or \code{<linelist>}
+#' @param target_columns A \code{<vector>} of column names. If provided, the
+#'    substitution of missing values will only be executed in those specified
+#'    columns. When the input data is a \code{<linelist>} object, this parameter
+#'    can be set to \code{linelist_tags} if you wish to replace missing values
+#'    with \code{NA} on tagged columns only.
+#' @param na_strings A \code{<vector>} of characters that represent the missing
 #'    values in the columns of interest. By default, it utilizes
 #'    \code{cleanepi::common_na_strings}. However, if the missing values string
 #'    in the columns of interest is not included in this predefined vector,
@@ -63,11 +62,11 @@ replace_missing_values <- function(data,
 
 #' Detect and replace values with \code{NA} from a vector
 #'
-#' @param x The input vector
-#' @param na_strings A vector of the values to be replaced
+#' @param x A \code{<vector>} of numeric or character values
+#' @param na_strings A \code{<vector>} of the values to be replaced
 #'
-#' @return A vector where the specified values were replaced with \code{NA} if
-#'    found.
+#' @return A \code{<vector>} where the specified values were replaced with
+#'    \code{NA} if found.
 #' @keywords internal
 #'
 replace_with_na <- function(x, na_strings) {

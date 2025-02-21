@@ -4,14 +4,14 @@
 #' @description Checks whether a date sequence in a vector of specified columns
 #' is in order or not.
 #'
-#' @param data The input data frame or linelist
-#' @param target_columns A vector of column names for events. Users should
-#'    specify at least 2 column names in the expected order. For example:
+#' @param data The input \code{<data.frame>} or \code{<linelist>}
+#' @param target_columns A \code{<vector>} of column names for events. Users
+#'    should specify at least 2 column names in the expected order. For example:
 #'    \code{target_columns = c("date_symptoms_onset", "date_hospitalization",
 #'    "date_death")}.
-#'    When the input data is a \code{linelist} object, this parameter can be set
-#'    to \code{linelist_tags} if you wish to use the date sequence across only
-#'    the tagged columns columns only.
+#'    When the input data is a \code{<linelist>} object, this parameter can be
+#'    set to \code{linelist_tags} if you wish to use the date sequence across
+#'    only the tagged columns columns only.
 #'    The date values in the target columns should be in the ISO8601 format
 #'    (2024-12-31). Otherwise, use the \code{standardize_dates()} function to
 #'    standardize the target columns.
@@ -107,7 +107,7 @@ check_date_sequence <- function(data, target_columns) {
 
 #' Check order of a sequence of date-events
 #'
-#' @param x A vector of Date values
+#' @param x A \code{<vector>} of \code{<Date>} values
 #'
 #' @returns `TRUE` if elements of the vector are ordered, `FALSE` otherwise.
 #' @keywords internal

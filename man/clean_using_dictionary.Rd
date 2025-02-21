@@ -7,11 +7,11 @@
 clean_using_dictionary(data, dictionary)
 }
 \arguments{
-\item{data}{The input data frame or linelist}
+\item{data}{The input \code{<data.frame>} or \code{<linelist>}}
 
-\item{dictionary}{A data frame with the dictionary associated with the input
-data. This is expected to be compatible with the \pkg{matchmaker} package
-and must contain the following four columns:
+\item{dictionary}{A \code{<data.frame>} with the dictionary associated with
+the input data. This is expected to be compatible with the
+\pkg{matchmaker} package and must contain the following four columns:
 \describe{
 \item{\code{options}}{This column contains the current values used to
 represent the different groups in the input data frame (required).}
@@ -24,8 +24,9 @@ options (required).}
 }}
 }
 \value{
-A data frame where the target options have been replaced with their
-corresponding values in the columns specified in the data dictionary.
+A \code{<data.frame>} or \code{<linelist>} where the target options
+have been replaced with their corresponding values in the columns
+specified in the data dictionary.
 }
 \description{
 Perform dictionary-based cleaning

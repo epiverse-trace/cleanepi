@@ -7,10 +7,11 @@
 date_detect_simple_format(x)
 }
 \arguments{
-\item{x}{A string with the date value of interest}
+\item{x}{A \code{<character>} with the date value of interest}
 }
 \value{
-A string with the abbreviation that correspond to the Date value
+A \code{<character>} with the abbreviation that correspond to the
+Date value
 }
 \description{
 Get format from a simple Date value

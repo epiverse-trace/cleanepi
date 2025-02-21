@@ -7,10 +7,10 @@
 date_get_format(x)
 }
 \arguments{
-\item{x}{The input character vector}
+\item{x}{A \code{<vector>} of characters}
 }
 \value{
-A string with the inferred date format
+A \code{<character>} with the inferred date format
 }
 \description{
 Infer date format from a vector or characters

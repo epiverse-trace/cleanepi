@@ -7,11 +7,12 @@
 date_i_guess_and_convert(x)
 }
 \arguments{
-\item{x}{A character vector}
+\item{x}{A \code{<vector>} of characters}
 }
 \value{
-If the format cannot be resolved, the function returns NA; if a
-matching format is found, it returns the converted values.
+If the format cannot be resolved, the function returns \code{NA}; if
+a matching format is found, it returns the \code{<vector>} of the
+converted values.
 }
 \description{
 This function tries converting a single character string into a
