@@ -59,6 +59,7 @@ Suggests:
     knitr,
     lintr,
     markdown,
+    naniar,
     reactable,
     rmarkdown,
     spelling,

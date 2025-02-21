@@ -291,6 +291,7 @@ The modules and surrogate functions will depend mainly on the following packages
 [{linelist}](https://CRAN.R-project.org/package=linelist) used to perform some operations on linelist-type input objects, [{matchmaker}](https://CRAN.R-project.org/package=matchmaker) utilized to perform the dictionary-based cleaning, [{lubridate}](https://CRAN.R-project.org/package=dplyr) used to create, handle, and manipulate objects of type Date, [{reactable}](https://CRAN.R-project.org/package=reactable) mainly used here to customize the data cleaning report, [{cli}](https://CRAN.R-project.org/package=cli) utilized to reformat all the messages in the package (from version 1.1.0 and above),
 [{rlang}](https://CRAN.R-project.org/package=rlang) used here for its `.data` functionality to retrieve data-variables from the data frame, [{readr}](https://CRAN.R-project.org/package=readr) used to import data, [{janitor}](https://CRAN.R-project.org/package=janitor) used to standardize column names in `standardize_column_names()`,
 [{tibble}](https://CRAN.R-project.org/package=tibble) used to work tibbles.
+[{naniar}](https://CRAN.R-project.org/package=tibble) used to for its predefined set of common missing value strings.
 
 The functions will require other packages that are needed in the package development process including:
 
