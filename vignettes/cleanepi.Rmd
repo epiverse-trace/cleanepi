@@ -413,7 +413,7 @@ report$multi_format_dates %>%
 ```
 
 
-## Standardizing subject ids
+## Standardizing subject IDs
 
 ### Detecting incorrect, duplicated, and missing subject IDs
 
