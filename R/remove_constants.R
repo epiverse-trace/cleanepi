@@ -1,4 +1,5 @@
-#' Remove constant data i.e. empty rows and columns and constant columns
+#' Remove constant data, including empty rows, empty columns, and 
+#' columns with constant values.
 #'
 #' The function iteratively removes the constant data until there are not found
 #' anymore. It stores the details about the removed constant data in a form of
