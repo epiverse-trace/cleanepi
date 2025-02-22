@@ -97,7 +97,7 @@ date_trim_outliers <- function(new_dates, dmin, dmax, cols, original_dates) {
 #'
 #' @returns A \code{<list>} with the following two elements: a data frame where
 #'    the specified columns have been converted into \code{<Date>} values, a boolean that tells
-#'    whether numeric values that can also be of type Date are found in the
+#'    whether numeric values that can also be of type \code{<Date>} are found in the
 #'    specified columns.
 #'
 #' @keywords internal
