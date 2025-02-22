@@ -9,8 +9,8 @@
 #' @param data The input \code{<data.frame>} or \code{<linelist>}
 #' @param target_columns A \code{<vector>} of the target column names. When the
 #'    input data is a \code{<linelist>} object, this parameter can be set to
-#'    \code{linelist_tags} if the tagged columns are those to be converted into
-#'    numeric.
+#'    \code{linelist_tags} to apply the conversion exclusively to the 
+#'    tagged columns. .
 #' @param lang A \code{<character>} with the text's language. Currently one of
 #'    \code{"en"}, \code{"fr"}, \code{"es"}.
 #'
