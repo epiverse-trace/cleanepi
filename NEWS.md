@@ -34,7 +34,7 @@
 
 * Allow for iterative constant data removal (#180, Karim-Mane).
 
-* `remove_constants()` now works fine when the cut-off is different from 1. More importantly, the function no longer depends on {janitor} (#177, Karim-Mane).
+* The `remove_constants()` now works correctly when the cut-off is different from 1. More importantly, the function no longer depends on the {janitor} package (#177, Karim-Mane).
 
 * `scan_data()` now makes use of `date_guess()` to parse date from characters and `lubridate::as_date()` to parse dates from numeric. This function now  operates only on character columns (#181, Karim-Mane).
 
