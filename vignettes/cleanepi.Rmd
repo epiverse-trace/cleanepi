@@ -92,7 +92,7 @@ The `clean_data()` function, described above, can take the following arguments:
 4. **remove_duplicates**: a list with the arguments that define the columns and other parameters to be considered when looking for duplicates. They are the input values for the `remove_duplicates()` function.
 5. **remove_constants**: a list with the parameters that define whether to remove constant data or not. The values are the input for the `remove_constants()` function.
 6. **standardize_dates**: a list of parameters that will be used to standardize the date values from the input data. They represent the input values for the `standardize_dates()` function.
-7. **standardize_subject_ids**: a list of parameters that are needed to check whether the subject ids comply with the expected format. These arguments are the input values of the `check_subject_ids()`.
+7. **standardize_subject_ids**: a list of parameters that are needed to check whether the subject IDs comply with the expected format. These arguments are the input values of the `check_subject_ids()`.
 8. **to_numeric**: a list with the parameters needed to convert the specified columns into numeric. When provided, the parameters will be the input values for the `convert_to_numeric()` function.
 9. **dictionary**: a data frame that will be used to substitute the current values in the specified columns with those in the dictionary. It is the main argument for the `clean_using_dictionary()` function.
 10. **check_date_sequence**: a list of arguments to be used when determining whether the sequence of the target date events is respected across all rows of the input data. The elements of this list are the input for the `check_date_sequence()` function.
