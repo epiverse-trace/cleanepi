@@ -10,7 +10,7 @@
 
 ## Bug fixes
 
-* Fixed a bug in the index for empty rows returned by `print_report()` after `remove_constants()`. It was always returning the number of rows in the original data frame, instead of the index of empty rows (#173, @Bisaloo).
+* Fixed a bug in the index for empty rows returned by `print_report()` after `remove_constants()`. This function was incorrectly returning the number of rows in the original data frame, instead of the index of empty rows (#173, @Bisaloo).
 
 * Fixed a bug in the date guesser used by the `standardize_dates()` function. The followings have been added or corrected (#175, @Karim-Mane):
   * allow for quarter and partial dates
