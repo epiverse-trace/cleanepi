@@ -3,8 +3,8 @@
 #' @param data The input \code{<data.frame>} or \code{<linelist>}
 #' @param target_columns A \code{<vector>} of columns names to be converted from
 #'    numeric to date. When the input data is a \code{<linelist>} object, this
-#'    parameter can be set to \code{linelist_tags} if you wish to only convert
-#'    the tagged columns.
+#'    parameter can be set to \code{linelist_tags} to apply the conversion
+#'    exclusively to the tagged columns.
 #' @param ref_date A \code{<Date>} value with reference date. This can also be a
 #'    character string with the name of the reference column.
 #' @param forward A \code{<logical>} to indicate whether the counts started
