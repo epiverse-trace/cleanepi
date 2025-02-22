@@ -2,7 +2,7 @@
 #' order.
 #'
 #' @description Checks whether a date sequence in a vector of specified columns
-#' is in order or not.
+#' is in chronological order or not.
 #'
 #' @param data The input \code{<data.frame>} or \code{<linelist>}
 #' @param target_columns A \code{<vector>} of column names for events. Users
