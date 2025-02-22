@@ -422,9 +422,9 @@ The `check_subject_ids()` function is designed to identify rows from the input d
 1. **data**: A data frame or linelist (required).
 2. **target_columns**: The name of the column containing the subject IDs in the dataset (required).
 3. **nchar**: The expected number of character in the subject ids (optional).
-4. **prefix**: A string. If subject ids have a specific prefix, it is used as a value for this argument. This is optional and can be omitted if there is no prefix.
-5. **suffix**: A string. If subject ids have a specific suffix, it is used as a value for this argument. It can be ignored otherwise.
-6. **range**: A vector of two elements. If there is an expected range of numbers within the subject ids, define it using  this parameter. It is optional and can be omitted if there is no specific range.
+4. **prefix**: A string. If subject IDs have a specific prefix, it is used as a value for this argument. This is optional and can be omitted if there is no prefix.
+5. **suffix**: A string. If subject IDs have a specific suffix, it is used as a value for this argument. It can be ignored otherwise.
+6. **range**: A vector of two elements. If there is an expected range of numbers within the subject IDs, define it using  this parameter. It is optional and can be omitted if there is no specific range.
 
 By providing these parameters, the function becomes a versatile tool for data cleaning, ensuring that the user is alerted on the presence of unexpected, missing and duplicated subject ids. When using the function, make sure to tailor the parameters according to the specific requirements of your dataset and the expected characteristics of the subject ids.
 
