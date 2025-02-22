@@ -165,7 +165,7 @@ This module is dedicated to convert date values in character columns into `ISO86
     -   format (default value is NULL)
     -   timeframe (default value is null)
 -   **Output:** 
-    -   Returns the input object with standardized date values formatted as *%Y-%m-%d*.
+    -   Returns the input object with standardized date values formatted as *%Y-%m-%d* (YYYY-MM-DD).
 -   **Report:**
     -   A two-column table listing the columns where date values were standardized.
     -   A three-column table featuring index, column name, and values that fall outside the specified timeframe.
