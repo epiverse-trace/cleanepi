@@ -185,7 +185,7 @@ This module is tailored to verify whether the values in the column uniquely iden
     -   The name of the id column,
     -   Strings for prefix, suffix,
     -   A numerical range within the IDs,
-    -   An integer representing the expected number of characters in a subject id.
+    -   An integer representing the expected number of characters in a subject ID.
 -   **Output:** 
     -   Returns the input object with standardized subject IDs.
 -   **Report:** 
