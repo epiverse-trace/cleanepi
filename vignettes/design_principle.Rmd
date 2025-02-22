@@ -285,7 +285,7 @@ These surrogate functions play crucial roles in the data analysis and cleaning w
 
 ## Dependencies
 
-The modules and surrogate functions will depend mainly on the following packages:
+The modules and the surrogate functions depend on the following packages:
 
 [{numberize}](https://github.com/epiverse-trace/numberize) used for the conversion of number from character to numeric, [{dplyr}](https://CRAN.R-project.org/package=dplyr) used in many ways including filtering, column creation, data summary, etc, [{magrittr}](https://CRAN.R-project.org/package=magrittr) used here for its `%>%` operator,
 [{linelist}](https://CRAN.R-project.org/package=linelist) used to perform some operations on linelist-type input objects, [{matchmaker}](https://CRAN.R-project.org/package=matchmaker) utilized to perform the dictionary-based cleaning, [{lubridate}](https://CRAN.R-project.org/package=dplyr) used to create, handle, and manipulate objects of type Date, [{reactable}](https://CRAN.R-project.org/package=reactable) mainly used here to customize the data cleaning report, [{cli}](https://CRAN.R-project.org/package=cli) utilized to reformat all the messages in the package (from version 1.1.0 and above),
