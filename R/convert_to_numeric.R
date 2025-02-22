@@ -4,12 +4,13 @@
 #' converted, the target columns are the ones returned by the \code{scan_data()}
 #' function. Furthermore, it identifies columns where the proportion of numeric
 #' values is at least twice the percentage of character values and performs the
-#' conversion in them.
+#' conversion in them. The function internally makes call of the main function
+#' from the {numberize}.
 #'
 #' @param data The input \code{<data.frame>} or \code{<linelist>}
 #' @param target_columns A \code{<vector>} of the target column names. When the
 #'    input data is a \code{<linelist>} object, this parameter can be set to
-#'    \code{linelist_tags} to apply the conversion exclusively to the 
+#'    \code{linelist_tags} to apply the conversion exclusively to the
 #'    tagged columns. .
 #' @param lang A \code{<character>} with the text's language. Currently one of
 #'    \code{"en"}, \code{"fr"}, \code{"es"}.
