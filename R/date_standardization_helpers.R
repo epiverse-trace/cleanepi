@@ -63,7 +63,7 @@ date_check_timeframe <- function(first_date, last_date) {
 #' @param original_dates A \code{<vector>} of the original date values
 #'
 #' @returns A \code{<list>} of 2 elements: the update input vector where date
-#'    values that are out of the boundaries are replaced by \code{NA}, and a
+#'    values that are out of the specified timeframe are replaced by \code{NA}, and a
 #'    vector of the out of boundaries values.
 #' @keywords internal
 #'
