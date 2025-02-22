@@ -448,7 +448,7 @@ print(report$incorrect_subject_id)
 
 The `check_subject_ids()` function returns the input dataset and send a warming when there are some incorrect ids.
 
-In addition to detecting undesirable subject ids, the function will also look for missing and duplicated ids. As the result of this, the report made from this operation might contain two extra elements: **missing_ids** (a vector of row indexes where there is a missing ids) and **duplicated_ids** (a data frame of rows with the duplicated ids). Use the `print_report()` function to display the report made from this operation.
+In addition to detecting undesirable subject IDs, the function will also look for missing and duplicated IDs. As the result of this, the report made from this operation might contain two extra elements: **missing_ids** (a vector of row indexes where there is a missing IDs) and **duplicated_ids** (a data frame of rows with the duplicated IDs). Use the `print_report()` function to display the report made from this operation.
 
 
 ### Correct wrong subject ids
