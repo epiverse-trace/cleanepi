@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
 ## Concept and motivation
 
 {cleanepi} is an R package crafted to clean, curate, and standardize tabular datasets, with a particular focus on epidemiological data.
-Data cleaning is an important phase for ensuring the efficacy of downstream analysis. The procedures entailed in the cleaning process may differ based on the data type and research objectives. Nonetheless, certain steps can be applied universally across diverse data types, irrespective of their origin.
+Data cleaning is an important phase in data analysis and modelling pipelines. The procedures entailed in the cleaning process may differ based on the data type and research objectives. Nonetheless, certain steps can be applied universally across diverse data types.
 
 In this document, we outline the design decisions that have steered the development strategies of the {cleanepi} R package, along with the rationale behind each decision and the potential advantages and disadvantages associated with them.
 
