@@ -207,7 +207,7 @@ check_subject_ids_oness <- function(data, id_col_name) {
         nrow(tmp_report[["duplicated_rows"]]) > 0L) {
     num_dup_rows <- nrow(tmp_report[["duplicated_rows"]]) # nolint: object_usage_linter
     cli::cli_inform(c(
-      "!" = tr_("Found {.val {num_dup_rows}} duplicated value{?s} in the subject ids."), # nolint: line_length_linter
+      "!" = tr_("Found {.val {num_dup_rows}} duplicated value{?s} in the subject Ids."), # nolint: line_length_linter
       i = tr_("Enter {.code attr(dat, \"report\")[[\"duplicated_rows\"]]} to access them, where {.val dat} is the object used to store the output from this operation.") # nolint: line_length_linter
     ))
     dups <- tmp_report[["duplicated_rows"]]
