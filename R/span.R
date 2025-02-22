@@ -7,7 +7,7 @@
 #' @param end_date The end date. It can be either a \code{<character>} that is
 #'    the name of another column of type \code{<Date>} from the input data or a
 #'    \code{<vector>} of Dates or a single \code{<Date>} value. This should also
-#'    be in the ISO8601 format ("2024-01-31"). Default is today's date
+#'    be in the ISO8601 format, e.g., 2024-01-31. Default is today's date
 #'    \code{Sys.Date()}.
 #' @param span_unit A \code{<character>} that specifies the units in which the
 #'    time span between the dates will be returned. The possible units are:
