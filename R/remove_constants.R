@@ -134,8 +134,8 @@ remove_constants <- function(data, cutoff = 1.0) {
 
 #' Remove constant data.
 #'
-#' This function is called at every iteration of the constant data removal until
-#' no constant data is found.
+#' This function is called at each iteration of the constant data removal  
+#' process until no constant data remains.
 #'
 #' @inheritParams remove_constants
 #'
