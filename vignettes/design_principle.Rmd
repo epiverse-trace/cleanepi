@@ -88,7 +88,7 @@ In this section, we provide a detailed description of the way that every module 
 This module is designed to standardize the style and format of column names within the target dataset, offering users the flexibility to specify a subset of:
 
 -   focal columns to preserve their original format, and
--   columns to be renamed, i.e., given a new name chosen by the user.
+-   columns to be renamed, i.e., given a new name supplied by the user.
 -   **Main function:** `standardize_column_names()`
 -   **Input:**
     -   A `data.frame` or `linelist` object.
