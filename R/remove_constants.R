@@ -11,8 +11,8 @@
 #'    percentage of missing data greater than this cut-off will be removed.  
 #'    The default is 1.  
 #'
-#' @returns The input dataset without the empty rows and columns and the
-#'    constant columns.
+#' @returns The input dataset with empty rows, empty columns, and constant  
+#'    columns removed.
 #' @export
 #'
 #' @examples
