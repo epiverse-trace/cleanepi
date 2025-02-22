@@ -13,8 +13,8 @@
 * Fixed a bug in the index for empty rows returned by `print_report()` after `remove_constants()`. This function was incorrectly returning the number of rows in the original data frame, instead of the index of empty rows (#173, @Bisaloo).
 
 * Fixed a bug in the date guesser used by the `standardize_dates()` function. The followings updates were made (#175, @Karim-Mane):
-  * allow for quarter and partial dates
-  * account for odd cases before parsing using {lubridate}
+  * allow for quarter and partial dates, and
+  * account for odd cases before parsing using the {lubridate} package.
 
 ## Enhancements
 
