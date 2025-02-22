@@ -1,9 +1,9 @@
 #' Remove constant data, including empty rows, empty columns, and 
 #' columns with constant values.
 #'
-#' The function iteratively removes the constant data until there are not found
-#' anymore. It stores the details about the removed constant data in a form of
-#' a data frame within the report object.
+#' The function iteratively removes constant data until none remain.  
+#' It records details of the removed constant data as a data frame  
+#' within the report object.  
 #'
 #' @param data The input \code{<data.frame>} or \code{<linelist>}
 #' @param cutoff A \code{<numeric>} with the cut-off for empty rows and columns
