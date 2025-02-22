@@ -30,7 +30,7 @@
 
 * Allow for a vector of character for `na_strings` argument in `replace_missing_values()` (#180, Karim-Mane),
 
-* Differentiate message sent when duplicates are found in subject ids column vs duplicates across several columns (#180, Karim-Mane)
+* Improved messaging to differentiate between duplicates found in the subject IDs column and duplicates across multiple columns (#180, Karim-Mane).
 
 * Allow for iterative constant data removal (#180, Karim-Mane)
 
