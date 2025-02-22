@@ -5,7 +5,7 @@
 #' This can also be a character in ISO8601 format, i.e., "2024-12-31".
 #' @param last_date A \code{<Date>} object specifying the last valid date.
 #' Default is the current date. This can also be a character in
-#' ISO8601 format i.e. "2024-12-31".
+#' ISO8601 format, i.e., "2024-12-31".
 #'
 #' @returns A \code{<list>} with the first and last dates
 #' @keywords internal
