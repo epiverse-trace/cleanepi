@@ -48,7 +48,7 @@
 
 * An additional column (**row_id**) with the row indices where the incorrect date sequences are found is now added to the report made from the `check_date_sequence()` function (#196, Karim-Mane).
 
-* `date_guess()` and related functions now returns a list of two elements: the converted values and a boolean that informs about the presence of numeric values
+* The `date_guess()` and related functions now returns a list of two elements: the converted values and a boolean that informs about the presence of numeric values
 that can also be of type Date (#181, Karim-Mane).
 
 * Update the package vignette to account for the improvements made in the different pull requests (#194, Karim-Mane).
