@@ -36,7 +36,7 @@
 
 * The `remove_constants()` now works correctly when the cut-off is different from 1. More importantly, the function no longer depends on the {janitor} package (#177, Karim-Mane).
 
-* `scan_data()` now makes use of `date_guess()` to parse date from characters and `lubridate::as_date()` to parse dates from numeric. This function now  operates only on character columns (#181, Karim-Mane).
+* The `scan_data()` now makes use of `date_guess()` to parse date from characters and `lubridate::as_date()` to parse dates from numeric. This function now  operates only on character columns (#181, Karim-Mane).
 
 * Replace `snakecase::to_snake_case()` with `janitor::clean_names()` and make sure variable names specified in `keep` and `rename` are preserved after applying `janitor::clean_names()` (#180, Karim-Mane).
 
