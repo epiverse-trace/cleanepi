@@ -158,7 +158,7 @@ date_convert <- function(data, cols, error_tolerance,
 }
 
 
-#' Convert and update the date values
+#' Convert and update  date values
 #'
 #' @inheritParams standardize_dates
 #' @param new_dates A \code{<vector>} of the converted date values
