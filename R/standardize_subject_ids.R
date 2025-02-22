@@ -160,7 +160,7 @@ correct_subject_ids <- function(data, target_columns, correction_table) {
                           identical.to = c("from", "to"))
   if (!all(correction_table[["from"]] %in% data[[target_columns]])) {
     cli::cli_abort(c(
-      tr_("Some ids specified in the correction table were not found in the input data."), # nolint: line_length_linter
+      tr_("Some IDs specified in the correction table were not found in the input data."), # nolint: line_length_linter
       i = tr_("Values in the {.field from} column of the correction table must be part of the detected incorrect subject ids.") # nolint: line_length_linter
     ))
   }
