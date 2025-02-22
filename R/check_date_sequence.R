@@ -1,4 +1,4 @@
-#' Check whether the order of the sequence of date-events is is in chronological
+#' Checks whether the order in a sequence of date events is chronological.
 #' order.
 #'
 #' @description Checks whether a date sequence in a vector of specified columns
