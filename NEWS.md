@@ -18,7 +18,7 @@
 
 ## Enhancements
 
-* Rendering the report no more requires the use of {withr} package. Files generated during this process will be stored in the R temporary directory (#165, @Bisaloo).
+* Rendering the report no longer requires the use of the {withr} package. Files generated during this process will be stored in the R temporary directory (#165, @Bisaloo).
 
 * Simplification and improvement of code performance across several functions (#154, #156, #162, @Bisaloo).
 
