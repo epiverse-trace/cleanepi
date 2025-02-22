@@ -32,7 +32,7 @@ reference:
   - print_report
 
 - subtitle: Standardise column names
-  desc: Harmonise on the usage of English characters in column names
+  desc: Harmonizes the usage of English characters in column names
 - contents:
   - standardize_column_names
   - make_unique_column_names
