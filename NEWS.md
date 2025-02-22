@@ -4,7 +4,7 @@
 
 # cleanepi 1.0.1 to 1.0.2
 
-* minor version releases of {cleanepi} containing various minor improvements requested during the CRAN submission process.
+*Minor version release of {cleanepi} include various improvements based on feedback from the CRAN submission process
 
 # cleanepi 1.0.2.9000
 
