@@ -75,7 +75,7 @@ reference:
 - contents:
   - starts_with("replace_", internal = TRUE)
 
-- subtitle: Calculate time span between the variables of type Date
+- subtitle: Calculate time span between variables of type Date
 - contents:
   - timespan
 
