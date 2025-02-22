@@ -37,7 +37,7 @@ reference:
   - standardize_column_names
   - make_unique_column_names
 
-- subtitle: Retrieve Date from numeric values
+- subtitle: Retrieve dates from numeric values
 - contents:
   - convert_numeric_to_date
 
