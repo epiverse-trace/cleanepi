@@ -21,7 +21,7 @@
 #' # introduce an empty column
 #' data$empty_column <- NA
 
-#' # introduce some missing values across some columns
+#' # inject some missing values across some columns
 #' data$study_id[3] = NA_character_
 #' data$date.of.admission[3] = NA_character_
 #' data$date.of.admission[4] = NA_character_
