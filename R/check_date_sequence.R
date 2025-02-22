@@ -12,7 +12,7 @@
 #'    When the input data is a \code{<linelist>} object, this parameter can be
 #'    set to \code{linelist_tags} to apply the date sequence checking
 #'    exclusively to the tagged columns.
-#'    The date values in the target columns should be in the ISO8601 format
+#'    The date values in the target columns should be in the ISO8601 format,
 #'    e.g., 2024-12-31. Otherwise, use the \code{standardize_dates()} function to
 #'    standardize the target columns.
 #'
