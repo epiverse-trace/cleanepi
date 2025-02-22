@@ -53,7 +53,7 @@ reference:
   - starts_with("date_", internal = TRUE)
 
 - subtitle: Dictionary-based substitution
-  desc: Substitute given options from columns in a data frame with their
+  desc: Substitutes specified options in data frame columns with their
     corresponding values
 - contents:
   - starts_with("dictionary_", internal = TRUE)
