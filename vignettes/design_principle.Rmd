@@ -177,7 +177,7 @@ By employing the `standardize_dates()` function, users can ensure uniformity and
 
 #### 6. Standardization of subject ids
 
-This module is tailored to verify whether the values in the column uniquely identifying subjects adhere to a consistent format. It also offers a functionality that allows users to correct the inconsistent subject ids.
+This module is tailored to verify whether the values in the column uniquely identifying subjects adhere to a consistent format. It also offers a functionality that allows users to correct the inconsistent subject IDs.
 
 -   **Main function:** `check_subject_ids()`
 -   **Input:**
