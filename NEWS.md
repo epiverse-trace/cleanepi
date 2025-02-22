@@ -42,7 +42,7 @@
 
 * Function documentations have been updated. The `clean_data()` no longer takes the `params` argument. Instead, it takes many other arguments that are described in the function documentation and the package vignettes (#184, Karim-Mane).
 
-* Use {cli} package for formatting messages in the package (#196, Karim-Mane).
+* Use the {cli} package for formatting messages in the package (#196, Karim-Mane).
 
 * Translate messages in the package into French using {potools} package (#196, Karim-Mane).
 
