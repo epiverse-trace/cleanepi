@@ -201,7 +201,7 @@ date_check_outsiders <- function(data, timeframe, new_dates, cols) {
 #'
 #' @returns A \code{<list>} with the following two elements: the input data
 #'    frame where the character columns with date values have been converted
-#'    into Date, and a vector of column names where there are numeric values
+#'    into \code{<Date>}, and a vector of column names where there are numeric values
 #'    that can also be of type Date.
 #' @keywords internal
 #'
