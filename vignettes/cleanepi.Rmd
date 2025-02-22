@@ -415,7 +415,7 @@ report$multi_format_dates %>%
 
 ## Standardizing subject ids
 
-### Detecting incorrect, duplicated, and missing subject ids
+### Detecting incorrect, duplicated, and missing subject IDs
 
 The `check_subject_ids()` function is designed to identify rows from the input dataset where the IDs don't comply with the expected subject IDs format. It expects the following parameters:
 
