@@ -161,7 +161,7 @@ This module is dedicated to convert date values in character columns into `ISO86
 -   **Input:** 
     -   Accepts a `data.frame` or `linelist` object, along with:
     -   A `vector` of targeted date columns (automatically determined if not provided)
-    -   Tolerance threshold that defines the % of missing (missing and out of range values converted to `NA`) values to be allowed in a converted column. When % missing values exceeds or is equal to it, the original values are returned (default value is 40%)
+    -   Tolerance threshold that defines the percentage of missing (missing and out of range values converted to `NA`) values to be allowed in a converted column. When the percentage of the missing values exceeds or is equal to it, the original values are returned (default value is 40%).
     -   format (default value is NULL)
     -   timeframe (default value is null)
 -   **Output:** 
