@@ -46,7 +46,7 @@ When the input data contains character columns, `scan_data()` returns a data fra
 a.  Conversion into Date using `lubridate::as_date()` with `origin = as.Date("1900-01-01")`.
 b.  Conversion into Date using `date_guess()` function used by the `standardize_dates()` function.
 
-Numeric values that are successfully converted into date from either of the methods above are considered as potential dates. They will be added to the date count if they fall within the interval 50 years back from the date of the process.
+Numeric values that are successfully converted into date from either of the methods above are considered as potential dates. They will be added to the date count if they fall within interval of 50 years back from the date of the process.
 
 
 
