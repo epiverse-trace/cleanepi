@@ -11,8 +11,8 @@ convert_to_numeric(data, target_columns = NULL, lang = c("en", "fr", "es"))
 
 \item{target_columns}{A \code{<vector>} of the target column names. When the
 input data is a \code{<linelist>} object, this parameter can be set to
-\code{linelist_tags} if the tagged columns are those to be converted into
-numeric.}
+\code{linelist_tags} to apply the conversion exclusively to the
+tagged columns. .}
 
 \item{lang}{A \code{<character>} with the text's language. Currently one of
 \code{"en"}, \code{"fr"}, \code{"es"}.}
@@ -23,11 +23,12 @@ or detected columns have been transformed into numeric format after the
 conversion process.
 }
 \description{
-When the function is invoked without specifying the column names to be
+When this function is invoked without specifying the column names to be
 converted, the target columns are the ones returned by the \code{scan_data()}
 function. Furthermore, it identifies columns where the proportion of numeric
 values is at least twice the percentage of character values and performs the
-conversion in them.
+conversion in them. The function internally makes call of the main function
+from the {numberize}.
 }
 \examples{
 dat <- convert_to_numeric(

@@ -9,11 +9,11 @@ date_check_timeframe(first_date, last_date)
 \arguments{
 \item{first_date}{A \code{<Date>} object specifying the first valid date.
 Default is fifty years before the \code{last_date}.
-This can also be a character in ISO8601 format i.e. "2024-12-31".}
+This can also be a character in ISO8601 format, i.e., "2024-12-31".}
 
 \item{last_date}{A \code{<Date>} object specifying the last valid date.
 Default is the current date. This can also be a character in
-ISO8601 format i.e. "2024-12-31".}
+ISO8601 format, i.e., "2024-12-31".}
 }
 \value{
 A \code{<list>} with the first and last dates
