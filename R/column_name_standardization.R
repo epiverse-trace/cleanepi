@@ -1,6 +1,6 @@
 #' Standardize column names of a data frame or line list
 #'
-#' All columns names will be reformatted to use the snakecase. When the
+#' All columns names will be reformatted to  snake_case. When the
 #' conversion to snakecase does not work as expected, use the \code{keep} and/or
 #' \code{rename} arguments to reformat the column name properly.
 #'
