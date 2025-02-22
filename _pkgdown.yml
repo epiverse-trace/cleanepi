@@ -22,7 +22,7 @@ reference:
   - clean_data
 
 - subtitle: Check data structure
-  desc: Scan through the input data to determine the composition of character columns
+  desc: Scans the input data to determine the composition of character columns
 - contents:
   - scan_data
   - starts_with("scan_", internal = TRUE)
