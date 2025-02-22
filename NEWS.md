@@ -28,7 +28,7 @@
 
 * Stop automatic conversion of numeric values into Date due to unexpected results from `date_guess()` function (#151, @Karim-Mane).
 
-* Allow for a vector of character for `na_strings` argument in `replace_missing_values()` (#180, Karim-Mane)
+* Allow for a vector of character for `na_strings` argument in `replace_missing_values()` (#180, Karim-Mane),
 
 * Differentiate message sent when duplicates are found in subject ids column vs duplicates across several columns (#180, Karim-Mane)
 
