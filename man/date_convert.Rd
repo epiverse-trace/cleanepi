@@ -39,8 +39,8 @@ in the guesser:
 }
 \value{
 A \code{<list>} with the following two elements: a data frame where
-the specified columns have been converted into Date, a boolean that tells
-whether numeric values that can also be of type Date are found in the
+the specified columns have been converted into \code{<Date>} values, a boolean that tells
+whether numeric values that can also be of type \code{<Date>} are found in the
 specified columns.
 }
 \description{

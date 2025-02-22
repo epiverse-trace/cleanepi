@@ -24,25 +24,26 @@ those columns. See the details section to know more about how it works.
 }
 \details{
 How does it work?
-The \code{<character>} columns are identified first. When there is no
-\code{<character>} column the function returns a message.
-For every \code{<character>} column, we count:
+The \code{<character>} columns are identified first. If no \code{<character>}
+columns are found, the function returns a message.
+
+For each \code{<character>} column, the function counts:
 \enumerate{
-\item the number of missing data \code{NA}
-\item the number of numeric values. A process of detecting valid dates among the
-numeric values is then initiated using \code{lubridate::as_date()} and
-\code{date_guess()} functions. If found, a warning is triggered to alert on
-the presence and ambiguous (numeric values that are potentially date) values.
-NOTE: A date is considered valid in this case if it falls within the interval
-of today's date and 50 years back from today.
-\item detect the \code{<Date>} values from the non-numeric using the
-\code{date_guess()} function. The date count is the sum of dates identified
-from numeric and non-numeric values. Because of the overlap between numeric
-and date, the sum across the rows in the scanning result might be greater
-than 1.
-\item count the \code{<logical>} values.
-The remaining values will be those of type \code{<character>}.
+\item The number of missing values (\code{NA}).
+\item The number of numeric values. A process is initiated to detect valid dates
+among these numeric values using \code{lubridate::as_date()} and
+\code{date_guess()} functions. If valid dates are found, a warning is
+triggered to alert about ambiguous numeric values potentially representing dates.
+\strong{Note:} A date is considered valid if it falls within the range from today's
+date to 50 years in the past.
+\item The detection of \code{<Date>} values from non-numeric data using the
+\code{date_guess()} function. The total date count includes dates identified
+from both numeric and non-numeric values. Due to overlap, the sum of counts
+across rows in the scanning result may exceed 1.
+\item The count of \code{<logical>} values.
 }
+
+Remaining values are categorized as \code{<character>}.
 }
 \examples{
 # scan through a data frame of characters

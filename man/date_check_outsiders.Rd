@@ -2,7 +2,7 @@
 % Please edit documentation in R/date_standardization_helpers.R
 \name{date_check_outsiders}
 \alias{date_check_outsiders}
-\title{Convert and update the date values}
+\title{Convert and update  date values}
 \usage{
 date_check_outsiders(data, timeframe, new_dates, cols)
 }
@@ -24,6 +24,6 @@ columns were converted to Date) and a data frame of date values that are
 not within the specified timeframe.
 }
 \description{
-Convert and update the date values
+Convert and update  date values
 }
 \keyword{internal}

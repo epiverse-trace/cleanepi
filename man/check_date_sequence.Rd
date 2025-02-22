@@ -2,7 +2,7 @@
 % Please edit documentation in R/check_date_sequence.R
 \name{check_date_sequence}
 \alias{check_date_sequence}
-\title{Check whether the order of the sequence of date-events is is in chronological
+\title{Checks whether the order in a sequence of date events is chronological.
 order.}
 \usage{
 check_date_sequence(data, target_columns)
@@ -15,10 +15,10 @@ should specify at least 2 column names in the expected order. For example:
 \code{target_columns = c("date_symptoms_onset", "date_hospitalization",
    "date_death")}.
 When the input data is a \code{<linelist>} object, this parameter can be
-set to \code{linelist_tags} if you wish to use the date sequence across
-only the tagged columns columns only.
-The date values in the target columns should be in the ISO8601 format
-(2024-12-31). Otherwise, use the \code{standardize_dates()} function to
+set to \code{linelist_tags} to apply the date sequence checking
+exclusively to the tagged columns.
+The date values in the target columns should be in the ISO8601 format,
+e.g., 2024-12-31. Otherwise, use the \code{standardize_dates()} function to
 standardize the target columns.}
 }
 \value{
@@ -28,7 +28,7 @@ stored in the report and can be accessed using
 }
 \description{
 Checks whether a date sequence in a vector of specified columns
-is in order or not.
+is in chronological order or not.
 }
 \examples{
 # import the data

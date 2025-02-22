@@ -2,32 +2,34 @@
 % Please edit documentation in R/remove_constants.R
 \name{remove_constants}
 \alias{remove_constants}
-\title{Remove constant data i.e. empty rows and columns and constant columns}
+\title{Remove constant data, including empty rows, empty columns, and
+columns with constant values.}
 \usage{
 remove_constants(data, cutoff = 1)
 }
 \arguments{
 \item{data}{The input \code{<data.frame>} or \code{<linelist>}}
 
-\item{cutoff}{A \code{<numeric>} with the cut-off for empty rows and columns
-removal. If provided, only rows and columns where the percent of missing
-data is greater than this cut-off will removed. Default is 1.}
+\item{cutoff}{A \code{<numeric>} value specifying the cut-off for removing
+empty rows and columns. If provided, only rows and columns with a
+percentage of missing data greater than this cut-off will be removed.
+The default is 1.}
 }
 \value{
-The input dataset without the empty rows and columns and the
-constant columns.
+The input dataset with empty rows, empty columns, and constant
+columns removed.
 }
 \description{
-The function iteratively removes the constant data until there are not found
-anymore. It stores the details about the removed constant data in a form of
-a data frame within the report object.
+The function iteratively removes constant data until none remain.
+It records details of the removed constant data as a data frame
+within the report object.
 }
 \examples{
 data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi"))
 
 # introduce an empty column
 data$empty_column <- NA
-# introduce some missing values across some columns
+# inject some missing values across some columns
 data$study_id[3] = NA_character_
 data$date.of.admission[3] = NA_character_
 data$date.of.admission[4] = NA_character_

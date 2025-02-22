@@ -18,12 +18,12 @@ timespan(
 
 \item{target_column}{A \code{<vector>} of character used to specify the name
 of the date column of interest. The values in this column should be of
-type 'Date' in ISO8601 format ("2024-01-31").}
+type \code{<Date>} in ISO8601 format, e.g., 2024-01-31.}
 
 \item{end_date}{The end date. It can be either a \code{<character>} that is
 the name of another column of type \code{<Date>} from the input data or a
 \code{<vector>} of Dates or a single \code{<Date>} value. This should also
-be in the ISO8601 format ("2024-01-31"). Default is today's date
+be in the ISO8601 format, e.g., 2024-01-31. Default is today's date
 \code{Sys.Date()}.}
 
 \item{span_unit}{A \code{<character>} that specifies the units in which the

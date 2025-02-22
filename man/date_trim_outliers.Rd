@@ -2,7 +2,7 @@
 % Please edit documentation in R/date_standardization_helpers.R
 \name{date_trim_outliers}
 \alias{date_trim_outliers}
-\title{Trim dates outside of the defined boundaries}
+\title{Trim dates outside of the defined timeframe}
 \usage{
 date_trim_outliers(new_dates, dmin, dmax, cols, original_dates)
 }
@@ -19,10 +19,10 @@ date_trim_outliers(new_dates, dmin, dmax, cols, original_dates)
 }
 \value{
 A \code{<list>} of 2 elements: the update input vector where date
-values that are out of the boundaries are replaced by \code{NA}, and a
-vector of the out of boundaries values.
+values that are out of the specified timeframe are replaced by \code{NA}, and a
+vector of the out of timeframe values.
 }
 \description{
-Trim dates outside of the defined boundaries
+Trim dates outside of the defined timeframe
 }
 \keyword{internal}
