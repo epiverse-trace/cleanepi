@@ -24,7 +24,7 @@
 
 * Make R version dependency explicit (#156, @Bisaloo).
 
-* Replace base R pipe with {tidyverse} pipe (#155, @Karim-Mane)
+* Replace base R pipe operator with the {tidyverse} package pipe operator (#155, @Karim-Mane).
 
 * Stop automatic conversion of numeric values into Date due to unexpected results from date_guess() function (#151, @Karim-Mane).
 
