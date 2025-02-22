@@ -6,9 +6,10 @@
 #' within the report object.  
 #'
 #' @param data The input \code{<data.frame>} or \code{<linelist>}
-#' @param cutoff A \code{<numeric>} with the cut-off for empty rows and columns
-#'    removal. If provided, only rows and columns where the percent of missing
-#'    data is greater than this cut-off will removed. Default is 1.
+#' @param cutoff A \code{<numeric>} value specifying the cut-off for removing  
+#'    empty rows and columns. If provided, only rows and columns with a  
+#'    percentage of missing data greater than this cut-off will be removed.  
+#'    The default is 1.  
 #'
 #' @returns The input dataset without the empty rows and columns and the
 #'    constant columns.
