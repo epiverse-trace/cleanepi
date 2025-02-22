@@ -195,7 +195,7 @@ This module is tailored to verify whether the values in the column uniquely iden
 
 The `correct_subject_ids()` function can be used to correct the identified incorrect subject ids. In addition to the input data, it expects a data frame with two columns `from` and `to` containing the wrong and the correct ids respectively.
 
-By utilizing the functions in this module, users can ensure uniformity in the format of subject ids, facilitating accurate tracking and analysis of individual subjects within the dataset.
+By utilizing the functions in this module, users can ensure uniformity in the format of subject IDs, facilitating accurate tracking and analysis of individual subjects within the dataset.
 
 #### 7. Dictionary based substitution
 
