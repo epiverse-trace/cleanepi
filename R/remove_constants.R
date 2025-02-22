@@ -132,7 +132,7 @@ remove_constants <- function(data, cutoff = 1.0) {
   return(data)
 }
 
-#' Perform constant data removal.
+#' Remove constant data.
 #'
 #' This function is called at every iteration of the constant data removal until
 #' no constant data is found.
