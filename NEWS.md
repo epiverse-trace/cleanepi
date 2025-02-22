@@ -32,7 +32,7 @@
 
 * Improved messaging to differentiate between duplicates found in the subject IDs column and duplicates across multiple columns (#180, Karim-Mane).
 
-* Allow for iterative constant data removal (#180, Karim-Mane)
+* Allow for iterative constant data removal (#180, Karim-Mane).
 
 * `remove_constants()` now works fine when the cut-off is different from 1. More importantly, the function no longer depends on {janitor} (#177, Karim-Mane).
 
