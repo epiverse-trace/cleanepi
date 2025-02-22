@@ -26,7 +26,7 @@
 
 * Replace base R pipe operator with the {tidyverse} package pipe operator (#155, @Karim-Mane).
 
-* Stop automatic conversion of numeric values into Date due to unexpected results from date_guess() function (#151, @Karim-Mane).
+* Stop automatic conversion of numeric values into Date due to unexpected results from `date_guess()` function (#151, @Karim-Mane).
 
 * Allow for a vector of character for `na_strings` argument in `replace_missing_values()` (#180, Karim-Mane)
 
