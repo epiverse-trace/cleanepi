@@ -52,7 +52,7 @@ date_check_timeframe <- function(first_date, last_date) {
   return(list(first_date, last_date))
 }
 
-#' Trim dates outside of the defined boundaries
+#' Trim dates outside of the defined timeframe
 #'
 #' @param new_dates A \code{<vector>} of the new date values
 #' @param dmin A \code{<Date>} value with the minimum date
