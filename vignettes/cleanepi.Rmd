@@ -37,7 +37,7 @@ The main function in **{cleanepi}** is `clean_data()` that can perform the follo
 2. Find and remove duplicated rows across all or some specific columns.
 3. Remove empty rows and columns as well as constant columns, i.e. columns with the same value across all rows.   
 4. Replace missing entries with `NA`. 
-5. Check whether the sequence of date events are correct in all rows of the input data.
+5. Standardizes date formats and verifies that the sequence of date events follows the correct chronological order across columns for all rows in the input data.
 6. Convert `character` columns into `Date` if the column actually contains values of type `Date` to some extent (default is at least 60% of the values are `Date`).
 7. Detect and remove rows with subject ids that do not comply with the expected format.
 8. Perform dictionary-based cleaning: replace keys in specific columns with their corresponding values stored in a data dictionary provided as a data frame, detect and replace misspelled values with their correct ones.
