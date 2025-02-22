@@ -175,7 +175,7 @@ This module is dedicated to convert date values in character columns into `ISO86
 
 By employing the `standardize_dates()` function, users can ensure uniformity and coherence in date formats across their dataset, while also validating the temporal integrity of the data within the defined timeframe.
 
-#### 6. Standardization of subject ids
+#### 6. Standardization of subject IDs
 
 This module is tailored to verify whether the values in the column uniquely identifying subjects adhere to a consistent format. It also offers a functionality that allows users to correct the inconsistent subject IDs.
 
