@@ -33,13 +33,13 @@ For each \code{<character>} column, the function counts:
 \item The number of numeric values. A process is initiated to detect valid dates
 among these numeric values using \code{lubridate::as_date()} and
 \code{date_guess()} functions. If valid dates are found, a warning is
-triggered to alert about ambiguous numeric values potentially representing dates.
-\strong{Note:} A date is considered valid if it falls within the range from today's
-date to 50 years in the past.
+triggered to alert about ambiguous numeric values potentially representing
+dates. \strong{Note:} A date is considered valid if it falls within the range
+from today's date to 50 years in the past.
 \item The detection of \code{<Date>} values from non-numeric data using the
-\code{date_guess()} function. The total date count includes dates identified
-from both numeric and non-numeric values. Due to overlap, the sum of counts
-across rows in the scanning result may exceed 1.
+\code{date_guess()} function. The total date count includes dates
+from today's from both numeric and non-numeric values. Due to overlap, the
+sum of counts across rows in the scanning result may exceed 1.
 \item The count of \code{<logical>} values.
 }
 

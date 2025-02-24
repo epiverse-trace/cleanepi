@@ -13,8 +13,8 @@
 #'    set to \code{linelist_tags} to apply the date sequence checking
 #'    exclusively to the tagged columns.
 #'    The date values in the target columns should be in the ISO8601 format,
-#'    e.g., 2024-12-31. Otherwise, use the \code{standardize_dates()} function to
-#'    standardize the target columns.
+#'    e.g., 2024-12-31. Otherwise, use the \code{standardize_dates()} function
+#'    to standardize the target columns.
 #'
 #' @returns The input dataset. When found, the incorrect date sequences will be
 #'    stored in the report and can be accessed using

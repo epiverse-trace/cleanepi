@@ -19,8 +19,8 @@ date_trim_outliers(new_dates, dmin, dmax, cols, original_dates)
 }
 \value{
 A \code{<list>} of 2 elements: the update input vector where date
-values that are out of the specified timeframe are replaced by \code{NA}, and a
-vector of the out of timeframe values.
+values that are out of the specified timeframe are replaced by \code{NA},
+and a vector of the out of timeframe values.
 }
 \description{
 Trim dates outside of the defined timeframe

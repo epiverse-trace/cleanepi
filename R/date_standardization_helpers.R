@@ -63,8 +63,8 @@ date_check_timeframe <- function(first_date, last_date) {
 #' @param original_dates A \code{<vector>} of the original date values
 #'
 #' @returns A \code{<list>} of 2 elements: the update input vector where date
-#'    values that are out of the specified timeframe are replaced by \code{NA}, and a
-#'    vector of the out of timeframe values.
+#'    values that are out of the specified timeframe are replaced by \code{NA},
+#'    and a vector of the out of timeframe values.
 #' @keywords internal
 #'
 date_trim_outliers <- function(new_dates, dmin, dmax, cols, original_dates) {
@@ -96,9 +96,9 @@ date_trim_outliers <- function(new_dates, dmin, dmax, cols, original_dates) {
 #' @param cols A \code{<Date>} column name(s)
 #'
 #' @returns A \code{<list>} with the following two elements: a data frame where
-#'    the specified columns have been converted into \code{<Date>} values, a boolean that tells
-#'    whether numeric values that can also be of type \code{<Date>} are found in the
-#'    specified columns.
+#'    the specified columns have been converted into \code{<Date>} values, a
+#'    boolean that tells whether numeric values that can also be of type
+#'    \code{<Date>} are found in the specified columns.
 #'
 #' @keywords internal
 #'
@@ -201,8 +201,8 @@ date_check_outsiders <- function(data, timeframe, new_dates, cols) {
 #'
 #' @returns A \code{<list>} with the following two elements: the input data
 #'    frame where the character columns with date values have been converted
-#'    into \code{<Date>}, and a vector of column names where there are numeric values
-#'    that can also be of type Date.
+#'    into \code{<Date>}, and a vector of column names where there are numeric
+#'    values that can also be of type Date.
 #' @keywords internal
 #'
 date_guess_convert <- function(data, error_tolerance, timeframe,
