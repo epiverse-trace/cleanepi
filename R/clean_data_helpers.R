@@ -14,25 +14,25 @@
 #'    missing, numeric, date, character, and logical values.
 #'
 #' @details
-#' How does it work?  
-#' The \code{<character>} columns are identified first. If no \code{<character>}  
-#' columns are found, the function returns a message.  
-#'  
-#' For each \code{<character>} column, the function counts:  
-#' 1. The number of missing values (\code{NA}).  
-#' 2. The number of numeric values. A process is initiated to detect valid dates  
-#'    among these numeric values using \code{lubridate::as_date()} and  
-#'    \code{date_guess()} functions. If valid dates are found, a warning is  
-#'    triggered to alert about ambiguous numeric values potentially representing dates.  
-#'    **Note:** A date is considered valid if it falls within the range from today's  
-#'    date to 50 years in the past.  
-#' 3. The detection of \code{<Date>} values from non-numeric data using the  
-#'    \code{date_guess()} function. The total date count includes dates identified  
-#'    from both numeric and non-numeric values. Due to overlap, the sum of counts  
-#'    across rows in the scanning result may exceed 1.  
-#' 4. The count of \code{<logical>} values.  
-#'  
-#' Remaining values are categorized as \code{<character>}.  
+#' How does it work?
+#' The \code{<character>} columns are identified first. If no \code{<character>}
+#' columns are found, the function returns a message.
+#'
+#' For each \code{<character>} column, the function counts:
+#' 1. The number of missing values (\code{NA}).
+#' 2. The number of numeric values. A process is initiated to detect valid dates
+#'    among these numeric values using \code{lubridate::as_date()} and
+#'    \code{date_guess()} functions. If valid dates are found, a warning is
+#'    triggered to alert about ambiguous numeric values potentially representing
+#'    dates. **Note:** A date is considered valid if it falls within the range
+#'    from today's date to 50 years in the past.
+#' 3. The detection of \code{<Date>} values from non-numeric data using the
+#'    \code{date_guess()} function. The total date count includes dates
+#'    from today's from both numeric and non-numeric values. Due to overlap, the
+#'    sum of counts across rows in the scanning result may exceed 1.
+#' 4. The count of \code{<logical>} values.
+#'
+#' Remaining values are categorized as \code{<character>}.
 #'
 #' @export
 #'

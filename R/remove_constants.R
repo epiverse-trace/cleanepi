@@ -1,17 +1,17 @@
-#' Remove constant data, including empty rows, empty columns, and 
+#' Remove constant data, including empty rows, empty columns, and
 #' columns with constant values.
 #'
-#' The function iteratively removes constant data until none remain.  
-#' It records details of the removed constant data as a data frame  
-#' within the report object.  
+#' The function iteratively removes constant data until none remain.
+#' It records details of the removed constant data as a data frame
+#' within the report object.
 #'
 #' @param data The input \code{<data.frame>} or \code{<linelist>}
-#' @param cutoff A \code{<numeric>} value specifying the cut-off for removing  
-#'    empty rows and columns. If provided, only rows and columns with a  
-#'    percentage of missing data greater than this cut-off will be removed.  
-#'    The default is 1.  
+#' @param cutoff A \code{<numeric>} value specifying the cut-off for removing
+#'    empty rows and columns. If provided, only rows and columns with a
+#'    percentage of missing data greater than this cut-off will be removed.
+#'    The default is 1.
 #'
-#' @returns The input dataset with empty rows, empty columns, and constant  
+#' @returns The input dataset with empty rows, empty columns, and constant
 #'    columns removed.
 #' @export
 #'
@@ -134,7 +134,7 @@ remove_constants <- function(data, cutoff = 1.0) {
 
 #' Remove constant data.
 #'
-#' This function is called at each iteration of the constant data removal  
+#' This function is called at each iteration of the constant data removal
 #' process until no constant data remains.
 #'
 #' @inheritParams remove_constants
