@@ -4,9 +4,12 @@
 #'
 #' @param data The input \code{<data.frame>} or \code{<linelist>}
 #' @param target_columns A \code{<vector>} of column names with the subject ids.
-#' @param prefix A \code{<character>} with the prefix used in the subject IDs
-#' @param suffix A \code{<character>} with the suffix used in the subject IDs
-#' @param range A \code{<vector>} with the range of numbers in the sample IDs
+#' @param prefix A \code{<character>} with the expected prefix used in the
+#'    subject IDs
+#' @param suffix A \code{<character>} with the expected suffix used in the
+#'    subject IDs
+#' @param range A \code{<vector>} with the expected range of numbers in the
+#'    subject IDs
 #' @param nchar An \code{<integer>} that represents the expected number of
 #'    characters in the subject ids.
 #'
