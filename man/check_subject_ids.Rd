@@ -20,11 +20,14 @@ check_subject_ids(
 
 \item{target_columns}{A \code{<vector>} of column names with the subject ids.}
 
-\item{prefix}{A \code{<character>} with the prefix used in the subject IDs}
+\item{prefix}{A \code{<character>} with the expected prefix used in the
+subject IDs}
 
-\item{suffix}{A \code{<character>} with the suffix used in the subject IDs}
+\item{suffix}{A \code{<character>} with the expected suffix used in the
+subject IDs}
 
-\item{range}{A \code{<vector>} with the range of numbers in the sample IDs}
+\item{range}{A \code{<vector>} with the expected range of numbers in the
+subject IDs}
 
 \item{nchar}{An \code{<integer>} that represents the expected number of
 characters in the subject ids.}
