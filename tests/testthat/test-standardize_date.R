@@ -61,7 +61,7 @@ test_that("standardize_dates works with a data frame", {
     orders = list(
       world_named_months = c("Ybd", "dby"),
       world_digit_months = c("dmy", "Ymd"),
-      US_formats         = c("Omdy", "YOmd")
+      US_formats = c("Omdy", "YOmd")
     )
   )
   expect_s3_class(dat, "data.frame")
@@ -86,24 +86,24 @@ test_that("standardize_dates works with a data frame", {
 
 test_that("standardize_dates works when the values are already in ISO format", {
   tmp_data <- standardize_dates(
-    data            = data,
-    target_columns  = "date.of.admission",
-    format          = NULL,
-    timeframe       = NULL,
+    data = data,
+    target_columns = "date.of.admission",
+    format = NULL,
+    timeframe = NULL,
     error_tolerance = 0.4,
-    orders          = list(world_named_months = c("Ybd", "dby"),
-                           world_digit_months = c("dmy", "Ymd"),
-                           US_formats         = c("Omdy", "YOmd"))
+    orders = list(world_named_months = c("Ybd", "dby"),
+                  world_digit_months = c("dmy", "Ymd"),
+                  US_formats = c("Omdy", "YOmd"))
   )
   dat <- standardize_dates(
-    data            = tmp_data,
-    target_columns  = "date.of.admission",
-    format          = NULL,
-    timeframe       = NULL,
+    data = tmp_data,
+    target_columns = "date.of.admission",
+    format = NULL,
+    timeframe = NULL,
     error_tolerance = 0.4,
-    orders          = list(world_named_months = c("Ybd", "dby"),
-                           world_digit_months = c("dmy", "Ymd"),
-                           US_formats         = c("Omdy", "YOmd"))
+    orders = list(world_named_months = c("Ybd", "dby"),
+                  world_digit_months = c("dmy", "Ymd"),
+                  US_formats = c("Omdy", "YOmd"))
   )
   expect_s3_class(dat, "data.frame")
   expect_true(inherits(dat[["date.of.admission"]], "Date"))
@@ -112,33 +112,36 @@ test_that("standardize_dates works when the values are already in ISO format", {
 test_that("standardize_dates works when the input column is a factor", {
   data[["date.of.admission"]] <- as.factor(data[["date.of.admission"]])
   dat <- standardize_dates(
-    data            = data,
-    target_columns  = "date.of.admission",
-    format          = NULL,
-    timeframe       = NULL,
+    data = data,
+    target_columns = "date.of.admission",
+    format = NULL,
+    timeframe = NULL,
     error_tolerance = 0.4,
-    orders          = list(world_named_months = c("Ybd", "dby"),
-                           world_digit_months = c("dmy", "Ymd"),
-                           US_formats         = c("Omdy", "YOmd"))
+    orders = list(world_named_months = c("Ybd", "dby"),
+                  world_digit_months = c("dmy", "Ymd"),
+                  US_formats = c("Omdy", "YOmd"))
   )
   expect_s3_class(dat, "data.frame")
   expect_true(inherits(dat[["date.of.admission"]], "Date"))
 })
 
-data <- readRDS(system.file("extdata", "test_linelist.RDS",
-                            package = "cleanepi")) %>%
-  linelist::make_linelist(date_onset     = "dt_onset",
-                          date_reporting = "dt_report")
+data <- readRDS(
+  system.file("extdata", "test_linelist.RDS", package = "cleanepi")
+) %>%
+  linelist::make_linelist(
+    date_onset = "dt_onset",
+    date_reporting = "dt_report"
+  )
 test_that("standardize_dates works with a linelist", {
   dat <- standardize_dates(
-    data            = data,
-    target_columns  = "linelist_tags",
-    format          = NULL,
-    timeframe       = NULL,
+    data = data,
+    target_columns = "linelist_tags",
+    format = NULL,
+    timeframe = NULL,
     error_tolerance = 0.4,
-    orders          = list(world_named_months = c("Ybd", "dby"),
-                           world_digit_months = c("dmy", "Ymd"),
-                           US_formats         = c("Omdy", "YOmd"))
+    orders = list(world_named_months = c("Ybd", "dby"),
+                  world_digit_months = c("dmy", "Ymd"),
+                  US_formats = c("Omdy", "YOmd"))
   )
   expect_s3_class(dat, "data.frame")
   expect_true(inherits(dat, "linelist"))
@@ -150,15 +153,15 @@ data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi"))
 test_that("standardize_dates fails as expected", {
   expect_error(
     standardize_dates(
-      data            = data,
-      target_columns  = c("date_first_pcr_positive_test", "date.of.admission",
-                          "dateOfBirth"),
-      format          = c("%d/%m/%Y", "%d/%m/%Y"),
-      timeframe       = NULL,
+      data = data,
+      target_columns = c("date_first_pcr_positive_test", "date.of.admission",
+                         "dateOfBirth"),
+      format = c("%d/%m/%Y", "%d/%m/%Y"),
+      timeframe = NULL,
       error_tolerance = 0.4,
-      orders          = list(world_named_months = c("Ybd", "dby"),
-                             world_digit_months = c("dmy", "Ymd"),
-                             US_formats         = c("Omdy", "YOmd"))
+      orders = list(world_named_months = c("Ybd", "dby"),
+                    world_digit_months = c("dmy", "Ymd"),
+                    US_formats = c("Omdy", "YOmd"))
     ),
     regexp = cat("Need to specify one format if all target columns have the
     same format. Provide one format per target column, otherwise.e")
