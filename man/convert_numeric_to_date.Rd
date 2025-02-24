@@ -32,7 +32,7 @@ Convert numeric to date
 data <- readRDS(system.file("extdata", "test_df1.RDS", package = "cleanepi"))
 data <- convert_numeric_to_date(
   data = data,
-  target_columns = "recruted_on_day",
+  target_columns = "recruited_on_day",
   ref_date = as.Date("2022-10-13"),
   forward = TRUE
 )
