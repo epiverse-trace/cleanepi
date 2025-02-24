@@ -29,6 +29,20 @@ In this document, we outline the design decisions that have steered the developm
 
 The {cleanepi} R package is designed to offer functional programming-style data cleansing tasks. To streamline the organization of data cleaning operations, we have categorized them into distinct groups referred to as **modules**. These modules are based on overarching goals derived from commonly anticipated data cleaning procedures. Each module features a primary function along with additional helper functions tailored to accomplish specific tasks. It's important to note that, except for few cases where the outcome from a helper function can impact on the cleaning task, only the main function of each module will be exported. This deliberate choice enables users to execute individual cleaning tasks as needed, enhancing flexibility and usability.
 
+Every function in {cleanepi} is named such that it reflects the action that it does. Functions with a similar effect have a name that starts with the same prefix. The current version of the package contains the following semantic prefixes:
+
+*   `add_` is used to in functions that are made to add something to an existing object
+*   `correct_` is used to correct existing values
+*   `convert_` is used in the two functions that aim at converting values from one type to another
+*   `standardize_` is used to transform some values for compliance with a predefined standard
+*   `clean_` is used in `clean_data()` and `clean_using_dictionary()`. It's primary used to define functions that operate on multiple columns.
+*   `check_` is used in functions that check whether some values comply with expectations, without transforming them
+*   `remove_` is used in functions that remove some rows or columns from the input dataset
+    
+There are also other functions names that fall outside of this semantic nomenclature due to their the specific nature of their actions: `replace_missing_values()`, `scan_data()`, `find_duplicates()`, `print_report()`, `get_default_params()`
+
+
+
 ![A diagram showing the modules in {cleanepi}.](../man/figures/cleanepi_design_diagram.drawio.png){align="center"}
 
 At the core of {cleanepi}, the pivotal function `clean_data()` serves as a wrapper encapsulating all the modules, as illustrated in the figure above. This function is intended to be the primary entry point for users seeking to clean their data. It performs the cleaning operations as requested by the user through the set of parameters that need to be explicitly defined. Furthermore, multiple cleaning operations can be performed sequentially using the pipe operators (`%>%` or `|>` for users of R version 4.1 and above). In addition, this package also has two surrogate functions:
