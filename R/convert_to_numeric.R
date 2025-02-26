@@ -5,7 +5,7 @@
 #' function. Furthermore, it identifies columns where the proportion of numeric
 #' values is at least twice the percentage of character values and performs the
 #' conversion in them. The function internally makes call of the main function
-#' from the {numberize}.
+#' from the \pkg{numberize} package.
 #'
 #' @param data The input \code{<data.frame>} or \code{<linelist>}
 #' @param target_columns A \code{<vector>} of the target column names. When the
