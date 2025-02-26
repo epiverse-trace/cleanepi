@@ -1,11 +1,3 @@
-# cleanepi 1.0.0 (development version)
-
-* development of data cleaning modules
-
-# cleanepi 1.0.1 to 1.0.2
-
-*Minor version release of {cleanepi} include various improvements based on feedback from the CRAN submission process
-
 # cleanepi 1.0.2.9000
 
 ## Bug fixes
@@ -56,3 +48,13 @@ that can also be of type Date (#181, Karim-Mane).
 ## Deprecated and defunct
 
 * `clean_data()` no longer uses the `params` arguments. It has been replaced with other arguments documented in the function documentation (#184, Karim-Mane).
+
+# cleanepi 1.0.1 to 1.0.2
+
+*Minor version release of {cleanepi} include various improvements based on feedback from the CRAN submission process
+
+# cleanepi 1.0.0 (development version)
+
+* development of data cleaning modules
+
+
