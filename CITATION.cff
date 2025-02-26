@@ -16,9 +16,8 @@ identifiers:
 abstract: Cleaning and standardizing tabular data package, tailored specifically for
   curating epidemiological data. It streamlines various data cleaning tasks that are
   typically expected when working with datasets in epidemiology. It returns the processed
-  data in the same format, ensuring seamless integration into existing workflows.
-  Additionally, it generates a comprehensive report detailing the outcomes of each
-  cleaning task.
+  data in the same format, and generates a comprehensive report detailing the outcomes
+  of each cleaning task.
 authors:
 - family-names: Mané
   given-names: Karim
@@ -111,7 +110,7 @@ references:
   authors:
   - family-names: Csárdi
     given-names: Gábor
-    email: csardi.gabor@gmail.com
+    email: gabor@posit.co
   year: '2025'
   doi: 10.32614/CRAN.package.cli
 - type: software
@@ -379,6 +378,31 @@ references:
     given-names: Jeffrey
   year: '2025'
   doi: 10.32614/CRAN.package.markdown
+- type: software
+  title: naniar
+  abstract: 'naniar: Data Structures, Summaries, and Visualisations for Missing Data'
+  notes: Suggests
+  url: http://naniar.njtierney.com/
+  repository: https://CRAN.R-project.org/package=naniar
+  authors:
+  - family-names: Tierney
+    given-names: Nicholas
+    email: nicholas.tierney@gmail.com
+    orcid: https://orcid.org/0000-0003-1460-8722
+  - family-names: Cook
+    given-names: Di
+    email: dicook@monash.edu
+    orcid: https://orcid.org/0000-0002-3813-7155
+  - family-names: McBain
+    given-names: Miles
+    email: miles.mcbain@gmail.com
+    orcid: https://orcid.org/0000-0003-2865-2548
+  - family-names: Fay
+    given-names: Colin
+    email: contact@colinfay.me
+    orcid: https://orcid.org/0000-0001-7343-1846
+  year: '2025'
+  doi: 10.32614/CRAN.package.naniar
 - type: software
   title: reactable
   abstract: 'reactable: Interactive Data Tables for R'
