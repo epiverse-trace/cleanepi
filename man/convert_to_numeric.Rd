@@ -28,7 +28,7 @@ converted, the target columns are the ones returned by the \code{scan_data()}
 function. Furthermore, it identifies columns where the proportion of numeric
 values is at least twice the percentage of character values and performs the
 conversion in them. The function internally makes call of the main function
-from the {numberize}.
+from the \pkg{numberize} package.
 }
 \examples{
 dat <- convert_to_numeric(
