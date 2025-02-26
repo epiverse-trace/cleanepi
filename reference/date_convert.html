@@ -63,31 +63,33 @@
 
 
 <dl><dt id="arg-data">data<a class="anchor" aria-label="anchor" href="#arg-data"></a></dt>
-<dd><p>A data frame or linelist</p></dd>
+<dd><p>The input <code>&lt;data.frame&gt;</code> or <code>&lt;linelist&gt;</code></p></dd>
 
 
 <dt id="arg-cols">cols<a class="anchor" aria-label="anchor" href="#arg-cols"></a></dt>
-<dd><p>A Date column name(s)</p></dd>
+<dd><p>A <code>&lt;Date&gt;</code> column name(s)</p></dd>
 
 
 <dt id="arg-error-tolerance">error_tolerance<a class="anchor" aria-label="anchor" href="#arg-error-tolerance"></a></dt>
-<dd><p>A number between 0 and 1 indicating the proportion of
-entries which cannot be identified as dates to be tolerated; if this
-proportion is exceeded, the original vector is returned, and a message is
-issued; defaults to 0.4 (40 percent).</p></dd>
+<dd><p>A <code>&lt;numeric&gt;</code> between 0 and 1 indicating the
+proportion of entries which cannot be identified as dates to be tolerated;
+if this proportion is exceeded, the original vector is returned, and a
+message is issued; defaults to 0.4 (40 percent).</p></dd>
 
 
 <dt id="arg-timeframe">timeframe<a class="anchor" aria-label="anchor" href="#arg-timeframe"></a></dt>
-<dd><p>A vector of 2 values of type date. If provided, date values
-that do not fall within this timeframe will be set to <code>NA</code>.</p></dd>
+<dd><p>A <code>&lt;vector&gt;</code> of 2 values of type <code>&lt;Date&gt;</code>. If
+provided, date values that do not fall within this timeframe will be set
+to <code>NA</code>.</p></dd>
 
 
 <dt id="arg-orders">orders<a class="anchor" aria-label="anchor" href="#arg-orders"></a></dt>
-<dd><p>A list or character vector with the date codes for fine-grained
-parsing of dates. This allows for parsing of mixed dates. If a list is
-supplied, that list will be used for successive tries in parsing. When
-this is not provided (<code>orders = NULL</code>), the function will use the
-following order defined in the guesser:</p>
+<dd><p>A <code>&lt;list&gt;</code> or <code>&lt;vector&gt;</code> of characters with the date
+codes for fine-grained parsing of dates. This allows for parsing of mixed
+dates. If a <code>&lt;list&gt;</code> is supplied, that <code>&lt;list&gt;</code> will be used for
+successive tries in parsing. When this is not provided
+(<code>orders = NULL</code>), the function will use the following order defined
+in the guesser:</p>
 <p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">list</span>(</span>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>  <span class="at">quarter_partial_dates =</span> <span class="fu">c</span>(<span class="st">"Y"</span>, <span class="st">"Ym"</span>, <span class="st">"Yq"</span>),</span>
 <span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>  <span class="at">world_digit_months =</span> <span class="fu">c</span>(<span class="st">"Yq"</span>, <span class="st">"ymd"</span>, <span class="st">"ydm"</span>, <span class="st">"dmy"</span>, <span class="st">"mdy"</span>, <span class="st">"myd"</span>, <span class="st">"dym"</span>,</span>
@@ -100,10 +102,10 @@ following order defined in the guesser:</p>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A list with the following two elements: a data frame where the
-specified columns have been converted into Date, a boolean that tells
-whether numeric values that can also be of type Date are found in the
-specified columns.</p>
+    <p>A <code>&lt;list&gt;</code> with the following two elements: a data frame where
+the specified columns have been converted into <code>&lt;Date&gt;</code> values, a
+boolean that tells whether numeric values that can also be of type
+<code>&lt;Date&gt;</code> are found in the specified columns.</p>
     </div>
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

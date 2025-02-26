@@ -63,31 +63,51 @@
 
 
 <dl><dt id="arg-dictionary">dictionary<a class="anchor" aria-label="anchor" href="#arg-dictionary"></a></dt>
-<dd><p>A data dictionary in a form of a data frame</p></dd>
+<dd><p>A <code>&lt;data.frame&gt;</code> with the dictionary associated with
+the input data. This is expected to be compatible with the
+<span class="pkg">matchmaker</span> package and must contain the following four columns:</p><dl><dt><code>options</code></dt>
+<dd><p>This column contains the current values used to
+represent the different groups in the input data frame (required).</p></dd>
+
+<dt><code>values</code></dt>
+<dd><p>The values that will be used to replace the current
+options (required).</p></dd>
+
+<dt><code>grp</code></dt>
+<dd><p>The name of the columns where every option belongs to
+(required).</p></dd>
+
+<dt><code>orders</code></dt>
+<dd><p>This defines the user-defined order of different options
+(optional).</p></dd>
+
+
+</dl></dd>
 
 
 <dt id="arg-option">option<a class="anchor" aria-label="anchor" href="#arg-option"></a></dt>
-<dd><p>A vector of strings with the new options that need to be added
-to the dictionary.</p></dd>
+<dd><p>A <code>&lt;vector&gt;</code> of characters with the new options that need
+to be added to the dictionary.</p></dd>
 
 
 <dt id="arg-value">value<a class="anchor" aria-label="anchor" href="#arg-value"></a></dt>
-<dd><p>A vector with the values to be used when replacing the new
-options.</p></dd>
+<dd><p>A <code>&lt;vector&gt;</code> of characters with the values to be used when
+replacing the new options.</p></dd>
 
 
 <dt id="arg-grp">grp<a class="anchor" aria-label="anchor" href="#arg-grp"></a></dt>
-<dd><p>A vector with the name of the column that contains the option
-of interest.</p></dd>
+<dd><p>A <code>&lt;vector&gt;</code> of characters with the name of the column that
+contains the option of interest.</p></dd>
 
 
 <dt id="arg-order">order<a class="anchor" aria-label="anchor" href="#arg-order"></a></dt>
-<dd><p>A numeric with the order of the new option.</p></dd>
+<dd><p>A <code>&lt;vector&gt;</code> of numeric values with the order of the new
+option.</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>An object of type data frame. This is the new data dictionary with
+    <p>A <code>&lt;data.frame&gt;</code>. This is the new data dictionary with
 an additional line that contains the details about the new options.</p>
     </div>
 

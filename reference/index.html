@@ -75,13 +75,13 @@
           <code><a href="check_date_sequence.html">check_date_sequence()</a></code>
 
         </dt>
-        <dd>Check whether the order of the sequence of date-events is valid.</dd>
+        <dd>Checks whether the order in a sequence of date events is chronological. order.</dd>
       </dl><dl><dt>
 
           <code><a href="check_subject_ids.html">check_subject_ids()</a></code>
 
         </dt>
-        <dd>Check whether the subject IDs comply with the expected format. When incorrect IDs are found, the function sends a warning and the user can call the <code><a href="../reference/correct_subject_ids.html">correct_subject_ids()</a></code> function to correct them.</dd>
+        <dd>Check whether the subject IDs comply with the expected format. When incorrect IDs are found, the function sends a warning and the user can call the <code>correct_subject_ids</code> function to correct them.</dd>
       </dl><dl><dt>
 
           <code><a href="clean_data.html">clean_data()</a></code>
@@ -129,7 +129,7 @@
           <code><a href="get_default_params.html">get_default_params()</a></code>
 
         </dt>
-        <dd>Set and return <code><a href="../reference/clean_data.html">clean_data()</a></code> default parameters</dd>
+        <dd>Set and return <code>clean_data</code> default parameters</dd>
       </dl><dl><dt>
 
           <code><a href="print_report.html">print_report()</a></code>
@@ -141,7 +141,7 @@
           <code><a href="remove_constants.html">remove_constants()</a></code>
 
         </dt>
-        <dd>Remove constant data i.e. empty rows and columns and constant columns</dd>
+        <dd>Remove constant data, including empty rows, empty columns, and columns with constant values.</dd>
       </dl><dl><dt>
 
           <code><a href="remove_duplicates.html">remove_duplicates()</a></code>
@@ -165,7 +165,7 @@
           <code><a href="standardize_column_names.html">standardize_column_names()</a></code>
 
         </dt>
-        <dd>Standardize column names of a data frame or linelist</dd>
+        <dd>Standardize column names of a data frame or line list</dd>
       </dl><dl><dt>
 
           <code><a href="standardize_dates.html">standardize_dates()</a></code>
@@ -239,7 +239,7 @@
       </dl></div><div class="section level2">
 
       <h3 id="check-data-structure">Check data structure<a class="anchor" aria-label="anchor" href="#check-data-structure"></a></h3>
-      <div class="section-desc"><p>Scan through the input data to determine the composition of character columns</p></div>
+      <div class="section-desc"><p>Scans the input data to determine the composition of character columns</p></div>
 
 
     </div><div class="section level2">
@@ -279,7 +279,7 @@
       </dl></div><div class="section level2">
 
       <h3 id="standardise-column-names">Standardise column names<a class="anchor" aria-label="anchor" href="#standardise-column-names"></a></h3>
-      <div class="section-desc"><p>Harmonise on the usage of English characters in column names</p></div>
+      <div class="section-desc"><p>Harmonizes the usage of English characters in column names</p></div>
 
 
     </div><div class="section level2">
@@ -292,7 +292,7 @@
           <code><a href="standardize_column_names.html">standardize_column_names()</a></code>
 
         </dt>
-        <dd>Standardize column names of a data frame or linelist</dd>
+        <dd>Standardize column names of a data frame or line list</dd>
       </dl><dl><dt>
 
           <code><a href="make_unique_column_names.html">make_unique_column_names()</a></code>
@@ -301,7 +301,7 @@
         <dd>Make column names unique when duplicated column names are found after the transformation</dd>
       </dl></div><div class="section level2">
 
-      <h3 id="retrieve-date-from-numeric-values">Retrieve Date from numeric values<a class="anchor" aria-label="anchor" href="#retrieve-date-from-numeric-values"></a></h3>
+      <h3 id="retrieve-dates-from-numeric-values">Retrieve dates from numeric values<a class="anchor" aria-label="anchor" href="#retrieve-dates-from-numeric-values"></a></h3>
 
 
 
@@ -361,7 +361,7 @@
           <code><a href="date_check_outsiders.html">date_check_outsiders()</a></code>
 
         </dt>
-        <dd>Convert and update the date values</dd>
+        <dd>Convert and update date values</dd>
       </dl><dl><dt>
 
           <code><a href="date_check_timeframe.html">date_check_timeframe()</a></code>
@@ -481,11 +481,11 @@
           <code><a href="date_trim_outliers.html">date_trim_outliers()</a></code>
 
         </dt>
-        <dd>Trim dates outside of the defined boundaries</dd>
+        <dd>Trim dates outside of the defined timeframe</dd>
       </dl></div><div class="section level2">
 
       <h3 id="dictionary-based-substitution">Dictionary-based substitution<a class="anchor" aria-label="anchor" href="#dictionary-based-substitution"></a></h3>
-      <div class="section-desc"><p>Substitute given options from columns in a data frame with their corresponding values</p></div>
+      <div class="section-desc"><p>Substitutes specified options in data frame columns with their corresponding values</p></div>
 
 
     </div><div class="section level2">
@@ -568,13 +568,13 @@
           <code><a href="perform_remove_constants.html">perform_remove_constants()</a></code>
 
         </dt>
-        <dd>Perform constant data removal.</dd>
+        <dd>Remove constant data.</dd>
       </dl><dl><dt>
 
           <code><a href="remove_constants.html">remove_constants()</a></code>
 
         </dt>
-        <dd>Remove constant data i.e. empty rows and columns and constant columns</dd>
+        <dd>Remove constant data, including empty rows, empty columns, and columns with constant values.</dd>
       </dl></div><div class="section level2">
 
       <h3 id="replace-missing-values-with-na">Replace missing values with NA<a class="anchor" aria-label="anchor" href="#replace-missing-values-with-na"></a></h3>
@@ -600,7 +600,7 @@
         <dd>Detect and replace values with <code>NA</code> from a vector</dd>
       </dl></div><div class="section level2">
 
-      <h3 id="calculate-time-span-between-the-variables-of-type-date">Calculate time span between the variables of type Date<a class="anchor" aria-label="anchor" href="#calculate-time-span-between-the-variables-of-type-date"></a></h3>
+      <h3 id="calculate-time-span-between-variables-of-type-date">Calculate time span between variables of type Date<a class="anchor" aria-label="anchor" href="#calculate-time-span-between-variables-of-type-date"></a></h3>
 
 
 
@@ -631,7 +631,7 @@
           <code><a href="check_subject_ids.html">check_subject_ids()</a></code>
 
         </dt>
-        <dd>Check whether the subject IDs comply with the expected format. When incorrect IDs are found, the function sends a warning and the user can call the <code><a href="../reference/correct_subject_ids.html">correct_subject_ids()</a></code> function to correct them.</dd>
+        <dd>Check whether the subject IDs comply with the expected format. When incorrect IDs are found, the function sends a warning and the user can call the <code>correct_subject_ids</code> function to correct them.</dd>
       </dl><dl><dt>
 
           <code><a href="correct_subject_ids.html">correct_subject_ids()</a></code>
@@ -660,7 +660,7 @@
           <code><a href="check_date_sequence.html">check_date_sequence()</a></code>
 
         </dt>
-        <dd>Check whether the order of the sequence of date-events is valid.</dd>
+        <dd>Checks whether the order in a sequence of date events is chronological. order.</dd>
       </dl><dl><dt>
 
           <code><a href="is_date_sequence_ordered.html">is_date_sequence_ordered()</a></code>

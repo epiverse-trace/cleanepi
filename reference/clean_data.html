@@ -78,55 +78,55 @@ IDs with wrong formats, etc.</p>
 
 
 <dl><dt id="arg-data">data<a class="anchor" aria-label="anchor" href="#arg-data"></a></dt>
-<dd><p>The input data frame or linelist</p></dd>
+<dd><p>The input <code>&lt;data.frame&gt;</code> or <code>&lt;linelist&gt;</code></p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
-<dd><p>A list of cleaning operations to be applied on the input data.
-The acceptable arguments for <code>...</code> are:</p><dl><dt><code>standardize_column_names</code></dt>
-<dd><p>A list with the arguments needed to
-standardize the column names. The elements of this list are the
+<dd><p>A <code>&lt;list&gt;</code> of cleaning operations to be applied on the input
+data. The acceptable arguments for <code>...</code> are:</p><dl><dt><code>standardize_column_names</code></dt>
+<dd><p>A <code>&lt;list&gt;</code> with the arguments needed
+to standardize the column names. The elements of this list are the
 input for the <code><a href="standardize_column_names.html">standardize_column_names</a></code> function.</p></dd>
 
 <dt><code>replace_missing_values</code></dt>
-<dd><p>A list of parameters to be used when
-replacing the missing values by <code>NA</code>. The elements of the list are the
-inputs for the <code><a href="replace_missing_values.html">replace_missing_values</a></code> function.</p></dd>
+<dd><p>A <code>&lt;list&gt;</code> of parameters to be used
+when replacing the missing values by <code>NA</code>. The elements of the list are
+the inputs for the <code><a href="replace_missing_values.html">replace_missing_values</a></code> function.</p></dd>
 
 <dt><code>remove_duplicates</code></dt>
-<dd><p>A list with the arguments that define the
-columns and other parameters to be considered when looking for
+<dd><p>A <code>&lt;list&gt;</code> with the arguments that define
+the columns and other parameters to be considered when looking for
 duplicates. They are the input values for the
 <code><a href="remove_duplicates.html">remove_duplicates</a></code> function.</p></dd>
 
 <dt><code>remove_constants</code></dt>
-<dd><p>A list with the parameters that define whether to
-remove constant data or not. The values are the input for the
+<dd><p>A <code>&lt;list&gt;</code> with the parameters that define
+whether to remove constant data or not. The values are the input for the
 <code><a href="remove_constants.html">remove_constants</a></code> function.</p></dd>
 
 <dt><code>standardize_dates</code></dt>
-<dd><p>A list of parameters that will be used to
-standardize the date values from the input data. They represent the
+<dd><p>A <code>&lt;list&gt;</code> of parameters that will be used
+to standardize the date values from the input data. They represent the
 input values for the <code><a href="standardize_dates.html">standardize_dates</a></code> function.</p></dd>
 
 <dt><code>standardize_subject_ids</code></dt>
-<dd><p>A list of parameters that are needed to
-check the IDs that comply with the expect format. These arguments are
-the input values of the <code><a href="check_subject_ids.html">check_subject_ids</a></code>.</p></dd>
+<dd><p>A <code>&lt;list&gt;</code> of parameters that are
+needed to check the IDs that comply with the expect format. These
+arguments are the input values of the <code><a href="check_subject_ids.html">check_subject_ids</a></code>.</p></dd>
 
 <dt><code>to_numeric</code></dt>
-<dd><p>A list with the parameters needed to convert the
-specified columns into numeric. When provided, the parameters will be
-the input values for the <code><a href="convert_to_numeric.html">convert_to_numeric</a></code>.</p></dd>
+<dd><p>A <code>&lt;list&gt;</code> with the parameters needed to convert
+the specified columns into numeric. When provided, the parameters will
+be the input values for the <code><a href="convert_to_numeric.html">convert_to_numeric</a></code>.</p></dd>
 
 <dt><code>dictionary</code></dt>
-<dd><p>A data frame that will be used to substitute the
-current values in the specified columns the those in the dictionary. It
-is the main argument for the <code><a href="clean_using_dictionary.html">clean_using_dictionary</a></code>
+<dd><p>A <code>&lt;data.frame&gt;</code> that will be used to substitute
+the current values in the specified columns the those in the dictionary.
+It is the main argument for the <code><a href="clean_using_dictionary.html">clean_using_dictionary</a></code>
 function.</p></dd>
 
 <dt><code>check_date_sequence</code></dt>
-<dd><p>A list of arguments to be used when
+<dd><p>A <code>&lt;list&gt;</code> of arguments to be used when
 determining whether the sequence of date events is respected across all
 rows of the input data. The value in this list are the input for the
 <code><a href="check_date_sequence.html">check_date_sequence</a></code> function.</p></dd>
@@ -137,7 +137,7 @@ rows of the input data. The value in this list are the input for the
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>The cleaned input date according to the user-specified parameters.
+    <p>The cleaned input data according to the user-specified parameters.
 This is associated with a data cleaning report that can be accessed using
 <code>attr(cleaned_data, "report")</code></p>
     </div>
@@ -208,7 +208,7 @@ This is associated with a data cleaning report that can be accessed using
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> No duplicates were found.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Standardizing Date columns</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Checking subject IDs format</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> Detected invalid subject ids at lines: <span style="color: #0000BB;">"3, 5, 7"</span>.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> Detected <span style="color: #0000BB;">3</span> invalid subject ids at lines: <span style="color: #0000BB;">"3, 5, 7"</span>.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> You can use the `correct_subject_ids()` function to correct them.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Converting the following  column into numeric: <span style="color: #00BB00;">sex</span></span>
 <span class="r-in"><span></span></span>

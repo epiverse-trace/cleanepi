@@ -69,15 +69,15 @@ substitution.</p>
 
 
 <dl><dt id="arg-data">data<a class="anchor" aria-label="anchor" href="#arg-data"></a></dt>
-<dd><p>The input data frame or linelist</p></dd>
+<dd><p>The input <code>&lt;data.frame&gt;</code> or <code>&lt;linelist&gt;</code></p></dd>
 
 
 <dt id="arg-target-columns">target_columns<a class="anchor" aria-label="anchor" href="#arg-target-columns"></a></dt>
-<dd><p>A vector of column names with the subject ids.</p></dd>
+<dd><p>A <code>&lt;vector&gt;</code> of column names with the subject ids.</p></dd>
 
 
 <dt id="arg-correction-table">correction_table<a class="anchor" aria-label="anchor" href="#arg-correction-table"></a></dt>
-<dd><p>A data frame with the following two columns:</p><dl><dt>from</dt>
+<dd><p>A <code>&lt;data.frame&gt;</code> with the following two columns:</p><dl><dt>from</dt>
 <dd><p>a column with the wrong subject IDs</p></dd>
 
 <dt>to</dt>
@@ -107,7 +107,7 @@ format.</p>
 <span class="r-in"><span>  range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">100</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  nchar <span class="op">=</span> <span class="fl">7</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> Detected invalid subject ids at lines: <span style="color: #0000BB;">"3, 5, 7"</span>.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> Detected <span style="color: #0000BB;">3</span> invalid subject ids at lines: <span style="color: #0000BB;">"3, 5, 7"</span>.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> You can use the `correct_subject_ids()` function to correct them.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># generate the correction table</span></span></span>

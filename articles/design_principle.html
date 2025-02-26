@@ -91,11 +91,10 @@
 </h2>
 <p>{cleanepi} is an R package crafted to clean, curate, and standardize
 tabular datasets, with a particular focus on epidemiological data. Data
-cleaning is an important phase for ensuring the efficacy of downstream
-analysis. The procedures entailed in the cleaning process may differ
-based on the data type and research objectives. Nonetheless, certain
-steps can be applied universally across diverse data types, irrespective
-of their origin.</p>
+cleaning is an important phase in data analysis and modelling pipelines.
+The procedures entailed in the cleaning process may differ based on the
+data type and research objectives. Nonetheless, certain steps can be
+applied universally across diverse data types.</p>
 <p>In this document, we outline the design decisions that have steered
 the development strategies of the {cleanepi} R package, along with the
 rationale behind each decision and the potential advantages and
@@ -116,6 +115,38 @@ helper function can impact on the cleaning task, only the main function
 of each module will be exported. This deliberate choice enables users to
 execute individual cleaning tasks as needed, enhancing flexibility and
 usability.</p>
+<p>Every function in {cleanepi} is named such that it reflects the
+action that it does. Functions with a similar effect have a name that
+starts with the same prefix. The current version of the package contains
+the following semantic prefixes:</p>
+<ul>
+<li>
+<code>add_</code> is used to in functions that are made to add
+something to an existing object</li>
+<li>
+<code>correct_</code> is used to correct existing values</li>
+<li>
+<code>convert_</code> is used in the two functions that aim at
+converting values from one type to another</li>
+<li>
+<code>standardize_</code> is used to transform some values for
+compliance with a predefined standard</li>
+<li>
+<code>clean_</code> is used in <code><a href="../reference/clean_data.html">clean_data()</a></code> and
+<code><a href="../reference/clean_using_dictionary.html">clean_using_dictionary()</a></code>. It’s primary used to define
+functions that operate on multiple columns.</li>
+<li>
+<code>check_</code> is used in functions that check whether some
+values comply with expectations, without transforming them</li>
+<li>
+<code>remove_</code> is used in functions that remove some rows or
+columns from the input dataset</li>
+</ul>
+<p>There are also other functions names that fall outside of this
+semantic nomenclature due to their the specific nature of their actions:
+<code><a href="../reference/replace_missing_values.html">replace_missing_values()</a></code>, <code><a href="../reference/scan_data.html">scan_data()</a></code>,
+<code><a href="../reference/find_duplicates.html">find_duplicates()</a></code>, <code><a href="../reference/print_report.html">print_report()</a></code>,
+<code><a href="../reference/get_default_params.html">get_default_params()</a></code></p>
 <div class="float">
 <img src="../reference/figures/cleanepi_design_diagram.drawio.png" align="center" alt="A diagram showing the modules in {cleanepi}."><div class="figcaption">A diagram showing the modules in
 {cleanepi}.</div>
@@ -172,7 +203,7 @@ by the <code><a href="../reference/standardize_dates.html">standardize_dates()</
 </ol>
 <p>Numeric values that are successfully converted into date from either
 of the methods above are considered as potential dates. They will be
-added to the date count if they fall within the interval 50 years back
+added to the date count if they fall within interval of 50 years back
 from the date of the process.</p>
 <blockquote>
 <p><strong>Note that</strong> there is no ambiguity for the columns of
@@ -244,8 +275,8 @@ every module is built.</p>
 names within the target dataset, offering users the flexibility to
 specify a subset of:</p>
 <ul>
-<li>focal columns to preserve in their original format, and</li>
-<li>columns to be renamed, i.e., given a new name chosen by the
+<li>focal columns to preserve their original format, and</li>
+<li>columns to be renamed, i.e., given a new name supplied by the
 user.</li>
 <li>
 <strong>Main function:</strong>
@@ -255,10 +286,10 @@ user.</li>
 <strong>Input:</strong>
 <ul>
 <li>A <code>data.frame</code> or <code>linelist</code> object.</li>
-<li>Optionally, a <code>vector</code> of focal column names and a vector
+<li>Optional, a <code>vector</code> of focal column names and a vector
 of column names to be renamed in the form of
 <code>new_name = "old_name"</code>. If not provided, all columns will
-undergo standardization.</li>
+undergo naming standardization.</li>
 </ul>
 </li>
 <li>
@@ -296,14 +327,14 @@ built based on the {janitor} R package. We used
 and constant columns respectively. In
 <code><a href="https://sfirke.github.io/janitor/reference/remove_empty.html" class="external-link">janitor::remove_empty()</a></code>, the empty rows are removed first,
 then the empty columns. This maximizes the chance of keeping more
-columns after this operation. As we noticed that the removal of the
-constant data might still result in a dataset with some empty rows
-and/or columns and constant columns, we introduced the concept of
-iterative constant data removal in more recent versions of the package
-(<code>&gt; v.1.0.2</code>). This means that the process of removing
-constant data is performed iteratively until there is no constant data.
-The report made from this operation informs about what rows and columns
-were removed at every iteration.</p>
+columns after this operation. However, we noticed that the removal of
+the constant data might still result in a dataset with some empty rows
+and/or columns and constant columns. Therefore, we introduced the
+concept of iterative constant data removal in more recent versions of
+the package (<code>&gt; v.1.0.2</code>). This means that the process of
+removing constant data is performed iteratively until there is no
+constant data. The report made from this operation informs about what
+rows and columns were removed at every iteration.</p>
 <ul>
 <li>
 <strong>Main function:</strong> <code><a href="../reference/remove_constants.html">remove_constants()</a></code>
@@ -436,7 +467,7 @@ facilitating accurate analysis and interpretation of the data.</p>
 </h4>
 <p>This module is dedicated to convert date values in character columns
 into <code>ISO8601</code> <code>Date</code> format, and ensuring that
-all dates fall within the expected user-provided timeframe.</p>
+all dates fall within a timeframe provided by the user.</p>
 <ul>
 <li>
 <strong>Main function:</strong>
@@ -449,10 +480,11 @@ all dates fall within the expected user-provided timeframe.</p>
 along with:</li>
 <li>A <code>vector</code> of targeted date columns (automatically
 determined if not provided)</li>
-<li>Tolerance threshold that defines the % of missing (missing and out
-of range values converted to <code>NA</code>) values to be allowed in a
-converted column. When % missing values exceeds or is equal to it, the
-original values are returned (default value is 40%)</li>
+<li>Tolerance threshold that defines the percentage of missing (missing
+and out of range values converted to <code>NA</code>) values to be
+allowed in a converted column. When the percentage of the missing values
+exceeds or is equal to it, the original values are returned (default
+value is 40%).</li>
 <li>format (default value is NULL)</li>
 <li>timeframe (default value is null)</li>
 </ul>
@@ -461,7 +493,7 @@ original values are returned (default value is 40%)</li>
 <strong>Output:</strong>
 <ul>
 <li>Returns the input object with standardized date values formatted as
-<em>%Y-%m-%d</em>.</li>
+<em>%Y-%m-%d</em> (YYYY-MM-DD).</li>
 </ul>
 </li>
 <li>
@@ -489,12 +521,12 @@ while also validating the temporal integrity of the data within the
 defined timeframe.</p>
 </div>
 <div class="section level4">
-<h4 id="standardization-of-subject-ids">6. Standardization of subject ids<a class="anchor" aria-label="anchor" href="#standardization-of-subject-ids"></a>
+<h4 id="standardization-of-subject-ids">6. Standardization of subject IDs<a class="anchor" aria-label="anchor" href="#standardization-of-subject-ids"></a>
 </h4>
 <p>This module is tailored to verify whether the values in the column
 uniquely identifying subjects adhere to a consistent format. It also
 offers a functionality that allows users to correct the inconsistent
-subject ids.</p>
+subject IDs.</p>
 <ul>
 <li>
 <strong>Main function:</strong>
@@ -509,7 +541,7 @@ along with:</li>
 <li>Strings for prefix, suffix,</li>
 <li>A numerical range within the IDs,</li>
 <li>An integer representing the expected number of characters in a
-subject id.</li>
+subject ID.</li>
 </ul>
 </li>
 <li>
@@ -538,7 +570,7 @@ data, it expects a data frame with two columns <code>from</code> and
 <code>to</code> containing the wrong and the correct ids
 respectively.</p>
 <p>By utilizing the functions in this module, users can ensure
-uniformity in the format of subject ids, facilitating accurate tracking
+uniformity in the format of subject IDs, facilitating accurate tracking
 and analysis of individual subjects within the dataset.</p>
 </div>
 <div class="section level4">
@@ -774,8 +806,8 @@ analysis or modelling.</p>
 <div class="section level2">
 <h2 id="dependencies">Dependencies<a class="anchor" aria-label="anchor" href="#dependencies"></a>
 </h2>
-<p>The modules and surrogate functions will depend mainly on the
-following packages:</p>
+<p>The modules and the surrogate functions depend on the following
+packages:</p>
 <p><a href="https://github.com/epiverse-trace/numberize" class="external-link">{numberize}</a>
 used for the conversion of number from character to numeric, <a href="https://CRAN.R-project.org/package=dplyr" class="external-link">{dplyr}</a> used in many
 ways including filtering, column creation, data summary, etc, <a href="https://CRAN.R-project.org/package=magrittr" class="external-link">{magrittr}</a> used
@@ -790,7 +822,8 @@ for its <code>.data</code> functionality to retrieve data-variables from
 the data frame, <a href="https://CRAN.R-project.org/package=readr" class="external-link">{readr}</a> used to
 import data, <a href="https://CRAN.R-project.org/package=janitor" class="external-link">{janitor}</a> used to
 standardize column names in <code><a href="../reference/standardize_column_names.html">standardize_column_names()</a></code>, <a href="https://CRAN.R-project.org/package=tibble" class="external-link">{tibble}</a> used to
-work tibbles.</p>
+work tibbles. <a href="https://CRAN.R-project.org/package=tibble" class="external-link">{naniar}</a> used to
+for its predefined set of common missing value strings.</p>
 <p>The functions will require other packages that are needed in the
 package development process including:</p>
 <p><a href="https://CRAN.R-project.org/package=checkmate" class="external-link">{checkmate}</a>, <a href="https://CRAN.R-project.org/package=kableExtra" class="external-link">{kableExtra}</a>,

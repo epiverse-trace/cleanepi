@@ -130,8 +130,9 @@ columns.</li>
 i.e. columns with the same value across all rows.<br>
 </li>
 <li>Replace missing entries with <code>NA</code>.</li>
-<li>Check whether the sequence of date events are correct in all rows of
-the input data.</li>
+<li>Standardizes date formats and verifies that the sequence of date
+events follows the correct chronological order across columns for all
+rows in the input data.</li>
 <li>Convert <code>character</code> columns into <code>Date</code> if the
 column actually contains values of type <code>Date</code> to some extent
 (default is at least 60% of the values are <code>Date</code>).</li>
@@ -632,7 +633,7 @@ represent the input values for the <code><a href="../reference/standardize_dates
 function.</li>
 <li>
 <strong>standardize_subject_ids</strong>: a list of parameters that
-are needed to check whether the subject ids comply with the expected
+are needed to check whether the subject IDs comply with the expected
 format. These arguments are the input values of the
 <code><a href="../reference/check_subject_ids.html">check_subject_ids()</a></code>.</li>
 <li>
@@ -716,7 +717,7 @@ that we want to perform on the input data.</p>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> No duplicates were found.</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Standardizing Date columns</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Checking subject IDs format</span></span>
-<span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> Detected invalid subject ids at lines: <span style="color: #0000BB;">"3, 5, 7"</span>.</span></span>
+<span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> Detected <span style="color: #0000BB;">3</span> invalid subject ids at lines: <span style="color: #0000BB;">"3, 5, 7"</span>.</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> You can use the `correct_subject_ids()` function to correct them.</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Converting the following  column into numeric: <span style="color: #00BB00;">sex</span></span></span>
 <span><span class="co">#&gt; </span></span>
@@ -1999,43 +2000,43 @@ NA
 </div>
 </div>
 <div class="section level3">
-<h3 id="standardizing-subject-ids">Standardizing subject ids<a class="anchor" aria-label="anchor" href="#standardizing-subject-ids"></a>
+<h3 id="standardizing-subject-ids">Standardizing subject IDs<a class="anchor" aria-label="anchor" href="#standardizing-subject-ids"></a>
 </h3>
 <div class="section level4">
-<h4 id="detecting-incorrect-duplicated-and-missing-subject-ids">Detecting incorrect, duplicated, and missing subject ids<a class="anchor" aria-label="anchor" href="#detecting-incorrect-duplicated-and-missing-subject-ids"></a>
+<h4 id="detecting-incorrect-duplicated-and-missing-subject-ids">Detecting incorrect, duplicated, and missing subject IDs<a class="anchor" aria-label="anchor" href="#detecting-incorrect-duplicated-and-missing-subject-ids"></a>
 </h4>
 <p>The <code><a href="../reference/check_subject_ids.html">check_subject_ids()</a></code> function is designed to identify
-rows from the input dataset where the ids don’t comply with the expected
-subject ids format. It expects the following parameters:</p>
+rows from the input dataset where the IDs don’t comply with the expected
+subject IDs format. It expects the following parameters:</p>
 <ol style="list-style-type: decimal">
 <li>
 <strong>data</strong>: A data frame or linelist (required).</li>
 <li>
 <strong>target_columns</strong>: The name of the column containing
-the subject ids in the dataset (required).</li>
+the subject IDs in the dataset (required).</li>
 <li>
 <strong>nchar</strong>: The expected number of character in the
 subject ids (optional).</li>
 <li>
-<strong>prefix</strong>: A string. If subject ids have a specific
+<strong>prefix</strong>: A string. If subject IDs have a specific
 prefix, it is used as a value for this argument. This is optional and
 can be omitted if there is no prefix.</li>
 <li>
-<strong>suffix</strong>: A string. If subject ids have a specific
+<strong>suffix</strong>: A string. If subject IDs have a specific
 suffix, it is used as a value for this argument. It can be ignored
 otherwise.</li>
 <li>
 <strong>range</strong>: A vector of two elements. If there is an
-expected range of numbers within the subject ids, define it using this
+expected range of numbers within the subject IDs, define it using this
 parameter. It is optional and can be omitted if there is no specific
 range.</li>
 </ol>
 <p>By providing these parameters, the function becomes a versatile tool
 for data cleaning, ensuring that the user is alerted on the presence of
-unexpected, missing and duplicated subject ids. When using the function,
+unexpected, missing and duplicated subject IDs. When using the function,
 make sure to tailor the parameters according to the specific
 requirements of your dataset and the expected characteristics of the
-subject ids.</p>
+subject IDs.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># DETECT AND REMOVE INCORRECT SUBJECT IDs</span></span>
 <span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/check_subject_ids.html">check_subject_ids</a></span><span class="op">(</span></span>
@@ -2046,7 +2047,7 @@ subject ids.</p>
 <span>  range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1L</span>, <span class="fl">100L</span><span class="op">)</span>,</span>
 <span>  nchar <span class="op">=</span> <span class="fl">7L</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> Detected invalid subject ids at lines: <span style="color: #0000BB;">"3, 5, 7"</span>.</span></span>
+<span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> Detected <span style="color: #0000BB;">3</span> invalid subject ids at lines: <span style="color: #0000BB;">"3, 5, 7"</span>.</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> You can use the `correct_subject_ids()` function to correct them.</span></span>
 <span></span>
 <span><span class="co"># EXTRACT REPORT</span></span>
@@ -2060,12 +2061,12 @@ subject ids.</p>
 <span><span class="co">#&gt; 3   7   PB500P2</span></span></code></pre></div>
 <p>The <code><a href="../reference/check_subject_ids.html">check_subject_ids()</a></code> function returns the input
 dataset and send a warming when there are some incorrect ids.</p>
-<p>In addition to detecting undesirable subject ids, the function will
-also look for missing and duplicated ids. As the result of this, the
+<p>In addition to detecting undesirable subject IDs, the function will
+also look for missing and duplicated IDs. As the result of this, the
 report made from this operation might contain two extra elements:
 <strong>missing_ids</strong> (a vector of row indexes where there is a
-missing ids) and <strong>duplicated_ids</strong> (a data frame of rows
-with the duplicated ids). Use the <code><a href="../reference/print_report.html">print_report()</a></code> function
+missing IDs) and <strong>duplicated_ids</strong> (a data frame of rows
+with the duplicated IDs). Use the <code><a href="../reference/print_report.html">print_report()</a></code> function
 to display the report made from this operation.</p>
 </div>
 <div class="section level4">
@@ -3321,7 +3322,7 @@ Gambia
 <span>  <span class="fu"><a href="../reference/convert_to_numeric.html">convert_to_numeric</a></span><span class="op">(</span>target_columns <span class="op">=</span> <span class="st">"sex"</span>, lang <span class="op">=</span> <span class="st">"en"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/clean_using_dictionary.html">clean_using_dictionary</a></span><span class="op">(</span>dictionary <span class="op">=</span> <span class="va">test_dictionary</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> No duplicates were found.</span></span>
-<span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> Detected invalid subject ids at lines: <span style="color: #0000BB;">"3, 5, 7"</span>.</span></span>
+<span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> Detected <span style="color: #0000BB;">3</span> invalid subject ids at lines: <span style="color: #0000BB;">"3, 5, 7"</span>.</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> You can use the `correct_subject_ids()` function to correct them.</span></span>
 <span></span>
 <span><span class="co"># ADD THE DATA SCANNING RESULT TO THE REPORT</span></span>

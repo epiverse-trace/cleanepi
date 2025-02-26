@@ -69,36 +69,36 @@ those columns. See the details section to know more about how it works.</p>
 
 
 <dl><dt id="arg-data">data<a class="anchor" aria-label="anchor" href="#arg-data"></a></dt>
-<dd><p>A data frame or linelist</p></dd>
+<dd><p>A <code>&lt;data.frame&gt;</code> or <code>&lt;linelist&gt;</code></p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A data frame if the input data contains columns of type character.
-It invisibly returns <code>NA</code> otherwise. The returned data frame will
-have the same number of rows as the number of character columns, and six
-columns representing their column names, proportion of missing, numeric,
-date, character, and logical values.</p>
+    <p>A <code>&lt;data.frame&gt;</code> if the input data contains columns of type
+character. It invisibly returns <code>NA</code> otherwise. The returned data
+frame will have the same number of rows as the number of character
+columns, and six columns representing their column names, proportion of
+missing, numeric, date, character, and logical values.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>How does it work?
-The <code>character</code> columns are identified first. When there is no
-character column the function returns a message.
-For every character column, we count:</p><ol><li><p>the number of missing data <code>NA</code></p></li>
-<li><p>the number of numeric values. A process of detecting valid dates among the
-numeric values is then initiated using <code><a href="https://lubridate.tidyverse.org/reference/as_date.html" class="external-link">lubridate::as_date()</a></code> and
-<code><a href="date_guess.html">date_guess()</a></code> functions. If found, a warning is triggered to alert on
-the presence and ambiguous (numeric values that are potentially date) values.
-NOTE: A date is considered valid in this case if it falls within the interval
-of today's date and 50 years back from today.</p></li>
-<li><p>detect the Date values from the non-numeric using the <code><a href="date_guess.html">date_guess()</a></code>
-function. The date count is the sum of dates identified from numeric and
-non-numeric values. Because of the overlap between numeric and date, the sum
-across the rows in the scanning result might be greater than 1.</p></li>
-<li><p>count the logical values.
-The remaining values will be those of type characters.</p></li>
-</ol></div>
+The <code>&lt;character&gt;</code> columns are identified first. If no <code>&lt;character&gt;</code>
+columns are found, the function returns a message.</p>
+<p>For each <code>&lt;character&gt;</code> column, the function counts:</p><ol><li><p>The number of missing values (<code>NA</code>).</p></li>
+<li><p>The number of numeric values. A process is initiated to detect valid dates
+among these numeric values using <code><a href="https://lubridate.tidyverse.org/reference/as_date.html" class="external-link">lubridate::as_date()</a></code> and
+<code><a href="date_guess.html">date_guess()</a></code> functions. If valid dates are found, a warning is
+triggered to alert about ambiguous numeric values potentially representing
+dates. <strong>Note:</strong> A date is considered valid if it falls within the range
+from today's date to 50 years in the past.</p></li>
+<li><p>The detection of <code>&lt;Date&gt;</code> values from non-numeric data using the
+<code><a href="date_guess.html">date_guess()</a></code> function. The total date count includes dates
+from today's from both numeric and non-numeric values. Due to overlap, the
+sum of counts across rows in the scanning result may exceed 1.</p></li>
+<li><p>The count of <code>&lt;logical&gt;</code> values.</p></li>
+</ol><p>Remaining values are categorized as <code>&lt;character&gt;</code>.</p>
+    </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>

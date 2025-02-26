@@ -51,39 +51,48 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.0.2.9000" id="cleanepi-1029000">cleanepi 1.0.2.9000<a class="anchor" aria-label="anchor" href="#cleanepi-1029000"></a></h2>
 <div class="section level3">
-<h3 id="new-minor-features-1-0-2-9000">New minor features<a class="anchor" aria-label="anchor" href="#new-minor-features-1-0-2-9000"></a></h3>
-<ul><li>Added a <code>NEWS.md</code> file to track changes to the package.</li>
-</ul></div>
-<div class="section level3">
 <h3 id="bug-fixes-1-0-2-9000">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-0-2-9000"></a></h3>
-<ul><li><p>Fixed a bug in the index for empty rows returned by <code><a href="../reference/print_report.html">print_report()</a></code> after <code><a href="../reference/remove_constants.html">remove_constants()</a></code>. It was always returning the number of rows in the original data frame, instead of the index of empty rows (<a href="https://github.com/epiverse-trace/cleanepi/issues/173" class="external-link">#173</a>, <a href="https://github.com/Bisaloo" class="external-link">@Bisaloo</a>).</p></li>
+<ul><li><p>Fixed a bug in the index for empty rows returned by <code><a href="../reference/print_report.html">print_report()</a></code> after <code><a href="../reference/remove_constants.html">remove_constants()</a></code>. This function was incorrectly returning the number of rows in the original data frame, instead of the index of empty rows (<a href="https://github.com/epiverse-trace/cleanepi/issues/173" class="external-link">#173</a>, <a href="https://github.com/Bisaloo" class="external-link">@Bisaloo</a>).</p></li>
 <li>
-<p>Fixed a bug in the date guesser used by the <code><a href="../reference/standardize_dates.html">standardize_dates()</a></code> function. The followings have been added or corrected (<a href="https://github.com/epiverse-trace/cleanepi/issues/175" class="external-link">#175</a>, <a href="https://github.com/Karim-Mane" class="external-link">@Karim-Mane</a>):</p>
-<ul><li>allow for quarter and partial dates</li>
-<li>account for odd cases before parsing using {lubridate}</li>
+<p>Fixed a bug in the date guesser used by the <code><a href="../reference/standardize_dates.html">standardize_dates()</a></code> function. The followings updates were made (<a href="https://github.com/epiverse-trace/cleanepi/issues/175" class="external-link">#175</a>, <a href="https://github.com/Karim-Mane" class="external-link">@Karim-Mane</a>):</p>
+<ul><li>allow for quarter and partial dates, and</li>
+<li>account for odd cases before parsing using the {lubridate} package.</li>
 </ul></li>
 </ul></div>
 <div class="section level3">
 <h3 id="enhancements-1-0-2-9000">Enhancements<a class="anchor" aria-label="anchor" href="#enhancements-1-0-2-9000"></a></h3>
-<ul><li><p>Rendering the report no more requires the use of {withr} package. Files generated during this process will be stored in the R temporary directory (<a href="https://github.com/epiverse-trace/cleanepi/issues/165" class="external-link">#165</a>, <a href="https://github.com/Bisaloo" class="external-link">@Bisaloo</a>).</p></li>
+<ul><li><p>Rendering the report no longer requires the use of the {withr} package. Files generated during this process will be stored in the R temporary directory (<a href="https://github.com/epiverse-trace/cleanepi/issues/165" class="external-link">#165</a>, <a href="https://github.com/Bisaloo" class="external-link">@Bisaloo</a>).</p></li>
 <li><p>Simplification and improvement of code performance across several functions (<a href="https://github.com/epiverse-trace/cleanepi/issues/154" class="external-link">#154</a>, <a href="https://github.com/epiverse-trace/cleanepi/issues/156" class="external-link">#156</a>, <a href="https://github.com/epiverse-trace/cleanepi/issues/162" class="external-link">#162</a>, <a href="https://github.com/Bisaloo" class="external-link">@Bisaloo</a>).</p></li>
 <li><p>Make R version dependency explicit (<a href="https://github.com/epiverse-trace/cleanepi/issues/156" class="external-link">#156</a>, <a href="https://github.com/Bisaloo" class="external-link">@Bisaloo</a>).</p></li>
-<li><p>Replace base R pipe with {tidyverse} pipe (<a href="https://github.com/epiverse-trace/cleanepi/issues/155" class="external-link">#155</a>, <a href="https://github.com/Karim-Mane" class="external-link">@Karim-Mane</a>)</p></li>
-<li><p>Stop automatic conversion of numeric values into Date due to unexpected results from date_guess() function (<a href="https://github.com/epiverse-trace/cleanepi/issues/151" class="external-link">#151</a>, <a href="https://github.com/Karim-Mane" class="external-link">@Karim-Mane</a>).</p></li>
-<li><p>Allow for a vector of character for <code>na_strings</code> argument in <code><a href="../reference/replace_missing_values.html">replace_missing_values()</a></code> (<a href="https://github.com/epiverse-trace/cleanepi/issues/180" class="external-link">#180</a>, Karim-Mane)</p></li>
-<li><p>Differentiate message sent when duplicates are found in subject ids column vs duplicates across several columns (<a href="https://github.com/epiverse-trace/cleanepi/issues/180" class="external-link">#180</a>, Karim-Mane)</p></li>
-<li><p>Allow for iterative constant data removal (<a href="https://github.com/epiverse-trace/cleanepi/issues/180" class="external-link">#180</a>, Karim-Mane)</p></li>
-<li><p><code><a href="../reference/remove_constants.html">remove_constants()</a></code> now works fine when the cut-off is different from 1. More importantly, the function no longer depends on {janitor} (<a href="https://github.com/epiverse-trace/cleanepi/issues/177" class="external-link">#177</a>, Karim-Mane).</p></li>
-<li><p><code><a href="../reference/scan_data.html">scan_data()</a></code> now makes use of <code><a href="../reference/date_guess.html">date_guess()</a></code> to parse date from characters and <code><a href="https://lubridate.tidyverse.org/reference/as_date.html" class="external-link">lubridate::as_date()</a></code> to parse dates from numeric. This function now operates only on character columns (<a href="https://github.com/epiverse-trace/cleanepi/issues/181" class="external-link">#181</a>, Karim-Mane).</p></li>
+<li><p>Replace base R pipe operator with the {tidyverse} package pipe operator (<a href="https://github.com/epiverse-trace/cleanepi/issues/155" class="external-link">#155</a>, <a href="https://github.com/Karim-Mane" class="external-link">@Karim-Mane</a>).</p></li>
+<li><p>Stop automatic conversion of numeric values into Date due to unexpected results from <code><a href="../reference/date_guess.html">date_guess()</a></code> function (<a href="https://github.com/epiverse-trace/cleanepi/issues/151" class="external-link">#151</a>, <a href="https://github.com/Karim-Mane" class="external-link">@Karim-Mane</a>).</p></li>
+<li><p>Allow for a vector of character for <code>na_strings</code> argument in <code><a href="../reference/replace_missing_values.html">replace_missing_values()</a></code> (<a href="https://github.com/epiverse-trace/cleanepi/issues/180" class="external-link">#180</a>, Karim-Mane),</p></li>
+<li><p>Improved messaging to differentiate between duplicates found in the subject IDs column and duplicates across multiple columns (<a href="https://github.com/epiverse-trace/cleanepi/issues/180" class="external-link">#180</a>, Karim-Mane).</p></li>
+<li><p>Allow for iterative constant data removal (<a href="https://github.com/epiverse-trace/cleanepi/issues/180" class="external-link">#180</a>, Karim-Mane).</p></li>
+<li><p>The <code><a href="../reference/remove_constants.html">remove_constants()</a></code> now works correctly when the cut-off is different from 1. More importantly, the function no longer depends on the {janitor} package (<a href="https://github.com/epiverse-trace/cleanepi/issues/177" class="external-link">#177</a>, Karim-Mane).</p></li>
+<li><p>The <code><a href="../reference/scan_data.html">scan_data()</a></code> now makes use of <code><a href="../reference/date_guess.html">date_guess()</a></code> to parse date from characters and <code><a href="https://lubridate.tidyverse.org/reference/as_date.html" class="external-link">lubridate::as_date()</a></code> to parse dates from numeric. This function now operates only on character columns (<a href="https://github.com/epiverse-trace/cleanepi/issues/181" class="external-link">#181</a>, Karim-Mane).</p></li>
 <li><p>Replace <code><a href="https://rdrr.io/pkg/snakecase/man/caseconverter.html" class="external-link">snakecase::to_snake_case()</a></code> with <code><a href="https://sfirke.github.io/janitor/reference/clean_names.html" class="external-link">janitor::clean_names()</a></code> and make sure variable names specified in <code>keep</code> and <code>rename</code> are preserved after applying <code><a href="https://sfirke.github.io/janitor/reference/clean_names.html" class="external-link">janitor::clean_names()</a></code> (<a href="https://github.com/epiverse-trace/cleanepi/issues/180" class="external-link">#180</a>, Karim-Mane).</p></li>
 <li><p>Function documentations have been updated. The <code><a href="../reference/clean_data.html">clean_data()</a></code> no longer takes the <code>params</code> argument. Instead, it takes many other arguments that are described in the function documentation and the package vignettes (<a href="https://github.com/epiverse-trace/cleanepi/issues/184" class="external-link">#184</a>, Karim-Mane).</p></li>
-<li><p>Use {cli} package for formatting messages in the package (<a href="https://github.com/epiverse-trace/cleanepi/issues/196" class="external-link">#196</a>, Karim-Mane).</p></li>
-<li><p>Translate messages in the package into French using {potools} package (<a href="https://github.com/epiverse-trace/cleanepi/issues/196" class="external-link">#196</a>, Karim-Mane).</p></li>
+<li><p>Use the {cli} package for formatting messages in the package (<a href="https://github.com/epiverse-trace/cleanepi/issues/196" class="external-link">#196</a>, Karim-Mane).</p></li>
+<li><p>Translate messages in the package into French using the {potools} package (<a href="https://github.com/epiverse-trace/cleanepi/issues/196" class="external-link">#196</a>, Karim-Mane).</p></li>
 <li><p>An additional column (<strong>row_id</strong>) with the row indices where the incorrect date sequences are found is now added to the report made from the <code><a href="../reference/check_date_sequence.html">check_date_sequence()</a></code> function (<a href="https://github.com/epiverse-trace/cleanepi/issues/196" class="external-link">#196</a>, Karim-Mane).</p></li>
-<li><p><code><a href="../reference/date_guess.html">date_guess()</a></code> and related functions now returns a list of two elements: the converted values and a boolean that informs about the presence of numeric values that can also be of type Date.</p></li>
+<li><p>The <code><a href="../reference/date_guess.html">date_guess()</a></code> and related functions now returns a list of two elements: the converted values and a boolean that informs about the presence of numeric values that can also be of type Date (<a href="https://github.com/epiverse-trace/cleanepi/issues/181" class="external-link">#181</a>, Karim-Mane).</p></li>
 <li><p>Update the package vignette to account for the improvements made in the different pull requests (<a href="https://github.com/epiverse-trace/cleanepi/issues/194" class="external-link">#194</a>, Karim-Mane).</p></li>
 </ul></div>
+<div class="section level3">
+<h3 id="deprecated-and-defunct-1-0-2-9000">Deprecated and defunct<a class="anchor" aria-label="anchor" href="#deprecated-and-defunct-1-0-2-9000"></a></h3>
+<ul><li>
+<code><a href="../reference/clean_data.html">clean_data()</a></code> no longer uses the <code>params</code> arguments. It has been replaced with other arguments documented in the function documentation (<a href="https://github.com/epiverse-trace/cleanepi/issues/184" class="external-link">#184</a>, Karim-Mane).</li>
+</ul></div>
 </div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.0.1" id="cleanepi-101-to-102">cleanepi 1.0.1 to 1.0.2<a class="anchor" aria-label="anchor" href="#cleanepi-101-to-102"></a></h2>
+<p>*Minor version release of {cleanepi} include various improvements based on feedback from the CRAN submission process</p>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.0.0" id="cleanepi-100-development-version">cleanepi 1.0.0 (development version)<a class="anchor" aria-label="anchor" href="#cleanepi-100-development-version"></a></h2>
+<ul><li>development of data cleaning modules</li>
+</ul></div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 
