@@ -1,0 +1,13 @@
+package,old,new,delta
+cleanepi,1.0.2,1.0.2.9000,*
+bit,NA,4.5.0.1,*
+bit64,NA,4.6.0-1,*
+cli,NA,3.6.4.9000,*
+cpp11,NA,0.5.1,*
+janitor,NA,2.2.1,*
+linelist,NA,1.1.4.9000,*
+lubridate,NA,1.9.4,*
+pillar,NA,1.10.1,*
+purrr,NA,1.0.4,*
+R6,NA,2.6.1,*
+rlang,NA,1.1.4.9000,*

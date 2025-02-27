@@ -1,0 +1,70 @@
+Package: cleanepi
+Title: Clean and Standardize Epidemiological Data
+Version: 1.0.2
+Authors@R: c(
+    person("Karim", "Mané", , "karim.mane@lshtm.ac.uk", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-9892-2999")),
+    person("Thibaut", "Jombart", , "thibautjombart@gmail.com", role = "cph",
+           comment = "Thibault is the owner of the code in guess_dates.R file."),
+    person("Bubacarr", "Bah", , "Bubacarr.Bah1@lshtm.ac.uk", role = "aut",
+           comment = c(ORCID = "0000-0003-3318-6668")),
+    person("Bankolé", "Ahadzie", , "Bankole.Ahadzie@lshtm.ac.uk", role = "aut"),
+    person("Nuredin", "Mohammed", , "Nuredin.Mohammed@lshtm.ac.uk", role = "aut"),
+    person("Abdoelnaser", "Degoot", , "abdoelnaser-mahmood.degoot@lshtm.ac.uk", role = "aut",
+           comment = c(ORCID = "0000-0001-8788-2496")),
+    person("Hugo", "Gruson", , "hugo@data.org", role = "rev",
+           comment = c(ORCID = "0000-0002-4094-1476")),
+    person("Pratik R.", "Gupte", , "pratik.gupte@lshtm.ac.uk", role = "rev",
+           comment = c(ORCID = "0000-0001-5294-7819")),
+    person("James M.", "Azam", , "james.azam@lshtm.ac.uk", role = "rev",
+           comment = c(ORCID = "0000-0001-5782-7330")),
+    person("Joshua W.", "Lambert", , "joshua.lambert@lshtm.ac.uk", role = "rev",
+           comment = c(ORCID = "0000-0001-5218-3046")),
+    person("Chris", "Hartgerink", , "chris@data.org", role = "rev",
+           comment = c(ORCID = "0000-0003-1050-6809")),
+    person("London School of Hygiene and Tropical Medicine, LSHTM", role = "cph"),
+    person("data.org", role = "fnd")
+  )
+Description: Cleaning and standardizing tabular data package, tailored
+    specifically for curating epidemiological data. It streamlines various data
+    cleaning tasks that are typically expected when working with datasets in
+    epidemiology. It returns the processed data in the same format, ensuring
+    seamless integration into existing workflows. Additionally, it generates a
+    comprehensive report detailing the outcomes of each cleaning task.
+License: MIT + file LICENSE
+URL: https://epiverse-trace.github.io/cleanepi/,
+        https://github.com/epiverse-trace/cleanepi
+BugReports: https://github.com/epiverse-trace/cleanepi/issues
+Imports: arsenal, checkmate, dplyr, janitor, linelist (>= 1.0.0),
+        lubridate, magrittr, matchmaker, numberize, readr, rlang,
+        snakecase, utils, withr
+Suggests: htmlwidgets, kableExtra, knitr, lintr, markdown, reactable,
+        rmarkdown, spelling, testthat (>= 3.0.0)
+VignetteBuilder: knitr
+Config/Needs/website: epiverse-trace/epiversetheme
+Config/testthat/edition: 3
+Encoding: UTF-8
+Language: en-US
+LazyData: true
+RoxygenNote: 7.3.1
+NeedsCompilation: no
+Packaged: 2024-06-15 02:28:06 UTC; karimmane
+Author: Karim Mané [aut, cre] (<https://orcid.org/0000-0002-9892-2999>),
+  Thibaut Jombart [cph] (Thibault is the owner of the code in
+    guess_dates.R file.),
+  Bubacarr Bah [aut] (<https://orcid.org/0000-0003-3318-6668>),
+  Bankolé Ahadzie [aut],
+  Nuredin Mohammed [aut],
+  Abdoelnaser Degoot [aut] (<https://orcid.org/0000-0001-8788-2496>),
+  Hugo Gruson [rev] (<https://orcid.org/0000-0002-4094-1476>),
+  Pratik R. Gupte [rev] (<https://orcid.org/0000-0001-5294-7819>),
+  James M. Azam [rev] (<https://orcid.org/0000-0001-5782-7330>),
+  Joshua W. Lambert [rev] (<https://orcid.org/0000-0001-5218-3046>),
+  Chris Hartgerink [rev] (<https://orcid.org/0000-0003-1050-6809>),
+  London School of Hygiene and Tropical Medicine, LSHTM [cph],
+  data.org [fnd]
+Maintainer: Karim Mané <karim.mane@lshtm.ac.uk>
+Depends: R (>= 3.5.0)
+Repository: CRAN
+Date/Publication: 2024-06-17 15:50:02 UTC
+Built: R 4.2.2; ; 2025-02-27 15:47:44 UTC; unix
