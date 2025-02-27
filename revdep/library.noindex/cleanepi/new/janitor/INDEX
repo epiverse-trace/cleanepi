@@ -1,0 +1,60 @@
+add_totals_col          Append a totals column to a data.frame.
+add_totals_row          Append a totals row to a data.frame.
+adorn_ns                Add underlying Ns to a tabyl displaying
+                        percentages.
+adorn_pct_formatting    Format a data.frame of decimals as percentages.
+adorn_percentages       Convert a data.frame of counts to percentages.
+adorn_rounding          Round the numeric columns in a data.frame.
+adorn_title             Add column name to the top of a two-way tabyl.
+adorn_totals            Append a totals row and/or column to a
+                        data.frame.
+as_tabyl                Add 'tabyl' attributes to a data.frame.
+chisq.test              Apply stats::chisq.test to a two-way tabyl
+clean_names             Cleans names of an object (usually a
+                        data.frame).
+compare_df_cols         Generate a comparison of data.frames (or
+                        similar objects) that indicates if they will
+                        successfully bind together by rows.
+compare_df_cols_same    Do the the data.frames have the same columns &
+                        types?
+convert_to_NA           Convert string values to true 'NA' values.
+convert_to_date         Convert many date and datetime formats as may
+                        be received from Microsoft Excel
+describe_class          Describe the class(es) of an object
+excel_numeric_to_date   Convert dates encoded as serial numbers to Date
+                        class.
+find_header             Find the header row in a data.frame
+fisher.test             Apply stats::fisher.test to a two-way tabyl
+get_dupes               Get rows of a 'data.frame' with identical
+                        values for the specified variables.
+get_one_to_one          Find the list of columns that have a 1:1
+                        mapping to each other
+janitor_deprecated      Deprecated Functions in Package janitor
+make_clean_names        Cleans a vector of text, typically containing
+                        the names of an object.
+mu_to_u                 Constant to help map from mu to u
+remove_constant         Remove constant columns from a data.frame or
+                        matrix.
+remove_empty            Remove empty rows and/or columns from a
+                        data.frame or matrix.
+remove_empty_cols       Removes empty columns from a data.frame.
+remove_empty_rows       Removes empty rows from a data.frame.
+round_half_up           Round a numeric vector; halves will be rounded
+                        up, ala Microsoft Excel.
+round_to_fraction       Round to the nearest fraction of a specified
+                        denominator.
+row_to_names            Elevate a row to be the column names of a
+                        data.frame.
+sas_numeric_to_date     Convert a SAS date, time or date/time to an R
+                        object
+signif_half_up          Round a numeric vector to the specified number
+                        of significant digits; halves will be rounded
+                        up.
+single_value            Ensure that a vector has only a single value
+                        throughout.
+tabyl                   Generate a frequency table (1-, 2-, or 3-way).
+top_levels              Generate a frequency table of a factor grouped
+                        into top-n, bottom-n, and all other levels.
+untabyl                 Remove 'tabyl' attributes from a data.frame.
+use_first_valid_of      Returns first non-NA value from a set of
+                        vectors.
