@@ -1,0 +1,16 @@
+[.linelist              Subsetting of linelist objects
+has_tag                 A selector function to use in 'tidyverse'
+                        functions
+lost_tags_action        Check and set behaviour for lost tags
+make_linelist           Create a linelist from a data.frame
+names<-.linelist        Rename columns of a linelist
+print.linelist          Printing method for linelist objects
+set_tags                Changes tags of a linelist object
+tags                    Get the list of tags in a linelist
+tags_defaults           Generate default tags for a linelist
+tags_df                 Extract a data.frame of all tagged variables
+tags_names              Get the list of tag names used in linelist
+tags_types              List acceptable variable types for tags
+validate_linelist       Checks the content of a linelist object
+validate_tags           Checks the tags of a linelist object
+validate_types          Check tagged variables are the right class

@@ -1,0 +1,34 @@
+add_to_dictionary       Add an element to the data dictionary
+add_to_report           Add an element to the report object
+check_date_sequence     Check whether the order of the sequence of
+                        date-events is valid
+check_subject_ids       Check whether the subject IDs comply with the
+                        expected format. When incorrect IDs are found,
+                        the function sends a warning and the user can
+                        call the 'correct_subject_ids()' function to
+                        correct them.
+clean_data              Clean and standardize data
+clean_using_dictionary
+                        Perform dictionary-based cleaning
+common_na_strings       Common strings representing missing values
+convert_numeric_to_date
+                        Convert numeric to date
+convert_to_numeric      Convert columns into numeric
+correct_subject_ids     Correct the wrong subject IDs based on the
+                        user-provided values.
+find_duplicates         Identify and return duplicated rows in a data
+                        frame or linelist.
+print_report            Generate report from data cleaning operations
+remove_constants        Remove empty rows and columns and constant
+                        column
+remove_duplicates       Remove duplicates
+replace_missing_values
+                        Replace missing values with 'NA'
+scan_data               Scan a data frame to determine the percentage
+                        of 'missing', 'numeric', 'Date', 'character',
+                        and 'logical' values in every column.
+standardize_column_names
+                        Standardize column names of a data frame or
+                        linelist
+standardize_dates       Standardize date variables
+timespan                Calculate time span between dates

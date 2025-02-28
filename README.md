@@ -740,7 +740,7 @@ cleaned_data <- clean_data(
 #> ℹ No duplicates were found.
 #> ℹ Standardizing Date columns
 #> ℹ Checking subject IDs format
-#> ! Detected invalid subject ids at lines: "3, 5, 7".
+#> ! Detected 3 invalid subject ids at lines: "3, 5, 7".
 #> ℹ You can use the `correct_subject_ids()` function to correct them.
 #> ℹ Converting the following  column into numeric: sex
 #> 

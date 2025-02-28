@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style type="text/css">
+@font-face {
+font-family: octicons-link;
+src: url(data:font/woff;charset=utf-8;base64,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) format('woff');
+}
+body {
+-webkit-text-size-adjust: 100%;
+text-size-adjust: 100%;
+color: #333;
+font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+font-size: 16px;
+line-height: 1.6;
+word-wrap: break-word;
+}
+a {
+background-color: transparent;
+}
+a:active,
+a:hover {
+outline: 0;
+}
+strong {
+font-weight: bold;
+}
+h1 {
+font-size: 2em;
+margin: 0.67em 0;
+}
+img {
+border: 0;
+}
+hr {
+box-sizing: content-box;
+height: 0;
+}
+pre {
+overflow: auto;
+}
+code,
+kbd,
+pre {
+font-family: monospace, monospace;
+font-size: 1em;
+}
+input {
+color: inherit;
+font: inherit;
+margin: 0;
+}
+html input[disabled] {
+cursor: default;
+}
+input {
+line-height: normal;
+}
+input[type="checkbox"] {
+box-sizing: border-box;
+padding: 0;
+}
+table {
+border-collapse: collapse;
+border-spacing: 0;
+}
+td,
+th {
+padding: 0;
+}
+* {
+box-sizing: border-box;
+}
+input {
+font: 13px / 1.4 Helvetica, arial, nimbussansl, liberationsans, freesans, clean, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+a {
+color: #4078c0;
+text-decoration: none;
+}
+a:hover,
+a:active {
+text-decoration: underline;
+}
+hr {
+height: 0;
+margin: 15px 0;
+overflow: hidden;
+background: transparent;
+border: 0;
+border-bottom: 1px solid #ddd;
+}
+hr:before {
+display: table;
+content: "";
+}
+hr:after {
+display: table;
+clear: both;
+content: "";
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+margin-top: 15px;
+margin-bottom: 15px;
+line-height: 1.1;
+}
+h1 {
+font-size: 30px;
+}
+h2 {
+font-size: 21px;
+}
+h3 {
+font-size: 16px;
+}
+h4 {
+font-size: 14px;
+}
+h5 {
+font-size: 12px;
+}
+h6 {
+font-size: 11px;
+}
+blockquote {
+margin: 0;
+}
+ul,
+ol {
+padding: 0;
+margin-top: 0;
+margin-bottom: 0;
+}
+ol ol,
+ul ol {
+list-style-type: lower-roman;
+}
+ul ul ol,
+ul ol ol,
+ol ul ol,
+ol ol ol {
+list-style-type: lower-alpha;
+}
+dd {
+margin-left: 0;
+}
+code {
+font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+font-size: 12px;
+}
+pre {
+margin-top: 0;
+margin-bottom: 0;
+font: 12px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+}
+.select::-ms-expand {
+opacity: 0;
+}
+.octicon {
+font: normal normal normal 16px/1 octicons-link;
+display: inline-block;
+text-decoration: none;
+text-rendering: auto;
+-webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
+-webkit-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
+}
+.octicon-link:before {
+content: '\f05c';
+}
+.markdown-body:before {
+display: table;
+content: "";
+}
+.markdown-body:after {
+display: table;
+clear: both;
+content: "";
+}
+.markdown-body>*:first-child {
+margin-top: 0 !important;
+}
+.markdown-body>*:last-child {
+margin-bottom: 0 !important;
+}
+a:not([href]) {
+color: inherit;
+text-decoration: none;
+}
+.anchor {
+display: inline-block;
+padding-right: 2px;
+margin-left: -18px;
+}
+.anchor:focus {
+outline: none;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+margin-top: 1em;
+margin-bottom: 16px;
+font-weight: bold;
+line-height: 1.4;
+}
+h1 .octicon-link,
+h2 .octicon-link,
+h3 .octicon-link,
+h4 .octicon-link,
+h5 .octicon-link,
+h6 .octicon-link {
+color: #000;
+vertical-align: middle;
+visibility: hidden;
+}
+h1:hover .anchor,
+h2:hover .anchor,
+h3:hover .anchor,
+h4:hover .anchor,
+h5:hover .anchor,
+h6:hover .anchor {
+text-decoration: none;
+}
+h1:hover .anchor .octicon-link,
+h2:hover .anchor .octicon-link,
+h3:hover .anchor .octicon-link,
+h4:hover .anchor .octicon-link,
+h5:hover .anchor .octicon-link,
+h6:hover .anchor .octicon-link {
+visibility: visible;
+}
+h1 {
+padding-bottom: 0.3em;
+font-size: 2.25em;
+line-height: 1.2;
+border-bottom: 1px solid #eee;
+}
+h1 .anchor {
+line-height: 1;
+}
+h2 {
+padding-bottom: 0.3em;
+font-size: 1.75em;
+line-height: 1.225;
+border-bottom: 1px solid #eee;
+}
+h2 .anchor {
+line-height: 1;
+}
+h3 {
+font-size: 1.5em;
+line-height: 1.43;
+}
+h3 .anchor {
+line-height: 1.2;
+}
+h4 {
+font-size: 1.25em;
+}
+h4 .anchor {
+line-height: 1.2;
+}
+h5 {
+font-size: 1em;
+}
+h5 .anchor {
+line-height: 1.1;
+}
+h6 {
+font-size: 1em;
+color: #777;
+}
+h6 .anchor {
+line-height: 1.1;
+}
+p,
+blockquote,
+ul,
+ol,
+dl,
+table,
+pre {
+margin-top: 0;
+margin-bottom: 16px;
+}
+hr {
+height: 4px;
+padding: 0;
+margin: 16px 0;
+background-color: #e7e7e7;
+border: 0 none;
+}
+ul,
+ol {
+padding-left: 2em;
+}
+ul ul,
+ul ol,
+ol ol,
+ol ul {
+margin-top: 0;
+margin-bottom: 0;
+}
+li>p {
+margin-top: 16px;
+}
+dl {
+padding: 0;
+}
+dl dt {
+padding: 0;
+margin-top: 16px;
+font-size: 1em;
+font-style: italic;
+font-weight: bold;
+}
+dl dd {
+padding: 0 16px;
+margin-bottom: 16px;
+}
+blockquote {
+padding: 0 15px;
+color: #777;
+border-left: 4px solid #ddd;
+}
+blockquote>:first-child {
+margin-top: 0;
+}
+blockquote>:last-child {
+margin-bottom: 0;
+}
+table {
+display: block;
+width: 100%;
+overflow: auto;
+word-break: normal;
+word-break: keep-all;
+}
+table th {
+font-weight: bold;
+}
+table th,
+table td {
+padding: 6px 13px;
+border: 1px solid #ddd;
+}
+table tr {
+background-color: #fff;
+border-top: 1px solid #ccc;
+}
+table tr:nth-child(2n) {
+background-color: #f8f8f8;
+}
+img {
+max-width: 100%;
+box-sizing: content-box;
+background-color: #fff;
+}
+code {
+padding: 0;
+padding-top: 0.2em;
+padding-bottom: 0.2em;
+margin: 0;
+font-size: 85%;
+background-color: rgba(0,0,0,0.04);
+border-radius: 3px;
+}
+code:before,
+code:after {
+letter-spacing: -0.2em;
+content: "\00a0";
+}
+pre>code {
+padding: 0;
+margin: 0;
+font-size: 100%;
+word-break: normal;
+white-space: pre;
+background: transparent;
+border: 0;
+}
+.highlight {
+margin-bottom: 16px;
+}
+.highlight pre,
+pre {
+padding: 16px;
+overflow: auto;
+font-size: 85%;
+line-height: 1.45;
+background-color: #f7f7f7;
+border-radius: 3px;
+}
+.highlight pre {
+margin-bottom: 0;
+word-break: normal;
+}
+pre {
+word-wrap: normal;
+}
+pre code {
+display: inline;
+max-width: initial;
+padding: 0;
+margin: 0;
+overflow: initial;
+line-height: inherit;
+word-wrap: normal;
+background-color: transparent;
+border: 0;
+}
+pre code:before,
+pre code:after {
+content: normal;
+}
+kbd {
+display: inline-block;
+padding: 3px 5px;
+font-size: 11px;
+line-height: 10px;
+color: #555;
+vertical-align: middle;
+background-color: #fcfcfc;
+border: solid 1px #ccc;
+border-bottom-color: #bbb;
+border-radius: 3px;
+box-shadow: inset 0 -1px 0 #bbb;
+}
+.pl-c {
+color: #969896;
+}
+.pl-c1,
+.pl-s .pl-v {
+color: #0086b3;
+}
+.pl-e,
+.pl-en {
+color: #795da3;
+}
+.pl-s .pl-s1,
+.pl-smi {
+color: #333;
+}
+.pl-ent {
+color: #63a35c;
+}
+.pl-k {
+color: #a71d5d;
+}
+.pl-pds,
+.pl-s,
+.pl-s .pl-pse .pl-s1,
+.pl-sr,
+.pl-sr .pl-cce,
+.pl-sr .pl-sra,
+.pl-sr .pl-sre {
+color: #183691;
+}
+.pl-v {
+color: #ed6a43;
+}
+.pl-id {
+color: #b52a1d;
+}
+.pl-ii {
+background-color: #b52a1d;
+color: #f8f8f8;
+}
+.pl-sr .pl-cce {
+color: #63a35c;
+font-weight: bold;
+}
+.pl-ml {
+color: #693a17;
+}
+.pl-mh,
+.pl-mh .pl-en,
+.pl-ms {
+color: #1d3e81;
+font-weight: bold;
+}
+.pl-mq {
+color: #008080;
+}
+.pl-mi {
+color: #333;
+font-style: italic;
+}
+.pl-mb {
+color: #333;
+font-weight: bold;
+}
+.pl-md {
+background-color: #ffecec;
+color: #bd2c00;
+}
+.pl-mi1 {
+background-color: #eaffea;
+color: #55a532;
+}
+.pl-mdr {
+color: #795da3;
+font-weight: bold;
+}
+.pl-mo {
+color: #1d3e81;
+}
+kbd {
+display: inline-block;
+padding: 3px 5px;
+font: 11px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+line-height: 10px;
+color: #555;
+vertical-align: middle;
+background-color: #fcfcfc;
+border: solid 1px #ccc;
+border-bottom-color: #bbb;
+border-radius: 3px;
+box-shadow: inset 0 -1px 0 #bbb;
+}
+.task-list-item {
+list-style-type: none;
+}
+.task-list-item+.task-list-item {
+margin-top: 3px;
+}
+.task-list-item input {
+margin: 0 0.35em 0.25em -1.6em;
+vertical-align: middle;
+}
+:checked+.radio-label {
+z-index: 1;
+position: relative;
+border-color: #4078c0;
+}
+.sourceLine {
+display: inline-block;
+}
+code .kw { color: #000000; }
+code .dt { color: #ed6a43; }
+code .dv { color: #009999; }
+code .bn { color: #009999; }
+code .fl { color: #009999; }
+code .ch { color: #009999; }
+code .st { color: #183691; }
+code .co { color: #969896; }
+code .ot { color: #0086b3; }
+code .al { color: #a61717; }
+code .fu { color: #63a35c; }
+code .er { color: #a61717; background-color: #e3d2d2; }
+code .wa { color: #000000; }
+code .cn { color: #008080; }
+code .sc { color: #008080; }
+code .vs { color: #183691; }
+code .ss { color: #183691; }
+code .im { color: #000000; }
+code .va {color: #008080; }
+code .cf { color: #000000; }
+code .op { color: #000000; }
+code .bu { color: #000000; }
+code .ex { color: #000000; }
+code .pp { color: #999999; }
+code .at { color: #008080; }
+code .do { color: #969896; }
+code .an { color: #008080; }
+code .cv { color: #008080; }
+code .in { color: #008080; }
+</style>
+<style>
+body {
+box-sizing: border-box;
+min-width: 200px;
+max-width: 980px;
+margin: 0 auto;
+padding: 45px;
+padding-top: 0px;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<h1 id="overview-of-janitor-functions">Overview of janitor
+functions</h1>
+<p>2024-12-22</p>
+<ul>
+<li><a href="#major-functions">Major functions</a>
+<ul>
+<li><a href="#cleaning">Cleaning</a>
+<ul>
+<li><a href="#clean-dataframe-names-with-clean_names">Clean data.frame
+names with <code>clean_names()</code></a></li>
+<li><a href="#do-those-dataframes-actually-contain-the-same-columns">Do
+those data.frames actually contain the same columns?</a></li>
+</ul></li>
+<li><a href="#exploring">Exploring</a>
+<ul>
+<li><a href="#tabyl---a-better-version-of-table"><code>tabyl()</code> -
+a better version of <code>table()</code></a></li>
+<li><a href="#explore-records-with-duplicated-values-for-specific-combinations-of-variables-with-get_dupes">Explore
+records with duplicated values for specific combinations of variables
+with <code>get_dupes()</code></a></li>
+<li><a href="#explore-relationships-between-columns-with-get_one_to_one">Explore
+relationships between columns with
+<code>get_one_to_one()</code></a></li>
+</ul></li>
+</ul></li>
+<li><a href="#minor-functions">Minor functions</a>
+<ul>
+<li><a href="#cleaning-1">Cleaning</a>
+<ul>
+<li><a href="#manipulate-vectors-of-names-with-make_clean_names">Manipulate
+vectors of names with <code>make_clean_names()</code></a></li>
+<li><a href="#validate-that-a-column-has-a-single_value-per-group">Validate
+that a column has a <code>single_value()</code> per group</a></li>
+<li><a href="#remove_empty-rows-and-columns"><code>remove_empty()</code>
+rows and columns</a></li>
+<li><a href="#remove_constant-columns"><code>remove_constant()</code>
+columns</a></li>
+<li><a href="#directionally-consistent-rounding-behavior-with-round_half_up">Directionally-consistent
+rounding behavior with <code>round_half_up()</code></a></li>
+<li><a href="#round-decimals-to-precise-fractions-of-a-given-denominator-with-round_to_fraction">Round
+decimals to precise fractions of a given denominator with
+<code>round_to_fraction()</code></a></li>
+<li><a href="#fix-dates-stored-as-serial-numbers-with-excel_numeric_to_date">Fix
+dates stored as serial numbers with
+<code>excel_numeric_to_date()</code></a></li>
+<li><a href="#convert-a-mix-of-date-and-datetime-formats-to-date">Convert a mix
+of date and datetime formats to date</a></li>
+<li><a href="#elevate-column-names-stored-in-a-dataframe-row">Elevate
+column names stored in a data.frame row</a></li>
+<li><a href="#find-the-header-row-buried-within-a-messy-dataframe">Find
+the header row buried within a messy data.frame</a></li>
+</ul></li>
+<li><a href="#exploring-1">Exploring</a>
+<ul>
+<li><a href="#count-factor-levels-in-groups-of-high-medium-and-low-with-top_levels">Count
+factor levels in groups of high, medium, and low with
+<code>top_levels()</code></a></li>
+</ul></li>
+</ul></li>
+</ul>
+<p>The janitor functions expedite the initial data exploration and
+cleaning that comes with any new data set. This catalog describes the
+usage for each function.</p>
+<h1 id="major-functions">Major functions</h1>
+<p>Functions for everyday use.</p>
+<h2 id="cleaning">Cleaning</h2>
+<h3 id="clean-dataframe-names-with-clean_names">Clean data.frame names
+with <code>clean_names()</code></h3>
+<p>Call this function every time you read data.</p>
+<p>It works in a <code>%&gt;%</code> pipeline and handles problematic
+variable names, especially those that are so well-preserved by
+<code>readxl::read_excel()</code> and
+<code>readr::read_csv()</code>.</p>
+<ul>
+<li>Parses letter cases and separators to a consistent format.
+<ul>
+<li>Default is to snake_case, but other cases like camelCase are
+available</li>
+</ul></li>
+<li>Handles special characters and spaces, including transliterating
+characters like <code>œ</code> to <code>oe</code>.</li>
+<li>Appends numbers to duplicated names</li>
+<li>Converts “%” to “percent” and “#” to “number” to retain meaning</li>
+<li>Spacing (or lack thereof) around numbers is preserved</li>
+</ul>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co"># Create a data.frame with dirty names</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>test_df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">matrix</span>(<span class="at">ncol =</span> <span class="dv">6</span>))</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">names</span>(test_df) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;firstName&quot;</span>, <span class="st">&quot;ábc@!*&quot;</span>, <span class="st">&quot;% successful (2009)&quot;</span>,</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>                    <span class="st">&quot;REPEAT VALUE&quot;</span>, <span class="st">&quot;REPEAT VALUE&quot;</span>, <span class="st">&quot;&quot;</span>)</span></code></pre></div>
+<p>Clean the variable names, returning a data.frame:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>test_df <span class="sc">%&gt;%</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>  <span class="fu">clean_names</span>()</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="co">#&gt;   first_name abc percent_successful_2009 repeat_value repeat_value_2  x</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="co">#&gt; 1         NA  NA                      NA           NA             NA NA</span></span></code></pre></div>
+<p>Compare to what base R produces:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">make.names</span>(<span class="fu">names</span>(test_df))</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co">#&gt; [1] &quot;firstName&quot;            &quot;ábc...&quot;               &quot;X..successful..2009.&quot;</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co">#&gt; [4] &quot;REPEAT.VALUE&quot;         &quot;REPEAT.VALUE&quot;         &quot;X&quot;</span></span></code></pre></div>
+<p>This function is powered by the underlying exported function
+<strong><code>make_clean_names()</code></strong>, which accepts and
+returns a character vector of names (see below). This allows for
+cleaning the names of <em>any</em> object, not just a data.frame.
+<code>clean_names()</code> is retained for its convenience in piped
+workflows, and can be called on an <code>sf</code> simple features
+object or a <code>tbl_graph</code> tidygraph object in addition to a
+data.frame.</p>
+<h3 id="do-those-dataframes-actually-contain-the-same-columns">Do those
+data.frames actually contain the same columns?</h3>
+<h4 id="check-with-compare_df_cols">Check with
+<code>compare_df_cols()</code></h4>
+<p>For cases when you are given a set of data files that <em>should</em>
+be identical, and you wish to read and combine them for analysis. But
+then <code>dplyr::bind_rows()</code> or <code>rbind()</code> fails,
+because of different columns or because the column classes don’t match
+across data.frames.</p>
+<p><code>compare_df_cols()</code> takes unquoted names of data.frames /
+tibbles, or a list of data.frames, and returns a summary of how they
+compare. See what the column types are, which are missing or present in
+the different inputs, and how column types differ.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>df1 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">a =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="at">b =</span> <span class="fu">c</span>(<span class="st">&quot;big&quot;</span>, <span class="st">&quot;small&quot;</span>))</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>df2 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">a =</span> <span class="dv">10</span><span class="sc">:</span><span class="dv">12</span>, <span class="at">b =</span> <span class="fu">c</span>(<span class="st">&quot;medium&quot;</span>, <span class="st">&quot;small&quot;</span>, <span class="st">&quot;big&quot;</span>), <span class="at">c =</span> <span class="dv">0</span>, <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>) <span class="co"># here, column b is a factor</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>df3 <span class="ot">&lt;-</span> df1 <span class="sc">%&gt;%</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">b =</span> <span class="fu">as.character</span>(b))</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="fu">compare_df_cols</span>(df1, df2, df3)</span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#&gt;   column_name       df1     df2       df3</span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co">#&gt; 1           a   integer integer   integer</span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="co">#&gt; 2           b character  factor character</span></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="co">#&gt; 3           c      &lt;NA&gt; numeric      &lt;NA&gt;</span></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="fu">compare_df_cols</span>(df1, df2, df3, <span class="at">return =</span> <span class="st">&quot;mismatch&quot;</span>)</span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="co">#&gt;   column_name       df1    df2       df3</span></span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="co">#&gt; 1           b character factor character</span></span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a><span class="fu">compare_df_cols</span>(df1, df2, df3, <span class="at">return =</span> <span class="st">&quot;mismatch&quot;</span>, <span class="at">bind_method =</span> <span class="st">&quot;rbind&quot;</span>) <span class="co"># default is dplyr::bind_rows</span></span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a><span class="co">#&gt;   column_name       df1     df2       df3</span></span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a><span class="co">#&gt; 1           b character  factor character</span></span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a><span class="co">#&gt; 2           c      &lt;NA&gt; numeric      &lt;NA&gt;</span></span></code></pre></div>
+<p><code>compare_df_cols_same()</code> returns <code>TRUE</code> or
+<code>FALSE</code> indicating if the data.frames can be successfully
+row-bound with the given binding method:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">compare_df_cols_same</span>(df1, df3)</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="co">#&gt; [1] TRUE</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="fu">compare_df_cols_same</span>(df2, df3)</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co">#&gt;   column_name    ..1       ..2</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co">#&gt; 1           b factor character</span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co">#&gt; [1] FALSE</span></span></code></pre></div>
+<h2 id="exploring">Exploring</h2>
+<h3 id="tabyl---a-better-version-of-table"><code>tabyl()</code> - a
+better version of <code>table()</code></h3>
+<p><code>tabyl()</code> is a tidyverse-oriented replacement for
+<code>table()</code>. It counts combinations of one, two, or three
+variables, and then can be formatted with a suite of
+<code>adorn_*</code> functions to look just how you want. For
+instance:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>mtcars <span class="sc">%&gt;%</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>  <span class="fu">tabyl</span>(gear, cyl) <span class="sc">%&gt;%</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>  <span class="fu">adorn_totals</span>(<span class="st">&quot;col&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>  <span class="fu">adorn_percentages</span>(<span class="st">&quot;row&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>  <span class="fu">adorn_pct_formatting</span>(<span class="at">digits =</span> <span class="dv">2</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>  <span class="fu">adorn_ns</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>  <span class="fu">adorn_title</span>()</span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="co">#&gt;              cyl                                    </span></span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a><span class="co">#&gt;  gear          4          6           8        Total</span></span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a><span class="co">#&gt;     3  6.67% (1) 13.33% (2) 80.00% (12) 100.00% (15)</span></span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a><span class="co">#&gt;     4 66.67% (8) 33.33% (4)  0.00%  (0) 100.00% (12)</span></span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a><span class="co">#&gt;     5 40.00% (2) 20.00% (1) 40.00%  (2) 100.00%  (5)</span></span></code></pre></div>
+<p>Learn more in the <a href="https://sfirke.github.io/janitor/articles/tabyls.html">tabyls
+vignette</a>.</p>
+<h3 id="explore-records-with-duplicated-values-for-specific-combinations-of-variables-with-get_dupes">Explore
+records with duplicated values for specific combinations of variables
+with <code>get_dupes()</code></h3>
+<p>This is for hunting down and examining duplicate records during data
+cleaning - usually when there shouldn’t be any.</p>
+<p>For example, in a tidy data.frame you might expect to have a unique
+ID repeated for each year, but no duplicated pairs of unique ID &amp;
+year. Say you want to check for and study any such duplicated
+records.</p>
+<p><code>get_dupes()</code> returns the records (and inserts a count of
+duplicates) so you can examine the problematic cases:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">get_dupes</span>(mtcars, wt, cyl) <span class="co"># or mtcars %&gt;% get_dupes(wt, cyl) if you prefer to pipe</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="co">#&gt;     wt cyl dupe_count  mpg  disp  hp drat  qsec vs am gear carb</span></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="co">#&gt; 1 3.44   6          2 19.2 167.6 123 3.92 18.30  1  0    4    4</span></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="co">#&gt; 2 3.44   6          2 17.8 167.6 123 3.92 18.90  1  0    4    4</span></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="co">#&gt; 3 3.57   8          2 14.3 360.0 245 3.21 15.84  0  0    3    4</span></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="co">#&gt; 4 3.57   8          2 15.0 301.0 335 3.54 14.60  0  1    5    8</span></span></code></pre></div>
+<h3 id="explore-relationships-between-columns-with-get_one_to_one">Explore
+relationships between columns with <code>get_one_to_one()</code></h3>
+<p>This function shows which, if any, columns in a data.frame have
+one-to-one relationships with each other.</p>
+<p>Here is a toy example looking at the first four rows of the
+<em>starwars</em> data.frame from the dplyr package. The variables are
+grouped into three sets of one-to-one clusters:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>starwars[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>,] <span class="sc">%&gt;%</span></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  <span class="fu">get_one_to_one</span>()</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="co">#&gt; [[1]]</span></span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="co">#&gt; [1] &quot;name&quot;       &quot;height&quot;     &quot;mass&quot;       &quot;skin_color&quot; &quot;birth_year&quot;</span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="co">#&gt; [6] &quot;films&quot;     </span></span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="co">#&gt; [[2]]</span></span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a><span class="co">#&gt; [1] &quot;hair_color&quot; &quot;starships&quot; </span></span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a><span class="co">#&gt; [[3]]</span></span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a><span class="co">#&gt; [1] &quot;sex&quot;     &quot;species&quot;</span></span></code></pre></div>
+<h1 id="minor-functions">Minor functions</h1>
+<p>Smaller functions for use in particular situations. More
+human-readable than the equivalent code they replace.</p>
+<h2 id="cleaning-1">Cleaning</h2>
+<h3 id="manipulate-vectors-of-names-with-make_clean_names">Manipulate
+vectors of names with <code>make_clean_names()</code></h3>
+<p>Like base R’s <code>make.names()</code>, but with the stylings and
+case choice of the long-time janitor function
+<code>clean_names()</code>. While <code>clean_names()</code> is still
+offered for use in data.frame pipeline with <code>%&gt;%</code>,
+<code>make_clean_names()</code> allows for more general usage, e.g., on
+a vector.</p>
+<p>It can also be used as an argument to <code>.name_repair</code> in
+the newest version of <code>tibble::as_tibble</code>:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>tibble<span class="sc">::</span><span class="fu">as_tibble</span>(iris, <span class="at">.name_repair =</span> janitor<span class="sc">::</span>make_clean_names)</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="co">#&gt; # A tibble: 150 × 5</span></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="co">#&gt;    sepal_length sepal_width petal_length petal_width species</span></span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="co">#&gt;           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  </span></span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a><span class="co">#&gt;  1          5.1         3.5          1.4         0.2 setosa </span></span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a><span class="co">#&gt;  2          4.9         3            1.4         0.2 setosa </span></span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a><span class="co">#&gt;  3          4.7         3.2          1.3         0.2 setosa </span></span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a><span class="co">#&gt;  4          4.6         3.1          1.5         0.2 setosa </span></span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a><span class="co">#&gt;  5          5           3.6          1.4         0.2 setosa </span></span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a><span class="co">#&gt;  6          5.4         3.9          1.7         0.4 setosa </span></span>
+<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a><span class="co">#&gt;  7          4.6         3.4          1.4         0.3 setosa </span></span>
+<span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a><span class="co">#&gt;  8          5           3.4          1.5         0.2 setosa </span></span>
+<span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a><span class="co">#&gt;  9          4.4         2.9          1.4         0.2 setosa </span></span>
+<span id="cb9-14"><a href="#cb9-14" tabindex="-1"></a><span class="co">#&gt; 10          4.9         3.1          1.5         0.1 setosa </span></span>
+<span id="cb9-15"><a href="#cb9-15" tabindex="-1"></a><span class="co">#&gt; # ℹ 140 more rows</span></span></code></pre></div>
+<h3 id="validate-that-a-column-has-a-single_value-per-group">Validate
+that a column has a <code>single_value()</code> per group</h3>
+<p>This function returns the single value in a column, often used in
+combination with <code>dplyr::group_by()</code> to validate that every
+value of X has only one associated value of Y. It will complete that
+value of Y into missing values in that column. And if there’s more than
+a single value of Y, its <code>info</code> argument can help pinpoint
+where that occurs.</p>
+<p>Take this data.frame. One pesky value of X has multiple values of Y
+where it should not:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>not_one_to_one <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>  <span class="at">X =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">each =</span> <span class="dv">2</span>),</span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>  <span class="at">Y =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="at">each =</span> <span class="dv">2</span>), <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>))</span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>not_one_to_one</span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a><span class="co">#&gt;   X Y</span></span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a><span class="co">#&gt; 1 1 1</span></span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a><span class="co">#&gt; 2 1 1</span></span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a><span class="co">#&gt; 3 2 2</span></span>
+<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a><span class="co">#&gt; 4 2 2</span></span>
+<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a><span class="co">#&gt; 5 3 1</span></span>
+<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a><span class="co">#&gt; 6 3 2</span></span>
+<span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a></span>
+<span id="cb10-14"><a href="#cb10-14" tabindex="-1"></a><span class="co"># throws informative error:</span></span>
+<span id="cb10-15"><a href="#cb10-15" tabindex="-1"></a><span class="fu">try</span>(not_one_to_one <span class="sc">%&gt;%</span></span>
+<span id="cb10-16"><a href="#cb10-16" tabindex="-1"></a>      dplyr<span class="sc">::</span><span class="fu">group_by</span>(X) <span class="sc">%&gt;%</span></span>
+<span id="cb10-17"><a href="#cb10-17" tabindex="-1"></a>      dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb10-18"><a href="#cb10-18" tabindex="-1"></a>        <span class="at">Z =</span> <span class="fu">single_value</span>(Y, <span class="at">info =</span> <span class="fu">paste</span>(<span class="st">&quot;Calculating Z for group X =&quot;</span>, X)))</span>
+<span id="cb10-19"><a href="#cb10-19" tabindex="-1"></a>      )</span>
+<span id="cb10-20"><a href="#cb10-20" tabindex="-1"></a><span class="co">#&gt; Error in dplyr::mutate(., Z = single_value(Y, info = paste(&quot;Calculating Z for group X =&quot;,  : </span></span>
+<span id="cb10-21"><a href="#cb10-21" tabindex="-1"></a><span class="co">#&gt;   ℹ In argument: `Z = single_value(Y, info = paste(&quot;Calculating Z for</span></span>
+<span id="cb10-22"><a href="#cb10-22" tabindex="-1"></a><span class="co">#&gt;   group X =&quot;, X))`.</span></span>
+<span id="cb10-23"><a href="#cb10-23" tabindex="-1"></a><span class="co">#&gt; ℹ In group 3: `X = 3`.</span></span>
+<span id="cb10-24"><a href="#cb10-24" tabindex="-1"></a><span class="co">#&gt; Caused by error in `single_value()`:</span></span>
+<span id="cb10-25"><a href="#cb10-25" tabindex="-1"></a><span class="co">#&gt; ! More than one (2) value found (1, 2): Calculating Z for group X = 3: Calculating Z for group X = 3</span></span></code></pre></div>
+<h3 id="remove_empty-rows-and-columns"><code>remove_empty()</code> rows
+and columns</h3>
+<p>Does what it says. For cases like cleaning Excel files that contain
+empty rows and columns after being read into R.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>q <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">v1 =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="cn">NA</span>, <span class="dv">3</span>),</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>                <span class="at">v2 =</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span>),</span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>                <span class="at">v3 =</span> <span class="fu">c</span>(<span class="st">&quot;a&quot;</span>, <span class="cn">NA</span>, <span class="st">&quot;b&quot;</span>))</span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>q <span class="sc">%&gt;%</span></span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>  <span class="fu">remove_empty</span>(<span class="fu">c</span>(<span class="st">&quot;rows&quot;</span>, <span class="st">&quot;cols&quot;</span>))</span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a><span class="co">#&gt;   v1 v3</span></span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a><span class="co">#&gt; 1  1  a</span></span>
+<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a><span class="co">#&gt; 3  3  b</span></span></code></pre></div>
+<p>Just a simple wrapper for one-line functions, but it saves a little
+thinking for both the code writer and the reader.</p>
+<h3 id="remove_constant-columns"><code>remove_constant()</code>
+columns</h3>
+<p>Drops columns from a data.frame that contain only a single constant
+value (with an <code>na.rm</code> option to control whether NAs should
+be considered as different values from the constant).</p>
+<p><code>remove_constant</code> and <code>remove_empty</code> work on
+matrices as well as data.frames.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">good =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">boring =</span> <span class="st">&quot;the same&quot;</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>a <span class="sc">%&gt;%</span> <span class="fu">remove_constant</span>()</span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a><span class="co">#&gt;   good</span></span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a><span class="co">#&gt; 1    1</span></span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a><span class="co">#&gt; 2    2</span></span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a><span class="co">#&gt; 3    3</span></span></code></pre></div>
+<h3 id="directionally-consistent-rounding-behavior-with-round_half_up">Directionally-consistent
+rounding behavior with <code>round_half_up()</code></h3>
+<p>R uses “banker’s rounding”, i.e., halves are rounded to the nearest
+<em>even</em> number. This function, an exact implementation of <a href="https://stackoverflow.com/questions/12688717/round-up-from-5/12688836#12688836">https://stackoverflow.com/questions/12688717/round-up-from-5/12688836#12688836</a>,
+will round all halves up. Compare:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>nums <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">2.5</span>, <span class="fl">3.5</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="fu">round</span>(nums)</span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a><span class="co">#&gt; [1] 2 4</span></span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a><span class="fu">round_half_up</span>(nums)</span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a><span class="co">#&gt; [1] 3 4</span></span></code></pre></div>
+<h3 id="round-decimals-to-precise-fractions-of-a-given-denominator-with-round_to_fraction">Round
+decimals to precise fractions of a given denominator with
+<code>round_to_fraction()</code></h3>
+<p>Say your data should only have values of quarters: 0, 0.25, 0.5,
+0.75, 1, etc. But there are either user-entered bad values like
+<code>0.2</code> or floating-point precision problems like
+<code>0.25000000001</code>. <code>round_to_fraction()</code> will
+enforce the desired fractional distribution by rounding the values to
+the nearest value given the specified denominator.</p>
+<p>There’s also a <code>digits</code> argument for optional subsequent
+rounding.</p>
+<h3 id="fix-dates-stored-as-serial-numbers-with-excel_numeric_to_date">Fix
+dates stored as serial numbers with
+<code>excel_numeric_to_date()</code></h3>
+<p>Ever load data from Excel and see a value like <code>42223</code>
+where a date should be? This function converts those serial numbers to
+class <code>Date</code>, with options for different Excel date encoding
+systems, preserving fractions of a date as time (in which case the
+returned value is of class <code>POSIXlt</code>), and specifying a time
+zone.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="fu">excel_numeric_to_date</span>(<span class="dv">41103</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a><span class="co">#&gt; [1] &quot;2012-07-13&quot;</span></span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a><span class="fu">excel_numeric_to_date</span>(<span class="fl">41103.01</span>) <span class="co"># ignores decimal places, returns Date object</span></span>
+<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a><span class="co">#&gt; [1] &quot;2012-07-13&quot;</span></span>
+<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a><span class="fu">excel_numeric_to_date</span>(<span class="fl">41103.01</span>, <span class="at">include_time =</span> <span class="cn">TRUE</span>) <span class="co"># returns POSIXlt object</span></span>
+<span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a><span class="co">#&gt; [1] &quot;2012-07-13 00:14:24 EDT&quot;</span></span>
+<span id="cb14-7"><a href="#cb14-7" tabindex="-1"></a><span class="fu">excel_numeric_to_date</span>(<span class="fl">41103.01</span>, <span class="at">date_system =</span> <span class="st">&quot;mac pre-2011&quot;</span>)</span>
+<span id="cb14-8"><a href="#cb14-8" tabindex="-1"></a><span class="co">#&gt; [1] &quot;2016-07-14&quot;</span></span></code></pre></div>
+<h3 id="convert-a-mix-of-date-and-datetime-formats-to-date">Convert a
+mix of date and datetime formats to date</h3>
+<p>Building on <code>excel_numeric_to_date()</code>, the new functions
+<code>convert_to_date()</code> and <code>convert_to_datetime()</code>
+are more robust to a mix of inputs. Handy when reading many spreadsheets
+that <em>should</em> have the same column formats, but don’t.</p>
+<p>For instance, here a vector with a date and an Excel datetime sees
+both values successfully converted to Date class:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="fu">convert_to_date</span>(<span class="fu">c</span>(<span class="st">&quot;2020-02-29&quot;</span>, <span class="st">&quot;40000.1&quot;</span>))</span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a><span class="co">#&gt; [1] &quot;2020-02-29&quot; &quot;2009-07-06&quot;</span></span></code></pre></div>
+<h3 id="elevate-column-names-stored-in-a-dataframe-row">Elevate column
+names stored in a data.frame row</h3>
+<p>If a data.frame has the intended variable names stored in one of its
+rows, <code>row_to_names()</code> will elevate the specified row to
+become the names of the data.frame and optionally (by default) remove
+the row in which names were stored and/or the rows above it.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a>dirt <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">X_1 =</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="st">&quot;ID&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>),</span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>           <span class="at">X_2 =</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="st">&quot;Value&quot;</span>, <span class="dv">4</span><span class="sc">:</span><span class="dv">6</span>))</span>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a><span class="fu">row_to_names</span>(dirt, <span class="dv">2</span>)</span>
+<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a><span class="co">#&gt;   ID Value</span></span>
+<span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a><span class="co">#&gt; 3  1     4</span></span>
+<span id="cb16-7"><a href="#cb16-7" tabindex="-1"></a><span class="co">#&gt; 4  2     5</span></span>
+<span id="cb16-8"><a href="#cb16-8" tabindex="-1"></a><span class="co">#&gt; 5  3     6</span></span></code></pre></div>
+<h3 id="find-the-header-row-buried-within-a-messy-dataframe">Find the
+header row buried within a messy data.frame</h3>
+<p>The function <code>find_header()</code> is a companion function to
+<code>row_to_names()</code>. By default it will search a data.frame for
+the first row with no missing values and return that row number.</p>
+<p>It can also be used to return the row number where a given string is
+present in the first column, or in any specific column. Then this result
+can be supplied to <code>row_to_names()</code>.</p>
+<h2 id="exploring-1">Exploring</h2>
+<h3 id="count-factor-levels-in-groups-of-high-medium-and-low-with-top_levels">Count
+factor levels in groups of high, medium, and low with
+<code>top_levels()</code></h3>
+<p>Originally designed for use with Likert survey data stored as
+factors. Returns a <code>tbl_df</code> frequency table with
+appropriately-named rows, grouped into head/middle/tail groups.</p>
+<ul>
+<li>Takes a user-specified size for the head/tail groups</li>
+<li>Automatically calculates a percent column</li>
+<li>Supports sorting</li>
+<li>Can show or hide <code>NA</code> values.</li>
+</ul>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">&quot;strongly agree&quot;</span>, <span class="st">&quot;agree&quot;</span>, <span class="st">&quot;neutral&quot;</span>, <span class="st">&quot;neutral&quot;</span>, <span class="st">&quot;disagree&quot;</span>, <span class="st">&quot;strongly agree&quot;</span>),</span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>            <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;strongly agree&quot;</span>, <span class="st">&quot;agree&quot;</span>, <span class="st">&quot;neutral&quot;</span>, <span class="st">&quot;disagree&quot;</span>, <span class="st">&quot;strongly disagree&quot;</span>))</span>
+<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a><span class="fu">top_levels</span>(f)</span>
+<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a><span class="co">#&gt;                            f n   percent</span></span>
+<span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a><span class="co">#&gt;        strongly agree, agree 3 0.5000000</span></span>
+<span id="cb17-6"><a href="#cb17-6" tabindex="-1"></a><span class="co">#&gt;                      neutral 2 0.3333333</span></span>
+<span id="cb17-7"><a href="#cb17-7" tabindex="-1"></a><span class="co">#&gt;  disagree, strongly disagree 1 0.1666667</span></span>
+<span id="cb17-8"><a href="#cb17-8" tabindex="-1"></a><span class="fu">top_levels</span>(f, <span class="at">n =</span> <span class="dv">1</span>)</span>
+<span id="cb17-9"><a href="#cb17-9" tabindex="-1"></a><span class="co">#&gt;                         f n   percent</span></span>
+<span id="cb17-10"><a href="#cb17-10" tabindex="-1"></a><span class="co">#&gt;            strongly agree 2 0.3333333</span></span>
+<span id="cb17-11"><a href="#cb17-11" tabindex="-1"></a><span class="co">#&gt;  agree, neutral, disagree 4 0.6666667</span></span>
+<span id="cb17-12"><a href="#cb17-12" tabindex="-1"></a><span class="co">#&gt;         strongly disagree 0 0.0000000</span></span></code></pre></div>
+
+</body>
+</html>
