@@ -56,3 +56,6 @@ inst/doc
 
 # file used to check environment
 check.env
+
+# ignore revdep files for now
+/revdep/
