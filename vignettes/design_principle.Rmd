@@ -311,7 +311,6 @@ The modules and the surrogate functions depend on the following packages:
 The functions will require other packages that are needed in the package development process including:
 
 [{checkmate}](https://CRAN.R-project.org/package=checkmate), [{kableExtra}](https://CRAN.R-project.org/package=kableExtra), [{bookdown}](https://CRAN.R-project.org/package=bookdown), [{rmarkdown}](https://CRAN.R-project.org/package=rmarkdown), [{testthat}](https://CRAN.R-project.org/package=testthat) (\>= 3.0.0), [{knitr}](https://CRAN.R-project.org/package=knitr), [{lintr}](https://CRAN.R-project.org/package=lintr),
-[{utils}](https://CRAN.R-project.org/package=R.utils),
 [{potools}](https://CRAN.R-project.org/package=potools)
 
 ## Contribute
