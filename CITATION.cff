@@ -8,7 +8,7 @@ message: 'To cite package "cleanepi" in publications use:'
 type: software
 license: MIT
 title: 'cleanepi: Clean and Standardize Epidemiological Data'
-version: 1.0.2.9000
+version: 1.1.0
 doi: 10.5281/zenodo.11473985
 identifiers:
 - type: doi
@@ -275,16 +275,6 @@ references:
     email: hadley@rstudio.com
   year: '2025'
   doi: 10.32614/CRAN.package.tibble
-- type: software
-  title: utils
-  abstract: 'R: A Language and Environment for Statistical Computing'
-  notes: Imports
-  authors:
-  - name: R Core Team
-  institution:
-    name: R Foundation for Statistical Computing
-    address: Vienna, Austria
-  year: '2025'
 - type: software
   title: htmlwidgets
   abstract: 'htmlwidgets: HTML Widgets for R'
