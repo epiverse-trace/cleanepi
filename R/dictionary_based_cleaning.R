@@ -35,6 +35,9 @@
 #'   data = data,
 #'   dictionary = dictionary
 #' )
+#'
+#' # print the report
+#' print_report(cleaned_df, "misspelled_values")
 clean_using_dictionary <- function(data, dictionary) {
   checkmate::assert_data_frame(data, min.rows = 1L, min.cols = 1L,
                                null.ok = FALSE)

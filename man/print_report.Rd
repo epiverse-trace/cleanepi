@@ -6,6 +6,7 @@
 \usage{
 print_report(
   data,
+  what = NULL,
   report_title = "{cleanepi} data cleaning report",
   output_file_name = NULL,
   format = "html",
@@ -16,6 +17,35 @@ print_report(
 \item{data}{A \code{<data.frame>} or \code{<linelist>} object returned from
 the \code{\link{clean_data}} or the main functions of each data cleaning
 module.}
+
+\item{what}{A \code{<character>} with the name of the specific data cleaning
+report which would be displayed. The possible values are:
+\describe{
+\item{\code{incorrect_date_sequence}}{To display rows with the incorrect date
+sequences.}
+\item{\code{colnames}}{To display the column names before and after
+cleaning.}
+\item{\code{converted_into_numeric}}{To display the names of the columns that
+that have been converted into numeric}
+\item{\code{out_of_range_dates}}{To display rows in the cleaned data with
+date values that are outside of the specified time frame}
+\item{\code{multi_format_dates}}{To display rows in the cleaned data with
+date values that comply with multiple formats}
+\item{\code{misspelled_values}}{To display the detected misspelled values}
+\item{\code{removed_duplicates}}{To display the duplicated rows that have
+been removed}
+\item{\code{duplicated_rows}}{To display the duplicated rows}
+\item{\code{duplicates_checked_from}}{To display the names of the columns
+which were used when finding the duplicates}
+\item{\code{constant_data}}{To display the constant data i.e. constant
+columns, empty rows and columns}
+\item{\code{missing_values_replaced_at}}{To display the names of the columns
+where the missing value strings have been replaced with NA}
+\item{\code{incorrect_subject_id}}{To display the subject IDs that do not
+comply with the expected format}
+\item{\code{duplicated_ids}}{To display the duplicates found in the column
+that unique identifies the subject IDs}
+}}
 
 \item{report_title}{A \code{<character>} with the title that will appear on
 the report}
