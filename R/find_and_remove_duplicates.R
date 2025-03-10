@@ -15,14 +15,19 @@
 #' @export
 #'
 #' @examples
+#' data <- readRDS(
+#'   system.file("extdata", "test_linelist.RDS", package = "cleanepi")
+#' )
 #' no_dups <- remove_duplicates(
-#'   data = readRDS(
-#'     system.file("extdata", "test_linelist.RDS", package = "cleanepi")
-#'   ),
+#'   data = data,
 #'   target_columns = "linelist_tags"
 #' )
 #'
+#' # print the removed duplicates
+#' print_report(no_dups, "removed_duplicates")
 #'
+#' # print the columns used to find the duplicates
+#' print_report(no_dups, "duplicates_checked_from")
 remove_duplicates <- function(data, target_columns = NULL) {
 
   # setting up the variables below to NULL to avoid linters
@@ -89,12 +94,19 @@ remove_duplicates <- function(data, target_columns = NULL) {
 #' @export
 #'
 #' @examples
+#' data <- readRDS(
+#'   system.file("extdata", "test_linelist.RDS", package = "cleanepi")
+#' )
+#'
+#' # find duplicates across the following columns: "dt_onset", "dt_report",
+#' # "sex", and "outcome"
 #' dups <- find_duplicates(
-#'   data = readRDS(
-#'     system.file("extdata", "test_linelist.RDS", package = "cleanepi")
-#'   ),
+#'   data = data,
 #'   target_columns = c("dt_onset", "dt_report", "sex", "outcome")
 #' )
+#'
+#' # print the detected duplicates
+#' print_report(dups, "duplicated_rows")
 #'
 find_duplicates <- function(data, target_columns = NULL) {
   # get the target column names
@@ -116,7 +128,7 @@ find_duplicates <- function(data, target_columns = NULL) {
   if (nrow(dups) > 0L) {
     cli::cli_inform(c(
       "!" = tr_("Found {.val {nrow(dups)}} duplicated row{?s} in the dataset."),
-      i = tr_("Use {.code attr(dat, \"report\")[[\"duplicated_rows\"]]} to access them, where {.val dat} is the object used to store the output from this operation.") # nolint: line_length_linter
+      i = tr_("Use {.code print_report(dat, \"duplicated_rows\")} to access them, where {.val dat} is the object used to store the output from this operation.") # nolint: line_length_linter
     ))
     to_be_shown <- dups %>%
       dplyr::select(c("row_id", "group_id", {{ target_columns }}))

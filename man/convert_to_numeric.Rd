@@ -31,11 +31,17 @@ conversion in them. The function internally makes call of the main function
 from the \pkg{numberize} package.
 }
 \examples{
+data <- readRDS(
+  system.file("extdata", "messy_data.RDS", package = "cleanepi")
+)
+
+# convert the 'age' column into numeric
 dat <- convert_to_numeric(
-  data = readRDS(
-    system.file("extdata", "messy_data.RDS", package = "cleanepi")
-  ),
+  data = data,
   target_columns = "age",
   lang = "en"
 )
+
+# print the report from this operation
+print_report(data = dat, "converted_into_numeric")
 }

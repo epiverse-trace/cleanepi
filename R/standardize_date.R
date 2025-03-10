@@ -93,11 +93,13 @@
 #' as.Date(lubridate::parse_date_time(x, orders = c("dmy", "Ymd")))
 #'
 #' # How to use standardize_dates()
+#' data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi"))
+#'
+#' # convert values in the 'date_first_pcr_positive_test' column into "%Y-%m-%d"
+#' # format
 #' dat <- standardize_dates(
-#'   data = readRDS(
-#'     system.file("extdata", "test_df.RDS", package = "cleanepi")
-#'   ),
-#'   target_columns = "date_first_pcr_positive_test",
+#'   data = data,
+#'   target_columns = "date.of.admission",
 #'   format = NULL,
 #'   timeframe = NULL,
 #'   error_tolerance = 0.4,
@@ -107,6 +109,9 @@
 #'     US_format = c("Omdy", "YOmd")
 #'   )
 #' )
+#'
+#' # print
+#' print_report(dat, "multi_format_dates")
 standardize_dates <- function(data,
                               target_columns = NULL,
                               format = NULL,
@@ -182,6 +187,26 @@ standardize_dates <- function(data,
     )
     data <- res[["data"]]
     ambiguous_cols <- res[["ambiguous_cols"]]
+  }
+
+  # alert on the presence of out of range and multi format date values
+  report <- attr(data, "report")
+  if (!is.null(report[["out_of_range_dates"]])) {
+    outsiders <- report[["out_of_range_dates"]]
+    # send a message about the presence of out of range date values
+    cli::cli_inform(c(
+      "!" = tr_("Detected {.val {nrow(outsiders)}} value{?s} that {cli::qty(nrow(outsiders))} {?is/are} outside of the specified time frame."), # nolint: line_length_linter
+      i = tr_("Enter {.code print_report(data = dat, \"out_of_range_dates\")} to access {cli::qty(nrow(outsiders))} {?it/them}, where {.val dat} is the object used to store the output from this operation.") # nolint: line_length_linter
+    ))
+  }
+  if (!is.null(report[["multi_format_dates"]])) {
+    multi_format_dates <- report[["multi_format_dates"]]
+    # send a message about the presence of date values that comply with more
+    # than one format
+    cli::cli_inform(c(
+      "!" = tr_("Detected {.val {nrow(multi_format_dates)}} value{?s} that {cli::qty(nrow(multi_format_dates))} compl{?ies/y} with multiple format."), # nolint: line_length_linter
+      i = tr_("Enter {.code print_report(data = dat, \"multi_format_dates\")} to access {cli::qty(nrow(multi_format_dates))} {?it/them}, where {.val dat} is the object used to store the output from this operation.") # nolint: line_length_linter
+    ))
   }
 
   # alert on the presence of ambiguous values in some target columns
