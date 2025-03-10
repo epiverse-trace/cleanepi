@@ -1,5 +1,12 @@
 # cleanepi (development version)
 
+# cleanepi 1.1.1
+
+## Bug fixes
+
+* Added {systemfonts} as a dependency in Suggests as it is required to build the
+vignette in **r-oldrel-macos-arm64** (#218, @Karim-Mane).
+
 # cleanepi 1.1.0
 
 ## Bug fixes
