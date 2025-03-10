@@ -45,4 +45,10 @@ cleaned_data <- standardize_column_names(
   rename = c(DOB = "dateOfBirth", gender = "sex")
 )
 
+# print the report
+print_report(
+  data = cleaned_data,
+  what = "colnames"
+)
+
 }

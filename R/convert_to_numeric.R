@@ -21,13 +21,19 @@
 #' @export
 #'
 #' @examples
+#' data <- readRDS(
+#'   system.file("extdata", "messy_data.RDS", package = "cleanepi")
+#' )
+#'
+#' # convert the 'age' column into numeric
 #' dat <- convert_to_numeric(
-#'   data = readRDS(
-#'     system.file("extdata", "messy_data.RDS", package = "cleanepi")
-#'   ),
+#'   data = data,
 #'   target_columns = "age",
 #'   lang = "en"
 #' )
+#'
+#' # print the report from this operation
+#' print_report(data = dat, "converted_into_numeric")
 convert_to_numeric <- function(data, target_columns = NULL,
                                lang = c("en", "fr", "es")) {
   checkmate::assert_data_frame(data, min.rows = 1L, min.cols = 1L,

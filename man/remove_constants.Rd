@@ -38,33 +38,32 @@ data$dateOfBirth[4] = NA_character_
 data$dateOfBirth[5] = NA_character_
 
 # with cutoff = 1, line 3, 4, and 5 are not removed
-test <- remove_constants(
+cleaned_df <- remove_constants(
   data = data,
   cutoff = 1
 )
 
 # drop rows or columns with a percentage of constant values
 # equal to or more than 50\%
-test <- remove_constants(
-  data = test,
+cleaned_df <- remove_constants(
+  data = cleaned_df,
   cutoff = 0.5
 )
 
 # drop rows or columns with a percentage of constant values
 # equal to or more than 25\%
-test <- remove_constants(
-  data = test,
+cleaned_df <- remove_constants(
+  data = cleaned_df,
   cutoff = 0.25
 )
 
 # drop rows or columns with a percentage of constant values
 # equal to or more than 15\%
-test <- remove_constants(
-  data = test,
+cleaned_df <- remove_constants(
+  data = cleaned_df,
   cutoff = 0.15
 )
 
 # check the report to see what has happened
-report <- attr(test, "report")
-report$constant_data
+print_report(cleaned_df, "constant_data")
 }

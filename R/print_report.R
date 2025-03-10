@@ -13,6 +13,34 @@
 #'    Currently only \code{"html"} is supported.
 #' @param print A \code{<logical>} that specifies whether to print the generated
 #'    HTML file or no. Default is \code{TRUE}.
+#' @param what A \code{<character>} with the name of the specific data cleaning
+#'    report which would be displayed. The possible values are:
+#'    \describe{
+#'      \item{`incorrect_date_sequence`}{To display rows with the incorrect date
+#'          sequences.}
+#'      \item{`colnames`}{To display the column names before and after
+#'          cleaning.}
+#'      \item{`converted_into_numeric`}{To display the names of the columns that
+#'          that have been converted into numeric}
+#'      \item{`out_of_range_dates`}{To display rows in the cleaned data with
+#'          date values that are outside of the specified time frame}
+#'      \item{`multi_format_dates`}{To display rows in the cleaned data with
+#'          date values that comply with multiple formats}
+#'      \item{`misspelled_values`}{To display the detected misspelled values}
+#'      \item{`removed_duplicates`}{To display the duplicated rows that have
+#'          been removed}
+#'      \item{`duplicated_rows`}{To display the duplicated rows}
+#'      \item{`duplicates_checked_from`}{To display the names of the columns
+#'          which were used when finding the duplicates}
+#'      \item{`constant_data`}{To display the constant data i.e. constant
+#'          columns, empty rows and columns}
+#'      \item{`missing_values_replaced_at`}{To display the names of the columns
+#'          where the missing value strings have been replaced with NA}
+#'      \item{`incorrect_subject_id`}{To display the subject IDs that do not
+#'          comply with the expected format}
+#'      \item{`duplicated_ids`}{To display the duplicates found in the column
+#'          that unique identifies the subject IDs}
+#'    }
 #'
 #' @returns A \code{<character>} containing the name and path of the saved
 #'    report
@@ -68,10 +96,29 @@
 #' @export
 #' @importFrom utils browseURL
 print_report <- function(data,
+                         what = NULL,
                          report_title = "{cleanepi} data cleaning report",
                          output_file_name = NULL,
                          format = "html",
                          print = TRUE) {
+
+  checkmate::assert_data_frame(data, null.ok = FALSE)
+  checkmate::assert_character(report_title, null.ok = FALSE,
+                              any.missing = FALSE, len = 1L)
+  checkmate::assert_character(output_file_name, null.ok = TRUE,
+                              any.missing = FALSE)
+  checkmate::assert_choice(format, choices = "html", null.ok = FALSE)
+  checkmate::assert_logical(print, any.missing = FALSE, len = 1,
+                            null.ok = FALSE)
+  checkmate::assert_choice(
+    what, null.ok = TRUE,
+    choices = c("incorrect_date_sequence", "colnames", "converted_into_numeric",
+                "out_of_range_dates", "multi_format_dates", "misspelled_values",
+                "removed_duplicates", "duplicated_rows",
+                "duplicates_checked_from", "constant_data",
+                "missing_values_replaced_at", "incorrect_subject_id",
+                "duplicated_ids")
+  )
 
   # extract report, check whether any cleaning operation has been performed, and
   # allow for only HTML output format for the report.
@@ -91,10 +138,16 @@ print_report <- function(data,
   }
 
   # set the report from scan_data() function to NA if no data scanning was
-  # performed. NA because the function returns NA if no character column was
-  # found in the input data
+  # performed. This is because the function returns NA if no character column
+  # was found in the input data
   if (!("scanning_result" %in% names(report))) {
     report[["scanning_result"]] <- NA
+  }
+
+  # only display the report from the specified cleaning operation in the
+  # `operation` argument.
+  if (!is.null(what)) {
+    return(attr(data, "report")[[what]])
   }
 
   # generate output file and directory

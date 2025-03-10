@@ -23,12 +23,17 @@ When removing duplicates, users can specify a set columns to consider with
 the \code{target_columns} argument.
 }
 \examples{
+data <- readRDS(
+  system.file("extdata", "test_linelist.RDS", package = "cleanepi")
+)
 no_dups <- remove_duplicates(
-  data = readRDS(
-    system.file("extdata", "test_linelist.RDS", package = "cleanepi")
-  ),
+  data = data,
   target_columns = "linelist_tags"
 )
 
+# print the removed duplicates
+print_report(no_dups, "removed_duplicates")
 
+# print the columns used to find the duplicates
+print_report(no_dups, "duplicates_checked_from")
 }

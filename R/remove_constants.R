@@ -30,35 +30,34 @@
 #' data$dateOfBirth[5] = NA_character_
 #'
 #' # with cutoff = 1, line 3, 4, and 5 are not removed
-#' test <- remove_constants(
+#' cleaned_df <- remove_constants(
 #'   data = data,
 #'   cutoff = 1
 #' )
 #'
 #' # drop rows or columns with a percentage of constant values
 #' # equal to or more than 50%
-#' test <- remove_constants(
-#'   data = test,
+#' cleaned_df <- remove_constants(
+#'   data = cleaned_df,
 #'   cutoff = 0.5
 #' )
 #'
 #' # drop rows or columns with a percentage of constant values
 #' # equal to or more than 25%
-#' test <- remove_constants(
-#'   data = test,
+#' cleaned_df <- remove_constants(
+#'   data = cleaned_df,
 #'   cutoff = 0.25
 #' )
 #'
 #' # drop rows or columns with a percentage of constant values
 #' # equal to or more than 15%
-#' test <- remove_constants(
-#'   data = test,
+#' cleaned_df <- remove_constants(
+#'   data = cleaned_df,
 #'   cutoff = 0.15
 #' )
 #'
 #' # check the report to see what has happened
-#' report <- attr(test, "report")
-#' report$constant_data
+#' print_report(cleaned_df, "constant_data")
 remove_constants <- function(data, cutoff = 1.0) {
   checkmate::assert_number(cutoff, lower = 0.0, upper = 1.0, na.ok = FALSE,
                            finite = TRUE, null.ok = FALSE)
@@ -122,7 +121,7 @@ remove_constants <- function(data, cutoff = 1.0) {
   if (nrow(constant_data_report) > 1) {
     cli::cli_inform(c(
       "!" = tr_("Constant data was removed after {.val {nrow(constant_data_report)}} iteration{?s}."), # nolint: line_length_linter
-      i = tr_("Enter {.code attr(dat, \"report\")[[\"constant_data\"]]} for more information, where {.val dat} represents the object used to store the output from {.fn remove_constants}.") # nolint: line_length_linter
+      i = tr_("Enter {.code print_report(dat, \"constant_data\")} for more information, where {.val dat} represents the object used to store the output from {.fn remove_constants}.") # nolint: line_length_linter
     ))
   }
 

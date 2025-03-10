@@ -16,16 +16,26 @@
 #' @returns The input dataset with a warning if incorrect subject ids were found
 #'
 #' @examples
+#' data <- readRDS(
+#'   system.file("extdata", "test_df.RDS", package = "cleanepi")
+#' )
+#' # detect the incorrect subject ids i.e. IDs that do not have any or both of
+#' # the followings:
+#' # - starts with 'PS',
+#' # - ends with 'P2',
+#' # - has a number within 1 and 100,
+#' # - contains 7 characters.
 #' dat <- check_subject_ids(
-#'   data = readRDS(
-#'     system.file("extdata", "test_df.RDS", package = "cleanepi")
-#'   ),
+#'   data = data,
 #'   target_columns = "study_id",
 #'   prefix = "PS",
 #'   suffix = "P2",
 #'   range = c(1, 100),
 #'   nchar = 7
 #' )
+#'
+#' # display rows with invalid subject ids
+#' print_report(dat, "incorrect_subject_id")
 #' @export
 check_subject_ids <- function(data,
                               target_columns,
@@ -131,17 +141,26 @@ check_subject_ids <- function(data,
 #' @export
 #'
 #' @examples
-#' # detect the incorrect subject ids
+#' data <- readRDS(
+#'   system.file("extdata", "test_df.RDS", package = "cleanepi")
+#' )
+#' # detect the incorrect subject ids i.e. IDs that do not have any or both of
+#' # the followings:
+#' # - starts with 'PS',
+#' # - ends with 'P2',
+#' # - has a number within 1 and 100,
+#' # - contains 7 characters.
 #' dat <- check_subject_ids(
-#'   data = readRDS(
-#'     system.file("extdata", "test_df.RDS", package = "cleanepi")
-#'   ),
+#'   data = data,
 #'   target_columns = "study_id",
 #'   prefix = "PS",
 #'   suffix = "P2",
 #'   range = c(1, 100),
 #'   nchar = 7
 #' )
+#'
+#' # display rows with invalid subject ids
+#' print_report(dat, "incorrect_subject_id")
 #'
 #' # generate the correction table
 #' correction_table <- data.frame(
@@ -211,7 +230,7 @@ check_subject_ids_oness <- function(data, id_col_name) {
     num_dup_rows <- nrow(tmp_report[["duplicated_rows"]]) # nolint: object_usage_linter
     cli::cli_inform(c(
       "!" = tr_("Found {.val {num_dup_rows}} duplicated value{?s} in the subject Ids."), # nolint: line_length_linter
-      i = tr_("Enter {.code attr(dat, \"report\")[[\"duplicated_rows\"]]} to access them, where {.val dat} is the object used to store the output from this operation.") # nolint: line_length_linter
+      i = tr_("Enter {.code print_report(dat, \"duplicated_ids\")} to access them, where {.val dat} is the object used to store the output from this operation.") # nolint: line_length_linter
     ))
     dups <- tmp_report[["duplicated_rows"]]
     data <- add_to_report(

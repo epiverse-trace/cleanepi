@@ -17,8 +17,8 @@
 #'    to standardize the target columns.
 #'
 #' @returns The input dataset. When found, the incorrect date sequences will be
-#'    stored in the report and can be accessed using
-#'    \code{attr(data, "report")}.
+#'    stored in the report and can be accessed using the \code{print_report()}
+#'    function as shown in the example below.
 #' @export
 #'
 #' @examples
@@ -34,10 +34,16 @@
 #'     timeframe = NULL
 #'   )
 #'
-#' # check the date sequence in two columns
+#' # check whether all admission dates come after the test dates
 #' good_date_sequence <- check_date_sequence(
 #'   data = data,
 #'   target_columns = c("date_first_pcr_positive_test", "date.of.admission")
+#' )
+#'
+#' # display rows where admission dates do not come after the test dates
+#' print_report(
+#'   data = good_date_sequence,
+#'   what = "incorrect_date_sequence"
 #' )
 check_date_sequence <- function(data, target_columns) {
   checkmate::assert_vector(target_columns, any.missing = FALSE, min.len = 1L,
@@ -118,7 +124,7 @@ check_date_sequence <- function(data, target_columns) {
   # send a message about the presence of incorrect date sequence
   cli::cli_inform(c(
     "!" = tr_("Detected {.val {length(bad_order)}} incorrect date sequence{?s} at line{?s}: {.val {toString(bad_order)}}."), # nolint: line_length_linter
-    i = tr_("Enter {.code attr(dat, \"report\")[[\"incorrect_date_sequence\"]]} to access them, where {.val dat} is the object used to store the output from this operation.") # nolint: line_length_linter
+    i = tr_("Enter {.code print_report(data = dat, \"incorrect_date_sequence\")} to access them, where {.val dat} is the object used to store the output from this operation.") # nolint: line_length_linter
   ))
 
   return(data)

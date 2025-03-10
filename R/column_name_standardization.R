@@ -35,6 +35,12 @@
 #'   rename = c(DOB = "dateOfBirth", gender = "sex")
 #' )
 #'
+#' # print the report
+#' print_report(
+#'   data = cleaned_data,
+#'   what = "colnames"
+#' )
+#'
 standardize_column_names <- function(data, keep = NULL, rename = NULL) {
   checkmate::assert_vector(keep, min.len = 0L, max.len = ncol(data),
                            null.ok = TRUE,
