@@ -13,7 +13,7 @@
     <a href="https://epiverse-trace.github.io/" class="external-link"><img src="https://epiverse-trace.github.io/blueprints/logo_white.svg" id="logo" alt="Epiverse-TRACE"></a>
     <a class="navbar-brand me-2" href="../index.html">cleanepi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,16 +45,16 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>Changelog</h1>
-      <small>Source: <a href="https://github.com/epiverse-trace/cleanepi/blob/v1.1.0/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/epiverse-trace/cleanepi/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.1.0" id="cleanepi-110">cleanepi 1.1.0<a class="anchor" aria-label="anchor" href="#cleanepi-110"></a></h2><p class="text-muted">CRAN release: 2025-03-04</p>
+<h2 class="pkg-version" data-toc-text="development version" id="cleanepi-development-version">cleanepi (development version)<a class="anchor" aria-label="anchor" href="#cleanepi-development-version"></a></h2>
 </div>
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.0.2.9000" id="cleanepi-1029000">cleanepi 1.0.2.9000<a class="anchor" aria-label="anchor" href="#cleanepi-1029000"></a></h2>
+<h2 class="pkg-version" data-toc-text="1.1.0" id="cleanepi-110">cleanepi 1.1.0<a class="anchor" aria-label="anchor" href="#cleanepi-110"></a></h2><p class="text-muted">CRAN release: 2025-03-04</p>
 <div class="section level3">
-<h3 id="bug-fixes-1-0-2-9000">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-0-2-9000"></a></h3>
+<h3 id="bug-fixes-1-1-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-1-0"></a></h3>
 <ul><li><p>Fixed a bug in the index for empty rows returned by <code><a href="../reference/print_report.html">print_report()</a></code> after <code><a href="../reference/remove_constants.html">remove_constants()</a></code>. This function was incorrectly returning the number of rows in the original data frame, instead of the index of empty rows (<a href="https://github.com/epiverse-trace/cleanepi/issues/173" class="external-link">#173</a>, <a href="https://github.com/Bisaloo" class="external-link">@Bisaloo</a>).</p></li>
 <li>
 <p>Fixed a bug in the date guesser used by the <code><a href="../reference/standardize_dates.html">standardize_dates()</a></code> function. The followings updates were made (<a href="https://github.com/epiverse-trace/cleanepi/issues/175" class="external-link">#175</a>, <a href="https://github.com/Karim-Mane" class="external-link">@Karim-Mane</a>):</p>
@@ -63,7 +63,7 @@
 </ul></li>
 </ul></div>
 <div class="section level3">
-<h3 id="enhancements-1-0-2-9000">Enhancements<a class="anchor" aria-label="anchor" href="#enhancements-1-0-2-9000"></a></h3>
+<h3 id="enhancements-1-1-0">Enhancements<a class="anchor" aria-label="anchor" href="#enhancements-1-1-0"></a></h3>
 <ul><li><p>Rendering the report no longer requires the use of the {withr} package. Files generated during this process will be stored in the R temporary directory (<a href="https://github.com/epiverse-trace/cleanepi/issues/165" class="external-link">#165</a>, <a href="https://github.com/Bisaloo" class="external-link">@Bisaloo</a>).</p></li>
 <li><p>Simplification and improvement of code performance across several functions (<a href="https://github.com/epiverse-trace/cleanepi/issues/154" class="external-link">#154</a>, <a href="https://github.com/epiverse-trace/cleanepi/issues/156" class="external-link">#156</a>, <a href="https://github.com/epiverse-trace/cleanepi/issues/162" class="external-link">#162</a>, <a href="https://github.com/Bisaloo" class="external-link">@Bisaloo</a>).</p></li>
 <li><p>Make R version dependency explicit (<a href="https://github.com/epiverse-trace/cleanepi/issues/156" class="external-link">#156</a>, <a href="https://github.com/Bisaloo" class="external-link">@Bisaloo</a>).</p></li>
@@ -82,7 +82,7 @@
 <li><p>Update the package vignette to account for the improvements made in the different pull requests (<a href="https://github.com/epiverse-trace/cleanepi/issues/194" class="external-link">#194</a>, Karim-Mane).</p></li>
 </ul></div>
 <div class="section level3">
-<h3 id="deprecated-and-defunct-1-0-2-9000">Deprecated and defunct<a class="anchor" aria-label="anchor" href="#deprecated-and-defunct-1-0-2-9000"></a></h3>
+<h3 id="deprecated-and-defunct-1-1-0">Deprecated and defunct<a class="anchor" aria-label="anchor" href="#deprecated-and-defunct-1-1-0"></a></h3>
 <ul><li>Function documentations have been updated. The <code><a href="../reference/clean_data.html">clean_data()</a></code> no longer takes the <code>params</code> argument. Instead, it takes many other arguments that are described in the function documentation and the package vignettes (<a href="https://github.com/epiverse-trace/cleanepi/issues/184" class="external-link">#184</a>, Karim-Mane).</li>
 </ul></div>
 </div>
