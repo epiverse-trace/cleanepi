@@ -23,8 +23,8 @@ to standardize the target columns.}
 }
 \value{
 The input dataset. When found, the incorrect date sequences will be
-stored in the report and can be accessed using
-\code{attr(data, "report")}.
+stored in the report and can be accessed using the \code{print_report()}
+function as shown in the example below.
 }
 \description{
 Checks whether a date sequence in a vector of specified columns
@@ -43,9 +43,15 @@ data <- data \%>\%
     timeframe = NULL
   )
 
-# check the date sequence in two columns
+# check whether all admission dates come after the test dates
 good_date_sequence <- check_date_sequence(
   data = data,
   target_columns = c("date_first_pcr_positive_test", "date.of.admission")
+)
+
+# display rows where admission dates do not come after the test dates
+print_report(
+  data = good_date_sequence,
+  what = "incorrect_date_sequence"
 )
 }

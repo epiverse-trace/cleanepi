@@ -16,13 +16,19 @@
 #' @export
 #'
 #' @examples
+#' data <- readRDS(
+#'   system.file("extdata", "test_df.RDS", package = "cleanepi")
+#' )
+#'
+#' # replace all occurrences of '-99' with NA
 #' cleaned_data <- replace_missing_values(
-#'   data = readRDS(
-#'     system.file("extdata", "test_df.RDS", package = "cleanepi")
-#'   ),
-#'   target_columns = "sex",
+#'   data = data,
+#'   target_columns = NULL,
 #'   na_strings = "-99"
 #' )
+#'
+#' # print the names of the columns where the replacement occurred
+#' print_report(cleaned_data, "missing_values_replaced_at")
 #'
 replace_missing_values <- function(data,
                                    target_columns = NULL,

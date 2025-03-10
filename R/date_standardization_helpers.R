@@ -149,6 +149,12 @@ date_convert <- function(data, cols, error_tolerance,
   prop_successful <- (nrow(data) - na_after) / (nrow(data) - na_before)
   if (prop_successful >= (1L - error_tolerance)) {
     data[[cols]] <- new_dates
+  } else {
+    cli::cli_inform(c(
+      "!" = tr_("{.field {cols}} is not be converted into {.cls Date} due to:"), # nolint: line_length_linter
+      "*" = tr_("insuffisient {.cls Date} values"),
+      "*" = tr_("or a high number of values that are outside the specified time frame.") # nolint: line_length_linter
+    ))
   }
 
   return(list(
@@ -246,6 +252,7 @@ date_guess_convert <- function(data, error_tolerance, timeframe,
     if (!is.null(timeframe)) {
       res <- date_check_outsiders(data, timeframe, new_dates, i)
       new_dates <- res[["new_date"]]
+      # report the out of range dates
       data <- add_to_report(
         x = data,
         key = "out_of_range_dates",
