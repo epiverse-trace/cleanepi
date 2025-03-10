@@ -50,19 +50,21 @@
 #' @export
 #'
 #' @examples
-#' # Parameters for column names standardization
+#' # Parameters for column names standardization: rename all column names if
+#' # applicable
 #' standardize_column_names <- list(keep = NULL, rename = NULL)
 #'
-#' # parameters to remove constant columns, empty rows and columns
+#' # parameters to remove constant columns, empty rows and columns: remove rows
+#' # and columns with 100% constant data
 #' remove_constants <- list(cutoff = 1)
 #'
-#' # Parameters for substituting missing values with NA:
+#' # Parameters for substituting missing values ("-99") with NA
 #' replace_missing_values <- list(target_columns = NULL, na_strings = "-99")
 #'
 #' # Parameters for duplicates removal across all columns
-#' remove_duplicates <- list(target_columns   = NULL)
+#' remove_duplicates <- list(target_columns = NULL)
 #'
-#' # Parameters for dates standardization
+#' # Parameters for the conversion of Date columns into "%Y-%m-%d" format
 #' standardize_dates <- list(
 #'   target_columns = NULL,
 #'   error_tolerance = 0.4,
@@ -75,7 +77,7 @@
 #'   )
 #' )
 #'
-#' # Parameters for subject IDs standardization
+#' # Parameters to check whether the subject IDs comply with the expected format
 #' standardize_subject_ids <- list(
 #'   target_columns = "study_id",
 #'   prefix = "PS",
@@ -90,9 +92,10 @@
 #' # the dictionary-based cleaning will not be performed here
 #' dictionary = NULL
 #'
-#' # no need to check for the sequence of date events
+#' # no need to check if the sequence of date events is correct
 #' check_date_sequence <- NULL
 #'
+#' # perform the data cleaning
 #' cleaned_data <- clean_data(
 #'   data = readRDS(
 #'     system.file("extdata", "test_df.RDS", package = "cleanepi")
