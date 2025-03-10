@@ -5,7 +5,7 @@
 #' found, it reports back the proportion of the data types mentioned above in
 #' those columns. See the details section to know more about how it works.
 #'
-#' @param data A \code{<data.frame>} or \code{<linelist>}
+#' @param data The input \code{<data.frame>} or \code{<linelist>}
 #'
 #' @returns A \code{<data.frame>} if the input data contains columns of type
 #'    character. It invisibly returns \code{NA} otherwise. The returned data
@@ -37,7 +37,7 @@
 #' @export
 #'
 #' @examples
-#' # scan through a data frame of characters
+#' # scan through a data frame of character columns only
 #' scan_result <- scan_data(
 #'   data = readRDS(
 #'     system.file("extdata", "messy_data.RDS", package = "cleanepi")
