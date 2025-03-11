@@ -316,8 +316,8 @@ date_detect_complex_format <- function(x) {
   if (all(is.null(c(f1, f2)))) {
     return(NULL)
   }
-  format <- paste(c(f1, f2), collapse = tmp_sep)
-  return(format)
+  form <- paste(c(f1, f2), collapse = tmp_sep)
+  return(form)
 }
 
 #' Detect a date format with only 1 separator
@@ -465,9 +465,9 @@ date_get_format <- function(x) {
 
   # when there is a missing value (NA) or a shorter element in the list, repeat
   # complete it with NA to get the same length across all elements of the list
-  lengths <- as.numeric(lapply(tmp_list, length))
+  list_elt_lengths <- as.numeric(lapply(tmp_list, length))
   add_na <- function(y, n) return(c(y, rep(NA, n - length(y))))
-  tmp_list <- lapply(tmp_list, add_na, max(lengths))
+  tmp_list <- lapply(tmp_list, add_na, max(list_elt_lengths))
 
   # split all elements of the list based on "-" and store the different parts
   # in separate object. Each part is subjected to the date guesser:
@@ -504,8 +504,8 @@ date_get_format <- function(x) {
   f1 <- if (all(is.na(part1))) NA else date_detect_format(part1)
   f2 <- if (all(is.na(part2))) NA else date_detect_format(part2)
   f3 <- if (all(is.na(part3))) NA else date_detect_format(part3)
-  format <- date_make_format(f1, f2, f3)
-  return(format)
+  form <- date_make_format(f1, f2, f3)
+  return(form)
 }
 
 #' Build the auto-detected format
@@ -529,12 +529,12 @@ date_make_format <- function(f1, f2, f3) {
   if (verdict) {
     return(NULL)
   }
-  format <- NULL
+  form <- NULL
   idx <- which(is.na(c(f1, f2, f3)))
   if (length(idx) == 0L) {
-    format <- paste0(format, f1, "-", f2, "-", f3)
+    form <- paste0(form, f1, "-", f2, "-", f3)
   } else if (idx == 3L) {
-    format <- paste0(format, f1, "-", f2)
+    form <- paste0(form, f1, "-", f2)
   } else {
     return(NULL)
   }
