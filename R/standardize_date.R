@@ -192,7 +192,7 @@ standardize_dates <- function(data,
   # alert on the presence of out of range and multi format date values
   report <- attr(data, "report")
   if (!is.null(report[["out_of_range_dates"]])) {
-    outsiders <- report[["out_of_range_dates"]]
+    outsiders <- report[["out_of_range_dates"]] # nolint: object_usage_linter
     # send a message about the presence of out of range date values
     cli::cli_inform(c(
       "!" = tr_("Detected {.val {nrow(outsiders)}} value{?s} that {cli::qty(nrow(outsiders))} {?is/are} outside of the specified time frame."), # nolint: line_length_linter
@@ -200,7 +200,7 @@ standardize_dates <- function(data,
     ))
   }
   if (!is.null(report[["multi_format_dates"]])) {
-    multi_format_dates <- report[["multi_format_dates"]]
+    multi_format_dates <- report[["multi_format_dates"]] # nolint: object_usage_linter
     # send a message about the presence of date values that comply with more
     # than one format
     cli::cli_inform(c(
