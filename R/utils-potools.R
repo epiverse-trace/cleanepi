@@ -9,5 +9,5 @@
 #' vignette of the \pkg{potools} package.
 #'
 tr_ <- function(...) {
-  enc2utf8(gettext(paste0(...), domain = "R-cleanepi"))
+  return(enc2utf8(gettext(paste0(...), domain = "R-cleanepi")))
 }

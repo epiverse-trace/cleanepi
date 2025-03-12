@@ -162,7 +162,7 @@ make_unique_column_names <- function(after, kept, before, rename) {
       are_numeric <- suppressWarnings(
         as.numeric(
           lapply(splits[idx], function(x) {
-            unlist(x)[[2]]
+            return(unlist(x)[[2]])
           })
         )
       )
