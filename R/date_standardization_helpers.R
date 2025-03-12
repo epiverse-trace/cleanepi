@@ -527,12 +527,12 @@ date_make_format <- function(f1, f2, f3) {
   if (verdict) {
     return(NULL)
   }
-  formats <- NULL # nolint: object_usage_linter
+
   idx <- which(is.na(c(f1, f2, f3)))
   if (length(idx) == 0L) {
-    formats <- paste0(format, f1, "-", f2, "-", f3)
+    return(paste0(f1, "-", f2, "-", f3))
   } else if (idx == 3L) {
-    formats <- paste0(format, f1, "-", f2)
+    return(paste0(f1, "-", f2))
   } else {
     return(NULL)
   }

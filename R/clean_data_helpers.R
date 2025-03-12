@@ -78,7 +78,7 @@ scan_data <- function(data) {
   # scan through the character columns
   data <- as.data.frame(data)[, target_columns, drop = FALSE]
   scan_result <- vapply(seq_len(ncol(data)), function(col_index) {
-    scan_in_character(data[[col_index]], names(data)[[col_index]])
+    return(scan_in_character(data[[col_index]], names(data)[[col_index]]))
   }, numeric(6L))
   scan_result <- as.data.frame(t(scan_result))
   names(scan_result) <- c("missing", "numeric", "date", "character", "logical",
