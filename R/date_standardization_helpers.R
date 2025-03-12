@@ -529,12 +529,11 @@ date_make_format <- function(f1, f2, f3) {
   if (verdict) {
     return(NULL)
   }
-  form <- NULL
   idx <- which(is.na(c(f1, f2, f3)))
   if (length(idx) == 0L) {
-    form <- paste0(form, f1, "-", f2, "-", f3)
+    return(paste0(f1, "-", f2, "-", f3))
   } else if (idx == 3L) {
-    form <- paste0(form, f1, "-", f2)
+    return(paste0(f1, "-", f2))
   } else {
     return(NULL)
   }
