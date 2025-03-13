@@ -95,13 +95,13 @@
 #' # How to use standardize_dates()
 #' data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi"))
 #'
-#' # convert values in the 'date_first_pcr_positive_test' column into "%Y-%m-%d"
+#' # convert values in the 'date.of.admission' column into "%Y-%m-%d"
 #' # format
 #' dat <- standardize_dates(
 #'   data = data,
 #'   target_columns = "date.of.admission",
 #'   format = NULL,
-#'   timeframe = NULL,
+#'   timeframe = as.Date(c("2021-01-01", "2021-12-01")),
 #'   error_tolerance = 0.4,
 #'   orders = list(
 #'     world_named_months = c("Ybd", "dby"),
@@ -110,8 +110,8 @@
 #'   )
 #' )
 #'
-#' # print
-#' print_report(dat, "multi_format_dates")
+#' # print the report
+#' print_report(dat, "date_standardization")
 standardize_dates <- function(data,
                               target_columns = NULL,
                               format = NULL,
@@ -189,25 +189,22 @@ standardize_dates <- function(data,
     ambiguous_cols <- res[["ambiguous_cols"]]
   }
 
-  # alert on the presence of out of range and multi format date values
+  # alert on the presence of the out of range and/or multi format date values
+  num_outsiders <- num_multi_format_dates <- 0 # nolint: object_usage_linter
   report <- attr(data, "report")
-  if (!is.null(report[["out_of_range_dates"]])) {
-    outsiders <- report[["out_of_range_dates"]] # nolint: object_usage_linter
-    # send a message about the presence of out of range date values
-    cli::cli_inform(c(
-      "!" = tr_("Detected {.val {nrow(outsiders)}} value{?s} that {cli::qty(nrow(outsiders))} {?is/are} outside of the specified time frame."), # nolint: line_length_linter
-      i = tr_("Enter {.code print_report(data = dat, \"out_of_range_dates\")} to access {cli::qty(nrow(outsiders))} {?it/them}, where {.val dat} is the object used to store the output from this operation.") # nolint: line_length_linter
-    ))
+  if ("out_of_range_dates" %in% names(report[["date_standardization"]])) {
+    outsiders <- report[["date_standardization"]][["out_of_range_dates"]] # nolint: object_usage_linter
+    num_outsiders <- nrow(outsiders)
   }
-  if (!is.null(report[["multi_format_dates"]])) {
-    multi_format_dates <- report[["multi_format_dates"]] # nolint: object_usage_linter
-    # send a message about the presence of date values that comply with more
-    # than one format
-    cli::cli_inform(c(
-      "!" = tr_("Detected {.val {nrow(multi_format_dates)}} value{?s} that {cli::qty(nrow(multi_format_dates))} compl{?ies/y} with multiple format."), # nolint: line_length_linter
-      i = tr_("Enter {.code print_report(data = dat, \"multi_format_dates\")} to access {cli::qty(nrow(multi_format_dates))} {?it/them}, where {.val dat} is the object used to store the output from this operation.") # nolint: line_length_linter
-    ))
+  if ("multi_format_dates" %in% names(report[["date_standardization"]])) {
+    multi_format_dates <- # nolint: object_usage_linter
+      report[["date_standardization"]][["multi_format_dates"]]
+    num_multi_format_dates <- nrow(multi_format_dates)
   }
+  cli::cli_inform(c(
+    "!" = tr_("Detected {.val {cli::no(num_multi_format_dates)}} value{?s} that {cli::qty(num_multi_format_dates)} compl{?ies/y} with multiple formats and {.val {cli::no(num_outsiders)}} value{?s} that {cli::qty(num_outsiders)} {?is/are} outside of the specified time frame."), # nolint: line_length_linter
+    i = tr_("Enter {.code print_report(data = dat, \"date_standardization\")} to access {cli::qty(num_multi_format_dates)} {?it/them}, where {.val dat} is the object used to store the output from this operation.") # nolint: line_length_linter
+  ))
 
   # alert on the presence of ambiguous values in some target columns
   if (length(ambiguous_cols) > 0) {

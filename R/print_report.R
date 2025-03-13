@@ -17,29 +17,24 @@
 #'    report which would be displayed. The possible values are:
 #'    \describe{
 #'      \item{`incorrect_date_sequence`}{To display rows with the incorrect date
-#'          sequences.}
+#'          sequences}
 #'      \item{`colnames`}{To display the column names before and after
-#'          cleaning.}
+#'          cleaning}
 #'      \item{`converted_into_numeric`}{To display the names of the columns that
 #'          that have been converted into numeric}
-#'      \item{`out_of_range_dates`}{To display rows in the cleaned data with
-#'          date values that are outside of the specified time frame}
-#'      \item{`multi_format_dates`}{To display rows in the cleaned data with
-#'          date values that comply with multiple formats}
+#'      \item{`date_standardization`}{To display rows in the cleaned data with
+#'          date values that are outside of the specified time frame, and rows
+#'          with date values that comply with multiple formats}
 #'      \item{`misspelled_values`}{To display the detected misspelled values}
 #'      \item{`removed_duplicates`}{To display the duplicated rows that have
 #'          been removed}
-#'      \item{`duplicated_rows`}{To display the duplicated rows}
-#'      \item{`duplicates_checked_from`}{To display the names of the columns
-#'          which were used when finding the duplicates}
+#'      \item{`found_duplicates`}{To display the duplicated rows}
 #'      \item{`constant_data`}{To display the constant data i.e. constant
 #'          columns, empty rows and columns}
 #'      \item{`missing_values_replaced_at`}{To display the names of the columns
 #'          where the missing value strings have been replaced with NA}
-#'      \item{`incorrect_subject_id`}{To display the subject IDs that do not
-#'          comply with the expected format}
-#'      \item{`duplicated_ids`}{To display the duplicates found in the column
-#'          that unique identifies the subject IDs}
+#'      \item{`incorrect_subject_id`}{To display the missing, duplicated and
+#'          invalid subject subject IDs}
 #'    }
 #'
 #' @returns A \code{<character>} containing the name and path of the saved
@@ -113,11 +108,9 @@ print_report <- function(data,
   checkmate::assert_choice(
     what, null.ok = TRUE,
     choices = c("incorrect_date_sequence", "colnames", "converted_into_numeric",
-                "out_of_range_dates", "multi_format_dates", "misspelled_values",
-                "removed_duplicates", "duplicated_rows",
-                "duplicates_checked_from", "constant_data",
-                "missing_values_replaced_at", "incorrect_subject_id",
-                "duplicated_ids")
+                "date_standardization", "misspelled_values",
+                "removed_duplicates", "found_duplicates", "constant_data",
+                "missing_values_replaced_at", "incorrect_subject_id")
   )
 
   # extract report, check whether any cleaning operation has been performed, and
@@ -167,6 +160,20 @@ print_report <- function(data,
   cli::cli_alert_info(
     tr_("Generating html report in {.file {temp_dir}}.")
   )
+
+  # unnest date standardisation report
+  report <- unnest_report(report, "date_standardization", "multi_format_dates",
+                          "out_of_range_dates")
+
+  # unnest duplicates finding report
+  report <- unnest_report(report, "found_duplicates", "duplicated_rows",
+                          "duplicates_checked_from")
+
+  # unnest subject IDs checks report
+  report <- unnest_report(report, "incorrect_subject_id", "idx_missing_ids",
+                          "duplicated_ids", "invalid_subject_ids")
+
+  # render the report
   rmarkdown::render(
     input = system.file(
       "rmarkdown", "templates", "printing-rmd", "skeleton", "skeleton.Rmd",
@@ -183,4 +190,32 @@ print_report <- function(data,
     utils::browseURL(file_and_path)
   }
   return(file_and_path)
+}
+
+#' Unnest an element of the data cleaning report
+#'
+#' @param report An object of type \code{<list>}
+#' @inheritParams print_report
+#' @param ... Any other extra argument
+#'
+#' @return The input object where the specified element has been unnested and
+#'    removed.
+#' @keywords internal
+unnest_report <- function(report, what, ...) {
+  checkmate::assert_list(report, max.len = 10, min.len = 1)
+  # get the extra argument
+  extra_args <- list(...)
+
+  if (what %in% names(report)) {
+    target <- report[[what]]
+    for (arg in extra_args) {
+      if (arg %in% names(target)) {
+        report[[arg]] <-
+          target[[arg]]
+      }
+    }
+    report[[what]] <- NULL
+  }
+
+  return(report)
 }
