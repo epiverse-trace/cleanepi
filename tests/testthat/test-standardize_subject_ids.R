@@ -210,10 +210,16 @@ test_that("correct_subject_ids works as expected", {
   expect_false(all(c("PS004P2-1", "P0005P2", "PB500P2") %in% dat[["study_id"]]))
   expect_true(all(c("PS004P2", "PB005P2", "PB050P2") %in% dat[["study_id"]]))
   expect_true("incorrect_subject_id" %in% names(report))
-  expect_true(all(c("PS004P2-1", "P0005P2", "PB500P2") %in%
-                    report[["incorrect_subject_id"]][["ids"]]))
-  expect_identical(ncol(report[["incorrect_subject_id"]]), 2L)
-  expect_identical(nrow(report[["incorrect_subject_id"]]), 3L)
+  expect_true(
+    all(c("PS004P2-1", "P0005P2", "PB500P2") %in%
+          report[["incorrect_subject_id"]][["invalid_subject_ids"]][["ids"]])
+  )
+  expect_identical(
+    ncol(report[["incorrect_subject_id"]][["invalid_subject_ids"]]), 2L
+  )
+  expect_identical(
+    nrow(report[["incorrect_subject_id"]][["invalid_subject_ids"]]), 3L
+  )
 })
 
 # generate the correction table
@@ -276,8 +282,15 @@ test_that("check_subject_ids works when relying on the nchar argument", {
   report <- attr(dat, "report")
   expect_type(report, "list")
   expect_named(report, "incorrect_subject_id")
-  expect_s3_class(report[["incorrect_subject_id"]], "data.frame")
-  expect_identical(report[["incorrect_subject_id"]][["idx"]], c(3L, 5L, 7L))
-  expect_identical(report[["incorrect_subject_id"]][["ids"]],
-                   c("PS004P2-1", "P0005P2", "PB500P2"))
+  expect_s3_class(
+    report[["incorrect_subject_id"]][["invalid_subject_ids"]], "data.frame"
+  )
+  expect_identical(
+    report[["incorrect_subject_id"]][["invalid_subject_ids"]][["idx"]],
+    c(3L, 5L, 7L)
+  )
+  expect_identical(
+    report[["incorrect_subject_id"]][["invalid_subject_ids"]][["ids"]],
+    c("PS004P2-1", "P0005P2", "PB500P2")
+  )
 })

@@ -26,8 +26,8 @@
 #' # print the removed duplicates
 #' print_report(no_dups, "removed_duplicates")
 #'
-#' # print the columns used to find the duplicates
-#' print_report(no_dups, "duplicates_checked_from")
+#' # print the detected duplicates
+#' print_report(no_dups, "found_duplicates")
 remove_duplicates <- function(data, target_columns = NULL) {
 
   # setting up the variables below to NULL to avoid linters
@@ -42,9 +42,9 @@ remove_duplicates <- function(data, target_columns = NULL) {
   # find duplicates
   dups <- find_duplicates(dat, target_columns)
   tmp_report <- attr(dups, "report")
-  if ("duplicated_rows" %in% names(tmp_report) &&
-      nrow(tmp_report[["duplicated_rows"]]) > 0L) {
-    dups <- tmp_report[["duplicated_rows"]]
+  if ("found_duplicates" %in% names(tmp_report) &&
+      nrow(tmp_report[["found_duplicates"]][["duplicated_rows"]]) > 0L) {
+    dups <- tmp_report[["found_duplicates"]][["duplicated_rows"]]
     report <- c(report, tmp_report)
     dat <- dat %>%
       dplyr::mutate(row_id = seq_len(nrow(dat)))
@@ -55,8 +55,8 @@ remove_duplicates <- function(data, target_columns = NULL) {
   dat <- dat %>%
     dplyr::distinct_at({{ target_columns }}, .keep_all = TRUE)
 
-  if ("duplicated_rows" %in% names(tmp_report) &&
-      nrow(tmp_report[["duplicated_rows"]]) > 0L) {
+  if ("found_duplicates" %in% names(tmp_report) &&
+      nrow(tmp_report[["found_duplicates"]][["duplicated_rows"]]) > 0L) {
     tmp_target_columns <- c("row_id", target_columns)
     to_be_removed <- suppressMessages(dplyr::anti_join(dups, dat)) %>%
       dplyr::select({{ tmp_target_columns }})
@@ -106,7 +106,7 @@ remove_duplicates <- function(data, target_columns = NULL) {
 #' )
 #'
 #' # print the detected duplicates
-#' print_report(dups, "duplicated_rows")
+#' print_report(dups, "found_duplicates")
 #'
 find_duplicates <- function(data, target_columns = NULL) {
   # get the target column names
@@ -128,19 +128,18 @@ find_duplicates <- function(data, target_columns = NULL) {
   if (nrow(dups) > 0L) {
     cli::cli_inform(c(
       "!" = tr_("Found {.val {nrow(dups)}} duplicated row{?s} in the dataset."),
-      i = tr_("Use {.code print_report(dat, \"duplicated_rows\")} to access them, where {.val dat} is the object used to store the output from this operation.") # nolint: line_length_linter
+      i = tr_("Use {.code print_report(dat, \"found_duplicates\")} to access them, where {.val dat} is the object used to store the output from this operation.") # nolint: line_length_linter
     ))
     to_be_shown <- dups %>%
       dplyr::select(c("row_id", "group_id", {{ target_columns }}))
-    data <- add_to_report(
-      x = data,
-      key = "duplicated_rows",
-      value = to_be_shown
+    duplicates_report <- list(
+      duplicated_rows = to_be_shown,
+      duplicates_checked_from = target_columns
     )
     data <- add_to_report(
       x = data,
-      key = "duplicates_checked_from",
-      value = target_columns
+      key = "found_duplicates",
+      value = duplicates_report
     )
   } else {
     cli::cli_alert_info(

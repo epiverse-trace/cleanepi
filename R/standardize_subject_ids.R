@@ -19,6 +19,13 @@
 #' data <- readRDS(
 #'   system.file("extdata", "test_df.RDS", package = "cleanepi")
 #' )
+#'
+#' # make first and last subject IDs the same
+#' data$study_id[10] <- data$study_id[1]
+#'
+#' # set subject ID number 9 to NA
+#' data$study_id[9] <- NA
+#'
 #' # detect the incorrect subject ids i.e. IDs that do not have any or both of
 #' # the followings:
 #' # - starts with 'PS',
@@ -65,7 +72,9 @@ check_subject_ids <- function(data,
   }
 
   # check for missing and duplicated ids
-  data <- check_subject_ids_oness(data, target_columns)
+  res_check <- check_subject_ids_oness(data, target_columns)
+  data <- res_check[["data"]]
+  report <- res_check[["report"]]
 
   # we will use regular expressions to match on prefix and suffix
   regex_match  <- paste0(
@@ -95,7 +104,7 @@ check_subject_ids <- function(data,
 
   # when all subject ids comply with the expected format,
   # send a message that no incorrect subject ids was found
-  if (length(bad_rows) == 0) {
+  if (is.null(report) && length(bad_rows) == 0) {
     cli::cli_alert_info(
       tr_("No incorrect subject id was detected.")
     )
@@ -109,18 +118,70 @@ check_subject_ids <- function(data,
     idx = bad_rows,
     ids = data[[target_columns]][bad_rows]
   )
-  cli::cli_inform(c(
-    "!" = tr_("Detected {.val {length(bad_rows)}} invalid subject id{?s} at line{?s}: {.val {toString(bad_rows)}}."), # nolint: line_length_linter
-    i = tr_("You can use the {.fn correct_subject_ids} function to correct {cli::qty(length(bad_rows))} {?it/them}.") # nolint: line_length_linter
-  ))
+
+  # add to the report
+  report[["invalid_subject_ids"]] <- tmp_report
   data <- add_to_report(
     x = data,
     key = "incorrect_subject_id",
-    value = tmp_report
+    value = report
   )
+
+  # send message to the user
+  num_missing_ids <- ifelse( # nolint: object_usage_linter
+    "idx_missing_ids" %in% names(report),
+    length(report[["idx_missing_ids"]]),
+    0
+  )
+  num_duplicated_ids <- ifelse( # nolint: object_usage_linter
+    "duplicated_ids" %in% names(report),
+    nrow(report[["duplicated_ids"]]),
+    0
+  )
+  cli::cli_inform(c(
+    "!" = tr_("Detected {.val {cli::no({num_missing_ids})}} missing, {.val {cli::no({num_duplicated_ids})}} duplicated, and {.val {cli::no({nrow(report$invalid_subject_ids) - num_missing_ids})}} incorrect subject IDs."), # nolint: line_length_linter
+    "i" = tr_("Enter {.code print_report(data = dat, \"incorrect_subject_id\")} to access them, where {.val dat} is the object used to store the output from this operation."), # nolint: line_length_linter
+    "i" = tr_("You can use the {.fn correct_subject_ids} function to correct {cli::qty(length(bad_rows))} {?it/them}.") # nolint: line_length_linter
+  ))
 
   return(data)
 }
+
+#' Checks the uniqueness in values of the sample IDs column
+#'
+#' @inheritParams check_subject_ids
+#' @param id_col_name A \code{<character>} with the name of the column that
+#'    contains the sample IDs
+#'
+#' @returns the input \code{<data.frame>} with and extra element in its
+#'    attributes when there are missing or duplicated IDs.
+#' @keywords internal
+#'
+check_subject_ids_oness <- function(data, id_col_name) {
+  report <- NULL
+  # check for missing values in ID column
+  if (anyNA(data[[id_col_name]])) {
+    idx <- which(is.na(data[[id_col_name]]))
+    report[["idx_missing_ids"]] <- toString(idx)
+  }
+
+  # check for duplicates ID column
+  duplicated_ids <- suppressMessages(find_duplicates(data, id_col_name))
+  tmp_report <- attr(duplicated_ids, "report")[["found_duplicates"]]
+  if (!is.null(tmp_report) &&
+      "duplicated_rows" %in% names(tmp_report) &&
+      nrow(tmp_report[["duplicated_rows"]]) > 0L) {
+    num_dup_rows <- nrow(tmp_report[["duplicated_rows"]]) # nolint: object_usage_linter
+    dups <- tmp_report[["duplicated_rows"]]
+    report[["duplicated_ids"]] <- dups
+  }
+
+  return(list(
+    data = data,
+    report = report
+  ))
+}
+
 
 #' Correct the wrong subject IDs based on the user-provided values.
 #'
@@ -192,53 +253,7 @@ correct_subject_ids <- function(data, target_columns, correction_table) {
   data[[target_columns]][idx] <- correction_table[["to"]]
 
   # check whether substitution did not introduce any duplicate
-  data <- check_subject_ids_oness(data, target_columns)
-
-  return(data)
-}
-
-#' Checks the uniqueness in values of the sample IDs column
-#'
-#' @inheritParams check_subject_ids
-#' @param id_col_name A \code{<character>} with the name of the column that
-#'    contains the sample IDs
-#'
-#' @returns the input \code{<data.frame>} with and extra element in its
-#'    attributes when there are missing or duplicated IDs.
-#' @keywords internal
-#'
-check_subject_ids_oness <- function(data, id_col_name) {
-  # check for missing values in ID column
-  if (anyNA(data[[id_col_name]])) {
-    idx <- which(is.na(data[[id_col_name]]))
-    cli::cli_alert_warning(
-      tr_("Missing {cli::qty(length(idx))} value{?s} found in {.field {id_col_name}} column at line{?s}: {.val {toString(idx)}}.") # nolint: object_usage_linter
-    )
-    data <- add_to_report(
-      x = data,
-      key = "missing_ids",
-      value = idx
-    )
-  }
-
-  # check for duplicates ID column
-  duplicated_ids <- suppressMessages(find_duplicates(data, id_col_name))
-  tmp_report <- attr(duplicated_ids, "report")
-  if (!is.null(tmp_report) &&
-        "duplicated_rows" %in% names(tmp_report) &&
-        nrow(tmp_report[["duplicated_rows"]]) > 0L) {
-    num_dup_rows <- nrow(tmp_report[["duplicated_rows"]]) # nolint: object_usage_linter
-    cli::cli_inform(c(
-      "!" = tr_("Found {.val {num_dup_rows}} duplicated value{?s} in the subject Ids."), # nolint: line_length_linter
-      i = tr_("Enter {.code print_report(dat, \"duplicated_ids\")} to access them, where {.val dat} is the object used to store the output from this operation.") # nolint: line_length_linter
-    ))
-    dups <- tmp_report[["duplicated_rows"]]
-    data <- add_to_report(
-      x = data,
-      key = "duplicated_ids",
-      value = dups
-    )
-  }
+  data <- check_subject_ids_oness(data, target_columns)[["data"]]
 
   return(data)
 }

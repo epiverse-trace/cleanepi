@@ -69,8 +69,10 @@ test_that("check_date_sequence works as expected when target_column is provided
               expect_s3_class(good_date_sequence, "data.frame")
               expect_identical(nrow(good_date_sequence), 10L)
               expect_type(report, "list")
-              expect_named(report,
-                           c("multi_format_dates", "incorrect_date_sequence"))
+              expect_named(
+                report,
+                c("date_standardization", "incorrect_date_sequence")
+              )
               expect_s3_class(report[["incorrect_date_sequence"]], "data.frame")
               expect_identical(nrow(report[["incorrect_date_sequence"]]), 2L)
               expect_identical(ncol(report[["incorrect_date_sequence"]]), 3L)

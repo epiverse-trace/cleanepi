@@ -34,6 +34,6 @@ no_dups <- remove_duplicates(
 # print the removed duplicates
 print_report(no_dups, "removed_duplicates")
 
-# print the columns used to find the duplicates
-print_report(no_dups, "duplicates_checked_from")
+# print the detected duplicates
+print_report(no_dups, "found_duplicates")
 }
