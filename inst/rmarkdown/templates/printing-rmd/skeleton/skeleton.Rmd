@@ -12,8 +12,8 @@ params:
   removed_duplicates: NULL
   duplicates_checked_from: NULL
   out_of_range_dates: NULL
-  incorrect_subject_id: NULL
-  missing_ids: NULL
+  invalid_subject_ids: NULL
+  idx_missing_ids: NULL
   duplicated_ids: NULL
   converted_into_numeric: NULL
   misspelled_values: NULL
@@ -74,9 +74,9 @@ misspelled_values <- params[["misspelled_values"]]
 are_misspelled_values_found <- !is.null(misspelled_values)
 missing_values_replaced_at <- params[["missing_values_replaced_at"]]
 are_missing_values_replaced <- !is.null(missing_values_replaced_at)
-incorrect_subject_id <- params[["incorrect_subject_id"]]
+incorrect_subject_id <- params[["invalid_subject_ids"]]
 are_incorrect_subject_id <- !is.null(incorrect_subject_id)
-missing_ids <- params[["missing_ids"]]
+missing_ids <- params[["idx_missing_ids"]]
 are_missing_ids <- !is.null(missing_ids)
 duplicated_ids <- params[["duplicated_ids"]]
 are_duplicated_ids <- !is.null(duplicated_ids)

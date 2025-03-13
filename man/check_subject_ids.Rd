@@ -44,6 +44,13 @@ IDs are found, the function sends a warning and the user can call the
 data <- readRDS(
   system.file("extdata", "test_df.RDS", package = "cleanepi")
 )
+
+# make first and last subject IDs the same
+data$study_id[10] <- data$study_id[1]
+
+# set subject ID number 9 to NA
+data$study_id[9] <- NA
+
 # detect the incorrect subject ids i.e. IDs that do not have any or both of
 # the followings:
 # - starts with 'PS',
