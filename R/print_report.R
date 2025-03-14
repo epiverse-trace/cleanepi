@@ -11,8 +11,31 @@
 #'    \code{cleanepi_report_YYMMDD_HHMMSS}.
 #' @param format A \code{<character>} with the file format of the report.
 #'    Currently only \code{"html"} is supported.
-#' @param print A \code{<logical>} that specifies whether to print the generated
-#'    HTML file or no. Default is \code{TRUE}.
+#' @param print A \code{<logical>} that specifies whether to to open the report
+#'    in your browser in the form of a HTML file or no. Default is \code{FALSE}.
+#' @param what A \code{<character>} with the name of the specific data cleaning
+#'    report which would be displayed. The possible values are:
+#'    \describe{
+#'      \item{`incorrect_date_sequence`}{To display rows with the incorrect date
+#'          sequences}
+#'      \item{`colnames`}{To display the column names before and after
+#'          cleaning}
+#'      \item{`converted_into_numeric`}{To display the names of the columns that
+#'          that have been converted into numeric}
+#'      \item{`date_standardization`}{To display rows in the cleaned data with
+#'          date values that are outside of the specified time frame, and rows
+#'          with date values that comply with multiple formats}
+#'      \item{`misspelled_values`}{To display the detected misspelled values}
+#'      \item{`removed_duplicates`}{To display the duplicated rows that have
+#'          been removed}
+#'      \item{`found_duplicates`}{To display the duplicated rows}
+#'      \item{`constant_data`}{To display the constant data i.e. constant
+#'          columns, empty rows and columns}
+#'      \item{`missing_values_replaced_at`}{To display the names of the columns
+#'          where the missing value strings have been replaced with NA}
+#'      \item{`incorrect_subject_id`}{To display the missing, duplicated and
+#'          invalid subject subject IDs}
+#'    }
 #'
 #' @returns A \code{<character>} containing the name and path of the saved
 #'    report
@@ -68,10 +91,27 @@
 #' @export
 #' @importFrom utils browseURL
 print_report <- function(data,
+                         what = NULL,
+                         print = FALSE,
                          report_title = "{cleanepi} data cleaning report",
                          output_file_name = NULL,
-                         format = "html",
-                         print = TRUE) {
+                         format = "html") {
+
+  checkmate::assert_data_frame(data, null.ok = FALSE)
+  checkmate::assert_character(report_title, null.ok = FALSE,
+                              any.missing = FALSE, len = 1L)
+  checkmate::assert_character(output_file_name, null.ok = TRUE,
+                              any.missing = FALSE)
+  checkmate::assert_choice(format, choices = "html", null.ok = FALSE)
+  checkmate::assert_logical(print, any.missing = FALSE, len = 1,
+                            null.ok = FALSE)
+  checkmate::assert_choice(
+    what, null.ok = TRUE,
+    choices = c("incorrect_date_sequence", "colnames", "converted_into_numeric",
+                "date_standardization", "misspelled_values",
+                "removed_duplicates", "found_duplicates", "constant_data",
+                "missing_values_replaced_at", "incorrect_subject_id")
+  )
 
   # extract report, check whether any cleaning operation has been performed, and
   # allow for only HTML output format for the report.
@@ -91,10 +131,16 @@ print_report <- function(data,
   }
 
   # set the report from scan_data() function to NA if no data scanning was
-  # performed. NA because the function returns NA if no character column was
-  # found in the input data
+  # performed. This is because the function returns NA if no character column
+  # was found in the input data
   if (!("scanning_result" %in% names(report))) {
     report[["scanning_result"]] <- NA
+  }
+
+  # only display the report from the specified cleaning operation in the
+  # `operation` argument.
+  if (!is.null(what)) {
+    return(attr(data, "report")[[what]])
   }
 
   # generate output file and directory
@@ -114,6 +160,20 @@ print_report <- function(data,
   cli::cli_alert_info(
     tr_("Generating html report in {.file {temp_dir}}.")
   )
+
+  # unnest date standardisation report
+  report <- unnest_report(report, "date_standardization", "multi_format_dates",
+                          "out_of_range_dates")
+
+  # unnest duplicates finding report
+  report <- unnest_report(report, "found_duplicates", "duplicated_rows",
+                          "duplicates_checked_from")
+
+  # unnest subject IDs checks report
+  report <- unnest_report(report, "incorrect_subject_id", "idx_missing_ids",
+                          "duplicated_ids", "invalid_subject_ids")
+
+  # render the report
   rmarkdown::render(
     input = system.file(
       "rmarkdown", "templates", "printing-rmd", "skeleton", "skeleton.Rmd",
@@ -130,4 +190,32 @@ print_report <- function(data,
     utils::browseURL(file_and_path)
   }
   return(file_and_path)
+}
+
+#' Unnest an element of the data cleaning report
+#'
+#' @param report An object of type \code{<list>}
+#' @inheritParams print_report
+#' @param ... Any other extra argument
+#'
+#' @return The input object where the specified element has been unnested and
+#'    removed.
+#' @keywords internal
+unnest_report <- function(report, what, ...) {
+  checkmate::assert_list(report, max.len = 10, min.len = 1)
+  # get the extra argument
+  extra_args <- list(...)
+
+  if (what %in% names(report)) {
+    target <- report[[what]]
+    for (arg in extra_args) {
+      if (arg %in% names(target)) {
+        report[[arg]] <-
+          target[[arg]]
+      }
+    }
+    report[[what]] <- NULL
+  }
+
+  return(report)
 }

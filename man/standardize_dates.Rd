@@ -112,13 +112,15 @@ as.Date(lubridate::parse_date_time(x, orders = c("Ybd", "dby")))
 as.Date(lubridate::parse_date_time(x, orders = c("dmy", "Ymd")))
 
 # How to use standardize_dates()
+data <- readRDS(system.file("extdata", "test_df.RDS", package = "cleanepi"))
+
+# convert values in the 'date.of.admission' column into "\%Y-\%m-\%d"
+# format
 dat <- standardize_dates(
-  data = readRDS(
-    system.file("extdata", "test_df.RDS", package = "cleanepi")
-  ),
-  target_columns = "date_first_pcr_positive_test",
+  data = data,
+  target_columns = "date.of.admission",
   format = NULL,
-  timeframe = NULL,
+  timeframe = as.Date(c("2021-01-01", "2021-12-01")),
   error_tolerance = 0.4,
   orders = list(
     world_named_months = c("Ybd", "dby"),
@@ -126,4 +128,7 @@ dat <- standardize_dates(
     US_format = c("Omdy", "YOmd")
   )
 )
+
+# print the report
+print_report(dat, "date_standardization")
 }

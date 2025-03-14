@@ -6,16 +6,44 @@
 \usage{
 print_report(
   data,
+  what = NULL,
+  print = FALSE,
   report_title = "{cleanepi} data cleaning report",
   output_file_name = NULL,
-  format = "html",
-  print = TRUE
+  format = "html"
 )
 }
 \arguments{
 \item{data}{A \code{<data.frame>} or \code{<linelist>} object returned from
 the \code{\link{clean_data}} or the main functions of each data cleaning
 module.}
+
+\item{what}{A \code{<character>} with the name of the specific data cleaning
+report which would be displayed. The possible values are:
+\describe{
+\item{\code{incorrect_date_sequence}}{To display rows with the incorrect date
+sequences}
+\item{\code{colnames}}{To display the column names before and after
+cleaning}
+\item{\code{converted_into_numeric}}{To display the names of the columns that
+that have been converted into numeric}
+\item{\code{date_standardization}}{To display rows in the cleaned data with
+date values that are outside of the specified time frame, and rows
+with date values that comply with multiple formats}
+\item{\code{misspelled_values}}{To display the detected misspelled values}
+\item{\code{removed_duplicates}}{To display the duplicated rows that have
+been removed}
+\item{\code{found_duplicates}}{To display the duplicated rows}
+\item{\code{constant_data}}{To display the constant data i.e. constant
+columns, empty rows and columns}
+\item{\code{missing_values_replaced_at}}{To display the names of the columns
+where the missing value strings have been replaced with NA}
+\item{\code{incorrect_subject_id}}{To display the missing, duplicated and
+invalid subject subject IDs}
+}}
+
+\item{print}{A \code{<logical>} that specifies whether to to open the report
+in your browser in the form of a HTML file or no. Default is \code{FALSE}.}
 
 \item{report_title}{A \code{<character>} with the title that will appear on
 the report}
@@ -27,9 +55,6 @@ one will be automatically generated with the format
 
 \item{format}{A \code{<character>} with the file format of the report.
 Currently only \code{"html"} is supported.}
-
-\item{print}{A \code{<logical>} that specifies whether to print the generated
-HTML file or no. Default is \code{TRUE}.}
 }
 \value{
 A \code{<character>} containing the name and path of the saved
