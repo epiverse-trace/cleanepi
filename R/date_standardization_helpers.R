@@ -155,7 +155,7 @@ date_convert <- function(data, cols, error_tolerance,
     data[[cols]] <- new_dates
   } else {
     cli::cli_inform(c(
-      "!" = tr_("{.field {cols}} is not be converted into {.cls Date} due to:"), # nolint: line_length_linter
+      "!" = tr_("{.field {cols}} cannot be converted into {.cls Date} due to:"),
       "*" = tr_("insuffisient {.cls Date} values"),
       "*" = tr_("or a high number of values that are outside the specified time frame.") # nolint: line_length_linter
     ))
