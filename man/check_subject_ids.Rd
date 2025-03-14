@@ -41,14 +41,31 @@ IDs are found, the function sends a warning and the user can call the
 \code{\link{correct_subject_ids}} function to correct them.
 }
 \examples{
+data <- readRDS(
+  system.file("extdata", "test_df.RDS", package = "cleanepi")
+)
+
+# make first and last subject IDs the same
+data$study_id[10] <- data$study_id[1]
+
+# set subject ID number 9 to NA
+data$study_id[9] <- NA
+
+# detect the incorrect subject ids i.e. IDs that do not have any or both of
+# the followings:
+# - starts with 'PS',
+# - ends with 'P2',
+# - has a number within 1 and 100,
+# - contains 7 characters.
 dat <- check_subject_ids(
-  data = readRDS(
-    system.file("extdata", "test_df.RDS", package = "cleanepi")
-  ),
+  data = data,
   target_columns = "study_id",
   prefix = "PS",
   suffix = "P2",
   range = c(1, 100),
   nchar = 7
 )
+
+# display rows with invalid subject ids
+print_report(dat, "incorrect_subject_id")
 }
