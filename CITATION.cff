@@ -466,6 +466,25 @@ references:
   year: '2025'
   doi: 10.32614/CRAN.package.spelling
 - type: software
+  title: systemfonts
+  abstract: 'systemfonts: System Native Font Finding'
+  notes: Suggests
+  url: https://systemfonts.r-lib.org
+  repository: https://CRAN.R-project.org/package=systemfonts
+  authors:
+  - family-names: Pedersen
+    given-names: Thomas Lin
+    email: thomas.pedersen@posit.co
+    orcid: https://orcid.org/0000-0002-5147-4711
+  - family-names: Ooms
+    given-names: Jeroen
+    email: jeroen@berkeley.edu
+    orcid: https://orcid.org/0000-0002-4035-0289
+  - family-names: Govett
+    given-names: Devon
+  year: '2025'
+  doi: 10.32614/CRAN.package.systemfonts
+- type: software
   title: testthat
   abstract: 'testthat: Unit Testing for R'
   notes: Suggests
