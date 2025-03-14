@@ -1,11 +1,15 @@
 # cleanepi (development version)
 
-# cleanepi 1.1.1
-
 ## Bug fixes
 
 * Added {systemfonts} as a dependency in Suggests as it is required to build the
 vignette in **r-oldrel-macos-arm64** (#218, @Karim-Mane).
+
+## Enhancements
+
+* Added an argument (`what`) to `print_report()` allow printing the report from
+a specific data cleaning operation and stop users from interacting with
+attributes (#220, @Karim-Mane).
 
 # cleanepi 1.1.0
 
