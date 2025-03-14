@@ -82,8 +82,19 @@ check_subject_ids <- function(data,
     ".*",
     paste(suffix, collapse = "|"), "$"  # ends with suffix
   )
-
   bad_rows <- which(!grepl(regex_match, data[[target_columns]]))
+
+  # the above also detects empty rows in the subject IDs column
+  # we will substract missing IDs from the bad IDs (IDs with wrong prefix and
+  # suffix)
+  num_missing_ids <- 0
+  if ("idx_missing_ids" %in% names(report)) {
+    missing_ids <- as.numeric(unlist(
+      strsplit(report[["idx_missing_ids"]], ", ", fixed = TRUE)
+    ))
+    num_missing_ids <- length(missing_ids)
+    bad_rows <- bad_rows[!bad_rows %in% missing_ids]
+  }
 
   # the usage of regular expression to determine whether numbers belong to a
   # specified range is not trivial. we use an approach where we parse numbers
@@ -114,18 +125,32 @@ check_subject_ids <- function(data,
   # determine row indices with incorrect subject ids, and
   # report them
   bad_rows <- sort(unique(bad_rows))
-  tmp_report <- data.frame(
-    idx = bad_rows,
-    ids = data[[target_columns]][bad_rows]
-  )
+  num_bad_rows <- length(bad_rows)
+  if (num_bad_rows > 0) {
+    tmp_report <- data.frame(
+      idx = bad_rows,
+      ids = data[[target_columns]][bad_rows]
+    )
+    report[["invalid_subject_ids"]] <- tmp_report
+  }
 
   # add to the report
-  report[["invalid_subject_ids"]] <- tmp_report
   data <- add_to_report(
     x = data,
     key = "incorrect_subject_id",
     value = report
   )
+  # send message to the user
+  num_duplicated_ids <- ifelse( # nolint: object_usage_linter
+    "duplicated_ids" %in% names(report),
+    nrow(report[["duplicated_ids"]]),
+    0
+  )
+  cli::cli_inform(c(
+    "!" = tr_("Detected {.val {cli::no({num_missing_ids})}} missing, {.val {cli::no({num_duplicated_ids})}} duplicated, and {.val {cli::no({num_bad_rows})}} incorrect subject IDs."), # nolint: line_length_linter
+    "i" = tr_("Enter {.code print_report(data = dat, \"incorrect_subject_id\")} to access them, where {.val dat} is the object used to store the output from this operation."), # nolint: line_length_linter
+    "i" = tr_("You can use the {.fn correct_subject_ids} function to correct {cli::qty(length(bad_rows))} {?it/them}.") # nolint: line_length_linter
+  ))
 
   # send message to the user
   num_missing_ids <- ifelse( # nolint: object_usage_linter
