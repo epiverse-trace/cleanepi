@@ -212,40 +212,6 @@ cleaned_data <- clean_data(
 )
 ```
 
-It returns the cleaned dataset. The report generated from the data cleaning
-operations is a `list object` that is attached to the cleaned data and can be
-accessed using the `attr()` or `attributes()` function. However, we strongly
-advice using the `print_report()` function to either display the entire report
-in your default browser in the form of an HTML file or only the report from a
-specific data cleaning operation. The table below contains the possible values
-of the `what` argument of the `print_report()` functions. They are the keywords
-to use for accessing a specific report:
-
-| **keywords** | **goal** |
-|--------------------------------------------------|------------------------------|
-| `incorrect_date_sequence` | To display rows with the incorrect date sequences |
-| `colnames` | To display the column names before and after cleaning |
-| `converted_into_numeric` | To display the names of the columns that that have |
-| been converted into numeric |  |
-| `date_standardization` | To display rows in the cleaned data with date values |
-| `misspelled_values` | To display the detected misspelled values |
-| `removed_duplicates` | To display the duplicated rows that have been removed |
-| `found_duplicates` | To display the duplicated rows |
-| `constant_data` | To display the constant data i.e. constant columns, empty rows and columns |
-| `missing_values_replaced_at` | To display the names of the columns where the missing value strings have been replaced with NA |
-| `incorrect_subject_id` | To display the missing, duplicated and invalid subject subject IDs |
-
-that are outside of the specified time frame, and rows with date values that
-comply with multiple formats \|
-
-```{r eval=FALSE}
-# PRINT THE ENTIRE DATA CLEANING REPORT
-print_report(cleaned_data)
-
-# PRINT THE REPORT FROM THE DATE STANDARDIZATION OPERATION
-print_report(cleaned_data, "date_standardization")
-```
-
 ## Using {cleanepi} functionalities with pipe operators
 
 ```{r echo=TRUE, eval=TRUE}
@@ -287,6 +253,56 @@ cleaned_data <- add_to_report(
    x = cleaned_data,
    key = "scanning_result",
    value = scan_res
+)
+```
+
+## Printing the report
+
+It returns the cleaned dataset. The report generated from the data cleaning
+operations is a `list object` that is attached to the cleaned data and can be
+accessed using the `attr()` or `attributes()` function. However, we strongly
+advice using the `print_report()` function to either display the entire report
+in your default browser in the form of an HTML file or only the report from a
+specific data cleaning operation. The function takes the following parameters:
+
+1.  **data**: the output object returned from the `clean_data()` or the main
+    functions of each data cleaning modules.
+2.  **print**: a logical that specifies whether to open the report in your
+    browser in the form of a HTML file or no. Default is `FALSE`.
+3.  **output_file_name**: a character used to specify the name of the report
+    file, excluding any file extension. If no file name is supplied, one will be       automatically generated with the format `cleanepi_report_YYMMDD_HHMMSS`.
+4.  **format**: a character with the file format of the report. Currently only         `"html"` is supported.
+5.  **what**: a character with the name of the specific data cleaning report
+    which would be displayed. The table below contains the possible values
+    of the this argument.
+
+| **keywords** | **goal** |
+|--------------------------------------------------|------------------------------|
+| `incorrect_date_sequence` | To display rows with the incorrect date sequences |
+| `colnames` | To display the column names before and after cleaning |
+| `converted_into_numeric` | To display the names of the columns that that have |
+| been converted into numeric |  |
+| `date_standardization` | To display rows in the cleaned data with date values |
+| `misspelled_values` | To display the detected misspelled values |
+| `removed_duplicates` | To display the duplicated rows that have been removed |
+| `found_duplicates` | To display the duplicated rows |
+| `constant_data` | To display the constant data i.e. constant columns, empty rows and columns |
+| `missing_values_replaced_at` | To display the names of the columns where the missing value strings have been replaced with NA |
+| `incorrect_subject_id` | To display the missing, duplicated and invalid subject subject IDs |
+
+that are outside of the specified time frame, and rows with date values that
+comply with multiple formats \|
+
+
+```{r echo=TRUE, eval=FALSE}
+# PRINT THE ENTIRE DATA CLEANING REPORT
+print_report(
+  data = cleaned_data,
+  what = NULL,
+  print = TRUE,
+  report_title = "{cleanepi} data cleaning report",
+  output_file_name = NULL,
+  format = "html"
 )
 ```
 
@@ -352,7 +368,7 @@ until there is no more constant data. Rows and columns that were deleted at any
 iterations will be mentioned in the report object.
 
 ```{r echo=TRUE, eval=TRUE}
-print_report(dat, "constant_data", print = FALSE)
+print_report(dat, "constant_data")
 ```
 
 ## Cleaning column names
@@ -396,7 +412,7 @@ cleaned_data <- standardize_column_names(
 )
 
 # PRINT THE REPORT FOR THIS OPERATION
-print_report(cleaned_data, "colnames", print = FALSE)
+print_report(cleaned_data, "colnames")
 ```
 
 By providing the function with these parameters, the users can redefine the
@@ -449,7 +465,7 @@ cleaned_data <- replace_missing_values(
 )
 
 # PRINT THE REPORT FROM THIS OPERATION
-print_report(cleaned_data, "missing_values_replaced_at", print = FALSE)
+print_report(cleaned_data, "missing_values_replaced_at")
 ```
 
 ```{r echo=FALSE, eval=TRUE}
@@ -550,7 +566,7 @@ cleaned_data <- standardize_dates(
 )
 
 # PRINT THE REPORT FROM THIS OPERATION
-print_report(cleaned_data, "date_standardization", print = FALSE)
+print_report(cleaned_data, "date_standardization")
 ```
 
 This function returns the input dataset where the (specified) columns are
@@ -578,7 +594,7 @@ cleaned_data <- standardize_dates(
 )
 
 # PRINT THE REPORT
-print_report(cleaned_data, "date_standardization", print = FALSE)
+print_report(cleaned_data, "date_standardization")
 ```
 
 ```{r echo=FALSE, eval=TRUE}
@@ -638,7 +654,7 @@ cleaned_data <- check_subject_ids(
 )
 
 # PRINT THE REPORT FROM THIS OPERATION
-print_report(cleaned_data, "incorrect_subject_id", print = FALSE)
+print_report(cleaned_data, "incorrect_subject_id")
 ```
 
 The `check_subject_ids()` function returns the input dataset and send a warming
@@ -712,7 +728,7 @@ cleaned_data <- check_date_sequence(
 )
 
 # PRINT THE REPORT FROM THIS OPERATION
-print_report(cleaned_data, "incorrect_date_sequence", print = FALSE)
+print_report(cleaned_data, "incorrect_date_sequence")
 ```
 
 The `check_date_sequence()` function returns the input dataset, augmented with
@@ -760,7 +776,7 @@ cleaned_data <- convert_to_numeric(
 head(cleaned_data$age, 10L)
 
 # PRINT THE REPORT FROM THIS OPERATION
-print_report(cleaned_data, "converted_into_numeric", print = FALSE)
+print_report(cleaned_data, "converted_into_numeric")
 ```
 
 ## Converting numeric values into date
@@ -876,7 +892,7 @@ elements:
 
 ```{r eval=TRUE}
 # PRINT THE REPORT FROM DUPLICATES FINDING
-print_report(dups, "found_duplicates", print = FALSE)
+print_report(dups, "found_duplicates")
 ```
 
 ## Removing duplicates
@@ -908,7 +924,7 @@ cleaned_data <- remove_duplicates(
 )
 
 # PRINT THE REPORT FROM THIS OPERATION
-print_report(cleaned_data, "removed_duplicates", print = FALSE)
+print_report(cleaned_data, "removed_duplicates")
 ```
 
 Upon execution, the `remove_duplicates()` function returns the input dataset
@@ -957,7 +973,7 @@ cleaned_data <- clean_using_dictionary(
 )
 
 # PRINT THE REPORT FROM THIS OPERATION
-print_report(cleaned_data, "misspelled_values", print = FALSE)
+print_report(cleaned_data, "misspelled_values")
 ```
 
 The `add_to_dictionary()` function is a useful tool for expanding the coverage
@@ -1111,17 +1127,4 @@ cleaned_data %>%
                          box_css = "border: 1px solid #ddd; padding: 5px; ",
                          extra_css = NULL,
                          fixed_thead = TRUE)
-```
-
-## Printing the report
-
-```{r echo=TRUE, eval=FALSE}
-print_report(
-  data = cleaned_data,
-  report_title = "{cleanepi} data cleaning report",
-  output_directory = ".",
-  output_file_name = NULL,
-  format = "html",
-  print = TRUE
-)
 ```
