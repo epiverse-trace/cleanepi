@@ -146,11 +146,6 @@ check_subject_ids <- function(data,
     nrow(report[["duplicated_ids"]]),
     0
   )
-  cli::cli_inform(c(
-    "!" = tr_("Detected {.val {cli::no({num_missing_ids})}} missing, {.val {cli::no({num_duplicated_ids})}} duplicated, and {.val {cli::no({num_bad_rows})}} incorrect subject IDs."), # nolint: line_length_linter
-    "i" = tr_("Enter {.code print_report(data = dat, \"incorrect_subject_id\")} to access them, where {.val dat} is the object used to store the output from this operation."), # nolint: line_length_linter
-    "i" = tr_("You can use the {.fn correct_subject_ids} function to correct {cli::qty(length(bad_rows))} {?it/them}.") # nolint: line_length_linter
-  ))
 
   # send message to the user
   num_missing_ids <- ifelse( # nolint: object_usage_linter

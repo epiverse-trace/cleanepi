@@ -506,7 +506,6 @@ msgstr ""
 "données avant d’évoquer la fonction {.fn print_report}."
 
 #: print_report.R:123
-msgid ""
 "The list of functions in {.pkg cleanepi} can be found at: {.url https://"
 "epiverse-trace.github.io/cleanepi/reference/index.html}."
 msgstr ""
@@ -545,7 +544,6 @@ msgstr ""
 "résultat de la fonction {.fn remove_constants}."
 
 #: replace_missing_values.R:61
-msgid ""
 "Could not detect the provided missing value {cli::qty(length(na_strings))} "
 "character{?s}."
 msgstr ""
@@ -626,24 +624,22 @@ msgstr ""
 "où {.val x} représente le vecteur des valeurs issues des colonnes cibles ({."
 "code data$target_column})."
 
-#: standardize_subject_ids.R:109
+#: standardize_subject_ids.R:120
 msgid "No incorrect subject id was detected."
 msgstr "Aucun identifiant invalide n'a été détecté."
 
-#: standardize_subject_ids.R:142
+#: standardize_subject_ids.R:162
 msgid ""
 "Detected {.val {cli::no({num_missing_ids})}} missing, {.val {cli::"
-"no({num_duplicated_ids})}} duplicated, and {.val {cli::"
-"no({nrow(report$invalid_subject_ids) - num_missing_ids})}} incorrect subject "
-"IDs."
+"no({num_duplicated_ids})}} duplicated, and {.val {cli::no({num_bad_rows})}} "
+"incorrect subject IDs."
 msgstr ""
 "Il y a {.val {cli::no({num_missing_ids})}} valeur{?s} manquante{?s}, "
-"no({num_duplicated_ids})}} valeur{?s} redondante{?s}, et {.val {cli::"
-"no({nrow(report$invalid_subject_ids) - num_missing_ids})}} valeur{?s} "
-"incorrecte{?s} dans la colonne contenant les identifiants unique des "
-"individus."
+"no({num_duplicated_ids})}} valeur{?s} redondante{?s}, et "
+"{.val {cli::no({num_bad_rows})}} valeur{?s} incorrecte{?s} dans la colonne "
+"contenant les identifiants unique des individus."
 
-#: standardize_subject_ids.R:143
+#: standardize_subject_ids.R:163
 msgid ""
 "Enter {.code print_report(data = dat, \"incorrect_subject_id\")} to access "
 "them, where {.val dat} is the object used to store the output from this "
@@ -653,7 +649,7 @@ msgstr ""
 "pour y accéder. {.val dat} represente ici l’object créé pour stocker le "
 "résultat de cette opération."
 
-#: standardize_subject_ids.R:144
+#: standardize_subject_ids.R:164
 msgid ""
 "You can use the {.fn correct_subject_ids} function to correct {cli::"
 "qty(length(bad_rows))} {?it/them}."
@@ -661,14 +657,14 @@ msgstr ""
 "Vous pouvez {cli::qty(length(bad_rows))} le{?s} corriger en utilisant la "
 "fonction {.fn correct_subject_ids}."
 
-#: standardize_subject_ids.R:246
+#: standardize_subject_ids.R:266
 msgid ""
 "Some IDs specified in the correction table were not found in the input data."
 msgstr ""
 "Certains identifiants fournis dans la table de correction ne figurent pas "
 "dans les données d’entrée."
 
-#: standardize_subject_ids.R:247
+#: standardize_subject_ids.R:267
 msgid ""
 "Values in the {.field from} column of the correction table must be part of "
 "the detected incorrect subject IDs."
@@ -757,6 +753,15 @@ msgstr "la fonction {.fn remove_constants} avant cette opération."
 #~ msgstr ""
 #~ "{.val {num_dup_rows}} valeur{?s} redondante{?s} {?a/ont} été retrouvée{?"
 #~ "s} dans la colonne contenant les identifiants des individus."
+
+#~ msgid ""
+#~ "Enter {.code attr(dat, \"report\")[[\"duplicated_rows\"]]} to access "
+#~ "them, where {.val dat} is the object used to store the output from this "
+#~ "operation."
+#~ msgstr ""
+#~ "Veuillez entrer {.code attr(dat, \"report\")[[\"duplicated_rows\"]]} pour "
+#~ "y accéder. {.val dat} represente ici l’object créé pour stocker le "
+#~ "résultat de cette opération."
 
 #~ msgid ""
 #~ "Detected invalid subject {cli::qty(length(bad_rows))} id{?s} at line{?s}: "
