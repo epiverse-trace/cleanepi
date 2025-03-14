@@ -11,8 +11,8 @@
 #'    \code{cleanepi_report_YYMMDD_HHMMSS}.
 #' @param format A \code{<character>} with the file format of the report.
 #'    Currently only \code{"html"} is supported.
-#' @param print A \code{<logical>} that specifies whether to print the generated
-#'    HTML file or no. Default is \code{TRUE}.
+#' @param print A \code{<logical>} that specifies whether to to open the report
+#'    in your browser in the form of a HTML file or no. Default is \code{FALSE}.
 #' @param what A \code{<character>} with the name of the specific data cleaning
 #'    report which would be displayed. The possible values are:
 #'    \describe{
@@ -92,10 +92,10 @@
 #' @importFrom utils browseURL
 print_report <- function(data,
                          what = NULL,
+                         print = FALSE,
                          report_title = "{cleanepi} data cleaning report",
                          output_file_name = NULL,
-                         format = "html",
-                         print = TRUE) {
+                         format = "html") {
 
   checkmate::assert_data_frame(data, null.ok = FALSE)
   checkmate::assert_character(report_title, null.ok = FALSE,

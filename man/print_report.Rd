@@ -7,10 +7,10 @@
 print_report(
   data,
   what = NULL,
+  print = FALSE,
   report_title = "{cleanepi} data cleaning report",
   output_file_name = NULL,
-  format = "html",
-  print = TRUE
+  format = "html"
 )
 }
 \arguments{
@@ -42,6 +42,9 @@ where the missing value strings have been replaced with NA}
 invalid subject subject IDs}
 }}
 
+\item{print}{A \code{<logical>} that specifies whether to to open the report
+in your browser in the form of a HTML file or no. Default is \code{FALSE}.}
+
 \item{report_title}{A \code{<character>} with the title that will appear on
 the report}
 
@@ -52,9 +55,6 @@ one will be automatically generated with the format
 
 \item{format}{A \code{<character>} with the file format of the report.
 Currently only \code{"html"} is supported.}
-
-\item{print}{A \code{<logical>} that specifies whether to print the generated
-HTML file or no. Default is \code{TRUE}.}
 }
 \value{
 A \code{<character>} containing the name and path of the saved
