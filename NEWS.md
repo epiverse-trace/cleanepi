@@ -1,7 +1,5 @@
 # cleanepi (development version)
 
-# cleanepi 1.1.1
-
 ## Bug fixes
 
 * Added {systemfonts} as a dependency in Suggests as it is required to build the
@@ -21,6 +19,10 @@ be a character (a comma-separated list of values) are now of type vector
 This columns was introduced to perform the anti join with the output from the
 `find_duplicates()` function, but is not needed in the final output object
 (#227, @Karim-Mane).
+
+* Added an argument (`what`) to `print_report()` allow printing the report from
+a specific data cleaning operation and stop users from interacting with
+attributes (#220, @Karim-Mane).
 
 # cleanepi 1.1.0
 
