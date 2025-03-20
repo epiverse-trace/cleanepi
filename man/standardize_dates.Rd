@@ -10,7 +10,8 @@ standardize_dates(
   format = NULL,
   timeframe = NULL,
   error_tolerance = 0.4,
-  orders = NULL
+  orders = list(world_named_months = c("Ybd", "dby"), world_digit_months = c("dmy",
+    "Ymd"), US_formats = c("Omdy", "YOmd"))
 )
 }
 \arguments{
