@@ -56,6 +56,9 @@ remove_duplicates <- function(data, target_columns = NULL) {
     to_be_removed <- suppressMessages(dplyr::anti_join(dups, dat)) %>%
         dplyr::select({{ tmp_target_columns }})
     report[["removed_duplicates"]] <- to_be_removed
+    # remove row_id column added for the anti join operation above between
+    # dups and dat
+    dat[["row_id"]] <- NULL
   }
 
   attr(dat, which = "report") <- report
