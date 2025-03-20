@@ -7,6 +7,9 @@
 * Added {systemfonts} as a dependency in Suggests as it is required to build the
 vignette in **r-oldrel-macos-arm64** (#218, @Karim-Mane).
 
+* Set a default value for the `orders` argument of the `standardize_dates()`
+function using its initial value in version 1.0.2 (#224, @Karim-Mane).
+
 # cleanepi 1.1.0
 
 ## Bug fixes
