@@ -10,6 +10,13 @@ vignette in **r-oldrel-macos-arm64** (#218, @Karim-Mane).
 * Set a default value for the `orders` argument of the `standardize_dates()`
 function using its initial value in version 1.0.2 (#224, @Karim-Mane).
 
+## Enhancements
+
+* The values of the `duplicates_checked_from`, `converted_into_numeric`,
+`missing_values_replaced_at`, `missing_ids` elements of the report which used to
+be a character (a comma-separated list of values) are now of type vector
+(#228, @Karim-Mane).
+
 # cleanepi 1.1.0
 
 ## Bug fixes
