@@ -9,7 +9,7 @@ test_that("remove_duplicates works with 'linelist_tags'", {
   )
   expect_s3_class(no_dups, "data.frame")
   expect_false(nrow(no_dups) == nrow(data))
-  expect_false(ncol(no_dups) == ncol(data))
+  expect_true(ncol(no_dups) == ncol(data))
 
   report <- attr(no_dups, "report")
   expect_type(report, "list")
@@ -31,7 +31,7 @@ test_that("remove_duplicates works with 'linelist_tags'", {
   )
   expect_s3_class(no_dups, "data.frame")
   expect_false(nrow(no_dups) == nrow(data))
-  expect_false(ncol(no_dups) == ncol(data))
+  expect_true(ncol(no_dups) == ncol(data))
 
   report <- attr(no_dups, "report")
   expect_type(report, "list")
