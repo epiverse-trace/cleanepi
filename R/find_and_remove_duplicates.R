@@ -125,7 +125,7 @@ find_duplicates <- function(data, target_columns = NULL) {
     data <- add_to_report(
       x = data,
       key = "duplicates_checked_from",
-      value = toString(target_columns)
+      value = target_columns
     )
   } else {
     cli::cli_alert_info(
