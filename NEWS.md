@@ -17,6 +17,11 @@ function using its initial value in version 1.0.2 (#224, @Karim-Mane).
 be a character (a comma-separated list of values) are now of type vector
 (#228, @Karim-Mane).
 
+* Remove the `row_id` column returned by the `remove_duplicates()` function.
+This columns was introduced to perform the anti join with the output from the
+`find_duplicates()` function, but is not needed in the final output object
+(#227, @Karim-Mane).
+
 # cleanepi 1.1.0
 
 ## Bug fixes
