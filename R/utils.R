@@ -98,13 +98,17 @@ date_get_part3 <- function(x, sep) {
 #'   value = scan_res
 #' )
 #'
-add_to_report <- function(x, key, value = NULL) {
+add_to_report <- function(x, key, value) {
   checkmate::assert_data_frame(x, min.rows = 1L, min.cols = 1L, null.ok = FALSE)
   checkmate::assert_character(key, any.missing = FALSE, len = 1L,
                               null.ok = FALSE)
-  report <- attr(x, "report")
-  report[[key]] <- value
-  attr(x, which = "report") <- report
+  if (is.null(value)) {
+    cli::cli_abort(c(
+      tr_("`value` to add to `report` attribute cannot be NULL."),
+      i = tr_("Please specify an object to {.emph `value`} to be added to {.emph `report`}.") # nolint: line_length_linter
+    ))
+  }
+  attr(x, "report")[[key]] <- value
   return(x)
 }
 

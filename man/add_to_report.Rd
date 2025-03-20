@@ -4,7 +4,7 @@
 \alias{add_to_report}
 \title{Add an element to the report object}
 \usage{
-add_to_report(x, key, value = NULL)
+add_to_report(x, key, value)
 }
 \arguments{
 \item{x}{A \code{<data.frame>} or \code{<linelist>}}
