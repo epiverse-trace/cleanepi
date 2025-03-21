@@ -198,7 +198,7 @@ check_subject_ids_oness <- function(data, id_col_name) {
     data <- add_to_report(
       x = data,
       key = "missing_ids",
-      value = toString(idx)
+      value = idx
     )
   }
 
