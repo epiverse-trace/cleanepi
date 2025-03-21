@@ -61,7 +61,6 @@ clean_spelling_mistakes <- function(data,
           if (rlang::is_interactive() && confirm) {
             # only print each misspelled word once
             misspelled <- unique(data[, col][idx])
-            browser()
             menu_title <- paste(
               "The following words will be corrected:",
               toString(paste("\n -", misspelled, "->", wordlist[word])),
