@@ -80,7 +80,7 @@ check_subject_ids <- function(data,
 
   # detect subject IDs where the number of characters is not as expected
   if (!is.null(nchar)) {
-    bad_rows <- c(bad_rows, which(!nchar(data[[target_columns]]) == nchar))
+    bad_rows <- c(bad_rows, which(nchar(data[[target_columns]]) != nchar))
   }
 
   # when all subject ids comply with the expected format,

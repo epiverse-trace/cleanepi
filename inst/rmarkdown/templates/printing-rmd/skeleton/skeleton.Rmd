@@ -478,7 +478,7 @@ reactable::reactable(
 #### Missing ids
 
 ```{r missing_ids, eval=are_missing_ids}
-missing_ids <- data.frame(toString(missing_ids))
+missing_ids <- data.frame(toString(missing_ids), stringsAsFactors = FALSE)
 colnames(missing_ids) <- "row indices"
 row.names(missing_ids) <- "missing ids"
 reactable::reactable(
@@ -535,7 +535,10 @@ reactable::reactable(
 ### Columns converted into numeric {.tabset}
 
 ```{r cols_converted_to_num, eval=are_converted_into_numeric}
-converted_into_numeric <- data.frame(toString(converted_into_numeric))
+converted_into_numeric <- data.frame(
+  toString(converted_into_numeric),
+  stringsAsFactors = FALSE
+)
 names(converted_into_numeric) <- "columns converted into numeric"
 reactable::reactable(
   converted_into_numeric,
