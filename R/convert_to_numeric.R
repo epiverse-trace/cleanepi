@@ -73,7 +73,7 @@ convert_to_numeric <- function(data, target_columns = NULL,
   data <- add_to_report(
     x = data,
     key = "converted_into_numeric",
-    value = toString(target_columns)
+    value = target_columns
   )
   return(data)
 }

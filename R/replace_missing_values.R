@@ -48,7 +48,7 @@ replace_missing_values <- function(data,
     data <- add_to_report(
       x = data,
       key = "missing_values_replaced_at",
-      value = toString(cols)
+      value = cols
     )
   } else {
     cli::cli_inform(c(
