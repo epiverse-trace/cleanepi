@@ -5,10 +5,16 @@
 \title{Clean spelling mistakes detected with approximate string matching and
 replaced with \code{wordlist}}
 \usage{
-clean_spelling_mistakes(data, wordlist, max.distance = 1, ignore.case = FALSE)
+clean_spelling_mistakes(
+  data,
+  wordlist,
+  max.distance = 1,
+  ignore.case = FALSE,
+  menu = TRUE
+)
 }
 \arguments{
-\item{data}{The input data frame or linelist}
+\item{data}{The input \code{<data.frame>} or \code{<linelist>}}
 
 \item{wordlist}{A \code{character} vector or list of words to match to cells in
 \code{data}.}
@@ -35,6 +41,13 @@ clean_spelling_mistakes(data, wordlist, max.distance = 1, ignore.case = FALSE)
 
 \item{ignore.case}{if \code{FALSE}, the pattern matching is \emph{case
       sensitive} and if \code{TRUE}, case is ignored during matching.}
+
+\item{menu}{A \code{logical} boolean to determine whether to show the user a menu
+of spelling corrections. If \code{TRUE} and using \R interactively then the
+user will have the option to review the proposed spelling changes. (This
+argument is useful for turning off the \code{\link[=menu]{menu()}} when
+\code{\link[rlang:is_interactive]{rlang::is_interactive()}} returns \code{TRUE} but not wanting to prompt the user
+e.g. \code{devtools::run_examples()}).}
 }
 \value{
 The cleaned input date according to the user-specified \code{wordlist}.
@@ -42,6 +55,14 @@ The cleaned input date according to the user-specified \code{wordlist}.
 \description{
 Clean spelling mistakes detected with approximate string matching and
 replaced with \code{wordlist}
+}
+\details{
+When used interactively (see \code{\link[=interactive]{interactive()}}) the user is presented a menu
+to ensure that the words detected using approximate string matching are not
+false positives and the user can decided whether to proceed with the
+spelling corrections. In non-interactive sessions all spelling mistakes
+detected with approximate string matching are replaced by the \code{wordlist}
+word.
 }
 \examples{
 df <- data.frame(
@@ -51,6 +72,7 @@ df <- data.frame(
 df
 clean_spelling_mistakes(
   data = df,
-  wordlist = c("confirmed", "probable", "suspected", "died", "recovered")
+  wordlist = c("confirmed", "probable", "suspected", "died", "recovered"),
+  menu = FALSE
 )
 }
