@@ -35,6 +35,9 @@
 #'   data = data,
 #'   dictionary = dictionary
 #' )
+#'
+#' # print the report
+#' print_report(cleaned_df, "misspelled_values")
 clean_using_dictionary <- function(data, dictionary) {
   checkmate::assert_data_frame(data, min.rows = 1L, min.cols = 1L,
                                null.ok = FALSE)
@@ -134,7 +137,7 @@ construct_misspelled_report <- function(misspelled_options, data) {
 dictionary_make_metadata <- function(x, field_column) {
   splits <- trimws(unlist(strsplit(x, "|", fixed = TRUE)))
   combined_splits <- lapply(splits, function(x) {
-    trimws(unlist(strsplit(x, ",", fixed = TRUE)))
+    return(trimws(unlist(strsplit(x, ",", fixed = TRUE))))
   })
   combined_splits <- do.call(rbind.data.frame, combined_splits)
   res <- data.frame(
@@ -249,10 +252,10 @@ detect_misspelled_options <- function(data, dictionary) {
 #' @keywords internal
 #'
 print_misspelled_values <- function(data, misspelled_options) {
-  for (opts in names(misspelled_options)) {
-    undefined_opts <- data[[opts]][[misspelled_options[[opts]]]] # nolint: object_usage_linter
+  for (option in names(misspelled_options)) { # nolint: return_linter
+    undefined_opts <- data[[option]][[misspelled_options[[option]]]] # nolint: object_usage_linter
     cli::cli_alert_warning(
-      tr_("Cannot replace {.val {toString(undefined_opts)}} present in column {.field {opts}} but not defined in the dictionary.") # nolint: line_length_linter
+      tr_("Cannot replace {.val {toString(undefined_opts)}} present in column {.field {option}} but not defined in the dictionary.") # nolint: line_length_linter
     )
   }
 }

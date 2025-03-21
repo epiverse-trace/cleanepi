@@ -107,6 +107,10 @@ date_convert <- function(data, cols, error_tolerance,
   # Guess the date using lubridate (for actual dates and numbers) and the
   # guesser we developed
   has_ambiguous_values <- FALSE
+
+  # declare a variable to store the reports from this operation
+  date_standardisation <- NULL
+
   old_dates <- new_dates <- data[[cols]]
   if (!inherits(data[[cols]], "Date")) {
     date_guess_res <- date_guess(
@@ -117,13 +121,10 @@ date_convert <- function(data, cols, error_tolerance,
     new_dates <- date_guess_res[["res"]]
     multi_format_dates <- date_guess_res[["multi_format"]]
     has_ambiguous_values <- date_guess_res[["found_ambiguous"]]
+
     # report the multi formatted dates if they were detected
     if (!is.null(multi_format_dates)) {
-      data <- add_to_report(
-        x = data,
-        key = "multi_format_dates",
-        value = multi_format_dates
-      )
+      date_standardisation[["multi_format_dates"]] <- multi_format_dates
     }
   }
 
@@ -135,13 +136,16 @@ date_convert <- function(data, cols, error_tolerance,
     outsiders <- res[["outsiders"]]
     # report the out of range dates
     if (!is.null(outsiders)) {
-      data <- add_to_report(
-        x = data,
-        key = "out_of_range_dates",
-        value = outsiders
-      )
+      date_standardisation[["out_of_range_dates"]] <- outsiders
     }
   }
+
+  # add to the report
+  data <- add_to_report(
+    x = data,
+    key = "date_standardization",
+    value = date_standardisation
+  )
 
   # Check whether to tolerate the amount of NA introduced during the process
   na_before <- sum(is.na(old_dates))
@@ -149,6 +153,12 @@ date_convert <- function(data, cols, error_tolerance,
   prop_successful <- (nrow(data) - na_after) / (nrow(data) - na_before)
   if (prop_successful >= (1L - error_tolerance)) {
     data[[cols]] <- new_dates
+  } else {
+    cli::cli_inform(c(
+      "!" = tr_("{.field {cols}} cannot be converted into {.cls Date} due to:"),
+      "*" = tr_("insuffisient {.cls Date} values"),
+      "*" = tr_("or a high number of values that are outside the specified time frame.") # nolint: line_length_linter
+    ))
   }
 
   return(list(
@@ -187,8 +197,11 @@ date_check_outsiders <- function(data, timeframe, new_dates, cols) {
     outsiders <- NULL
   }
   report <- attr(data, "report")
-  if ("out_of_range_dates" %in% names(report)) {
-    outsiders <- rbind(report[["out_of_range_dates"]], outsiders)
+  if ("date_standardization" %in% names(report)) {
+    outsiders <- rbind(
+      report[["date_standardization"]][["out_of_range_dates"]],
+      outsiders
+    )
   }
 
   return(list(new_date = new_dates[["new_dates"]], outsiders = outsiders))
@@ -222,6 +235,9 @@ date_guess_convert <- function(data, error_tolerance, timeframe,
   of_interest <- c(are_characters, are_factors, are_dates, are_posix)
   multi_format_dates <- NULL
 
+  # declare a variable to store the reports from this operation
+  date_standardisation <- NULL
+
   # set the variable to store the ambiguous column
   ambiguous_cols <- NULL
   for (i in names(of_interest)) {
@@ -246,11 +262,8 @@ date_guess_convert <- function(data, error_tolerance, timeframe,
     if (!is.null(timeframe)) {
       res <- date_check_outsiders(data, timeframe, new_dates, i)
       new_dates <- res[["new_date"]]
-      data <- add_to_report(
-        x = data,
-        key = "out_of_range_dates",
-        value = res[["outsiders"]]
-      )
+      # report the out of range dates
+      date_standardisation[["out_of_range_dates"]] <- res[["outsiders"]]
     }
 
     # Check whether to tolerate the amount of NA introduced during the process
@@ -265,12 +278,15 @@ date_guess_convert <- function(data, error_tolerance, timeframe,
   # report the multi formatted dates
   if (!is.null(multi_format_dates)) {
     multi_format_dates <- dplyr::bind_rows(multi_format_dates)
-    data <- add_to_report(
-      x = data,
-      key = "multi_format_dates",
-      value = multi_format_dates
-    )
+    date_standardisation[["multi_format_dates"]] <- multi_format_dates
   }
+
+  # add to the report
+  data <- add_to_report(
+    x = data,
+    key = "date_standardization",
+    value = date_standardisation
+  )
 
   return(list(
     data = data,
@@ -309,8 +325,8 @@ date_detect_complex_format <- function(x) {
   if (all(is.null(c(f1, f2)))) {
     return(NULL)
   }
-  format <- paste(c(f1, f2), collapse = tmp_sep)
-  return(format)
+  form <- paste(c(f1, f2), collapse = tmp_sep)
+  return(form)
 }
 
 #' Detect a date format with only 1 separator
@@ -458,9 +474,9 @@ date_get_format <- function(x) {
 
   # when there is a missing value (NA) or a shorter element in the list, repeat
   # complete it with NA to get the same length across all elements of the list
-  lengths <- as.numeric(lapply(tmp_list, length))
+  list_elt_lengths <- as.numeric(lapply(tmp_list, length))
   add_na <- function(y, n) return(c(y, rep(NA, n - length(y))))
-  tmp_list <- lapply(tmp_list, add_na, max(lengths))
+  tmp_list <- lapply(tmp_list, add_na, max(list_elt_lengths))
 
   # split all elements of the list based on "-" and store the different parts
   # in separate object. Each part is subjected to the date guesser:
@@ -497,8 +513,8 @@ date_get_format <- function(x) {
   f1 <- if (all(is.na(part1))) NA else date_detect_format(part1)
   f2 <- if (all(is.na(part2))) NA else date_detect_format(part2)
   f3 <- if (all(is.na(part3))) NA else date_detect_format(part3)
-  format <- date_make_format(f1, f2, f3)
-  return(format)
+  form <- date_make_format(f1, f2, f3)
+  return(form)
 }
 
 #' Build the auto-detected format
@@ -522,12 +538,11 @@ date_make_format <- function(f1, f2, f3) {
   if (verdict) {
     return(NULL)
   }
-  format <- NULL
   idx <- which(is.na(c(f1, f2, f3)))
   if (length(idx) == 0L) {
-    format <- paste0(format, f1, "-", f2, "-", f3)
+    return(paste0(f1, "-", f2, "-", f3))
   } else if (idx == 3L) {
-    format <- paste0(format, f1, "-", f2)
+    return(paste0(f1, "-", f2))
   } else {
     return(NULL)
   }

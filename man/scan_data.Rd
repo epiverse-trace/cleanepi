@@ -8,7 +8,7 @@
 scan_data(data)
 }
 \arguments{
-\item{data}{A \code{<data.frame>} or \code{<linelist>}}
+\item{data}{The input \code{<data.frame>} or \code{<linelist>}}
 }
 \value{
 A \code{<data.frame>} if the input data contains columns of type
@@ -46,7 +46,7 @@ sum of counts across rows in the scanning result may exceed 1.
 Remaining values are categorized as \code{<character>}.
 }
 \examples{
-# scan through a data frame of characters
+# scan through a data frame of character columns only
 scan_result <- scan_data(
   data = readRDS(
     system.file("extdata", "messy_data.RDS", package = "cleanepi")

@@ -46,4 +46,7 @@ cleaned_df <- clean_using_dictionary(
   data = data,
   dictionary = dictionary
 )
+
+# print the report
+print_report(cleaned_df, "misspelled_values")
 }

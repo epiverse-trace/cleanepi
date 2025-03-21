@@ -35,6 +35,12 @@
 #'   rename = c(DOB = "dateOfBirth", gender = "sex")
 #' )
 #'
+#' # print the report
+#' print_report(
+#'   data = cleaned_data,
+#'   what = "colnames"
+#' )
+#'
 standardize_column_names <- function(data, keep = NULL, rename = NULL) {
   checkmate::assert_vector(keep, min.len = 0L, max.len = ncol(data),
                            null.ok = TRUE,
@@ -128,8 +134,8 @@ standardize_column_names <- function(data, keep = NULL, rename = NULL) {
 make_unique_column_names <- function(after, kept, before, rename) {
   # detect those that are similar to the ones we want to keep or rename
   # make them unique
-  t <- table(after)
-  duplicates <- names(t[t > 1])
+  tab <- table(after)
+  duplicates <- names(tab[tab > 1])
 
   # do not proceed if there is no duplicates
   if (length(duplicates) == 0) {
@@ -156,7 +162,7 @@ make_unique_column_names <- function(after, kept, before, rename) {
       are_numeric <- suppressWarnings(
         as.numeric(
           lapply(splits[idx], function(x) {
-            unlist(x)[[2]]
+            return(unlist(x)[[2]])
           })
         )
       )
@@ -171,7 +177,7 @@ make_unique_column_names <- function(after, kept, before, rename) {
         reference <- max(are_numeric, na.rm = TRUE)
         add <- seq_len(sum(sizes == 1) + 1)
         after[are_duplicates][sizes == 1] <- paste0(
-          dup, "_", add[!(add == reference)]
+          dup, "_", add[add != reference]
         )
       }
     }

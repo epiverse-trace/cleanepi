@@ -9,18 +9,23 @@ test_that("remove_duplicates works with 'linelist_tags'", {
   )
   expect_s3_class(no_dups, "data.frame")
   expect_false(nrow(no_dups) == nrow(data))
-  expect_true(ncol(no_dups) == ncol(data))
 
   report <- attr(no_dups, "report")
   expect_type(report, "list")
-  expect_length(report, 3L)
-  expect_named(report, c("duplicated_rows", "duplicates_checked_from",
-                         "removed_duplicates"))
-  expect_true(inherits(report[["duplicated_rows"]], "data.frame"))
+  expect_length(report, 2)
+  expect_named(report, c("found_duplicates", "removed_duplicates"))
+  expect_true(inherits(
+    report[["found_duplicates"]][["duplicated_rows"]],
+    "data.frame"
+  ))
   expect_true(inherits(report[["removed_duplicates"]], "data.frame"))
-  expect_type(report[["duplicates_checked_from"]], "character")
-  expect_true(all(c("row_id", "group_id") %in%
-                    colnames(report[["duplicated_rows"]])))
+  expect_type(
+    report[["found_duplicates"]][["duplicates_checked_from"]],
+    "character"
+  )
+  expect_true(
+    all(c("row_id", "group_id") %in%
+          colnames(report[["found_duplicates"]][["duplicated_rows"]])))
   expect_false("group_id" %in% colnames(report[["removed_duplicates"]]))
 })
 
@@ -35,14 +40,21 @@ test_that("remove_duplicates works with 'linelist_tags'", {
 
   report <- attr(no_dups, "report")
   expect_type(report, "list")
-  expect_length(report, 3L)
-  expect_named(report, c("duplicated_rows", "duplicates_checked_from",
-                         "removed_duplicates"))
-  expect_true(inherits(report[["duplicated_rows"]], "data.frame"))
+  expect_length(report, 2)
+  expect_named(report, c("found_duplicates", "removed_duplicates"))
+  expect_true(inherits(
+    report[["found_duplicates"]][["duplicated_rows"]],
+    "data.frame"
+  ))
   expect_true(inherits(report[["removed_duplicates"]], "data.frame"))
-  expect_type(report[["duplicates_checked_from"]], "character")
-  expect_true(all(c("row_id", "group_id") %in%
-                    colnames(report[["duplicated_rows"]])))
+  expect_type(
+    report[["found_duplicates"]][["duplicates_checked_from"]],
+    "character"
+  )
+  expect_true(
+    all(c("row_id", "group_id") %in%
+          colnames(report[["found_duplicates"]][["duplicated_rows"]]))
+  )
   expect_false("group_id" %in% colnames(report[["removed_duplicates"]]))
 })
 
@@ -53,11 +65,19 @@ test_that("find_duplicates works with a vector of column names", {
   )
   report <- attr(dups, "report")
   expect_type(report, "list")
-  expect_length(report, 2L)
-  expect_true(inherits(report[["duplicated_rows"]], "data.frame"))
-  expect_type(report[["duplicates_checked_from"]], "character")
-  expect_true(all(c("row_id", "group_id") %in%
-                    colnames(report[["duplicated_rows"]])))
+  expect_length(report, 1)
+  expect_true(inherits(
+    report[["found_duplicates"]][["duplicated_rows"]],
+    "data.frame"
+  ))
+  expect_type(
+    report[["found_duplicates"]][["duplicates_checked_from"]],
+    "character"
+  )
+  expect_true(
+    all(c("row_id", "group_id") %in%
+          colnames(report[["found_duplicates"]][["duplicated_rows"]]))
+  )
 })
 
 test_that("find_duplicates works with 'linelist_tags'", {
@@ -67,11 +87,19 @@ test_that("find_duplicates works with 'linelist_tags'", {
   )
   report <- attr(dups, "report")
   expect_type(report, "list")
-  expect_length(report, 2L)
-  expect_true(inherits(report[["duplicated_rows"]], "data.frame"))
-  expect_type(report[["duplicates_checked_from"]], "character")
-  expect_true(all(c("row_id", "group_id") %in%
-                    colnames(report[["duplicated_rows"]])))
+  expect_length(report, 1)
+  expect_true(inherits(
+    report[["found_duplicates"]][["duplicated_rows"]],
+    "data.frame"
+  ))
+  expect_type(
+    report[["found_duplicates"]][["duplicates_checked_from"]],
+    "character"
+  )
+  expect_true(
+    all(c("row_id", "group_id") %in%
+          colnames(report[["found_duplicates"]][["duplicated_rows"]]))
+  )
 })
 
 test_that("find_duplicates works when target_columns = NULL", {
