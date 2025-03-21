@@ -420,7 +420,10 @@ reactable::reactable(
 ### Missing value replaced with NA
 
 ```{r use_na, eval=are_missing_values_replaced}
-missing_values_replaced_at <- data.frame(toString(missing_values_replaced_at))
+missing_values_replaced_at <- data.frame(
+  toString(missing_values_replaced_at),
+  stringsAsFactors = FALSE
+)
 names(missing_values_replaced_at) <- "missing values replaced with NA at"
 reactable::reactable(
   missing_values_replaced_at,
