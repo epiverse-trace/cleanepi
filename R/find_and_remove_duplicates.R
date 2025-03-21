@@ -53,8 +53,8 @@ remove_duplicates <- function(data, target_columns = NULL) {
   if ("duplicated_rows" %in% names(tmp_report) &&
       nrow(tmp_report[["duplicated_rows"]]) > 0L) {
     tmp_target_columns <- c("row_id", target_columns)
-    to_be_removed <- suppressMessages(dplyr::anti_join(dups, dat) %>%
-        dplyr::select({{ tmp_target_columns }}))
+    to_be_removed <- suppressMessages(dplyr::anti_join(dups, dat)) %>%
+        dplyr::select({{ tmp_target_columns }})
     report[["removed_duplicates"]] <- to_be_removed
   }
 
