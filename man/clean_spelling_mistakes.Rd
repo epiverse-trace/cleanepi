@@ -10,7 +10,7 @@ clean_spelling_mistakes(
   wordlist,
   max.distance = 1,
   ignore.case = FALSE,
-  menu = TRUE
+  confirm = TRUE
 )
 }
 \arguments{
@@ -42,8 +42,8 @@ clean_spelling_mistakes(
 \item{ignore.case}{if \code{FALSE}, the pattern matching is \emph{case
       sensitive} and if \code{TRUE}, case is ignored during matching.}
 
-\item{menu}{A \code{logical} boolean to determine whether to show the user a menu
-of spelling corrections. If \code{TRUE} and using \R interactively then the
+\item{confirm}{A \code{logical} boolean to determine whether to show the user a
+menu of spelling corrections. If \code{TRUE} and using \R interactively then the
 user will have the option to review the proposed spelling changes. (This
 argument is useful for turning off the \code{\link[=menu]{menu()}} when
 \code{\link[rlang:is_interactive]{rlang::is_interactive()}} returns \code{TRUE} but not wanting to prompt the user
@@ -73,6 +73,6 @@ df
 clean_spelling_mistakes(
   data = df,
   wordlist = c("confirmed", "probable", "suspected", "died", "recovered"),
-  menu = FALSE
+  confirm = FALSE
 )
 }
