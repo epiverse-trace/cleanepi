@@ -420,9 +420,8 @@ reactable::reactable(
 ### Missing value replaced with NA
 
 ```{r use_na, eval=are_missing_values_replaced}
-missing_values_replaced_at <- glue::glue_collapse(missing_values_replaced_at,
-                                                  sep = ", ")
-missing_values_replaced_at <- data.frame(missing_values_replaced_at)
+missing_values_replaced_at <- data.frame(toString(missing_values_replaced_at))
+names(missing_values_replaced_at) <- "missing values replaced with NA at"
 reactable::reactable(
   missing_values_replaced_at,
   sortable   = FALSE,
@@ -479,8 +478,8 @@ reactable::reactable(
 #### Missing ids
 
 ```{r missing_ids, eval=are_missing_ids}
-missing_ids            <- data.frame(missing_ids)
-colnames(missing_ids)  <- "row indices"
+missing_ids <- data.frame(toString(missing_ids))
+colnames(missing_ids) <- "row indices"
 row.names(missing_ids) <- "missing ids"
 reactable::reactable(
   missing_ids,
@@ -533,5 +532,22 @@ reactable::reactable(
 )
 ```
 
+### Columns converted into numeric {.tabset}
+
+```{r cols_converted_to_num, eval=are_converted_into_numeric}
+converted_into_numeric <- data.frame(toString(converted_into_numeric))
+names(converted_into_numeric) <- "columns converted into numeric"
+reactable::reactable(
+  converted_into_numeric,
+  sortable   = FALSE,
+  filterable = FALSE,
+  searchable = FALSE,
+  pagination = FALSE,
+  rownames   = FALSE,
+  striped    = TRUE,
+  compact    = TRUE,
+  fullWidth  = TRUE
+)
+```
 
 ## Aggregated data {.tabset}
