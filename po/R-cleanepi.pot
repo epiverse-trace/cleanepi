@@ -2,10 +2,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cleanepi 1.1.0.9000\n"
 <<<<<<< HEAD
+<<<<<<< HEAD
 "POT-Creation-Date: 2025-07-03 18:01+0000\n"
 =======
 "POT-Creation-Date: 2025-03-14 12:53+0000\n"
 >>>>>>> fb96030 (update message translation files)
+=======
+"POT-Creation-Date: 2025-03-27 13:55+0000\n"
+>>>>>>> 94a0cd9 (translate added messages into French)
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -15,15 +19,20 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 #: check_date_sequence.R:64
 =======
 #: check_date_sequence.R:58
 >>>>>>> fb96030 (update message translation files)
+=======
+#: check_date_sequence.R:58
+>>>>>>> 94a0cd9 (translate added messages into French)
 msgid ""
 "Found the following unrecognised column name{?s}: {.field "
 "{target_columns[missing_cols]}}."
 msgstr ""
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 #: check_date_sequence.R:72
 msgid "Insufficient number of columns to compare."
@@ -37,10 +46,18 @@ msgstr ""
 
 #: check_date_sequence.R:67
 >>>>>>> fb96030 (update message translation files)
+=======
+#: check_date_sequence.R:66
+msgid "Insufficient number of columns to compare."
+msgstr ""
+
+#: check_date_sequence.R:67
+>>>>>>> 94a0cd9 (translate added messages into French)
 msgid ""
 "At least two columns of type {.cls Date} are required for this operation."
 msgstr ""
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 #: check_date_sequence.R:74
 msgid "Have you provided an invalid column name?"
@@ -73,16 +90,31 @@ msgstr ""
 
 #: check_date_sequence.R:101
 >>>>>>> fb96030 (update message translation files)
+=======
+#: check_date_sequence.R:68
+msgid "Have you provided an invalid column name?"
+msgstr ""
+
+#: check_date_sequence.R:81
+msgid "No incorrect date sequence was detected."
+msgstr ""
+
+#: check_date_sequence.R:101
+>>>>>>> 94a0cd9 (translate added messages into French)
 msgid ""
 "Detected {.val {length(bad_order)}} incorrect date sequence{?s} at line{?s}: "
 "{.val {toString(bad_order)}}."
 msgstr ""
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 #: check_date_sequence.R:127
 =======
 #: check_date_sequence.R:102
 >>>>>>> fb96030 (update message translation files)
+=======
+#: check_date_sequence.R:102
+>>>>>>> 94a0cd9 (translate added messages into French)
 msgid ""
 "Enter {.code print_report(data = dat, \"incorrect_date_sequence\")} to "
 "access them, where {.val dat} is the object used to store the output from "
@@ -163,16 +195,21 @@ msgid ""
 msgstr ""
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 #: column_name_standardization.R:65
 =======
 #: column_name_standardization.R:59
 >>>>>>> fb96030 (update message translation files)
+=======
+#: column_name_standardization.R:59
+>>>>>>> 94a0cd9 (translate added messages into French)
 msgid ""
 "Cannot rename {cli::qty(length(incorrect_col_names))} {?an/ } unrecognised "
 "column name{?s} specified in {.emph rename} argument: {.val "
 "{toString(incorrect_col_names)}}."
 msgstr ""
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 #: column_name_standardization.R:66
 msgid "Make sure that the columns to be renamed are part of the input data."
@@ -186,21 +223,33 @@ msgstr ""
 
 #: column_name_standardization.R:61
 >>>>>>> fb96030 (update message translation files)
+=======
+#: column_name_standardization.R:60
+msgid "Make sure that the columns to be renamed are part of the input data."
+msgstr ""
+
+#: column_name_standardization.R:61
+>>>>>>> 94a0cd9 (translate added messages into French)
 msgid ""
 "To rename columns, use: {.emph rename = c(new_name1 = 'old_name1', new_name2 "
 "= 'old_name2')}."
 msgstr ""
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 #: column_name_standardization.R:75
 =======
 #: column_name_standardization.R:69
 >>>>>>> fb96030 (update message translation files)
+=======
+#: column_name_standardization.R:69
+>>>>>>> 94a0cd9 (translate added messages into French)
 msgid ""
 "The provided replace column {cli::qty(length(existing_cols))} name{?s} "
 "already exist."
 msgstr ""
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 #: column_name_standardization.R:76
 msgid "All new names must be different from existing column names."
@@ -214,11 +263,19 @@ msgstr ""
 
 #: column_name_standardization.R:71
 >>>>>>> fb96030 (update message translation files)
+=======
+#: column_name_standardization.R:70
+msgid "All new names must be different from existing column names."
+msgstr ""
+
+#: column_name_standardization.R:71
+>>>>>>> 94a0cd9 (translate added messages into French)
 msgid ""
 "You must use {cli::qty(length(existing_cols))} {?a/ } different name{?s} for "
 "the following column{?s}: {.field {toString(existing_cols)}}."
 msgstr ""
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 #: convert_to_numeric.R:48
 msgid "Automatic detection of columns to convert into numeric failed."
@@ -240,21 +297,37 @@ msgstr ""
 
 #: convert_to_numeric.R:44 convert_to_numeric.R:66
 >>>>>>> fb96030 (update message translation files)
+=======
+#: convert_to_numeric.R:42
+msgid "Automatic detection of columns to convert into numeric failed."
+msgstr ""
+
+#: convert_to_numeric.R:43
+msgid "No character column with numeric values found by {.fn scan_data}."
+msgstr ""
+
+#: convert_to_numeric.R:44 convert_to_numeric.R:66
+>>>>>>> 94a0cd9 (translate added messages into French)
 msgid ""
 "Please specify names of the columns to convert into numeric using {.emph "
 "target_columns}."
 msgstr ""
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 #: convert_to_numeric.R:70
 =======
 #: convert_to_numeric.R:64
 >>>>>>> fb96030 (update message translation files)
+=======
+#: convert_to_numeric.R:64
+>>>>>>> 94a0cd9 (translate added messages into French)
 msgid ""
 "Found one or more columns with insuffisient numeric values for automatic "
 "conversion."
 msgstr ""
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 #: convert_to_numeric.R:71
 msgid ""
@@ -272,6 +345,16 @@ msgstr ""
 
 #: convert_to_numeric.R:115
 msgid "Converting characters into numeric"
+=======
+#: convert_to_numeric.R:65
+msgid ""
+"The percentage of character values must be less than twice the numeric "
+"values for a column to be considered for automatic conversion."
+msgstr ""
+
+#: convert_to_numeric.R:107
+msgid "Found {.val {num_values}} numeric value{?s} in {.field {col}}."
+>>>>>>> 94a0cd9 (translate added messages into French)
 msgstr ""
 
 #: convert_to_numeric.R:116
@@ -295,17 +378,24 @@ msgid "Converting characters into numeric"
 msgstr ""
 
 #: convert_to_numeric.R:110
+<<<<<<< HEAD
 >>>>>>> fb96030 (update message translation files)
+=======
+>>>>>>> 94a0cd9 (translate added messages into French)
 msgid ""
 "Replacing the numeric values by {.val NA} using the {.fn "
 "replace_missing_values} function."
 msgstr ""
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 #: convert_to_numeric.R:123
 =======
 #: convert_to_numeric.R:117
 >>>>>>> fb96030 (update message translation files)
+=======
+#: convert_to_numeric.R:117
+>>>>>>> 94a0cd9 (translate added messages into French)
 msgid ""
 "The following column{?s} will be converted into numeric: {.field "
 "{to_numeric}}."
@@ -322,6 +412,7 @@ msgid ""
 "31, 2024)."
 msgstr ""
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 #: date_standardization_helpers.R:158
 msgid "{.field {cols}} cannot be converted into {.cls Date} due to:"
@@ -355,11 +446,23 @@ msgstr ""
 
 #: date_standardization_helpers.R:414
 >>>>>>> fb96030 (update message translation files)
+=======
+#: date_standardization_helpers.R:412
+msgid "Expected values with the same format."
+msgstr ""
+
+#: date_standardization_helpers.R:413
+msgid "You've tried to convert values in different formats into {.cls Date}."
+msgstr ""
+
+#: date_standardization_helpers.R:414
+>>>>>>> 94a0cd9 (translate added messages into French)
 msgid ""
 "Please specify the formats encountered in your column of interest via the {."
 "emph format} argument."
 msgstr ""
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 #: date_standardization_helpers.R:570
 msgid "Unexpected data type provided to {.fn date_guess} function."
@@ -373,20 +476,32 @@ msgstr ""
 
 #: date_standardization_helpers.R:557
 >>>>>>> fb96030 (update message translation files)
+=======
+#: date_standardization_helpers.R:556
+msgid "Unexpected data type provided to {.fn date_guess} function."
+msgstr ""
+
+#: date_standardization_helpers.R:557
+>>>>>>> 94a0cd9 (translate added messages into French)
 msgid ""
 "You can convert the values into {.cls character} to enable format guessing."
 msgstr ""
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 #: date_standardization_helpers.R:572
 =======
 #: date_standardization_helpers.R:558
 >>>>>>> fb96030 (update message translation files)
+=======
+#: date_standardization_helpers.R:558
+>>>>>>> 94a0cd9 (translate added messages into French)
 msgid ""
 "You've tried to guess the date format from values of type other than Date "
 "and character."
 msgstr ""
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 #: date_standardization_helpers.R:592
 msgid "Unable to match formats to target columns."
@@ -400,25 +515,40 @@ msgstr ""
 
 #: date_standardization_helpers.R:579
 >>>>>>> fb96030 (update message translation files)
+=======
+#: date_standardization_helpers.R:578
+msgid "Unable to match formats to target columns."
+msgstr ""
+
+#: date_standardization_helpers.R:579
+>>>>>>> 94a0cd9 (translate added messages into French)
 msgid ""
 "The number of target columns does not match the number of specified formats."
 msgstr ""
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 #: date_standardization_helpers.R:594
 =======
 #: date_standardization_helpers.R:580
 >>>>>>> fb96030 (update message translation files)
+=======
+#: date_standardization_helpers.R:580
+>>>>>>> 94a0cd9 (translate added messages into French)
 msgid ""
 "Only one format is needed if all target columns contain values of the same "
 "format. Otherwise, one format per target column must be provided."
 msgstr ""
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 #: date_standardization_helpers.R:599
 =======
 #: date_standardization_helpers.R:585
 >>>>>>> fb96030 (update message translation files)
+=======
+#: date_standardization_helpers.R:585
+>>>>>>> 94a0cd9 (translate added messages into French)
 msgid ""
 "The target {cli::qty(length(target_columns))} column{?s} will be "
 "standardized using the format: {.val {format}}."
@@ -443,6 +573,7 @@ msgid "Run {.fn get_default_params} to display the list of default parameters."
 msgstr ""
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 #: dictionary_based_cleaning.R:52
 msgid "Incorrect data dictionary format."
 msgstr ""
@@ -455,40 +586,60 @@ msgstr ""
 
 #: dictionary_based_cleaning.R:50
 >>>>>>> fb96030 (update message translation files)
+=======
+#: dictionary_based_cleaning.R:49
+msgid "Incorrect data dictionary format."
+msgstr ""
+
+#: dictionary_based_cleaning.R:50
+>>>>>>> 94a0cd9 (translate added messages into French)
 msgid ""
 "The value for the {.emph dictionary} argument must be a {.cls data.frame} "
 "with the following columns: {.field {toString(all_columns)}}."
 msgstr ""
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 #: dictionary_based_cleaning.R:54
 =======
 #: dictionary_based_cleaning.R:51
 >>>>>>> fb96030 (update message translation files)
+=======
+#: dictionary_based_cleaning.R:51
+>>>>>>> 94a0cd9 (translate added messages into French)
 msgid ""
 "The following columns are mandatory: {.field {toString(mandatory_columns)}}."
 msgstr ""
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 #: dictionary_based_cleaning.R:62
 =======
 #: dictionary_based_cleaning.R:59
 >>>>>>> fb96030 (update message translation files)
+=======
+#: dictionary_based_cleaning.R:59
+>>>>>>> 94a0cd9 (translate added messages into French)
 msgid ""
 "Incorrect column names specified in column {.field grp} of the data "
 "dictionary."
 msgstr ""
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 #: dictionary_based_cleaning.R:63
 =======
 #: dictionary_based_cleaning.R:60
 >>>>>>> fb96030 (update message translation files)
+=======
+#: dictionary_based_cleaning.R:60
+>>>>>>> 94a0cd9 (translate added messages into French)
 msgid ""
 "Values in {.field grp} column of the data dictionary must be found in the "
 "input data frame."
 msgstr ""
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 #: dictionary_based_cleaning.R:64
 msgid "Did you enter an incorrect column name?"
@@ -510,26 +661,45 @@ msgstr ""
 
 #: dictionary_based_cleaning.R:73
 >>>>>>> fb96030 (update message translation files)
+=======
+#: dictionary_based_cleaning.R:61
+msgid "Did you enter an incorrect column name?"
+msgstr ""
+
+#: dictionary_based_cleaning.R:72
+msgid "You can either:"
+msgstr ""
+
+#: dictionary_based_cleaning.R:73
+>>>>>>> 94a0cd9 (translate added messages into French)
 msgid ""
 "correct the misspelled {cli::qty(length(misspelled_options))} option{?s} "
 "from the input data, or"
 msgstr ""
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 #: dictionary_based_cleaning.R:77
 =======
 #: dictionary_based_cleaning.R:74
 >>>>>>> fb96030 (update message translation files)
+=======
+#: dictionary_based_cleaning.R:74
+>>>>>>> 94a0cd9 (translate added messages into French)
 msgid ""
 "add {cli::qty(length(misspelled_options))} {?it/them} to the dictionary "
 "using the {.fn add_to_dictionary} function."
 msgstr ""
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 #: dictionary_based_cleaning.R:258
 =======
 #: dictionary_based_cleaning.R:255
 >>>>>>> fb96030 (update message translation files)
+=======
+#: dictionary_based_cleaning.R:255
+>>>>>>> 94a0cd9 (translate added messages into French)
 msgid ""
 "Cannot replace {.val {toString(undefined_opts)}} present in column {.field "
 "{option}} but not defined in the dictionary."
@@ -560,6 +730,7 @@ msgid ""
 msgstr ""
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 #: print_report.R:121
 msgid "No report associated with the input data."
 msgstr ""
@@ -572,21 +743,33 @@ msgstr ""
 
 #: print_report.R:82
 >>>>>>> fb96030 (update message translation files)
+=======
+#: print_report.R:81
+msgid "No report associated with the input data."
+msgstr ""
+
+#: print_report.R:82
+>>>>>>> 94a0cd9 (translate added messages into French)
 msgid ""
 "At least one data cleaning operation must be applied to the data before "
 "calling {.fn print_report}."
 msgstr ""
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 #: print_report.R:123
 =======
 #: print_report.R:83
 >>>>>>> fb96030 (update message translation files)
+=======
+#: print_report.R:83
+>>>>>>> 94a0cd9 (translate added messages into French)
 msgid ""
 "The list of functions in {.pkg cleanepi} can be found at: {.url https://"
 "epiverse-trace.github.io/cleanepi/reference/index.html}."
 msgstr ""
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 #: print_report.R:128
 msgid "Incorrect value provided for {.emph format} argument!"
@@ -616,16 +799,35 @@ msgstr ""
 
 #: remove_constants.R:124
 >>>>>>> fb96030 (update message translation files)
+=======
+#: print_report.R:88
+msgid "Incorrect value provided for {.emph format} argument!"
+msgstr ""
+
+#: print_report.R:89
+msgid "Only {.val html} format is currently supported."
+msgstr ""
+
+#: print_report.R:115
+msgid "Generating html report in {.file {temp_dir}}."
+msgstr ""
+
+#: remove_constants.R:124
+>>>>>>> 94a0cd9 (translate added messages into French)
 msgid ""
 "Constant data was removed after {.val {nrow(constant_data_report)}} "
 "iteration{?s}."
 msgstr ""
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 #: remove_constants.R:124
 =======
 #: remove_constants.R:125
 >>>>>>> fb96030 (update message translation files)
+=======
+#: remove_constants.R:125
+>>>>>>> 94a0cd9 (translate added messages into French)
 msgid ""
 "Enter {.code print_report(dat, \"constant_data\")} for more information, "
 "where {.val dat} represents the object used to store the output from {.fn "
@@ -633,20 +835,28 @@ msgid ""
 msgstr ""
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 #: replace_missing_values.R:61
 =======
 #: replace_missing_values.R:55
 >>>>>>> fb96030 (update message translation files)
+=======
+#: replace_missing_values.R:55
+>>>>>>> 94a0cd9 (translate added messages into French)
 msgid ""
 "Could not detect the provided missing value {cli::qty(length(na_strings))} "
 "character{?s}."
 msgstr ""
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 #: replace_missing_values.R:62
 =======
 #: replace_missing_values.R:56
 >>>>>>> fb96030 (update message translation files)
+=======
+#: replace_missing_values.R:56
+>>>>>>> 94a0cd9 (translate added messages into French)
 msgid ""
 "Does your data contain missing value characters other than the specified "
 "ones?"
@@ -668,6 +878,7 @@ msgid ""
 msgstr ""
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 #: standardize_date.R:205
 msgid ""
 "Detected {.val {cli::no(num_multi_format_dates)}} value{?s} that {cli::"
@@ -687,37 +898,56 @@ msgstr ""
 =======
 #: standardize_date.R:186
 >>>>>>> fb96030 (update message translation files)
+=======
+#: standardize_date.R:190
+>>>>>>> 94a0cd9 (translate added messages into French)
 msgid ""
 "Found {.cls numeric} values that could also be of type {.cls Date} in {cli::"
 "qty(length(ambiguous_cols))} column{?s}: {.field {toString(ambiguous_cols)}}."
 msgstr ""
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 #: standardize_date.R:213
 =======
 #: standardize_date.R:187
 >>>>>>> fb96030 (update message translation files)
+=======
+#: standardize_date.R:191
+>>>>>>> 94a0cd9 (translate added messages into French)
 msgid ""
 "It is possible to convert them into {.cls Date} using: {.code lubridate::"
 "as_date(x, origin = as.Date(\"1900-01-01\"))}"
 msgstr ""
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 #: standardize_date.R:214
 =======
 #: standardize_date.R:188
 >>>>>>> fb96030 (update message translation files)
+=======
+#: standardize_date.R:192
+>>>>>>> 94a0cd9 (translate added messages into French)
 msgid ""
 "where {.val x} represents here the vector of values from these columns ({."
 "code data$target_column})."
 msgstr ""
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 #: standardize_subject_ids.R:109
 msgid "No incorrect subject id was detected."
 msgstr ""
 
 #: standardize_subject_ids.R:142
+=======
+#: standardize_subject_ids.R:90
+msgid "No incorrect subject id was detected."
+msgstr ""
+
+#: standardize_subject_ids.R:103
+>>>>>>> 94a0cd9 (translate added messages into French)
 msgid ""
 "Detected {.val {cli::no({num_missing_ids})}} missing, {.val {cli::"
 "no({num_duplicated_ids})}} duplicated, and {.val {cli::"
@@ -725,6 +955,7 @@ msgid ""
 "IDs."
 msgstr ""
 
+<<<<<<< HEAD
 #: standardize_subject_ids.R:143
 =======
 #: standardize_subject_ids.R:120
@@ -751,41 +982,86 @@ msgstr ""
 =======
 #: standardize_subject_ids.R:152
 >>>>>>> fb96030 (update message translation files)
+=======
+#: standardize_subject_ids.R:104
+>>>>>>> 94a0cd9 (translate added messages into French)
 msgid ""
 "You can use the {.fn correct_subject_ids} function to correct {cli::"
 "qty(length(bad_rows))} {?it/them}."
 msgstr ""
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 #: standardize_subject_ids.R:246
 =======
 #: standardize_subject_ids.R:254
 >>>>>>> fb96030 (update message translation files)
+=======
+#: standardize_subject_ids.R:166
+>>>>>>> 94a0cd9 (translate added messages into French)
 msgid ""
 "Some IDs specified in the correction table were not found in the input data."
 msgstr ""
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 #: standardize_subject_ids.R:247
 =======
 #: standardize_subject_ids.R:255
 >>>>>>> fb96030 (update message translation files)
+=======
+#: standardize_subject_ids.R:167
+>>>>>>> 94a0cd9 (translate added messages into French)
 msgid ""
 "Values in the {.field from} column of the correction table must be part of "
 "the detected incorrect subject IDs."
 msgstr ""
 
+<<<<<<< HEAD
 #: utils.R:133
+=======
+#: standardize_subject_ids.R:196
+msgid ""
+"Missing {cli::qty(length(idx))} value{?s} found in {.field {id_col_name}} "
+"column at line{?s}: {.val {toString(idx)}}."
+msgstr ""
+
+#: standardize_subject_ids.R:213
+msgid "Found {.val {num_dup_rows}} duplicated value{?s} in the subject Ids."
+msgstr ""
+
+#: standardize_subject_ids.R:214
+msgid ""
+"Enter {.code attr(dat, \"report\")[[\"duplicated_rows\"]]} to access them, "
+"where {.val dat} is the object used to store the output from this operation."
+msgstr ""
+
+#: utils.R:107
+msgid "`value` to add to `report` attribute cannot be NULL."
+msgstr ""
+
+#: utils.R:108
+msgid ""
+"Please specify an object to {.emph value} to be added to {.emph report}."
+msgstr ""
+
+#: utils.R:137
+>>>>>>> 94a0cd9 (translate added messages into French)
 msgid ""
 "Could not find the following column name{?s}: {.field {target_columns[is."
 "na(idx)]}}"
 msgstr ""
 
+<<<<<<< HEAD
 #: utils.R:134
+=======
+#: utils.R:138
+>>>>>>> 94a0cd9 (translate added messages into French)
 msgid ""
 "Please make sure that all specified target columns belong to the input data."
 msgstr ""
 
+<<<<<<< HEAD
 #: utils.R:145
 msgid "Some column indices are out of bound."
 msgstr ""
@@ -803,11 +1079,31 @@ msgid "Invalid value for {.emph target_columns}."
 msgstr ""
 
 #: utils.R:158
+=======
+#: utils.R:149
+msgid "Some column indices are out of bound."
+msgstr ""
+
+#: utils.R:150
+msgid "Column indices must be between {.val {1}} and {.val {ncol(data)}}."
+msgstr ""
+
+#: utils.R:151
+msgid "You provided indices for columns that do not exist."
+msgstr ""
+
+#: utils.R:161
+msgid "Invalid value for {.emph target_columns}."
+msgstr ""
+
+#: utils.R:162
+>>>>>>> 94a0cd9 (translate added messages into French)
 msgid ""
 "{.val linelist_tags} only works on {.cls linelist} objects. You can provide "
 "a {.cls vector} of column names for inputs of class {.cls data.frame}."
 msgstr ""
 
+<<<<<<< HEAD
 #: utils.R:172
 msgid "The specified target columns are either constant or empty."
 msgstr ""
@@ -821,5 +1117,20 @@ msgid "the names of columns that are neither constant or empty, or"
 msgstr ""
 
 #: utils.R:175
+=======
+#: utils.R:176
+msgid "The specified target columns are either constant or empty."
+msgstr ""
+
+#: utils.R:177
+msgid "Please consider using:"
+msgstr ""
+
+#: utils.R:178
+msgid "the names of columns that are neither constant or empty, or"
+msgstr ""
+
+#: utils.R:179
+>>>>>>> 94a0cd9 (translate added messages into French)
 msgid "{.fn remove_constants} prior to this cleaning operation."
 msgstr ""
