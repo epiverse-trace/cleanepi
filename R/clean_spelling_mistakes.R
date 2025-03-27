@@ -10,10 +10,11 @@
 #' word.
 #'
 #' @inheritParams clean_data
+#' @inheritParams convert_numeric_to_date
 #' @param wordlist A `character` vector of words to match to cells in `data`.
 #' @param max.distance An `integer` for the maximum distance allowed for a
 #' detecting a spelling mistakes from the `wordlist`. The distance is the
-#' generalised Levenshtein edit distance (see [adist()]). Default is `1`.
+#' generalized Levenshtein edit distance (see [adist()]). Default is `1`.
 #' @param confirm A `logical` boolean to determine whether to show the user a
 #' menu of spelling corrections. If `TRUE` and using \R interactively then the
 #' user will have the option to review the proposed spelling changes. (This
@@ -33,6 +34,7 @@
 #' df
 #' clean_spelling_mistakes(
 #'   data = df,
+#'   target_columns = c("case_type", "outcome"),
 #'   wordlist = c("confirmed", "probable", "suspected", "died", "recovered"),
 #'   confirm = FALSE
 #' )

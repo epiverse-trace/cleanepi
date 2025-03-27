@@ -17,11 +17,16 @@ clean_spelling_mistakes(
 \arguments{
 \item{data}{The input \code{<data.frame>} or \code{<linelist>}}
 
+\item{target_columns}{A \code{<vector>} of columns names to be converted from
+numeric to date. When the input data is a \code{<linelist>} object, this
+parameter can be set to \code{linelist_tags} to apply the conversion
+exclusively to the tagged columns.}
+
 \item{wordlist}{A \code{character} vector of words to match to cells in \code{data}.}
 
 \item{max.distance}{An \code{integer} for the maximum distance allowed for a
 detecting a spelling mistakes from the \code{wordlist}. The distance is the
-generalised Levenshtein edit distance (see \code{\link[=adist]{adist()}}). Default is \code{1}.}
+generalized Levenshtein edit distance (see \code{\link[=adist]{adist()}}). Default is \code{1}.}
 
 \item{confirm}{A \code{logical} boolean to determine whether to show the user a
 menu of spelling corrections. If \code{TRUE} and using \R interactively then the
@@ -55,6 +60,7 @@ df <- data.frame(
 df
 clean_spelling_mistakes(
   data = df,
+  target_columns = c("case_type", "outcome"),
   wordlist = c("confirmed", "probable", "suspected", "died", "recovered"),
   confirm = FALSE
 )
