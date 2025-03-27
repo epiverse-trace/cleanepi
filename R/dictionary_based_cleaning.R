@@ -258,4 +258,5 @@ print_misspelled_values <- function(data, misspelled_options) {
       tr_("Cannot replace {.val {toString(undefined_opts)}} present in column {.field {option}} but not defined in the dictionary.") # nolint: line_length_linter
     )
   }
+  return(invisible(NULL))
 }
