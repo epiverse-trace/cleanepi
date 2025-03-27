@@ -86,14 +86,6 @@ fix_spelling_mistakes <- function(df_col,
                                   max.distance,
                                   ignore.case,
                                   confirm) {
-  distance_matrix <- adist(df_col, word)
-  find_min_dist <- function(x) {
-    return(which(x == min(x)))
-  }
-  mins <- apply(distance_matrix, 1, find_min_dist)
-  lengths(mins)
-
-
   idx <- agrepl(
     pattern = word,
     x = df_col,
