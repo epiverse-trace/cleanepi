@@ -52,8 +52,7 @@ Imports:
     numberize,
     readr,
     rlang,
-    tibble,
-    utils
+    tibble
 Suggests: 
     htmlwidgets,
     kableExtra,
