@@ -105,7 +105,7 @@ add_to_report <- function(x, key, value) {
   if (is.null(value)) {
     cli::cli_abort(c(
       tr_("`value` to add to `report` attribute cannot be NULL."),
-      i = tr_("Please specify an object to {.emph `value`} to be added to {.emph `report`}.") # nolint: line_length_linter
+      i = tr_("Please specify an object to {.emph value} to be added to {.emph report}.") # nolint: line_length_linter
     ))
   }
   attr(x, "report")[[key]] <- value
