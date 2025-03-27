@@ -7,40 +7,21 @@ replaced with \code{wordlist}}
 \usage{
 clean_spelling_mistakes(
   data,
+  target_columns,
   wordlist,
   max.distance = 1,
-  ignore.case = FALSE,
-  confirm = TRUE
+  confirm = rlang::is_interactive(),
+  ...
 )
 }
 \arguments{
 \item{data}{The input \code{<data.frame>} or \code{<linelist>}}
 
-\item{wordlist}{A \code{character} vector or list of words to match to cells in
-\code{data}.}
+\item{wordlist}{A \code{character} vector of words to match to cells in \code{data}.}
 
-\item{max.distance}{maximum distance allowed for a match.  Expressed
-    either as integer, or as a fraction of the \emph{pattern} length
-    times the maximal transformation cost (will be replaced by the
-    smallest integer not less than the corresponding fraction), or a
-    list with possible components
-    \describe{
-      \item{\code{cost}:}{maximum number/fraction of match cost
-	(generalized Levenshtein distance)}
-      \item{\code{all}:}{maximal number/fraction of \emph{all}
-	transformations (insertions, deletions and substitutions)}
-      \item{\code{insertions}:}{maximum number/fraction of insertions}
-      \item{\code{deletions}:}{maximum number/fraction of deletions}
-      \item{\code{substitutions}:}{maximum number/fraction of
-        substitutions}
-    }
-    If \code{cost} is not given, \code{all} defaults to 10\%, and the
-    other transformation number bounds default to \code{all}.
-    The component names can be abbreviated.
-  }
-
-\item{ignore.case}{if \code{FALSE}, the pattern matching is \emph{case
-      sensitive} and if \code{TRUE}, case is ignored during matching.}
+\item{max.distance}{An \code{integer} for the maximum distance allowed for a
+detecting a spelling mistakes from the \code{wordlist}. The distance is the
+generalised Levenshtein edit distance (see \code{\link[=adist]{adist()}}). Default is \code{1}.}
 
 \item{confirm}{A \code{logical} boolean to determine whether to show the user a
 menu of spelling corrections. If \code{TRUE} and using \R interactively then the
@@ -48,6 +29,8 @@ user will have the option to review the proposed spelling changes. (This
 argument is useful for turning off the \code{\link[=menu]{menu()}} when
 \code{\link[rlang:is_interactive]{rlang::is_interactive()}} returns \code{TRUE} but not wanting to prompt the user
 e.g. \code{devtools::run_examples()}).}
+
+\item{...}{\link{dots} Extra arguments to pass to \code{\link[=adist]{adist()}}.}
 }
 \value{
 The cleaned input date according to the user-specified \code{wordlist}.

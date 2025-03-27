@@ -11,13 +11,16 @@
 #'
 #' @inheritParams clean_data
 #' @param wordlist A `character` vector of words to match to cells in `data`.
-#' @inheritParams base::agrep
+#' @param max.distance An `integer` for the maximum distance allowed for a
+#' detecting a spelling mistakes from the `wordlist`. The distance is the
+#' generalised Levenshtein edit distance (see [adist()]). Default is `1`.
 #' @param confirm A `logical` boolean to determine whether to show the user a
 #' menu of spelling corrections. If `TRUE` and using \R interactively then the
 #' user will have the option to review the proposed spelling changes. (This
 #' argument is useful for turning off the [menu()] when
 #' [rlang::is_interactive()] returns `TRUE` but not wanting to prompt the user
 #' e.g. `devtools::run_examples()`).
+#' @param ... [dots] Extra arguments to pass to [adist()].
 #'
 #' @return The cleaned input date according to the user-specified `wordlist`.
 #' @export
@@ -37,14 +40,15 @@ clean_spelling_mistakes <- function(data,
                                     target_columns,
                                     wordlist,
                                     max.distance = 1,
-                                    ignore.case = FALSE,
-                                    confirm = rlang::is_interactive()) {
+                                    confirm = rlang::is_interactive(),
+                                    ...) {
   checkmate::assert_data_frame(data, null.ok = FALSE, min.cols = 1L)
   checkmate::assert_vector(
     target_columns, min.len = 1, max.len = ncol(data), null.ok = FALSE,
     any.missing = FALSE
   )
   checkmate::assert_character(wordlist, any.missing = FALSE)
+  checkmate::assert_integerish(max.distance, any.missing = FALSE)
   checkmate::assert_logical(confirm, any.missing = FALSE, len = 1)
 
   # get the correct names in case some have been modified - see the
@@ -55,11 +59,7 @@ clean_spelling_mistakes <- function(data,
   for (col in target_columns) {
     # only check and fix char columns
     if (is.character(data[, col])) {
-      word_dist <- utils::adist(
-        data[, col],
-        wordlist,
-        ignore.case = ignore.case
-      )
+      word_dist <- utils::adist(data[, col], wordlist)
       # ignore correct spelling from matches
       misspell_idx <- word_dist <= max.distance & word_dist > 0 &
         !is.na(word_dist)
