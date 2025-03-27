@@ -10,8 +10,7 @@
 #' word.
 #'
 #' @inheritParams clean_data
-#' @param wordlist A `character` vector or list of words to match to cells in
-#' `data`.
+#' @param wordlist A `character` vector of words to match to cells in `data`.
 #' @inheritParams base::agrep
 #' @param confirm A `logical` boolean to determine whether to show the user a
 #' menu of spelling corrections. If `TRUE` and using \R interactively then the
@@ -40,9 +39,8 @@ clean_spelling_mistakes <- function(data,
                                     ignore.case = FALSE,
                                     confirm = TRUE) {
   checkmate::assert_data_frame(data, null.ok = FALSE, min.cols = 1L)
+  checkmate::assert_character(wordlist, any.missing = FALSE)
   checkmate::assert_logical(confirm, any.missing = FALSE, len = 1)
-  # convert wordlist to vector in case supplied as a list
-  wordlist <- unlist(wordlist)
 
   for (col in seq_len(ncol(data))) {
     for (word in seq_along(wordlist)) {
