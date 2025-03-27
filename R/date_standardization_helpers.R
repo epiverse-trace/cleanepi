@@ -262,8 +262,13 @@ date_guess_convert <- function(data, error_tolerance, timeframe,
     if (!is.null(timeframe)) {
       res <- date_check_outsiders(data, timeframe, new_dates, i)
       new_dates <- res[["new_date"]]
-      # report the out of range dates
-      date_standardisation[["out_of_range_dates"]] <- res[["outsiders"]]
+      if (!is.null(res[["outsiders"]])) {
+        data <- add_to_report(
+          x = data,
+          key = "out_of_range_dates",
+          value = res[["outsiders"]]
+        )
+      }
     }
 
     # Check whether to tolerate the amount of NA introduced during the process
