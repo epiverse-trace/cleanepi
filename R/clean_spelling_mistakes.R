@@ -34,15 +34,25 @@
 #'   confirm = FALSE
 #' )
 clean_spelling_mistakes <- function(data,
+                                    target_columns,
                                     wordlist,
                                     max.distance = 1,
                                     ignore.case = FALSE,
                                     confirm = TRUE) {
   checkmate::assert_data_frame(data, null.ok = FALSE, min.cols = 1L)
+  checkmate::assert_vector(
+    target_columns, min.len = 1, max.len = ncol(data), null.ok = FALSE,
+    any.missing = FALSE
+  )
   checkmate::assert_character(wordlist, any.missing = FALSE)
   checkmate::assert_logical(confirm, any.missing = FALSE, len = 1)
 
-  for (col in seq_len(ncol(data))) {
+  # get the correct names in case some have been modified - see the
+  # `retrieve_column_names()` function for more details
+  target_columns <- retrieve_column_names(data, target_columns)
+  target_columns <- get_target_column_names(data, target_columns, cols = NULL)
+
+  for (col in target_columns) {
     for (word in seq_along(wordlist)) {
       # only check and fix char columns
       if (is.character(data[, col])) {
