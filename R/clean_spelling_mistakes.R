@@ -53,53 +53,55 @@ clean_spelling_mistakes <- function(data,
   target_columns <- get_target_column_names(data, target_columns, cols = NULL)
 
   for (col in target_columns) {
-    for (word in seq_along(wordlist)) {
-      # only check and fix char columns
-      if (is.character(data[, col])) {
-        data[, col] <- fix_spelling_mistakes(
-          df_col = data[, col],
-          word = wordlist[word],
-          max.distance = max.distance,
-          ignore.case = ignore.case,
-          confirm = confirm
-        )
-      }
+    # only check and fix char columns
+    if (is.character(data[, col])) {
+      word_dist <- utils::adist(
+        data[, col],
+        wordlist,
+        ignore.case = ignore.case
+      )
+      # ignore correct spelling from matches
+      misspell_idx <- word_dist <= max.distance & word_dist > 0 &
+        !is.na(word_dist)
+      data[, col] <- fix_spelling_mistakes(
+        df_col = data[, col],
+        misspell_idx = misspell_idx,
+        wordlist = wordlist,
+        confirm = confirm
+      )
+    } else {
+      cli::cli_inform(c(
+        "!" = tr_("The {.val {col}} column given to {.code target_columns} does not contain {.code character}s so cannot be spell checked.") # nolint: line_length_linter
+      ))
     }
   }
   return(data)
 }
 
 fix_spelling_mistakes <- function(df_col,
-                                  word,
-                                  max.distance,
-                                  ignore.case,
+                                  misspell_idx,
+                                  wordlist,
                                   confirm) {
-  idx <- agrepl(
-    pattern = word,
-    x = df_col,
-    max.distance = max.distance,
-    ignore.case = ignore.case
-  )
-  # remove correct spelling from matches
-  idx[df_col == word] <- FALSE
-  if (any(idx)) {
-    # only show user menu when interactive
-    if (rlang::is_interactive() && confirm) {
-      # only print each misspelled word once
-      misspelled <- unique(df_col[idx])
-      menu_title <- paste(
-        "The following words will be corrected:",
-        toString(paste("\n -", misspelled, "->", word)),
-        "\n\n (0 to exit)"
-      )
-      # ask user to change spelling if fuzzy matched
-      user_choice <- utils::menu(
-        choices = c("Yes", "No"),
-        title = menu_title
-      )
-      if (user_choice == 1) df_col[idx] <- word
-    } else {
-      df_col[idx] <- word
+  for (idx in seq_along(wordlist)) {
+    if (any(misspell_idx[, idx])) {
+      # only show user menu when interactive
+      if (rlang::is_interactive() && confirm) {
+        # only print each misspelled word once
+        misspelled <- unique(df_col[misspell_idx[, idx]])
+        menu_title <- paste(
+          "The following words will be corrected:",
+          toString(paste("\n -", misspelled, "->", wordlist[idx])),
+          "\n\n (0 to exit)"
+        )
+        # ask user to change spelling if fuzzy matched
+        user_choice <- utils::menu(
+          choices = c("Yes", "No"),
+          title = menu_title
+        )
+        if (user_choice == 1) df_col[misspell_idx[, idx]] <- wordlist[idx]
+      } else {
+        df_col[misspell_idx[, idx]] <- wordlist[idx]
+      }
     }
   }
   return(df_col)
