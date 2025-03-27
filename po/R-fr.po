@@ -301,17 +301,17 @@ msgstr ""
 "ou bien la majorité des valeurs est en dehors de l'interval de temps défini "
 "dans {.field timeframe}"
 
-#: date_standardization_helpers.R:427
+#: date_standardization_helpers.R:432
 msgid "Expected values with the same format."
 msgstr "Les valeurs devaient avoir le même format."
 
-#: date_standardization_helpers.R:428
+#: date_standardization_helpers.R:433
 msgid "You've tried to convert values in different formats into {.cls Date}."
 msgstr ""
 "Vous avez essayé de convertir en {.cls Date} des valeurs ayant differents "
 "formats."
 
-#: date_standardization_helpers.R:429
+#: date_standardization_helpers.R:434
 msgid ""
 "Please specify the formats encountered in your column of interest via the {."
 "emph format} argument."
@@ -319,20 +319,20 @@ msgstr ""
 "Veuillez fournir les formats retrouvés dans la colonne cible via le "
 "paramètre {.emph format}."
 
-#: date_standardization_helpers.R:570
+#: date_standardization_helpers.R:575
 msgid "Unexpected data type provided to {.fn date_guess} function."
 msgstr ""
 "Le type de donnée fourni à la fonction {.fn date_guess} est différent du "
 "type que la fonction devait prendre."
 
-#: date_standardization_helpers.R:571
+#: date_standardization_helpers.R:576
 msgid ""
 "You can convert the values into {.cls character} to enable format guessing."
 msgstr ""
 "Vous pouvez convertir les valeurs en {.cls chaîne de caractères (character)} "
 "pour permettre la détection automatique de leurs formats."
 
-#: date_standardization_helpers.R:572
+#: date_standardization_helpers.R:577
 msgid ""
 "You've tried to guess the date format from values of type other than Date "
 "and character."
@@ -340,19 +340,19 @@ msgstr ""
 "Vous avez tenté de détecter le format de valeurs qui ne sont ni de type Date "
 "ou chaîne de caractères."
 
-#: date_standardization_helpers.R:592
+#: date_standardization_helpers.R:597
 msgid "Unable to match formats to target columns."
 msgstr ""
 "Impossible d’établir la correspondence entre formats et colonnes ciblées."
 
-#: date_standardization_helpers.R:593
+#: date_standardization_helpers.R:598
 msgid ""
 "The number of target columns does not match the number of specified formats."
 msgstr ""
 "Le nombre de colonnes cibles ne correspond pas au nombre de formats qui sont "
 "forunis"
 
-#: date_standardization_helpers.R:594
+#: date_standardization_helpers.R:599
 msgid ""
 "Only one format is needed if all target columns contain values of the same "
 "format. Otherwise, one format per target column must be provided."
@@ -360,7 +360,7 @@ msgstr ""
 "Seul un format est requis si les colonnes cibles ont des valeurs du même "
 "format. Sinon, vous devez fornir un format par colonne cible."
 
-#: date_standardization_helpers.R:599
+#: date_standardization_helpers.R:604
 msgid ""
 "The target {cli::qty(length(target_columns))} column{?s} will be "
 "standardized using the format: {.val {format}}."
@@ -674,7 +674,17 @@ msgstr ""
 "Les valeurs fournies à la colonne {.field from} de la table de correction "
 "doivent être parmi les identifiants incorrects qui ont été détectés."
 
-#: utils.R:133
+#: utils.R:107
+msgid "`value` to add to `report` attribute cannot be NULL."
+msgstr "La valeur à ajouter au rapport ne peut pas être NULL."
+
+#: utils.R:108
+msgid ""
+"Please specify an object to {.emph value} to be added to {.emph report}."
+msgstr "Veuillez assigner à {.emph value} la valeur ou l'object que vous "
+"souhaitez ajouter au rapport."
+
+#: utils.R:137
 msgid ""
 "Could not find the following column name{?s}: {.field {target_columns[is."
 "na(idx)]}}"
@@ -682,35 +692,35 @@ msgstr ""
 "Les données ne contiennent pas le{?s} nom{?s} de colonnes suivant{?s} : {."
 "field {target_columns[missing_cols]}}."
 
-#: utils.R:134
+#: utils.R:138
 msgid ""
 "Please make sure that all specified target columns belong to the input data."
 msgstr ""
 "Assurez-vous que toutes les colonnes cibles fassent parti des données "
 "d’entrée."
 
-#: utils.R:145
+#: utils.R:149
 msgid "Some column indices are out of bound."
 msgstr "Certains numéros de colonne sont hors de la limite."
 
-#: utils.R:146
+#: utils.R:150
 msgid "Column indices must be between {.val {1}} and {.val {ncol(data)}}."
 msgstr ""
 "Les numéros des colonnes cibles doivent être compris entre {.val {1}} et {."
 "val {ncol(data)}}."
 
-#: utils.R:147
+#: utils.R:151
 msgid "You provided indices for columns that do not exist."
 msgstr ""
 "Vous avez fourni des numéros de colonne supérieurs au nombre total de "
 "colonnes dans vos données."
 
-#: utils.R:157
+#: utils.R:161
 msgid "Invalid value for {.emph target_columns}."
 msgstr ""
 "La valeur fournie pour l’argument {.emph target_columns} est incorrecte."
 
-#: utils.R:158
+#: utils.R:162
 msgid ""
 "{.val linelist_tags} only works on {.cls linelist} objects. You can provide "
 "a {.cls vector} of column names for inputs of class {.cls data.frame}."
@@ -719,19 +729,19 @@ msgstr ""
 "linelist} uniquement. Vous pouvez fournir un {.cls vecteur} de noms de "
 "colonnes pour les données de class {.cls data.frame}."
 
-#: utils.R:172
+#: utils.R:176
 msgid "The specified target columns are either constant or empty."
 msgstr "Les colonnes cibles sont soit constantes ou vides."
 
-#: utils.R:173
+#: utils.R:177
 msgid "Please consider using:"
 msgstr "Veuillez considérer utiliser :"
 
-#: utils.R:174
+#: utils.R:178
 msgid "the names of columns that are neither constant or empty, or"
 msgstr "des noms de colonnes qui sont ni vides ni constantes, ou bien"
 
-#: utils.R:175
+#: utils.R:179
 msgid "{.fn remove_constants} prior to this cleaning operation."
 msgstr "la fonction {.fn remove_constants} avant cette opération."
 
