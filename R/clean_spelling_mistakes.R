@@ -38,7 +38,7 @@ clean_spelling_mistakes <- function(data,
                                     wordlist,
                                     max.distance = 1,
                                     ignore.case = FALSE,
-                                    confirm = TRUE) {
+                                    confirm = rlang::is_interactive()) {
   checkmate::assert_data_frame(data, null.ok = FALSE, min.cols = 1L)
   checkmate::assert_vector(
     target_columns, min.len = 1, max.len = ncol(data), null.ok = FALSE,
