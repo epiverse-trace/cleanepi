@@ -5,6 +5,7 @@ test_that("clean_spelling_mistakes works as expected by default", {
   )
   clean_df <- clean_spelling_mistakes(
     data = df,
+    target_columns = c("case_type", "outcome"),
     wordlist = c("confirmed", "probable", "suspected", "died", "recovered"),
     confirm = FALSE
   )
