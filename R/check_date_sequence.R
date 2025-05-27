@@ -72,7 +72,7 @@ check_date_sequence <- function(data, target_columns) {
 
   # select the target columns
   # add a column with the row indices
-  # and checking the date sequence
+  # and check the order of the date sequence
   tmp_data <- data %>% dplyr::select(dplyr::all_of(target_columns))
   order_date <- apply(tmp_data, 1L, is_date_sequence_ordered)
   tmp_data[["row_id"]] <- seq_len(nrow(tmp_data))
