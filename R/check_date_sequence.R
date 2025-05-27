@@ -77,7 +77,7 @@ check_date_sequence <- function(data, target_columns) {
   order_date <- apply(tmp_data, 1L, is_date_sequence_ordered)
   tmp_data[["row_id"]] <- seq_len(nrow(tmp_data))
 
-  # send a message if the comparison could not be archive due to missing
+  # send a message if the comparison could not be achieved due to missing
   # values in either of the columns
   if (all(is.na(order_date))) {
     cli::cli_alert_info(
