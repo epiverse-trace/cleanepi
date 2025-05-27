@@ -75,7 +75,7 @@ check_date_sequence <- function(data, target_columns) {
   # and checking the date sequence
   tmp_data <- data %>% dplyr::select(dplyr::all_of(target_columns))
   order_date <- apply(tmp_data, 1L, is_date_sequence_ordered)
-  tmp_data[["row_id"]] <- 1:nrow(tmp_data)
+  tmp_data[["row_id"]] <- seq_len(nrow(tmp_data))
 
   # send a message if the comparison could not be archive due to missing
   # values in either of the columns
