@@ -70,12 +70,34 @@ check_date_sequence <- function(data, target_columns) {
     }
   }
 
-  # checking the date sequence
+  # select the target columns
+  # add a column with the row indices
+  # and checking the date sequence
   tmp_data <- data %>% dplyr::select(dplyr::all_of(target_columns))
   order_date <- apply(tmp_data, 1L, is_date_sequence_ordered)
+  tmp_data[["row_id"]] <- 1:nrow(tmp_data)
+
+  # send a message if the comparison could not be archive due to missing
+  # values in either of the columns
+  if (all(is.na(order_date))) {
+    cli::cli_alert_info(
+      tr_("Impossible to check the sequence of the date events due to missing values.") # nolint: line_length_linter
+    )
+    return(data)
+  }
+
+  # send a message that sequence of date events can not be checked in a certain
+  # number of rows due to missing values
+  if (any(is.na(order_date))) {
+    cli::cli_alert_info(c(
+      tr_("Cannot check the sequence of date events across {.val {sum(is.na(order_date))}} rows due to missing data.") # nolint: line_length_linter
+    ))
+    tmp_data <- tmp_data[!is.na(order_date), ]
+  }
 
   # when everything is in order,
   # send a message that no incorrect sequence of event was found
+  order_date <- order_date[!is.na(order_date)]
   if (all(order_date)) {
     cli::cli_alert_info(
       tr_("No incorrect date sequence was detected.")
@@ -86,10 +108,7 @@ check_date_sequence <- function(data, target_columns) {
   # flag out the row indices of the incorrect sequence of events
   bad_order <- which(!order_date)
   tmp_data <- tmp_data[bad_order, ]
-  # add the row numbers of incorrect records to the report
-  tmp_data <- data.frame(
-    cbind(row_id = bad_order, tmp_data)
-  )
+
   # adding incorrect records to the report
   data <- add_to_report(
     x = data,

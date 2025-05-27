@@ -76,7 +76,7 @@ test_that("check_date_sequence works as expected when target_column is provided
               expect_identical(ncol(report[["incorrect_date_sequence"]]), 3L)
               expect_identical(
                 names(report[["incorrect_date_sequence"]]),
-                c("row_id", "date_first_pcr_positive_test", "date.of.admission")
+                c("date_first_pcr_positive_test", "date.of.admission", "row_id")
               )
 })
 
