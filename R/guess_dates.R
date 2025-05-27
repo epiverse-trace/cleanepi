@@ -237,11 +237,11 @@ date_rescue_lubridate_failures <- function(date_a_frame, original_dates,
 #' @keywords internal
 date_i_guess_and_convert <- function(x) {
   x <- as.character(x)
-  format <- date_get_format(x)
-  if (is.null(format)) {
+  formats <- date_get_format(x)
+  if (is.null(formats)) {
     return(NA_character_)
   }
-  x <- as.character(as.Date(x, format = format))
+  x <- as.character(as.Date(x, format = formats))
   return(x)
 }
 

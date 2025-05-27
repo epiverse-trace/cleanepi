@@ -88,7 +88,7 @@ check_date_sequence <- function(data, target_columns) {
 
   # send a message that sequence of date events can not be checked in a certain
   # number of rows due to missing values
-  if (any(is.na(order_date))) {
+  if (anyNA(order_date)) {
     cli::cli_alert_info(c(
       tr_("Cannot check the sequence of date events across {.val {sum(is.na(order_date))}} rows due to missing data.") # nolint: line_length_linter
     ))
