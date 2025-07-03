@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: cleanepi 1.0.2.9000\n"
-"POT-Creation-Date: 2025-05-27 20:14+0000\n"
+"POT-Creation-Date: 2025-07-03 18:01+0000\n"
 "PO-Revision-Date: 2024-11-07 12:38+0000\n"
 "Last-Translator: Karim Mané\n"
 "Language-Team: none\n"
@@ -36,15 +36,16 @@ msgstr "Avez-vous fourni un nom de colonne incorrect ?"
 #: check_date_sequence.R:90
 msgid ""
 "Impossible to check the sequence of the date events due to missing values."
-msgstr "Impossible de vérifier la séquence des dates à cause des données "
-"manquantes."
+msgstr ""
+"Impossible de vérifier la séquence des dates à cause des données manquantes."
 
 #: check_date_sequence.R:99
 msgid ""
 "Cannot check the sequence of date events across {.val {sum(is."
 "na(order_date))}} rows due to missing data."
-msgstr "La séquence des dates ne peut pas être vérifiée à travers "
-"{.val {sum(is.na(order_date))}} lignes à cause des données manquantes."
+msgstr ""
+"La séquence des dates ne peut pas être vérifiée à travers {.val {sum(is."
+"na(order_date))}} lignes à cause des données manquantes."
 
 #: check_date_sequence.R:109
 msgid "No incorrect date sequence was detected."
@@ -65,9 +66,9 @@ msgid ""
 "access them, where {.val dat} is the object used to store the output from "
 "this operation."
 msgstr ""
-"Veuillez entrer {.code print_report(data = dat, \"incorrect_date_sequence\")} "
-"pour y accéder. {.val dat} represente ici l’object créé pour stocker le "
-"résultat de cette opération."
+"Veuillez entrer {.code print_report(data = dat, "
+"\"incorrect_date_sequence\")} pour y accéder. {.val dat} represente ici "
+"l’object créé pour stocker le résultat de cette opération."
 
 #: clean_data.R:142
 msgid "Cleaning column names"
@@ -214,7 +215,7 @@ msgstr ""
 "Aucune colonne de type chaîne de caractères (character) contenant des "
 "valeurs numériques n’a été identifiée par {.fn scan_data}."
 
-#: convert_to_numeric.R:50
+#: convert_to_numeric.R:50 convert_to_numeric.R:72
 msgid ""
 "Please specify names of the columns to convert into numeric using {.emph "
 "target_columns}."
@@ -286,8 +287,9 @@ msgstr ""
 
 #: date_standardization_helpers.R:158
 msgid "{.field {cols}} cannot be converted into {.cls Date} due to:"
-msgstr "{.field {cols}} ne peut pas être converti en{.cls Date} "
-"pour les raisons suivantes:"
+msgstr ""
+"{.field {cols}} ne peut pas être converti en{.cls Date} pour les raisons "
+"suivantes:"
 
 #: date_standardization_helpers.R:159
 msgid "insuffisient {.cls Date} values"
@@ -295,8 +297,9 @@ msgstr "nombre insuffisant de valeurs de type {.cls Date}"
 
 #: date_standardization_helpers.R:160
 msgid "or a high number of values that are outside the specified time frame."
-msgstr "ou bien la majorité des valeurs est en dehors de l'interval de temps "
-"défini dans {.field timeframe}"
+msgstr ""
+"ou bien la majorité des valeurs est en dehors de l'interval de temps défini "
+"dans {.field timeframe}"
 
 #: date_standardization_helpers.R:427
 msgid "Expected values with the same format."
@@ -582,10 +585,11 @@ msgid ""
 "qty(num_multi_format_dates)} compl{?ies/y} with multiple formats and {.val "
 "{cli::no(num_outsiders)}} value{?s} that {cli::qty(num_outsiders)} {?is/are} "
 "outside of the specified time frame."
-msgstr "Il y a {.val {cli::no(num_multi_format_dates)}} valeur{?s} qui "
+msgstr ""
+"Il y a {.val {cli::no(num_multi_format_dates)}} valeur{?s} qui "
 "qty(num_multi_format_dates)} peu{?t/vent} avoir plusieurs formats and {.val "
-"{cli::no(num_outsiders)}} valeur{?s} qui {cli::qty(num_outsiders)} "
-"{?est/sont} en dehors de l'interval de temps défini dans {.field timeframe}."
+"{cli::no(num_outsiders)}} valeur{?s} qui {cli::qty(num_outsiders)} {?est/"
+"sont} en dehors de l'interval de temps défini dans {.field timeframe}."
 
 #: standardize_date.R:206
 msgid ""
@@ -632,7 +636,8 @@ msgid ""
 "no({num_duplicated_ids})}} duplicated, and {.val {cli::"
 "no({nrow(report$invalid_subject_ids) - num_missing_ids})}} incorrect subject "
 "IDs."
-msgstr "Il y a {.val {cli::no({num_missing_ids})}} valeur{?s} manquante{?s}, "
+msgstr ""
+"Il y a {.val {cli::no({num_missing_ids})}} valeur{?s} manquante{?s}, "
 "no({num_duplicated_ids})}} valeur{?s} redondante{?s}, et {.val {cli::"
 "no({nrow(report$invalid_subject_ids) - num_missing_ids})}} valeur{?s} "
 "incorrecte{?s} dans la colonne contenant les identifiants unique des "
