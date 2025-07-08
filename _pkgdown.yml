@@ -2,6 +2,9 @@ url: https://epiverse-trace.github.io/cleanepi
 template:
   package: epiversetheme
 
+development:
+  mode: auto
+
 reference:
 - title: Exported functions
   desc: "`{cleanepi}` functions available to end-users"
