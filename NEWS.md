@@ -30,6 +30,11 @@ attributes (#220, @Karim-Mane).
 * Prevent `add_to_report()` from adding `NULL` to the data cleaning report
 (#232, @Karim-Mane)
 
+* Set the development mode in the _pkgdown.yml file to auto to only re-render
+the website with new releases and to offer a dev version of the website for
+users that are using the development version of the package from GitHub
+(#240, @Karim-Mane)
+
 # cleanepi 1.1.0
 
 ## Bug fixes
