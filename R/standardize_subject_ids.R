@@ -87,7 +87,7 @@ check_subject_ids <- function(data,
   # the above also detects empty rows in the subject IDs column
   # we will substract missing IDs from the bad IDs (IDs with wrong prefix and
   # suffix)
-  num_missing_ids <- 0
+  num_missing_ids <- 0 # nolint: object_usage_linter
   if ("idx_missing_ids" %in% names(report)) {
     missing_ids <- as.numeric(unlist(
       strsplit(report[["idx_missing_ids"]], ", ", fixed = TRUE)
