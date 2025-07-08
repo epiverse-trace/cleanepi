@@ -285,33 +285,33 @@ msgstr ""
 "{.cls chaîne de caractères (character)} au format {.emph ISO8601} "
 "('2024-12-31' pour 31 Décembre 2024)."
 
-#: date_standardization_helpers.R:158
+#: date_standardization_helpers.R:161
 msgid "{.field {cols}} cannot be converted into {.cls Date} due to:"
 msgstr ""
 "{.field {cols}} ne peut pas être converti en{.cls Date} pour les raisons "
 "suivantes:"
 
-#: date_standardization_helpers.R:159
+#: date_standardization_helpers.R:162
 msgid "insuffisient {.cls Date} values"
 msgstr "nombre insuffisant de valeurs de type {.cls Date}"
 
-#: date_standardization_helpers.R:160
+#: date_standardization_helpers.R:163
 msgid "or a high number of values that are outside the specified time frame."
 msgstr ""
 "ou bien la majorité des valeurs est en dehors de l'interval de temps défini "
 "dans {.field timeframe}"
 
-#: date_standardization_helpers.R:432
+#: date_standardization_helpers.R:435
 msgid "Expected values with the same format."
 msgstr "Les valeurs devaient avoir le même format."
 
-#: date_standardization_helpers.R:433
+#: date_standardization_helpers.R:436
 msgid "You've tried to convert values in different formats into {.cls Date}."
 msgstr ""
 "Vous avez essayé de convertir en {.cls Date} des valeurs ayant differents "
 "formats."
 
-#: date_standardization_helpers.R:434
+#: date_standardization_helpers.R:437
 msgid ""
 "Please specify the formats encountered in your column of interest via the {."
 "emph format} argument."
@@ -319,20 +319,20 @@ msgstr ""
 "Veuillez fournir les formats retrouvés dans la colonne cible via le "
 "paramètre {.emph format}."
 
-#: date_standardization_helpers.R:575
+#: date_standardization_helpers.R:578
 msgid "Unexpected data type provided to {.fn date_guess} function."
 msgstr ""
 "Le type de donnée fourni à la fonction {.fn date_guess} est différent du "
 "type que la fonction devait prendre."
 
-#: date_standardization_helpers.R:576
+#: date_standardization_helpers.R:579
 msgid ""
 "You can convert the values into {.cls character} to enable format guessing."
 msgstr ""
 "Vous pouvez convertir les valeurs en {.cls chaîne de caractères (character)} "
 "pour permettre la détection automatique de leurs formats."
 
-#: date_standardization_helpers.R:577
+#: date_standardization_helpers.R:580
 msgid ""
 "You've tried to guess the date format from values of type other than Date "
 "and character."
@@ -340,19 +340,19 @@ msgstr ""
 "Vous avez tenté de détecter le format de valeurs qui ne sont ni de type Date "
 "ou chaîne de caractères."
 
-#: date_standardization_helpers.R:597
+#: date_standardization_helpers.R:600
 msgid "Unable to match formats to target columns."
 msgstr ""
 "Impossible d’établir la correspondence entre formats et colonnes ciblées."
 
-#: date_standardization_helpers.R:598
+#: date_standardization_helpers.R:601
 msgid ""
 "The number of target columns does not match the number of specified formats."
 msgstr ""
 "Le nombre de colonnes cibles ne correspond pas au nombre de formats qui sont "
 "forunis"
 
-#: date_standardization_helpers.R:599
+#: date_standardization_helpers.R:602
 msgid ""
 "Only one format is needed if all target columns contain values of the same "
 "format. Otherwise, one format per target column must be provided."
@@ -360,7 +360,7 @@ msgstr ""
 "Seul un format est requis si les colonnes cibles ont des valeurs du même "
 "format. Sinon, vous devez fornir un format par colonne cible."
 
-#: date_standardization_helpers.R:604
+#: date_standardization_helpers.R:607
 msgid ""
 "The target {cli::qty(length(target_columns))} column{?s} will be "
 "standardized using the format: {.val {format}}."

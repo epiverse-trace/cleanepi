@@ -141,11 +141,14 @@ date_convert <- function(data, cols, error_tolerance,
   }
 
   # add to the report
-  data <- add_to_report(
-    x = data,
-    key = "date_standardization",
-    value = date_standardisation
-  )
+  if (!is.null(date_standardisation)) {
+    data <- add_to_report(
+      x = data,
+      key = "date_standardization",
+      value = date_standardisation
+    )
+  }
+
 
   # Check whether to tolerate the amount of NA introduced during the process
   na_before <- sum(is.na(old_dates))
