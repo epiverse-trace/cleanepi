@@ -36,7 +36,7 @@ for users installing the package from GitHub
 (#240, @Karim-Mane).
 
 * Move the {reactable} package from Suggests to Imports to prevent from issues
-during {cleanepi} installation ().
+during {cleanepi} installation (#241, @Karim-Mane).
 
 # cleanepi 1.1.0
 
