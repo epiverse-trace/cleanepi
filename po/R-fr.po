@@ -506,12 +506,13 @@ msgstr ""
 "données avant d’évoquer la fonction {.fn print_report}."
 
 #: print_report.R:123
-"The list of functions in {.pkg cleanepi} can be found at: {.url https://"
-"epiverse-trace.github.io/cleanepi/reference/index.html}."
+msgid ""
+"The list of functions in {.pkg cleanepi} can be found at: "
+"{.url https://epiverse-trace.github.io/cleanepi/reference/index.html}."
 msgstr ""
 "Veuillez consulter la liste des fonctions disponibles dans {.pkg cleanepi} à "
-"travers le lien suivant : {.url https://epiverse-trace.github.io/cleanepi/"
-"reference/index.html}."
+"travers le lien suivant : "
+"{.url https://epiverse-trace.github.io/cleanepi/reference/index.html}."
 
 #: print_report.R:128
 msgid "Incorrect value provided for {.emph format} argument!"
@@ -544,6 +545,7 @@ msgstr ""
 "résultat de la fonction {.fn remove_constants}."
 
 #: replace_missing_values.R:61
+msgid ""
 "Could not detect the provided missing value {cli::qty(length(na_strings))} "
 "character{?s}."
 msgstr ""
