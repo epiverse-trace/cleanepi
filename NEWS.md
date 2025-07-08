@@ -28,12 +28,12 @@ attributes (#220, @Karim-Mane).
 `check_subject_ids()` function (#222, @Karim-Mane).
 
 * Prevent `add_to_report()` from adding `NULL` to the data cleaning report
-(#232, @Karim-Mane)
+(#232, @Karim-Mane).
 
-* Set the development mode in the _pkgdown.yml file to auto to only re-render
-the website with new releases and to offer a dev version of the website for
-users that are using the development version of the package from GitHub
-(#240, @Karim-Mane)
+* Set the development mode in the _pkgdown.yml file to `auto` to  render
+the website for only new releases,  while also providing a development version
+for users installing the package from GitHub
+(#240, @Karim-Mane).
 
 # cleanepi 1.1.0
 
