@@ -1,6 +1,5 @@
 CMD
 Codecov
-DOI
 Epiverse
 LSHTM
 Lifecycle
@@ -21,7 +20,6 @@ funder
 gh
 grp
 interoperates
-iteratively
 jsq
 kableExtra
 knitr
@@ -40,11 +38,11 @@ numberize
 oldrel
 packagename
 pcr
+pkgdown
 potools
 reactable
 readepi
 readr
-repo
 rlang
 rmarkdown
 snakecase
@@ -56,4 +54,5 @@ tidyverse
 timeframe
 unnested
 withr
+yml
 ️
