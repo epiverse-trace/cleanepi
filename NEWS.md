@@ -27,6 +27,9 @@ attributes (#220, @Karim-Mane).
 * Clarify messages to distinguish between missing values and incorrect IDs in
 `check_subject_ids()` function (#222, @Karim-Mane).
 
+* Prevent `add_to_report()` from adding `NULL` to the data cleaning report
+(#232, @Karim-Mane)
+
 # cleanepi 1.1.0
 
 ## Bug fixes
