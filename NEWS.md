@@ -24,6 +24,9 @@ This columns was introduced to perform the anti join with the output from the
 a specific data cleaning operation and stop users from interacting with
 attributes (#220, @Karim-Mane).
 
+* Clarify messages to distinguish between missing values and incorrect IDs in
+`check_subject_ids()` function (#222, @Karim-Mane).
+
 # cleanepi 1.1.0
 
 ## Bug fixes
