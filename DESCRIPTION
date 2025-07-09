@@ -50,7 +50,6 @@ Imports:
     magrittr,
     matchmaker,
     numberize,
-    reactable,
     readr,
     rlang,
     tibble
@@ -61,6 +60,7 @@ Suggests:
     lintr,
     markdown,
     naniar,
+    reactable,
     rmarkdown,
     spelling,
     systemfonts,
