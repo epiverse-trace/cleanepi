@@ -115,7 +115,7 @@ print_report <- function(data,
 
   if (!requireNamespace("reactable", quietly = TRUE)) {
     cli::cli_abort(c(
-      x = tr_("The {.pkg reactable} package is required for printing the report."),  # nolint: line_length_linter
+      x = tr_("The {.pkg reactable} package is required for printing the report.")  # nolint: line_length_linter
     ))
   }
 
