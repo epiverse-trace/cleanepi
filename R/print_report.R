@@ -113,6 +113,12 @@ print_report <- function(data,
                 "missing_values_replaced_at", "incorrect_subject_id")
   )
 
+  if (!requireNamespace("reactable", quietly = TRUE)) {
+    cli::cli_abort(c(
+      x = tr_("The {.pkg reactable} package is required for printing the report."),  # nolint: line_length_linter
+    ))
+  }
+
   # extract report, check whether any cleaning operation has been performed, and
   # allow for only HTML output format for the report.
   report <- attr(data, "report")
