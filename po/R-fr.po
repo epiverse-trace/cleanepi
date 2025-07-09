@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: cleanepi 1.0.2.9000\n"
-"POT-Creation-Date: 2025-07-03 18:01+0000\n"
+"POT-Creation-Date: 2025-07-09 10:36+0000\n"
 "PO-Revision-Date: 2024-11-07 12:38+0000\n"
 "Last-Translator: Karim Mané\n"
 "Language-Team: none\n"
@@ -493,11 +493,16 @@ msgstr ""
 "caractères ou une {.cls liste} d’un ou plusieurs vecteurs de chaînes de "
 "caractères."
 
-#: print_report.R:121
+#: print_report.R:118
+msgid "The {.pkg reactable} package is required for printing the report."
+msgstr "Vous devez installer la librairie {.pkg reactable} pour visualiser "
+"le rapport du nettoyage des données."
+
+#: print_report.R:127
 msgid "No report associated with the input data."
 msgstr "Pas de rapport associé à ce tableau de données."
 
-#: print_report.R:122
+#: print_report.R:128
 msgid ""
 "At least one data cleaning operation must be applied to the data before "
 "calling {.fn print_report}."
@@ -505,24 +510,24 @@ msgstr ""
 "Au moins une opération de nettoyage de données doit être appliquée aux "
 "données avant d’évoquer la fonction {.fn print_report}."
 
-#: print_report.R:123
+#: print_report.R:129
 msgid ""
-"The list of functions in {.pkg cleanepi} can be found at: "
-"{.url https://epiverse-trace.github.io/cleanepi/reference/index.html}."
+"The list of functions in {.pkg cleanepi} can be found at: {.url https://"
+"epiverse-trace.github.io/cleanepi/reference/index.html}."
 msgstr ""
 "Veuillez consulter la liste des fonctions disponibles dans {.pkg cleanepi} à "
-"travers le lien suivant : "
-"{.url https://epiverse-trace.github.io/cleanepi/reference/index.html}."
+"travers le lien suivant : {.url https://epiverse-trace.github.io/cleanepi/"
+"reference/index.html}."
 
-#: print_report.R:128
+#: print_report.R:134
 msgid "Incorrect value provided for {.emph format} argument!"
 msgstr "La valeur fournie à l’argument {.emph format} est invalide."
 
-#: print_report.R:129
+#: print_report.R:135
 msgid "Only {.val html} format is currently supported."
 msgstr "Seul le format {.val html} est accepté pour le moment."
 
-#: print_report.R:161
+#: print_report.R:167
 msgid "Generating html report in {.file {temp_dir}}."
 msgstr "Creation du rapport en format html dans {.file {temp_dir}}."
 
@@ -633,13 +638,14 @@ msgstr "Aucun identifiant invalide n'a été détecté."
 #: standardize_subject_ids.R:162
 msgid ""
 "Detected {.val {cli::no({num_missing_ids})}} missing, {.val {cli::"
-"no({num_duplicated_ids})}} duplicated, and {.val {cli::no({num_bad_rows})}} "
-"incorrect subject IDs."
+"no({num_duplicated_ids})}} duplicated, and {.val {cli::"
+"no({nrow(report$invalid_subject_ids) - num_missing_ids})}} incorrect subject "
+"IDs."
 msgstr ""
 "Il y a {.val {cli::no({num_missing_ids})}} valeur{?s} manquante{?s}, "
-"no({num_duplicated_ids})}} valeur{?s} redondante{?s}, et "
-"{.val {cli::no({num_bad_rows})}} valeur{?s} incorrecte{?s} dans la colonne "
-"contenant les identifiants unique des individus."
+"no({num_duplicated_ids})}} valeur{?s} redondante{?s}, et {.val {cli::"
+"no({num_bad_rows})}} valeur{?s} incorrecte{?s} dans la colonne contenant les "
+"identifiants unique des individus."
 
 #: standardize_subject_ids.R:163
 msgid ""
@@ -681,8 +687,9 @@ msgstr "La valeur à ajouter au rapport ne peut pas être NULL."
 #: utils.R:108
 msgid ""
 "Please specify an object to {.emph value} to be added to {.emph report}."
-msgstr "Veuillez assigner à {.emph value} la valeur ou l'object que vous "
-"souhaitez ajouter au rapport."
+msgstr ""
+"Veuillez assigner à {.emph value} la valeur ou l'object que vous souhaitez "
+"ajouter au rapport."
 
 #: utils.R:137
 msgid ""
@@ -744,40 +751,3 @@ msgstr "des noms de colonnes qui sont ni vides ni constantes, ou bien"
 #: utils.R:179
 msgid "{.fn remove_constants} prior to this cleaning operation."
 msgstr "la fonction {.fn remove_constants} avant cette opération."
-
-#~ msgid ""
-#~ "Detected {.val {length(bad_rows)}} invalid subject id{?s} at line{?s}: {."
-#~ "val {toString(bad_rows)}}."
-#~ msgstr ""
-#~ "{.val {length(bad_order)}} séquence{?s} de dates invalide{?s} {?a/ont} "
-#~ "été détectée{?s} à {?la/aux} ligne{?s} suivante{?s}: {.val "
-#~ "{toString(bad_order)}}."
-
-#~ msgid ""
-#~ "Missing {cli::qty(length(idx))} value{?s} found in {.field {id_col_name}} "
-#~ "column at line{?s}: {.val {toString(idx)}}."
-#~ msgstr ""
-#~ "{cli::qty(length(idx))} {?Une/Des} valeur{?s} manquante{?s} {?a/ont} été "
-#~ "retrouvée{?s} à la colonne {.field {id_col_name}} {cli::qty(length(idx))}"
-#~ "{?à la/aux} ligne{?s} : {.val {toString(idx)}}."
-
-#~ msgid "Found {.val {num_dup_rows}} duplicated value{?s} in the subject ids."
-#~ msgstr ""
-#~ "{.val {num_dup_rows}} valeur{?s} redondante{?s} {?a/ont} été retrouvée{?"
-#~ "s} dans la colonne contenant les identifiants des individus."
-
-#~ msgid ""
-#~ "Enter {.code attr(dat, \"report\")[[\"duplicated_rows\"]]} to access "
-#~ "them, where {.val dat} is the object used to store the output from this "
-#~ "operation."
-#~ msgstr ""
-#~ "Veuillez entrer {.code attr(dat, \"report\")[[\"duplicated_rows\"]]} pour "
-#~ "y accéder. {.val dat} represente ici l’object créé pour stocker le "
-#~ "résultat de cette opération."
-
-#~ msgid ""
-#~ "Detected invalid subject {cli::qty(length(bad_rows))} id{?s} at line{?s}: "
-#~ "{.val {toString(bad_rows)}}."
-#~ msgstr ""
-#~ "{cli::qty(length(bad_rows))}{?Un/Des} identifiant{?s} invalide{?s} {?a/"
-#~ "ont} été détecté{?s} {?à la/aux} ligne{?s} : {.val {toString(bad_rows)}}."
