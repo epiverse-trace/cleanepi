@@ -35,8 +35,9 @@ the website for only new releases,  while also providing a development version
 for users installing the package from GitHub
 (#240, @Karim-Mane).
 
-* Move the {reactable} package from Suggests to Imports to prevent from issues
-during {cleanepi} installation (#241, @Karim-Mane).
+* Add a message to notify users that the `{reactable}` package needs to be
+installed for the `print_report()` function to work as expected
+(#241, @Karim-Mane).
 
 # cleanepi 1.1.0
 
