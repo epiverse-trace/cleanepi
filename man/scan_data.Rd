@@ -5,10 +5,16 @@
 \title{Scan through a data frame and return the proportion of \code{missing}, \code{numeric},
 \code{Date}, \code{character}, \code{logical} values.}
 \usage{
-scan_data(data)
+scan_data(data, format = "proportion")
 }
 \arguments{
 \item{data}{The input \code{<data.frame>} or \code{<linelist>}}
+
+\item{format}{A \code{<character>} with the format in which the output of the
+data scanning result will be returned. The function returns the
+\code{proportions} of the different data types by default. Other possible
+values are: \code{percentage} and \code{fraction} to return the percentage or the
+fraction of the data types respectively.}
 }
 \value{
 A \code{<data.frame>} if the input data contains columns of type

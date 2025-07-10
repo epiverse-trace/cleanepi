@@ -4,12 +4,14 @@
 \alias{scan_in_character}
 \title{Scan through a character column}
 \usage{
-scan_in_character(x, x_name)
+scan_in_character(x, x_name, format)
 }
 \arguments{
 \item{x}{The input \code{<vector>} of characters}
 
 \item{x_name}{The name of the corresponding column}
+
+\item{format}{A \code{<character>} with the user-specified format}
 }
 \value{
 A \code{<vector>} of \code{<numeric>} with the proportion of the
