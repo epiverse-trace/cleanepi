@@ -61,7 +61,14 @@
 #' iris[["posit_ct"]] <- as.POSIXct(iris[["date"]])
 #' scan_result <- scan_data(data = iris)
 #'
-scan_data <- function(data) {
+scan_data <- function(data, format = "proportion") {
+  checkmate::assert_data_frame(data, min.rows = 1, min.cols = 1,
+                               null.ok = FALSE)
+  checkmate::assert_choice(
+    format,
+    choices = c("proportion", "fraction", "percentage"),
+    null.ok = FALSE
+  )
   # scan through all columns of the data and the identify character columns
   types <- vapply(data, typeof, character(1L))
   target_columns <- which(types == "character")
@@ -77,9 +84,20 @@ scan_data <- function(data) {
   # unclass the data to prevent from warnings when dealing with linelist, and
   # scan through the character columns
   data <- as.data.frame(data)[, target_columns, drop = FALSE]
-  scan_result <- vapply(seq_len(ncol(data)), function(col_index) {
-    return(scan_in_character(data[[col_index]], names(data)[[col_index]]))
-  }, numeric(6L))
+  if (format == "fraction") {
+    scan_result <- vapply(seq_len(ncol(data)), function(col_index) {
+      return(
+        scan_in_character(data[[col_index]], names(data)[[col_index]], format)
+      )
+    }, character(6L))
+  } else {
+    scan_result <- vapply(seq_len(ncol(data)), function(col_index) {
+      return(
+        scan_in_character(data[[col_index]], names(data)[[col_index]], format)
+      )
+    }, numeric(6L))
+  }
+
   scan_result <- as.data.frame(t(scan_result))
   names(scan_result) <- c("missing", "numeric", "date", "character", "logical",
                           "ambiguous")
@@ -97,6 +115,7 @@ scan_data <- function(data) {
   }
   rownames(scan_result) <- NULL
   scan_result[["ambiguous"]] <- NULL
+
   return(scan_result)
 }
 
@@ -109,7 +128,7 @@ scan_data <- function(data) {
 #'    different types of data that were detected within the input vector.
 #' @keywords internal
 #'
-scan_in_character <- function(x, x_name) {
+scan_in_character <- function(x, x_name, format) {
   # There might be, in addition to missing values, within a character column,
   # values of type: character, numeric, date (date or date-time), and logical
   # In this function, we check the presence of these different types within a
@@ -182,15 +201,30 @@ scan_in_character <- function(x, x_name) {
   character_count <- character_count - logical_count
 
   # transform into proportions
-  props <- round(
-    c(na_count, numeric_count, date_count, character_count, logical_count) /
-      initial_length, 4L
-  )
+  counts <- c(na_count, numeric_count, date_count, character_count,
+              logical_count)
+  result <- get_appropriate_format(counts, initial_length, format)
 
   # add 100 to the `props` vector if there were ambiguous values on that column,
   # -1 otherwise
   ambiguous_signal <- ifelse(ambiguous_count > 0, 100, -1)
-  props <- c(props, ambiguous_signal)
+  result <- c(result, ambiguous_signal)
 
-  return(props)
+  return(result)
+}
+
+#' Transform scanning result format into user-chosen format
+#'
+#' @param counts A numeric vector with the counts of the different data types
+#' @param initial_length A numeric with the number of rows in the dataset
+#' @param format A character with the user-specified format
+#'
+#' @keywords internal
+get_appropriate_format <- function(counts, initial_length, format) {
+  result <- switch(format,
+    "proportion" = round(counts / initial_length, 4L),
+    "percentage" = round(counts / initial_length * 100, 4L),
+    "fraction" = paste(as.character(counts), initial_length, sep = "/")
+  )
+  return(result)
 }
