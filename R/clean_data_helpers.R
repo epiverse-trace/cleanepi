@@ -6,6 +6,11 @@
 #' those columns. See the details section to know more about how it works.
 #'
 #' @param data The input \code{<data.frame>} or \code{<linelist>}
+#' @param format A \code{<character>} with the format in which the output of the
+#'    data scanning result will be returned. The function returns the
+#'    `proportions` of the different data types by default. Other possible
+#'    values are: `percentage` and `fraction` to return the percentage or the
+#'    fraction of the data types respectively.
 #'
 #' @returns A \code{<data.frame>} if the input data contains columns of type
 #'    character. It invisibly returns \code{NA} otherwise. The returned data
@@ -123,6 +128,7 @@ scan_data <- function(data, format = "proportion") {
 #'
 #' @param x The input \code{<vector>} of characters
 #' @param x_name The name of the corresponding column
+#' @param format A \code{<character>} with the user-specified format
 #'
 #' @return A \code{<vector>} of \code{<numeric>} with the proportion of the
 #'    different types of data that were detected within the input vector.
@@ -222,9 +228,9 @@ scan_in_character <- function(x, x_name, format) {
 #' @keywords internal
 get_appropriate_format <- function(counts, initial_length, format) {
   result <- switch(format,
-    "proportion" = round(counts / initial_length, 4L),
-    "percentage" = round(counts / initial_length * 100, 4L),
-    "fraction" = paste(as.character(counts), initial_length, sep = "/")
+    "proportion" = round(counts / initial_length, 4L), # nolint: keyword_quote_linter
+    "percentage" = round(counts / initial_length * 100, 4L), # nolint: keyword_quote_linter
+    "fraction" = paste(as.character(counts), initial_length, sep = "/") # nolint: keyword_quote_linter
   )
   return(result)
 }
