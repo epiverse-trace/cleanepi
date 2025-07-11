@@ -7,12 +7,12 @@
 #'
 #' @param data The input \code{<data.frame>} or \code{<linelist>}
 #' @param cutoff A \code{<numeric>} value specifying the cut-off for removing
-#'    empty rows and columns. If provided, only rows and columns with a
-#'    percentage of missing data greater than this cut-off will be removed.
-#'    The default is 1.
+#'    constant data. The possible values vary between 0 (excluded) and 1
+#'    (included). The default is 1 i.e. remove rows and columns with 100%
+#'    constant data.
 #'
-#' @returns The input dataset with empty rows, empty columns, and constant
-#'    columns removed.
+#' @returns The input dataset where the constant data is filtered out based on
+#'    specified cut-off.
 #' @export
 #'
 #' @examples
@@ -61,6 +61,14 @@
 remove_constants <- function(data, cutoff = 1.0) {
   checkmate::assert_number(cutoff, lower = 0.0, upper = 1.0, na.ok = FALSE,
                            finite = TRUE, null.ok = FALSE)
+  # send a message about iterative constant data removal to alert the user
+  if (cutoff == 0) {
+    cli::cli_inform(c(
+      i = tr_("Constant data was not removed. The value for the {.emph cut-off} argument must be greater than {.emph 0} and less than or equal to {.emph 1}.") # nolint: line_length_linter
+    ))
+    return(data)
+  }
+
   # extract the current report and save it for later use
   report <- attr(data, "report")
 

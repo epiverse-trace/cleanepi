@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: cleanepi 1.0.2.9000\n"
-"POT-Creation-Date: 2025-07-09 10:36+0000\n"
+"POT-Creation-Date: 2025-07-11 10:18+0000\n"
 "PO-Revision-Date: 2024-11-07 12:38+0000\n"
 "Last-Translator: Karim Mané\n"
 "Language-Team: none\n"
@@ -127,13 +127,13 @@ msgstr "Substitution de valeurs via dictionnaire des données"
 msgid "Checking whether date sequences are respected"
 msgstr "Vérification de la séquence des dates"
 
-#: clean_data_helpers.R:72
+#: clean_data_helpers.R:84
 msgid "No character column found from the input data."
 msgstr ""
 "Aucune colonne avec des valeurs de type chaîne de caractères n’a été "
 "identifiée."
 
-#: clean_data_helpers.R:93
+#: clean_data_helpers.R:116
 msgid ""
 "Found {.cls numeric} values that can also be of type {.cls Date} in the "
 "following {cli::qty(length(ambiguous_cols))} column{?s}: {.field "
@@ -143,7 +143,7 @@ msgstr ""
 "ont été identifiées dans {cli::qty(length(ambiguous_cols))} {?la/les} "
 "colonne{?s} suivante{?s}: {.field {ambiguous_cols}}."
 
-#: clean_data_helpers.R:94
+#: clean_data_helpers.R:117
 msgid ""
 "They can be converted into {.cls Date} using: {.code lubridate::as_date(x, "
 "origin = as.Date(\"1900-01-01\"))}"
@@ -151,7 +151,7 @@ msgstr ""
 "Veuillez utiliser {.code lubridate::as_date(x, origin = as."
 "Date(\"1900-01-01\"))} pour les convertir en {.cls Date}"
 
-#: clean_data_helpers.R:95
+#: clean_data_helpers.R:118
 msgid ""
 "where {.val x} represents here the vector of values from the corresponding "
 "column ({.code data$target_column})."
@@ -495,8 +495,9 @@ msgstr ""
 
 #: print_report.R:118
 msgid "The {.pkg reactable} package is required for printing the report."
-msgstr "Vous devez installer la librairie {.pkg reactable} pour visualiser "
-"le rapport du nettoyage des données."
+msgstr ""
+"Vous devez installer la librairie {.pkg reactable} pour visualiser le "
+"rapport du nettoyage des données."
 
 #: print_report.R:127
 msgid "No report associated with the input data."
@@ -531,7 +532,15 @@ msgstr "Seul le format {.val html} est accepté pour le moment."
 msgid "Generating html report in {.file {temp_dir}}."
 msgstr "Creation du rapport en format html dans {.file {temp_dir}}."
 
-#: remove_constants.R:123
+#: remove_constants.R:67
+msgid ""
+"Constant data was not removed. The value for the {.emph cut-off} argument "
+"must be greater than {.emph 0} and less than or equal to {.emph 1}."
+msgstr "Les données constantes n'ont pas été supprimées. La valeur de "
+"l'argument {.emph cut-off} doit être supérieure à {.emph 0} et inférieure ou "
+"égale à {.emph 1}."
+
+#: remove_constants.R:131
 msgid ""
 "Constant data was removed after {.val {nrow(constant_data_report)}} "
 "iteration{?s}."
@@ -539,7 +548,7 @@ msgstr ""
 "Les données constantes ont été supprimées après {.val "
 "{nrow(constant_data_report)}} iteration{?s}."
 
-#: remove_constants.R:124
+#: remove_constants.R:132
 msgid ""
 "Enter {.code print_report(dat, \"constant_data\")} for more information, "
 "where {.val dat} represents the object used to store the output from {.fn "

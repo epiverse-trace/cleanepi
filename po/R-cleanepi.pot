@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: cleanepi 1.1.0.9000\n"
-"POT-Creation-Date: 2025-07-09 10:36+0000\n"
+"POT-Creation-Date: 2025-07-11 10:18+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -107,24 +107,24 @@ msgstr ""
 msgid "Checking whether date sequences are respected"
 msgstr ""
 
-#: clean_data_helpers.R:72
+#: clean_data_helpers.R:84
 msgid "No character column found from the input data."
 msgstr ""
 
-#: clean_data_helpers.R:93
+#: clean_data_helpers.R:116
 msgid ""
 "Found {.cls numeric} values that can also be of type {.cls Date} in the "
 "following {cli::qty(length(ambiguous_cols))} column{?s}: {.field "
 "{toString(ambiguous_cols)}}."
 msgstr ""
 
-#: clean_data_helpers.R:94
+#: clean_data_helpers.R:117
 msgid ""
 "They can be converted into {.cls Date} using: {.code lubridate::as_date(x, "
 "origin = as.Date(\"1900-01-01\"))}"
 msgstr ""
 
-#: clean_data_helpers.R:95
+#: clean_data_helpers.R:118
 msgid ""
 "where {.val x} represents here the vector of values from the corresponding "
 "column ({.code data$target_column})."
@@ -413,13 +413,19 @@ msgstr ""
 msgid "Generating html report in {.file {temp_dir}}."
 msgstr ""
 
-#: remove_constants.R:123
+#: remove_constants.R:67
+msgid ""
+"Constant data was not removed. The value for the {.emph cut-off} argument "
+"must be greater than {.emph 0} and less than or equal to {.emph 1}."
+msgstr ""
+
+#: remove_constants.R:131
 msgid ""
 "Constant data was removed after {.val {nrow(constant_data_report)}} "
 "iteration{?s}."
 msgstr ""
 
-#: remove_constants.R:124
+#: remove_constants.R:132
 msgid ""
 "Enter {.code print_report(dat, \"constant_data\")} for more information, "
 "where {.val dat} represents the object used to store the output from {.fn "

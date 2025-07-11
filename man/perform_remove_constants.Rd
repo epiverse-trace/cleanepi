@@ -10,9 +10,9 @@ perform_remove_constants(data, cutoff)
 \item{data}{The input \code{<data.frame>} or \code{<linelist>}}
 
 \item{cutoff}{A \code{<numeric>} value specifying the cut-off for removing
-empty rows and columns. If provided, only rows and columns with a
-percentage of missing data greater than this cut-off will be removed.
-The default is 1.}
+constant data. The possible values vary between 0 (excluded) and 1
+(included). The default is 1 i.e. remove rows and columns with 100\%
+constant data.}
 }
 \value{
 A \code{<list>} with the input dataset where all empty rows and
