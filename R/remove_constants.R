@@ -154,7 +154,7 @@ perform_remove_constants <- function(data, cutoff) {
   # remove the empty rows
   missingness <- rowSums(is.na(data)) / ncol(data)
   to_remove <- missingness >= cutoff
-  dat <- data[!to_remove, ]
+  dat <- if (all(to_remove)) data else data[!to_remove, ]
 
   # report empty rows if found
   empty_rows <- NULL
@@ -165,7 +165,7 @@ perform_remove_constants <- function(data, cutoff) {
   # remove the empty columns
   missingness <- colSums(is.na(dat)) / nrow(dat)
   to_remove <- missingness >= cutoff
-  dat <- dat[, !to_remove]
+  dat <- if(length(to_remove)==dim(data)[2]) data else dat[, !to_remove]
 
   # report empty columns if found
   empty_columns <- NULL
