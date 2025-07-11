@@ -71,9 +71,9 @@ process until no constant data remains.</p>
 
 <dt id="arg-cutoff">cutoff<a class="anchor" aria-label="anchor" href="#arg-cutoff"></a></dt>
 <dd><p>A <code>&lt;numeric&gt;</code> value specifying the cut-off for removing
-empty rows and columns. If provided, only rows and columns with a
-percentage of missing data greater than this cut-off will be removed.
-The default is 1.</p></dd>
+constant data. The possible values vary between 0 (excluded) and 1
+(included). The default is 1 i.e. remove rows and columns with 100%
+constant data.</p></dd>
 
 </dl></div>
     <div class="section level2">
