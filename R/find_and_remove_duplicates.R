@@ -10,7 +10,7 @@
 #'    parameter can be set to \code{linelist_tags} if you wish to look for
 #'    duplicates on tagged columns only. Default is \code{NULL}.
 #' 
-#'@details
+#' @details
 #' **Caveat:** In many epidemiological datasets, multiple rows may share the 
 #' same value in one or more columns without being true duplicates.  
 #' For example, several individuals might have the same  symptom onset date 
