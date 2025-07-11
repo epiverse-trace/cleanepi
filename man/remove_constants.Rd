@@ -11,13 +11,13 @@ remove_constants(data, cutoff = 1)
 \item{data}{The input \code{<data.frame>} or \code{<linelist>}}
 
 \item{cutoff}{A \code{<numeric>} value specifying the cut-off for removing
-empty rows and columns. If provided, only rows and columns with a
-percentage of missing data greater than this cut-off will be removed.
-The default is 1.}
+constant data. The possible values vary between 0 (excluded) and 1
+(included). The default is 1 i.e. remove rows and columns with 100\%
+constant data.}
 }
 \value{
-The input dataset with empty rows, empty columns, and constant
-columns removed.
+The input dataset where the constant data is filtered out based on
+specified cut-off.
 }
 \description{
 The function iteratively removes constant data until none remain.
