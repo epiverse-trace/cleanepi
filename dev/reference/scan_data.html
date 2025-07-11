@@ -61,7 +61,7 @@ those columns. See the details section to know more about how it works.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">scan_data</span><span class="op">(</span><span class="va">data</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">scan_data</span><span class="op">(</span><span class="va">data</span>, format <span class="op">=</span> <span class="st">"proportion"</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -70,6 +70,14 @@ those columns. See the details section to know more about how it works.</p>
 
 <dl><dt id="arg-data">data<a class="anchor" aria-label="anchor" href="#arg-data"></a></dt>
 <dd><p>The input <code>&lt;data.frame&gt;</code> or <code>&lt;linelist&gt;</code></p></dd>
+
+
+<dt id="arg-format">format<a class="anchor" aria-label="anchor" href="#arg-format"></a></dt>
+<dd><p>A <code>&lt;character&gt;</code> with the format in which the output of the
+data scanning result will be returned. The function returns the
+<code>proportions</code> of the different data types by default. Other possible
+values are: <code>percentage</code> and <code>fraction</code> to return the percentage or the
+fraction of the data types respectively.</p></dd>
 
 </dl></div>
     <div class="section level2">
