@@ -4,12 +4,13 @@
 \alias{get_appropriate_format}
 \title{Transform scanning result format into user-chosen format}
 \usage{
-get_appropriate_format(counts, initial_length, format)
+get_appropriate_format(counts, valid_count, format)
 }
 \arguments{
 \item{counts}{A numeric vector with the counts of the different data types}
 
-\item{initial_length}{A numeric with the number of rows in the dataset}
+\item{valid_count}{A numeric with the number of non-missing values in the
+the target column.}
 
 \item{format}{A character with the user-specified format}
 }

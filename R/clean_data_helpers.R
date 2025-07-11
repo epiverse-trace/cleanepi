@@ -89,18 +89,18 @@ scan_data <- function(data, format = "proportion") {
   # unclass the data to prevent from warnings when dealing with linelist, and
   # scan through the character columns
   data <- as.data.frame(data)[, target_columns, drop = FALSE]
-  if (format == "fraction") {
-    scan_result <- vapply(seq_len(ncol(data)), function(col_index) {
-      return(
-        scan_in_character(data[[col_index]], names(data)[[col_index]], format)
-      )
-    }, character(6L))
-  } else {
+  if (format == "proportion") {
     scan_result <- vapply(seq_len(ncol(data)), function(col_index) {
       return(
         scan_in_character(data[[col_index]], names(data)[[col_index]], format)
       )
     }, numeric(6L))
+  } else {
+    scan_result <- vapply(seq_len(ncol(data)), function(col_index) {
+      return(
+        scan_in_character(data[[col_index]], names(data)[[col_index]], format)
+      )
+    }, character(6L))
   }
 
   scan_result <- as.data.frame(t(scan_result))
@@ -143,12 +143,12 @@ scan_in_character <- function(x, x_name, format) {
   # save the variable length
   # the character count is decreased by the number of occurrence a different
   # data type is found.
-  initial_length <- character_count <- length(x)
+  initial_length <- character_count <- length(x) # nolint: object_usage_linter
 
   # get the count of missing data (NA)
   na_count <- sum(is.na(x))
   x <- x[!is.na(x)]
-  character_count <- character_count - na_count
+  character_count <- valid_count <- character_count - na_count
 
   # convert to numeric to determine the numeric count
   # store the index of numeric values for comparison with index of date values
@@ -209,7 +209,7 @@ scan_in_character <- function(x, x_name, format) {
   # transform into proportions
   counts <- c(na_count, numeric_count, date_count, character_count,
               logical_count)
-  result <- get_appropriate_format(counts, initial_length, format)
+  result <- get_appropriate_format(counts, valid_count, format)
 
   # add 100 to the `props` vector if there were ambiguous values on that column,
   # -1 otherwise
@@ -222,15 +222,18 @@ scan_in_character <- function(x, x_name, format) {
 #' Transform scanning result format into user-chosen format
 #'
 #' @param counts A numeric vector with the counts of the different data types
-#' @param initial_length A numeric with the number of rows in the dataset
+#' @param valid_count A numeric with the number of non-missing values in the
+#'    the target column.
 #' @param format A character with the user-specified format
 #'
 #' @keywords internal
-get_appropriate_format <- function(counts, initial_length, format) {
+get_appropriate_format <- function(counts, valid_count, format) {
   result <- switch(format,
-    "proportion" = round(counts / initial_length, 4L), # nolint: keyword_quote_linter
-    "percentage" = round(counts / initial_length * 100, 4L), # nolint: keyword_quote_linter
-    "fraction" = paste(as.character(counts), initial_length, sep = "/") # nolint: keyword_quote_linter
+    "proportion" = round(counts / valid_count, 4L), # nolint: keyword_quote_linter
+    "percentage" = paste( # nolint: keyword_quote_linter
+      round(counts / valid_count * 100, 4L), "%", sep = ""
+    ),
+    "fraction" = paste(as.character(counts), valid_count, sep = "/") # nolint: keyword_quote_linter
   )
   return(result)
 }
