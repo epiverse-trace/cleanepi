@@ -182,4 +182,3 @@ fix_spelling_mistakes <- function(df_col,
   }
   return(df_col)
 }
-
