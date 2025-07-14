@@ -48,6 +48,11 @@ false positives and the user can decided whether to proceed with the
 spelling corrections. In non-interactive sessions all misspelled values are
 replaced by their closest values within the provided vector of expected
 values.
+
+If multiple words supplied in the \code{wordlist} equally match a word in the
+data and \code{confirm} is \code{TRUE} the user is presented a menu to choose the
+replacement word. If it is not used interactively multiple equal matches
+throws a warning.
 }
 \examples{
 df <- data.frame(
@@ -55,7 +60,7 @@ df <- data.frame(
   outcome = c("died", "recoverd", "did", "recovered")
 )
 df
-correct_spelling_mistakes(
+correct_misspelled_values(
   data = df,
   target_columns = c("case_type", "outcome"),
   wordlist = c("confirmed", "probable", "suspected", "died", "recovered"),
