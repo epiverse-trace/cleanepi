@@ -48,4 +48,3 @@ test_that("correct_misspelled_values warns with multiple options", {
     c("male", "male", "male", "female")
   )
 })
-
