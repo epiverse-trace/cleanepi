@@ -25,6 +25,10 @@ tagged columns.}
 \item{wordlist}{A \code{<vector>} of characters with the words to match to
 the detected misspelled values.}
 
+\item{max.distance}{An \code{integer} for the maximum distance allowed for a
+detecting a spelling mistakes from the \code{wordlist}. The distance is the
+generalized Levenshtein edit distance (see \code{\link[=adist]{adist()}}). Default is \code{1}.}
+
 \item{confirm}{A \code{logical} that determines whether to show the user a menu of
 spelling corrections. If \code{TRUE} and using \R interactively then the user
 will have the option to review the proposed spelling corrections. This
