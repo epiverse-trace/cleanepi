@@ -1,29 +1,30 @@
-#' Correct spelling mistakes detected with approximate string matching and
-#' replaced with `wordlist`
+#' Correct misspelled values by using approximate string matching techniques to
+#' compare them against the expected values.
 #'
 #' @details
 #' When used interactively (see [interactive()]) the user is presented a menu
 #' to ensure that the words detected using approximate string matching are not
 #' false positives and the user can decided whether to proceed with the
-#' spelling corrections. In non-interactive sessions all spelling mistakes
-#' detected with approximate string matching are replaced by the `wordlist`
-#' word.
+#' spelling corrections. In non-interactive sessions all misspelled values are
+#' replaced by their closest values within the provided vector of expected
+#' values.
 #'
 #' @inheritParams clean_data
-#' @inheritParams convert_numeric_to_date
-#' @param wordlist A `character` vector of words to match to cells in `data`.
-#' @param max.distance An `integer` for the maximum distance allowed for a
-#' detecting a spelling mistakes from the `wordlist`. The distance is the
-#' generalized Levenshtein edit distance (see [adist()]). Default is `1`.
-#' @param confirm A `logical` boolean to determine whether to show the user a
-#' menu of spelling corrections. If `TRUE` and using \R interactively then the
-#' user will have the option to review the proposed spelling changes. (This
-#' argument is useful for turning off the [menu()] when
-#' [rlang::is_interactive()] returns `TRUE` but not wanting to prompt the user
-#' e.g. `devtools::run_examples()`).
+#' @param target_columns A \code{<vector>} of the target column names. When the
+#'    input data is a \code{<linelist>} object, this parameter can be set to
+#'    \code{linelist_tags} to apply the fuzzy matching exclusively to the
+#'    tagged columns.
+#' @param wordlist A \code{<vector>} of characters with the words to match to
+#'    the detected misspelled values.
+#' @param confirm A `logical` that determines whether to show the user a menu of
+#'    spelling corrections. If `TRUE` and using \R interactively then the user
+#'    will have the option to review the proposed spelling corrections. This
+#'    argument is useful for turning off the [menu()] when
+#'    [rlang::is_interactive()] returns `TRUE` but not wanting to prompt the
+#'    user e.g. `devtools::run_examples()`.
 #' @param ... [dots] Extra arguments to pass to [adist()].
 #'
-#' @return The corrected input date according to the user-specified `wordlist`.
+#' @return The corrected input data according to the user-specified `wordlist`.
 #' @export
 #'
 #' @examples
@@ -38,7 +39,7 @@
 #'   wordlist = c("confirmed", "probable", "suspected", "died", "recovered"),
 #'   confirm = FALSE
 #' )
-correct_spelling_mistakes <- function(data,
+correct_misspelled_values <- function(data,
                                       target_columns,
                                       wordlist,
                                       max.distance = 1,
