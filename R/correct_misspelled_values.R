@@ -9,11 +9,14 @@
 #' replaced by their closest values within the provided vector of expected
 #' values.
 #'
+<<<<<<< HEAD
 #' If multiple words supplied in the `wordlist` equally match a word in the
 #' data and `confirm` is `TRUE` the user is presented a menu to choose the
 #' replacement word. If it is not used interactively multiple equal matches
 #' throws a warning.
 #'
+=======
+>>>>>>> cebaa7d (rename correct_spelling_mistakes to correct_misspelled_values and update documentation)
 #' @inheritParams clean_data
 #' @param target_columns A \code{<vector>} of the target column names. When the
 #'    input data is a \code{<linelist>} object, this parameter can be set to
@@ -21,9 +24,12 @@
 #'    tagged columns.
 #' @param wordlist A \code{<vector>} of characters with the words to match to
 #'    the detected misspelled values.
+<<<<<<< HEAD
 #' @param max.distance An `integer` for the maximum distance allowed for a
 #'    detecting a spelling mistakes from the `wordlist`. The distance is the
 #'    generalized Levenshtein edit distance (see [adist()]). Default is `1`.
+=======
+>>>>>>> cebaa7d (rename correct_spelling_mistakes to correct_misspelled_values and update documentation)
 #' @param confirm A `logical` that determines whether to show the user a menu of
 #'    spelling corrections. If `TRUE` and using \R interactively then the user
 #'    will have the option to review the proposed spelling corrections. This
@@ -41,7 +47,11 @@
 #'   outcome = c("died", "recoverd", "did", "recovered")
 #' )
 #' df
+<<<<<<< HEAD
 #' correct_misspelled_values(
+=======
+#' correct_spelling_mistakes(
+>>>>>>> cebaa7d (rename correct_spelling_mistakes to correct_misspelled_values and update documentation)
 #'   data = df,
 #'   target_columns = c("case_type", "outcome"),
 #'   wordlist = c("confirmed", "probable", "suspected", "died", "recovered"),
@@ -73,6 +83,7 @@ correct_misspelled_values <- function(data,
       word_dist <- utils::adist(data[, col], wordlist)
 
       # find and warn if there are multiple words in wordlist that equally match
+<<<<<<< HEAD
       multi_match <- vector(mode = "numeric", length = nrow(word_dist))
       wordlist_idx <- matrix(nrow = nrow(word_dist), ncol = ncol(word_dist))
       for (i in seq_len(nrow(word_dist))) {
@@ -131,14 +142,35 @@ correct_misspelled_values <- function(data,
         # make copy of wordlist and word_dist to match multi-match case
         wordlist_ <- wordlist
         word_dist_ <- word_dist
+=======
+      multi_match <- apply(word_dist, MARGIN = 1, FUN = function(x) {
+        # ignore multiple matches for correct spelling
+        idx <- x == min(x) & min(x) != 0
+        anyDuplicated(x[idx])
+      })
+      multi_match_idx <- multi_match > 0L
+      if (any(multi_match_idx)) {
+        warning(
+          "'", toString(data[, col][multi_match_idx]), "'",
+          " matched equally with multiple words in the `wordlist`.\n",
+          "Using the first matched word in the `wordlist`."
+        )
+>>>>>>> cebaa7d (rename correct_spelling_mistakes to correct_misspelled_values and update documentation)
       }
 
       data[, col] <- fix_spelling_mistakes(
         df_col = data[, col],
+<<<<<<< HEAD
         wordlist = wordlist_,
         max.distance = max.distance,
         confirm = confirm,
         word_dist = word_dist_
+=======
+        wordlist = wordlist,
+        max.distance = max.distance,
+        confirm = confirm,
+        word_dist = word_dist
+>>>>>>> cebaa7d (rename correct_spelling_mistakes to correct_misspelled_values and update documentation)
       )
     } else {
       cli::cli_inform(c(
@@ -155,17 +187,26 @@ fix_spelling_mistakes <- function(df_col,
                                   confirm,
                                   word_dist) {
   for (i in seq_len(nrow(word_dist))) {
+<<<<<<< HEAD
     # check for misspelling within max.distance and no NA or zeros
     misspelled <- any(word_dist[i, ] > 0L & word_dist[i, ] <= max.distance &
                         !is.na(word_dist[i, ])) && !any(word_dist[i, ] == 0)
+=======
+    misspelled <- all(word_dist[i, ] > 0L & word_dist[i, ] <= max.distance &
+                        !is.na(word_dist[i, ]))
+>>>>>>> cebaa7d (rename correct_spelling_mistakes to correct_misspelled_values and update documentation)
     if (misspelled) {
       # only show user menu when interactive
       if (rlang::is_interactive() && confirm) {
         menu_title <- paste(
           "The following words will be corrected:",
+<<<<<<< HEAD
           toString(paste(
             "\n -", df_col[i], "->", wordlist[which.min(word_dist[i, ])]
           )),
+=======
+          toString(paste("\n -", df_col[i], "->", wordlist[which.min(word_dist[i, ])])),
+>>>>>>> cebaa7d (rename correct_spelling_mistakes to correct_misspelled_values and update documentation)
           "\n\n (0 to exit)"
         )
         # ask user to change spelling if fuzzy matched
