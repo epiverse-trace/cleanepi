@@ -96,11 +96,17 @@ correct_misspelled_values <- function(data,
             choices = wordlist[wordlist_idx[multi_match_idx, ]],
             title = menu_title
           )
-          # remove word(s) not chosen by user
-          wordlist <- c(
-            wordlist[!wordlist %in% wordlist[wordlist_idx[multi_match_idx, ]]],
+          # remove word(s) not chosen by user, important to keep the same order
+          # due to word_dist
+          rm_words <- setdiff(
+            wordlist[wordlist_idx[multi_match_idx, ]],
             wordlist[wordlist_idx[multi_match_idx, ]][user_choice]
           )
+          rm_words_idx <- !wordlist %in% rm_words
+
+          # make copies of wordlist and word_dist to not overwrite outside loop
+          wordlist_ <- wordlist[rm_words_idx]
+          word_dist_ <- word_dist[, rm_words_idx]
         } else {
           warning(
             "'", toString(data[, col][multi_match_idx]), "'",
@@ -108,15 +114,31 @@ correct_misspelled_values <- function(data,
             "Using the first matched word in the `wordlist`.",
             call. = FALSE
           )
+
+          # remove word(s) not chosen by user, important to keep the same order
+          # due to word_dist
+          rm_words <- setdiff(
+            wordlist[wordlist_idx[multi_match_idx, ]],
+            wordlist[wordlist_idx[multi_match_idx, ]][1]
+          )
+          rm_words_idx <- !wordlist %in% rm_words
+
+          # make copies of wordlist and word_dist to not overwrite outside loop
+          wordlist_ <- wordlist[rm_words_idx]
+          word_dist_ <- word_dist[, rm_words_idx]
         }
+      } else {
+        # make copy of wordlist and word_dist to match multi-match case
+        wordlist_ <- wordlist
+        word_dist_ <- word_dist
       }
 
       data[, col] <- fix_spelling_mistakes(
         df_col = data[, col],
-        wordlist = wordlist,
+        wordlist = wordlist_,
         max.distance = max.distance,
         confirm = confirm,
-        word_dist = word_dist
+        word_dist = word_dist_
       )
     } else {
       cli::cli_inform(c(
@@ -133,8 +155,9 @@ fix_spelling_mistakes <- function(df_col,
                                   confirm,
                                   word_dist) {
   for (i in seq_len(nrow(word_dist))) {
+    # check for misspelling within max.distance and no NA or zeros
     misspelled <- any(word_dist[i, ] > 0L & word_dist[i, ] <= max.distance &
-                        !is.na(word_dist[i, ]))
+                        !is.na(word_dist[i, ])) && !any(word_dist[i, ] == 0)
     if (misspelled) {
       # only show user menu when interactive
       if (rlang::is_interactive() && confirm) {
