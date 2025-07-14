@@ -9,6 +9,11 @@
 #' replaced by their closest values within the provided vector of expected
 #' values.
 #'
+#' If multiple words supplied in the `wordlist` equally match a word in the
+#' data and `confirm` is `TRUE` the user is presented a menu to choose the
+#' replacement word. If it is not used interactively multiple equal matches
+#' throws a warning.
+#'
 #' @inheritParams clean_data
 #' @param target_columns A \code{<vector>} of the target column names. When the
 #'    input data is a \code{<linelist>} object, this parameter can be set to
@@ -33,7 +38,7 @@
 #'   outcome = c("died", "recoverd", "did", "recovered")
 #' )
 #' df
-#' correct_spelling_mistakes(
+#' correct_misspelled_values(
 #'   data = df,
 #'   target_columns = c("case_type", "outcome"),
 #'   wordlist = c("confirmed", "probable", "suspected", "died", "recovered"),
@@ -65,18 +70,42 @@ correct_misspelled_values <- function(data,
       word_dist <- utils::adist(data[, col], wordlist)
 
       # find and warn if there are multiple words in wordlist that equally match
-      multi_match <- apply(word_dist, MARGIN = 1, FUN = function(x) {
+      multi_match <- vector(mode = "numeric", length = nrow(word_dist))
+      wordlist_idx <- matrix(nrow = nrow(word_dist), ncol = ncol(word_dist))
+      for (i in seq_len(nrow(word_dist))) {
         # ignore multiple matches for correct spelling
-        idx <- x == min(x) & min(x) != 0
-        anyDuplicated(x[idx])
-      })
+        wordlist_idx[i, ] <- word_dist[i, ] == min(word_dist[i, ]) &
+          min(word_dist[i, ]) != 0
+        multi_match[i] <- anyDuplicated(word_dist[i, ][wordlist_idx[i, ]])
+      }
       multi_match_idx <- multi_match > 0L
       if (any(multi_match_idx)) {
-        warning(
-          "'", toString(data[, col][multi_match_idx]), "'",
-          " matched equally with multiple words in the `wordlist`.\n",
-          "Using the first matched word in the `wordlist`."
-        )
+        # only show user menu when interactive
+        if (rlang::is_interactive() && confirm) {
+          menu_title <- paste0(
+            "'", toString(data[, col][multi_match_idx]), "'",
+            " matched equally with multiple words in the `wordlist`.\n",
+            "Select the spelling fix:\n",
+            "\n\n (0 to exit)"
+          )
+          # ask user to change spelling if fuzzy matched
+          user_choice <- utils::menu(
+            choices = wordlist[wordlist_idx[multi_match_idx, ]],
+            title = menu_title
+          )
+          # remove word(s) not chosen by user
+          wordlist <- c(
+            wordlist[!wordlist %in% wordlist[wordlist_idx[multi_match_idx, ]]],
+            wordlist[wordlist_idx[multi_match_idx, ]][user_choice]
+          )
+        } else {
+          warning(
+            "'", toString(data[, col][multi_match_idx]), "'",
+            " matched equally with multiple words in the `wordlist`.\n",
+            "Using the first matched word in the `wordlist`.",
+            call. = FALSE
+          )
+        }
       }
 
       data[, col] <- fix_spelling_mistakes(
@@ -101,14 +130,16 @@ fix_spelling_mistakes <- function(df_col,
                                   confirm,
                                   word_dist) {
   for (i in seq_len(nrow(word_dist))) {
-    misspelled <- all(word_dist[i, ] > 0L & word_dist[i, ] <= max.distance &
+    misspelled <- any(word_dist[i, ] > 0L & word_dist[i, ] <= max.distance &
                         !is.na(word_dist[i, ]))
     if (misspelled) {
       # only show user menu when interactive
       if (rlang::is_interactive() && confirm) {
         menu_title <- paste(
           "The following words will be corrected:",
-          toString(paste("\n -", df_col[i], "->", wordlist[which.min(word_dist[i, ])])),
+          toString(paste(
+            "\n -", df_col[i], "->", wordlist[which.min(word_dist[i, ])]
+          )),
           "\n\n (0 to exit)"
         )
         # ask user to change spelling if fuzzy matched
