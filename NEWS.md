@@ -1,5 +1,7 @@
 # cleanepi (development version)
 
+# cleanepi 1.1.1
+
 ## Bug fixes
 
 * Added {systemfonts} as a dependency in Suggests as it is required to build the
