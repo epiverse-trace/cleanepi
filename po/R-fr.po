@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: cleanepi 1.0.2.9000\n"
-"POT-Creation-Date: 2025-07-11 10:18+0000\n"
+"POT-Creation-Date: 2025-07-15 14:08+0000\n"
 "PO-Revision-Date: 2024-11-07 12:38+0000\n"
 "Last-Translator: Karim Mané\n"
 "Language-Team: none\n"
@@ -270,6 +270,12 @@ msgstr ""
 "{?La/Les} colonne{?s} suivante{?s} {?sera/seront} convertie{?s} en "
 "numérique : {.field {to_numeric}}."
 
+#: correct_misspelled_values.R:145
+msgid ""
+"{.field {col}} is not a {.emph character} column so cannot be spell checked."
+msgstr "Impossible de vérifier l'orthographe des valeurs de la colonne "
+"{.field {col}} étant donné qu'elle n'est pas de type {.emph caractère}."
+
 #: date_standardization_helpers.R:48
 msgid "Unexpected format in the function arguments."
 msgstr ""
@@ -463,11 +469,11 @@ msgstr ""
 "qty(undefined_opts)} {?trouve/trouvent} dans la colonne {.field {option}} et "
 "non définis dans le dictionnaire de données."
 
-#: find_and_remove_duplicates.R:130
+#: find_and_remove_duplicates.R:138
 msgid "Found {.val {nrow(dups)}} duplicated row{?s} in the dataset."
 msgstr "Ces données contiennent {.val {nrow(dups)}} ligne{?s} redondante{?s}."
 
-#: find_and_remove_duplicates.R:131
+#: find_and_remove_duplicates.R:139
 msgid ""
 "Use {.code print_report(dat, \"found_duplicates\")} to access them, where {."
 "val dat} is the object used to store the output from this operation."
@@ -476,7 +482,7 @@ msgstr ""
 "accéder. {.val dat} represente ici l’object créé pour stocker le résultat de "
 "cette opération."
 
-#: find_and_remove_duplicates.R:146
+#: find_and_remove_duplicates.R:154
 msgid "No duplicates were found."
 msgstr "Aucune ligne redondante n’a été détectée."
 
@@ -536,9 +542,10 @@ msgstr "Creation du rapport en format html dans {.file {temp_dir}}."
 msgid ""
 "Constant data was not removed. The value for the {.emph cut-off} argument "
 "must be greater than {.emph 0} and less than or equal to {.emph 1}."
-msgstr "Les données constantes n'ont pas été supprimées. La valeur de "
-"l'argument {.emph cut-off} doit être supérieure à {.emph 0} et inférieure ou "
-"égale à {.emph 1}."
+msgstr ""
+"Les données constantes n'ont pas été supprimées. La valeur de l'argument {."
+"emph cut-off} doit être supérieure à {.emph 0} et inférieure ou égale à {."
+"emph 1}."
 
 #: remove_constants.R:131
 msgid ""
