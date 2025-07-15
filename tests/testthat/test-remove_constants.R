@@ -14,6 +14,7 @@ test_that("remove_constants works", {
   expect_s3_class(dat, class = "data.frame")
   expect_identical(ncol(dat), 5L)
   expect_false(nrow(data) == nrow(dat))
+  expect_false(ncol(data) == ncol(dat))
   expect_false(
     any(
       c("empty_column", "event_name", "country_code", "country_name") %in%
@@ -21,11 +22,7 @@ test_that("remove_constants works", {
     )
   )
 
-  report <- attr(dat, "report")
-  expect_type(report, "list")
-  expect_length(report, 1L)
-  expect_named(report, "constant_data")
-  constant_data <- report[["constant_data"]]
+  constant_data <- print_report(dat, "constant_data")
   expect_true(nrow(constant_data) == 1)
   expect_true(ncol(constant_data) == 4)
   expect_identical(
@@ -59,24 +56,20 @@ df <- tibble::tibble(
 test_that("remove_constants works", {
   dat <- df %>%
   cleanepi::remove_constants()
-  report <- attr(dat, "report")
 
   expect_s3_class(dat, class = "data.frame")
   expect_identical(ncol(dat), 2L)
   expect_true(nrow(dat) == 2L)
-  dat <- data.frame(dat)
+  tmp_dat <- data.frame(dat)
   expect_identical(
-    dat,
+    tmp_dat,
     data.frame(
       x = as.double(1:2),
       y = as.double(c(1, 3))
     )
   )
 
-  expect_type(report, "list")
-  expect_length(report, 1L)
-  expect_named(report, "constant_data")
-  constant_data <- report[["constant_data"]]
+  constant_data <- print_report(dat, "constant_data")
   expect_true(nrow(constant_data) == 2)
   expect_true(ncol(constant_data) == 4)
   expect_identical(
@@ -99,24 +92,20 @@ test_that("remove_constants works", {
 test_that("remove_constants works as expected", {
   dat <- df %>%
     cleanepi::remove_constants(cutoff = 0.5)
-  report <- attr(dat, "report")
 
   expect_s3_class(dat, class = "data.frame")
   expect_identical(ncol(dat), 2L)
   expect_true(nrow(dat) == 2L)
-  dat <- data.frame(dat)
+  tmp_dat <- data.frame(dat)
   expect_identical(
-    dat,
+    tmp_dat,
     data.frame(
       x = as.double(1:2),
       y = as.double(c(1, 3))
     )
   )
 
-  expect_type(report, "list")
-  expect_length(report, 1L)
-  expect_named(report, "constant_data")
-  constant_data <- report[["constant_data"]]
+  constant_data <- print_report(dat, "constant_data")
   expect_true(nrow(constant_data) == 1)
   expect_true(ncol(constant_data) == 4)
   expect_identical(
