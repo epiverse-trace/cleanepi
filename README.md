@@ -739,9 +739,20 @@ cleaned_data <- clean_data(
 #> ℹ Removing duplicated rows
 #> ℹ No duplicates were found.
 #> ℹ Standardizing Date columns
+#> ! Detected 8 values that comply with multiple formats and no
+#>   values that are outside of the specified time frame.
+#> ℹ Enter `print_report(data = dat, "date_standardization")` to
+#>   access them, where "dat" is the object used to store the
+#>   output from this operation.
 #> ℹ Checking subject IDs format
-#> ! Detected 3 invalid subject ids at lines: "3, 5, 7".
-#> ℹ You can use the `correct_subject_ids()` function to correct them.
+#> 
+#> ! Detected no missing, no duplicated, and 3 incorrect subject
+#>   IDs.
+#> ℹ Enter `print_report(data = dat, "incorrect_subject_id")` to
+#>   access them, where "dat" is the object used to store the
+#>   output from this operation.
+#> ℹ You can use the `correct_subject_ids()` function to correct
+#>   them.
 #> ℹ Converting the following  column into numeric: sex
 #> 
 #> ℹ Performing dictionary-based cleaning
@@ -1121,12 +1132,11 @@ By contributing to this project, you agree to abide by its terms.
 
 ``` r
 citation("cleanepi")
-#> 
 #> To cite package 'cleanepi' in publications use:
 #> 
-#>   Mané K, Degoot A, Ahadzie B, Mohammed N, Bah B (2025).
-#>   _cleanepi: Clean and Standardize Epidemiological Data_.
-#>   doi:10.5281/zenodo.11473985
+#>   Mané K, Degoot A, Ahadzie B, Mohammed N, Bah B
+#>   (2025). _cleanepi: Clean and Standardize
+#>   Epidemiological Data_. doi:10.5281/zenodo.11473985
 #>   <https://doi.org/10.5281/zenodo.11473985>,
 #>   <https://epiverse-trace.github.io/cleanepi/>.
 #> 
