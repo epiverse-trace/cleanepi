@@ -2955,6 +2955,50 @@ female
 </div>
 </div>
 <div class="section level3">
+<h3 id="correct-misspelled-values">Correct misspelled values<a class="anchor" aria-label="anchor" href="#correct-misspelled-values"></a>
+</h3>
+<p>The <code><a href="../reference/add_to_dictionary.html">add_to_dictionary()</a></code> function is not suitable in the
+presence of a large number of misspelled values. As such, users can use
+the <code><a href="../reference/correct_misspelled_values.html">correct_misspelled_values()</a></code> function to fix misspelled
+values across multiple columns without needing/updating the data
+dictionary. The function takes the following arguments:</p>
+<ol style="list-style-type: decimal">
+<li>
+<strong>data</strong>: The input data frame or linelist</li>
+<li>
+<strong>target_columns</strong>: A vector of target columns across
+which to perform the spelling checks</li>
+<li>
+<strong>wordlist</strong>: A vector of characters with the words to
+match to the detected<br>
+misspelled values</li>
+<li>
+<strong>max_distance</strong>: An <code>integer</code> that
+represents the maximum distance allowed for detecting a spelling
+mistakes from the <code>wordlist</code>. The distance is the generalized
+Levenshtein edit distance. Default is <code>1</code>.</li>
+<li>
+<strong>confirm</strong>: A logical used to determine whether to
+show the user a menu of spelling corrections. If <code>TRUE</code> and
+using R interactively then the user will have the option to review the
+proposed spelling corrections.</li>
+</ol>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>  case_type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"confirmed"</span>, <span class="st">"confermed"</span>, <span class="st">"probable"</span>, <span class="st">"susspected"</span><span class="op">)</span>,</span>
+<span>  outcome <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"died"</span>, <span class="st">"recoverd"</span>, <span class="st">"did"</span>, <span class="st">"recovered"</span><span class="op">)</span>,</span>
+<span>  stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">df</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/correct_misspelled_values.html">correct_misspelled_values</a></span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="va">df</span>,</span>
+<span>  target_columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"case_type"</span>, <span class="st">"outcome"</span><span class="op">)</span>,</span>
+<span>  wordlist <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"confirmed"</span>, <span class="st">"probable"</span>, <span class="st">"suspected"</span>, <span class="st">"died"</span>, <span class="st">"recovered"</span><span class="op">)</span>,</span>
+<span>  confirm <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
 <h3 id="calculating-time-span-in-different-time-scales-years-months-weeks-or-days">Calculating time span in different time scales (“years”, “months”,
 “weeks”, or “days”)<a class="anchor" aria-label="anchor" href="#calculating-time-span-in-different-time-scales-years-months-weeks-or-days"></a>
 </h3>
@@ -2997,7 +3041,7 @@ the time span in different units. It facilitates various analytics tasks
 where the time span computation is a necessary component, providing
 users with the ability to customize the output according to their
 specific requirements.</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># IMPORT DATA, REPLACE MISSING VALUES WITH 'NA' &amp; STANDARDIZE DATES</span></span>
 <span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"test_df.RDS"</span>, package <span class="op">=</span> <span class="st">"cleanepi"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/replace_missing_values.html">replace_missing_values</a></span><span class="op">(</span></span>
