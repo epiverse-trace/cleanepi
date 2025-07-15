@@ -9,6 +9,8 @@
   contribution in this release.
   * An ROR has been added to the London School of Hygiene and Tropical Medicine,
   LSHTM
+  * Joshua W. Lambert has been added to the package authors for his
+  contribution in release 1.1.1.
 
 ## revdepcheck results
 
