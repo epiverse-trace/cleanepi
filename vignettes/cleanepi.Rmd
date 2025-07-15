@@ -1050,7 +1050,8 @@ following arguments:
 ```{r}
 df <- data.frame(
   case_type = c("confirmed", "confermed", "probable", "susspected"),
-  outcome = c("died", "recoverd", "did", "recovered")
+  outcome = c("died", "recoverd", "did", "recovered"),
+  stringsAsFactors = FALSE
 )
 df
 
