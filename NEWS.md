@@ -39,6 +39,9 @@ for users installing the package from GitHub
 installed for the `print_report()` function to work as expected
 (#241, @Karim-Mane).
 
+* Add the `correct_mispelled_values()` function to fix spelling mistakes based
+on fuzzy matching (#208, @jowhwlambert).
+
 # cleanepi 1.1.0
 
 ## Bug fixes
