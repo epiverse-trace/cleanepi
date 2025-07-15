@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: cleanepi 1.1.0.9000\n"
-"POT-Creation-Date: 2025-07-11 10:18+0000\n"
+"POT-Creation-Date: 2025-07-15 14:08+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -213,6 +213,11 @@ msgid ""
 "{to_numeric}}."
 msgstr ""
 
+#: correct_misspelled_values.R:145
+msgid ""
+"{.field {col}} is not a {.emph character} column so cannot be spell checked."
+msgstr ""
+
 #: date_standardization_helpers.R:48
 msgid "Unexpected format in the function arguments."
 msgstr ""
@@ -357,17 +362,17 @@ msgid ""
 "{option}} but not defined in the dictionary."
 msgstr ""
 
-#: find_and_remove_duplicates.R:130
+#: find_and_remove_duplicates.R:138
 msgid "Found {.val {nrow(dups)}} duplicated row{?s} in the dataset."
 msgstr ""
 
-#: find_and_remove_duplicates.R:131
+#: find_and_remove_duplicates.R:139
 msgid ""
 "Use {.code print_report(dat, \"found_duplicates\")} to access them, where {."
 "val dat} is the object used to store the output from this operation."
 msgstr ""
 
-#: find_and_remove_duplicates.R:146
+#: find_and_remove_duplicates.R:154
 msgid "No duplicates were found."
 msgstr ""
 

@@ -142,7 +142,7 @@ correct_misspelled_values <- function(data,
       )
     } else {
       cli::cli_inform(c(
-        "!" = tr_("The {.val {col}} column given to {.code target_columns} does not contain {.code character}s so cannot be spell checked.") # nolint: line_length_linter
+        "!" = tr_("{.field {col}} is not a {.emph character} column so cannot be spell checked.") # nolint: line_length_linter
       ))
     }
   }
