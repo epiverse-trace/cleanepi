@@ -65,6 +65,12 @@ reference:
   - detect_misspelled_options
   - print_misspelled_values
 
+- subtitle: Check spelling mistakes
+  desc: Substitutes misspelled values with their closest character from a user-
+    provided vector of words
+- contents:
+  - correct_misspelled_values
+
 - subtitle: Find and remove duplicates
 - contents:
   - ends_with("_duplicates", internal = TRUE)
