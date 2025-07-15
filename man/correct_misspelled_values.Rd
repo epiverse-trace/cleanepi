@@ -9,7 +9,7 @@ correct_misspelled_values(
   data,
   target_columns,
   wordlist,
-  max.distance = 1,
+  max_distance = 1,
   confirm = rlang::is_interactive(),
   ...
 )
@@ -25,14 +25,14 @@ tagged columns.}
 \item{wordlist}{A \code{<vector>} of characters with the words to match to
 the detected misspelled values.}
 
-\item{max.distance}{An \code{integer} for the maximum distance allowed for a
+\item{max_distance}{An \code{<integer>} for the maximum distance allowed for
 detecting a spelling mistakes from the \code{wordlist}. The distance is the
 generalized Levenshtein edit distance (see \code{\link[=adist]{adist()}}). Default is \code{1}.}
 
-\item{confirm}{A \code{logical} that determines whether to show the user a menu of
-spelling corrections. If \code{TRUE} and using \R interactively then the user
-will have the option to review the proposed spelling corrections. This
-argument is useful for turning off the \code{\link[=menu]{menu()}} when
+\item{confirm}{A \code{<logical>} that determines whether to show the user a
+menu of spelling corrections. If \code{TRUE} and using \R interactively then
+the user will have the option to review the proposed spelling corrections.
+This argument is useful for turning off the \code{\link[=menu]{menu()}} when
 \code{\link[rlang:is_interactive]{rlang::is_interactive()}} returns \code{TRUE} but not wanting to prompt the
 user e.g. \code{devtools::run_examples()}.}
 

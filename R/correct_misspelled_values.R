@@ -21,13 +21,13 @@
 #'    tagged columns.
 #' @param wordlist A \code{<vector>} of characters with the words to match to
 #'    the detected misspelled values.
-#' @param max.distance An `integer` for the maximum distance allowed for a
+#' @param max_distance An \code{<integer>} for the maximum distance allowed for
 #'    detecting a spelling mistakes from the `wordlist`. The distance is the
 #'    generalized Levenshtein edit distance (see [adist()]). Default is `1`.
-#' @param confirm A `logical` that determines whether to show the user a menu of
-#'    spelling corrections. If `TRUE` and using \R interactively then the user
-#'    will have the option to review the proposed spelling corrections. This
-#'    argument is useful for turning off the [menu()] when
+#' @param confirm A \code{<logical>} that determines whether to show the user a
+#'    menu of spelling corrections. If `TRUE` and using \R interactively then
+#'    the user will have the option to review the proposed spelling corrections.
+#'    This argument is useful for turning off the [menu()] when
 #'    [rlang::is_interactive()] returns `TRUE` but not wanting to prompt the
 #'    user e.g. `devtools::run_examples()`.
 #' @param ... [dots] Extra arguments to pass to [adist()].
@@ -50,7 +50,7 @@
 correct_misspelled_values <- function(data,
                                       target_columns,
                                       wordlist,
-                                      max.distance = 1,
+                                      max_distance = 1,
                                       confirm = rlang::is_interactive(),
                                       ...) {
   checkmate::assert_data_frame(data, null.ok = FALSE, min.cols = 1L)
@@ -59,7 +59,7 @@ correct_misspelled_values <- function(data,
     any.missing = FALSE
   )
   checkmate::assert_character(wordlist, any.missing = FALSE)
-  checkmate::assert_integerish(max.distance, any.missing = FALSE)
+  checkmate::assert_integerish(max_distance, any.missing = FALSE)
   checkmate::assert_logical(confirm, any.missing = FALSE, len = 1)
 
   # get the correct names in case some have been modified - see the
@@ -136,7 +136,7 @@ correct_misspelled_values <- function(data,
       data[, col] <- fix_spelling_mistakes(
         df_col = data[, col],
         wordlist = wordlist_,
-        max.distance = max.distance,
+        max_distance = max_distance,
         confirm = confirm,
         word_dist = word_dist_
       )
@@ -151,12 +151,12 @@ correct_misspelled_values <- function(data,
 
 fix_spelling_mistakes <- function(df_col,
                                   wordlist,
-                                  max.distance,
+                                  max_distance,
                                   confirm,
                                   word_dist) {
   for (i in seq_len(nrow(word_dist))) {
-    # check for misspelling within max.distance and no NA or zeros
-    misspelled <- any(word_dist[i, ] > 0L & word_dist[i, ] <= max.distance &
+    # check for misspelling within max_distance and no NA or zeros
+    misspelled <- any(word_dist[i, ] > 0L & word_dist[i, ] <= max_distance &
                         !is.na(word_dist[i, ])) && !any(word_dist[i, ] == 0)
     if (misspelled) {
       # only show user menu when interactive
