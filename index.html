@@ -35,7 +35,7 @@
     <a href="https://epiverse-trace.github.io/" class="external-link"><img src="https://epiverse-trace.github.io/blueprints/logo_white.svg" id="logo" alt="Epiverse-TRACE"></a>
     <a class="navbar-brand me-2" href="index.html">cleanepi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -506,9 +506,20 @@ sex
 <span><span class="co">#&gt; ℹ Removing duplicated rows</span></span>
 <span><span class="co">#&gt; ℹ No duplicates were found.</span></span>
 <span><span class="co">#&gt; ℹ Standardizing Date columns</span></span>
+<span><span class="co">#&gt; ! Detected 8 values that comply with multiple formats and no</span></span>
+<span><span class="co">#&gt;   values that are outside of the specified time frame.</span></span>
+<span><span class="co">#&gt; ℹ Enter `print_report(data = dat, "date_standardization")` to</span></span>
+<span><span class="co">#&gt;   access them, where "dat" is the object used to store the</span></span>
+<span><span class="co">#&gt;   output from this operation.</span></span>
 <span><span class="co">#&gt; ℹ Checking subject IDs format</span></span>
-<span><span class="co">#&gt; ! Detected 3 invalid subject ids at lines: "3, 5, 7".</span></span>
-<span><span class="co">#&gt; ℹ You can use the `correct_subject_ids()` function to correct them.</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ! Detected no missing, no duplicated, and 3 incorrect subject</span></span>
+<span><span class="co">#&gt;   IDs.</span></span>
+<span><span class="co">#&gt; ℹ Enter `print_report(data = dat, "incorrect_subject_id")` to</span></span>
+<span><span class="co">#&gt;   access them, where "dat" is the object used to store the</span></span>
+<span><span class="co">#&gt;   output from this operation.</span></span>
+<span><span class="co">#&gt; ℹ You can use the `correct_subject_ids()` function to correct</span></span>
+<span><span class="co">#&gt;   them.</span></span>
 <span><span class="co">#&gt; ℹ Converting the following  column into numeric: sex</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ℹ Performing dictionary-based cleaning</span></span></code></pre></div>
@@ -738,12 +749,11 @@ female
 </h2>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/citation.html" class="external-link">citation</a></span><span class="op">(</span><span class="st">"cleanepi"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; To cite package 'cleanepi' in publications use:</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;   Mané K, Degoot A, Ahadzie B, Mohammed N, Bah B (2025).</span></span>
-<span><span class="co">#&gt;   _cleanepi: Clean and Standardize Epidemiological Data_.</span></span>
-<span><span class="co">#&gt;   doi:10.5281/zenodo.11473985</span></span>
+<span><span class="co">#&gt;   Mané K, Degoot A, Ahadzie B, Mohammed N, Bah B</span></span>
+<span><span class="co">#&gt;   (2025). _cleanepi: Clean and Standardize</span></span>
+<span><span class="co">#&gt;   Epidemiological Data_. doi:10.5281/zenodo.11473985</span></span>
 <span><span class="co">#&gt;   &lt;https://doi.org/10.5281/zenodo.11473985&gt;,</span></span>
 <span><span class="co">#&gt;   &lt;https://epiverse-trace.github.io/cleanepi/&gt;.</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -806,16 +816,7 @@ female
 </ul>
 </div>
 
-<div class="dev-status">
-<h2 data-toc-skip>Dev status</h2>
-<ul class="list-unstyled">
-<li><a href="https://opensource.org/licenses/MIT" class="external-link"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a></li>
-<li><a href="https://github.com/epiverse-trace/cleanepi/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/epiverse-trace/cleanepi/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
-<li><a href="https://app.codecov.io/gh/epiverse-trace/cleanepi?branch=main" class="external-link"><img src="https://codecov.io/gh/epiverse-trace/cleanepi/branch/main/graph/badge.svg" alt="Codecov test coverage"></a></li>
-<li><a href="https://www.reconverse.org/lifecycle.html#experimental" class="external-link"><img src="https://raw.githubusercontent.com/reconverse/reconverse.github.io/master/images/badge-experimental.svg" alt="lifecycle-experimental"></a></li>
-<li><a href="https://zenodo.org/doi/10.5281/zenodo.11473984" class="external-link"><img src="https://zenodo.org/badge/607159823.svg" alt="DOI"></a></li>
-</ul>
-</div>
+
 
   </aside>
 </div>

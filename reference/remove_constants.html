@@ -17,7 +17,7 @@ within the report object."><meta property="og:image" content="https://epiverse-t
     <a href="https://epiverse-trace.github.io/" class="external-link"><img src="https://epiverse-trace.github.io/blueprints/logo_white.svg" id="logo" alt="Epiverse-TRACE"></a>
     <a class="navbar-brand me-2" href="../index.html">cleanepi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -49,7 +49,7 @@ within the report object."><meta property="og:image" content="https://epiverse-t
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>Remove constant data, including empty rows, empty columns, and columns with constant values.</h1>
-      <small class="dont-index">Source: <a href="https://github.com/epiverse-trace/cleanepi/blob/main/R/remove_constants.R" class="external-link"><code>R/remove_constants.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/epiverse-trace/cleanepi/blob/v1.1.1/R/remove_constants.R" class="external-link"><code>R/remove_constants.R</code></a></small>
       <div class="d-none name"><code>remove_constants.Rd</code></div>
     </div>
 
@@ -74,15 +74,15 @@ within the report object.</p>
 
 <dt id="arg-cutoff">cutoff<a class="anchor" aria-label="anchor" href="#arg-cutoff"></a></dt>
 <dd><p>A <code>&lt;numeric&gt;</code> value specifying the cut-off for removing
-empty rows and columns. If provided, only rows and columns with a
-percentage of missing data greater than this cut-off will be removed.
-The default is 1.</p></dd>
+constant data. The possible values vary between 0 (excluded) and 1
+(included). The default is 1 i.e. remove rows and columns with 100%
+constant data.</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>The input dataset with empty rows, empty columns, and constant
-columns removed.</p>
+    <p>The input dataset where the constant data is filtered out based on
+specified cut-off.</p>
     </div>
 
     <div class="section level2">

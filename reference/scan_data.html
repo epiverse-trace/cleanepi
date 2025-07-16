@@ -17,7 +17,7 @@ those columns. See the details section to know more about how it works."><meta p
     <a href="https://epiverse-trace.github.io/" class="external-link"><img src="https://epiverse-trace.github.io/blueprints/logo_white.svg" id="logo" alt="Epiverse-TRACE"></a>
     <a class="navbar-brand me-2" href="../index.html">cleanepi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -49,7 +49,7 @@ those columns. See the details section to know more about how it works."><meta p
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>Scan through a data frame and return the proportion of <code>missing</code>, <code>numeric</code>, <code>Date</code>, <code>character</code>, <code>logical</code> values.</h1>
-      <small class="dont-index">Source: <a href="https://github.com/epiverse-trace/cleanepi/blob/main/R/clean_data_helpers.R" class="external-link"><code>R/clean_data_helpers.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/epiverse-trace/cleanepi/blob/v1.1.1/R/clean_data_helpers.R" class="external-link"><code>R/clean_data_helpers.R</code></a></small>
       <div class="d-none name"><code>scan_data.Rd</code></div>
     </div>
 
@@ -61,7 +61,7 @@ those columns. See the details section to know more about how it works.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">scan_data</span><span class="op">(</span><span class="va">data</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">scan_data</span><span class="op">(</span><span class="va">data</span>, format <span class="op">=</span> <span class="st">"proportion"</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -70,6 +70,14 @@ those columns. See the details section to know more about how it works.</p>
 
 <dl><dt id="arg-data">data<a class="anchor" aria-label="anchor" href="#arg-data"></a></dt>
 <dd><p>The input <code>&lt;data.frame&gt;</code> or <code>&lt;linelist&gt;</code></p></dd>
+
+
+<dt id="arg-format">format<a class="anchor" aria-label="anchor" href="#arg-format"></a></dt>
+<dd><p>A <code>&lt;character&gt;</code> with the format in which the output of the
+data scanning result will be returned. The function returns the
+<code>proportions</code> of the different data types by default. Other possible
+values are: <code>percentage</code> and <code>fraction</code> to return the percentage or the
+fraction of the data types respectively.</p></dd>
 
 </dl></div>
     <div class="section level2">

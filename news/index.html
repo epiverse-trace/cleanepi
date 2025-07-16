@@ -13,7 +13,7 @@
     <a href="https://epiverse-trace.github.io/" class="external-link"><img src="https://epiverse-trace.github.io/blueprints/logo_white.svg" id="logo" alt="Epiverse-TRACE"></a>
     <a class="navbar-brand me-2" href="../index.html">cleanepi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,23 +45,26 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>Changelog</h1>
-      <small>Source: <a href="https://github.com/epiverse-trace/cleanepi/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/epiverse-trace/cleanepi/blob/v1.1.1/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="development version" id="cleanepi-development-version">cleanepi (development version)<a class="anchor" aria-label="anchor" href="#cleanepi-development-version"></a></h2>
+<h2 class="pkg-version" data-toc-text="1.1.1" id="cleanepi-111">cleanepi 1.1.1<a class="anchor" aria-label="anchor" href="#cleanepi-111"></a></h2><p class="text-muted">CRAN release: 2025-07-16</p>
 <div class="section level3">
-<h3 id="bug-fixes-development-version">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h3>
+<h3 id="bug-fixes-1-1-1">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-1-1"></a></h3>
 <ul><li><p>Added {systemfonts} as a dependency in Suggests as it is required to build the vignette in <strong>r-oldrel-macos-arm64</strong> (<a href="https://github.com/epiverse-trace/cleanepi/issues/218" class="external-link">#218</a>, <a href="https://github.com/Karim-Mane" class="external-link">@Karim-Mane</a>).</p></li>
 <li><p>Set a default value for the <code>orders</code> argument of the <code><a href="../reference/standardize_dates.html">standardize_dates()</a></code> function using its initial value in version 1.0.2 (<a href="https://github.com/epiverse-trace/cleanepi/issues/224" class="external-link">#224</a>, <a href="https://github.com/Karim-Mane" class="external-link">@Karim-Mane</a>).</p></li>
 </ul></div>
 <div class="section level3">
-<h3 id="enhancements-development-version">Enhancements<a class="anchor" aria-label="anchor" href="#enhancements-development-version"></a></h3>
+<h3 id="enhancements-1-1-1">Enhancements<a class="anchor" aria-label="anchor" href="#enhancements-1-1-1"></a></h3>
 <ul><li><p>The values of the <code>duplicates_checked_from</code>, <code>converted_into_numeric</code>, <code>missing_values_replaced_at</code>, <code>missing_ids</code> elements of the report which used to be a character (a comma-separated list of values) are now of type vector (<a href="https://github.com/epiverse-trace/cleanepi/issues/228" class="external-link">#228</a>, <a href="https://github.com/Karim-Mane" class="external-link">@Karim-Mane</a>).</p></li>
 <li><p>Remove the <code>row_id</code> column returned by the <code><a href="../reference/remove_duplicates.html">remove_duplicates()</a></code> function. This columns was introduced to perform the anti join with the output from the <code><a href="../reference/find_duplicates.html">find_duplicates()</a></code> function, but is not needed in the final output object (<a href="https://github.com/epiverse-trace/cleanepi/issues/227" class="external-link">#227</a>, <a href="https://github.com/Karim-Mane" class="external-link">@Karim-Mane</a>).</p></li>
 <li><p>Added an argument (<code>what</code>) to <code><a href="../reference/print_report.html">print_report()</a></code> allow printing the report from a specific data cleaning operation and stop users from interacting with attributes (<a href="https://github.com/epiverse-trace/cleanepi/issues/220" class="external-link">#220</a>, <a href="https://github.com/Karim-Mane" class="external-link">@Karim-Mane</a>).</p></li>
 <li><p>Clarify messages to distinguish between missing values and incorrect IDs in <code><a href="../reference/check_subject_ids.html">check_subject_ids()</a></code> function (<a href="https://github.com/epiverse-trace/cleanepi/issues/222" class="external-link">#222</a>, <a href="https://github.com/Karim-Mane" class="external-link">@Karim-Mane</a>).</p></li>
-<li><p>Prevent <code><a href="../reference/add_to_report.html">add_to_report()</a></code> from adding <code>NULL</code> to the data cleaning report (<a href="https://github.com/epiverse-trace/cleanepi/issues/232" class="external-link">#232</a>, <a href="https://github.com/Karim-Mane" class="external-link">@Karim-Mane</a>)</p></li>
+<li><p>Prevent <code><a href="../reference/add_to_report.html">add_to_report()</a></code> from adding <code>NULL</code> to the data cleaning report (<a href="https://github.com/epiverse-trace/cleanepi/issues/232" class="external-link">#232</a>, <a href="https://github.com/Karim-Mane" class="external-link">@Karim-Mane</a>).</p></li>
+<li><p>Set the development mode in the _pkgdown.yml file to <code>auto</code> to render the website for only new releases, while also providing a development version for users installing the package from GitHub (<a href="https://github.com/epiverse-trace/cleanepi/issues/240" class="external-link">#240</a>, <a href="https://github.com/Karim-Mane" class="external-link">@Karim-Mane</a>).</p></li>
+<li><p>Add a message to notify users that the <a href="https://glin.github.io/reactable/" class="external-link">reactable</a> package needs to be installed for the <code><a href="../reference/print_report.html">print_report()</a></code> function to work as expected (<a href="https://github.com/epiverse-trace/cleanepi/issues/241" class="external-link">#241</a>, <a href="https://github.com/Karim-Mane" class="external-link">@Karim-Mane</a>).</p></li>
+<li><p>Add the <code>correct_mispelled_values()</code> function to fix spelling mistakes based on fuzzy matching (<a href="https://github.com/epiverse-trace/cleanepi/issues/208" class="external-link">#208</a>, <a href="https://github.com/joshwlambert" class="external-link">@joshwlambert</a>).</p></li>
 </ul></div>
 </div>
     <div class="section level2">

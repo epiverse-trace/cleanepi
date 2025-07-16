@@ -15,7 +15,7 @@ the target_columns argument."><meta property="og:image" content="https://epivers
     <a href="https://epiverse-trace.github.io/" class="external-link"><img src="https://epiverse-trace.github.io/blueprints/logo_white.svg" id="logo" alt="Epiverse-TRACE"></a>
     <a class="navbar-brand me-2" href="../index.html">cleanepi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -47,7 +47,7 @@ the target_columns argument."><meta property="og:image" content="https://epivers
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>Remove duplicates</h1>
-      <small class="dont-index">Source: <a href="https://github.com/epiverse-trace/cleanepi/blob/main/R/find_and_remove_duplicates.R" class="external-link"><code>R/find_and_remove_duplicates.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/epiverse-trace/cleanepi/blob/v1.1.1/R/find_and_remove_duplicates.R" class="external-link"><code>R/find_and_remove_duplicates.R</code></a></small>
       <div class="d-none name"><code>remove_duplicates.Rd</code></div>
     </div>
 
@@ -80,6 +80,15 @@ duplicates on tagged columns only. Default is <code>NULL</code>.</p></dd>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>The input data <code>&lt;data.frame&gt;</code> or <code>&lt;linelist&gt;</code> without the
 duplicated rows identified from all or the specified columns.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p><strong>Caveat:</strong> In many epidemiological datasets, multiple rows may share the
+same value in one or more columns without being true duplicates.
+For example, several individuals might have the same  symptom onset date
+and admission date. Be cautious when using this function—especially when
+applying it to a single target column—to avoid incorrect identification
+or removal of valid entries.</p>
     </div>
 
     <div class="section level2">
