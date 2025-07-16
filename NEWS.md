@@ -40,7 +40,7 @@ installed for the `print_report()` function to work as expected
 (#241, @Karim-Mane).
 
 * Add the `correct_mispelled_values()` function to fix spelling mistakes based
-on fuzzy matching (#208, @jowhwlambert).
+on fuzzy matching (#208, @joshwlambert).
 
 # cleanepi 1.1.0
 
