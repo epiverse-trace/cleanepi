@@ -2,13 +2,13 @@
 # CITATION file created with {cffr} R package
 # See also: https://docs.ropensci.org/cffr/
 # --------------------------------------------
-
+ 
 cff-version: 1.2.0
 message: 'To cite package "cleanepi" in publications use:'
 type: software
 license: MIT
 title: 'cleanepi: Clean and Standardize Epidemiological Data'
-version: 1.1.0.9000
+version: 1.1.1.9000
 doi: 10.5281/zenodo.11473985
 identifiers:
 - type: doi
