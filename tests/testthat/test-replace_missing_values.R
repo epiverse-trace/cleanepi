@@ -29,6 +29,15 @@ test_that("replace_missing_values works when target_columns is set to NULL", {
   )
 })
 
+test_that("replace_missing_values is case and whitespace insensitive", {
+  data$country_name[1] <- "Not avaiLablE"
+  data$country_name[2] <- " Not available "
+  cleaned_data <- replace_missing_values(data = data)
+  expect_s3_class(cleaned_data, "data.frame")
+  expect_false("Not avaiLablE" %in% cleaned_data[["country_name"]])
+  expect_true(anyNA(cleaned_data[["country_name"]]))
+})
+
 test_that("replace_missing_values fails as expected", {
   expect_message(
     replace_missing_values(
