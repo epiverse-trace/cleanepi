@@ -10,7 +10,8 @@
 #'    values in the columns of interest. By default, it utilizes
 #'    \code{cleanepi::common_na_strings}. However, if the missing values string
 #'    in the columns of interest is not included in this predefined vector,
-#'    it can be used as the value for this argument.
+#'    it can be used as the value for this argument. Matching of `data` with
+#'    `na_strings` is insensitive to case and whitespace.
 #'
 #' @returns The input data where missing values are replaced by \code{NA}.
 #' @export
@@ -41,6 +42,10 @@ replace_missing_values <- function(data,
   # identify the columns containing the specified missing value characters
   tmp <- data %>%
     dplyr::select(dplyr::all_of(cols))
+  # normalise text for case and whitespace insensitive matching
+  tmp <- as.data.frame(
+    lapply(tmp, function(x) if (is.character(x)) trimws(tolower(x)) else x)
+  )
   indices <- colSums(apply(tmp, 2, match, na_strings), na.rm = TRUE) > 0
 
   # send a warning when none of the columns contains the provided missing value
@@ -48,7 +53,7 @@ replace_missing_values <- function(data,
   if (any(indices)) {
     # replace missing value strings with NA
     cols <- names(tmp)[indices]
-    data[cols] <- lapply(data[cols], replace_with_na, na_strings)
+    data[cols] <- lapply(tmp[cols], replace_with_na, na_strings)
 
     # report columns where the replacement happened
     data <- add_to_report(
