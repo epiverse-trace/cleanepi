@@ -11,7 +11,7 @@
 #'    \code{cleanepi::common_na_strings}. However, if the missing values string
 #'    in the columns of interest is not included in this predefined vector,
 #'    it can be used as the value for this argument. Matching of `data` with
-#'    `na_strings` is insensitive to case and whitespace.
+#'    `na_strings` is insensitive to case and leading/trailing whitespace.
 #'
 #' @returns The input data where missing values are replaced by \code{NA}.
 #' @export

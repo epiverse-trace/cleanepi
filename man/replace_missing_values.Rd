@@ -24,7 +24,7 @@ values in the columns of interest. By default, it utilizes
 \code{cleanepi::common_na_strings}. However, if the missing values string
 in the columns of interest is not included in this predefined vector,
 it can be used as the value for this argument. Matching of \code{data} with
-\code{na_strings} is insensitive to case and whitespace.}
+\code{na_strings} is insensitive to case and leading/trailing whitespace.}
 }
 \value{
 The input data where missing values are replaced by \code{NA}.
