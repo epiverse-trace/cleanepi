@@ -1,6 +1,8 @@
 CMD
 Codecov
+DOI
 Epiverse
+iteratively
 LSHTM
 Levenshtein
 Lifecycle
@@ -44,6 +46,7 @@ potools
 reactable
 readepi
 readr
+repo
 rlang
 rmarkdown
 snakecase
