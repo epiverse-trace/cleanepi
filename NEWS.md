@@ -1,5 +1,8 @@
 # cleanepi (development version)
 
+* `replace_missing_values()` now matches with `na_strings` insensitive to
+case or leading/trailing whitespace (#257, @joshwlambert). 
+
 # cleanepi 1.1.1
 
 ## Bug fixes
