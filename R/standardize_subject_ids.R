@@ -113,15 +113,6 @@ check_subject_ids <- function(data,
     bad_rows <- c(bad_rows, which(nchar(data[[target_columns]]) != nchar))
   }
 
-  # when all subject ids comply with the expected format,
-  # send a message that no incorrect subject ids was found
-  if (is.null(report) && length(bad_rows) == 0) {
-    cli::cli_alert_info(
-      tr_("No incorrect subject id was detected.")
-    )
-    return(data)
-  }
-
   # determine row indices with incorrect subject ids, and
   # report them
   bad_rows <- sort(unique(bad_rows))
@@ -134,12 +125,26 @@ check_subject_ids <- function(data,
     report[["invalid_subject_ids"]] <- tmp_report
   }
 
+  # when all subject ids comply with the expected format,
+  # send a message that no incorrect subject ids was found
+  verdict <- any(
+    c("duplicated_ids", "idx_missing_ids", "invalid_subject_ids") %in%
+      names(report)
+  )
+  if (!verdict) {
+    cli::cli_alert_info(
+      tr_("No incorrect subject id was detected.")
+    )
+    return(data)
+  }
+
   # add to the report
   data <- add_to_report(
     x = data,
     key = "incorrect_subject_id",
     value = report
   )
+
   # send message to the user
   num_duplicated_ids <- ifelse( # nolint: object_usage_linter
     "duplicated_ids" %in% names(report),
@@ -153,13 +158,14 @@ check_subject_ids <- function(data,
     length(report[["idx_missing_ids"]]),
     0
   )
-  num_duplicated_ids <- ifelse( # nolint: object_usage_linter
-    "duplicated_ids" %in% names(report),
-    nrow(report[["duplicated_ids"]]),
+
+  num_invalide_ids <- ifelse( # nolint: object_usage_linter
+    "invalid_subject_ids" %in% names(report),
+    nrow(report[["invalid_subject_ids"]]),
     0
   )
   cli::cli_inform(c(
-    "!" = tr_("Detected {.val {cli::no({num_missing_ids})}} missing, {.val {cli::no({num_duplicated_ids})}} duplicated, and {.val {cli::no({nrow(report$invalid_subject_ids) - num_missing_ids})}} incorrect subject IDs."), # nolint: line_length_linter
+    "!" = tr_("Detected {.val {num_missing_ids}} missing, {.val {num_duplicated_ids}} duplicated, and {.val {num_invalide_ids - num_missing_ids}} incorrect subject IDs."), # nolint: line_length_linter
     "i" = tr_("Enter {.code print_report(data = dat, \"incorrect_subject_id\")} to access them, where {.val dat} is the object used to store the output from this operation."), # nolint: line_length_linter
     "i" = tr_("You can use the {.fn correct_subject_ids} function to correct {cli::qty(length(bad_rows))} {?it/them}.") # nolint: line_length_linter
   ))
