@@ -1,7 +1,11 @@
 # cleanepi (development version)
 
+## Bug fixes
+
 * `replace_missing_values()` now matches with `na_strings` insensitive to
-case or leading/trailing whitespace (#257, @joshwlambert). 
+case or leading/trailing whitespace (#257, @joshwlambert).
+
+* Fix {cli}-related errors in `check_subject_ids()` function(#260, @Karim-Mane).
 
 # cleanepi 1.1.1
 
