@@ -31,6 +31,8 @@ columns, empty rows and columns}
 where the missing value strings have been replaced with NA}
 \item{\code{incorrect_subject_id}}{To display the missing, duplicated and
 invalid subject subject IDs}
+\item{\code{scanning_result}}{To display the output of the scan_data()
+function}
 }}
 
 \item{...}{Any other extra argument}

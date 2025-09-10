@@ -35,6 +35,8 @@
 #'          where the missing value strings have been replaced with NA}
 #'      \item{`incorrect_subject_id`}{To display the missing, duplicated and
 #'          invalid subject subject IDs}
+#'      \item{`scanning_result`}{To display the output of the scan_data()
+#'          function}
 #'    }
 #'
 #' @returns A \code{<character>} containing the name and path of the saved
@@ -110,7 +112,8 @@ print_report <- function(data,
     choices = c("incorrect_date_sequence", "colnames", "converted_into_numeric",
                 "date_standardization", "misspelled_values",
                 "removed_duplicates", "found_duplicates", "constant_data",
-                "missing_values_replaced_at", "incorrect_subject_id")
+                "missing_values_replaced_at", "incorrect_subject_id",
+                "scanning_result")
   )
 
   if (!requireNamespace("reactable", quietly = TRUE)) {
@@ -167,17 +170,21 @@ print_report <- function(data,
     tr_("Generating html report in {.file {temp_dir}}.")
   )
 
+  # deduplicate the report
+  report <- report[!duplicated(report)]
+
   # unnest date standardisation report
-  report <- unnest_report(report, "date_standardization", "multi_format_dates",
-                          "out_of_range_dates")
+  report <- unnest_report(report, what = "date_standardization",
+                          "multi_format_dates", "out_of_range_dates")
 
   # unnest duplicates finding report
-  report <- unnest_report(report, "found_duplicates", "duplicated_rows",
-                          "duplicates_checked_from")
+  report <- unnest_report(report = report, what = "found_duplicates",
+                          "duplicated_rows", "duplicates_checked_from")
 
   # unnest subject IDs checks report
-  report <- unnest_report(report, "incorrect_subject_id", "idx_missing_ids",
-                          "duplicated_ids", "invalid_subject_ids")
+  report <- unnest_report(report, what = "incorrect_subject_id",
+                          "idx_missing_ids", "duplicated_ids",
+                          "invalid_subject_ids")
 
   # render the report
   rmarkdown::render(
@@ -208,7 +215,7 @@ print_report <- function(data,
 #'    removed.
 #' @keywords internal
 unnest_report <- function(report, what, ...) {
-  checkmate::assert_list(report, max.len = 10, min.len = 1)
+  checkmate::assert_list(report, min.len = 1)
   # get the extra argument
   extra_args <- list(...)
 
@@ -216,11 +223,13 @@ unnest_report <- function(report, what, ...) {
     target <- report[[what]]
     for (arg in extra_args) {
       if (arg %in% names(target)) {
-        report[[arg]] <-
-          target[[arg]]
+        report[[arg]] <- target[[arg]]
       }
     }
     report[[what]] <- NULL
+    # temporary fix - but needs to be permanently fixed by making sure that
+    # when the object exists, no duplicates is created, should overwrite
+    # existing object
   }
 
   return(report)
