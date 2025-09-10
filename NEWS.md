@@ -7,7 +7,7 @@ case or leading/trailing white space (#257, @joshwlambert).
 
 * Fix {cli}-related errors in `check_subject_ids()` function(#260, @Karim-Mane).
 
-* fix error in `print_report()` by deduplicating the elements of the report
+* fix error in `print_report()` by remove duplicated elements from the report
 object(#261, @Karim-Mane).
 
 # cleanepi 1.1.1
