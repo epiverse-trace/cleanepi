@@ -1,14 +1,11 @@
 CMD
 Codecov
-DOI
 Epiverse
-iteratively
 LSHTM
 Levenshtein
 Lifecycle
 ORCID
 Pratik
-Thibault
 Unnest
 Valle
 YYYY
@@ -17,6 +14,7 @@ analytics
 bookdown
 cli
 dateOfBirth
+deduplicating
 dplyr
 epiCleanr
 funder
@@ -46,7 +44,6 @@ potools
 reactable
 readepi
 readr
-repo
 rlang
 rmarkdown
 snakecase
