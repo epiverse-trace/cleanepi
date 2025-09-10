@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: cleanepi 1.1.0.9000\n"
-"POT-Creation-Date: 2025-07-15 14:08+0000\n"
+"Project-Id-Version: cleanepi 1.1.1.9000\n"
+"POT-Creation-Date: 2025-09-10 11:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -386,35 +386,35 @@ msgid ""
 "cls list} of character vectors."
 msgstr ""
 
-#: print_report.R:118
+#: print_report.R:121
 msgid "The {.pkg reactable} package is required for printing the report."
 msgstr ""
 
-#: print_report.R:127
+#: print_report.R:130
 msgid "No report associated with the input data."
 msgstr ""
 
-#: print_report.R:128
+#: print_report.R:131
 msgid ""
 "At least one data cleaning operation must be applied to the data before "
 "calling {.fn print_report}."
 msgstr ""
 
-#: print_report.R:129
+#: print_report.R:132
 msgid ""
 "The list of functions in {.pkg cleanepi} can be found at: {.url https://"
 "epiverse-trace.github.io/cleanepi/reference/index.html}."
 msgstr ""
 
-#: print_report.R:134
+#: print_report.R:137
 msgid "Incorrect value provided for {.emph format} argument!"
 msgstr ""
 
-#: print_report.R:135
+#: print_report.R:138
 msgid "Only {.val html} format is currently supported."
 msgstr ""
 
-#: print_report.R:167
+#: print_report.R:170
 msgid "Generating html report in {.file {temp_dir}}."
 msgstr ""
 
@@ -437,13 +437,13 @@ msgid ""
 "remove_constants}."
 msgstr ""
 
-#: replace_missing_values.R:61
+#: replace_missing_values.R:66
 msgid ""
 "Could not detect the provided missing value {cli::qty(length(na_strings))} "
 "character{?s}."
 msgstr ""
 
-#: replace_missing_values.R:62
+#: replace_missing_values.R:67
 msgid ""
 "Does your data contain missing value characters other than the specified "
 "ones?"
@@ -497,37 +497,36 @@ msgid ""
 "code data$target_column})."
 msgstr ""
 
-#: standardize_subject_ids.R:120
+#: standardize_subject_ids.R:136
 msgid "No incorrect subject id was detected."
 msgstr ""
 
-#: standardize_subject_ids.R:162
+#: standardize_subject_ids.R:168
 msgid ""
-"Detected {.val {cli::no({num_missing_ids})}} missing, {.val {cli::"
-"no({num_duplicated_ids})}} duplicated, and {.val {cli::"
-"no({nrow(report$invalid_subject_ids) - num_missing_ids})}} incorrect subject "
-"IDs."
+"Detected {.val {num_missing_ids}} missing, {.val {num_duplicated_ids}} "
+"duplicated, and {.val {num_invalide_ids - num_missing_ids}} incorrect "
+"subject IDs."
 msgstr ""
 
-#: standardize_subject_ids.R:163
+#: standardize_subject_ids.R:169
 msgid ""
 "Enter {.code print_report(data = dat, \"incorrect_subject_id\")} to access "
 "them, where {.val dat} is the object used to store the output from this "
 "operation."
 msgstr ""
 
-#: standardize_subject_ids.R:164
+#: standardize_subject_ids.R:170
 msgid ""
 "You can use the {.fn correct_subject_ids} function to correct {cli::"
 "qty(length(bad_rows))} {?it/them}."
 msgstr ""
 
-#: standardize_subject_ids.R:266
+#: standardize_subject_ids.R:272
 msgid ""
 "Some IDs specified in the correction table were not found in the input data."
 msgstr ""
 
-#: standardize_subject_ids.R:267
+#: standardize_subject_ids.R:273
 msgid ""
 "Values in the {.field from} column of the correction table must be part of "
 "the detected incorrect subject IDs."
