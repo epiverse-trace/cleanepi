@@ -690,6 +690,11 @@ sex
 </table>
 
 ``` r
+# SCAN THROUGH THE DATA
+scan_res <- cleanepi::scan_data(test_data)
+```
+
+``` r
 # DEFINING THE CLEANING PARAMETERS
 replace_missing_values <- list(target_columns = NULL, na_strings = "-99")
 remove_duplicates <- list(target_columns = NULL)
@@ -1090,6 +1095,15 @@ female
 </table>
 
 </div>
+
+``` r
+# ADD THE DATA SCANNING RESULT TO THE REPORT
+cleaned_data <- cleanepi::add_to_report(
+  x = cleaned_data,
+  key = "scanning_result",
+  value = scan_res
+)
+```
 
 ``` r
 # DISPLAY THE DATA CLEANING REPORT

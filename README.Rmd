@@ -113,6 +113,11 @@ test_dictionary %>%
 ```
 
 ```{r eval=TRUE}
+# SCAN THROUGH THE DATA
+scan_res <- cleanepi::scan_data(test_data)
+```
+
+```{r eval=TRUE}
 # DEFINING THE CLEANING PARAMETERS
 replace_missing_values <- list(target_columns = NULL, na_strings = "-99")
 remove_duplicates <- list(target_columns = NULL)
@@ -167,6 +172,15 @@ cleaned_data %>%
                          box_css = "border: 1px solid #ddd; padding: 5px; ",
                          extra_css = NULL,
                          fixed_thead = TRUE)
+```
+
+```{r eval=TRUE}
+# ADD THE DATA SCANNING RESULT TO THE REPORT
+cleaned_data <- cleanepi::add_to_report(
+  x = cleaned_data,
+  key = "scanning_result",
+  value = scan_res
+)
 ```
 
 ```{r eval=FALSE}
