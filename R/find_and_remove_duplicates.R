@@ -89,8 +89,10 @@ remove_duplicates <- function(data, target_columns = NULL) {
 #'    \code{linelist_tags} from which duplicates to be removed. Its default
 #'    value is \code{NULL}, which considers duplicates across all columns.
 #'
-#' @returns A \code{<data.frame>} or \code{<linelist>} of all duplicated rows
-#'    with following 2 additional columns:
+#' @returns The input \code{<data.frame>} or \code{<linelist>}, and adds a new
+#'    element to the report object. This is specifically a data frame with the
+#'    columns used to identify duplicates, augmented with the following two
+#'    additional columns:
 #'    \describe{
 #'      \item{row_id}{The indices of the duplicated rows from the input data.
 #'          Users can choose from these indices, which row they consider as

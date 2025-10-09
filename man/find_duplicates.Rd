@@ -16,8 +16,10 @@ consider when looking for duplicates. When the input data is a
 value is \code{NULL}, which considers duplicates across all columns.}
 }
 \value{
-A \code{<data.frame>} or \code{<linelist>} of all duplicated rows
-with following 2 additional columns:
+The input \code{<data.frame>} or \code{<linelist>}, and adds a new
+element to the report object. This is specifically a data frame with the
+columns used to identify duplicates, augmented with the following two
+additional columns:
 \describe{
 \item{row_id}{The indices of the duplicated rows from the input data.
 Users can choose from these indices, which row they consider as
