@@ -41,10 +41,11 @@ remove_duplicates <- function(data, target_columns = NULL) {
   # setting up the variables below to NULL to avoid linters
   report <- attr(data, "report")
   dat <- data
+  attr(dat, "report") <- NULL
 
   # get the correct names in case some have been modified - see the
   # `retrieve_column_names()` function for more details
-  target_columns <- retrieve_column_names(data, target_columns)
+  target_columns <- retrieve_column_names(dat, target_columns)
   target_columns <- get_target_column_names(dat, target_columns, cols = NULL)
 
   # find duplicates
