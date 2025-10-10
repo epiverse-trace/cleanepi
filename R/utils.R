@@ -102,13 +102,22 @@ add_to_report <- function(x, key, value) {
   checkmate::assert_data_frame(x, min.rows = 1L, min.cols = 1L, null.ok = FALSE)
   checkmate::assert_character(key, any.missing = FALSE, len = 1L,
                               null.ok = FALSE)
+  # prevent from adding a NULL value to the report
   if (is.null(value)) {
     cli::cli_abort(c(
       tr_("`value` to add to `report` attribute cannot be NULL."),
       i = tr_("Please specify an object to {.emph value} to be added to {.emph report}.") # nolint: line_length_linter
     ))
   }
-  attr(x, "report")[[key]] <- value
+
+  # overwrite the element of the report if it already exists
+  if (key %in% names(attr(x, "report"))) {
+    attr(x, "report")[[key]] <- NULL
+    attr(x, "report")[[key]] <- value
+  } else {
+    attr(x, "report")[[key]] <- value
+  }
+
   return(x)
 }
 

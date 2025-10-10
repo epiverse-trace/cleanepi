@@ -160,8 +160,10 @@ print_report <- function(data,
 
   # this ensures to add the logo to the report
   report[["report_title"]] <- report_title
-  man_path <- file.path("man", "figures")
-  report[["logo"]] <- system.file(man_path, "logo.svg", package = "cleanepi")
+  report[["logo"]] <- file.path(
+    dirname(system.file(package = "cleanepi")),
+    "man", "figures", "logo.svg"
+  )
 
   # render the Rmd file to generate the report
   temp_dir <- tempdir()
@@ -174,17 +176,25 @@ print_report <- function(data,
   report <- report[!duplicated(report)]
 
   # unnest date standardisation report
-  report <- unnest_report(report, what = "date_standardization",
-                          "multi_format_dates", "out_of_range_dates")
+  report <- unnest_report(
+    report,
+    what = "date_standardization",
+    "multi_format_dates", "out_of_range_dates"
+  )
 
   # unnest duplicates finding report
-  report <- unnest_report(report = report, what = "found_duplicates",
-                          "duplicated_rows", "duplicates_checked_from")
+  report <- unnest_report(
+    report = report,
+    what = "found_duplicates",
+    "duplicated_rows", "duplicates_checked_from"
+  )
 
   # unnest subject IDs checks report
-  report <- unnest_report(report, what = "incorrect_subject_id",
-                          "idx_missing_ids", "duplicated_ids",
-                          "invalid_subject_ids")
+  report <- unnest_report(
+    report,
+    what = "incorrect_subject_id",
+    "idx_missing_ids", "duplicated_ids", "invalid_subject_ids"
+  )
 
   # render the report
   rmarkdown::render(
@@ -227,9 +237,6 @@ unnest_report <- function(report, what, ...) {
       }
     }
     report[[what]] <- NULL
-    # temporary fix - but needs to be permanently fixed by making sure that
-    # when the object exists, no duplicates is created, should overwrite
-    # existing object
   }
 
   return(report)
