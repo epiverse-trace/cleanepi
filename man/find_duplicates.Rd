@@ -46,4 +46,7 @@ dups <- find_duplicates(
 # print the detected duplicates
 print_report(dups, "found_duplicates")
 
+# access duplicated rows only
+print_report(dups, "found_duplicates")$duplicated_rows
+
 }
