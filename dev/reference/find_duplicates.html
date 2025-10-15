@@ -76,8 +76,10 @@ value is <code>NULL</code>, which considers duplicates across all columns.</p></
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A <code>&lt;data.frame&gt;</code> or <code>&lt;linelist&gt;</code> of all duplicated rows
-with following 2 additional columns:</p><dl><dt>row_id</dt>
+    <p>The input <code>&lt;data.frame&gt;</code> or <code>&lt;linelist&gt;</code>, and adds a new
+element to the report object. This is specifically a data frame with the
+columns used to identify duplicates, augmented with the following two
+additional columns:</p><dl><dt>row_id</dt>
 <dd><p>The indices of the duplicated rows from the input data.
 Users can choose from these indices, which row they consider as
 redundant in each group of duplicates.</p></dd>
@@ -127,6 +129,24 @@ duplicates.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $duplicates_checked_from</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "dt_onset"  "dt_report" "sex"       "outcome"  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># access duplicated rows only</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="print_report.html">print_report</a></span><span class="op">(</span><span class="va">dups</span>, <span class="st">"found_duplicates"</span><span class="op">)</span><span class="op">$</span><span class="va">duplicated_rows</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 57 × 6</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Groups:   dt_onset, dt_report, sex, outcome [23]</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    row_id group_id dt_onset   dt_report  sex   outcome</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span>     26        1 2015-05-21 2015-06-03 M     Alive  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span>     33        1 2015-05-21 2015-06-03 M     Alive  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span>     55        2 2015-05-30 2015-06-06 M     Alive  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span>     62        2 2015-05-30 2015-06-06 M     Alive  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span>     23        3 2015-05-31 2015-06-02 M     Dead   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span>     24        3 2015-05-31 2015-06-02 M     Dead   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span>     99        4 2015-05-31 2015-06-09 M     Alive  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span>    105        4 2015-05-31 2015-06-09 M     Alive  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span>     27        5 2015-06-01 2015-06-03 M     Alive  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span>     31        5 2015-06-01 2015-06-03 M     Alive  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 47 more rows</span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
