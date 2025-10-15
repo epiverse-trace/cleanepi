@@ -119,6 +119,9 @@ remove_duplicates <- function(data, target_columns = NULL) {
 #' # print the detected duplicates
 #' print_report(dups, "found_duplicates")
 #'
+#' # access duplicated rows only
+#' print_report(dups, "found_duplicates")$duplicated_rows
+#'
 find_duplicates <- function(data, target_columns = NULL) {
   # get the target column names
   target_columns <- retrieve_column_names(data, target_columns)
