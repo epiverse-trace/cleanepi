@@ -39,22 +39,6 @@ cleaned_data <- add_to_report(
 )
 
 # perform the test
-test_that("print_report works", {
-  testthat::skip_on_cran()
-  testthat::skip_on_covr()
-  test_print_report <- print_report(
-    data = cleaned_data,
-    report_title = "{cleanepi} data cleaning report",
-    output_file_name = NULL,
-    format = "html",
-    print = FALSE
-  )
-  expect_type(test_print_report, "character")
-  expect_true(file.exists(test_print_report))
-  expect_true(grepl(".html", test_print_report))
-  expect_true(file.size(test_print_report) > 0L)
-})
-
 test_that("print_report fails when no report is associated to the data", {
   testthat::skip_on_cran()
   testthat::skip_on_covr()

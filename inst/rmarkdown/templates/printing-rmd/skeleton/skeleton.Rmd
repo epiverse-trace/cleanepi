@@ -20,7 +20,6 @@ params:
   incorrect_date_sequence: NULL
   multi_format_dates: NULL
   report_title: "cleanepi report"
-  logo: NULL
 ---
 
 
@@ -41,7 +40,7 @@ p.compact {
 <script>
    $(document).ready(function() {
      $head = $('#header');
-     $head.prepend('<img src="`r xfun::base64_uri(params$logo)`" style="float: right; width: 100px;"/>')
+     $head.prepend('<img src="`r xfun::base64_uri(system.file(file.path("man", "figures", "logo.svg"), package = "cleanepi"))`" style="float: right; width: 100px;"/>')
    });
 </script>
 
