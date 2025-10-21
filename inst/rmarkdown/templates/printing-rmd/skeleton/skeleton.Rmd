@@ -41,7 +41,7 @@ p.compact {
 <script>
    $(document).ready(function() {
      $head = $('#header');
-     $head.prepend('<img src="`r params$logo`" style="float: right; width: 100px;"/>')
+     $head.prepend('<img src="`r xfun::base64_uri(params$logo)`" style="float: right; width: 100px;"/>')
    });
 </script>
 
