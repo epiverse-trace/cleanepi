@@ -20,7 +20,6 @@ params:
   incorrect_date_sequence: NULL
   multi_format_dates: NULL
   report_title: "cleanepi report"
-  logo: NULL
 ---
 
 
@@ -38,16 +37,7 @@ p.compact {
 	}
 ```
 
-<script>
-   $(document).ready(function() {
-     $head = $('#header');
-     $head.prepend('<img src="`r params$logo`" style="float: right; width: 100px;"/>')
-   });
-</script>
-
-<p class="compact">
-    Report created on: `r Sys.time()` ; cleanepi version `r utils::packageVersion("cleanepi")` ; `r R.Version()$version.string`
-</p>
+Report created on: `r Sys.time()` ; cleanepi version `r utils::packageVersion("cleanepi")` ; `r R.Version()$version.string` <img src="`r system.file("extdata", "logo.svg", package = "cleanepi")`" align="right" width="100" height="100"/>
 
 # {.tabset .tabset-pills}
 

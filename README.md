@@ -5,7 +5,7 @@
 <!-- `gh_repo` is extracted via a special environment variable in GitHub Actions -->
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# cleanepi: Clean and standardize epidemiological data <img src="man/figures/logo.svg" align="right" width="130"/>
+# cleanepi: Clean and standardize epidemiological data <img src="inst/extdata/logo.svg" align="right" width="130"/>
 
 <!-- badges: start -->
 
