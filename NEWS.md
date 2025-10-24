@@ -13,6 +13,9 @@ object(#261, @Karim-Mane).
 * Add clarity about the return object of the `find_duplicates()` function and
 its generated report element (#264, @Karim-Mane).
 
+* Get {cleanepi} package logo back into HTML report generated from the
+`print_report()` function (#268, @Karim-Mane).
+
 # cleanepi 1.1.1
 
 ## Bug fixes
