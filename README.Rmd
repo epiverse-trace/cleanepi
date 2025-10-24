@@ -25,7 +25,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# {{ packagename }}: Clean and standardize epidemiological data <img src="man/figures/logo.svg" align="right" width="130"/>
+# {{ packagename }}: Clean and standardize epidemiological data <img src="inst/extdata/logo.svg" align="right" width="130"/>
 
 <!-- badges: start -->
 
