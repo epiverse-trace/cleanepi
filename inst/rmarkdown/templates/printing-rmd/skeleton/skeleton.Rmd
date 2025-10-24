@@ -37,7 +37,7 @@ p.compact {
 	}
 ```
 
-Report created on: `r Sys.time()` ; cleanepi version `r utils::packageVersion("cleanepi")` ; `r R.Version()$version.string` <img src="`r system.file(file.path("man", "figures", "logo.svg"), package = "cleanepi")`" align="right" width="100" height="100"/>
+Report created on: `r Sys.time()` ; cleanepi version `r utils::packageVersion("cleanepi")` ; `r R.Version()$version.string` <img src="`r system.file("extdata", "logo.svg", package = "cleanepi")`" align="right" width="100" height="100"/>
 
 # {.tabset .tabset-pills}
 
