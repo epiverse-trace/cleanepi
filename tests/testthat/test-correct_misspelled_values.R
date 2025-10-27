@@ -25,15 +25,25 @@ test_that("correct_misspelled_values warns with multiple options", {
     outcome = c("died", "recoverd", "did", "recovered"),
     sex = c("male", "male", "mane", "female")
   )
-  expect_warning(
-    clean_df <- correct_misspelled_values(
+  clean_df <- correct_misspelled_values(
+    data = df,
+    target_columns = c("case_type", "outcome", "sex"),
+    wordlist = c(
+      "confirmed", "probable", "suspected", "died", "recovered", "male", "make"
+    ),
+    confirm = FALSE
+  )
+
+  expect_message(
+    correct_misspelled_values(
       data = df,
       target_columns = c("case_type", "outcome", "sex"),
       wordlist = c(
         "confirmed", "probable", "suspected", "died", "recovered", "male", "make"
       ),
       confirm = FALSE
-    )
+    ),
+    regexp = "mane matched equally multiple words in the wordlist"
   )
   expect_identical(
     clean_df$case_type,

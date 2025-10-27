@@ -69,13 +69,16 @@ correct_misspelled_values <- function(data,
 
   for (col in target_columns) {
     # only check and fix char columns
-    if (is.character(data[, col])) {
-      word_dist <- utils::adist(data[, col], wordlist)
+    if (is.character(data[[col]])) {
+      word_dist <- utils::adist(data[[col]], wordlist)
 
       # find and warn if there are multiple words in wordlist that equally match
       multi_match <- vector(mode = "numeric", length = nrow(word_dist))
       wordlist_idx <- matrix(nrow = nrow(word_dist), ncol = ncol(word_dist))
       for (i in seq_len(nrow(word_dist))) {
+        if (is.na(data[[col]][i])) {
+          next
+        }
         # ignore multiple matches for correct spelling
         wordlist_idx[i, ] <- word_dist[i, ] == min(word_dist[i, ]) &
           min(word_dist[i, ]) != 0
@@ -86,7 +89,7 @@ correct_misspelled_values <- function(data,
         # only show user menu when interactive
         if (rlang::is_interactive() && confirm) {
           menu_title <- paste0(
-            "'", toString(data[, col][multi_match_idx]), "'",
+            "'", toString(data[[col]][multi_match_idx]), "'",
             " matched equally with multiple words in the `wordlist`.\n",
             "Select the spelling fix:\n",
             "\n\n (0 to exit)"
@@ -108,12 +111,11 @@ correct_misspelled_values <- function(data,
           wordlist_ <- wordlist[rm_words_idx]
           word_dist_ <- word_dist[, rm_words_idx]
         } else {
-          warning(
-            "'", toString(data[, col][multi_match_idx]), "'",
-            " matched equally with multiple words in the `wordlist`.\n",
-            "Using the first matched word in the `wordlist`.",
-            call. = FALSE
-          )
+          cli::cli_inform(c(
+            "!" = tr_("{.emph {toString(data[[col]][multi_match_idx])}} \\\
+            matched equally multiple words in the {.strong wordlist}"),
+            i = tr_("Using the first matched word in the {.strong wordlist}.")
+          ))
 
           # remove word(s) not chosen by user, important to keep the same order
           # due to word_dist
@@ -133,8 +135,8 @@ correct_misspelled_values <- function(data,
         word_dist_ <- word_dist
       }
 
-      data[, col] <- fix_spelling_mistakes(
-        df_col = data[, col],
+      data[[col]] <- fix_spelling_mistakes(
+        df_col = data[[col]],
         wordlist = wordlist_,
         max_distance = max_distance,
         confirm = confirm,
@@ -142,7 +144,8 @@ correct_misspelled_values <- function(data,
       )
     } else {
       cli::cli_inform(c(
-        "!" = tr_("{.field {col}} is not a {.emph character} column so cannot be spell checked.") # nolint: line_length_linter
+        "!" = tr_("{.field {col}} is not a {.emph character} column so \\\
+                  cannot be spell checked.")
       ))
     }
   }
