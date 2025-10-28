@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: cleanepi 1.1.1.9000\n"
-"POT-Creation-Date: 2025-10-28 09:58+0000\n"
+"POT-Creation-Date: 2025-10-28 13:10+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -215,18 +215,17 @@ msgstr ""
 
 #: correct_misspelled_values.R:115
 msgid ""
-"{.emph {toString(data[[col]][multi_match_idx])}} \\\\\n"
-"            matched equally multiple words in the {.strong wordlist}"
+"{.emph {toString(data[[col]][multi_match_idx])}} matched equally multiple "
+"words in the {.strong wordlist}"
 msgstr ""
 
-#: correct_misspelled_values.R:117
+#: correct_misspelled_values.R:116
 msgid "Using the first matched word in the {.strong wordlist}."
 msgstr ""
 
-#: correct_misspelled_values.R:147
+#: correct_misspelled_values.R:146
 msgid ""
-"{.field {col}} is not a {.emph character} column so \\\\\n"
-"                  cannot be spell checked."
+"{.field {col}} is not a {.cls character} column so cannot be spell checked."
 msgstr ""
 
 #: date_standardization_helpers.R:48

@@ -112,8 +112,7 @@ correct_misspelled_values <- function(data,
           word_dist_ <- word_dist[, rm_words_idx]
         } else {
           cli::cli_inform(c(
-            "!" = tr_("{.emph {toString(data[[col]][multi_match_idx])}} \\\
-            matched equally multiple words in the {.strong wordlist}"),
+            "!" = tr_("{.emph {toString(data[[col]][multi_match_idx])}} matched equally multiple words in the {.strong wordlist}"), # nolint: line_length_linter
             i = tr_("Using the first matched word in the {.strong wordlist}.")
           ))
 
@@ -144,8 +143,7 @@ correct_misspelled_values <- function(data,
       )
     } else {
       cli::cli_inform(c(
-        "!" = tr_("{.field {col}} is not a {.emph character} column so \\\
-                  cannot be spell checked.")
+        "!" = tr_("{.field {col}} is not a {.cls character} column so cannot be spell checked.") # nolint: line_length_linter
       ))
     }
   }
