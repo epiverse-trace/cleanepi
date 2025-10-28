@@ -66,10 +66,10 @@ repository: https://CRAN.R-project.org/package=cleanepi
 repository-code: https://github.com/epiverse-trace/cleanepi
 url: https://epiverse-trace.github.io/cleanepi/
 contact:
-- family-names: Mané
-  given-names: Karim
-  email: karim.mane@lshtm.ac.uk
-  orcid: https://orcid.org/0000-0002-9892-2999
+- family-names: Bah
+  given-names: Bubacarr
+  email: Bubacarr.Bah1@lshtm.ac.uk
+  orcid: https://orcid.org/0000-0003-3318-6668
 keywords:
 - data-cleaning
 - epidemiology
@@ -193,7 +193,7 @@ references:
     email: stefan@stefanbache.dk
   - family-names: Wickham
     given-names: Hadley
-    email: hadley@rstudio.com
+    email: hadley@posit.co
   year: '2025'
   doi: 10.32614/CRAN.package.magrittr
 - type: software
