@@ -13,8 +13,6 @@ Ymd
 analytics
 bookdown
 cli
-dateOfBirth
-deduplicating
 dplyr
 epiCleanr
 funder
@@ -38,7 +36,6 @@ nchar
 numberize
 oldrel
 packagename
-pcr
 pkgdown
 potools
 reactable

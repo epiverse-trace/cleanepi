@@ -11,6 +11,7 @@
   LSHTM
   * Joshua W. Lambert has been added to the package authors for his
   contribution in release 1.1.1.
+  * Bubacarr Bah is the package maintainer from release version 1.1.2
 
 ## revdepcheck results
 
