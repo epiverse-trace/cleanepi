@@ -1,4 +1,4 @@
-# cleanepi (development version)
+# cleanepi 1.1.2
 
 ## Bug fixes
 
