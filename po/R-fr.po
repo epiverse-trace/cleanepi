@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: cleanepi 1.0.2.9000\n"
-"POT-Creation-Date: 2025-10-28 09:58+0000\n"
+"POT-Creation-Date: 2025-10-28 13:10+0000\n"
 "PO-Revision-Date: 2024-11-07 12:38+0000\n"
 "Last-Translator: Karim Mané\n"
 "Language-Team: none\n"
@@ -272,23 +272,22 @@ msgstr ""
 
 #: correct_misspelled_values.R:115
 msgid ""
-"{.emph {toString(data[[col]][multi_match_idx])}} \\\\\n"
-"            matched equally multiple words in the {.strong wordlist}"
+"{.emph {toString(data[[col]][multi_match_idx])}} matched equally multiple "
+"words in the {.strong wordlist}"
 msgstr ""
-"{.emph {toString(data[[col]][multi_match_idx])}} \\\\\n"
-"            correspond syntaxiquement à plusieurs mots dans {.strong wordlist}"
+"{.emph {toString(data[[col]][multi_match_idx])}} correspond syntaxiquement à "
+"plusieurs mots dans {.strong wordlist}"
 
-#: correct_misspelled_values.R:117
+#: correct_misspelled_values.R:116
 msgid "Using the first matched word in the {.strong wordlist}."
 msgstr "Le premier mot le correspondant a été utilisé."
 
-#: correct_misspelled_values.R:147
+#: correct_misspelled_values.R:146
 msgid ""
-"{.field {col}} is not a {.emph character} column so \\\\\n"
-"                  cannot be spell checked."
+"{.field {col}} is not a {.cls character} column so cannot be spell checked."
 msgstr ""
 "Impossible de vérifier l'orthographe des valeurs de la colonne {.field "
-"{col}} étant donné qu'elle n'est pas de type {.emph caractère}."
+"{col}} étant donné qu'elle n'est pas de type {.cls caractère}."
 
 #: date_standardization_helpers.R:48
 msgid "Unexpected format in the function arguments."
