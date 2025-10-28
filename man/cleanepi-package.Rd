@@ -18,14 +18,14 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Karim Mané \email{karim.mane@lshtm.ac.uk} (\href{https://orcid.org/0000-0002-9892-2999}{ORCID})
+\strong{Maintainer}: Bubacarr Bah \email{Bubacarr.Bah1@lshtm.ac.uk} (\href{https://orcid.org/0000-0003-3318-6668}{ORCID})
 
 Authors:
 \itemize{
+  \item Karim Mané \email{karim.mane@lshtm.ac.uk} (\href{https://orcid.org/0000-0002-9892-2999}{ORCID})
   \item Abdoelnaser Degoot \email{abdoelnaser-mahmood.degoot@lshtm.ac.uk} (\href{https://orcid.org/0000-0001-8788-2496}{ORCID})
   \item Bankolé Ahadzie \email{Bankole.Ahadzie@lshtm.ac.uk}
   \item Nuredin Mohammed \email{Nuredin.Mohammed@lshtm.ac.uk}
-  \item Bubacarr Bah \email{Bubacarr.Bah1@lshtm.ac.uk} (\href{https://orcid.org/0000-0003-3318-6668}{ORCID})
 }
 
 Other contributors:

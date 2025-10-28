@@ -18,6 +18,8 @@ its generated report element (#264, @Karim-Mane).
   * Make a copy of the logo in `inst/extdata/` to use simple markdown syntax
   for inserting logo in the report.
 
+* Bubacarr Bah is now the package maintainer (#272, @Karim-Mane)
+
 # cleanepi 1.1.1
 
 ## Bug fixes
