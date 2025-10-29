@@ -13,7 +13,7 @@
     <a href="https://epiverse-trace.github.io/" class="external-link"><img src="https://epiverse-trace.github.io/blueprints/logo_white.svg" id="logo" alt="Epiverse-TRACE"></a>
     <a class="navbar-brand me-2" href="../index.html">cleanepi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,9 +45,26 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>Changelog</h1>
-      <small>Source: <a href="https://github.com/epiverse-trace/cleanepi/blob/v1.1.1/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/epiverse-trace/cleanepi/blob/v1.1.2/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.1.2" id="cleanepi-112">cleanepi 1.1.2<a class="anchor" aria-label="anchor" href="#cleanepi-112"></a></h2>
+<div class="section level3">
+<h3 id="bug-fixes-1-1-2">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-1-2"></a></h3>
+<ul><li><p><code><a href="../reference/replace_missing_values.html">replace_missing_values()</a></code> now matches with <code>na_strings</code> insensitive to case or leading/trailing white space (<a href="https://github.com/epiverse-trace/cleanepi/issues/257" class="external-link">#257</a>, <a href="https://github.com/joshwlambert" class="external-link">@joshwlambert</a>).</p></li>
+<li><p>Fix {cli}-related errors in <code><a href="../reference/check_subject_ids.html">check_subject_ids()</a></code> function(<a href="https://github.com/epiverse-trace/cleanepi/issues/260" class="external-link">#260</a>, <a href="https://github.com/Karim-Mane" class="external-link">@Karim-Mane</a>).</p></li>
+<li><p>fix error in <code><a href="../reference/print_report.html">print_report()</a></code> by remove duplicated elements from the report object(<a href="https://github.com/epiverse-trace/cleanepi/issues/261" class="external-link">#261</a>, <a href="https://github.com/Karim-Mane" class="external-link">@Karim-Mane</a>).</p></li>
+<li><p>Add clarity about the return object of the <code><a href="../reference/find_duplicates.html">find_duplicates()</a></code> function and its generated report element (<a href="https://github.com/epiverse-trace/cleanepi/issues/264" class="external-link">#264</a>, <a href="https://github.com/Karim-Mane" class="external-link">@Karim-Mane</a>).</p></li>
+</ul></div>
+<div class="section level3">
+<h3 id="enhancements-1-1-2">Enhancements<a class="anchor" aria-label="anchor" href="#enhancements-1-1-2"></a></h3>
+<ul><li>Get {cleanepi} package logo back into HTML report generated from the <code><a href="../reference/print_report.html">print_report()</a></code> function (<a href="https://github.com/epiverse-trace/cleanepi/issues/268" class="external-link">#268</a>, <a href="https://github.com/Karim-Mane" class="external-link">@Karim-Mane</a>).
+<ul><li>Make a copy of the logo in <code>inst/extdata/</code> to use simple markdown syntax for inserting logo in the report.</li>
+</ul></li>
+<li>Bubacarr Bah is now the package maintainer (<a href="https://github.com/epiverse-trace/cleanepi/issues/272" class="external-link">#272</a>, <a href="https://github.com/Karim-Mane" class="external-link">@Karim-Mane</a>)</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.1.1" id="cleanepi-111">cleanepi 1.1.1<a class="anchor" aria-label="anchor" href="#cleanepi-111"></a></h2><p class="text-muted">CRAN release: 2025-07-16</p>
 <div class="section level3">

@@ -35,7 +35,7 @@
     <a href="https://epiverse-trace.github.io/" class="external-link"><img src="https://epiverse-trace.github.io/blueprints/logo_white.svg" id="logo" alt="Epiverse-TRACE"></a>
     <a class="navbar-brand me-2" href="index.html">cleanepi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -459,6 +459,9 @@ sex
 </tbody>
 </table>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># SCAN THROUGH THE DATA</span></span>
+<span><span class="va">scan_res</span> <span class="op">&lt;-</span> <span class="fu">cleanepi</span><span class="fu">::</span><span class="fu"><a href="reference/scan_data.html">scan_data</a></span><span class="op">(</span><span class="va">test_data</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># DEFINING THE CLEANING PARAMETERS</span></span>
 <span><span class="va">replace_missing_values</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>target_columns <span class="op">=</span> <span class="cn">NULL</span>, na_strings <span class="op">=</span> <span class="st">"-99"</span><span class="op">)</span></span>
 <span><span class="va">remove_duplicates</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>target_columns <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
@@ -486,7 +489,7 @@ sex
 <span>  rename <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>DOB <span class="op">=</span> <span class="st">"dateOfBirth"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span><span class="va">to_numeric</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>target_columns <span class="op">=</span> <span class="st">"sex"</span>, lang <span class="op">=</span> <span class="st">"en"</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># PERFORMING THE DATA CLEANING</span></span>
 <span><span class="va">cleaned_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/clean_data.html">clean_data</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">test_data</span>,</span>
@@ -506,20 +509,16 @@ sex
 <span><span class="co">#&gt; ℹ Removing duplicated rows</span></span>
 <span><span class="co">#&gt; ℹ No duplicates were found.</span></span>
 <span><span class="co">#&gt; ℹ Standardizing Date columns</span></span>
-<span><span class="co">#&gt; ! Detected 8 values that comply with multiple formats and no</span></span>
-<span><span class="co">#&gt;   values that are outside of the specified time frame.</span></span>
-<span><span class="co">#&gt; ℹ Enter `print_report(data = dat, "date_standardization")` to</span></span>
-<span><span class="co">#&gt;   access them, where "dat" is the object used to store the</span></span>
-<span><span class="co">#&gt;   output from this operation.</span></span>
+<span><span class="co">#&gt; ! Detected 8 values that comply with multiple formats and no values that are</span></span>
+<span><span class="co">#&gt;   outside of the specified time frame.</span></span>
+<span><span class="co">#&gt; ℹ Enter `print_report(data = dat, "date_standardization")` to access them,</span></span>
+<span><span class="co">#&gt;   where "dat" is the object used to store the output from this operation.</span></span>
 <span><span class="co">#&gt; ℹ Checking subject IDs format</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ! Detected no missing, no duplicated, and 3 incorrect subject</span></span>
-<span><span class="co">#&gt;   IDs.</span></span>
-<span><span class="co">#&gt; ℹ Enter `print_report(data = dat, "incorrect_subject_id")` to</span></span>
-<span><span class="co">#&gt;   access them, where "dat" is the object used to store the</span></span>
-<span><span class="co">#&gt;   output from this operation.</span></span>
-<span><span class="co">#&gt; ℹ You can use the `correct_subject_ids()` function to correct</span></span>
-<span><span class="co">#&gt;   them.</span></span>
+<span><span class="co">#&gt; ! Detected 0 missing, 0 duplicated, and 3 incorrect subject IDs.</span></span>
+<span><span class="co">#&gt; ℹ Enter `print_report(data = dat, "incorrect_subject_id")` to access them,</span></span>
+<span><span class="co">#&gt;   where "dat" is the object used to store the output from this operation.</span></span>
+<span><span class="co">#&gt; ℹ You can use the `correct_subject_ids()` function to correct them.</span></span>
 <span><span class="co">#&gt; ℹ Converting the following  column into numeric: sex</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ℹ Performing dictionary-based cleaning</span></span></code></pre></div>
@@ -716,17 +715,21 @@ female
 </tbody>
 </table>
 </div>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># EXTRACT THE DATA CLEANING REPORT</span></span>
-<span><span class="va">report</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">cleaned_data</span>, <span class="st">"report"</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># ADD THE DATA SCANNING RESULT TO THE REPORT</span></span>
+<span><span class="va">cleaned_data</span> <span class="op">&lt;-</span> <span class="fu">cleanepi</span><span class="fu">::</span><span class="fu"><a href="reference/add_to_report.html">add_to_report</a></span><span class="op">(</span></span>
+<span>  x <span class="op">=</span> <span class="va">cleaned_data</span>,</span>
+<span>  key <span class="op">=</span> <span class="st">"scanning_result"</span>,</span>
+<span>  value <span class="op">=</span> <span class="va">scan_res</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># DISPLAY THE DATA CLEANING REPORT</span></span>
-<span><span class="fu"><a href="reference/print_report.html">print_report</a></span><span class="op">(</span><span class="va">report</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="reference/print_report.html">print_report</a></span><span class="op">(</span><span class="va">cleaned_data</span>, print <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="vignette">Vignette<a class="anchor" aria-label="anchor" href="#vignette"></a>
 </h2>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/browseVignettes.html" class="external-link">browseVignettes</a></span><span class="op">(</span><span class="st">"cleanepi"</span><span class="op">)</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="lifecycle">Lifecycle<a class="anchor" aria-label="anchor" href="#lifecycle"></a>
@@ -747,13 +750,13 @@ female
 <div class="section level2">
 <h2 id="citing-this-package">Citing this package<a class="anchor" aria-label="anchor" href="#citing-this-package"></a>
 </h2>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/citation.html" class="external-link">citation</a></span><span class="op">(</span><span class="st">"cleanepi"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; To cite package 'cleanepi' in publications use:</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;   Mané K, Degoot A, Ahadzie B, Mohammed N, Bah B</span></span>
-<span><span class="co">#&gt;   (2025). _cleanepi: Clean and Standardize</span></span>
-<span><span class="co">#&gt;   Epidemiological Data_. doi:10.5281/zenodo.11473985</span></span>
+<span><span class="co">#&gt;   Mané K, Degoot A, Ahadzie B, Mohammed N, Bah B (2025). _cleanepi:</span></span>
+<span><span class="co">#&gt;   Clean and Standardize Epidemiological Data_.</span></span>
+<span><span class="co">#&gt;   doi:10.5281/zenodo.11473985</span></span>
 <span><span class="co">#&gt;   &lt;https://doi.org/10.5281/zenodo.11473985&gt;,</span></span>
 <span><span class="co">#&gt;   &lt;https://epiverse-trace.github.io/cleanepi/&gt;.</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -806,11 +809,11 @@ female
 <div class="developers">
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li>Karim Mané <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-9892-2999" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a>  </li>
+<li>Karim Mané <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-9892-2999" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a>  </li>
 <li>Abdoelnaser Degoot <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0001-8788-2496" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a>  </li>
 <li>Bankolé Ahadzie <br><small class="roles"> Author </small>   </li>
 <li>Nuredin Mohammed <br><small class="roles"> Author </small>   </li>
-<li>Bubacarr Bah <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0003-3318-6668" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a>  </li>
+<li>Bubacarr Bah <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0003-3318-6668" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a>  </li>
 <li>data.org <br><small class="roles"> Funder </small>   </li>
 <li><a href="authors.html">More about authors...</a></li>
 </ul>
